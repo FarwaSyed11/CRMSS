@@ -1,0 +1,77 @@
+﻿.pearl.current-step .pearl-icon, .pearl.current-step .pearl-number {
+    color: #fff;
+    background-color: #ff3b3b;
+    border-color: #ff3b3b;
+}
+
+.pearl.current-step::before {
+    color: #fff;
+    background-color: #ff3b3b;
+    border-color: #ff3b3b;
+    -webkit-box-shadow: -1px -1px 2px 1px rgba(0,0,0,0.20);
+    -moz-box-shadow: -1px -1px 2px 1px rgba(0,0,0,0.20);
+    box-shadow: -1px -1px 2px 1px rgba(0,0,0,0.20);
+}
+
+.pearl.current-step::after {
+    color: #fff;
+    background-color: #ff3b3b;
+    border-color: #ff3b3b;
+}
+
+.pearl.next-step::before {
+    color: #fff;
+    background-color: grey !important;
+    border-color: grey !important;
+}
+
+.pearl.next-step .pearl-icon, .pearl.next-step .pearl-number {
+    color: #fff;
+    background-color: grey !important;
+    border-color: grey !important;
+}
+
+.pearl.next-step::after {
+    color: #fff;
+    background-color: grey !important;
+    border-color: grey !important;
+}
+
+.pearl.previous-step::before {
+    color: #fff;
+   background-color: #00b700 !important;
+    border-color: #00b700 !important;
+}
+
+.pearl.previous-step::after {
+    color: #fff;
+    background-color: #00b700 !important;
+    border-color: #00b700 !important;
+}
+
+.pearl.previous-step .pearl-icon, .pearl.previous-step .pearl-number {
+    color: #fff;
+    background-color: #00b700 !important;
+    border-color: #00b700 !important;
+}
+
+.pearl-icon {
+    width: 200px;
+}
+
+.pearl-title {
+    width: 150px;
+}
+/*Pearls Control Panel Stage Icon*/
+.pearlStageIcon {
+
+    font-size: 17px;
+}
+
+.scrollable-horizontal.is-enabled .scrollable-container {
+    overflow-x: hidden !important;
+}
+
+.table > tbody > tr > td, .table > thead > tr > td {
+    line-height: 1.5 !important;
+}

@@ -1,0 +1,218 @@
+﻿
+
+.ecard {
+    margin-top: 1%;
+    width: 97%;
+    left: 1.5%;
+}
+
+.info-box {
+    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+    border-radius: .25rem;
+    background-color: #fff;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 1rem;
+    /*min-height: 80px;*/
+    padding: .5rem;
+    position: relative;
+    width: 100%;
+    background-color: #19438b;
+    color: #fff;
+}
+
+.bg-info {
+    /*background-color: #17a2b8 !important;*/
+    background-color: #2896b100 !important;
+}
+
+    .bg-info, .bg-info > a {
+        color: #fff !important;
+    }
+
+.info-box .info-box-content {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -ms-flex-pack: center;
+    justify-content: center;
+    line-height: 1.8;
+    -ms-flex: 1;
+    flex: 1;
+    padding: 0 10px;
+    overflow: hidden;
+}
+.info-box .info-box-icon {
+    border-radius: .25rem;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -ms-flexbox;
+    display: flex;
+    font-size: 1.875rem;
+    -ms-flex-pack: center;
+    justify-content: center;
+    text-align: center;
+    width: 70px;
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background: radial-gradient(ellipse at center, #19438b 17%, #0d285a 70%);
+    background-clip: border-box;
+    border: 0 solid #d9dee3;
+    border-radius: 0.5rem;
+}
+
+.dash-head {
+    color: #ffff;
+    margin-top: 13px;
+    font-size: 30px;
+    font-family: ui-monospace;
+    /*text-align: center;*/
+}
+
+.timecard {
+    background: #0f3854;
+    background: radial-gradient(ellipse at center, #0a2e38 0%, #1a3971f0 70%);
+    background-color: #0d285a;
+    font-family: 'Share Tech Mono', monospace;
+    /*text-align: center;*/
+    color: #daf6ff;
+    /*text-shadow: 0 0 20px rgba(10, 175, 230, 1), 0 0 20px rgba(10, 175, 230, 0);*/
+    border: solid;
+    border-color: #296ada;
+}
+
+.timecard1 {
+    background: #0f3854;
+    /*background: radial-gradient(ellipse at center, #0a2e38 0%, #101f3a 70%);*/
+    background-color: #19438b;
+    font-family: 'Share Tech Mono', monospace;
+    text-align: center;
+    color: #daf6ff;
+    /*text-shadow: 0 0 20px rgba(10, 175, 230, 1), 0 0 20px rgba(10, 175, 230, 0);*/
+    border: solid;
+    border-color: #296ada;
+}
+
+.timeh {
+    letter-spacing: 0.05em;
+    font-size: 55px;
+    padding: 5px 0;
+
+}
+
+.dateh {
+    letter-spacing: 0.1em;
+    font-size: 18px;
+    color:azure;
+}
+
+.swtch-head {
+    letter-spacing: 0.1em;
+    font-size: 15px;
+    color: azure;
+    text-align:center;
+}
+
+.timecard-dec1 {
+    font-family: 'Share Tech Mono', monospace!important;
+    color: #ffffff;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: #daf6ff;
+    /*text-shadow: 0 0 20px rgba(10, 175, 230, 1), 0 0 20px rgba(10, 175, 230, 0);*/
+}
+
+
+
+/* Profle **/
+
+
+
+.img-circle {
+    border-radius: 50%;
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+img {
+    vertical-align: middle;
+    border-style: none;
+}
+
+.text-center {
+    text-align: center !important;
+
+    color:#ffff;
+}
+
+.profile-user-img {
+    /* border: 3px solid #adb5bd; */
+    margin: 0 auto;
+    padding: 3px;
+    border:solid;
+    BORDER-WIDTH: 4PX;
+    BORDER-COLOR: #ffff;
+}
+
+
+.prod-desc {
+    text-align: left;
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.card-left {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid #d9dee3;
+    border-radius: 0.5rem;
+}
+
+.card-primary:not(.card-outline) > .card-header {
+    background-color: #a92828;
+    /* background: repeating-linear-gradient( 180deg, #bf1010, #000000 100px) !important; */
+}
+
+.cars-heddng {
+    color: white !important;
+    margin-bottom: 0px !important;
+}
+
+.card-header {
+    background-color: transparent;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    padding: 0.75rem 1.25rem;
+    position: relative;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    display: flex;
+}
+.icon-card {
+    width: 20px;
+    margin-right: 7px;
+}
+
+.form-label {
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #ffff;
+}

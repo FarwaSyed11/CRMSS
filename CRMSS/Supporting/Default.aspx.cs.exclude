@@ -1,0 +1,52 @@
+﻿
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using CrystalDecisions.CrystalReports;
+using CrystalDecisions.ReportSource;
+using CrystalDecisions.CrystalReports.Engine;
+
+public partial class Supporting_Default : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        ReportDocument rptDoc = new ReportDocument();   
+        if (!IsPostBack)
+        {
+            DBHandler DBH = new DBHandler();
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+            ArrayList pa = new ArrayList();
+            ArrayList pv = new ArrayList();
+
+            pa.Add("@oper");
+            pv.Add("2");
+
+            DBH.CreateDatasetCRMEBSDATA(ds, "sp_QrData", true, pa, pv);
+
+
+
+            rptDoc.Load(Server.MapPath("CrystalReport.rpt"));
+            rptDoc.SetDataSource(ds.Tables[0]);
+            CrystalReportViewer1.ReportSource = rptDoc;
+
+
+            CrystalReportViewer1.Visible = false;
+
+            CrystalReportViewer1.HasExportButton = true;
+
+            rptDoc.ExportToHttpResponse(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, Response, true, ds.Tables[0].Rows[0]["OpportunityNumber"].ToString());
+
+          
+
+
+
+        }
+    }
+}

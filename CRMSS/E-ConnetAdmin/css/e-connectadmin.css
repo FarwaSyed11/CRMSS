@@ -1,0 +1,105 @@
+﻿
+.btn-primary {
+    color: #fff;
+    background-color: #d54832;
+    border-color: #d54832;
+}
+
+    .btn-primary:hover {
+        color: #fff;
+        background-color: #bb1414;
+        border-color: #bb1414;
+        transform: translateY(-1px);
+    }
+
+.modalheader {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid #364150!important;
+    border-top-left-radius: 0.3rem;
+    border-top-right-radius: 0.3rem;
+}
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+    color: white !important;
+    background: #d54832;
+    border-color: #fff;
+}
+
+
+.user-application-list-table th {
+    background-color: #d54832 !important;
+    color: white !important;
+}
+
+.user-application-list-table td {
+    color: #333333 !important;
+}
+
+
+.table:not(.table-dark) th {
+    color: #ffffff;
+}
+
+.label-custom {
+    color: #d4432c !important;
+    font-weight: 600 !important;
+    /*text-transform: capitalize;*/
+    /* padding-top: 3px; */
+}
+
+.form-check-input:checked, .form-check-input[type=checkbox]:indeterminate {
+    background-color: #9f2820;
+    border-color: #9f2820;
+    /*box-shadow: 0 2px 4px 0 rgba(105, 108, 255, 0.4);*/
+}
+
+.form-check-input {
+    width: 1.2em;
+    height: 1.2em;
+    margin-top: 0.165em;
+    vertical-align: top;
+    background-color: #4CAF50;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border: 1px solid #4CAF50;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+}
+
+    .form-check-input:focus {
+        border: none!important;
+        /* border-color: #4CAF50;
+        box-shadow: 0 2px 4px 0 rgb(70 193 75);*/
+    }
+
+.form-switch .form-check-input {
+    width: 3em;
+    margin-left: -2.5em;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+    border-radius: 2em;
+    transition: background-position 0.15s ease-in-out;
+}
+
+    .form-switch .form-check-input:focus {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+    }
+
+.form-switch {
+    padding-left: 2.5em;
+    padding-top: 1em;
+}
+
+

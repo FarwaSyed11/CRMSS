@@ -1,0 +1,1377 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="EconnectNew.master.cs" Inherits="EconnectNew" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title>E-Connect</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, height= 100vh,user-scalable=0">
+    <link rel="icon" type="image/x-icon" href="~/assets/img/favicon/favicon.ico" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script type="text/javascript">
+        var $jnine = jQuery.noConflict();
+    </script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+        rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="~/Dashboard/assets/vendor/fonts/boxicons.css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="~/Dashboard/assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="~/Dashboard/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="~/Dashboard/assets/css/demo.css" />
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="~/Dashboard/assets/vendor<%...%>/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="~/Dashboard/assets/vendor/libs/apex-charts/apex-charts.css" />
+    <!-- Page CSS -->
+    <!-- Helpers -->
+    <script src="../Dashboard/assets/vendor/js/helpers.js"></script>
+    <script src="../Dashboard/assets/js/config.js"></script>
+    <script src="../Masters/script/Econnectjs.js"></script>
+    <script src="../Dashboard/assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="../Dashboard/assets/vendor/libs/popper/popper.js"></script>
+    <script src="../Dashboard/assets/vendor/js/bootstrap.js"></script>
+    <script src="../Dashboard/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+
+    <style>
+        body{
+                background-color: #80808045;
+        }
+        /* -------------------------------------------------------------*/
+        body, span, label, div, p, h1, h2, h3, h4, h5, h6, nav, li, ul, th, td, thead, tbody, table.dataTable tbody th, table.dataTable tbody td {
+            font-family: poppins;
+        }
+
+        .layout-navbar {
+            background-color: white !important;
+            height: 4.7rem;
+        }
+
+            .layout-navbar.navbar-detached {
+                width: calc(100% -(0.625rem* 2));
+                margin: 0rem auto 0;
+                border-radius: 5px;
+                padding: 1rem 1.5rem;
+            }
+
+        .navnew {
+            display: block;
+            text-align: center;
+        }
+
+            .navnew ul {
+                margin: 0;
+                padding: 0;
+                list-style: none !important;
+            }
+
+            .navnew a {
+                font-family: poppins;
+                display: block;
+                background: #1110;
+                color: rgb(0 0 0 / 80%);
+                text-decoration: none;
+                padding: 0.8000000000000007em 1.7999999999999998em;
+                text-transform: uppercase;
+                font-size: 88%;
+                letter-spacing: 1px;
+                /* text-shadow: 0 -1px 0 #111; */
+                position: relative;
+            }
+
+        .navnew {
+            margin: 0;
+            vertical-align: middle;
+            background: #f1f1f1 !important;
+            display: inline-block;
+            box-shadow: 1px -1px -1px 1px #000, -1px 1px -1px 1px #fff, 0 0 6px 3px #fff;
+            border-radius: 30px;
+            padding-left: 0% !important;
+            position: relative;
+            width: max-content;
+            margin-left: 40px;
+        }
+
+            .navnew li {
+                position: relative;
+                list-style: none !important;
+            }
+
+            .navnew > li {
+                /*float: left;*/
+                display: inline-block;
+                /*border-bottom: 4px #aaa solid;*/
+                margin-right: 1px;
+            }
+
+                .navnew > li > a {
+                    font-weight: 600;
+                    /*margin-bottom: 1px;*/
+                    box-shadow: inset 0 2em .33em -0.5em #5550;
+                }
+
+                .navnew > li:hover,
+                .navnew > li:hover > a {
+                    /*border-bottom-color: white;*/
+                }
+
+            .navnew li:hover > a {
+                color: white;
+                border-radius: 25px;
+                /* background-color: #a92828; */
+                background: rgb(183,0,0);
+                background: linear-gradient(42deg, rgba(183,0,0,1) 0%, rgba(134,15,21,1) 83%);
+            }
+
+            .navnew > li:first-child {
+                border-radius: 4px 0 0 4px;
+            }
+
+                .navnew > li:first-child > a {
+                    /*border-radius: 4px 0 0 0;*/
+                }
+
+            .navnew > li:last-child {
+                border-radius: 0 0 4px 0;
+                margin-right: 0;
+            }
+
+                .navnew > li:last-child > a {
+                    /*border-radius: 0 4px 0 0;*/
+                }
+
+            .navnew li li a {
+                text-align: left;
+                padding: 12px;
+                height: 43px;
+                margin: 6px !important;
+                font-weight: 600;
+            }
+
+                .navnew li li a:last-child {
+                    border-bottom: none;
+                }
+
+
+            .navnew li a:first-child:nth-last-child(2):before {
+                content: "";
+                position: absolute;
+                height: 0;
+                width: 0;
+                border: 5px solid transparent;
+                top: 43%;
+                right: 10px;
+            }
+
+            .navnew ul {
+                position: absolute;
+                white-space: nowrap;
+                border: 1px solid #e9e9e9 !important;
+                background: #ffffff !important;
+                z-index: 1;
+                padding: 5px;
+                left: -99999em;
+                border-radius: 40px;
+            }
+
+            .navnew > li:hover > ul {
+                left: -80px;
+                /* margin-top: 5px; */
+                min-width: 100%;
+            }
+
+            .navnew > li li:hover > ul {
+                left: 100%;
+                margin-left: 2px;
+                top: -1px;
+            }
+            /* arrow hover styling */
+            .navnew > li > a:first-child:nth-last-child(2):before {
+                border-top-color: #aaa;
+            }
+
+            .navnew > li:hover > a:first-child:nth-last-child(2):before {
+                border: 5px solid transparent;
+                border-bottom-color: white;
+                margin-top: -5px
+            }
+
+            .navnew li li > a:first-child:nth-last-child(2):before {
+                border-left-color: #aaa;
+                margin-top: -5px
+            }
+
+            .navnew li li:hover > a:first-child:nth-last-child(2):before {
+                border: 5px solid transparent;
+                border-right-color: white;
+                right: 10px;
+            }
+
+            .navnew li ul li {
+                border-bottom: 1px solid #e0e0e0;
+            }
+
+                .navnew li ul li:last-child {
+                    border-bottom: none;
+                }
+
+        .dataTables_wrapper .dataTables_length {
+            float: right !important;
+        }
+
+        .dataTables_wrapper .dataTables_filter {
+            float: left !important;
+        }
+
+        .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
+            color: #6a6a6a !important;
+            font-size: 14px !important;
+        }
+
+            .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+                color: white !important;
+            }
+
+        #DataTables_Table_0_paginate .current {
+            color: white !important;
+            background: #b70000 !important;
+            border-radius: 17px !important;
+            padding: 6px 14px !important;
+            border: none !important;
+            box-shadow: 6px 5px 19px -7px rgba(92,58,58,0.75) !important;
+            -webkit-box-shadow: 6px 5px 19px -7px rgba(92,58,58,0.75) !important;
+            -moz-box-shadow: 6px 5px 19px -7px rgba(92,58,58,0.75) !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            color: white !important;
+            border: none !important;
+            padding: 6px 14px !important;
+            border-radius: 17px;
+            background-color: #cc4a4ac7 !important;
+            background: linear-gradient(to bottom, #d77272 0%, #d77272 100%) !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button:active {
+            background: linear-gradient(to bottom, #b70000 0%, #c93838 100%) !important;
+            box-shadow: none !important;
+            padding: 6px 14px !important;
+            color: white !important;
+            border-radius: 17px;
+            border: none !important;
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            border: 1px solid #d3d3d3 !important;
+            border-radius: 9px !important;
+            padding: 8px !important;
+            background-color: transparent;
+            margin-left: 11px !important;
+        }
+
+            .dataTables_wrapper .dataTables_filter input:hover {
+                border: 1px solid #a5a5a5 !important;
+            }
+
+        table.dataTable thead .sorting, table.dataTable thead .sorting_asc, table.dataTable thead .sorting_desc, table.dataTable thead .sorting_asc_disabled, table.dataTable thead .sorting_desc_disabled {
+            background-position: right !important;
+        }
+
+        .dataTables_wrapper .dataTables_length select {
+            padding: 8px !important;
+            border-radius: 10px !important;
+        }
+
+            .dataTables_wrapper .dataTables_length select option {
+                font-weight: normal;
+                display: block;
+                min-height: 1.2em;
+                padding: 0px 5px 2px !important;
+                white-space: nowrap;
+                border-radius: 10px !important
+            }
+
+            .dataTables_wrapper .dataTables_length select:focus-visible {
+                outline-color: rgba(0,0,0,0.2) !important;
+                outline-width: 1px !important;
+            }
+
+        .btn-primary:hover {
+            background-color: #b70000d6 !important;
+            border-color: #fefefe !important;
+        }
+
+
+        .btn-primary {
+            color: #fff;
+            background-color: #b70000 !important;
+            border-color: #b70000 !important;
+        }
+
+        table {
+            width: 100%;
+            background-color: rgb(238, 238, 238) !important;
+        }
+
+            table.dataTable, table.dataTable th, table.dataTable td {
+                border: grey !important;
+                border-spacing: 3px !important;
+            }
+
+                table.dataTable tbody tr:hover {
+                    background-color: #ffffff96 !important;
+                }
+
+                table.dataTable thead th, table.dataTable thead td {
+                    border: 1px solid #e1e1e1 !important;
+                    padding: 15px 18px !important;
+                    font-weight: 500;
+                    color: black !important;
+                    background: white;
+                }
+
+            table, table th, table td {
+                border: grey !important;
+                border-spacing: 3px !important;
+            }
+
+                table tbody tr:hover {
+                    background-color: #ffffff96 !important;
+                }
+
+                table thead th, table thead td {
+                    border: 1px solid #e1e1e1 !important;
+                    padding: 15px 18px !important;
+                    font-weight: 500;
+                    color: black !important;
+                    background: white !important;
+                }
+        /* -------------------------------------------------------------*/
+
+
+
+
+
+
+
+
+        body {
+            background-image: url("assets/img/avatars/background.jpg") !important;
+            background-size: cover;
+            /*background-color: gray;*/
+        }
+
+        .ddlitems {
+            font-family: 'Cambria Math';
+            font-weight: bold;
+            font-size: medium;
+        }
+
+        .modalBackground {
+            height: 100%;
+            background-color: #000000;
+            filter: alpha(opacity=70);
+            opacity: 0.7;
+        }
+
+        .modal-header {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: start;
+            -ms-flex-align: start;
+            align-items: flex-start;
+            -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 3px solid #364150;
+            border-top-left-radius: 0.3rem;
+            border-top-right-radius: 0.3rem;
+        }
+
+        .profileimg {
+            vertical-align: middle;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+        }
+
+        .mdlchangepas {
+            width: 87%;
+            max-width: 100%;
+            margin-bottom: 2rem;
+            margin-top: 2rem;
+            background-color: transparent;
+            border: none;
+            border-bottom-width: 0px !important;
+        }
+
+        .navbar1 {
+            background-color: black;
+            overflow: hidden;
+            margin-left: 18%;
+            /*width:55%;*/
+        }
+
+            .navbar1 a {
+                text-decoration: none;
+                text .algin: center;
+                padding: 14px 16px;
+                float: left;
+                color: white;
+            }
+
+                .navbar1 a:hover {
+                    background-color: black;
+                }
+
+        .dropdown1 {
+            float: left;
+            overflow: hidden;
+        }
+
+            .dropdown1 .dropbtn1 {
+                text-decoration: none;
+                text-align: center;
+                padding: 18px 40px;
+                color: aliceblue;
+                float: left;
+                border: none;
+                outline: none;
+                background-color: #a92828;
+            }
+
+            .navbar1 a:hover, .dropdown1:hover .dropbtn1 {
+                background-color: #a92828;
+            }
+
+        .content1 {
+            position: absolute;
+            min-width: 160px;
+            z-index: 1;
+            box-shadow: 0px 1px 1px 1px black;
+            margin-top: 60px;
+            display: none;
+            font-family: math;
+            font-size: 16px;
+            font-weight: normal;
+        }
+
+            .content1 a {
+                display: block;
+                float: none;
+                background-color: #000000c9;
+                text-decoration: none;
+                text-align: left;
+                padding: 14px 16px;
+            }
+
+        .dropdown1:hover .content1 {
+            display: block;
+        }
+
+        .ui-autocomplete {
+            width: auto !important;
+            margin-right: 25px !important;
+        }
+
+        .file-upload {
+            display: none;
+        }
+
+        .circle {
+            border-radius: 100% !important;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            padding-top: 25Px;
+        }
+
+        .profile-pic {
+            width: 150px;
+            max-height: 200px;
+            display: inline-block;
+        }
+
+        .profile-picico {
+            display: inline-block;
+            vertical-align: middle;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border-color: #fb0000;
+            border-style: solid;
+            border-width: 2px;
+        }
+
+        .upload-button {
+            font-size: 1.2em;
+        }
+
+            .upload-button:hover {
+                transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+                color: #999;
+            }
+
+        .rowse {
+            margin-left: -15px;
+        }
+
+
+        .p-image {
+            top: 217px;
+            right: 404px;
+            color: #666666;
+            transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+        }
+
+            .p-image:hover {
+                transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+            }
+
+        .modalBackground {
+            height: 100%;
+            background-color: #000000;
+            filter: alpha(opacity=70);
+            opacity: 0.7;
+        }
+
+        .ui-menu .ui-menu-item {
+            border-bottom: solid;
+            border-bottom-width: 1px;
+            border-bottom-color: silver;
+            box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+            transition: 0.3s;
+        }
+
+        .ui-menu-item:hover {
+            box-shadow: 0 10px 16px 0 rgb(106 106 106 / 53%);
+            zoom: 1.03;
+        }
+
+        .hidden {
+            visibility: hidden
+        }
+    </style>
+    <style type="text/css">
+        .FileUploadClass input[type=text] {
+            display: none;
+        }
+
+        .FileUploadClass div {
+            background: transparent !important;
+            background: url(../images/profile/upload.png) no-repeat !important;
+            margin-left: 23.5%;
+        }
+
+        .custom-loader {
+            text-align: center;
+            top: 40%;
+            left: 44%;
+            position: fixed;
+            z-index: 99999999;
+            box-shadow: 0px 1px 7px #e14b4b;
+            border-radius: 3px;
+            background: white;
+            width: 10%;
+            padding: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .fa-icon-hover:hover {
+            transform: scale(1.3);
+        }
+
+        .btn-primary {
+            color: #fff;
+            background-color: #d54832;
+            border-color: #d54832;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+
+            currUserId = $('#<%#hfdUserId.ClientID%>');
+
+            $jnine('#<%#txtSearchEmployee.ClientID%>').autocomplete({
+                source: function (request, response) {
+                    $jnine.ajax({
+                        url: "../Masters/Econnect.aspx/GetEmployee",
+                        data: "{'pre' :'" + request.term + "'}",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            response($jnine.map(data.d, function (item) {
+
+                                return {
+                                    EmpName: item.EmpName,
+                                    EmpNo: item.EmpNo,
+                                    imageUrl: item.imageUrl,
+                                    json: item
+                                }
+                            }))
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert(textStatus);
+                        }
+                    });
+                },
+                focus: function (event, ui) {
+                    // this is for when focus of autocomplete item 
+                    $jnine('#<%#txtSearchEmployee.ClientID%>').val(ui.item.EmpName);
+                    $jnine('#<%#hfdSearchedEmpNo.ClientID%>').val(ui.item.EmpNo);
+                    return false;
+                },
+                select: function (event, ui) {
+                    // this is for when select autocomplete item
+                    $jnine('#<%#txtSearchEmployee.ClientID%>').val(ui.item.EmpName);
+                    $jnine('#<%#hfdSearchedEmpNo.ClientID%>').val(ui.item.EmpNo);
+                    return false;
+                }
+            }).data("ui-autocomplete")._renderItem = function (ul, item) {
+                // here return item for autocomplete text box, Here is the place 
+                // where we can modify data as we want to show as autocomplete item
+                return $jnine("<li>")
+                    //.append("<a>" + item.EmpName + "</a>").appendTo(ul);
+
+
+                    .append("<div class='row rowse'><div style='padding-left:0px;padding-right:5px;width:14%;min-width: 50px;' class='pull-left'>" +
+                        "<img id = 'imgico'  class='profile-picico' src='" + item.imageUrl + "'/>" +
+                        "<a></a></div><div style='padding-right: 25px;width:85%;min-width: 300px;'>" + item.EmpName + "</div></div>").appendTo(ul);
+            };
+
+
+
+
+            var session = '<%# Session["EmpNo"] %>';
+            var imgDisplay = $get("imgDisplay");
+            var imgvatar = $get("imgvatar");
+            var imgavatar2 = $get("imgavatar2");
+
+            var img = new Image();
+            img.onload = function () {
+
+                imgDisplay.src = img.src;
+                imgvatar.src = img.src;
+                imgavatar2.src = img.src;
+
+            };
+            img.src = "<%#ResolveUrl(UploadFolderPath) %>" + session + ".jpeg";
+
+
+            var readURL = function (input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $('.profile-pic').attr('src', e.target.result);
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+
+            $(".file-upload").on('change', function () {
+                readURL(this);
+            });
+
+            $(".upload-button").on('click', function () {
+                $(".file-upload").click();
+            });
+        });
+    </script>
+
+    <%-- Accordion  tab   view--%>
+    <script>
+        $(document).ready(function () {
+
+            $('.nav-link').on('click', function () {
+                if (!$('#collapseB').hasClass('show')) {
+                    $('#collapseB').collapse('toggle')
+                }
+            });
+
+        });
+    </script>
+    <script type="text/javascript">
+        function uploadStarted() {
+            $get("imgDisplay").style.display = "none";
+
+        }
+        function uploadComplete(sender, args) {
+            var session = '<%# Session["EmpNo"] %>';
+            var imgDisplay = $get("imgDisplay");
+
+            var hfdUserImageurl = $get("hfdUserImageurl");
+            imgDisplay.src = "../Masters/assets/images/img_avatar.png";
+            var img = new Image();
+            img.onload = function () {
+                imgDisplay.style.cssText = "height:100px;width:100px";
+                imgDisplay.src = img.src;
+
+                hfdUserImageurl.value = img.src;
+            };
+            img.src = "<%#ResolveUrl(UploadFolderPath) %>" + session + ".jpeg";
+
+        }
+        function popupImage() {
+
+            var imgDisplay = $get("imgDisplay");
+
+            var hv = $("#" + '<%# hfdPopupImageUrl.ClientID %>').val();
+
+            imgDisplay.src = "../Masters/assets/images/img_avatar.png";
+            var img2 = new Image();
+            img2.onload = function () {
+                imgDisplay.style.cssText = "height:100px;width:100px";
+
+                imgDisplay.src = img2.src;
+
+            };
+            img2.src = hv;
+
+
+        }
+
+    </script>
+</head>
+<body contextmenu="0">
+    <form id="form1" runat="server" enctype="multipart/form-data">
+
+        <asp:ScriptManager runat="server" ID="ScriptManager1"></asp:ScriptManager>
+
+        <div>
+            <div class="ajax-loader hidden" style="background: rgb(138 138 138 / 32%); position: fixed; width: 100%; height: 100%; z-index: 9999999999;">
+                <div class=" custom-loader " style="/* display: none; */">
+                    <span class="spinner-border kpi-loader-name" role="status" aria-hidden="true"></span>
+                    <h4>Please wait...</h4>
+                </div>
+
+            </div>
+
+            <div class="layout-wrapper layout-content-navbar">
+                <!-- Navbar -->
+
+                <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar" style="margin: auto;">
+                    <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none" style="display: none;">
+                        <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                            <i class="bx bx-menu bx-sm"></i>
+                        </a>
+                    </div>
+
+                    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                        <!-- Logo -->
+                        <div class="app-brand demo">
+                            <a href="../Masters/econnect.aspx" class="app-brand-link">
+                                <span class="app-brand-logo demo">
+                                    <img src="../Masters/images/EconnectLogoRed.svg" style="width: 100px;"
+                                        alt="View Badge User"
+                                        data-app-dark-img="illustrations/man-with-laptop-dark.png"
+                                        data-app-light-img="illustrations/man-with-laptop-light.png" />
+                                </span>
+                            </a>
+                            <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+                                <i class="bx bx-chevron-left bx-sm align-middle"></i>
+                            </a>
+                        </div>
+
+                        <%-- NavBar --%>
+                        <asp:Literal ID="ltrlMenu" runat="server"></asp:Literal>
+
+
+                        <%--<nav>
+                    <ul class="navnew" style="list-style:none !important">
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Portfolio</a>
+                            <ul>
+                                <li><a href="#">item</a></li>
+                                <li><a href="#">item</a></li>
+                                <li><a href="#">item</a></li>
+                                <li><a href="#">item</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Resume</a>
+                            <ul>
+                                <li><a href="#">item a lonng submenu</a></li>
+                                <li><a href="#">item</a>
+                                    <ul>
+                                        <li><a href="#">Ray</a></li>
+                                        <li><a href="#">Veronica</a></li>
+                                        <li><a href="#">Bushy</a></li>
+                                        <li><a href="#">Havoc</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">item</a></li>
+                                <li><a href="#">item</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Download</a></li>
+                        <li><a href="#">Rants</a>
+                            <ul>
+                                <li><a href="#">item</a></li>
+                                <li><a href="#">item</a></li>
+                                <li><a href="#">item</a></li>
+                                <li><a href="#">item</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </nav>--%>
+                        <%--       <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                  
+                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                      <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="javascript:void(0)">Dashboard</a>
+                      </li>
+                     
+                      <li class="nav-item dropdown">
+                        <a
+                          class="nav-link dropdown-toggle"
+                          href="javascript:void(0)"
+                          id="navbarDropdown"
+                          role="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false">
+                          Main
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <li><a class="dropdown-item" href="javascript:void(0)">Final Price</a></li>
+                            
+                           <li><a class="dropdown-item" href="javascript:void(0)">JOH Update</a></li>
+                           
+                            <li><a class="dropdown-item" href="javascript:void(0)">Tender Update</a></li>
+                           
+                          <li><a class="dropdown-item" href="javascript:void(0)">Hold Update</a></li>
+                            
+                            <li><a class="dropdown-item" href="javascript:void(0)">ERF</a></li>
+                        
+                            <li><a class="dropdown-item" href="javascript:void(0)">LOI / SO Tracking</a></li>
+                        
+                        </ul>
+                      </li>
+
+                        <li class="nav-item dropdown">
+                        <a
+                          class="nav-link dropdown-toggle"
+                          href="javascript:void(0)"
+                          id="navbarDropdown"
+                          role="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false">
+                          Report
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <li><a class="dropdown-item" href="javascript:void(0)">Quoted System</a></li>
+                          <li><a class="dropdown-item" href="javascript:void(0)">LOI Update</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)">Won System</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0)">Lost System</a></li>
+                          <li>
+                            <hr class="dropdown-divider" />
+                          </li>
+                          <li><a class="dropdown-item" href="javascript:void(0)">Something else here</a></li>
+                        </ul>
+                      </li>
+
+                         <li class="nav-item dropdown">
+                        <a
+                          class="nav-link dropdown-toggle"
+                          href="javascript:void(0)"
+                          id="navbarDropdown"
+                          role="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false">
+                          Bi-Monthly
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <li><a class="dropdown-item" href="javascript:void(0)">Action</a></li>
+                          <li><a class="dropdown-item" href="javascript:void(0)">Another action</a></li>
+                          <li>
+                            <hr class="dropdown-divider" />
+                          </li>
+                          <li><a class="dropdown-item" href="javascript:void(0)">Something else here</a></li>
+                        </ul>
+                      </li>
+
+                         <li class="nav-item dropdown">
+                        <a
+                          class="nav-link dropdown-toggle"
+                          href="javascript:void(0)"
+                          id="navbarDropdown"
+                          role="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false">
+                          Overview
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                          <li><a class="dropdown-item" href="javascript:void(0)">Action</a></li>
+                          <li><a class="dropdown-item" href="javascript:void(0)">Another action</a></li>
+                          <li>
+                            <hr class="dropdown-divider" />
+                          </li>
+                          <li><a class="dropdown-item" href="javascript:void(0)">Something else here</a></li>
+                        </ul>
+                      </li>
+
+                    </ul>
+                 
+                  </div>
+                </div>
+              </nav>--%>
+                        <%-- Search --%>
+                        <ul class="navbar-nav flex-row align-items-center ms-auto">
+                            <li class="d-flex hidden" style="margin-right: 42px;">
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <asp:LinkButton ID="lbSearch" runat="server" Text="" OnClick="lbSearch_Click"><i class="tf-icons bx bx-search"></i></asp:LinkButton></span>
+                                    <input style="display: none" type="text" name="fakeusernameremembered" />
+                                    <input style="display: none" type="password" name="fakepasswordremembered" />
+
+                                    <asp:HiddenField ID="hfdSearchedEmpNo" runat="server" />
+                                    <asp:TextBox ID="txtSearchEmployee" runat="server" class="form-control hidden" />
+                                    <asp:HiddenField ID="hfdUserId" runat="server" />
+
+                                </div>
+                            </li>
+                            <!-- User -->
+
+                            <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                                    <div class="avatar avatar-online">
+                                        <img src="" alt class="w-px-40 h-auto rounded-circle" id="imgvatar" />
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item" href="#">
+                                            <div class="d-flex">
+                                                <div class="flex-shrink-0 me-3">
+                                                    <div class="avatar avatar-online">
+                                                        <img src="../Dashboard/assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" id="imgavatar2" />
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <span class="fw-semibold d-block">
+                                                        <asp:Label ID="lblUser" runat="server" Text="Navas"></asp:Label></span>
+                                                    <small class="text-muted">
+                                                        <asp:Label ID="lblRoleName" runat="server" Text="Admin"></asp:Label></small>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <div class="dropdown-divider"></div>
+                                    </li>
+
+                                    <li>
+                                        <asp:LinkButton ID="BtnEditProfile" runat="server" OnClick="BtnEditProfile_Click" CssClass="dropdown-item">
+                                            <i class="bx bx-user ddlitems">Edit Profile</i></asp:LinkButton>
+                                    </li>
+
+                                    <li>
+                                        <a href="javascript:OpenChangePassPopup()" id="BtnChangePassword" class="dropdown-item">
+
+                                            <i class="bx bx-lock ddlitems">&nbspChange Password</i> </a>
+
+                                    </li>
+
+
+                                    <li style="display: none">
+
+                                        <asp:LinkButton ID="BtnMessages" runat="server" OnClick="BtnMessages_Click" CssClass="dropdown-item">
+                                             <i class="bx bx-message-rounded ddlitems">&nbspMessage</i> 
+                                             <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
+                                        </asp:LinkButton>
+
+
+                                        <%--<a class="dropdown-item" href="#">
+                                            <span class="d-flex align-items-center align-middle">
+                                              <i class="flex-shrink-0 bx bx-credit-card me-2"></i>
+                                              <span class="flex-grow-1 align-middle">Billing</span>
+                                              <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
+                                            </span>
+                                          </a>--%>
+
+                          
+                                    </li>
+                                    <li style="display: none">
+                                        <asp:LinkButton ID="BtnTags" runat="server" CssClass="dropdown-item">
+                         <i class="bx bx-purchase-tag ddlitems">&nbspTags</i> 
+                         <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">2</span>
+                                        </asp:LinkButton>
+                                    </li>
+
+                                    <li style="display: none">
+                                        <asp:LinkButton ID="BtnTasks" runat="server" OnClick="BtnTasks_Click" CssClass="dropdown-item">
+                         <i class="bx bx-task ddlitems">&nbspTasks</i> 
+                         <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">5</span>
+                                        </asp:LinkButton>
+                                    </li>
+
+                                    <li>
+                                        <div class="dropdown-divider"></div>
+                                    </li>
+
+                                    <li>
+                                        <a class="dropdown-item" href="../security/logout.aspx">
+                                            <i class="bx bx-power-off me-2"></i>
+                                            <span class="align-middle">Log Out</span>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+
+
+                <%-- Edit Profile Edit  Popup --%>
+
+                <cc1:ModalPopupExtender ID="MdProfileEdit" runat="server" PopupControlID="pnlProfileEdit" TargetControlID="btnclose"
+                    Enabled="true" DropShadow="true" BehaviorID="ModalPopupExtenderBehavior16" RepositionMode="RepositionOnWindowResizeAndScroll"
+                    CancelControlID="btnclose" BackgroundCssClass="modalBackground">
+                </cc1:ModalPopupExtender>
+                <asp:Panel ID="pnlProfileEdit" runat="server" CssClass="modalPopup" align="center" Style="box-shadow: 6px 6px 12px 1px #888787 !important; border-radius: 5px !important; display: none; font-family: 'Century Gothic'" BorderStyle="Solid" BorderWidth="1px">
+                    <div style="border-radius: 5px !important; background-color: white !important; padding-left: 7px; padding-top: 7px; float: left; padding-right: 7px; width: 50%; padding-bottom: 7px; position: fixed; z-index: 100001; left: 27%; top: 64.5px; max-height: calc(100vh - 120px);">
+                        <div class="modal-header panl14" style="font-family: system-ui;">
+
+                            <div class="pull-left">
+
+                                <h4>
+                                    <asp:Label ID="Label28" class="subpnlhdg" runat="server" Text="Edit Profile"></asp:Label>
+                                </h4>
+
+                            </div>
+
+
+                            <div class="pull-right">
+
+                                <asp:Button runat="server" ID="btnclose" Text="X" class="btn btn-update" data-dismiss="modal" CssClass="btn btn-default"></asp:Button>
+
+                            </div>
+
+                        </div>
+                        <div style="overflow: auto; max-height: calc(100vh - 210px);">
+                            <div class="circle">
+                                <asp:Image ID="imgLoader" runat="server" class="profile-pic avataronpage" ImageUrl="../Masters/assets/images/img_avatar.png" display="none" />
+
+                                <img id="imgDisplay" alt="" class="profile-pic avataronpage" src="../Masters/assets/images/img_avatar.png" />
+                            </div>
+                            <div class="p-image">
+
+
+                                <cc1:AsyncFileUpload OnClientUploadComplete="uploadComplete" runat="server" ID="AsyncFileUpload1"
+                                    Width="24px" UploaderStyle="Modern" CompleteBackColor="White" UploadingBackColor="#CCFFFF"
+                                    ThrobberID="imgLoader" OnUploadedComplete="FileUploadComplete" OnClientUploadStarted="uploadStarted" CssClass="FileUploadClass" />
+                                <%-- <asp:FileUpload ID="fpuploadImage" CssClass="file-upload" runat="server" />--%>
+                                <%-- <input class="file-upload" type="file" accept="image/*"  runat="server" />--%>
+                            </div>
+                            <h2 class="top-text-btm"><b>
+                                <asp:Label ID="lblEmpNamep" runat="server" Text="ELYZA MARIE FERRTER"></asp:Label>
+                                <asp:HiddenField ID="hfdUserImageurl" Value="../Masters/assets/images/img_avatar.png" runat="server" />
+                                <asp:HiddenField ID="hfdPopupImageUrl" Value="../Masters/assets/images/img_avatar.png" runat="server" />
+                            </b></h2>
+                            <h5 class="top-text-btm"><b>
+                                <asp:Label ID="lblPositionp" runat="server" Text="Document Controller"></asp:Label>
+                            </b></h5>
+
+
+                            <table class="table table-condensed " runat="server" id="tbltopsearch">
+                                <tr>
+
+                                    <td class="no-border  label-alignment">
+                                        <i class="fa fa-envelope" style="font-size: large" aria-hidden="true"></i>
+                                        <asp:Label ID="lblEmail" Text="" runat="server" CssClass="edithz" />
+                                    </td>
+
+                                    <td class="no-border label-alignment"></td>
+                                    <td class="no-border  label-alignment">
+                                        <i class="fa fa-phone" style="font-size: large" aria-hidden="true"></i>
+                                        <asp:TextBox ID="lblExt" Text="ext. 1219" runat="server" CssClass="edithz" Width="70px" BorderStyle="None" />
+                                    </td>
+
+
+                                    <td class="no-border label-alignment"></td>
+                                    <td class="no-border  label-alignment">
+
+                                        <i class="fa fa-mobile" style="font-size: x-large" aria-hidden="true"></i>
+                                        <asp:TextBox ID="lblMobileNo" Text="" runat="server" CssClass="edithz" Width="150px" BorderStyle="None" />
+                                    </td>
+
+
+
+
+                                    <td class="no-border" style="width: 5%">
+
+                                        <asp:LinkButton ID="btnMessage" runat="server"
+                                            CssClass="btn btn-Search btnedit" Font-Size="Small"><i class="fa fa-share" title="View More" style="padding-right: 12px; font-size:small; font:500"></i>Message</asp:LinkButton>
+                                    </td>
+
+
+
+                                    <td class="no-border  label-alignment">
+                                        <asp:Label ID="lblError" Text="" runat="server" Font-Size="Medium" Font-Bold="true" Font-Names="Times New Roman" />
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <table class="table table-condensed " runat="server" id="Table1">
+                                <tr>
+                                    <td class="no-border  label-alignment">
+                                        <asp:Label ID="Label1" Text="About Me" runat="server" CssClass="edithz" />
+                                    </td>
+
+
+                                    <td class="no-border label-alignment"></td>
+                                    <td class="no-border  label-alignment">
+                                        <asp:TextBox ID="txtAboutMe" Text="Hi Am New Here" runat="server" CssClass="edithz" TextMode="MultiLine" Height="80px" Width="250px" Style="resize: none" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="no-border  label-alignment">
+                                        <asp:Label ID="Label11" Text="Department:" runat="server" CssClass="edithz" />
+                                    </td>
+
+
+                                    <td class="no-border label-alignment"></td>
+                                    <td class="no-border  label-alignment">
+                                        <asp:Label ID="lblDepartment" Text="Information Technology" runat="server" CssClass="edithz" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="no-border  label-alignment">
+                                        <asp:Label ID="Label13" Text="Joining Date" runat="server" CssClass="edithz" />
+                                    </td>
+
+
+                                    <td class="no-border label-alignment"></td>
+                                    <td class="no-border  label-alignment">
+                                        <asp:Label ID="lblJoiningDate" Text="12-Jul-2015" runat="server" CssClass="edithz" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="no-border  label-alignment">
+                                        <asp:Label ID="Label15" Text="Org Name:" runat="server" CssClass="edithz" />
+                                    </td>
+
+
+                                    <td class="no-border label-alignment"></td>
+                                    <td class="no-border  label-alignment">
+                                        <asp:Label ID="lblOrgName" Text="Document Controller" runat="server" CssClass="edithz" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="no-border  label-alignment">
+                                        <asp:Label ID="Label6" Text="Line Manager:" runat="server" CssClass="edithz" />
+                                    </td>
+
+
+                                    <td class="no-border label-alignment"></td>
+                                    <td class="no-border  label-alignment">
+                                        <asp:Label ID="lblLineManager" Text="Ibrahem Tawfiq Quriq" runat="server" CssClass="edithz" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="no-border  label-alignment">
+                                        <asp:Label ID="Label9" Text="HOD:" runat="server" CssClass="edithz" />
+                                    </td>
+
+
+                                    <td class="no-border label-alignment"></td>
+                                    <td class="no-border  label-alignment">
+                                        <asp:Label ID="lblHOD" Text="Kamel" runat="server" CssClass="edithz" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="no-border  label-alignment" colspan="6" style="text-align: end;">
+                                        <asp:Button runat="server" ID="btnDone" Text="Done" class="btn btn-update" data-dismiss="modal" CssClass="btn btn-default" BackColor="#44d265" ForeColor="White" OnClick="btnDone_Click"></asp:Button>
+
+                                    </td>
+
+                                </tr>
+
+                            </table>
+
+                        </div>
+                    </div>
+
+                </asp:Panel>
+                <%-- End Profile  Edit Popup --%>
+
+                <%-- Change Password Modal --%>
+
+                <cc1:ModalPopupExtender ID="MdChangePassword" runat="server" PopupControlID="pnlChangePassword" TargetControlID="btnclose1"
+                    Enabled="true" DropShadow="true" BehaviorID="ModalPopupExtenderBehavior17" RepositionMode="RepositionOnWindowResizeAndScroll"
+                    CancelControlID="btnclose1" BackgroundCssClass="modalBackground">
+                </cc1:ModalPopupExtender>
+
+
+                <asp:Panel ID="pnlChangePassword" runat="server" CssClass="modalPopup" align="center" Style="box-shadow: 6px 6px 12px 1px #888787 !important; border-radius: 5px !important; display: none; font-family: 'Century Gothic'" BorderStyle="Solid" BorderWidth="1px">
+                    <div style="border-radius: 5px !important; background-color: white !important; padding-left: 7px; padding-top: 7px; float: left; padding-right: 7px; width: 30%; padding-bottom: 7px; position: fixed; z-index: 100001; left: 856px; top: 64.5px;">
+                        <div class="modal-header panl14" style="font-family: system-ui;">
+
+                            <div class="pull-left">
+
+                                <h4>
+                                    <asp:Label ID="Label18" class="subpnlhdg" runat="server" Text="Change Password"></asp:Label>
+                                </h4>
+
+                            </div>
+
+
+                            <div class="pull-right">
+
+                                <asp:Button runat="server" ID="btnclose1" Text="X" class="btn btn-update" data-dismiss="modal" CssClass="btn btn-default"></asp:Button>
+
+                            </div>
+
+                        </div>
+
+                        <table class="mdlchangepas">
+
+
+
+                            <tr>
+                                <td style="padding: 3px 5px; border-top: 0px;" class="label-alignment no-border">
+                                    <asp:Label runat="server" Text="Old Password" CssClass="formlbl labelsp" ID="lbllocation"></asp:Label>
+
+                                    <asp:TextBox runat="server" type="text" TextMode="Password" name="location" ID="txtprjctlocation" Width="88%" class="form-control" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="padding: 3px 5px; border-top: 0px;" class="label-alignment no-border">
+                                    <asp:Label runat="server" Text="New Password" CssClass="formlbl labelsp" ID="lblemirates"></asp:Label>
+
+                                    <asp:TextBox runat="server" type="text" TextMode="Password" name="txtemirates" Width="88%" ID="txtemirates" class="form-control" />
+                                </td>
+                            </tr>
+
+
+
+                            <tr>
+                                <td style="padding: 3px 5px; border-top: 0px;" class="label-alignment no-border">
+                                    <asp:Label runat="server" Text="Conform Password" CssClass="formlbl labelsp" ID="lblcontractvalue"></asp:Label>
+                                    <asp:TextBox runat="server" type="text" TextMode="Password" class="form-control" Width="88%" ID="txtctrvalue" name="contactValue" />
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td style="float: right; border-top: 0px;">
+
+                                    <asp:Button runat="server" ID="btnSave" CssClass="btn btn-success" Text="Update" data-Submit="modal"></asp:Button>
+                                </td>
+
+
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+                </asp:Panel>
+
+
+
+
+                <div class="modal fade" id="mpchangePasswordNew" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content" style="width: 100%; right: 0%;">
+                            <div class="modal-header">
+                                <h3 class="modal-title" id="H2">Change Password</h3>
+                                <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row" style="padding-top: 10px; padding-left: 50px; padding-bottom: 10px; width: inherit !important">
+
+                                    <table class="mdlchangepas">
+                                        <tr>
+                                            <td style="padding: 3px 5px; border-top: 0px;" class="label-alignment no-border">
+                                                <asp:Label runat="server" Text="Old Password" CssClass="formlbl labelsp" ID="Label2"></asp:Label>
+
+                                                <asp:TextBox runat="server" type="text" TextMode="Password" ID="txtoldPassNew" Width="88%" class="form-control" />
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="padding: 3px 5px; border-top: 0px;" class="label-alignment no-border">
+                                                <asp:Label runat="server" Text="New Password" CssClass="formlbl labelsp" ID="Label3"></asp:Label>
+
+                                                <asp:TextBox runat="server" type="text" TextMode="Password" Width="88%" ID="txNewPassNew" class="form-control" />
+                                            </td>
+                                        </tr>
+
+
+
+                                        <tr>
+                                            <td style="padding: 3px 5px; border-top: 0px;" class="label-alignment no-border">
+                                                <asp:Label runat="server" Text="Conform Password" CssClass="formlbl labelsp" ID="Label4"></asp:Label>
+                                                <asp:TextBox runat="server" type="text" TextMode="Password" class="form-control" Width="88%" ID="txNewConformPassNew" name="contactValue" />
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td style="float: right; border-top: 0px; padding-right: 12%;">
+                                                <a href="javascript:changepass()" class="btn btn-success"><i class="fa fa-floppy-o"></i></a>
+                                                <%-- <asp:Button runat="server" ID="Button1" CssClass="btn btn-success" Text="Update" data-Submit="modal"></asp:Button>--%>
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                            <td style="border-top: 0px;">
+                                                <asp:Label runat="server" Text="" CssClass="formlbl labelsp" ID="lblChangepasserror" ForeColor="Red"></asp:Label>
+                                            </td>
+
+
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <%-- End Change Password --%>
+
+                <!-- Overlay -->
+                <div class="layout-overlay layout-menu-toggle"></div>
+
+            </div>
+
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+
+    </form>
+</body>
+</html>

@@ -1,0 +1,337 @@
+﻿body, div, th, td, thead, tbody, p, h1, h2, h3, h4, h5, span {
+    font-family: Poppins;
+    color: grey;
+    font-size: 16px;
+}
+
+.amin {
+    width: 97.5%;
+    display: flex;
+    flex-flow: column;
+    gap: 15px;
+    align-content: normal;
+    height: max-content;
+    background: rgba(209, 209, 209, 0.30);
+}
+
+.dashcard {
+    background: white;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+    .dashcard .head {
+        color: black;
+        font-size: 18px;
+        font-weight: 400;
+        word-wrap: break-word;
+        margin-bottom: 10px;
+    }
+
+.topstatusrow {
+    gap: 10px;
+    justify-content: space-between;
+    display: flex;
+}
+
+.topstatuscard {
+    padding: 40px;
+    width: 250px;
+    height: 188px;
+    background: white;
+    border-radius: 5px;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+}
+
+    .topstatuscard img {
+        width: 45px;
+        height: 45px;
+        margin-bottom: 10px
+    }
+
+    .topstatuscard .headdiv {
+        color: rgba(0, 0, 0, 0.50);
+        font-size: 16px;
+        font-weight: 300;
+        word-wrap: break-word;
+        width: max-content;
+        margin-bottom: 10px
+    }
+
+    .topstatuscard .valuediv {
+        color: black;
+        font-size: 22px;
+        font-weight: 400;
+        word-wrap: break-word
+    }
+
+
+nav {
+    position: relative;
+    padding-bottom: 0px
+}
+
+.line {
+    height: 2px;
+    position: absolute;
+    bottom: 0;
+    margin: 10px 0 0 0;
+    background: #FF1847;
+}
+
+.line2 {
+    height: 2px;
+    position: absolute;
+    bottom: 0;
+    margin: 10px 0 0 0;
+    background: #FF1847;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    border-bottom: 1px #e4e4e4 solid;
+}
+
+li {
+    opacity: .6;
+    transition: all 0.4s ease;
+}
+
+    li:hover {
+        opacity: .7
+    }
+
+    li:active {
+        opacity: 1
+    }
+
+    li:last-child {
+        margin-right: 0
+    }
+
+a {
+    text-decoration: none;
+    color: #fff;
+    text-transform: uppercase;
+    display: block;
+    font-weight: 600;
+    letter-spacing: .2em;
+    font-size: 14px;
+}
+
+.hidden {
+    display: none;
+}
+
+.nav .nav-link:hover, .nav .nav-link:focus {
+    color: #9d0000a3 !important;
+}
+
+.nav-pills .nav-link.active, .nav-pills .nav-link.active:hover, .nav-pills .nav-link.active:focus {
+    background-color: #ffdddd54 !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #000 !important;
+    background-color: #ededed !important;
+}
+
+.nav-pills .nav-link {
+    font-size: 12px;
+}
+
+.tab-content {
+    padding: 10px 0px !important;
+}
+
+.tabent {
+    text-align: center;
+}
+
+.tabenticon {
+    color: rgba(0, 0, 0, 0.50);
+    font-size: 12px;
+    font-weight: 300;
+    word-wrap: break-word;
+}
+
+.org tbody, .org td, .org tfoot, .org th, .org tr {
+    padding: 19px 10px !important;
+    text-align: center;
+    font-weight: 300;
+}
+
+.org thead {
+    padding: 20px 10px !important;
+    text-align: center;
+    font-weight: 300;
+}
+
+.org > :not(:first-child) {
+    border-top: none !important;
+}
+
+.esttab {
+}
+
+    .esttab span {
+        text-align: left;
+        float: right;
+        margin-top: -56px;
+        width: 30%;
+        margin-right: -20px;
+    }
+
+.esttab-box {
+    height: 82px;
+    margin: 0 10px;
+    width: 70%
+}
+
+.green, .lgreen, .orange, .lorange, .red {
+}
+
+.green {
+    background-color: #82CD59;
+}
+
+.lgreen {
+    background-color: #82cd59b0;
+}
+
+.orange {
+    background-color: #FF9518;
+}
+
+.lorange {
+    background-color: #ff9518ad;
+}
+
+.red {
+    background-color: #ec1a25a6;
+}
+
+.ovpt {
+    padding: 23px 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+    .ovpt img {
+        margin-right: 10px
+    }
+
+    .ovpt span {
+        float: right;
+        color: black;
+    }
+
+.ovs {
+    text-align: center;
+    /* display: flex; */
+    display: inline-grid;
+    width: 22%;
+    margin: 20px;
+    padding: 10px;
+    /* align-content: center; */
+    justify-items: center;
+}
+
+    .ovs img {
+        margin-bottom: 10px
+    }
+
+    .ovs span {
+        color: black;
+    }
+
+.forcard {
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+    padding: 8px 8px;
+    margin-bottom: 5px;
+}
+
+.forcard-body {
+    font-size: smaller;
+    width: 90%;
+}
+
+.forcard-head {
+    font-size: small;
+    color: #005dae;
+    text-transform: capitalize;
+}
+
+.forcard-label {
+    color: #930000a6;
+    background: #ff00003d;
+    padding: 2px 10px;
+    font-size: small;
+    border-radius: 6px;
+    float: right;
+}
+
+.lostreason {
+    border-collapse: separate;
+    border-spacing: 8px;
+}
+
+.lrhead {
+    background: #ffcfcf6e;
+}
+
+.lrvalue {
+    background: #1488db1c !important;
+}
+
+.lrperc {
+    background: #89e4c940 !important;
+}
+
+.lostreason thead tr:first-child th:first-child {
+    border-top-left-radius: 10px !important;
+    border-bottom-left-radius: 10px !important;
+}
+
+.lostreason thead tr:last-child th:last-child {
+    border-top-right-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+}
+
+.lostreason tbody .lrvalue:first-child td:first-child {
+    border-top-left-radius: 10px !important;
+    border-bottom-left-radius: 10px !important;
+}
+.lostreason tbody .lrvalue:last-child td:last-child {
+    border-top-right-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+}
+
+.lostreason tbody .lrperc:first-child td:first-child {
+    border-top-left-radius: 10px !important;
+    border-bottom-left-radius: 10px !important;
+}
+
+.lostreason tbody .lrperc:last-child td:last-child {
+    border-top-right-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+}
+
+.lostreason tbody, .lostreason td, .lostreason tfoot, .lostreason th, .lostreason tr {
+    padding: 16px 10px !important;
+    text-align: center;
+    font-weight: 300;
+}
+
+.searchFilicon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}

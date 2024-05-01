@@ -1,0 +1,482 @@
+﻿
+.profile_banner div.bg_transpant {
+    background: rgba(255, 255, 255, 0.6);
+    width: 100%;
+    position: absolute;
+    z-index: 9999;
+    bottom: 0px;
+    padding: 10px 0px 0px 0px;
+    min-height: 183px;
+}
+
+.btn_top {
+    border: 1px solid #c4ced7 !important;
+    border-radius: 3px !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    font-weight: bold !important;
+    text-transform: capitalize !important;
+    background-image: -webkit-linear-gradient(bottom, #e4e8ea 50%, #f1f3f3 100%) !important;
+    text-shadow: none !important;
+    font-size: 12px !important;
+    padding: 3px 7px;
+}
+
+.help_topic {
+    float: right;
+    font-size: 20px;
+}
+
+    .help_topic:focus {
+        float: right;
+        font-size: 20px;
+        background-color: #d7282d !important;
+    }
+
+.app-nav li:nth-child(4n) ul {
+    left: 83px !important;
+    width: 300px;
+}
+
+
+.carousel-caption {
+    margin-left: 20px;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.2;
+    color: white;
+    text-align: left;
+    margin-bottom: -1%;
+}
+
+.footer {
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #a92828;
+    color: white;
+    text-align: center;
+    height: 56px;
+    font-size: initial;
+}
+
+.faic {
+    color: #c72d27;
+}
+
+.button {
+    background-color: #404244;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button1 {
+    background-color: white;
+    color: black;
+    border: 2px solid #c72d27;
+}
+
+.info_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.dispatch_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.hr_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.payroll_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.sales_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.pump_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.giu_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.export_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.office_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.branch_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.stors_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.cabinet_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.legal_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.elv_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.bms_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.fleet_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.HSE_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.HSE_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.project_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.purchase_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.maintenance_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.estimation_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.engineering_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.accounts_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.todo_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+.customer_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.quotation_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.passive_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.Admin_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.contract_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.certificates_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.factory_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.firedoor_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.aftersales_menu:hover {
+    -ms-transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+    transform: scale(1.2);
+    background-color: #b31c27;
+}
+
+.dropdown-item1 {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #f8f9fa;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+    font-size: large;
+}
+
+    .dropdown-item1:hover {
+        background-color: grey;
+    }
+
+
+.bkg-dark {
+    background-color: #a92828 !important;
+    height: 63px;
+}
+
+.faich {
+    color: #e9ecef;
+}
+
+.line {
+    border-bottom: 2px solid #c1c2c3;
+    margin-top: 5px;
+    width: 100%;
+    padding-top: 35px;
+}
+
+
+* {
+    box-sizing: border-box;
+}
+
+
+.column {
+    float: left;
+    width: 40.33%;
+    padding: 10px;
+    height: 300px;
+}
+
+
+.column1 {
+    float: left;
+    padding: 10px;
+    border-radius: 0px 4px 4px 4px;
+    margin-left: -18px;
+    margin-top: 0px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    -moz-box-flex: 3;
+    background: none !important;
+}
+
+
+.line {
+    border-bottom: 3px solid #dc3545;
+    margin-top: 5px;
+    width: 100%;
+    padding-top: 35px;
+}
+
+.title_box1 {
+    width: 100%;
+    float: left;
+    /* background: url(../images/title_border.png) no-repeat left top; */
+    margin-top: 19%;
+    text-align: center;
+    margin-bottom: 27px;
+}
+
+.app-nav li:nth-child(3n) ul {
+    left: auto !important;
+}
+
+.app-notification__item:focus, .app-notification__item:hover {
+    background-color: #364150 !important;
+}
+
+.app-nav li:nth-child(4n) ul {
+    left: auto !important;
+    width: auto !important;
+}
+
+.main_outer {
+    /*background-image: url(images/background2.png) !important;*/
+    /*background-image: url("../images/background3.jpg");*/
+    width: 100%;
+    /*background-color:grey;*/
+   
+    /*background: url(../images/background2.png) no-repeat left bottom #4a6e8a !important;*/
+}
+
+
+
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow-y: hidden;
+    width: 100%;
+    background-image: url("../images/background3.jpg");
+    background-size:cover;
+}
+
+#body {
+    height: 100%
+}
+
+@media screen and (min-width: 1400px) {
+    #body {
+        height: 100%;
+        width:100%
+    }
+}
+
+@media screen and (min-width: 1600px) {
+    #body {
+        height: 100%;
+        width: 100%
+    }
+}
+
+@media screen and (min-width: 1900px) {
+    #body {
+        height: 100%;
+        width: 100%
+    }
+}
+
+
+.enet {
+    display: flex;
+}
+
+.pheader {
+    margin-top: 17px;
+    margin-bottom: 3rem;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: emoji;
+    
+    text-align: center;
+}
+
+.quater {
+    font-size: larger;
+    color: red;
+    font-family: emoji;
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
+}

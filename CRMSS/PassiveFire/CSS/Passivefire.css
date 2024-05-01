@@ -1,0 +1,353 @@
+﻿
+
+
+.GridHeader-blue > th {
+    padding-left: 5px;
+    text-align: center;
+}
+
+.panel-margin {
+    margin-bottom: 0px;
+}
+<style type="text/css" >
+.WaterMarkedTextBox {
+    border-right: #ccccff thin solid;
+    border-top: #ccccff thin solid;
+    border-left: #ccccff thin solid;
+    border-bottom: #ccccff thin solid;
+    color: gray;
+    display: inline;
+    background: AliceBlue;
+    visibility: visible;
+}
+
+.NormalTextBox {
+    border-right: #ccccff thin solid;
+    border-top: #ccccff thin solid;
+    border-left: #ccccff thin solid;
+    border-bottom: #ccccff thin solid;
+    color: black;
+    display: inline;
+    background: #ffffff;
+    visibility: visible;
+}
+
+.page-title {
+    margin: 25px 0;
+    margin-top: 25px;
+    margin-right: 0px;
+    margin-bottom: 25px;
+    margin-left: 0px;
+    font-size: 16px;
+    font-weight: 200;
+}
+
+.form-title {
+    margin: 25px 0;
+    margin-top: 8px;
+    margin-right: 0px;
+    margin-bottom: -21px;
+    margin-left: 15px;
+    font-size: 20px;
+    color: darkred;
+}
+
+.action-btn {
+    position: relative;
+    display: inline-block;
+    left: 1184px;
+    padding: 4px 10px;
+    padding-top: 4px;
+    padding-right: 10px;
+    padding-bottom: 4px;
+    padding-left: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #FFF;
+    background-color: #26a1ab;
+    border-color: #2499a3;
+}
+
+.formgroup {
+    padding-top: 7px;
+}
+
+.formlbl {
+    text-align: left !important;
+    padding-top: 9px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.drpsi {
+    display: block;
+    width: 30%;
+   
+}
+
+.btnstl {
+    padding-right: 40px;
+    right: auto;
+    bottom: 9px;
+    left: 900px;
+    padding-right: 40px;
+    right: auto;
+    bottom: 30px;
+    left: 900px;
+    color: #1c1c1c;
+    background-color: darkcyan;
+    font-weight: 400;
+}
+
+.drowscop {
+    display: block;
+    width: 100%;
+    height: 28px;
+    padding: 6px 12px;
+    font-size: 12px;
+    line-height: 1.42857143;
+    background-color: #fff;
+    background-image: none;
+}
+
+
+.form-inline {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+}
+
+    .form-inline label {
+        margin: 5px 10px 5px 0;
+    }
+
+    .form-inline input {
+        vertical-align: middle;
+        margin: 5px 10px 5px 0;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+    }
+
+.frmbrdr {
+    border-color: Silver;
+    border-width: 1px;
+    border-style: Solid;
+    height: 148px;
+}
+
+.btn2cl {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    top: 22px !important;
+    right: auto;
+    left: 98px !important;
+}
+
+.clbdr {
+    border: 2px solid;
+    border-style: ridge;
+}
+
+@media screen and (max-width: 712px) {
+    .me-blk1 {
+        margin-top: 20px;
+        display: block;
+        width: fit-content;
+        width: 73%;
+    }
+}
+
+.me-blk2 {
+    left: 188px;
+}
+
+@media screen and (max-width: 712px) {
+    .me-blk2 {
+        left: 93px;
+    }
+}
+
+.me-blk3 {
+    right: 15px;
+    left: 250px;
+}
+
+@media screen and (max-width: 712px) {
+    .me-blk3 {
+        right: 15px;
+        left: 94px;
+    }
+}
+
+.btmbttn {
+    float: left;
+    visibility: hidden;
+}
+
+@media screen and (max-width: 712px) {
+    .btmbttn {
+        visibility: visible;
+        left: 251px !important;
+    }
+}
+
+.blkbttm {
+    padding-bottom: 20px;
+}
+
+@media screen and (max-width: 712px) {
+    .btmbttn {
+        padding-bottom: 20px;
+
+    }
+}
+
+.txtfld {
+    margin-bottom: 16px;
+}
+
+.hdigfnt {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 24px;
+    font-weight: bold;
+    color: #bc3c3c;
+    text-decoration: underline;
+}
+
+
+.panl14 {
+    border-color: Silver;
+    border-width: 1px;
+    border-style: Solid;
+    background-color: #364150;
+}
+
+.btn-addnew {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #337ab7;
+}
+/* Modal styles */
+.modal .modal-dialog {
+    max-width: 400px;
+}
+
+.modal .modal-header, .modal .modal-body, .modal .modal-footer {
+    padding: 20px 30px;
+}
+
+.modal .modal-content {
+    border-radius: 3px;
+    width:122%;
+}
+
+.modal .modal-footer {
+    background: #ecf0f1;
+    border-radius: 0 0 3px 3px;
+}
+
+.modal .modal-title {
+    display: inline-block;
+}
+
+.modal .form-control {
+    border-radius: 2px;
+    box-shadow: none;
+    border-color: #dddddd;
+}
+
+.modal textarea.form-control {
+    resize: vertical;
+}
+
+.modal .btn {
+    border-radius: 2px;
+    min-width: 100px;
+}
+
+.modal form label {
+    font-weight: normal;
+}
+
+
+
+.auto-style4 {
+    width: 127px;
+}
+
+.imupfooter {
+    float: right;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.view-div{
+    padding-top:0px
+}
+
+.gdv-overflow
+{
+    overflow:hidden;
+}
+.modal-newproject {
+    border-radius: 5px !important;
+    background-color: white !important;
+    padding-left: 7px;
+    padding-top: 7px;
+    float: left;
+    padding-right: 7px;
+    padding-bottom: 7px;
+    width: 500px;
+}
+
+.modal-newproject2 {
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+    font-family: "Century Gothic";
+    box-shadow: rgb(0 0 0) 5px 5px 5px;
+    border-radius: 5px !important;
+    position: relative;
+  
+}
+@media screen and (min-width: 375px) and (max-width:750px)
+{
+    .blkbttm {
+        padding-bottom: 20px;
+        left: 61px!important;
+    }
+
+    .view-div {
+        padding-top: 10px
+    }
+
+    .gdv-overflow {
+        overflow: auto;
+    }
+
+    .modal-newproject {
+        border-radius: 5px !important;
+        background-color: white !important;
+        padding-left: 7px;
+        padding-top: 7px;
+        float: left;
+        padding-right: 7px;
+        padding-bottom: 7px;
+        width: 320px;
+    }
+
+    .modal-newproject2 {
+        border-color: black;
+        border-width: 1px;
+        border-style: solid;
+        font-family: "Century Gothic";
+        box-shadow: rgb(0 0 0) 5px 5px 5px;
+        border-radius: 5px !important;
+        position: relative;
+        top: 237px;
+    }
+
+
+}
+

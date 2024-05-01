@@ -1,0 +1,227 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.master.cs" Inherits="Site" %>
+
+<!DOCTYPE html>
+<html>
+<head runat="server">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" dir="rtl">
+    <title>E-Connect</title>
+    <!-- Tell the browser to be responsive to screen width -->
+     <script src="../js/jquery-1.11.2.min.js"   type="text/javascript"></script>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.6 -->
+    <link rel="stylesheet" href="~/media/css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" href="~/media/css/bootstrap/bootstrap-custom.css" type="text/css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/media/AdminLTE-2.3.3/dist/css/font-awesome.min.css" />
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="~/media/AdminLTE-2.3.3/dist/css/ionicons.min.css" />
+
+    <!-- jvectormap -->
+    <link rel="stylesheet" href="~/media/AdminLTE-2.3.3/jvectormap/jquery-jvectormap-1.2.2.css" />
+
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/media/AdminLTE-2.3.3/dist/css/AdminLTE.min.css" />
+    <link rel="stylesheet" href="~/media/AdminLTE-2.3.3/dist/css/skins/_all-skins.min.css" />
+
+    <!-- jQuery 2.2.0 -->
+    <script src="../js/jQuery-2.2.0.min.js"></script>
+     
+    <!--[if lt IE 9]>
+  <script src="../media/AdminLTE-2.3.3/dist/js/html5shiv.min.js"></script>
+  <script src="../media/AdminLTE-2.3.3/dist/js/respond.min.js"></script>
+  <![endif]-->
+    <link href="~/media/AdminLTE-2.3.3/dist/css/TabAjaxStyle.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/styles/main-design.css" type="text/css" media="all" />
+    <style type="text/css">
+        .ajax__tab_xp .ajax__tab_header .ajax__tab_tab {
+            height: 25px !important;
+        }
+
+        .navbar-nav > .user-menu > .dropdown-menu {
+            width: 200px;
+        }
+
+        .main-header span {
+            color: #9f9f9f;
+            display: initial;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+        .card {
+            word-wrap: normal ! important;
+        }
+       
+    
+     
+    </style>
+
+
+    <%-- <script src="js/JScript.js" type="text/javascript"></script>--%>
+
+
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+             <script type="text/javascript" >
+                 $(document).on('keypress', ':text,textarea', function (e) {
+
+                     var k = e.keyCode;
+                     return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || (k >= 48 && k <= 57));
+                 });
+</script>
+    </asp:ContentPlaceHolder>
+</head>
+
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
+<body class="hold-transition skin-unis sidebar-mini">
+    <form runat="server" enctype="multipart/form-data">
+        <asp:ScriptManager ID="ScriptManager1" runat="server">
+        </asp:ScriptManager>
+        <div class="wrapper">
+
+            <!-- Main Header -->
+            <header class="main-header">
+
+                <!-- Logo -->
+                <a href="../Masters/Econnect.aspx" class="logo"><img src="../media/AdminLTE-2.3.3/dist/img/e-connect logo white.png" style="height: 52px;" alt="" />
+                    <!-- mini logo for sidebar mini 50x50 pixels -->
+                    <span class="logo-mini"></span>
+                    <!-- logo for regular state and mobile devices -->
+                    <%--<span class="logo-lg"><b> <asp:Label ID="lblSuTitle" runat="server" Text="E-Connect12" ForeColor="White" Font-Size="Medium" Font-Bold="true" Font-Names="Verdana"></asp:Label></b></span>--%>
+                     <span class="logo-lg"><b> <asp:Label ID="Label1" runat="server" Text="E-Connect12" ForeColor="White" Font-Size="Medium" Font-Bold="true" Font-Names="Verdana"></asp:Label></b></span>
+                     
+                    
+               
+                </a>
+
+                <!-- Header Navbar -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle</span>
+                    </a>
+                     <div class="navbar-custom-menu pull-left">
+                     
+                        <ul class="nav navbar-nav">
+                            
+                     
+                            <!-- User Account Menu -->
+                            <li class="dropdown  user-menu">
+                                <!-- Menu Toggle Button -->
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
+                                    
+                                    <!-- The user image in the navbar-->
+                                    <span class="hidden-xs">
+                                   <%--     <asp:Label ID="lblTitle" runat="server" Text="E-Connect" ForeColor="White" Font-Size="Medium" Font-Bold="true" Font-Names="Verdana">
+                                             
+                                           
+                                        </asp:Label>--%>
+                                         
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+               
+                    
+                    <!-- Navbar Right Menu -->
+                    <div class="navbar-custom-menu">
+                     
+                        <ul class="nav navbar-nav">
+                            
+                     
+                            <!-- User Account Menu -->
+                            <li>
+                                <a class="app-nav__item" href="../Masters/Home1.aspx"><i class="fa fa-home fa-lg faich"></i></a>
+                            </li>
+
+                            <li class="dropdown  user-menu">
+                                <!-- Menu Toggle Button -->
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <!-- The user image in the navbar-->
+                                    <%--<img src="../media/AdminLTE-2.3.3/dist/img/user.png" class="user-image" alt="User Image">--%>
+                                    <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                                    <span class="hidden-xs">
+                                        <asp:Label ID="lblEmpNo" runat="server" Text="Welcome" ForeColor="White" Font-Size="Medium" Font-Bold="true" Font-Names="Verdana"></asp:Label></span>
+                                </a>                                
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+            <!-- Left side column. contains the logo and sidebar -->
+            <aside class="main-sidebar">
+
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!-- Sidebar Menu -->
+                    <ul class="sidebar-menu">
+                        <li class="header"></li>
+                        <asp:Literal ID="ltrlMenu" runat="server"></asp:Literal>
+                    </ul>
+                    <!-- /.sidebar-menu -->
+                </section>
+                <!-- /.sidebar -->
+            </aside>
+
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+
+                <!-- Main content -->
+                <section class="content">
+
+                    <!-- Your Page Content Here -->
+                    <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                    </asp:ContentPlaceHolder>
+
+                </section>
+                <!-- /.content -->
+            </div>
+            <!-- /.content-wrapper -->
+
+            <!-- Main Footer -->
+           <%-- <footer class="main-footer">
+                <!-- To the right -->
+                <div class="pull-right hidden-xs">
+                 
+                </div>
+                <!-- Default to the left -->
+                <strong>Copyright &copy; Smart Development Team<a href="#">&nbsp; © NAFFCO PASSION TO PROTECT.</a></strong> All rights reserved. 
+             <%--   <strong>
+                    <marquee behavior="slide" direction="left"> <asp:Label ID="Label2" runat="server"  Text="We were Waseem colleagues. He shall surely be missed. Accept our condolences." ForeColor="Red" Font-Size="X-Large"></asp:Label></strong></marquee>--%>
+                             <%--</footer>--%>
+
+            <!-- Control Sidebar -->
+            <!-- /.control-sidebar -->
+            <div class="control-sidebar-bg"></div>
+        </div>
+        <!-- ./wrapper -->
+        <!-- jQuery 2.2.0 -->
+        <script src="../js/jQuery-2.2.0.min.js"></script>
+        <!-- Bootstrap 3.3.6 -->
+        <script src="../js/bootstrap.js"></script>
+        <!-- AdminLTE App -->
+        <script src="../media/AdminLTE-2.3.3/dist/js/app.js"></script>
+
+
+    </form>
+</body>
+</html>

@@ -1,0 +1,192 @@
+﻿
+.opportunity-details-table th {
+    background-color: #a92828;
+    color: white !important;
+}
+
+
+.optr-updates-salesman-table th {
+    background-color: #a92828;
+    color: white !important;
+}
+
+.sales-perfomance-table th {
+    background-color: #a92828;
+    color: white !important;
+}
+
+
+
+.overClass {
+    overflow-y: auto;
+    height: 54%;
+}
+
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+.overFlowNavKpi {
+    overflow-y: auto;
+    height: 565px;
+}
+
+.accordion li {
+    font-size: small;
+}
+
+.form-check-input:checked, .form-check-input[type=checkbox]:indeterminate {
+    background-color: #e14b4b;
+    border-color: #e14b4b;
+    box-shadow: 0 2px 4px 0 rgb(105 108 255 / 40%);
+}
+/*Custom Menu Anwar*/
+.container {
+    border-radius: 3px;
+    padding: 5px;
+    width: 60%;
+    margin: 0 auto;
+}
+
+h2 {
+    font-weight: normal;
+    font-size: 25px;
+}
+
+    h2:hover {
+        cursor: pointer;
+    }
+
+.modal-dialog-centered {
+    min-height: calc(100% - 22.5rem);
+}
+
+.modal-header {
+    /*display: -webkit-box;
+    display: -ms-flexbox;*/
+    display: flex;
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    /*align-items: flex-start;*/
+    -webkit-box-pack: justify;
+    /*-ms-flex-pack: justify;*/
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid #98a2af !important;
+    border-top-left-radius: 0.3rem;
+    border-top-right-radius: 0.3rem;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #bb1414;
+    border-color: #bb1414;
+    transform: translateY(-1px);
+}
+
+
+#DataTables_Table_0_paginate .current {
+    color: white !important;
+    background: #a92828 !important;
+}
+
+.table td {
+    color: #333333 !important;
+}
+
+.custom-loader {
+    text-align: center;
+    top: 40%;
+    left: 44%;
+    position: fixed;
+    z-index: 99999999;
+    box-shadow: 2px 2px 17px #e14b4b;
+    border-radius: 20px;
+    background: white;
+    width: 10%;
+    padding: 10px;
+}
+
+.loader-bg-blur {
+    height: 100%;
+    z-index: 9999999;
+    position: fixed;
+    background: #c3d3ce6b;
+    width: 100%;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.iconClassExcel {
+    margin-left: 8px;
+    background: #933737;
+}
+
+.iconClassPdf {
+    background: #933737;
+}
+
+.iconClassExcel:hover {
+    background: #a54141;
+}
+
+.iconClassPdf:hover {
+    background: #a54141;
+}
+
+.tablepopup th {
+    background-color: #a92828;
+    color: white !important;
+    text-align: center;
+}
+
+.tablepopup td {
+    text-align: center;
+}
+
+.tablepopup {
+    width: 100%;
+}
+
+.modal-xl {
+    max-width: 1400px !important;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #a62b2b;
+    border-color: #a62b2b;
+}
+
+    .btn-primary:hover {
+        color: #ffffff;
+        background-color: #76dd4b;
+        border-color: #7bdd59;
+        transform: translateY(-1px);
+    }
+
+    .btn-check:focus + .btn-primary, .btn-primary:focus {
+        color: #ffffff;
+        background-color: #76dd4b;
+        border-color: #7bdd59;
+        transform: translateY(-1px);
+    }
+
+

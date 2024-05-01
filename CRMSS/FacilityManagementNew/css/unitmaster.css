@@ -1,0 +1,14 @@
+﻿.btn-primary:hover {
+    color: #fff;
+    background-color: #bb1414;
+    border-color: #bb1414;
+    transform: translateY(-1px);
+}
+
+
+.label-custom {
+    color: #d4432c !important;
+    font-weight: 400 !important;
+    text-transform: capitalize;
+    /* padding-top: 3px; */
+}

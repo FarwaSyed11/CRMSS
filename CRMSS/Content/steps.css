@@ -1,0 +1,148 @@
+﻿.pearl.current-step .pearl-icon, .pearl.current-step .pearl-number {
+    color: #fff;
+    background-color: red;
+    border-color: red;
+}
+
+.pearl.current-step::before {
+    color: #fff;
+    background-color: red;
+    border-color: red;
+}
+
+.pearl.current-step::after {
+    color: #fff;
+    background-color: red;
+    border-color: red;
+}
+
+.pearl.next-step::before {
+    color: #fff;
+    background-color: grey;
+    border-color: grey;
+}
+
+.pearl.next-step .pearl-icon, .pearl.next-step .pearl-number {
+    color: #fff;
+    background-color: grey;
+    border-color: grey;
+}
+
+.pearl:first-child::before, .pearl:last-child::after {
+    display: none !important;
+}
+
+.pearl.next-step::after {
+    color: #fff;
+    background-color: grey;
+    border-color: grey;
+}
+
+.pearl.previous-step::before {
+    color: #fff;
+    background-color: green;
+    border-color: green;
+}
+
+.pearl.previous-step::after {
+    color: #fff;
+    background-color: green;
+    border-color: green;
+}
+
+.pearl.previous-step .pearl-icon, .pearl.previous-step .pearl-number {
+    color: #fff;
+    background-color: green;
+    border-color: green;
+}
+
+.pearl-title {
+    min-width: 150px;
+    color:#000 !important;
+}
+
+.scrollable-horizontal.is-enabled .scrollable-container {
+    overflow-x: hidden !important;
+}
+
+.pearl-icon, .pearl-number {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    width: 70px;
+    height: 70px;
+    line-height: 32px;
+    color: #fff;
+    text-align: center;
+    border-radius: 50%;
+    border: 2px solid #ccd5db;
+    border-top-color: rgb(204, 213, 219);
+    border-right-color: rgb(204, 213, 219);
+    border-bottom-color: rgb(204, 213, 219);
+    border-left-color: rgb(204, 213, 219);
+}
+
+/*.fa {
+    font-size: 12px;
+}*/
+
+.pearl-title {
+    margin-top: .5em;
+    font-size: 16px;
+    color: #FFF;
+    margin-bottom: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: normal;
+    white-space: nowrap;
+}
+
+.pearl-number {
+    padding-top: 7px !important;
+}
+
+.pearl::after {
+    right: 0;
+}
+
+.pearl::after, .pearl::before {
+    position: absolute;
+    top: 30%;
+    z-index: 0;
+    width: 50%;
+    height: 6px;
+    content: "";
+    background-color: #f3f7f9;
+}
+
+.pearl:first-child::before, .pearl:last-child::after {
+    display: none !important;
+}
+
+.pearl::before {
+    left: 0;
+}
+
+.pearl {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    width: 150px;
+}
+
+::after, ::before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+td {
+    vertical-align: middle !important;
+}
+
+.pearls {
+    margin: auto;
+}
+
+

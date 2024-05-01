@@ -1,0 +1,94 @@
+﻿
+.frd-status-success {
+    background-color: #5cc727bf !important;
+    color: #273520 !important;
+}
+
+.frd-status-pending {
+    background-color: #db2f22bd !important;
+    color: #310a07 !important;
+}
+
+
+
+
+.requset-instll {
+  
+    color: #fff;
+    background-color: #009688;
+    border-color: #f44336;
+    box-shadow: 0 0.125rem 0.25rem 0 rgb(105 108 255 / 40%);
+}
+
+.frdInstald-table th {
+    background-color: #a92828 !important;
+    color: white !important;
+}
+
+.frdInstald-table td {
+    color: #333333 !important;
+}
+
+/*.im-submited-list-table th {
+    background-color: #a92828 !important;
+    color: white !important;
+}
+
+.im-submited-list-table td {
+    color: #333333 !important;
+}*/
+.bg-primary {
+    background-color: #fff2d6 !important;
+    color: #73571d !important;
+    letter-spacing: 1px;
+    box-shadow: 0px 0px 3px 0px #ffab00;
+}
+
+.bg-new {
+    background-color: #90379f54 !important;
+    color: #9f18b7 !important;
+    letter-spacing: 1px;
+    box-shadow: 0px 0px 3px 0px #6f2e7a;
+}
+
+.bg-sucess {
+    background-color: #d7f5fc !important;
+    color: #2196F3 !important;
+    letter-spacing: 1px;
+    box-shadow: 0px 0px 3px 0px #03c3ec;
+}
+
+.bg-insongoing {
+    background-color: #f0d80c8a !important;
+    color: #252420 !important;
+    letter-spacing: 1px;
+    box-shadow: 0px 0px 3px 0px #5b562be6;
+}
+
+.bg-finalins {
+    background-color: #4caf504f !important;
+    color: #36a33a !important;
+    letter-spacing: 1px;
+    box-shadow: 0px 0px 3px 0px #4CAF50;
+}
+.bg-reqsitevisit {
+    background-color: #ff572257 !important;
+    color: #db3f0e !important;
+    letter-spacing: 1px;
+    box-shadow: 0px 0px 3px 0px #ff5722ad;
+}
+
+.bg-imsubmited {
+    background-color: #d7f5fc !important;
+    color: #2196F3 !important;
+    letter-spacing: 1px;
+    box-shadow: 0px 0px 3px 0px #03c3ec;
+}
+
+.hidden {
+    display: none
+}
+
+
+
+

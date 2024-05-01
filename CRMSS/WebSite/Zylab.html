@@ -1,0 +1,356 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>E-Connect</title>
+
+    <link rel="stylesheet" href="../Masters/css/home.css?v=1.1" type="text/css" />
+    <link rel="stylesheet" href="../Masters/css/e-connect.css" type="text/css" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="../Dashboard/assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="../Dashboard/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+
+
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+          
+            overflow-y: hidden;
+            width: 100%;
+           
+            background-size: cover;
+            background-color: #80808000 !important;
+        }
+
+        .ui-autocomplete {
+            width: auto !important;
+            margin-right: 25px !important;
+        }
+
+        .file-upload {
+            display: none;
+        }
+
+        .circle {
+            border-radius: 100% !important;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            padding-top: 25Px;
+        }
+
+        .profile-pic {
+            width: 150px;
+            max-height: 200px;
+            display: inline-block;
+        }
+
+        .profile-picico {
+            display: inline-block;
+            vertical-align: middle;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border-color: #fb0000;
+            border-style: solid;
+            border-width: 2px;
+        }
+
+        .upload-button {
+            font-size: 1.2em;
+        }
+
+            .upload-button:hover {
+                transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+                color: #999;
+            }
+
+        .rowse {
+            margin-left: -15px;
+        }
+
+
+        .p-image {
+            top: 217px;
+            right: 404px;
+            color: #666666;
+            transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+        }
+
+            .p-image:hover {
+                transition: all .3s cubic-bezier(.175, .885, .32, 1.275);
+            }
+
+        .modalBackground {
+            height: 100%;
+            background-color: #000000;
+            filter: alpha(opacity=70);
+            opacity: 0.7;
+        }
+
+        .ui-menu .ui-menu-item {
+            border-bottom: solid;
+            border-bottom-width: 1px;
+            border-bottom-color: silver;
+            box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+            transition: 0.3s;
+        }
+
+        .ui-menu-item:hover {
+            box-shadow: 0 10px 16px 0 rgb(106 106 106 / 53%);
+            zoom: 1.03;
+        }
+    </style>
+    <style type="text/css">
+        .FileUploadClass input[type=text] {
+            display: none;
+        }
+
+        .FileUploadClass div {
+            background: transparent !important;
+            background: url(../images/profile/upload.png) no-repeat !important;
+            margin-left: 23.5%;
+        }
+
+        .card-header {
+            padding: 0.8rem 0.8rem !important;
+        }
+
+        .divpopup {
+            padding: 0px;
+            font-family: Arial;
+            font-size: large;
+            width: 100%;
+            overflow: auto;
+        }
+
+        .popupbuttonsubmit {
+            background-color: #c00000;
+            color: white;
+            border-radius: 18px !important;
+            width: 150px;
+            border: none;
+            font-size: initial;
+        }
+        /*.modal-header {
+            background-color:#c00000;
+            color:white;
+            font-family:'Times New Roman';
+        }*/
+        input[type="radio"], input[type="checkbox"] {
+            margin-right: 3px;
+            margin-left: 15px;
+        }
+
+        #PlaceHolder1 {
+            height: calc(100vh - 300px) !important;
+        }
+
+        .modalBackground {
+            height: 100%;
+            background-color: #000000;
+            filter: alpha(opacity=70);
+            opacity: 0.7;
+        }
+
+        .rowsurvey {
+            flex-shrink: 0;
+            width: 100%;
+            max-width: 100%;
+            /*padding-right: calc(var(--bs-gutter-x) * 0.5);*/
+            padding-left: calc(var(--bs-gutter-x) * 0.5);
+            margin-top: var(--bs-gutter-y);
+            --bs-gutter-x: 1.625rem;
+            --bs-gutter-y: 0;
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: calc(-1 * var(--bs-gutter-y));
+            margin-right: calc(-0.5 * var(--bs-gutter-x));
+            margin-left: calc(-0.5 * var(--bs-gutter-x));
+        }
+
+        .hidden {
+            display: none;
+        }
+
+
+
+        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+            color: #ffffff;
+            background-color: #a92828;
+            border-color: #fff;
+        }
+
+        .nav-tabs .nav-item .nav-link:not(.active) {
+            background-color: #b4b9bf;
+        }
+
+
+        .form-check-input:checked, .form-check-input[type=checkbox]:indeterminate {
+            background-color: #a92828;
+            border-color: #a92828;
+            box-shadow: 0 2px 4px 0 rgb(53 53 55 / 40%);
+        }
+
+        .light {
+            position: relative;
+        }
+
+        .lineh1 {
+            /*position: absolute;*/
+            left: 0;
+            height: 10px;
+            background: #a92828;
+            animation: lineH 4s 5s infinite linear;
+        }
+
+        .lineh10 {
+            /*position: absolute;*/
+            right: 0;
+            top: 280px;
+            height: 10px;
+            background: #005580;
+            animation: lineH 4s 3s infinite linear;
+        }
+
+
+        @keyframes lineH {
+            0% {
+                width: 0%;
+            }
+
+            100% {
+                width: 95%;
+                opacity: 0;
+            }
+        }
+
+
+
+        /*for Datatable*/
+
+
+        .userSuggection-table th {
+            background-color: #a92828 !important;
+            color: white !important;
+        }
+
+        .suggestion-issues-table td {
+            color: #333333 !important;
+        }
+
+
+        .iconClassExcel {
+            margin-left: 8px;
+            background: #933737;
+        }
+
+            .iconClassExcel:hover {
+                background: #a54141;
+            }
+
+        #DataTables_Table_0_paginate .current {
+            color: white !important;
+            background: #d33a3a !important;
+        }
+    </style>
+
+    <form id="form1" runat="server">
+        <header>
+
+            <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+                 id="layout-navbar">
+                <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+                    <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                        <i class="bx bx-menu bx-sm"></i>
+                    </a>
+                </div>
+
+                <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+                    <!-- Logo -->
+                    <div class="app-brand demo">
+                        <a href="" class="app-brand-link">
+                            <span class="app-brand-logo demo">
+                                <img src="../Dashboard/assets/img/avatars/e-connect logo white.png" style="height: 57px;"
+                                     alt="View Badge User"
+                                     data-app-dark-img="illustrations/man-with-laptop-dark.png"
+                                     data-app-light-img="illustrations/man-with-laptop-light.png" />
+
+
+                            </span>
+                        </a>
+                        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+                            <i class="bx bx-chevron-left bx-sm align-middle"></i>
+                        </a>
+                    </div>
+                    <!--naffco Logo-->
+
+                    <div class="app-brand demo" style="padding-left:35%">
+                        <a href="" class="app-brand-link">
+                            <span class="app-brand-logo demo">
+                                <img src="../images/avatars/naffco-logoWhite.png" style="height: 57px;"
+                                     alt="View Badge User"
+                                     data-app-dark-img="illustrations/man-with-laptop-dark.png"
+                                     data-app-light-img="illustrations/man-with-laptop-light.png" />
+
+
+                            </span>
+                        </a>
+                        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+                            <i class="bx bx-chevron-left bx-sm align-middle"></i>
+                        </a>
+                    </div>
+
+
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                        <div class="container-fluid">
+
+
+                        </div>
+                    </nav>
+
+
+                </div>
+            </nav>
+
+
+
+
+
+
+
+        </header>
+
+
+
+
+
+
+    </form>
+
+
+</head>
+
+
+<body>
+
+    <div class="card" style="margin-top: 1%; width: 97%; left: 1.5%;">
+        <div style="padding-left: 2%;padding-right: 2%; padding-top: 1%;">
+        </div>
+
+
+
+
+
+
+        <div class="card-body">
+            </div>
+        </div>
+</body>
+
+
+</html>
