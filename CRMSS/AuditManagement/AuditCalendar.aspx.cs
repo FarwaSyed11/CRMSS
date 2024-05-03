@@ -2793,7 +2793,7 @@ public partial class AuditManagement_AuditCalendar : System.Web.UI.Page
         pv.Add(data.AreaID);
 
         pa.Add("@AuditId");
-        pv.Add(data.AuditID);
+        pv.Add(data.AuditId);
 
         pa.Add("@EscID");
         pv.Add(data.EscID);
@@ -2821,7 +2821,7 @@ public partial class AuditManagement_AuditCalendar : System.Web.UI.Page
     //get all requirement
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static List<Requirement> GetAllRequirements(int AuditID)
+    public static List<Requirement> GetAllRequirements(int AuditId)
     {
         DBHandler DBH = new DBHandler();
         DataSet ds = new DataSet();
@@ -2833,7 +2833,7 @@ public partial class AuditManagement_AuditCalendar : System.Web.UI.Page
         pv.Add(2);
 
         pa.Add("@AuditId");
-        pv.Add(AuditID);
+        pv.Add(AuditId);
 
         DBH.CreateDataset_AuditManagement(ds, "sp_Requirement", true, pa, pv);
 
@@ -2858,7 +2858,7 @@ public partial class AuditManagement_AuditCalendar : System.Web.UI.Page
                     PriorityCss = dt.Rows[i]["PriorityCss"].ToString(),
                     ReqDate = dt.Rows[i]["ReqDate"].ToString(),
                     ReqOwner = dt.Rows[i]["ReqOwner"].ToString(),
-                    EscID = dt.Rows[i]["EscID"].ToString(),
+                    EscID = dt.Rows[i]["EscalationID"].ToString(),
                     StatusCss = dt.Rows[i]["StatusCss"].ToString(),
                     CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
                     CreatedDate = dt.Rows[i]["CreatedDate"].ToString(),
@@ -2893,23 +2893,23 @@ public partial class AuditManagement_AuditCalendar : System.Web.UI.Page
         pa.Add("@EscID");
         pv.Add(data.EscID);
 
+        //pa.Add("@EscCode");
+        //pv.Add(data.EscCode);
+
         pa.Add("@ReqID");
         pv.Add(data.ReqID);
 
-        pa.Add("@ReqName");
-        pv.Add(data.ReqName);
+        //pa.Add("@ReqName");
+        //pv.Add(data.ReqName);
 
-        pa.Add("@ReqRef");
-        pv.Add(data.ReqRef);
+        //pa.Add("@ReqRef");
+        //pv.Add(data.ReqRef);
 
         pa.Add("@EscLevel");
         pv.Add(data.EscLevel);
 
         pa.Add("@PriorityCss");
         pv.Add(data.PriorityCss);
-
-        pa.Add("@EscID");
-        pv.Add(data.EscID);
 
         pa.Add("@CreatedBy");
         pv.Add(data.CreatedBy);
@@ -2934,6 +2934,60 @@ public partial class AuditManagement_AuditCalendar : System.Web.UI.Page
 
         DBH.CreateDataset_AuditManagement(ds, "sp_Requirement", true, pa, pv);
 
+
+    }
+
+    //get all requirement
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<Escalation> GetAllEscalation(int ReqID)
+    {
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@Oper");
+        pv.Add(4);
+
+        pa.Add("@ReqID");
+        pv.Add(ReqID);
+
+        DBH.CreateDataset_AuditManagement(ds, "sp_Requirement", true, pa, pv);
+
+        List<Escalation> oListEscalation = new List<Escalation>();
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                oListEscalation.Add(new Escalation()
+                {
+                    EscLevel = dt.Rows[i]["EscLevel"].ToString(),
+                    EscID = dt.Rows[i]["EscID"].ToString(),
+                    //ReqRef = dt.Rows[i]["ReqRef"].ToString(),
+                    //ReqID = dt.Rows[i]["ReqID"].ToString(),
+                    //ReqName = dt.Rows[i]["ReqName"].ToString(),
+                    PriorityCss = dt.Rows[i]["PriorityCss"].ToString(),
+                    Count = dt.Rows[i]["Count"].ToString(),
+                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
+                    CreatedDate = dt.Rows[i]["CreatedDate"].ToString(),
+                    //USerID = dt.Rows[i]["UserID"].ToString(),
+                    Comments = dt.Rows[i]["Comments"].ToString(),
+                    UpdatedDate = dt.Rows[i]["UpdatedDate"].ToString(),
+                    EscCode = dt.Rows[i]["EscCode"].ToString(),
+                    UpdatedBy = dt.Rows[i]["UpdatedBy"].ToString(),
+
+
+                });
+
+            }
+        }
+
+        return oListEscalation;
 
     }
 
@@ -2967,6 +3021,7 @@ public partial class AuditManagement_AuditCalendar : System.Web.UI.Page
     //ALL Classes
     public class Escalation
     {
+        public string EscCode { get; set; }
         public string EscLevel { get; set; }
         public string Count { get; set; }
         public string Comments { get; set; }
@@ -2997,7 +3052,7 @@ public partial class AuditManagement_AuditCalendar : System.Web.UI.Page
         public string ReqDate { get; set; }
         public string ReqOwner { get; set; }
         public string AreaID { get; set; }
-        public string AuditID { get; set; }
+        public string AuditId { get; set; }
         public string CreatedBy { get; set; }
         public string CreatedDate { get; set; }
         public string EscID { get; set; }

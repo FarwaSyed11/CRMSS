@@ -250,71 +250,20 @@ $(document).ready(function () {
         }
     });
 
-    dpContractTarget = flatpickr(jQuery("#dateTarget"), {
-        "disable": [function (date) {
-            //return (date.getDay() != 0);            
-        }],
-        defaultDate: "today",
-        enableTime: false,
-        noCalendar: false,
-        onChange: function (selectedDates, dateStr, instance) {
+    //dpContractStart = flatpickr(jQuery("#weeklyDatePickerStart"), {
+    //    "disable": [function (date) {
+    //        //return (date.getDay() != 0);            
+    //    }],
+    //    defaultDate: "today",
+    //    enableTime: false,
+    //    noCalendar: false,
+    //    onChange: function (selectedDates, dateStr, instance) {
 
-            selActTarget = dateStr;
-        }
-    });
-
-    dpContractStart = flatpickr(jQuery("#weeklyDatePickerStart"), {
-        "disable": [function (date) {
-            //return (date.getDay() != 0);            
-        }],
-        defaultDate: "today",
-        enableTime: false,
-        noCalendar: false,
-        onChange: function (selectedDates, dateStr, instance) {
-
-            selActFromDate = dateStr;
-        }
-    });
-
-    dpContractEnd = flatpickr(jQuery("#weeklyDatePickerEnd"), {
-        "disable": [function (date) {
-            //return (date.getDay() != 0);            
-        }],
-        defaultDate: "today",
-        enableTime: false,
-        noCalendar: false,
-        onChange: function (selectedDates, dateStr, instance) {
-
-            selActToDate = dateStr;
-        }
-    });
+    //        selActFromDate = dateStr;
+    //    }
+    //});
 
 
-    dpContractFFStart = flatpickr(jQuery("#weeklyDatePickerStartFF"), {
-        "disable": [function (date) {
-            //return (date.getDay() != 0);            
-        }],
-        defaultDate: "today",
-        enableTime: false,
-        noCalendar: false,
-        onChange: function (selectedDates, dateStr, instance) {
-
-            selActFromDate = dateStr;
-        }
-    });
-
-    dpContractFFEnd = flatpickr(jQuery("#weeklyDatePickerEndFF"), {
-        "disable": [function (date) {
-            //return (date.getDay() != 0);            
-        }],
-        defaultDate: "today",
-        enableTime: false,
-        noCalendar: false,
-        onChange: function (selectedDates, dateStr, instance) {
-
-            selActToDate = dateStr;
-        }
-    });
 
 
     //flatpickr(jQuery("#weeklyDatePickerForecast"), {
@@ -481,8 +430,11 @@ function initializeCalendar() {
                 renderRiskListTable();
                 loadAddedRiskList();
                 renderAddedRiskListTable();
-                renderRequirementTable();
                 loadRequirements();
+                renderRequirementTable();
+                //loadEscalation();
+                //renderEscalationTable();
+
                 loadAddedRiskDDL();
                 loadAddedAreaDDL();
                 getDetailsOfCount();
@@ -1497,83 +1449,6 @@ function getAllInvitationRequest() {
     });
 }
 
-$('#ulActInvitationsReq').on('click', '.InviReqModalli', function () {
-    $('.btn-InviYes').data({ 'inviid': $(this).data('partireqid'), 'actid': $(this).data('actid'), 'empno': EmpNo });
-    //$('.btn-InviNo').data({ 'inviid': $(this).data('partireqid'), 'actid': $(this).data('actid'), 'empno': EmpNo });
-    $('.btn-InviNoSubmit').data({ 'inviid': $(this).data('partireqid'), 'actid': $(this).data('actid'), 'empno': EmpNo });
-    $('#taReasonForNo').val('');
-
-    let reqResponse = ($(this).data('reqresponse')).replaceAll('_', ' ');
-
-    let currActobj = listInvitations.filter(s => s.Id == $(this).data('partireqid'))[0];
-    $('.act-subject').html(currActobj.ActSubject);
-    $('.act-date').html(currActobj.FromDate.split(' ')[0]);
-    $('.act-time').html(currActobj.FromTime + " - " + currActobj.ToTime);
-    $('.act-invited-by').html(currActobj.InvitedBy);
-    $('.act-type').html(currActobj.Type);
-    if (currActobj.Type == "Project Visit" || currActobj.Type == "Customer Visit" || currActobj.Type == "Finalization Visit") {
-        if (currActobj.Type == "Project Visit" || currActobj.Type == "Finalization Visit") {
-            $('.act-project-div, .act-customer-div').removeClass('hidden');
-            $('.act-customer').html(currActobj.AccountName);
-            $('.act-project').html(currActobj.Projectname);
-        } else {
-            $('.act-customer-div').removeClass('hidden');
-            $('.act-project-div').addClass('hidden');
-            $('.act-customer').html(currActobj.AccountName);
-            //$('.act-type').html(currActobj.Type);
-        }
-    }
-    else {
-        $('.act-project-div, .act-customer-div').addClass('hidden');
-    }
-
-
-
-
-    //$('.btn-InviYes').data('info', '222');
-    if (currActobj.Availability == "Yes" || currActobj.Availability == "No") {
-        $('.parent-footer').addClass('hidden');
-    } else {
-        $('.parent-footer').removeClass('hidden');
-    }
-    $('.parti-req-response-status').html(reqResponse);
-
-    $("#InviReqModal").modal('show');
-});
-
-$('.btn-InviYes').on('click', function () {
-    var empno = $(this).data('empno');
-    var ActiId = $(this).data('actid');
-    var InviId = $(this).data('inviid');
-
-    if ($(this).text().trim() == "Yes" || $(this).text().trim() == "No") {
-        $.ajax({
-            url: "AuditCalendar.aspx/UpdatePartiReq",
-            data: JSON.stringify({
-                "EmpNo": empno,
-                "ActId": ActiId,
-                "InviId": InviId,
-                "Availability": $(this).text().trim(),
-                "ReasonForNo": ''
-            }),
-            type: "POST",
-            contentType: "application/json;charset=utf-8",
-            dataType: "json",
-            async: false,
-            success: function (result) {
-                toastr.success('Invitation has been Accepted', '');
-                getAllInvitationRequest();
-                reloadCalendar();
-                $('#InviReqModal').modal('hide');
-            },
-            error: function (errormessage) {
-                alert(errormessage.responseText);
-            }
-        });
-    }
-
-});
-
 $('.cal-week-rep-btn').on('click', function () {
 
     var stDate = oFullCalendar.currentData.viewApi.activeStart.getFullYear() + "-" + (oFullCalendar.currentData.viewApi.activeStart.getMonth() + 1) + "-" + oFullCalendar.currentData.viewApi.activeStart.getDate();
@@ -1581,30 +1456,6 @@ $('.cal-week-rep-btn').on('click', function () {
     var salesId = $('#ddlSalesman option:selected').val();
     window.location.href = "https://crmss.naffco.com/CRMSS/services/CRMActivityReport.aspx?FromDate=" + stDate + "&ToDate=" + stEnd + "&SalesmanId=" + salesId;
 })
-
-
-$('.btnSaveDaysAct').on('click', function () {
-
-    var recurType = $('#recurModal li .active').text().trim();
-
-    if (recurType == "Day") {
-        let occ = $('.txt-occur-day').val();
-        getAllDates(occ, recurType);
-        $('#recurModal').modal('hide');
-        toastr.success('Recursion Saved Successfully', '');
-    }
-    else if (recurType == "Week") {
-        if ($('input[name="CbDaysName"]:checked').val() == undefined) {
-            toastr.error('Please select any Day to proceed.', '');
-        } else {
-            let occ = $('.txt-occur-week').val();
-            getAllDates(occ, recurType);
-            $('#recurModal').modal('hide');
-            toastr.success('Recursion Saved Successfully', '');
-        }
-    }
-
-});
 
 $('#ddlCompany').on('change', function () {
     company = $('#ddlCompany option:selected').val().trim();
@@ -1617,8 +1468,6 @@ $('#ddlManager').on('change', function () {
 $('#ddlSalesman').on('change', function () {
     member = $('#ddlSalesman option:selected').val().trim();
 });
-
-
 
 $('.cbIsFuturAct').on('change', function () {
 
@@ -1643,7 +1492,6 @@ $('.recur-icon').on('click', function () {
 
 });
 
-
 $('#EventModal').on('keyup', '#txtPercWithCust,#taCustAssess', function () {
 
     if (this.value == '') {
@@ -1658,245 +1506,6 @@ $('#EventModal').on('keyup', '#txtPercWithCust,#taCustAssess', function () {
 })
 
 
-
-
-
-
-
-
-// Common function
-function weekCount(year, month_number) {
-
-    // month_number is in the range 1..12
-
-    var firstOfMonth = new Date(year, month_number - 1, 1);
-    var lastOfMonth = new Date(year, month_number, 0);
-
-    var used = firstOfMonth.getDay() + lastOfMonth.getDate();
-
-    return Math.ceil(used / 7);
-}
-
-function AlertPrompt(msg, type) {
-
-    //switch (type) {
-    //    case 'info':
-    //        {
-    //            let val = '<div class="alert alert-info d-flex align-items-center p-3 m-3"><span class="svg-icon svg-icon-2hx svg-icon-info me-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path opacity="0.3" d="M20.5543 4.37824L12.1798 2.02473C12.0626 1.99176 11.9376 1.99176 11.8203 2.02473L3.44572 4.37824C3.18118 4.45258 3 4.6807 3 4.93945V13.569C3 14.6914 3.48509 15.8404 4.4417 16.984C5.17231 17.8575 6.18314 18.7345 7.446 19.5909C9.56752 21.0295 11.6566 21.912 11.7445 21.9488C11.8258 21.9829 11.9129 22 12.0001 22C12.0872 22 12.1744 21.983 12.2557 21.9488C12.3435 21.912 14.4326 21.0295 16.5541 19.5909C17.8169 18.7345 18.8277 17.8575 19.5584 16.984C20.515 15.8404 21 14.6914 21 13.569V4.93945C21 4.6807 20.8189 4.45258 20.5543 4.37824Z" fill="black"></path><path d="M10.5606 11.3042L9.57283 10.3018C9.28174 10.0065 8.80522 10.0065 8.51412 10.3018C8.22897 10.5912 8.22897 11.0559 8.51412 11.3452L10.4182 13.2773C10.8099 13.6747 11.451 13.6747 11.8427 13.2773L15.4859 9.58051C15.771 9.29117 15.771 8.82648 15.4859 8.53714C15.1948 8.24176 14.7183 8.24176 14.4272 8.53714L11.7002 11.3042C11.3869 11.6221 10.874 11.6221 10.5606 11.3042Z" fill="black"></path></svg></span>	<div class="d-flex flex-column"><h4 class="mb-1 text-info">Oops!</h4>	<span> ' + msg + '</span>	</div></div>';
-    //            return val;
-    //        }
-    //    case 'warning':
-    //        {
-    //            let val = '<div class="alert alert-warning d-flex align-items-center p-3 m-3"><span class="svg-icon svg-icon-2hx svg-icon-warning me-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path opacity="0.3" d="M20.5543 4.37824L12.1798 2.02473C12.0626 1.99176 11.9376 1.99176 11.8203 2.02473L3.44572 4.37824C3.18118 4.45258 3 4.6807 3 4.93945V13.569C3 14.6914 3.48509 15.8404 4.4417 16.984C5.17231 17.8575 6.18314 18.7345 7.446 19.5909C9.56752 21.0295 11.6566 21.912 11.7445 21.9488C11.8258 21.9829 11.9129 22 12.0001 22C12.0872 22 12.1744 21.983 12.2557 21.9488C12.3435 21.912 14.4326 21.0295 16.5541 19.5909C17.8169 18.7345 18.8277 17.8575 19.5584 16.984C20.515 15.8404 21 14.6914 21 13.569V4.93945C21 4.6807 20.8189 4.45258 20.5543 4.37824Z" fill="black"></path><path d="M10.5606 11.3042L9.57283 10.3018C9.28174 10.0065 8.80522 10.0065 8.51412 10.3018C8.22897 10.5912 8.22897 11.0559 8.51412 11.3452L10.4182 13.2773C10.8099 13.6747 11.451 13.6747 11.8427 13.2773L15.4859 9.58051C15.771 9.29117 15.771 8.82648 15.4859 8.53714C15.1948 8.24176 14.7183 8.24176 14.4272 8.53714L11.7002 11.3042C11.3869 11.6221 10.874 11.6221 10.5606 11.3042Z" fill="black"></path></svg></span>	<div class="d-flex flex-column"><h4 class="mb-1 text-warning">Oops!</h4>	<span> ' + msg + '</span>	</div></div>';
-    //            return val;
-    //        }
-
-    //    default:
-    //        {
-    //            break;
-    //        }
-    //}
-    switch (type) {
-        case 'info':
-            {
-                let val = '<div class="alert alert-info d-flex align-items-center"><span class="svg-icon svg-icon-2hx svg-icon-info me-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path opacity="0.3" d="M20.5543 4.37824L12.1798 2.02473C12.0626 1.99176 11.9376 1.99176 11.8203 2.02473L3.44572 4.37824C3.18118 4.45258 3 4.6807 3 4.93945V13.569C3 14.6914 3.48509 15.8404 4.4417 16.984C5.17231 17.8575 6.18314 18.7345 7.446 19.5909C9.56752 21.0295 11.6566 21.912 11.7445 21.9488C11.8258 21.9829 11.9129 22 12.0001 22C12.0872 22 12.1744 21.983 12.2557 21.9488C12.3435 21.912 14.4326 21.0295 16.5541 19.5909C17.8169 18.7345 18.8277 17.8575 19.5584 16.984C20.515 15.8404 21 14.6914 21 13.569V4.93945C21 4.6807 20.8189 4.45258 20.5543 4.37824Z" fill="black"></path><path d="M10.5606 11.3042L9.57283 10.3018C9.28174 10.0065 8.80522 10.0065 8.51412 10.3018C8.22897 10.5912 8.22897 11.0559 8.51412 11.3452L10.4182 13.2773C10.8099 13.6747 11.451 13.6747 11.8427 13.2773L15.4859 9.58051C15.771 9.29117 15.771 8.82648 15.4859 8.53714C15.1948 8.24176 14.7183 8.24176 14.4272 8.53714L11.7002 11.3042C11.3869 11.6221 10.874 11.6221 10.5606 11.3042Z" fill="black"></path></svg></span>	<div class="d-flex flex-column">	<span> ' + msg + '</span>	</div></div>';
-                return val;
-            }
-        case 'warning':
-            {
-                let val = '<div class="alert alert-warning d-flex align-items-center p-3 m-3"><span class="svg-icon svg-icon-2hx svg-icon-warning me-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path opacity="0.3" d="M20.5543 4.37824L12.1798 2.02473C12.0626 1.99176 11.9376 1.99176 11.8203 2.02473L3.44572 4.37824C3.18118 4.45258 3 4.6807 3 4.93945V13.569C3 14.6914 3.48509 15.8404 4.4417 16.984C5.17231 17.8575 6.18314 18.7345 7.446 19.5909C9.56752 21.0295 11.6566 21.912 11.7445 21.9488C11.8258 21.9829 11.9129 22 12.0001 22C12.0872 22 12.1744 21.983 12.2557 21.9488C12.3435 21.912 14.4326 21.0295 16.5541 19.5909C17.8169 18.7345 18.8277 17.8575 19.5584 16.984C20.515 15.8404 21 14.6914 21 13.569V4.93945C21 4.6807 20.8189 4.45258 20.5543 4.37824Z" fill="black"></path><path d="M10.5606 11.3042L9.57283 10.3018C9.28174 10.0065 8.80522 10.0065 8.51412 10.3018C8.22897 10.5912 8.22897 11.0559 8.51412 11.3452L10.4182 13.2773C10.8099 13.6747 11.451 13.6747 11.8427 13.2773L15.4859 9.58051C15.771 9.29117 15.771 8.82648 15.4859 8.53714C15.1948 8.24176 14.7183 8.24176 14.4272 8.53714L11.7002 11.3042C11.3869 11.6221 10.874 11.6221 10.5606 11.3042Z" fill="black"></path></svg></span>	<div class="d-flex flex-column"><span> ' + msg + '</span>	</div></div>';
-                return val;
-            }
-
-        default:
-            {
-                break;
-            }
-    }
-}
-
-function validateControls() {
-    var isValid = true;
-
-    //if ($('#txtActionOwner').val().trim() == "") {
-    //    $('#txtActionOwner').css('border-color', '#ea090970');
-    //    isValid = false;
-
-    //}
-    //else {
-    //    $('#txtActionOwner').css('border-color', 'lightgrey');
-    //}
-    if ($('#ddlTaggedPerson option:selected').val() == "-1") {
-        $('#ddlTaggedPerson').css('border-color', '#ea090970');
-        $('#ddlTaggedPerson').css('box-shadow', '0px 1px 2.5px #e36033d9');
-        isValid = false;
-    }
-    else {
-        $('#ddlTaggedPerson').css('border-color', 'lightgrey');
-        $('#ddlTaggedPerson').css('box-shadow', '');
-    }
-
-    if ($('#dpDueDate').val().trim() == "") {
-        $('#dpDueDate').css('border-color', '#ea090970');
-        $('#dpDueDate').css('box-shadow', '0px 1px 2.5px #e36033d9');
-        isValid = false;
-    }
-    else {
-        $('#dpDueDate').css('border-color', 'lightgrey');
-        $('#dpDueDate').css('box-shadow', '');
-    }
-
-    if ($('#taActionRequired').val().trim() == "") {
-        $('#taActionRequired').css('border-color', '#ea090970');
-        $('#taActionRequired').css('box-shadow', '0px 1px 2.5px #e36033d9');
-        isValid = false;
-    }
-    else {
-        $('#taActionRequired').css('border-color', 'lightgrey');
-        $('#taActionRequired').css('box-shadow', '');
-    }
-
-    if ($('#ddlTaggedPerson option:selected').val() == '0') {
-        if ($('#taTaggedOther').val().trim() == "") {
-            $('#taTaggedOther').css('border-color', '#ea090970');
-            $('#taTaggedOther').css('box-shadow', '0px 1px 2.5px #e36033d9');
-            isValid = false;
-        }
-        else {
-            $('#taTaggedOther').css('border-color', 'lightgrey');
-            $('#taTaggedOther').css('box-shadow', '');
-        }
-    }
-
-    return isValid;
-}
-
-function validateControlsBeforeComplteAct() {
-    var isValid = true;
-
-    let aStatus = $('#ddlActStatus option:selected').val();
-    let type = $('#txtType option:selected').val();
-
-    //if (aStatus == 'COMPLETED' && (type == 'Customer Visit' || type == 'Project Visit' || type == 'Finalization Visit') ) {
-    if (aStatus == 'COMPLETED' && (type == 'Collection' || type == 'Follow up' || type == 'Others')) {
-
-        if ($('#txtSubject').val().trim() == "") {
-            $('#txtSubject').css('border-color', '#ea090970');
-            $('#txtSubject').css('box-shadow', '0px 1px 2.5px #e36033d9');
-            isValid = false;
-        }
-        else {
-            $('#txtSubject').css('border-color', 'lightgrey');
-            $('#txtSubject').css('box-shadow', '');
-        }
-        //if ($('#txtPercWithCust').val().trim() == "") {
-        //    $('#txtPercWithCust').css('border-color', '#ea090970');
-        //    $('#txtPercWithCust').css('box-shadow', '0px 1px 2.5px #e36033d9');
-        //    isValid = false;
-        //}
-        //else {
-        //    $('#txtPercWithCust').css('border-color', 'lightgrey');
-        //    $('#txtPercWithCust').css('box-shadow', '');
-        //}
-        if ($('#ddlCustStatus option:selected').val() == "-1") {
-            $('#ddlCustStatus').css('border-color', '#ea090970');
-            $('#ddlCustStatus').css('box-shadow', '0px 1px 2.5px #e36033d9');
-            isValid = false;
-        }
-        else {
-            $('#ddlCustStatus').css('border-color', 'lightgrey');
-            $('#ddlCustStatus').css('box-shadow', '');
-        }
-        //if ($('#taCustAssess').val().trim() == "") {
-        //    $('#taCustAssess').css('border-color', '#ea090970');
-        //    $('#taCustAssess').css('box-shadow', '0px 1px 2.5px #e36033d9');
-        //    isValid = false;
-        //}
-        //else {
-        //    $('#taCustAssess').css('border-color', 'lightgrey');
-        //    $('#taCustAssess').css('box-shadow', '');
-        //}
-
-        //if ($('#taRemarks').val().trim() == "") {
-        //    $('#taRemarks').css('border-color', '#ea090970');
-        //    $('#taRemarks').css('box-shadow', '0px 1px 2.5px #e36033d9');
-        //    isValid = false;
-        //}
-        //else {
-        //    $('#taRemarks').css('border-color', 'lightgrey');
-        //    $('#taRemarks').css('box-shadow', '');
-        //}
-
-        if ($('#taMOM').val().trim() == "") {
-            $('#taMOM').css('border-color', '#ea090970');
-            $('#taMOM').css('box-shadow', '0px 1px 2.5px #e36033d9');
-            isValid = false;
-        }
-        else {
-            $('#taMOM').css('border-color', 'lightgrey');
-            $('#taMOM').css('box-shadow', '');
-        }
-
-
-
-    }
-    else if (aStatus == 'PENDING') {
-        if ($('#txtSubject').val().trim() == "") {
-            $('#txtSubject').css('border-color', '#ea090970');
-            $('#txtSubject').css('box-shadow', '0px 1px 2.5px #e36033d9');
-            isValid = false;
-        }
-        else {
-            $('#txtSubject').css('border-color', 'lightgrey');
-            $('#txtSubject').css('box-shadow', '');
-        }
-
-        isValid == false ? toastr.error('Please fill the Required fields', '') : '';
-    }
-    else if (aStatus == 'COMPLETED' && (type == 'Survey' || type == 'Office' || type == 'General Visit')) {
-
-        if ($('#txtSubject').val().trim() == "") {
-            $('#txtSubject').css('border-color', '#ea090970');
-            $('#txtSubject').css('box-shadow', '0px 1px 2.5px #e36033d9');
-            isValid = false;
-        }
-        else {
-            $('#txtSubject').css('border-color', 'lightgrey');
-            $('#txtSubject').css('box-shadow', '');
-        }
-        if ($('#taRemarks').val().trim() == "") {
-            $('#taRemarks').css('border-color', '#ea090970');
-            $('#taRemarks').css('box-shadow', '0px 1px 2.5px #e36033d9');
-            isValid = false;
-        }
-        else {
-            $('#taRemarks').css('border-color', 'lightgrey');
-            $('#taRemarks').css('box-shadow', '');
-        }
-
-        if ($('#taMOM').val().trim() == "") {
-            $('#taMOM').css('border-color', '#ea090970');
-            $('#taMOM').css('box-shadow', '0px 1px 2.5px #e36033d9');
-            isValid = false;
-        }
-        else {
-            $('#taMOM').css('border-color', 'lightgrey');
-            $('#taMOM').css('box-shadow', '');
-        }
-        isValid == false ? toastr.error('Please fill the Required fields', '') : '';
-    }
-
-    return isValid;
-}
-
-function removeCommaFromLast(sValue) {
-    return sValue.substr(0, sValue.length - 1);
-}
-
-function blink_text() {
-    $('.liSecond').fadeOut(500);
-    $('.liSecond').fadeIn(500);
-}
 //setInterval(blink_text, 1000);
 
 
@@ -3114,13 +2723,14 @@ function totlegend() {
 
 function AddRequestGrid() {
     $('#AddRequirementModal').modal('show');
-    $('.btnAddAuditObs').html('Create');
+    $('.btnAddRequirement').html('Create');
     $('#lbladdReqModal').html('Create Requirement');
     resetControls();
     loadAddedAreaDDL();
 }
 $('.btnAddRequirement').on('click', function () {
     let cssClassForStatus = '';
+    let cssClassForPriority = '';
 
     if (!validateTaskControlsforAddReq()) {
         toastr.error(msgForTaskIfValidFailed, '');
@@ -3152,7 +2762,7 @@ $('.btnAddRequirement').on('click', function () {
             "ReqID": 0,
             "ReqRef": '',
             "AreaID": $('#ddlAreas1 option:selected').val(),
-            "AuditID": selAudActObj[0].AuditId,
+            "AuditId": selAudActObj[0].AuditId,
             "ReqName": $('#txtReqName').val().trim(),
             "ReqOwner": $('#ddlAuditor3 option:selected').val(),
             "ReqDesc": $('#taReqDeets').val().trim(),
@@ -3168,8 +2778,6 @@ $('.btnAddRequirement').on('click', function () {
             "CreatedDate": getCurrentDate(),
         }
         addRequirement('Requirement Created Successfully');
-
-
     }
 
 });
@@ -3198,7 +2806,7 @@ function addRequirement(msg) {
 function loadRequirements(msg) {
     $.ajax({
         url: "AuditCalendar.aspx/GetAllRequirements",
-        data: JSON.stringify({ 'AuditID': selAudActObj[0].AuditId }),
+        data: JSON.stringify({ 'AuditId': selAudActObj[0].AuditId }),
         type: "POST",
         async: false,
         contentType: "application/json;charset=utf-8",
@@ -3257,20 +2865,18 @@ function renderRequirementTable() {
                     <td> <span class="badge `+ item.StatusCss + `">` + item.ReqStatus + ` </span></td>
                     <td> `+ item.AreaID + ` </td>
                     <td> `+ item.Comments + ` </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
                     <td>
                     <span style="margin-left: 4%;">
 
-                    <i class="bx bx-arrow-from-left fa-icon-hover ibtn-req-esacalation" title="Escalate" data-reqid="`+ item.ReqID + `" style = "color:#3aa7d3; cursor:pointer;font-size: x-large;" ></i></span>
-                        
+                        <i class="bx bx-arrow-from-left fa-icon-hover ibtn-req-esacalation" title="Escalate" data-reqid="`+ item.ReqID + `" style = "color:#ffa000; cursor:pointer;font-size: x-large;" ></i>
+                        <i class="bx bx-area fa-icon-hover ibtn-view-esacalation" title="View Escalation" data-reqid="`+ item.ReqID + `" style = "color:#3aa7d3; cursor:pointer;font-size: x-large;" ></i>
+
                     </span>
                     </td>`
 
         htm += `</tr>`
     });
+    //</span>
     //<i class="bx bxs-edit fa-icon-hover ibtn-req-esacalation" title = "Escalate" data-reqid="`+ item.ReqID + `" style = "color:#3aa7d3; cursor:pointer;font-size: x-large;" ></i></span><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" class="ibtn-req-esacalation" title="Escalate" data-reqid="`+ item.ReqID + `">
     //<path fill="#ddc136" d="M3 19V5q0-.825.588-1.412T5 3h2q.825 0 1.413.588T9 5v14q0 .825-.587 1.413T7 21H5q-.825 0-1.412-.587T3 19m14.175-6H12q-.425 0-.712-.288T11 12t.288-.712T12 11h5.175l-.9-.9Q16 9.825 16 9.413t.3-.713q.275-.275.7-.275t.7.275l2.6 2.6q.3.3.3.7t-.3.7l-2.6 2.6q-.275.275-.687.288T16.3 15.3q-.275-.275-.275-.7t.275-.7zM12 5q-.425 0-.712-.288T11 4t.288-.712T12 3t.713.288T13 4t-.288.713T12 5m4 0q-.425 0-.712-.288T15 4t.288-.712T16 3t.713.288T17 4t-.288.713T16 5m4 0q-.425 0-.712-.288T19 4t.288-.712T20 3t.713.288T21 4t-.288.713T20 5m-8 16q-.425 0-.712-.288T11 20t.288-.712T12 19t.713.288T13 20t-.288.713T12 21m4 0q-.425 0-.712-.288T15 20t.288-.712T16 19t.713.288T17 20t-.288.713T16 21m4 0q-.425 0-.712-.288T19 20t.288-.712T20 19t.713.288T21 20t-.288.713T20 21" />
     // </svg >
@@ -3279,7 +2885,7 @@ function renderRequirementTable() {
 
 }
 
-$('.req-list-tbody').on('click', '.ibtn-req-esacalation', function () {
+$('.req-list-tbody').on('click', '.ibtn-req-esacalation, .ibtn-view-esacalation', function () {
 
     let selReqId = $(this).data('reqid');
     selReqObj = ListRequirement.filter(s => s.ReqID == selReqId);
@@ -3292,39 +2898,26 @@ $('.req-list-tbody').on('click', '.ibtn-req-esacalation', function () {
     if (selAction == "Escalate") {
 
         $('#escalationModal').modal("show");
-
-        $('#ddlRisks,#ddlObsConsA,#ddlObsConsB,#ddlObsStatus,#ddlObsConsAxB,#txtObsName,#ddlAuditor2,#taObsDeets,#txtObsResp,#txtObsEntity,#taObsRecom,#taObsPlan,#txtObsRemarks').css({ 'box-shadow': '' }, { 'border-color': 'lightgrey' });
-
-        $('#ddlRisks').val(selReqObj[0].ObsRisk);
-        $('#ddlObsConsA').val(selReqObj[0].ConsequenceA);
-        $('#ddlObsConsB').val(selReqObj[0].ConsequenceB);
-        $('#ddlObsConsAxB').val(selReqObj[0].AxB);
-        $('#ddlObsStatus').val(selReqObj[0].Status);
-        $('#txtObsName').val(selReqObj[0].ObsName);
-        $('#ddlAuditor2').val(selReqObj[0].ObsOwner);
-        $('#taObsDeets').val(selReqObj[0].ObsDetails);
-        $('#txtObsResp').val(selReqObj[0].ObsRes);
-        $('#txtObsEntity').val(selReqObj[0].ObsEntity);
-        $('#taObsRecom').val(selReqObj[0].ObsRecom);
-        $('#taObsPlan').val(selReqObj[0].ObsActionPlan);
-        $('#txtObsRemarks').val(selReqObj[0].ObsRemarks);
-
-        $('#AddObservationaModal').modal('show');
-        $('.btnAddAuditObs').html('Update');
-        $('#lbladdObsModal').html('Update Observation');
-
+        doit(selReqId);
+    }
+    else if (selAction == "View Escalation") {
+        $('#escalationViewModal').modal("show");
+        loadEscalation(selReqId);
+        renderEscalationTable();
+        
     }
 });
 
-$("#btn-escalate").on('click', function () {
+function doit(selReqId) {
+    $(".btn-escalate").on('click', function () {
 
+        var esccount = 0;
+        let cssClassForPriority = '';
 
-    let cssClassForStatus = '';
-
-    if (!validateTaskControlsforAddReq()) {
-        toastr.error(msgForTaskIfValidFailed, '');
-    }
-    else {
+        //if (!validateTaskControlsforAddReq()) {
+        //    toastr.error(msgForTaskIfValidFailed, '');
+        //}
+        // else {
         //for level
         if ($('#ddllevel option:selected').val() == 'High') {
             cssClassForPriority = 'task-priority-high';
@@ -3332,34 +2925,38 @@ $("#btn-escalate").on('click', function () {
         else if ($('#ddllevel option:selected').val() == 'Medium') {
             cssClassForPriority = 'task-priority-medium';
         }
-        else if ($('#ddlReqPriority option:selected').val() == 'Low') {
+        else if ($('#ddllevel option:selected').val() == 'Low') {
             cssClassForPriority = 'task-priority-low';
         }
 
+        if (esccount == 0) {
+            Count++;
+        }
+
         objAddEscalation = {
-            "Count": $('#lblCount').val().trim(),
-            "ReqID": selReqObj[0].ReqID,
-            "ReqRef": selReqObj[0].ReqRef,
-            //"AuditID": selAudActObj[0].AuditId,
-            "ReqName": selReqObj[0].ReqName,
-            "EscLevel": $('#ddllevel option:selected').val().trim() == undefined ? "" : $('#ddllevel option:selected').val(),
             "EscID": 0,
+            //"EscCode": '',
+            "Count": $('#lblCount').val().trim(),
+            "ReqID": selReqId,
+            //"ReqRef": "trt",
+            //"ReqName": "trt",
+            "EscLevel": $('#ddllevel option:selected').val().trim() == undefined ? "" : $('#ddllevel option:selected').val(),
             "Comments": $('#taEscComments').val().trim(),
             "PriorityCss": cssClassForPriority,
-            "StatusCss": cssClassForStatus,
             "USerID": currUserId,
             "CreatedBy": EmpNo,
             "CreatedDate": getCurrentDate(),
             "UpdatedBy": EmpNo,
             "UpdatedDate": getCurrentDate(),
         }
-        escalation('This Requirement is Escalated Successfully');
+        escalation('This Requirement is Escalated, Successfully');
+        //  }
 
-    }
+    });
+}
 
-});
 
-function escalation() {
+function escalation(msg) {
     $.ajax({
         url: "AuditCalendar.aspx/AddEscalation",
         data: JSON.stringify({ 'data': objAddEscalation }),
@@ -3368,42 +2965,35 @@ function escalation() {
         dataType: "json",
         success: function (result) {
             toastr.success(msg);
-            $('#escalationModal').modal("hide")
-            loadRequirements();
-            loadEscalation();
-            renderRequirementTable();
-            renderEscalationTable();
+            $('#escalationModal').modal("hide");
             resetControls();
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
         }
     });
-
 }
 
-function loadEscalation(msg) {
+function loadEscalation(selReqId) {
     $.ajax({
         url: "AuditCalendar.aspx/GetAllEscalation",
-        data: JSON.stringify({ 'AuditID': selAudActObj[0].AuditId, 'ReqID': selReqObj[0].ReqID }),
+        data: JSON.stringify({ 'ReqID': selReqId }),
         type: "POST",
         async: false,
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-
             ListEscalation = result.d;
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
         }
     });
-
 }
 
 function initiateEscalationDataTable() {
-    objDatatableReq = [];
-    objDatatableReq = $('.esc-list-table').DataTable({
+    objDatatableEsc = [];
+    objDatatableEsc = $('.esc-list-table').DataTable({
         dom: 'lBfrtip',
         "bStateSave": true,
         buttons: {
@@ -3427,92 +3017,25 @@ function initiateEscalationDataTable() {
 function renderEscalationTable() {
     var htm = '';
     $('.esc-list-tbody td').length > 0 ? objDatatableEsc.destroy() : '';
-    //var memRole = listMembers.filter(s => (s.EmpNo).toUpperCase() == EmpNo.toUpperCase() && s.IsActive == 1)[0].MemberRoleForProj;
 
     $.each(ListEscalation, function (key, item) {
 
         htm += `<tr> 
-                    <td> <span class="badge badge-for-taskcode"> `+ item.ReqRef + ` </span> </td>
-                    <td> <span class=""> `+ item.ReqName + ` </span> </td>
-                    <td> `+ item.ReqDesc + ` </td>
-                    <td> `+ item.ReqOwner + ` </td>
-                    <td> `+ item.ReqDate + ` </td>
-                    <td> `+ item.CreatedDate + ` </td>
-                    <td> `+ item.CreatedBy + ` </td>
-                    <td> <span class="badge `+ item.PriotityCss + `">` + item.ReqPriority + ` </span></td>
-                    <td> <span class="badge `+ item.StatusCss + `">` + item.ReqStatus + ` </span></td>
-                    <td> `+ item.AreaID + ` </td>
+                    <td> <span class="badge badge-for-taskcode"> `+ item.EscCode + ` </span> </td>
                     <td> `+ item.Comments + ` </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                    <span style="margin-left: 4%;">
-
-                    <i class="bx bx-arrow-from-left fa-icon-hover ibtn-req-esacalation" title="Escalate" data-reqid="`+ item.ReqID + `" style = "color:#3aa7d3; cursor:pointer;font-size: x-large;" ></i></span>
-                        
-                    </span>
-                    </td>`
+                    <td <span class="badge `+ item.PriorityCss + `">` + item.EscLevel + ` </span></td>
+                    <td> `+ item.Count + ` </td>
+                    <td> `+ item.CreatedDate + ` </td>
+                    `
 
         htm += `</tr>`
     });
-    //<i class="bx bxs-edit fa-icon-hover ibtn-req-esacalation" title = "Escalate" data-reqid="`+ item.ReqID + `" style = "color:#3aa7d3; cursor:pointer;font-size: x-large;" ></i></span><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" class="ibtn-req-esacalation" title="Escalate" data-reqid="`+ item.ReqID + `">
-    //<path fill="#ddc136" d="M3 19V5q0-.825.588-1.412T5 3h2q.825 0 1.413.588T9 5v14q0 .825-.587 1.413T7 21H5q-.825 0-1.412-.587T3 19m14.175-6H12q-.425 0-.712-.288T11 12t.288-.712T12 11h5.175l-.9-.9Q16 9.825 16 9.413t.3-.713q.275-.275.7-.275t.7.275l2.6 2.6q.3.3.3.7t-.3.7l-2.6 2.6q-.275.275-.687.288T16.3 15.3q-.275-.275-.275-.7t.275-.7zM12 5q-.425 0-.712-.288T11 4t.288-.712T12 3t.713.288T13 4t-.288.713T12 5m4 0q-.425 0-.712-.288T15 4t.288-.712T16 3t.713.288T17 4t-.288.713T16 5m4 0q-.425 0-.712-.288T19 4t.288-.712T20 3t.713.288T21 4t-.288.713T20 5m-8 16q-.425 0-.712-.288T11 20t.288-.712T12 19t.713.288T13 20t-.288.713T12 21m4 0q-.425 0-.712-.288T15 20t.288-.712T16 19t.713.288T17 20t-.288.713T16 21m4 0q-.425 0-.712-.288T19 20t.288-.712T20 19t.713.288T21 20t-.288.713T20 21" />
-    // </svg >
     $('.esc-list-tbody').html(htm);
     initiateEscalationDataTable();
-
 }
 
 
 /*************AUDIT REQUIREMENT WORK ENDS HERE*****************/
-function getCurrentDate() {
-    return new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds()
-}
-
-$('.btn-close-event-modal').on('click', function () {
-    reloadCalendarOnCloseModalOnly();
-});
-
-function reloadCalendarOnCloseModalOnly() {
-
-    $('.ajax-loader').fadeIn(100);
-    setTimeout(function () {
-        LoadAuditEvents();
-        $(".ajax-loader").fadeOut(100);
-    }, 100);
-    oFullCalendar.destroy();
-    oFullCalendar.refetchEvents();
-
-    initializeCalendar();
-}
-
-function reloadCalendarOnCreateModalOnly() {
-
-    $('.ajax-loader').fadeIn(100);
-    setTimeout(function () {
-        LoadAuditEvents();
-        $(".ajax-loader").fadeOut(100);
-    }, 100);
-    oFullCalendar.refetchEvents();
-    oFullCalendar.render();
-    initializeCalendar();
-    resetControls();
-}
-function checkWithinAuditRange() {
-    isWithin = true;
-    msg = 'Date Exceeds with the Audit Date! Please select within the audit date range.';
-    let StartDate = $('#StartDateArea').val().trim();
-    let EndDate = $('#DueDateArea').val().trim();
-    if (getDateInWordsFormat(StartDate) >= getDateInWordsFormat(selAudActObj[0].StartDate) && getDateInWordsFormat(selAudActObj[0].EndDate) >= getDateInWordsFormat(EndDate)) {
-        isWithin = true;
-    }
-    else {
-        isWithin = false;
-    }
-    return isWithin;
-}
 
 function validateTaskControlsforAddReq() {
     var isValid = true;
@@ -3821,15 +3344,12 @@ function resetAllControls() {
     $('#ddlObsConsAxB').parent().css('box-shadow', ''); $('#ddlObsConsAxB').parent().css('border-color', 'lightgrey');
     $('#select2-ddlRisks-container').parent().css('box-shadow', ''); $('#select2-ddlRisks-container').parent().css('border-color', 'lightgrey');
     $('#select2-ddlAreas-container').parent().css('box-shadow', ''); $('#select2-ddlAreas-container').parent().css('border-color', 'lightgrey');
-
-
 }
 
 function resetModal() {
 
-    $('#EventDetails li button').removeClass('active')
-    $('#EventDetails li:eq(0) button').addClass('active')
-
+    $('#EventDetails li button').removeClass('active');
+    $('#EventDetails li:eq(0) button').addClass('active');
 
     $('#EventDetails .tab-content .tab-pane').removeClass('active show');
     $('#EventDetails .tab-content .tab-pane:eq(0)').addClass('active show');
@@ -3925,24 +3445,6 @@ function loadProjChart() {
     initiateProjChart();
 }
 
-function getProgressColor(wid) {
-    let color = '';
-    if (wid > 0 && wid < 41) {
-        color = "#f35f1bc9";
-    }
-    else if (wid > 40 && wid <= 70) {
-        color = "#fbc11e";
-    }
-    else if (wid > 70) {
-        color = "#a3dc15"; //"#a4d37c";
-    }
-    return color;
-
-}
-function getDateInWordsFormat(dt) {
-    return monthsNameByNo[new Date(dt).getMonth()] + ', ' + new Date(dt).getDate() + ' ' + new Date(dt).getFullYear();
-}
-
 
 function setSubmitStatus() {
     $.ajax({
@@ -3982,9 +3484,6 @@ function setApprovalStatus() {
 
 }
 
-
-
-
 function RoleMaster(status) {
     var htmCreate = '';
     var alerthtml = '<div class="alert alert-primary" role = "alert">This audit is a draft and pending on approval with your manager. You will be able to add more details (area, risks, etc) as soon as your manager approves this audit. </br> Would you like to make changes? <a href="/AuditManagement/AuditLIst.aspx" class="alert-link">Go to Audit List.</a></div>';
@@ -4009,5 +3508,132 @@ function RoleMaster(status) {
     }
 
 }
+
+// Common functionssssssssssssssssssss
+
+function getCurrentDate() {
+    return new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate() + ' ' + new Date().getHours() + ':' + new Date().getMinutes() + ':' + new Date().getSeconds()
+}
+
+$('.btn-close-event-modal').on('click', function () {
+    reloadCalendarOnCloseModalOnly();
+});
+
+function reloadCalendarOnCloseModalOnly() {
+
+    $('.ajax-loader').fadeIn(100);
+    setTimeout(function () {
+        LoadAuditEvents();
+        $(".ajax-loader").fadeOut(100);
+    }, 100);
+    oFullCalendar.destroy();
+    oFullCalendar.refetchEvents();
+
+    initializeCalendar();
+}
+
+function reloadCalendarOnCreateModalOnly() {
+
+    $('.ajax-loader').fadeIn(100);
+    setTimeout(function () {
+        LoadAuditEvents();
+        $(".ajax-loader").fadeOut(100);
+    }, 100);
+    oFullCalendar.refetchEvents();
+    oFullCalendar.render();
+    initializeCalendar();
+    resetControls();
+}
+function checkWithinAuditRange() {
+    isWithin = true;
+    msg = 'Date Exceeds with the Audit Date! Please select within the audit date range.';
+    let StartDate = $('#StartDateArea').val().trim();
+    let EndDate = $('#DueDateArea').val().trim();
+    if (getDateInWordsFormat(StartDate) >= getDateInWordsFormat(selAudActObj[0].StartDate) && getDateInWordsFormat(selAudActObj[0].EndDate) >= getDateInWordsFormat(EndDate)) {
+        isWithin = true;
+    }
+    else {
+        isWithin = false;
+    }
+    return isWithin;
+}
+
+function getProgressColor(wid) {
+    let color = '';
+    if (wid > 0 && wid < 41) {
+        color = "#f35f1bc9";
+    }
+    else if (wid > 40 && wid <= 70) {
+        color = "#fbc11e";
+    }
+    else if (wid > 70) {
+        color = "#a3dc15"; //"#a4d37c";
+    }
+    return color;
+
+}
+function weekCount(year, month_number) {
+
+    // month_number is in the range 1..12
+
+    var firstOfMonth = new Date(year, month_number - 1, 1);
+    var lastOfMonth = new Date(year, month_number, 0);
+
+    var used = firstOfMonth.getDay() + lastOfMonth.getDate();
+
+    return Math.ceil(used / 7);
+}
+
+function AlertPrompt(msg, type) {
+
+    //switch (type) {
+    //    case 'info':
+    //        {
+    //            let val = '<div class="alert alert-info d-flex align-items-center p-3 m-3"><span class="svg-icon svg-icon-2hx svg-icon-info me-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path opacity="0.3" d="M20.5543 4.37824L12.1798 2.02473C12.0626 1.99176 11.9376 1.99176 11.8203 2.02473L3.44572 4.37824C3.18118 4.45258 3 4.6807 3 4.93945V13.569C3 14.6914 3.48509 15.8404 4.4417 16.984C5.17231 17.8575 6.18314 18.7345 7.446 19.5909C9.56752 21.0295 11.6566 21.912 11.7445 21.9488C11.8258 21.9829 11.9129 22 12.0001 22C12.0872 22 12.1744 21.983 12.2557 21.9488C12.3435 21.912 14.4326 21.0295 16.5541 19.5909C17.8169 18.7345 18.8277 17.8575 19.5584 16.984C20.515 15.8404 21 14.6914 21 13.569V4.93945C21 4.6807 20.8189 4.45258 20.5543 4.37824Z" fill="black"></path><path d="M10.5606 11.3042L9.57283 10.3018C9.28174 10.0065 8.80522 10.0065 8.51412 10.3018C8.22897 10.5912 8.22897 11.0559 8.51412 11.3452L10.4182 13.2773C10.8099 13.6747 11.451 13.6747 11.8427 13.2773L15.4859 9.58051C15.771 9.29117 15.771 8.82648 15.4859 8.53714C15.1948 8.24176 14.7183 8.24176 14.4272 8.53714L11.7002 11.3042C11.3869 11.6221 10.874 11.6221 10.5606 11.3042Z" fill="black"></path></svg></span>	<div class="d-flex flex-column"><h4 class="mb-1 text-info">Oops!</h4>	<span> ' + msg + '</span>	</div></div>';
+    //            return val;
+    //        }
+    //    case 'warning':
+    //        {
+    //            let val = '<div class="alert alert-warning d-flex align-items-center p-3 m-3"><span class="svg-icon svg-icon-2hx svg-icon-warning me-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path opacity="0.3" d="M20.5543 4.37824L12.1798 2.02473C12.0626 1.99176 11.9376 1.99176 11.8203 2.02473L3.44572 4.37824C3.18118 4.45258 3 4.6807 3 4.93945V13.569C3 14.6914 3.48509 15.8404 4.4417 16.984C5.17231 17.8575 6.18314 18.7345 7.446 19.5909C9.56752 21.0295 11.6566 21.912 11.7445 21.9488C11.8258 21.9829 11.9129 22 12.0001 22C12.0872 22 12.1744 21.983 12.2557 21.9488C12.3435 21.912 14.4326 21.0295 16.5541 19.5909C17.8169 18.7345 18.8277 17.8575 19.5584 16.984C20.515 15.8404 21 14.6914 21 13.569V4.93945C21 4.6807 20.8189 4.45258 20.5543 4.37824Z" fill="black"></path><path d="M10.5606 11.3042L9.57283 10.3018C9.28174 10.0065 8.80522 10.0065 8.51412 10.3018C8.22897 10.5912 8.22897 11.0559 8.51412 11.3452L10.4182 13.2773C10.8099 13.6747 11.451 13.6747 11.8427 13.2773L15.4859 9.58051C15.771 9.29117 15.771 8.82648 15.4859 8.53714C15.1948 8.24176 14.7183 8.24176 14.4272 8.53714L11.7002 11.3042C11.3869 11.6221 10.874 11.6221 10.5606 11.3042Z" fill="black"></path></svg></span>	<div class="d-flex flex-column"><h4 class="mb-1 text-warning">Oops!</h4>	<span> ' + msg + '</span>	</div></div>';
+    //            return val;
+    //        }
+
+    //    default:
+    //        {
+    //            break;
+    //        }
+    //}
+    switch (type) {
+        case 'info':
+            {
+                let val = '<div class="alert alert-info d-flex align-items-center"><span class="svg-icon svg-icon-2hx svg-icon-info me-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path opacity="0.3" d="M20.5543 4.37824L12.1798 2.02473C12.0626 1.99176 11.9376 1.99176 11.8203 2.02473L3.44572 4.37824C3.18118 4.45258 3 4.6807 3 4.93945V13.569C3 14.6914 3.48509 15.8404 4.4417 16.984C5.17231 17.8575 6.18314 18.7345 7.446 19.5909C9.56752 21.0295 11.6566 21.912 11.7445 21.9488C11.8258 21.9829 11.9129 22 12.0001 22C12.0872 22 12.1744 21.983 12.2557 21.9488C12.3435 21.912 14.4326 21.0295 16.5541 19.5909C17.8169 18.7345 18.8277 17.8575 19.5584 16.984C20.515 15.8404 21 14.6914 21 13.569V4.93945C21 4.6807 20.8189 4.45258 20.5543 4.37824Z" fill="black"></path><path d="M10.5606 11.3042L9.57283 10.3018C9.28174 10.0065 8.80522 10.0065 8.51412 10.3018C8.22897 10.5912 8.22897 11.0559 8.51412 11.3452L10.4182 13.2773C10.8099 13.6747 11.451 13.6747 11.8427 13.2773L15.4859 9.58051C15.771 9.29117 15.771 8.82648 15.4859 8.53714C15.1948 8.24176 14.7183 8.24176 14.4272 8.53714L11.7002 11.3042C11.3869 11.6221 10.874 11.6221 10.5606 11.3042Z" fill="black"></path></svg></span>	<div class="d-flex flex-column">	<span> ' + msg + '</span>	</div></div>';
+                return val;
+            }
+        case 'warning':
+            {
+                let val = '<div class="alert alert-warning d-flex align-items-center p-3 m-3"><span class="svg-icon svg-icon-2hx svg-icon-warning me-4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path opacity="0.3" d="M20.5543 4.37824L12.1798 2.02473C12.0626 1.99176 11.9376 1.99176 11.8203 2.02473L3.44572 4.37824C3.18118 4.45258 3 4.6807 3 4.93945V13.569C3 14.6914 3.48509 15.8404 4.4417 16.984C5.17231 17.8575 6.18314 18.7345 7.446 19.5909C9.56752 21.0295 11.6566 21.912 11.7445 21.9488C11.8258 21.9829 11.9129 22 12.0001 22C12.0872 22 12.1744 21.983 12.2557 21.9488C12.3435 21.912 14.4326 21.0295 16.5541 19.5909C17.8169 18.7345 18.8277 17.8575 19.5584 16.984C20.515 15.8404 21 14.6914 21 13.569V4.93945C21 4.6807 20.8189 4.45258 20.5543 4.37824Z" fill="black"></path><path d="M10.5606 11.3042L9.57283 10.3018C9.28174 10.0065 8.80522 10.0065 8.51412 10.3018C8.22897 10.5912 8.22897 11.0559 8.51412 11.3452L10.4182 13.2773C10.8099 13.6747 11.451 13.6747 11.8427 13.2773L15.4859 9.58051C15.771 9.29117 15.771 8.82648 15.4859 8.53714C15.1948 8.24176 14.7183 8.24176 14.4272 8.53714L11.7002 11.3042C11.3869 11.6221 10.874 11.6221 10.5606 11.3042Z" fill="black"></path></svg></span>	<div class="d-flex flex-column"><span> ' + msg + '</span>	</div></div>';
+                return val;
+            }
+
+        default:
+            {
+                break;
+            }
+    }
+}
+
+function removeCommaFromLast(sValue) {
+    return sValue.substr(0, sValue.length - 1);
+}
+
+function blink_text() {
+    $('.liSecond').fadeOut(500);
+    $('.liSecond').fadeIn(500);
+}
+
+function getDateInWordsFormat(dt) {
+    return monthsNameByNo[new Date(dt).getMonth()] + ', ' + new Date(dt).getDate() + ' ' + new Date(dt).getFullYear();
+}
+
 
 

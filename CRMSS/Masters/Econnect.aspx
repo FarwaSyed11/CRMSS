@@ -295,7 +295,9 @@
 
         /*for Datatable*/
 
-
+        .iconClassExcel{
+            margin-left: 280px !important;
+        }
         .userSuggection-table th {
             background-color: #a92828 !important;
             color: white !important;

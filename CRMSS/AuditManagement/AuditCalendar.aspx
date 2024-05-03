@@ -9,9 +9,40 @@
     <link rel="stylesheet" href="../Calendar/plugins/fullcalendar/main.css">
     <link rel="stylesheet" href="../Calendar/dist/adminlte.min.css">
     <link rel="stylesheet" href="css/audit_calendar.css">
+      <script src="filepond-master/dist/filepond.js"></script>
+    <script src="filepond-master/dist/filepond.min.js"></script>
+    <script src="filepond-master/dist/filepond.jquery.js"></script>
+        <link href="filepond-master/dist/filepond.css" rel="stylesheet"/>
+   <link href="filepond-master/src/css/styles.css" rel="stylesheet"/>
+        <style>
+
+    /**
+ * FilePond Custom Styles
+ */
+.filepond--drop-label {
+	color: #4c4e53;
+}
+
+.filepond--label-action {
+	text-decoration-color: #babdc0;
+}
+
+.filepond--panel-root {
+	border-radius: 2em;
+	background-color: #edf0f4;
+	height: 1em;
+}
+
+.filepond--item-panel {
+	background-color: #595e68;
+}
+
+.filepond--drip-blob {
+	background-color: #7f8a9a;
+}
+</style>
 
     <link href="../KPI/Flatpickr/css/_flatpickr.css" rel="stylesheet" />
-
     
 
 </asp:Content>
@@ -284,7 +315,7 @@
     </div>
 
     <%--Show Audit details--%>
-    <div class="modal fade" id="EventDetails" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="EventDetails" data-bs-backdrop="static" tabindex="-1" aria-hidden="true" style="overflow:scroll">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -604,30 +635,13 @@
                                             <th>Status</th>
                                             <th>Area</th>
                                             <th>Comments</th>
-                                            <th>Escalation Count</th>
-                                            <th>Escalation Level</th>
-                                            <th>View Escalations</th>
-                                            <th>View Attachments</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody class="req-list-tbody" style="text-align: center; font-size: 12px;">
                                     </tbody>
                                 </table>
-                                <table class="table table-hover esc-list-table" style=" width: 100%; border-color: inherit; border-style: none !important; border-width: 0;">
-                                    <thead>
-                                        <tr style="text-align: center;">
-                                            <th>ESC Code</th>
-                                            <th>Requirement Name</th>
-                                            <th>Ref#</th>
-                                            <th>Comments</th>
-                                            <th>Escalation Level</th>
-                                            <th>Escalation Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="esc-list-tbody" style="text-align: center; font-size: 12px;">
-                                    </tbody>
-                                </table>
+                                
                             </div>
                         </div>
                     </div>
@@ -998,6 +1012,14 @@
                                  <textarea type="text" id="taReqComments" class="form-control" rows="4" placeholder="Type your comments here..."></textarea>
                              </div>
                          </div>
+                          <div class="col-6">
+                            <input type="file" class="filepond"
+                                name="filepond" 
+                                multiple 
+                                data-allow-reorder="true"
+                                data-max-file-size="3MB"
+                                data-max-files="3" />
+                          </div>
                     </div>
                  </div>
 
@@ -1030,43 +1052,80 @@
     </div>
 
     <div class="modal fade" id="escalationModal" style="background-color:#00000070;" tabindex="-1" aria-labelledby="deelteModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
     
-          <div class="modal-body" style="text-align:center;">
-              <div>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="5em" height="5em" viewBox="0 0 24 24">
-	                   <path fill="#ddc136" d="M3 19V5q0-.825.588-1.412T5 3h2q.825 0 1.413.588T9 5v14q0 .825-.587 1.413T7 21H5q-.825 0-1.412-.587T3 19m14.175-6H12q-.425 0-.712-.288T11 12t.288-.712T12 11h5.175l-.9-.9Q16 9.825 16 9.413t.3-.713q.275-.275.7-.275t.7.275l2.6 2.6q.3.3.3.7t-.3.7l-2.6 2.6q-.275.275-.687.288T16.3 15.3q-.275-.275-.275-.7t.275-.7zM12 5q-.425 0-.712-.288T11 4t.288-.712T12 3t.713.288T13 4t-.288.713T12 5m4 0q-.425 0-.712-.288T15 4t.288-.712T16 3t.713.288T17 4t-.288.713T16 5m4 0q-.425 0-.712-.288T19 4t.288-.712T20 3t.713.288T21 4t-.288.713T20 5m-8 16q-.425 0-.712-.288T11 20t.288-.712T12 19t.713.288T13 20t-.288.713T12 21m4 0q-.425 0-.712-.288T15 20t.288-.712T16 19t.713.288T17 20t-.288.713T16 21m4 0q-.425 0-.712-.288T19 20t.288-.712T20 19t.713.288T21 20t-.288.713T20 21" />
-                  </svg>
+              <div class="modal-body" >
+                  <div style="text-align:center;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="5em" height="5em" viewBox="0 0 24 24">
+	                       <path fill="#ddc136" d="M3 19V5q0-.825.588-1.412T5 3h2q.825 0 1.413.588T9 5v14q0 .825-.587 1.413T7 21H5q-.825 0-1.412-.587T3 19m14.175-6H12q-.425 0-.712-.288T11 12t.288-.712T12 11h5.175l-.9-.9Q16 9.825 16 9.413t.3-.713q.275-.275.7-.275t.7.275l2.6 2.6q.3.3.3.7t-.3.7l-2.6 2.6q-.275.275-.687.288T16.3 15.3q-.275-.275-.275-.7t.275-.7zM12 5q-.425 0-.712-.288T11 4t.288-.712T12 3t.713.288T13 4t-.288.713T12 5m4 0q-.425 0-.712-.288T15 4t.288-.712T16 3t.713.288T17 4t-.288.713T16 5m4 0q-.425 0-.712-.288T19 4t.288-.712T20 3t.713.288T21 4t-.288.713T20 5m-8 16q-.425 0-.712-.288T11 20t.288-.712T12 19t.713.288T13 20t-.288.713T12 21m4 0q-.425 0-.712-.288T15 20t.288-.712T16 19t.713.288T17 20t-.288.713T16 21m4 0q-.425 0-.712-.288T19 20t.288-.712T20 19t.713.288T21 20t-.288.713T20 21" />
+                      </svg>
                   
-                  <%--<i class="bx bxs-x-circle fa-del-kpi" title="View More" style="cursor:pointer;padding-right: 10px;font-size: 80px;color: #e14b4b;"></i></div>--%>
-                    <div><h3>Are you sure you want to escalate?</h3></div>
-                    <span class="drequirementName"></span>
-                  <div class="col-6">
-                    <label for="html5-number-input" class="col-form-label label-custom">Comments</label>
-                    <div class="">
-                        <textarea type="text" id="taEscComments" class="form-control" rows="4" placeholder="Type your comments here..."></textarea>
-                    </div>
-                </div>
-                <div class="col-4">
+                      <%--<i class="bx bxs-x-circle fa-del-kpi" title="View More" style="cursor:pointer;padding-right: 10px;font-size: 80px;color: #e14b4b;"></i></div>--%>
+                        <div><h3>Are you sure you want to escalate?</h3></div>
+                        <span class="drequirementName"></span>
+                  </div>
+                <label for="html5-number-input" id="lblCount" class="col-form-label label-custom">0</label>
+                  <div class="col-12">
                     <label for="html5-number-input" class="col-form-label label-custom">Escalation Level<span style="color: red;">*</span></label>
                     <div class="">
                         <select id="ddllevel" class="form-select color-dropdown">
-                           <option value="Low" selected>Low</option>
-                           <option value="Medium">Medium</option>
-                           <option value="high">High</option>
-                       </select>
+                        <option value="Low" selected>Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="col-12  mb-4">
+                    <label for="html5-number-input" class="col-form-label label-custom">Comments</label>
+                    <div class="">
+                    <textarea type="text" id="taEscComments" class="form-control" rows="4" placeholder="Type your comments here..."></textarea>
+                    </div>
+                </div>
+                
+                 
+              <div class="modal-footer">
+                  <div style="margin-right: 165px;">  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-primary btn-escalate">Yes</button>
+                  </div>
+              </div>
+              </div>
+          </div>
+       </div>
+    </div>
+
+    <div class="modal fade" id="escalationViewModal" style="background-color:#00000070;" tabindex="-1" aria-labelledby="" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+    
+              <div class="modal-body" >
+                  
+                   <table class="table table-hover esc-list-table" style=" width: 100%; border-color: inherit; border-style: none !important; border-width: 0;">
+                        <thead>
+                            <tr style="text-align: center;">
+                                <th>ESC Code</th>
+                                <th>Comments</th>
+                                <th>Escalation Level</th>
+                                <th>Count</th>
+                                <th>Escalation Date</th>
+                            </tr>
+                        </thead>
+                        <tbody class="esc-list-tbody" style="text-align: center; font-size: 12px;">
+                        </tbody>
+                  </table>
+              </div>
+                <div class="modal-footer">
+                    <div style="text-align:center">  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok</button>
                     </div>
                 </div>
             </div>
-          <div class="modal-footer">
-          <div style="margin-right: 165px;">  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-            <button type="button" class="btn btn-primary btn-escalate">Yes</button>
-              </div>
-          </div>
         </div>
-      </div>
     </div>
+
+
+
+
+
 
     <input type="hidden" value="0" id="hfId" />
     <asp:HiddenField ID="hfAttachId" runat="server" />
@@ -1078,7 +1137,7 @@
         var overAllPerfo = 0;
         var actIDForAttach = 0;
         var rolesList = '';
-        
+
 
         var loggedInUserName = '';
         $(document).ready(function () {
@@ -1086,15 +1145,47 @@
             EmpNo = '<%= Session["EmpNo"] %>';
             myrole = '<%=Session["Role"]%>';
             actIDForAttach = $('#<%=hfAttachId.ClientID%>');
-            
+
             myroleList = '<%=Session["CurrentUserRolesList"]%>';
 
         });
     </script>
 
+    <script>
+            // prettier-ignore
+            [
+                { supported: 'Symbol' in window, fill: 'https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser-polyfill.min.js' },
+                { supported: 'Promise' in window, fill: 'https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js' },
+                { supported: 'fetch' in window, fill: 'https://cdn.jsdelivr.net/npm/fetch-polyfill@0.8.2/fetch.min.js' },
+                {
+                    supported: 'CustomEvent' in window && 'log10' in Math && 'sign' in Math && 'assign' in Object && 'from' in Array &&
+                        ['find', 'findIndex', 'some', 'includes'].reduce(function (previous, prop) { return (prop in Array.prototype) ? previous : false; }, true), fill: 'https://unpkg.com/filepond-polyfill/dist/filepond-polyfill.js'
+                }
+            ].forEach(function (p) {
+                if (p.supported) return;
+                document.write('<script src="' + p.fill + '"><\/script>');
+            });
+    </script>
+
+
+    <script>
+        // Get a reference to the file input element
+        const inputElement = document.querySelector('input[type="file"]');
+
+        // Create the FilePond instance
+        const pond = FilePond.create(inputElement, {
+            allowMultiple: true,
+            allowReorder: true,
+        });
+
+        // Easy console access for testing purposes
+        window.pond = pond;
+        
+    </script>
+
     <script src="Scripts/risk-control.js?v=1.3"></script>
     <script src="Scripts/audit-calendar.js?v=1.3"></script>
-   
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" integrity="sha512-GWzVrcGlo0TxTRvz9ttioyYJ+Wwk9Ck0G81D+eO63BaqHaJ3YZX9wuqjwgfcV/MrB2PhaVX9DkYVhbFpStnqpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
