@@ -302,7 +302,7 @@
                     </button>
                 </div>
                 <div class="modal-body proj-popup">
-                    <div class="row">
+                    <div class="row useralert">
                         <div class="alert alert-primary" role="alert">
                             This is a primary alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
                         </div>
@@ -1018,10 +1018,50 @@
               <div><i class="bx bxs-x-circle fa-del-kpi" title="View More" style="cursor:pointer;padding-right: 10px;font-size: 80px;color: #e14b4b;"></i></div>
               <div><h3>Are you sure?</h3></div>
             <span class="dSentence"></span>
+            
           </div>
           <div class="modal-footer">
           <div style="margin-right: 165px;">  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary btn-delete-y" data-bs-dismiss="modal">Delete</button>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="escalationModal" style="background-color:#00000070;" tabindex="-1" aria-labelledby="deelteModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+    
+          <div class="modal-body" style="text-align:center;">
+              <div>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="5em" height="5em" viewBox="0 0 24 24">
+	                   <path fill="#ddc136" d="M3 19V5q0-.825.588-1.412T5 3h2q.825 0 1.413.588T9 5v14q0 .825-.587 1.413T7 21H5q-.825 0-1.412-.587T3 19m14.175-6H12q-.425 0-.712-.288T11 12t.288-.712T12 11h5.175l-.9-.9Q16 9.825 16 9.413t.3-.713q.275-.275.7-.275t.7.275l2.6 2.6q.3.3.3.7t-.3.7l-2.6 2.6q-.275.275-.687.288T16.3 15.3q-.275-.275-.275-.7t.275-.7zM12 5q-.425 0-.712-.288T11 4t.288-.712T12 3t.713.288T13 4t-.288.713T12 5m4 0q-.425 0-.712-.288T15 4t.288-.712T16 3t.713.288T17 4t-.288.713T16 5m4 0q-.425 0-.712-.288T19 4t.288-.712T20 3t.713.288T21 4t-.288.713T20 5m-8 16q-.425 0-.712-.288T11 20t.288-.712T12 19t.713.288T13 20t-.288.713T12 21m4 0q-.425 0-.712-.288T15 20t.288-.712T16 19t.713.288T17 20t-.288.713T16 21m4 0q-.425 0-.712-.288T19 20t.288-.712T20 19t.713.288T21 20t-.288.713T20 21" />
+                  </svg>
+                  
+                  <%--<i class="bx bxs-x-circle fa-del-kpi" title="View More" style="cursor:pointer;padding-right: 10px;font-size: 80px;color: #e14b4b;"></i></div>--%>
+                    <div><h3>Are you sure you want to escalate?</h3></div>
+                    <span class="drequirementName"></span>
+                  <div class="col-6">
+                    <label for="html5-number-input" class="col-form-label label-custom">Comments</label>
+                    <div class="">
+                        <textarea type="text" id="taEscComments" class="form-control" rows="4" placeholder="Type your comments here..."></textarea>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <label for="html5-number-input" class="col-form-label label-custom">Escalation Level<span style="color: red;">*</span></label>
+                    <div class="">
+                        <select id="ddllevel" class="form-select color-dropdown">
+                           <option value="Low" selected>Low</option>
+                           <option value="Medium">Medium</option>
+                           <option value="high">High</option>
+                       </select>
+                    </div>
+                </div>
+            </div>
+          <div class="modal-footer">
+          <div style="margin-right: 165px;">  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+            <button type="button" class="btn btn-primary btn-escalate">Yes</button>
               </div>
           </div>
         </div>

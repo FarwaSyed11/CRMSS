@@ -2747,7 +2747,7 @@ public partial class AuditManagement_AuditCalendar : System.Web.UI.Page
     }
 
 
-    //insert observation
+    //insert requirement
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
     public static void AddRequirement(Requirement data)
@@ -2760,7 +2760,7 @@ public partial class AuditManagement_AuditCalendar : System.Web.UI.Page
         ArrayList pv = new ArrayList();
 
         pa.Add("@oper");
-        pv.Add(0);
+        pv.Add(1);
 
         pa.Add("@ReqID");
         pv.Add(data.ReqID);
@@ -2770,6 +2770,9 @@ public partial class AuditManagement_AuditCalendar : System.Web.UI.Page
 
         pa.Add("@ReqDesc");
         pv.Add(data.ReqDesc);
+
+        //pa.Add("@ReqRef");
+        //pv.Add(data.ReqRef);
 
         pa.Add("@ReqStatus");
         pv.Add(data.ReqStatus);
@@ -2792,8 +2795,8 @@ public partial class AuditManagement_AuditCalendar : System.Web.UI.Page
         pa.Add("@AuditId");
         pv.Add(data.AuditID);
 
-        pa.Add("@EscalationID");
-        pv.Add(data.EscalationID);
+        pa.Add("@EscID");
+        pv.Add(data.EscID);
 
         pa.Add("@StatusCss");
         pv.Add(data.StatusCss);
@@ -2815,6 +2818,124 @@ public partial class AuditManagement_AuditCalendar : System.Web.UI.Page
 
     }
 
+    //get all requirement
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<Requirement> GetAllRequirements(int AuditID)
+    {
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@Oper");
+        pv.Add(2);
+
+        pa.Add("@AuditId");
+        pv.Add(AuditID);
+
+        DBH.CreateDataset_AuditManagement(ds, "sp_Requirement", true, pa, pv);
+
+        List<Requirement> oListRequirement = new List<Requirement>();
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                oListRequirement.Add(new Requirement()
+                {
+                    ReqRef = dt.Rows[i]["ReqRef"].ToString(),
+                    ReqID = dt.Rows[i]["ReqID"].ToString(),
+                   // AuditID = dt.Rows[i]["AuditID"].ToString(),
+                    AreaID = dt.Rows[i]["AreaId"].ToString(),
+                    ReqDesc = dt.Rows[i]["ReqDesc"].ToString(),
+                    ReqName = dt.Rows[i]["ReqName"].ToString(),
+                    ReqStatus = dt.Rows[i]["ReqStatus"].ToString(),
+                    ReqPriority = dt.Rows[i]["ReqPriority"].ToString(),
+                    PriorityCss = dt.Rows[i]["PriorityCss"].ToString(),
+                    ReqDate = dt.Rows[i]["ReqDate"].ToString(),
+                    ReqOwner = dt.Rows[i]["ReqOwner"].ToString(),
+                    EscID = dt.Rows[i]["EscID"].ToString(),
+                    StatusCss = dt.Rows[i]["StatusCss"].ToString(),
+                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
+                    CreatedDate = dt.Rows[i]["CreatedDate"].ToString(),
+                    //USerID = dt.Rows[i]["UserID"].ToString(),
+                    Comments = dt.Rows[i]["Comments"].ToString()
+
+
+                });
+
+            }
+        }
+
+        return oListRequirement;
+
+    }
+
+    //insert requirement
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static void AddEscalation(Escalation data)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(3);
+
+        pa.Add("@EscID");
+        pv.Add(data.EscID);
+
+        pa.Add("@ReqID");
+        pv.Add(data.ReqID);
+
+        pa.Add("@ReqName");
+        pv.Add(data.ReqName);
+
+        pa.Add("@ReqRef");
+        pv.Add(data.ReqRef);
+
+        pa.Add("@EscLevel");
+        pv.Add(data.EscLevel);
+
+        pa.Add("@PriorityCss");
+        pv.Add(data.PriorityCss);
+
+        pa.Add("@EscID");
+        pv.Add(data.EscID);
+
+        pa.Add("@CreatedBy");
+        pv.Add(data.CreatedBy);
+
+        pa.Add("@CreatedDate");
+        pv.Add(data.CreatedDate);
+
+        pa.Add("@UserID");
+        pv.Add(data.USerID);
+
+        pa.Add("@Comments");
+        pv.Add(data.Comments);
+
+        pa.Add("@Count");
+        pv.Add(data.Count);
+
+        pa.Add("@UpdatedBy");
+        pv.Add(data.UpdatedBy);
+
+        pa.Add("@UpdatedDate");
+        pv.Add(data.UpdatedDate);
+
+        DBH.CreateDataset_AuditManagement(ds, "sp_Requirement", true, pa, pv);
+
+
+    }
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
@@ -2844,7 +2965,24 @@ public partial class AuditManagement_AuditCalendar : System.Web.UI.Page
     //AUDIT Management work Start
 
     //ALL Classes
+    public class Escalation
+    {
+        public string EscLevel { get; set; }
+        public string Count { get; set; }
+        public string Comments { get; set; }
+        public string ReqID { get; set; }
+        public string ReqRef { get; set; }
+        public string ReqName { get; set; }
+        public string PriorityCss { get; set; }
+        public string AuditID { get; set; }
+        public string CreatedBy { get; set; }
+        public string CreatedDate { get; set; }
+        public string EscID { get; set; }
+        public string USerID { get; set; }
+        public string UpdatedBy { get; set; }
+        public string UpdatedDate { get; set; }
 
+    }
     public class Requirement
     {
         public string Comments { get; set; }
@@ -2862,7 +3000,7 @@ public partial class AuditManagement_AuditCalendar : System.Web.UI.Page
         public string AuditID { get; set; }
         public string CreatedBy { get; set; }
         public string CreatedDate { get; set; }
-        public string EscalationID { get; set; }
+        public string EscID { get; set; }
         public string USerID { get; set; }
     }
     public class AuditActivity

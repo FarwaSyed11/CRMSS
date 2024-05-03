@@ -46,7 +46,7 @@ var dpContractFFStart = [], dpContractFFEnd = []; dpContractTarget = [];
 
 var selActFromDate, selActFromTime, selActToDate, selActToTime, selActTarget;
 
-var listAuditAct = [], listAuditArea = [], ListAuditObservation = [], ListTeam = [], ListRequirement = [] //Audit
+var listAuditAct = [], listAuditArea = [], ListAuditObservation = [], ListTeam = [], ListRequirement = [], ListEscalation = []; //Audit
 
 var listActivities = [];
 var objOptDT = [], objProjDT = [];
@@ -66,8 +66,8 @@ var ActIdForAttachment = 0;
 var selActivityObj = [];
 
 var selAudActObj = []; //Audit
-var selAreaObj = [], selObsObj = [], selRiskObj = [], selReqObj = []; //Audit
-var objDatatableAudArea = [], objDatatableAudObs = [], objDatatableReq = []; //Audit
+var selAreaObj = [], selObsObj = [], selRiskObj = [], selReqObj = [], selEscObj = []; //Audit
+var objDatatableAudArea = [], objDatatableAudObs = [], objDatatableReq = [], objDatatableEsc = []; //Audit
 var objDatatableAudEvent = [], objDatatableTeam = []; //Audit
 
 var selFFActFromTime = '', selFFActToTime = '', selFFActFromDate = '', selFFActToDate = '';
@@ -225,6 +225,18 @@ $(document).ready(function () {
 
         }
     });
+    flatpickr(jQuery("#DueDateReq"), {
+        "disable": [function (date) {
+            //return (date.getDay() != 0);            
+        }],
+        defaultDate: "today",
+        enableTime: false,
+        noCalendar: false,
+        onChange: function (selectedDates, dateStr, instance) {
+
+        }
+    });
+
 
     flatpickr(jQuery("#DueDateArea"), {
         "disable": [function (date) {
@@ -467,10 +479,10 @@ function initializeCalendar() {
                 loadAddedObservationDDL();
                 loadRiskList();
                 renderRiskListTable();
-
                 loadAddedRiskList();
                 renderAddedRiskListTable();
-
+                renderRequirementTable();
+                loadRequirements();
                 loadAddedRiskDDL();
                 loadAddedAreaDDL();
                 getDetailsOfCount();
@@ -1893,7 +1905,7 @@ function blink_text() {
 
 
 
-function addauditgrid() { 
+function addauditgrid() {
     resetControls();
     $('#EventModal').modal('show');
 
@@ -2547,7 +2559,7 @@ function getDetailsOfCount() {
 
 /*AUDIT OBSERVATION STARTS HERE*/
 
-function AddAObsGrid() { 
+function AddAObsGrid() {
     $('#AddObservationaModal').modal('show');
     $('.btnAddAuditObs').html('Create');
     $('#lbladdObsModal').html('Create Observation');
@@ -3100,7 +3112,7 @@ function totlegend() {
 
 /*AUDIT REQUIREMENT WORK STARTS HERE*/
 
-function AddRequestGrid(){
+function AddRequestGrid() {
     $('#AddRequirementModal').modal('show');
     $('.btnAddAuditObs').html('Create');
     $('#lbladdReqModal').html('Create Requirement');
@@ -3121,7 +3133,7 @@ $('.btnAddRequirement').on('click', function () {
         else if ($('#ddlReqStatus option:selected').val() == 'Open') {
             cssClassForStatus = 'task-status-open';
         }
-        
+
         //for priority
         if ($('#ddlReqPriority option:selected').val() == 'Urgent') {
             cssClassForPriority = 'task-priority-urgent';
@@ -3138,14 +3150,15 @@ $('.btnAddRequirement').on('click', function () {
 
         objAddReq = {
             "ReqID": 0,
+            "ReqRef": '',
             "AreaID": $('#ddlAreas1 option:selected').val(),
-            "AuditId": selAudActObj[0].AuditId,
+            "AuditID": selAudActObj[0].AuditId,
             "ReqName": $('#txtReqName').val().trim(),
             "ReqOwner": $('#ddlAuditor3 option:selected').val(),
             "ReqDesc": $('#taReqDeets').val().trim(),
             "ReqStatus": $('#ddlReqStatus option:selected').val().trim() == undefined ? "" : $('#ddlReqStatus option:selected').val(),
             "ReqPriority": $('#ddlReqPriority option:selected').val().trim() == undefined ? "" : $('#ddlReqPriority option:selected').val(),
-            "EscalationID": $('#taObsRecom').val().trim(),
+            "EscID": 0,
             "ReqDate": $('#DueDateReq').val().trim(),
             "Comments": $('#taReqComments').val().trim(),
             "PriorityCss": cssClassForPriority,
@@ -3182,15 +3195,16 @@ function addRequirement(msg) {
     });
 }
 
-function loadRequirements() {
+function loadRequirements(msg) {
     $.ajax({
         url: "AuditCalendar.aspx/GetAllRequirements",
-        data: JSON.stringify({ 'AuditId': selAudActObj[0].AuditId }),
+        data: JSON.stringify({ 'AuditID': selAudActObj[0].AuditId }),
         type: "POST",
         async: false,
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
+
             ListRequirement = result.d;
         },
         error: function (errormessage) {
@@ -3239,21 +3253,27 @@ function renderRequirementTable() {
                     <td> `+ item.ReqDate + ` </td>
                     <td> `+ item.CreatedDate + ` </td>
                     <td> `+ item.CreatedBy + ` </td>
-                    <td> <span class="badge `+ item.PriotityCss + `">`+ item.ReqPriority + ` </td>
-                    <td> <span class="badge `+ item.StatusCss + `">`+ item.ReqStatus + ` </td>
+                    <td> <span class="badge `+ item.PriorityCss + `">` + item.ReqPriority + ` </span></td>
+                    <td> <span class="badge `+ item.StatusCss + `">` + item.ReqStatus + ` </span></td>
                     <td> `+ item.AreaID + ` </td>
                     <td> `+ item.Comments + ` </td>
-                    <td> `+  + ` </td>
-                    <td> `+  + ` </td>
-                    <td> ` +  + ` </span></td>
-                    <td> `+  + ` </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td>
-                    <span style="margin-left: 4%;"> <i class="bx bxs-edit fa-icon-hover ibtn-req-esacalation" title="Escalate" data-reqid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
-                    
+                    <span style="margin-left: 4%;">
+
+                    <i class="bx bx-arrow-from-left fa-icon-hover ibtn-req-esacalation" title="Escalate" data-reqid="`+ item.ReqID + `" style = "color:#3aa7d3; cursor:pointer;font-size: x-large;" ></i></span>
+                        
+                    </span>
                     </td>`
 
         htm += `</tr>`
     });
+    //<i class="bx bxs-edit fa-icon-hover ibtn-req-esacalation" title = "Escalate" data-reqid="`+ item.ReqID + `" style = "color:#3aa7d3; cursor:pointer;font-size: x-large;" ></i></span><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" class="ibtn-req-esacalation" title="Escalate" data-reqid="`+ item.ReqID + `">
+    //<path fill="#ddc136" d="M3 19V5q0-.825.588-1.412T5 3h2q.825 0 1.413.588T9 5v14q0 .825-.587 1.413T7 21H5q-.825 0-1.412-.587T3 19m14.175-6H12q-.425 0-.712-.288T11 12t.288-.712T12 11h5.175l-.9-.9Q16 9.825 16 9.413t.3-.713q.275-.275.7-.275t.7.275l2.6 2.6q.3.3.3.7t-.3.7l-2.6 2.6q-.275.275-.687.288T16.3 15.3q-.275-.275-.275-.7t.275-.7zM12 5q-.425 0-.712-.288T11 4t.288-.712T12 3t.713.288T13 4t-.288.713T12 5m4 0q-.425 0-.712-.288T15 4t.288-.712T16 3t.713.288T17 4t-.288.713T16 5m4 0q-.425 0-.712-.288T19 4t.288-.712T20 3t.713.288T21 4t-.288.713T20 5m-8 16q-.425 0-.712-.288T11 20t.288-.712T12 19t.713.288T13 20t-.288.713T12 21m4 0q-.425 0-.712-.288T15 20t.288-.712T16 19t.713.288T17 20t-.288.713T16 21m4 0q-.425 0-.712-.288T19 20t.288-.712T20 19t.713.288T21 20t-.288.713T20 21" />
+    // </svg >
     $('.req-list-tbody').html(htm);
     initiateRequirementDataTable();
 
@@ -3266,10 +3286,12 @@ $('.req-list-tbody').on('click', '.ibtn-req-esacalation', function () {
 
     let selAction = $(this)[0].title.trim();
 
+    //if (selAction == "Escalate") {
+    //    deletebyModule("Escalate");
+    //}
     if (selAction == "Escalate") {
-        deletebyModule("Escalate");
-    }
-    else if (selAction == "Edit Observation") {
+
+        $('#escalationModal').modal("show");
 
         $('#ddlRisks,#ddlObsConsA,#ddlObsConsB,#ddlObsStatus,#ddlObsConsAxB,#txtObsName,#ddlAuditor2,#taObsDeets,#txtObsResp,#txtObsEntity,#taObsRecom,#taObsPlan,#txtObsRemarks').css({ 'box-shadow': '' }, { 'border-color': 'lightgrey' });
 
@@ -3292,7 +3314,156 @@ $('.req-list-tbody').on('click', '.ibtn-req-esacalation', function () {
         $('#lbladdObsModal').html('Update Observation');
 
     }
-})
+});
+
+$("#btn-escalate").on('click', function () {
+
+
+    let cssClassForStatus = '';
+
+    if (!validateTaskControlsforAddReq()) {
+        toastr.error(msgForTaskIfValidFailed, '');
+    }
+    else {
+        //for level
+        if ($('#ddllevel option:selected').val() == 'High') {
+            cssClassForPriority = 'task-priority-high';
+        }
+        else if ($('#ddllevel option:selected').val() == 'Medium') {
+            cssClassForPriority = 'task-priority-medium';
+        }
+        else if ($('#ddlReqPriority option:selected').val() == 'Low') {
+            cssClassForPriority = 'task-priority-low';
+        }
+
+        objAddEscalation = {
+            "Count": $('#lblCount').val().trim(),
+            "ReqID": selReqObj[0].ReqID,
+            "ReqRef": selReqObj[0].ReqRef,
+            //"AuditID": selAudActObj[0].AuditId,
+            "ReqName": selReqObj[0].ReqName,
+            "EscLevel": $('#ddllevel option:selected').val().trim() == undefined ? "" : $('#ddllevel option:selected').val(),
+            "EscID": 0,
+            "Comments": $('#taEscComments').val().trim(),
+            "PriorityCss": cssClassForPriority,
+            "StatusCss": cssClassForStatus,
+            "USerID": currUserId,
+            "CreatedBy": EmpNo,
+            "CreatedDate": getCurrentDate(),
+            "UpdatedBy": EmpNo,
+            "UpdatedDate": getCurrentDate(),
+        }
+        escalation('This Requirement is Escalated Successfully');
+
+    }
+
+});
+
+function escalation() {
+    $.ajax({
+        url: "AuditCalendar.aspx/AddEscalation",
+        data: JSON.stringify({ 'data': objAddEscalation }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            toastr.success(msg);
+            $('#escalationModal').modal("hide")
+            loadRequirements();
+            loadEscalation();
+            renderRequirementTable();
+            renderEscalationTable();
+            resetControls();
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+
+function loadEscalation(msg) {
+    $.ajax({
+        url: "AuditCalendar.aspx/GetAllEscalation",
+        data: JSON.stringify({ 'AuditID': selAudActObj[0].AuditId, 'ReqID': selReqObj[0].ReqID }),
+        type: "POST",
+        async: false,
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+
+            ListEscalation = result.d;
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+
+function initiateEscalationDataTable() {
+    objDatatableReq = [];
+    objDatatableReq = $('.esc-list-table').DataTable({
+        dom: 'lBfrtip',
+        "bStateSave": true,
+        buttons: {
+            buttons: [
+                {
+                    extend: 'excel', text: '<i class="fa-solid fa-file-excel" aria-hidden="true" style="font-size: x-large;" title="Export Excel"></i>', className: 'btn btn-secondary iconClassExcel '
+                }
+            ]
+        },
+
+        "columnDefs": [
+            { "width": "120px", "targets": 0 },
+            { "orderable": false, "targets": [9] },
+            { "orderable": true, "targets": [] }
+        ]
+        //select: true,
+        //colReorder: true
+    });
+
+}
+function renderEscalationTable() {
+    var htm = '';
+    $('.esc-list-tbody td').length > 0 ? objDatatableEsc.destroy() : '';
+    //var memRole = listMembers.filter(s => (s.EmpNo).toUpperCase() == EmpNo.toUpperCase() && s.IsActive == 1)[0].MemberRoleForProj;
+
+    $.each(ListEscalation, function (key, item) {
+
+        htm += `<tr> 
+                    <td> <span class="badge badge-for-taskcode"> `+ item.ReqRef + ` </span> </td>
+                    <td> <span class=""> `+ item.ReqName + ` </span> </td>
+                    <td> `+ item.ReqDesc + ` </td>
+                    <td> `+ item.ReqOwner + ` </td>
+                    <td> `+ item.ReqDate + ` </td>
+                    <td> `+ item.CreatedDate + ` </td>
+                    <td> `+ item.CreatedBy + ` </td>
+                    <td> <span class="badge `+ item.PriotityCss + `">` + item.ReqPriority + ` </span></td>
+                    <td> <span class="badge `+ item.StatusCss + `">` + item.ReqStatus + ` </span></td>
+                    <td> `+ item.AreaID + ` </td>
+                    <td> `+ item.Comments + ` </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                    <span style="margin-left: 4%;">
+
+                    <i class="bx bx-arrow-from-left fa-icon-hover ibtn-req-esacalation" title="Escalate" data-reqid="`+ item.ReqID + `" style = "color:#3aa7d3; cursor:pointer;font-size: x-large;" ></i></span>
+                        
+                    </span>
+                    </td>`
+
+        htm += `</tr>`
+    });
+    //<i class="bx bxs-edit fa-icon-hover ibtn-req-esacalation" title = "Escalate" data-reqid="`+ item.ReqID + `" style = "color:#3aa7d3; cursor:pointer;font-size: x-large;" ></i></span><svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" class="ibtn-req-esacalation" title="Escalate" data-reqid="`+ item.ReqID + `">
+    //<path fill="#ddc136" d="M3 19V5q0-.825.588-1.412T5 3h2q.825 0 1.413.588T9 5v14q0 .825-.587 1.413T7 21H5q-.825 0-1.412-.587T3 19m14.175-6H12q-.425 0-.712-.288T11 12t.288-.712T12 11h5.175l-.9-.9Q16 9.825 16 9.413t.3-.713q.275-.275.7-.275t.7.275l2.6 2.6q.3.3.3.7t-.3.7l-2.6 2.6q-.275.275-.687.288T16.3 15.3q-.275-.275-.275-.7t.275-.7zM12 5q-.425 0-.712-.288T11 4t.288-.712T12 3t.713.288T13 4t-.288.713T12 5m4 0q-.425 0-.712-.288T15 4t.288-.712T16 3t.713.288T17 4t-.288.713T16 5m4 0q-.425 0-.712-.288T19 4t.288-.712T20 3t.713.288T21 4t-.288.713T20 5m-8 16q-.425 0-.712-.288T11 20t.288-.712T12 19t.713.288T13 20t-.288.713T12 21m4 0q-.425 0-.712-.288T15 20t.288-.712T16 19t.713.288T17 20t-.288.713T16 21m4 0q-.425 0-.712-.288T19 20t.288-.712T20 19t.713.288T21 20t-.288.713T20 21" />
+    // </svg >
+    $('.esc-list-tbody').html(htm);
+    initiateEscalationDataTable();
+
+}
 
 
 /*************AUDIT REQUIREMENT WORK ENDS HERE*****************/
@@ -3311,8 +3482,9 @@ function reloadCalendarOnCloseModalOnly() {
         LoadAuditEvents();
         $(".ajax-loader").fadeOut(100);
     }, 100);
-    calendar.refetchEvents();
     oFullCalendar.destroy();
+    oFullCalendar.refetchEvents();
+
     initializeCalendar();
 }
 
@@ -3323,7 +3495,7 @@ function reloadCalendarOnCreateModalOnly() {
         LoadAuditEvents();
         $(".ajax-loader").fadeOut(100);
     }, 100);
-    calendar.refetchEvents();
+    oFullCalendar.refetchEvents();
     oFullCalendar.render();
     initializeCalendar();
     resetControls();
@@ -3353,7 +3525,7 @@ function validateTaskControlsforAddReq() {
     else {
         $('#txtReqName').css({ 'box-shadow': '' }, { 'border-color': 'lightgrey' });
     }
-    if ($('#taReqDeets').val().trim()) {
+    if ($('#taReqDeets').val().trim() == "") {
         $('#taReqDeets').parent().css({ 'box-shadow': '0px 0.5px 4.5px #e36033d9' }, { 'border-color': '#ec290478 !important' });
         isValid = false;
     }
@@ -3361,19 +3533,19 @@ function validateTaskControlsforAddReq() {
         $('#taReqDeets').css({ 'box-shadow': '' }, { 'border-color': 'lightgrey' });
     }
 
-    if ($('#ddlStatus option:selected').val() == "none") {
-        $('#ddlStatus').parent().css({ 'box-shadow': '0px 0.5px 4.5px #e36033d9' }, { 'border-color': '#ec290478 !important' });
+    if ($('#ddlReqStatus option:selected').val() == "none") {
+        $('#ddlReqStatus').parent().css({ 'box-shadow': '0px 0.5px 4.5px #e36033d9' }, { 'border-color': '#ec290478 !important' });
         isValid = false;
     }
     else {
-        $('#ddlStatus').parent().css({ 'box-shadow': '' }, { 'border-color': 'lightgrey' });
+        $('#ddlReqStatus').parent().css({ 'box-shadow': '' }, { 'border-color': 'lightgrey' });
     }
-    if ($('#taScopeAudit').val().trim() == "") {
-        $('#taScopeAudit').css({ 'box-shadow': '0px 0.5px 2.5px #e36033d9' }, { 'border-color': '#ec290478 !important' });
+    if ($('#taReqComments').val().trim() == "") {
+        $('#taReqComments').css({ 'box-shadow': '0px 0.5px 2.5px #e36033d9' }, { 'border-color': '#ec290478 !important' });
         isValid = false;
     }
     else {
-        $('#taScopeAudit').css({ 'box-shadow': '' }, { 'border-color': 'lightgrey' });
+        $('#taReqComments').css({ 'box-shadow': '' }, { 'border-color': 'lightgrey' });
     }
 
     if ($('#DueDateReq').val().trim() == "") {
@@ -3383,12 +3555,12 @@ function validateTaskControlsforAddReq() {
     else {
         $('#DueDateReq').css({ 'box-shadow': '' }, { 'border-color': 'lightgrey' });
     }
-    if ($('#NoOfDaysTask').val().trim() == "0" || $('#NoOfDaysTask').val().trim() == "") {
-        $('#NoOfDaysTask').css({ 'box-shadow': '0px 0.5px 2.5px #e36033d9' }, { 'border-color': '#ec290478 !important' });
+    if ($('#ddlReqPriority option:selected').val() == "none") {
+        $('#ddlReqPriority').parent().css({ 'box-shadow': '0px 0.5px 4.5px #e36033d9' }, { 'border-color': '#ec290478 !important' });
         isValid = false;
     }
     else {
-        $('#NoOfDaysTask').css({ 'box-shadow': '' }, { 'border-color': 'lightgrey' });
+        $('#ddlReqPriority').parent().css({ 'box-shadow': '' }, { 'border-color': 'lightgrey' });
     }
 
     return isValid;
@@ -3775,7 +3947,7 @@ function getDateInWordsFormat(dt) {
 function setSubmitStatus() {
     $.ajax({
         url: "AuditCalendar.aspx/setApprovalStatus",
-        data: JSON.stringify({ 'AuditId': selAudActObj[0].AuditId,"Status":'SUBMIT', }),
+        data: JSON.stringify({ 'AuditId': selAudActObj[0].AuditId, "Status": 'SUBMIT', }),
         type: "POST",
         async: false,
         contentType: "application/json;charset=utf-8",
@@ -3815,6 +3987,7 @@ function setApprovalStatus() {
 
 function RoleMaster(status) {
     var htmCreate = '';
+    var alerthtml = '<div class="alert alert-primary" role = "alert">This audit is a draft and pending on approval with your manager. You will be able to add more details (area, risks, etc) as soon as your manager approves this audit. </br> Would you like to make changes? <a href="/AuditManagement/AuditLIst.aspx" class="alert-link">Go to Audit List.</a></div>';
 
     if (status == 'DRAFT' && myroleList.includes("13202")) {
         htmCreate = ``;
@@ -3822,16 +3995,19 @@ function RoleMaster(status) {
         $('.Create-Risk').html(``);
         $('.Create-Requirement').html(``);
         $('.Create-Audit').html(htmCreate);
+        $('.useralert').html(alerthtml);
+
     }
     else {
 
+        $('.useralert').html('');
         $('.Create-Audit-Area').html(` <a href="#" class="btn btn-primary pull-right btn-add-audit-area mb-3" onclick="AddAuditArea()"><i class="fa fa-plus me-2" aria-hidden="true"></i>Create Audit Area</a>`);
         $('.Create-Risk').html(`<a href="#" class="btn btn-primary pull-right btn-add-risk-grid mb-3" onclick="AddRisk()"><i class="fa fa-plus mr-2" aria-hidden="true"></i>Add Risk</a>`);
         $('.Create-Observation').html(`<a href="#" class="btn btn-primary pull-right btn-add-obs-grid mb-3" onclick="AddAObsGrid()"><i class="fa fa-plus mr-2" aria-hidden="true"></i>Create Observation</a>`);
         $('.Create-Requirement').html(`<a href="#" class="btn btn-primary pull-right btn-add-req-grid mb-3" onclick="AddRequestGrid()"><i class="fa fa-plus mr-2" aria-hidden="true"></i>Create Requirement</a>`);
 
     }
-   
+
 }
 
 
