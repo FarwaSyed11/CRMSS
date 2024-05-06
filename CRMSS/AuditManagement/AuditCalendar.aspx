@@ -936,7 +936,7 @@
         </div>
     </div>
 
-     <%--ADD Audit Requirement--%>
+    <%--ADD Audit Requirement--%>
     <div class="modal fade" id="AddRequirementModal" tabindex="-1" aria-hidden="true">
          <div class="modal-dialog modal-xl" role="document">
              <div class="modal-content">

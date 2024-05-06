@@ -58,7 +58,7 @@ public partial class AuditManagement_AuditList : System.Web.UI.Page
                     StatusCss = dt.Rows[i]["StatusCss"].ToString(),
                     CreatedDate = dt.Rows[i]["CreatedDate"].ToString(),
                     PriorityCss = dt.Rows[i]["PriorityCss"].ToString(),
-
+                    ApprovalStatus = dt.Rows[i]["WrkflwStatus"].ToString()
                 });
             }
         }
@@ -72,6 +72,8 @@ public partial class AuditManagement_AuditList : System.Web.UI.Page
 //Class Models
 public class auditevents
 {
+    public string ApprovalStatus { get; set; }
+    
     public string AuditId { get; set; }
     public string AuditDept { get; set; }
     public string AuditeeOwner { get; set; }

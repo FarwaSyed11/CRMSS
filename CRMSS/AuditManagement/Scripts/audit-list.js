@@ -184,7 +184,8 @@ function OtherCalling() {
     loadAddedObservationDDL();
     loadRiskList();
     renderRiskListTable();
-
+    loadRequirements();
+    renderRequirementTable();
     loadAddedRiskList();
     renderAddedRiskListTable();
 
@@ -192,9 +193,26 @@ function OtherCalling() {
     loadAddedAreaDDL();
     getDetailsOfCount();
 
+   
+
     loadTeamMembersss(selAudActObj[0].AuditId);
     
     resetControls();
+
+    if (selAudActObj[0].ApprovalStatus == 'DRAFT' && myroleList.includes("13202")) {
+
+        $('.Validation-Button').html(`<a href="#" class="btn btn-primary pull-right btn-Submit-Audit btn-approve-submit" onclick="setSubmitStatus()"><i class="fa fa-save"></i> &nbsp;Submit</a>`);
+    }
+    else if (selAudActObj[0].ApprovalStatus == 'SUBMIT' && myroleList.includes("13202")) {
+
+        $('.Validation-Button').html(``);
+    }
+
+    else if (selAudActObj[0].ApprovalStatus != 'APPROVED' && myroleList.includes("13205")) {
+        $('.Validation-Button').html(`<a href="#" class="btn btn-primary pull-right btn-APPROVED-Audit btn-approve-submit" onclick="setApprovalStatus()"><i class="fa fa-check-square"></i> &nbsp;APPROVE</a>`);
+
+    }
+    RoleMaster(selAudActObj[0].ApprovalStatus);
     $('#eventModalDetailHeading').html('Audit Plan Details - ' + weekday[new Date(selAudActObj[0].StartDate).getDay()] + ', ' + monthname[new Date(selAudActObj[0].StartDate).getMonth()] + ' ' +
         new Date(selAudActObj[0].StartDate).getDate() + ' ' + new Date(selAudActObj[0].StartDate).getFullYear());
 
@@ -418,4 +436,75 @@ function resetModal() {
 
 function getDateInWordsFormat(dt) {
     return monthsNameByNo[new Date(dt).getMonth()] + ', ' + new Date(dt).getDate() + ' ' + new Date(dt).getFullYear();
+}
+
+function AddRequestGrid() {
+    $('#AddRequirementModal').modal('show');
+    $('.btnAddRequirement').html('Create');
+    $('#lbladdReqModal').html('Create Requirement');
+    resetControls();
+    loadAddedAreaDDL();
+}
+
+function setSubmitStatus() {
+    $.ajax({
+        url: "AuditCalendar.aspx/setApprovalStatus",
+        data: JSON.stringify({ 'AuditId': selAudActObj[0].AuditId, "Status": 'SUBMIT', }),
+        type: "POST",
+        async: false,
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            toastr.success('Audit has been sent for approval, successfully.', '');
+            $('#EventDetails').modal('hide');
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+
+function setApprovalStatus() {
+    $.ajax({
+        url: "AuditCalendar.aspx/setApprovalStatus",
+        data: JSON.stringify({ 'AuditId': selAudActObj[0].AuditId, "Status": 'APPROVED', }),
+        type: "POST",
+        async: false,
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            toastr.success('Audit Approved Successfully', '');
+            $('#EventDetails').modal('hide');
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+
+function RoleMaster(status) {
+    var htmCreate = '';
+    var alerthtml = '<div class="alert alert-primary" role = "alert">This audit is a draft and pending on approval with your manager. You will be able to add more details (area, risks, etc) as soon as your manager approves this audit. </br> Would you like to make changes? </div>';
+
+    if ((status == 'DRAFT' && myroleList.includes("13202")) || (status == 'SUBMIT' && myroleList.includes("13202"))) {
+        htmCreate = ``;
+        $('.Create-Audit-Area').html(` `);
+        $('.Create-Risk').html(``);
+        $('.Create-Requirement').html(``);
+        $('.Create-Audit').html(htmCreate);
+        $('.useralert').html(alerthtml);
+
+    }
+    else {
+
+        $('.useralert').html('');
+        $('.Create-Audit-Area').html(` <a href="#" class="btn btn-primary pull-right btn-add-audit-area mb-3" onclick="AddAuditArea()"><i class="fa fa-plus me-2" aria-hidden="true"></i>Create Audit Area</a>`);
+        $('.Create-Risk').html(`<a href="#" class="btn btn-primary pull-right btn-add-risk-grid mb-3" onclick="AddRisk()"><i class="fa fa-plus mr-2" aria-hidden="true"></i>Add Risk</a>`);
+        $('.Create-Observation').html(`<a href="#" class="btn btn-primary pull-right btn-add-obs-grid mb-3" onclick="AddAObsGrid()"><i class="fa fa-plus mr-2" aria-hidden="true"></i>Create Observation</a>`);
+        $('.Create-Requirement').html(`<a href="#" class="btn btn-primary pull-right btn-add-req-grid mb-3" onclick="AddRequestGrid()"><i class="fa fa-plus mr-2" aria-hidden="true"></i>Create Requirement</a>`);
+
+    }
+
 }

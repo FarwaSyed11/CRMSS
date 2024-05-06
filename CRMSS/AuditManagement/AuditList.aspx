@@ -30,7 +30,7 @@
         <div id="content"></div>
 
         <div class="card-body">
-            <div class="col-12 " style="display:none">
+            <div class="col-12" style="display:none">
                 <div class="card card-primary">
                     <div class="card-body p-0">
                         <!-- THE CALENDAR -->
@@ -196,17 +196,26 @@
     </div>
 
     <%--Show Audit details--%>
-    <div class="modal fade" id="EventDetails" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="EventDetails" data-bs-backdrop="static" tabindex="-1" aria-hidden="true" style="overflow:scroll">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="eventModalDetailHeading">Audit Details</h5>
+                    <div style="width:88%;">
+                        <h5 class="modal-title" id="eventModalDetailHeading">Audit Details</h5>
+                    </div>
+                    <div style="width:10%" class="Validation-Button">
+                    </div>
                     <button
                         type="button"
                         class="btn-close btn-close-event-modal" data-bs-dismiss="modal" aria-label="Close">
                     </button>
                 </div>
                 <div class="modal-body proj-popup">
+                    <div class="row useralert">
+                        <div class="alert alert-primary" role="alert">
+                            This is a primary alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
+                        </div>
+                    </div>
                     <div class="row deets p-3">
                         <div class="col-12">
                             <div class="descriptionbox">
@@ -365,6 +374,9 @@
                             <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-Observations" aria-controls="navs-top-Observations" aria-selected="false"><span class="liSecondText">Observations</span></button>
                         </li>
                         <li class="nav-item" role="presentation">
+                            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-Requirement" aria-controls="navs-top-Requirement" aria-selected="false">Requirements</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
                             <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-TeamMembers" aria-controls="navs-top-TeamMembers" aria-selected="false">Team Members</button>
                         </li>
                         <%--<span style="position: relative; left: 27%;" class="lbl-act-status"></span>--%>
@@ -474,6 +486,36 @@
                             <%--4--%>
                             <div class="team-tbody">
                                             
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="navs-top-Requirement" role="tabpanel">
+                            <%--5--%>
+                            <div class="Create-Requirement">
+       
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover req-list-table" style=" width: 100%; border-color: inherit; border-style: none !important; border-width: 0;">
+                                    <thead>
+                                        <tr style="text-align: center;">
+                                            <th>Ref#</th>
+                                            <th>Name</th>
+                                            <th>Description</th>
+                                            <th>Owner</th>
+                                            <th>Estimated Date</th>
+                                            <th>Created Date</th>
+                                            <th>Created By</th>
+                                            <th>Priority</th>
+                                            <th>Status</th>
+                                            <th>Area</th>
+                                            <th>Comments</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="req-list-tbody" style="text-align: center; font-size: 12px;">
+                                    </tbody>
+                                </table>
+        
                             </div>
                         </div>
                     </div>
@@ -761,6 +803,100 @@
         </div>
     </div>
 
+    <div class="modal fade" id="AddRequirementModal" tabindex="-1" aria-hidden="true">
+         <div class="modal-dialog modal-xl" role="document">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h5 class="modal-title" id="lbladdReqModal">Create New Requirement</h5>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body proj-popup">
+
+                     <div class="row">
+                         <div class="col-6">
+                            <label for="html5-number-input" class="col-form-label label-custom">Requirement Name<span style="color: red;">*</span></label>
+                            <div class="">
+                                <input type="text" id="txtReqName" placeholder="Enter requirement name" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-6">
+                             <label for="html5-number-input" class="col-form-label label-custom">Requirement Owner<span style="color: red;">*</span></label>
+                             <select id="ddlAuditor3" class="form-select color-dropdown">
+                                 <option value="none" selected="">None</option>
+                             </select>
+                        </div>
+                         <div class="col-12">
+                            <label class="col-form-label label-custom" for="basic-default-name">Requirement Details<span style="color: red;">*</span></label>
+                            <div>
+                                <textarea class="form-control" id="taReqDeets" rows="4" placeholder="Type requirement details here..."></textarea>
+                            </div>
+                        </div>
+                         <div class="col-4">
+                            <label for="html5-number-input" class="col-form-label label-custom">Requested Date <span style="color: red;">*</span></label>
+                            <div class="">
+                                <input type="text" id="DueDateReq" class="form-control flatpickr-input active" style="background: white;" placeholder="Select End Date" readonly="readonly">
+                            </div>
+                         </div>
+                     
+                        <%--<a href="#" data-bs-toggle="tooltip" title="Tooltip"><i class="fa-regular fa-circle-question"></i></a>--%>
+                   
+                         <div class="col-4">
+                            <label class="col-form-label label-custom" for="basic-default-name">Status<span style="color: red;">*</span></label>
+                            <div>
+                                <select id="ddlReqStatus" class="form-select color-dropdown">
+                                    <option value="none" selected>Select Status</option>
+                                    <option value="Open">Open</option>
+                                    <option value="Close">Closed</option>
+                                </select>
+                            </div>
+                        </div>
+                    
+                          <div class="col-4">
+                             <label for="html5-number-input" class="col-form-label label-custom">Priority<span style="color: red;">*</span></label>
+                             <div class="">
+                                 <select id="ddlReqPriority" class="form-select color-dropdown">
+                                    <option value="none" selected>None</option>
+                                    <option value="Urgent">Urgent</option>
+                                    <option value="Important">Important</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Low">Low</option>
+                                </select>
+                             </div>
+                         </div>
+                         <div class="col-6">
+                            <label for="html5-number-input" class="col-form-label label-custom">Area</label>
+                             <div class="">
+                                  <select id="ddlAreas1" class="form-select color-dropdown">
+                                    <option value="None" selected>Select Area</option>
+                                </select>
+                             </div>
+                        </div>
+                         <div class="col-12"></div>
+                         <div class="col-6">
+                             <label for="html5-number-input" class="col-form-label label-custom">Comments</label>
+                             <div class="">
+                                 <textarea type="text" id="taReqComments" class="form-control" rows="4" placeholder="Type your comments here..."></textarea>
+                             </div>
+                         </div>
+                          <div class="col-6">
+                            <input type="file" class="filepond"
+                                name="filepond" 
+                                multiple 
+                                data-allow-reorder="true"
+                                data-max-file-size="3MB"
+                                data-max-files="3" />
+                          </div>
+                    </div>
+                 </div>
+
+                 <div class="modal-footer">
+                     <button type="button" class="btn btn-closepu" data-bs-dismiss="modal">Close</button>
+                     <button type="button" class="btn btn-primary btnAddRequirement">Create</button>
+                 </div>
+             </div>
+         </div>
+     </div>
+
     <%--DELETE CONFIMATION MODAL--%>
     <div class="modal fade" id="deleteModal" style="background-color:#00000070;" tabindex="-1" aria-labelledby="deelteModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
@@ -779,6 +915,81 @@
         </div>
       </div>
     </div>
+
+    
+    <div class="modal fade" id="escalationModal" style="background-color:#00000070;" tabindex="-1" aria-labelledby="deelteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+    
+              <div class="modal-body" >
+                  <div style="text-align:center;">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="5em" height="5em" viewBox="0 0 24 24">
+	                       <path fill="#ddc136" d="M3 19V5q0-.825.588-1.412T5 3h2q.825 0 1.413.588T9 5v14q0 .825-.587 1.413T7 21H5q-.825 0-1.412-.587T3 19m14.175-6H12q-.425 0-.712-.288T11 12t.288-.712T12 11h5.175l-.9-.9Q16 9.825 16 9.413t.3-.713q.275-.275.7-.275t.7.275l2.6 2.6q.3.3.3.7t-.3.7l-2.6 2.6q-.275.275-.687.288T16.3 15.3q-.275-.275-.275-.7t.275-.7zM12 5q-.425 0-.712-.288T11 4t.288-.712T12 3t.713.288T13 4t-.288.713T12 5m4 0q-.425 0-.712-.288T15 4t.288-.712T16 3t.713.288T17 4t-.288.713T16 5m4 0q-.425 0-.712-.288T19 4t.288-.712T20 3t.713.288T21 4t-.288.713T20 5m-8 16q-.425 0-.712-.288T11 20t.288-.712T12 19t.713.288T13 20t-.288.713T12 21m4 0q-.425 0-.712-.288T15 20t.288-.712T16 19t.713.288T17 20t-.288.713T16 21m4 0q-.425 0-.712-.288T19 20t.288-.712T20 19t.713.288T21 20t-.288.713T20 21" />
+                      </svg>
+                  
+                      <%--<i class="bx bxs-x-circle fa-del-kpi" title="View More" style="cursor:pointer;padding-right: 10px;font-size: 80px;color: #e14b4b;"></i></div>--%>
+                        <div><h3>Are you sure you want to escalate?</h3></div>
+                        <span class="drequirementName"></span>
+                  </div>
+                <label for="html5-number-input" id="lblCount" class="col-form-label label-custom">0</label>
+                  <div class="col-12">
+                    <label for="html5-number-input" class="col-form-label label-custom">Escalation Level<span style="color: red;">*</span></label>
+                    <div class="">
+                        <select id="ddllevel" class="form-select color-dropdown">
+                        <option value="Low" selected>Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+                    </div>
+                </div>
+                <div class="col-12  mb-4">
+                    <label for="html5-number-input" class="col-form-label label-custom">Comments</label>
+                    <div class="">
+                    <textarea type="text" id="taEscComments" class="form-control" rows="4" placeholder="Type your comments here..."></textarea>
+                    </div>
+                </div>
+                
+                 
+              <div class="modal-footer">
+                  <div style="margin-right: 165px;">  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-primary btn-escalate">Yes</button>
+                  </div>
+              </div>
+              </div>
+          </div>
+       </div>
+    </div>
+
+    <div class="modal fade" id="escalationViewModal" style="background-color:#00000070;" tabindex="-1" aria-labelledby="" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+    
+              <div class="modal-body" >
+                  
+                   <table class="table table-hover esc-list-table" style=" width: 100%; border-color: inherit; border-style: none !important; border-width: 0;">
+                        <thead>
+                            <tr style="text-align: center;">
+                                <th>ESC Code</th>
+                                <th>Comments</th>
+                                <th>Escalation Level</th>
+                                <th>Count</th>
+                                <th>Escalation Date</th>
+                            </tr>
+                        </thead>
+                        <tbody class="esc-list-tbody" style="text-align: center; font-size: 12px;">
+                        </tbody>
+                  </table>
+              </div>
+                <div class="modal-footer">
+                    <div style="text-align:center">  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     
     <input type="hidden" value="0" id="hfId" />
     <asp:HiddenField ID="hfAttachId" runat="server" />
@@ -797,7 +1008,7 @@
             EmpNo = '<%= Session["EmpNo"] %>';
             myrole = '<%=Session["Role"]%>';
             actIDForAttach = $('#<%=hfAttachId.ClientID%>');
-            rolesList = '<%=Session["CurrentUserRolesList"].ToString()%>';
+            myroleList = '<%=Session["CurrentUserRolesList"]%>';
 
         });
     </script>

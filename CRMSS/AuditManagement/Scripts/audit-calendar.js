@@ -186,8 +186,20 @@ $(document).ready(function () {
             let endDate = AddDays($('#StartDateTask').val(), $('#NoOfDaysTask').val());
             $('#DueDateTask').val(endDate);
         }
-    });
+    }); 
 
+    flatpickr(jQuery("#dateTarget"), {
+        "disable": [function (date) {
+            //return (date.getDay() != 0);            
+        }],
+        defaultDate: "today",
+        enableTime: false,
+        noCalendar: false,
+        onChange: function (selectedDates, dateStr, instance) {
+
+          
+        }
+    });
     flatpickr(jQuery("#dpDueDate"), {
         "disable": [function (date) {
             //return (date.getDay() != 0);            
@@ -2655,7 +2667,8 @@ $('#EventDetails').on('click', 'li', function () {
         renderAuditAreaTable();
     }
     else if (isActive == 'Risk Control') {
-
+        loadRiskList();
+        renderRiskListTable();
         renderAddedRiskListTable();
         loadAddedRiskDDL();
     }
@@ -2929,9 +2942,9 @@ function doit(selReqId) {
             cssClassForPriority = 'task-priority-low';
         }
 
-        if (esccount == 0) {
-            Count++;
-        }
+        //if (esccount == 0) {
+        //    Count++;
+        //}
 
         objAddEscalation = {
             "EscID": 0,
@@ -3488,11 +3501,12 @@ function RoleMaster(status) {
     var htmCreate = '';
     var alerthtml = '<div class="alert alert-primary" role = "alert">This audit is a draft and pending on approval with your manager. You will be able to add more details (area, risks, etc) as soon as your manager approves this audit. </br> Would you like to make changes? <a href="/AuditManagement/AuditLIst.aspx" class="alert-link">Go to Audit List.</a></div>';
 
-    if (status == 'DRAFT' && myroleList.includes("13202")) {
+    if ((status == 'DRAFT' && myroleList.includes("13202")) || (status == 'SUBMIT' && myroleList.includes("13202")) ) {
         htmCreate = ``;
         $('.Create-Audit-Area').html(` `);
         $('.Create-Risk').html(``);
         $('.Create-Requirement').html(``);
+        $('.Create-Observation').html(``);
         $('.Create-Audit').html(htmCreate);
         $('.useralert').html(alerthtml);
 
@@ -3549,7 +3563,7 @@ function checkWithinAuditRange() {
     msg = 'Date Exceeds with the Audit Date! Please select within the audit date range.';
     let StartDate = $('#StartDateArea').val().trim();
     let EndDate = $('#DueDateArea').val().trim();
-    if (getDateInWordsFormat(StartDate) >= getDateInWordsFormat(selAudActObj[0].StartDate) && getDateInWordsFormat(selAudActObj[0].EndDate) >= getDateInWordsFormat(EndDate)) {
+    if ((getDateInWordsFormat(StartDate) >= getDateInWordsFormat(selAudActObj[0].StartDate)) || (getDateInWordsFormat(selAudActObj[0].EndDate) >= getDateInWordsFormat(EndDate))) {
         isWithin = true;
     }
     else {

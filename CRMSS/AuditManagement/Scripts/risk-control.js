@@ -204,6 +204,13 @@ function renderRiskListTable() {
 
 }
 
+
+function AddRisk() {
+    selRiskControlsIdsList = [];
+    $('#AddRiskModal').modal('show');
+    $('.btnAddAuditRisk').html('Add');
+    $('#lbladdRiskModal').html('Add New Risk');
+}
 $('.btn-add-risk-grid').on('click', function () {
     selRiskControlsIdsList = [];
     $('#AddRiskModal').modal('show');
