@@ -3,7 +3,10 @@ var weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
 var monthname = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
 var monthsNameByNo = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 var odd = [1,3,5,7,9,11,13,15,17,19,21,23];
-var even = [2, 4, 8, 10, 12, 14,16,18,20,22,24];
+var even = [2, 4, 8, 10, 12, 14, 16, 18, 20, 22, 24];
+
+var Listitems = [], objDatatableAccnAss=[];
+
 
 $(document).ready(function () {
     loadEmpImage();
@@ -11,6 +14,8 @@ $(document).ready(function () {
     loadEmpDetails();
     LoadSkillsDDL();
     LoadSkills();
+    loadAccnAssDetails();
+    renderAccnAsstTable();
 });
 
 $('.jobdesc').on('click', function () {
@@ -705,6 +710,87 @@ function loadEmpDetailsInSlip() {
 
 }
 
+
+function loadAccnAssDetails() {
+    $.ajax({
+        url: "Profile.aspx/GetAssetDetails",
+        data: JSON.stringify({ "EmpNo": EmpNo }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+
+        success: function (result) {
+            Listitems = result.d;
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+
+function initiateAccnAsstDataTable() {
+    objDatatableAccnAss = [];
+    objDatatableAccnAss = $('.accnass-table').DataTable({
+        dom: 'lBfrtip',
+        "bStateSave": true,
+        buttons: {
+            buttons: [
+                {
+                    extend: 'excel', text: '<i class="fa-solid fa-file-excel" aria-hidden="true" style="font-size: x-large;" title="Export Excel"></i>', className: 'btn btn-secondary iconClassExcel '
+
+                }
+            ]
+        },
+
+        "columnDefs": [
+            { "width": "120px", "targets": 0 },
+            { "orderable": false, "targets": [] },
+            { "orderable": true, "targets": [] }
+        ]
+        //select: true,
+        //colReorder: true
+    });
+
+}
+
+function renderAccnAsstTable() {
+    var htm = '';
+    $('.accnass-tbody td').length > 0 ? objDatatableAccnAss.destroy() : '';
+    //var memRole = listMembers.filter(s => (s.EmpNo).toUpperCase() == EmpNo.toUpperCase() && s.IsActive == 1)[0].MemberRoleForProj;
+
+    $.each(Listitems, function (key, item) {
+
+        htm += `<tr> 
+                    <td style="text-align: center;" > <span class="badge badge-for-taskcode"> ` + item.TypeName + ` </span> </td>
+                    <td> `+ item.RefNo + ` </td>
+                    <td> `+ item.Name + ` </td>
+                    <td> `+ item.Description + ` </td>
+                    <td> `+ item.AssignedBy + ` </td>
+                    <td> `+ item.AssignedOn + ` </td>
+                    <td> `+ item.Remarks + ` </td>
+                    <td> `+ item.Attachment + ` </td>
+                    <td> `+ item.Status + ` </td>`
+                    
+                    
+        //    <span style="margin-left: 4%;"><i class="bx bx-trash fa-icon-hover ibtn-mstone-delete" title="Delete Milestone" data-mstoneid="`+ item.MStoneId + `" style="color:#d33a3a; cursor:pointer;font-size: x-large;"></i> </span>`
+
+        htm += `</tr>`
+
+    });
+    $('.accnass-tbody').html(htm);
+    initiateAccnAsstDataTable();
+    //<td style="text-align:left;"> <i class="fa fa-circle `+ item.PriorityCss + `" aria-hidden="true"></i>&nbsp;` + item.Priority + ` </td>
+    //                <td style="text-align: center;"> <span class="badge `+ item.StatusCss + `">` + item.Status + ` </span></td>
+    //                <td style="text-align:center"> `+ item.NoOfDays + ` </td>
+    //                <td>`  + item.StartDate + ` </td>
+    //                <td>`  + item.EndDate + ` </td>
+    //                <td style="text-align: center;">
+    //                <span style="margin-left: 4%;"> <i class="bx bxs-edit fa-icon-hover ibtn-audit-edit" title="Edit Audit" data-audid="`+ item.AuditId + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+    //                <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-audit-info" title="Other" data-audid="`+ item.AuditId + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i> </span> 
+    //                </td>`
+}
 
 //Common Functions------------------------------------
 

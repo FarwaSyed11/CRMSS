@@ -475,6 +475,100 @@ public partial class SSHR_Profile : System.Web.UI.Page
         //string a = userId;
     }
 
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<AssnAcc> GetAssetDetails(string EmpNo)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(8);
+
+        pa.Add("@EmpNo");
+        pv.Add(EmpNo);
+
+
+
+        DBH.CreateDataset_SSHR(ds, "sp_AssetnAccess", true, pa, pv);
+
+        List<AssnAcc> oAssnAssList = new List<AssnAcc>();
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                oAssnAssList.Add(new AssnAcc()
+                {
+                    ID = dt.Rows[i]["ID"].ToString(),
+                    TypeId = dt.Rows[i]["TypeId"].ToString(),
+                    TypeName = dt.Rows[i]["TypeName"].ToString(),
+                    RefNo = dt.Rows[i]["RefNo"].ToString(),
+                    Name = dt.Rows[i]["Name"].ToString(),
+                    AssignedTo = dt.Rows[i]["AssignedTo"].ToString(),
+                    Description = dt.Rows[i]["Description"].ToString(),
+                    AssignedBy = dt.Rows[i]["AssignedBy"].ToString(),
+                    AssignedOn = dt.Rows[i]["AssignedOn"].ToString(),
+                    Remarks = dt.Rows[i]["Remarks"].ToString(),
+                    Attachment = dt.Rows[i]["Attachment"].ToString(),
+                    FileName = dt.Rows[i]["FileName"].ToString(),
+                    ReturnedBy = dt.Rows[i]["ReturnedBy"].ToString(),
+                    ReturnedOn = dt.Rows[i]["ReturnedOn"].ToString(),
+                    TransferredTo = dt.Rows[i]["TransferredTo"].ToString(),
+                    RoleId = dt.Rows[i]["RoleId"].ToString(),
+                    Status = dt.Rows[i]["Status"].ToString(),
+                    CreatedOn = dt.Rows[i]["CreatedOn"].ToString(),
+                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
+                    DeActivatedByTransferedBy = dt.Rows[i]["DeActivatedBy/TransferedBy"].ToString(),
+                    DeActivatedOnTransferedOn = dt.Rows[i]["DeActivatedOn/TransferedOn"].ToString(),
+                    UpdatedOn = dt.Rows[i]["UpdatedOn"].ToString(),
+                    UpdatedBy = dt.Rows[i]["UpdatedBy"].ToString(),
+                    userId = dt.Rows[i]["userId"].ToString(),
+                    EmpName = dt.Rows[i]["EmpName"].ToString(),
+                    EmpNo = dt.Rows[i]["EmpNo"].ToString()
+                });
+            }
+        }
+
+        return oAssnAssList;
+        //string a = userId;
+    }
+
+    public class AssnAcc
+    {
+        public string ID { get; set; }
+        public string TypeId { get; set; }
+        public string TypeName { get; set; }
+        public string RefNo { get; set; }
+        public string Name { get; set; }
+        public string AssignedTo { get; set; }
+        public string Description { get; set; }
+        public string AssignedBy { get; set; }
+        public string AssignedOn { get; set; }
+        public string Remarks { get; set; }
+        public string Attachment { get; set; }
+        public string FileName { get; set; }
+        public string ReturnedBy { get; set; }
+        public string ReturnedOn { get; set; }
+        public string TransferredTo { get; set; }
+        public string RoleId { get; set; }
+        public string Status { get; set; }
+        public string CreatedOn { get; set; }
+        public string CreatedBy { get; set; }
+        public string DeActivatedByTransferedBy { get; set; }
+        public string DeActivatedOnTransferedOn { get; set; }
+        public string UpdatedOn { get; set; }
+        public string UpdatedBy { get; set; }
+        public string userId { get; set; }
+        public string EmpName { get; set; }
+        public string EmpNo { get; set; }
+    }
 
     public class addResponseMsg {
         public string  Message { get; set; }         

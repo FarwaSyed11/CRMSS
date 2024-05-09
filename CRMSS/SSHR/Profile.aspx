@@ -1112,17 +1112,17 @@
                                     </div>
 
                                     <div class="tab-pane" id="tab-AnA" role="tabpanel">
-                                        <div class="modal-body jobdesc-body">
+                                        <div class="">
                                             <div class="row mb-2" style="">
-                                                <div class="col-12">
-                                                    <h5>Assets</h5>
-                                                    <table class="table" style="width:100% !important">
-                                                        <thead class="table">
+                                                <div class="table-responsive col-12">
+                                                    <h5>Assets and Access</h5>
+                                                    <table class="table table-hover accnass-table" style="width:100% !important">
+                                                        <thead class="">
                                                             <tr>
-                                                                <th>Name</th>
                                                                 <th>Type</th>
-                                                                <th>Asset Id</th>
-                                                                <th>Specifications</th>
+                                                                <th>REF #</th>
+                                                                <th>Name</th>
+                                                                <th>Description</th>
                                                                 <th>Assigned By</th>
                                                                 <th>Assigned On</th>
                                                                 <th>Remarks</th>
@@ -1130,52 +1130,13 @@
                                                                 <th>Status</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody class="">
-                                                            <tr>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
+                                                        <tbody class="accnass-tbody">
                                                         </tbody>
                                                     </table>
                                                 </div>
                                             </div>
                                                 
-                                            <div class="row" style="">
-                                                <h5>Access</h5>
-                                                <div class="col-12">
-                                                    <table class="table" style="width:100% !important">
-                                                        <thead class="table">
-                                                            <tr>
-                                                                <th>Name</th>
-                                                                <th>Type</th>
-                                                                <th>Assigned By</th>
-                                                                <th>Assigned On</th>
-                                                                <th>Remarks</th>
-                                                                <th>Attachment</th>
-                                                                <th>Status</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody class="">
-                                                            <tr>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td></td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
+                                           
                                             
                                         </div>
                                     </div>
@@ -1597,12 +1558,12 @@
          });
 
      </script>
+
     <!-- Datatable plugin CSS file -->
     <link href="../FacilityManagement/Datatable/css/jquery.dataTables.min.css" rel="stylesheet" />
-
-
+    <!-- Datatable plugin JS library file -->
     <script src="../FacilityManagement/Datatable/js/jquery.dataTables.min.js"></script>
-  
+
     <script src="../FacilityManagement/Datatable/js/dataTables.buttons.min.js"></script>
     <script src="../FacilityManagement/Datatable/js/jszip.min.js"></script>
     <script src="../FacilityManagement/Datatable/js/pdfmake.min.js"></script>

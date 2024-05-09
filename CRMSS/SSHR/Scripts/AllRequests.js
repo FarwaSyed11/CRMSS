@@ -39,6 +39,8 @@ $(document).ready(function () {
         $(".ajax-loader").addClass('hidden');
     }, 500);
     GetBasicEmpDet();
+    loadEmpDetails();
+    loadEmpLoanDetails();
 
 });
 
@@ -1130,7 +1132,8 @@ function getAllCompanyLoanDetails() {
         async: false,
         success: function (result) {
 
-
+            loadEmpDetails();
+            loadEmpLoanDetails();
             $('#lblStatus').html(result.d[0].Status);
             $('#lblAppID').html(result.d[0].ReqID);
 
@@ -1636,6 +1639,8 @@ function getAllBankDetails() {
         dataType: "json",
         async: false,
         success: function (result) {
+            loadEmpDetails();
+            loadEmpLoanDetails();
             $('#lblStatus').html(result.d[0].Status);
             $('#lblAppID').html(result.d[0].ReqID);
 
@@ -1722,6 +1727,7 @@ function getAllBankDetails() {
             $(".ActionButtons").html(htmActionButton);
             $(".dvApprovalStage").css("display", "");
             loadApproverAuthorityPeople();
+            loadEmpDetails();
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -2114,32 +2120,32 @@ function RequestPageLoad() {
 
                     <div class="col-4 bankcard-col">
                         <label>Basic:
-                            <span id="txtBDBasic">5000</span>
+                            <span id="txtBDBasic">000</span>
                         </label>
                         <label>HRA:
-                            <span id="txtBDHRA">5000</span>
+                            <span id="txtBDHRA">000</span>
                         </label>
                         <label>Car:
-                            <span id="txtBDCar">5000</span>
+                            <span id="txtBDCar">000</span>
                         </label>
                     </div>
                     <div class="col-4  bankcard-col">
                         <label>Petrol:
-                            <span id="txtBDPetrol">5000</span>
+                            <span id="lbSLTransport">000</span>
                         </label>
                         <label>Mobile:
-                            <span id="txtBDMobile">5000</span>
+                            <span id="txtBDMobile">000</span>
                         </label>
                         <label>Food:
-                            <span id="">5000</span>
+                            <span id="lbSLFood">000</span>
                         </label>
                     </div>
                     <div class="col-4  bankcard-col">
                         <label>Other:
-                            <span id="txtBDOther">5000</span>
+                            <span id="txtBDOther">000</span>
                         </label>
                         <label>Total:
-                            <span id="">5000</span>
+                            <span id="lbSLGrossSal">000</span>
                         </label>
                     </div>
                 </div>
@@ -2155,31 +2161,15 @@ function RequestPageLoad() {
                     <table class="table table-responsive">
                         <thead>
                             <tr>
-                                <th>Type</th>
-                                <th>Amount</th>
-                                <th>Deduction</th>
+                                <th>Loan Type</th>
+                                <th>Paid</th>
+                                <th>Recovered</th>
                                 <th>Remaining</th>
-                                <th>Date</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="loan-body">
                             <tr>
-                                <td>Personal</td>
-                                <td>3000</td>
-                                <td>1000</td>
-                                <td>2000</td>
-                                <td>20/8/2024</td>
-                            </tr>
-                            <tr>
-                                <td>Personal</td>
-                                <td>3000</td>
-                                <td>1000</td>
-                                <td>2000</td>
-                                <td>20/8/2024</td>
-                            </tr>
-                            <tr>
-                                <td>Personal</td>
-                                <td>3000</td>
+                                <td id="">HRA</td>
                                 <td>1000</td>
                                 <td>2000</td>
                                 <td>20/8/2024</td>
@@ -2480,32 +2470,32 @@ function RequestPageLoad() {
 
                     <div class="col-4 bankcard-col">
                         <label>Basic:
-                            <span id="txtBDBasic">5000</span>
+                            <span id="txtBDBasic">000</span>
                         </label>
                         <label>HRA:
-                            <span id="txtBDHRA">5000</span>
+                            <span id="txtBDHRA">000</span>
                         </label>
                         <label>Car:
-                            <span id="txtBDCar">5000</span>
+                            <span id="txtBDCar">000</span>
                         </label>
                     </div>
                     <div class="col-4  bankcard-col">
                         <label>Petrol:
-                            <span id="txtBDPetrol">5000</span>
+                            <span id="lbSLTransport">000</span>
                         </label>
                         <label>Mobile:
-                            <span id="txtBDMobile">5000</span>
+                            <span id="txtBDMobile">000</span>
                         </label>
                         <label>Food:
-                            <span id="">5000</span>
+                            <span id="lbSLFood">000</span>
                         </label>
                     </div>
                     <div class="col-4  bankcard-col">
                         <label>Other:
-                            <span id="txtBDOther">5000</span>
+                            <span id="txtBDOther">000</span>
                         </label>
                         <label>Total:
-                            <span id="">5000</span>
+                            <span id="lbSLGrossSal">000</span>
                         </label>
                     </div>
                 </div>
@@ -2522,7 +2512,6 @@ function RequestPageLoad() {
                         <thead>
                             <tr>
                                 <th>Type</th>
-                                <th>Amount</th>
                                 <th>Deduction</th>
                                 <th>Remaining</th>
                                 <th>Date</th>
@@ -2530,22 +2519,13 @@ function RequestPageLoad() {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Personal</td>
-                                <td>3000</td>
+                                <td>HRA</td>
                                 <td>1000</td>
                                 <td>2000</td>
                                 <td>20/8/2024</td>
                             </tr>
                             <tr>
-                                <td>Personal</td>
-                                <td>3000</td>
-                                <td>1000</td>
-                                <td>2000</td>
-                                <td>20/8/2024</td>
-                            </tr>
-                            <tr>
-                                <td>Personal</td>
-                                <td>3000</td>
+                                <td>Salary Advance</td>
                                 <td>1000</td>
                                 <td>2000</td>
                                 <td>20/8/2024</td>
@@ -4488,7 +4468,8 @@ function GetBDBasicSalaryDet() {
         dataType: "json",
         async: false,
         success: function (result) {
-
+            loadEmpDetails();
+            loadEmpLoanDetails();
             $('#txtBDBasic').html(result.d[0].BASIC);
             $('#txtBDHRA').html(result.d[0].HRAA);
             $('#txtBDCar').html(result.d[0].CARALW);
@@ -5394,10 +5375,140 @@ function onbehalfrolecheck() {
     }
 }
 
-function datedayformat(dt) {
-    return day[new Date(dt).getDay()] + ', ' + monthsbyName[new Date(dt).getMonth()] + ' ' + new Date(dt).getDate() + ', ' + new Date(dt).getFullYear() ;
+function loadEmpDetails() {
+
+    $.ajax({
+        url: "Profile.aspx/GetEmpInfo",
+        data: JSON.stringify({ "EmpNo": EmpNo }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+
+            $('#lblName').html(result.d[0].FULL_NAME);
+            $('#lbProfPosition').html(result.d[0].POSITION);
+
+            $('#lbPhoneNumber').html(result.d[0].MOBILE_PHONE);
+            $('#lbTeleNumber').html(result.d[0].WORK_PHONE);
+
+            $('#lbEmpNumber').html(result.d[0].EMPLOYEE_NUMBER);
+            $('#lbTitle').html(result.d[0].TITLE);
+            $('#lbFirstName').html(result.d[0].FIRST_NAME);
+            $('#lbMiddleName').html(result.d[0].MIDDLE_NAMES);
+            $('#lbLastName').html(result.d[0].LAST_NAME);
+
+            $('#lbEmergencyPhone').html(result.d[0].EMERGENCY_PHONE);
+            $('#lbAddress').html(result.d[0].ADDRESS_LINE1);
+            $('#lbCountry').html(result.d[0].COUNTRY);
+            $('#lbEmail').html(result.d[0].EMAIL_ADDRESS);
+            $('#lbPosition').html(result.d[0].POSITION);
+            $('#lbReligion').html(result.d[0].RELIGION);
+            $('#lbBirthDate').html(result.d[0].DATE_OF_BIRTH);
+            $('#lbGender').html(result.d[0].SEX);
+            $('#lbMeterialStatus').html(result.d[0].MARITAL_STATUS);
+            $('#lbEducation').html(result.d[0].EDUCATION);
+            $('#lbNationality').html(result.d[0].NATIONALITY);
+
+            $('#lbPassportNumber').html(result.d[0].PPNO);
+            $('#lbPTCountry').html(result.d[0].COUNTRY);
+            $('#lbPTCustody').html(result.d[0].PPCUSTODY);
+            $('#lbPTPlaceOfIssue').html(result.d[0].PPCONTRYISSUE);
+            $('#lbPTExpiriDate').html(result.d[0].PPDTEXPIRY);
+            $('#lbPTIssueDate').html(result.d[0].PPDTISSUE);
+            $('#lbPTUpdateStatus').html("N/A");
+
+            $('#lbVIAuthority').html(result.d[0].VVVISAISSUEAUTH);
+            $('#lbVINumber').html(result.d[0].VVNO);
+            $('#lbVIType').html(result.d[0].VVVISATYPE);
+            $('#lbVIPosition').html(result.d[0].VVVISAPOSITION);
+            $('#lbVIExpDate').html(result.d[0].VVDTEXPIRY);
+            $('#lbVIIssueCompany').html(result.d[0].VVVISAISSUECO);
+            $('#lbVIIssueDate').html(result.d[0].VVDTISSUE);
+            $('#lbVIUidNo').html(result.d[0].VVUIDNO);
+            $('#lbVIMolNo').html("N/A");
+
+            $('#lbTKClass').html(result.d[0].TKTRATETYP);
+            $('#lbTKFamilyEligble').html(result.d[0].FAMELIG);
+            $('#lbTKNoOfChildrens').html(result.d[0].NOOFCHILD);
+            $('#lbTKFamilyClass').html(result.d[0].FAMCLASS);
+            $('#lbTKNoOfAdults').html(result.d[0].NOOFADULTS);
+            $('#lbTKDestination').html("N/A");
+            $('#lbTKTerm').html(result.d[0].EMPPERIOD);
+
+            $('#lbSLBasic').html(result.d[0].BASIC);
+            $('#txtBDMobile').html(result.d[0].MOBALW);
+            $('#lbSLOther').html(result.d[0].OTHALW);
+            $('#lbSLFood').html(result.d[0].FOODALW);
+            $('#lbSLHousingProvided').html(result.d[0].HOUSING);
+            $('#lbSLCar').html(result.d[0].CARALW);
+
+            if (result.d[0].TransProvided == 'checked') {
+
+                $('#cbTransportProv').prop('checked', true);
+            }
+            else {
+                $('#cbTransportProv').prop('checked', false);
+            }
+
+            $('#lbSLTransport').html(result.d[0].TRANSALW);
+            $('#lbSLHRA').html(result.d[0].HRAA);
+            $('#lbSLCompanyCar').html("N/A");
+            $('#lbSLLastSal').html("N/A");
+            $('#lbSLGrossSal').html(result.d[0].Gross_salary);
+
+            $('#lbBNKPayement').html(result.d[0].PAYMETHOD);
+            $('#lbBNKBranch').html(result.d[0].BANKBRANCH);
+            $('#lbBNKName').html(result.d[0].BANKNAME);
+            $('#lbBNKIban').html(result.d[0].IBANNUMBER);
+            $('#lbBNKAccntNo').html(result.d[0].ACCOUNTNUMBER);
+            $('#basic-default-password12').val(result.d[0].LDpassword);
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
 }
 
 
 
+function loadEmpLoanDetails() {
+
+    $.ajax({
+        url: "AllRequests.aspx/GetEmployeeLoanDetails",
+        data: JSON.stringify({ "EmpNo": EmpNo }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '';
+            $.each(result.d, function (key, item) {
+                htm += `<tr> 
+                    <td style="text-align: center;" > <span class="badge badge-for-taskcode"> `+ result.d[0].LTYPE + ` </span> </td>
+                    <td> `+ result.d[0].PAID + ` </td>
+                    <td> `+ result.d[0].RECOVERED + ` </td>
+                    <td> `+ result.d[0].REMAINING + ` </td>`
+                htm += `</tr>`
+            });
+            $('.loan-body').html(htm);
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+
+//function datedayformat(dt) {
+//    return day[new Date(dt).getDay()] + ', ' + monthsbyName[new Date(dt).getMonth()] + ' ' + new Date(dt).getDate() + ', ' + new Date(dt).getFullYear() ;
+//}
+
+
+function datedayformat(dt) {
+    return (new Date(dt).getDate() + '-' + monthsbyName[new Date(dt).getMonth()] + '-' + new Date(dt).getFullYear() + ', ' + day[new Date(dt).getDay()]);
+}
 
