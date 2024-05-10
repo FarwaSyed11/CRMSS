@@ -1113,9 +1113,8 @@
 
                                     <div class="tab-pane" id="tab-AnA" role="tabpanel">
                                         <div class="">
-                                            <div class="row mb-2" style="">
+                                            <div class="row mt-3" style="">
                                                 <div class="table-responsive col-12">
-                                                    <h5>Assets and Access</h5>
                                                     <table class="table table-hover accnass-table" style="width:100% !important">
                                                         <thead class="">
                                                             <tr>
@@ -1135,9 +1134,9 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                                
-                                           
-                                            
+            
+       
+        
                                         </div>
                                     </div>
 
@@ -1558,12 +1557,12 @@
          });
 
      </script>
-
     <!-- Datatable plugin CSS file -->
     <link href="../FacilityManagement/Datatable/css/jquery.dataTables.min.css" rel="stylesheet" />
-    <!-- Datatable plugin JS library file -->
-    <script src="../FacilityManagement/Datatable/js/jquery.dataTables.min.js"></script>
 
+
+    <script src="../FacilityManagement/Datatable/js/jquery.dataTables.min.js"></script>
+  
     <script src="../FacilityManagement/Datatable/js/dataTables.buttons.min.js"></script>
     <script src="../FacilityManagement/Datatable/js/jszip.min.js"></script>
     <script src="../FacilityManagement/Datatable/js/pdfmake.min.js"></script>

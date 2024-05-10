@@ -88,7 +88,7 @@
             background-size: cover;
             /*background-color: #80808000 !important;*/
         }
-
+        
         .ui-autocomplete {
             width: auto !important;
             margin-right: 25px !important;
@@ -1143,7 +1143,9 @@
                                     
                                     <div class="quote">
                                         <img src="images/quote-left.svg"/>
-                                        <span></span>
+                                        <div style="    text-align: center;margin-top: -15px;color: #000000 !important;font-weight: 200;">
+                                            Your excuses just gave someone else an opportunity.
+                                        </div>
                                         <img src="images/quote-right.svg" style="bottom: 12px;right: 12px;position: absolute;"/>
                                     </div>
                                     <div class="linesection"></div>

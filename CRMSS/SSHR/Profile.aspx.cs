@@ -383,7 +383,7 @@ public partial class SSHR_Profile : System.Web.UI.Page
 
         pa.Add("@SkillId");
         pv.Add(SkillId);
-               
+
 
         DBH.CreateDataset_SSHR(ds, "sp_profile", true, pa, pv);
 
@@ -391,7 +391,7 @@ public partial class SSHR_Profile : System.Web.UI.Page
         obj.Message = ds.Tables[0].Rows[0]["msg"].ToString();
         obj.MessageType = ds.Tables[0].Rows[0]["msgType"].ToString();
 
-        return obj; 
+        return obj;
     }
 
 
@@ -425,7 +425,7 @@ public partial class SSHR_Profile : System.Web.UI.Page
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 oEmpList.Add(new Description()
-                {                   
+                {
                     KeySkills = dt.Rows[i]["Skills"].ToString()
 
                 });
@@ -570,9 +570,10 @@ public partial class SSHR_Profile : System.Web.UI.Page
         public string EmpNo { get; set; }
     }
 
-    public class addResponseMsg {
-        public string  Message { get; set; }         
-        public string  MessageType { get; set; }         
+    public class addResponseMsg
+    {
+        public string Message { get; set; }
+        public string MessageType { get; set; }
     }
     public class Description
     {

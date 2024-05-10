@@ -1,0 +1,519 @@
+﻿span, label, p, .Mainlist li {
+    font-size: 12px;
+    font-family: Poppins;
+}
+
+.card-header {
+    background-color: transparent;
+    border: none;
+    position: relative;
+    border-radius: 0px !important;
+    display: flex;
+}
+
+.card-primary:not(.card-outline) > .card-header {
+    margin: 15px 0px;
+}
+
+/*.card-primary.card-outline {
+    border-top: 3px solid #a92828;
+}*/
+
+.card {
+    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+    border-radius: 0px;
+    margin-bottom: 20px;
+}
+
+.cars-heddng {
+    margin-top: 3px;
+    color: #2a2a2a !important;
+    margin-bottom: 5px;
+}
+
+.profile-user-img {
+    border: 2px solid #ffffff;
+    margin: 0 auto;
+    box-shadow: 2px 2px 5px 3px #878787;
+}
+
+.img-circle {
+    border-radius: 50%;
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+img {
+    vertical-align: middle;
+    border-style: none;
+}
+
+/*.imgsize{
+    height:150px;
+    width:150px;
+}
+*/
+.list-group {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+    border-radius: 0.25rem;
+}
+
+.list-group-unbordered > .list-group-item {
+    border-left: 0;
+    border-radius: 0;
+    border-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.list-group-item {
+    position: relative;
+    display: block;
+    padding: 0.75rem 1.25rem;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.125);
+}
+
+    .list-group-item + .list-group-item {
+        border-top-width: 0;
+    }
+
+.input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 64% !important;
+}
+
+b, strong {
+    font-weight: 700;
+    /*color: black;*/
+}
+
+.jobdesc-body {
+    overflow-y: auto;
+    max-height: calc(80vh);
+    overflow-x: hidden;
+}
+
+    .jobdesc-body .card-header img {
+        margin-right: 10px
+    }
+
+.jobdesc-ha {
+    color: #141414;
+    padding: 12px 0;
+    font-size: 18px;
+    text-transform: capitalize !important;
+}
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+    color: #bf242c !important;
+    border-bottom: 4px solid #bf242c !important;
+}
+
+.nav-tabs .nav-item .nav-link:not(.active) {
+    background-color: white;
+}
+
+.nav-tabs .nav-item .nav-link:focus {
+    color: #000000;
+    border-bottom: 4px solid black;
+}
+
+.lbl-inside {
+}
+
+
+.fillable {
+    color: #566a7f;
+}
+
+.form-label, .col-form-label {
+    text-transform: capitalize;
+    letter-spacing: inherit;
+    margin-bottom: 1.5rem;
+    font-size: 14px;
+    font-weight: 300;
+    color: #525252;
+}
+
+.text-muted {
+    --bs-text-opacity: 1;
+    color: #191b1e !important;
+}
+
+.crd-left1 {
+    height: 49% !important;
+}
+
+.card-inside {
+    height: 49% !important;
+}
+
+.card-left {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid #d9dee3;
+    border-radius: 0.5rem;
+}
+
+.btninfo {
+    color: #FFF;
+    margin-left: 80%;
+    cursor: pointer;
+    font-size: x-large;
+}
+
+.btn-viewslip {
+    width: 26px;
+    margin-left: 85%;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+
+.theading {
+    text-align: center;
+    background-color: #ada5a5;
+}
+
+.thbold {
+    font-weight: bold;
+}
+
+
+h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-weight: 500;
+    line-height: 1.1;
+    color: #000206;
+}
+
+.staf-info {
+    background-color: #e6af9d;
+}
+
+.outerhd {
+    text-align: center;
+    color: black;
+    color: black;
+    font-weight: 400;
+}
+
+.cell {
+    border: 1px solid
+}
+
+.cell-r {
+    border-right: 1px solid
+}
+
+.cell-b {
+    border-bottom: 1px solid
+}
+
+.txt-r {
+    text-align: right;
+}
+/*.table-staffDtls {
+    table-layout: auto;
+    border-spacing: 0;
+    border-collapse: collapse;
+    width: 450px;
+    margin: 40px auto;
+}
+table-staffDtls th,
+table-staffDtls td {
+    border: 1px solid black;
+    vertical-align: top;
+}*/
+/* tr.noBorder td {
+        border: 0;
+    }*/
+
+.tab-content {
+    padding: 0rem 1.5rem !important;
+}
+
+.nav-tabs:not(.nav-fill):not(.nav-justified) .nav-link, .nav-pills:not(.nav-fill):not(.nav-justified) .nav-link {
+    padding: 20px;
+    font-size: 14px;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #cecece;
+    width: 100%;
+}
+
+#modalEditJobPurpose .modal-header {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--bs-modal-header-padding);
+    border-bottom: var(--bs-modal-header-border-width) solid var(--bs-modal-header-border-color);
+    border-top-left-radius: var(--bs-modal-inner-border-radius);
+    border-top-right-radius: var(--bs-modal-inner-border-radius);
+}
+
+.table-bordered > :not(caption) > * > * {
+    border-width: 0.3px !important;
+    border-top-width: 0.3px !important;
+    border-right-width: 0.3px !important;
+    border-bottom-width: 0.3px !important;
+}
+
+#tab-AnA table thead th, table thead td {
+    padding: 15px 18px !important;
+    font-weight: 500;
+    color: black !important;
+    background: #f6f6f6 !important;
+}
+
+.salarybox {
+    padding: 20px;
+    width: 18.5%;
+    margin: 10px;
+    height: 6.5rem;
+    border: 1px solid #e2e2e2;
+}
+
+    .salarybox p {
+        margin-top: 10px;
+        margin-left: 10px;
+        font-size: 14px;
+    }
+
+    .salarybox h6 {
+        float: right;
+        margin-top: -8px;
+    }
+
+    .salarybox > div {
+        display: flex;
+        align-items: center;
+    }
+
+.moredetailimg {
+    position: absolute;
+    right: 13%;
+    top: 38%;
+}
+
+    .moredetailimg img {
+        width: 80px;
+    }
+
+.profilesection {
+    border-top: 1px solid #d7d7d7;
+    padding: 17px 0px;
+    margin: 0px;
+}
+
+.aboutitem {
+    padding: 10px;
+    display: flex;
+    width: 28%;
+    margin: 10px;
+    border-radius: 5px;
+    text-align: center;
+    place-items: center;
+    flex-flow: column;
+    border: 1px solid #f7f7f7;
+    border-right: 1px solid rgb(236 26 37 / 50%);
+    border-bottom: 1px solid rgb(236 26 37 / 50%);
+}
+
+    .aboutitem img {
+        margin: 5px;
+    }
+
+    .aboutitem p {
+        margin-bottom: 0px
+    }
+
+.basicinfoitem {
+    width: 50%;
+    display: flex;
+    padding: 7px 2px;
+    align-items: center;
+    position: relative;
+}
+
+    .basicinfoitem img {
+        width: 15px;
+        float: left;
+        margin-right: 10px;
+    }
+
+.skilltag {
+    width: max-content;
+    text-align: center;
+    margin: 2px;
+    padding: 5px 15px;
+    font-size: x-small;
+    border-radius: 15px;
+    background: #efefef;
+    border: 1px solid #ffffff;
+}
+
+.allskillsec {
+    display: flex
+}
+
+#basic-default-password {
+    position: absolute;
+    top: 30%;
+    right: 5%;
+}
+
+
+
+#btnedprofile, #modal-btnaddskill {
+    cursor: pointer;
+    float: right;
+    border: 1px solid #cecece;
+    padding: 3px 11px;
+    color: red;
+    box-shadow: 1px 1px 4px -1px #777777c2;
+    border-radius: 7px;
+    font-weight: 400;
+}
+
+#btnsaveprofile {
+    border-radius: 5px;
+    background: #4ddc7b87;
+    color: #00821f;
+    padding: 3px 10px;
+    cursor: pointer
+}
+
+.completion {
+    border: 1px solid #c5c5c5;
+    height: 50px;
+    border-radius: 10px;
+    margin: 20px 4px;
+    padding: 10px;
+}
+
+    .completion img {
+        margin-right: 5px;
+        width: 15px;
+    }
+
+.compleft {
+    width: 35%;
+    float: left;
+    margin-top: 2px;
+}
+
+    .compleft span {
+        font-size: 12px;
+    }
+
+.perclabel {
+    text-align: center;
+    font-size: 10px;
+}
+
+.compright {
+    float: right;
+    width: 65%;
+}
+
+.percmain {
+    border: 1px solid red;
+    width: 100%;
+}
+
+.btneditjobdesc {
+    border: 1px solid #cecece;
+    padding: 3px 11px;
+    color: red;
+    box-shadow: 1px 1px 4px -1px #777777c2;
+    border-radius: 7px;
+    position: absolute;
+    right: 2%;
+    top: 25%;
+    cursor: pointer;
+}
+
+#basic-default-password12 {
+    /*text-indent: 20px;*/
+}
+
+
+.salarybox .netliva-switch label:after {
+    top: 1px !important;
+    left: 4px !important;
+    width: 19px !important;
+    height: 19px !important;
+}
+
+.salarybox .netliva-switch label {
+    height: 21px !important;
+    margin-top: -7px !important;
+}
+
+@media (min-width: 1370px) and (max-width: 1605px) {
+    .jobdesc-body {
+        overflow-y: auto;
+        max-height: calc(80vh);
+        overflow-x: hidden;
+        background-color: green;
+    }
+}
+
+@media (min-width: 1030px) and (max-width: 1366px) {
+
+    .jobdesc-body {
+        overflow-y: auto;
+        max-height: calc(130vh);
+        overflow-x: hidden;
+        /*background-color: red;*/
+    }
+}
+
+@media (min-width: 1367px) and (max-width: 2400px) {
+
+    .jobdesc-body {
+        overflow-y: auto;
+        max-height: calc(74vh);
+        overflow-x: hidden;
+        /*background-color: yellow;*/
+    }
+}
+
+
+
+@media (min-width: 2500px) and (max-width: 4000px) {
+    .card {
+        height: fit-content;
+        /*background-color:blueviolet;*/
+    }
+}
+
+
+@media (min-width: 2500px) and (max-width: 4000px) {
+    .col-md-3 {
+        padding-top: 0px
+    }
+}

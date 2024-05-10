@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Script.Services;
 using System.Web.Services;
@@ -54,7 +55,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
         pa.Add("@Status");
         pv.Add(Status);
 
-        DBH.CreateDataset_SSHR(ds, "sp_AllRequests", true, pa, pv);
+        DBH.CreateDataset_SSHR(ds,"sp_AllRequests", true, pa, pv);
 
         List<tableData> AdminAction = new List<tableData>();
         dt = ds.Tables[0];
@@ -99,7 +100,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     StageClass = dt.Rows[i]["StageClass"].ToString(),
                     Stage = dt.Rows[i]["Stage"].ToString(),
 
-
+                   
                 });
             }
         }
@@ -120,7 +121,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     StageClass = dt.Rows[i]["StageClass"].ToString(),
                     Stage = dt.Rows[i]["Stage"].ToString(),
                     RequestDate = dt.Rows[i]["ReqDate"].ToString(),
-
+                    
 
                 });
             }
@@ -278,7 +279,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
 
                 OnBehalfAction.Add(new tableData()
                 {
-                    EmployeeName = dt.Rows[i]["EmpName"].ToString(),
+                    EmployeeName= dt.Rows[i]["EmpName"].ToString(),
                     LEAVE_APPLICATION_ID = dt.Rows[i]["LEAVE_APPLICATION_ID"].ToString(),
                     LEAVE_APPLICATION_NO = dt.Rows[i]["LEAVE_APPLICATION_NO"].ToString(),
                     LEAVE_TYPE = dt.Rows[i]["LEAVE_TYPE"].ToString(),
@@ -493,12 +494,15 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     EmpNo = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
                     EmpName = dt.Rows[i]["FULL_NAME"].ToString(),
                     DeptName = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    Designation = dt.Rows[i]["JOB"].ToString(),
+                    Designation = dt.Rows[i]["POSITION"].ToString(),
                     JoiningDate = dt.Rows[i]["ORIGINAL_DATE_OF_HIRE"].ToString(),
                     EmiratesId = dt.Rows[i]["EMIRATES_ID"].ToString(),
                     EmiratesExpDate = dt.Rows[i]["EMIRATES_EXP_DATE"].ToString(),
                     PassportExpireDate = dt.Rows[i]["PPDTEXPIRY"].ToString(),
-                    VisaExpiryDate = dt.Rows[i]["VVDTEXPIRY"].ToString()
+                    VisaExpiryDate = dt.Rows[i]["VVDTEXPIRY"].ToString(),
+                    WEEKLYOFF = dt.Rows[i]["WEEKLYOFF"].ToString(),
+                    AssStatus = dt.Rows[i]["ASSIGNMENT_STATUS"].ToString(),
+                    VisaAuth = dt.Rows[i]["VISAAUTHCODE"].ToString(),
                 });
             }
         }
@@ -806,7 +810,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
 
         Result.Add(new Result()
         {
-            Id = Convert.ToInt64(ds.Tables[0].Rows[0]["ReqID"].ToString()),
+            Id =Convert.ToInt64(ds.Tables[0].Rows[0]["ReqID"].ToString()),
             Messsage = ds.Tables[0].Rows[0]["Message"].ToString(),
         });
 
@@ -855,7 +859,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     EmpNo = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
                     EmpName = dt.Rows[i]["FULL_NAME"].ToString(),
                     DeptName = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    Designation = dt.Rows[i]["JOB"].ToString(),
+                    Designation = dt.Rows[i]["POSITION"].ToString(),
                     JoiningDate = dt.Rows[i]["ORIGINAL_DATE_OF_HIRE"].ToString(),
                     EmiratesId = dt.Rows[i]["EMIRATES_ID"].ToString(),
                     EmiratesExpDate = dt.Rows[i]["EMIRATES_EXP_DATE"].ToString(),
@@ -885,6 +889,8 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     ONBEHALF_FLAG = dt.Rows[i]["ONBEHALF_FLAG"].ToString(),
                     Status = dt.Rows[i]["STATUS"].ToString(),
                     EMP_REMARKS = dt.Rows[i]["EMP_REMARKS"].ToString(),
+                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
+                    STATUS_ORDER = dt.Rows[i]["STATUS_ORDER"].ToString(),
 
                 });
             }
@@ -930,7 +936,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     Id = dt.Rows[i]["Id"].ToString(),
                     Value = dt.Rows[i]["Value"].ToString(),
                     Text = dt.Rows[i]["Text"].ToString(),
-
+                    
                 });
             }
         }
@@ -1151,7 +1157,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static List<DDLResponse> GetAllPPTOtherReasons(string ReasonValue, string Reason)
+    public static List<DDLResponse> GetAllPPTOtherReasons(string ReasonValue,string Reason)
     {
 
         DBHandler DBH = new DBHandler();
@@ -1344,14 +1350,12 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     EmpNo = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
                     EmpName = dt.Rows[i]["FULL_NAME"].ToString(),
                     DeptName = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    Designation = dt.Rows[i]["JOB"].ToString(),
+                    Designation = dt.Rows[i]["POSITION"].ToString(),
                     JoiningDate = dt.Rows[i]["ORIGINAL_DATE_OF_HIRE"].ToString(),
                     EmiratesId = dt.Rows[i]["EMIRATES_ID"].ToString(),
                     EmiratesExpDate = dt.Rows[i]["EMIRATES_EXP_DATE"].ToString(),
                     PassportExpireDate = dt.Rows[i]["PPDTEXPIRY"].ToString(),
                     VisaExpiryDate = dt.Rows[i]["VVDTEXPIRY"].ToString(),
-
-
                     Req_Number = dt.Rows[i]["Req_Number"].ToString(),
                     Reason = dt.Rows[i]["Reason"].ToString(),
                     OtherReason = dt.Rows[i]["OtherReason"].ToString(),
@@ -1361,10 +1365,10 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     Expected_Date_Of_Return = dt.Rows[i]["Expected_Date_Of_Return"].ToString(),
                     Attchement_Link = dt.Rows[i]["Attchement_Link"].ToString(),
                     ReasonValue = dt.Rows[i]["ReasonValue"].ToString(),
-
                     ReqID = dt.Rows[i]["ReqID"].ToString(),
                     Status = dt.Rows[i]["Status"].ToString(),
-                    StatusOrder = dt.Rows[i]["StatusOrder"].ToString()
+                    StatusOrder = dt.Rows[i]["StatusOrder"].ToString(),
+                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
 
                 });
             }
@@ -1409,20 +1413,17 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     EmpNo = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
                     EmpName = dt.Rows[i]["FULL_NAME"].ToString(),
                     DeptName = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    Designation = dt.Rows[i]["JOB"].ToString(),
+                    Designation = dt.Rows[i]["POSITION"].ToString(),
                     JoiningDate = dt.Rows[i]["ORIGINAL_DATE_OF_HIRE"].ToString(),
                     EmiratesId = dt.Rows[i]["EMIRATES_ID"].ToString(),
                     EmiratesExpDate = dt.Rows[i]["EMIRATES_EXP_DATE"].ToString(),
                     PassportExpireDate = dt.Rows[i]["PPDTEXPIRY"].ToString(),
                     VisaExpiryDate = dt.Rows[i]["VVDTEXPIRY"].ToString(),
-
                     BASIC = dt.Rows[i]["BASIC"].ToString(),
                     HRAP = dt.Rows[i]["HRAP"].ToString(),
                     CARALW = dt.Rows[i]["CARALW"].ToString(),
                     MOBALW = dt.Rows[i]["MOBALW"].ToString(),
                     OTHALW = dt.Rows[i]["OTHALW"].ToString(),
-
-
                     Req_Number = dt.Rows[i]["REQUEST_NO"].ToString(),
                     Reason = dt.Rows[i]["Reason"].ToString(),
                     On_Behalf = dt.Rows[i]["ON_BEHALF_FLAG"].ToString(),
@@ -1434,10 +1435,10 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     IBAN_NO = dt.Rows[i]["IBAN_NO"].ToString(),
                     BANK_ADDRESS = dt.Rows[i]["BANK_ADDRESS"].ToString(),
                     AMOUNT = dt.Rows[i]["AMOUNT"].ToString(),
-
                     ReqID = dt.Rows[i]["ReqID"].ToString(),
                     Status = dt.Rows[i]["Status"].ToString(),
                     StatusOrder = dt.Rows[i]["STATUS_ORDER"].ToString(),
+                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
 
                 });
             }
@@ -1483,7 +1484,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     EmpNo = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
                     EmpName = dt.Rows[i]["FULL_NAME"].ToString(),
                     DeptName = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    Designation = dt.Rows[i]["JOB"].ToString(),
+                    Designation = dt.Rows[i]["POSITION"].ToString(),
                     JoiningDate = dt.Rows[i]["ORIGINAL_DATE_OF_HIRE"].ToString(),
                     EmiratesId = dt.Rows[i]["EMIRATES_ID"].ToString(),
                     EmiratesExpDate = dt.Rows[i]["EMIRATES_EXP_DATE"].ToString(),
@@ -1507,8 +1508,9 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     MONTHLY_DEDUCTION = dt.Rows[i]["MONTHLY_DEDUCTION"].ToString(),
                     AMOUNT = dt.Rows[i]["AMOUNT"].ToString(),
                     Status = dt.Rows[i]["Status"].ToString(),
-                    StatusOrder = dt.Rows[i]["StatusOrder"].ToString(),
                     No_OF_Month = dt.Rows[i]["NO_OF_MONTH"].ToString(),
+                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
+                    StatusOrder = dt.Rows[i]["StatusOrder"].ToString(),
 
                 });
             }
@@ -1553,7 +1555,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     EmpNo = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
                     EmpName = dt.Rows[i]["FULL_NAME"].ToString(),
                     DeptName = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    Designation = dt.Rows[i]["JOB"].ToString(),
+                    Designation = dt.Rows[i]["POSITION"].ToString(),
                     JoiningDate = dt.Rows[i]["ORIGINAL_DATE_OF_HIRE"].ToString(),
                     EmiratesId = dt.Rows[i]["EMIRATES_ID"].ToString(),
                     EmiratesExpDate = dt.Rows[i]["EMIRATES_EXP_DATE"].ToString(),
@@ -1570,7 +1572,8 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
 
                     ReqID = dt.Rows[i]["ReqID"].ToString(),
                     Status = dt.Rows[i]["STATUS"].ToString(),
-                    StatusOrder = dt.Rows[i]["STATUS_ORDER"].ToString()
+                    StatusOrder = dt.Rows[i]["STATUS_ORDER"].ToString(),
+                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
                 });
             }
         }
@@ -1614,7 +1617,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     EmpNo = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
                     EmpName = dt.Rows[i]["FULL_NAME"].ToString(),
                     DeptName = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    Designation = dt.Rows[i]["JOB"].ToString(),
+                    Designation = dt.Rows[i]["POSITION"].ToString(),
                     JoiningDate = dt.Rows[i]["ORIGINAL_DATE_OF_HIRE"].ToString(),
                     EmiratesId = dt.Rows[i]["EMIRATES_ID"].ToString(),
                     EmiratesExpDate = dt.Rows[i]["EMIRATES_EXP_DATE"].ToString(),
@@ -1633,6 +1636,8 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
 
                     ReqID = dt.Rows[i]["ReqID"].ToString(),
                     Status = dt.Rows[i]["Status"].ToString(),
+                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
+                    StatusOrder = dt.Rows[i]["Status_Order"].ToString(),
 
                 });
             }
@@ -1678,7 +1683,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     EmpNo = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
                     EmpName = dt.Rows[i]["FULL_NAME"].ToString(),
                     DeptName = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    Designation = dt.Rows[i]["JOB"].ToString(),
+                    Designation = dt.Rows[i]["POSITION"].ToString(),
                     JoiningDate = dt.Rows[i]["ORIGINAL_DATE_OF_HIRE"].ToString(),
                     EmiratesId = dt.Rows[i]["EMIRATES_ID"].ToString(),
                     EmiratesExpDate = dt.Rows[i]["EMIRATES_EXP_DATE"].ToString(),
@@ -1704,9 +1709,9 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     From_Date = dt.Rows[i]["From_Date"].ToString(),
                     To_Date = dt.Rows[i]["To_Date"].ToString(),
                     Country_Apply_Visa = dt.Rows[i]["Country_Apply_Visa"].ToString(),
-
                     Status = dt.Rows[i]["Status"].ToString(),
-                    StatusOrder = dt.Rows[i]["StatusOrder"].ToString()
+                    StatusOrder = dt.Rows[i]["StatusOrder"].ToString(),
+                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
 
                 });
             }
@@ -1753,7 +1758,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     CARALW = dt.Rows[i]["CARALW"].ToString(),
                     MOBALW = dt.Rows[i]["MOBALW"].ToString(),
                     OTHALW = dt.Rows[i]["OTHALW"].ToString(),
-
+                   
                 });
             }
         }
@@ -1782,12 +1787,12 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
 
         DBH.CreateDataset_SSHR(ds, "sp_AllRequests", true, pa, pv);
 
-        return ds.Tables[0].Rows[0][0].ToString() + ',' + ds.Tables[0].Rows[0][1].ToString();
+        return ds.Tables[0].Rows[0][0].ToString()+','+ ds.Tables[0].Rows[0][1].ToString();
     }
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static string setBankDetRequestDetails(string ReqID, string RefNo, string User, string EmpNo, string OnBehalf, string ReqDate, string ReqType, string Reason, string SCBank, string SCPurpose, string STLBankName, string STLIBAN, string STLBankAddress, string STLReqAmount, string ReqTypeVal, string Status)
+    public static string setBankDetRequestDetails(string ReqID, string RefNo, string User, string EmpNo, string OnBehalf, string ReqDate, string ReqType, string Reason, string SCBank, string SCPurpose,string STLBankName,string STLIBAN,string STLBankAddress,string STLReqAmount,string ReqTypeVal,string Status)
     {
 
         DBHandler DBH = new DBHandler();
@@ -1825,7 +1830,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
         pa.Add("@Reason");
         pv.Add(Reason);
 
-
+      
 
         if (ReqTypeVal == "5")
         {
@@ -1871,7 +1876,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
     public static List<Result> setMiscRequestDetails(string ReqID, string RefNo, string User, string EmpNo, string OnBehalf, string ReqDate, string ReqType, string ReasonText, string ReasonDrop, string AddressToWhom, string OtherRemarks, string FromDate, string ToDate, string CountryToApplyVisa, string ReqTypeVal
-                                               , string EmployeeType, string CurrentLocation, string ReqLocation, string TransportType, string DateOfChange, string TransFromDate, string TransToDate, string Status)
+                                               ,string EmployeeType,string CurrentLocation,string ReqLocation,string TransportType,string DateOfChange,string TransFromDate,string TransToDate, string Status)
     {
 
         DBHandler DBH = new DBHandler();
@@ -1905,11 +1910,11 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
         pa.Add("@requestType");
         pv.Add(ReqTypeVal);
 
-        if (ReqTypeVal != "10008")
-        {
+        if(ReqTypeVal != "10008")
+        { 
 
-            pa.Add("@Reason");
-            pv.Add(ReasonText);
+        pa.Add("@Reason");
+        pv.Add(ReasonText);
 
         }
 
@@ -1922,11 +1927,11 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
         if (ReqTypeVal == "10005" || ReqTypeVal == "10007" || ReqTypeVal == "10011")
         {
             pa.Add("@addressToWhom");
-            pv.Add(AddressToWhom);
+            pv.Add(AddressToWhom); 
 
         }
 
-        if (ReqTypeVal != "10012" && ReasonDrop == "Others-Please Specify On The Remarks")
+        if (ReqTypeVal != "10012" && ReasonDrop== "Others-Please Specify On The Remarks")
         {
 
             pa.Add("@Remarks");
@@ -1957,13 +1962,13 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
             pv.Add(ReqLocation);
 
         }
-        if (ReqTypeVal == "10012" && EmployeeType == "Existing Employee")
+        if (ReqTypeVal == "10012" && EmployeeType== "Existing Employee")
         {
             pa.Add("@TransType");
             pv.Add(TransportType);
         }
 
-        if (ReqTypeVal == "10012" && EmployeeType == "Existing Employee" && TransportType == "1")
+        if (ReqTypeVal == "10012" && EmployeeType == "Existing Employee" && TransportType== "1")
         {
             pa.Add("@DateOfChange");
             pv.Add(DateOfChange);
@@ -2001,7 +2006,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static List<Result> setCompanyLoanRequestDetails(string ReqID, string RefNo, string User, string EmpNo, string OnBehalf, string LoanType, string DedStartMonth, string Reason, string MonthlyDeduction, string Status, string NofoMonths, string Amount)
+    public static List<Result> setCompanyLoanRequestDetails(string ReqID, string RefNo, string User, string EmpNo, string OnBehalf, string LoanType, string DedStartMonth, string Reason,string MonthlyDeduction ,string Status, string NofoMonths, string Amount)
     {
 
         DBHandler DBH = new DBHandler();
@@ -2136,7 +2141,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static List<Result> setExitPassReqDetails(string ReqID, string RefNo, string User, string EmpNo, string OnBehalf, string Date, string ExitType, string OutTime, string BackTime, string Reason, string Status)
+    public static List<Result> setExitPassReqDetails(string ReqID, string RefNo, string User, string EmpNo, string OnBehalf, string Date, string ExitType, string OutTime,string BackTime,string Reason,string Status)
     {
 
         DBHandler DBH = new DBHandler();
@@ -2227,17 +2232,16 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
             pv.Add(UserID);
             DBH.CreateDataset_SSHR(ds, "sp_AllRequests", true, pa, pv);
 
-            return true;
+            return true;    
         }
-        catch (Exception e)
-        {
-            return false;
+        catch (Exception e) {
+        return false;
 
         }
+
+
 
     }
-
-
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
@@ -2300,7 +2304,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
         public string CARALW { get; set; }
         public string MOBALW { get; set; }
         public string OTHALW { get; set; }
-
+       
 
     }
     public class AllPPTDetails
@@ -2327,6 +2331,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
         public string ReqID { get; set; }
         public string Status { get; set; }
         public string StatusOrder { get; set; }
+        public string CreatedBy { get; set; }
     }
 
     public class AllBankDetails
@@ -2362,6 +2367,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
         public string ReqID { get; set; }
         public string Status { get; set; }
         public string StatusOrder { get; set; }
+        public string CreatedBy { get; set; }
 
 
     }
@@ -2398,7 +2404,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
         public string Status { get; set; }
         public string StatusOrder { get; set; }
         public string No_OF_Month { get; set; }
-
+        public string CreatedBy { get; set; }
 
     }
 
@@ -2418,13 +2424,14 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
         public string On_Behalf { get; set; }
         public string On_Behalf_URL { get; set; }
         public string LATE_DATE { get; set; }
-
+      
         public string Attchement_Link { get; set; }
         public string ARRIVED_TIME { get; set; }
 
         public string ReqID { get; set; }
         public string Status { get; set; }
         public string StatusOrder { get; set; }
+        public string CreatedBy { get; set; }
 
 
     }
@@ -2454,6 +2461,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
         public string ReqID { get; set; }
         public string Status { get; set; }
         public string StatusOrder { get; set; }
+        public string CreatedBy { get; set; }
 
 
     }
@@ -2461,7 +2469,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
     public class AllMiscReqDetails
     {
         public string ReqID { get; set; }
-
+        
         public string EmpNo { get; set; }
         public string EmpName { get; set; }
         public string Designation { get; set; }
@@ -2493,6 +2501,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
         public string Status { get; set; }
         public string StatusOrder { get; set; }
 
+        public string CreatedBy { get; set; }
 
     }
 
@@ -2552,21 +2561,19 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
         public string TICKET_REQUIRED { get; set; }
         public string IS_PASSPORT_REQUIRED { get; set; }
         public string Status { get; set; }
-
         public string EmiratesId { get; set; }
         public string EmiratesExpDate { get; set; }
-
-
         public string OTHER_REASON { get; set; }
-
         public string CONSULTED_DOCTER { get; set; }
-
         public string LEAVE_SALARY_REQUIRED { get; set; }
         public string On_BehalfURL { get; set; }
-
         public string RequestURL { get; set; }
         public string ONBEHALF_FLAG { get; set; }
-
+        public string CreatedBy { get; set; }
+        public string WEEKLYOFF { get; set; }
+        public string STATUS_ORDER { get; set; }
+        public string VisaAuth { get; set; }
+        public string AssStatus { get; set; }
     }
 
     public class tableData
@@ -2584,9 +2591,9 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
         public string FULL_NAME { get; set; }
         public string Travelling_Date { get; set; }
         public string Expected_Date_Of_Return { get; set; }
-
-        public string REQUEST_TYPE { get; set; }
-        public string REQUEST_TYPEID { get; set; }
+    
+        public string REQUEST_TYPE   { get; set; }
+        public string REQUEST_TYPEID   { get; set; }
         public string STATUS { get; set; }
         public string LOAN_TYPE { get; set; }
         public string AMOUNT { get; set; }
@@ -2599,7 +2606,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
         public string EXIT_DATE { get; set; }
         public string Stage { get; set; }
         public string StageClass { get; set; }
-
+        
 
 
 

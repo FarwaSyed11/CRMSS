@@ -296,12 +296,15 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     EmpNo = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
                     EmpName = dt.Rows[i]["FULL_NAME"].ToString(),
                     DeptName = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    Designation = dt.Rows[i]["JOB"].ToString(),
+                    Designation = dt.Rows[i]["POSITION"].ToString(),
                     JoiningDate = dt.Rows[i]["ORIGINAL_DATE_OF_HIRE"].ToString(),
                     EmiratesId = dt.Rows[i]["EMIRATES_ID"].ToString(),
                     EmiratesExpDate = dt.Rows[i]["EMIRATES_EXP_DATE"].ToString(),
                     PassportExpireDate = dt.Rows[i]["PPDTEXPIRY"].ToString(),
-                    VisaExpiryDate = dt.Rows[i]["VVDTEXPIRY"].ToString()
+                    VisaExpiryDate = dt.Rows[i]["VVDTEXPIRY"].ToString(),
+                    WEEKLYOFF = dt.Rows[i]["WEEKLYOFF"].ToString(),
+                    AssStatus = dt.Rows[i]["ASSIGNMENT_STATUS"].ToString(),
+                    VisaAuth = dt.Rows[i]["VISAAUTHCODE"].ToString(),
                 });
             }
         }
@@ -680,6 +683,7 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     EMP_REMARKS = dt.Rows[i]["EMP_REMARKS"].ToString(),
                     CurrentOrderNumber = dt.Rows[i]["STATUS_ORDER"].ToString(),
                     WorkFlowID = dt.Rows[i]["WorkFlowID"].ToString(),
+                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
 
                 });
             }
@@ -1150,6 +1154,7 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     Status = dt.Rows[i]["Status"].ToString(),
                     CurrentOrderNumber = dt.Rows[i]["StatusOrder"].ToString(),
                     WorkFlowID = dt.Rows[i]["WorkFlowID"].ToString(),
+                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
 
                 });
             }
@@ -1224,6 +1229,7 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     Status = dt.Rows[i]["Status"].ToString(),
                     StatusOrder = dt.Rows[i]["STATUS_ORDER"].ToString(),
                     WorkFlowID = dt.Rows[i]["WorkFlowID"].ToString(),
+                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
 
                 });
             }
@@ -1293,7 +1299,8 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     MONTHLY_DEDUCTION = dt.Rows[i]["MONTHLY_DEDUCTION"].ToString(),
                     AMOUNT = dt.Rows[i]["AMOUNT"].ToString(),
                     Status = dt.Rows[i]["Status"].ToString(),
-                    StatusOrder = dt.Rows[i]["StatusOrder"].ToString()
+                    StatusOrder = dt.Rows[i]["StatusOrder"].ToString(),
+                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString()
 
                 });
             }
@@ -1357,6 +1364,7 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     Status = dt.Rows[i]["STATUS"].ToString(),
                     StatusOrder = dt.Rows[i]["STATUS_ORDER"].ToString(),
                     WorkFlowID = dt.Rows[i]["WorkFlowID"].ToString(),
+                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
                 });
             }
         }
@@ -1421,6 +1429,7 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     Status = dt.Rows[i]["Status"].ToString(),
                     StatusOrder = dt.Rows[i]["STATUS_ORDER"].ToString(),
                     WorkFlowID = dt.Rows[i]["WorkFlowID"].ToString(),
+                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
 
                 });
             }
@@ -1496,6 +1505,7 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     Status = dt.Rows[i]["Status"].ToString(),
                     StatusOrder = dt.Rows[i]["StatusOrder"].ToString(),
                     WorkFlowID = dt.Rows[i]["WorkFlowID"].ToString(),
+                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
 
                 });
             }
@@ -2026,6 +2036,7 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
         public string Status { get; set; }
         public string CurrentOrderNumber { get; set; }
         public string WorkFlowID { get; set; }
+        public string CreatedBy { get; set; }
     }
 
     public class AllBankDetails
@@ -2062,6 +2073,7 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
         public string Status { get; set; }
         public string StatusOrder { get; set; }
         public string WorkFlowID { get; set; }
+        public string CreatedBy { get; set; }
 
 
     }
@@ -2098,6 +2110,7 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
         public string Status { get; set; }
         public string StatusOrder { get; set; }
         public string WorkFlowID { get; set; }
+        public string CreatedBy { get; set; }
 
 
     }
@@ -2126,6 +2139,7 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
         public string Status { get; set; }
         public string StatusOrder { get; set; }
         public string WorkFlowID { get; set; }
+        public string CreatedBy { get; set; }
 
 
     }
@@ -2156,6 +2170,7 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
         public string Status { get; set; }
         public string StatusOrder { get; set; }
         public string WorkFlowID { get; set; }
+        public string CreatedBy { get; set; }
 
 
     }
@@ -2195,6 +2210,7 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
         public string Status { get; set; }
         public string StatusOrder { get; set; }
         public string WorkFlowID { get; set; }
+        public string CreatedBy { get; set; }
 
 
     }
@@ -2255,23 +2271,21 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
         public string TICKET_REQUIRED { get; set; }
         public string IS_PASSPORT_REQUIRED { get; set; }
         public string Status { get; set; }
-
         public string EmiratesId { get; set; }
         public string EmiratesExpDate { get; set; }
-
-
         public string OTHER_REASON { get; set; }
-
         public string CONSULTED_DOCTER { get; set; }
-
         public string LEAVE_SALARY_REQUIRED { get; set; }
         public string On_BehalfURL { get; set; }
-
         public string RequestURL { get; set; }
         public string ONBEHALF_FLAG { get; set; }
         public string CurrentOrderNumber { get; set; }
         public string WorkFlowID { get; set; }
-
+        public string CreatedBy { get; set; }
+        public string WEEKLYOFF { get; set; }
+        public string STATUS_ORDER { get; set; }
+        public string VisaAuth { get; set; }
+        public string AssStatus { get; set; }
     }
 
     public class tableData

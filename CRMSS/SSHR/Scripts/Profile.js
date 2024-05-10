@@ -3,10 +3,8 @@ var weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
 var monthname = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
 var monthsNameByNo = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 var odd = [1,3,5,7,9,11,13,15,17,19,21,23];
-var even = [2, 4, 8, 10, 12, 14, 16, 18, 20, 22, 24];
-
-var Listitems = [], objDatatableAccnAss=[];
-
+var even = [2, 4, 8, 10, 12, 14,16,18,20,22,24];
+var Listitems = [], objDatatableAccnAss = [];
 
 $(document).ready(function () {
     loadEmpImage();
@@ -710,7 +708,6 @@ function loadEmpDetailsInSlip() {
 
 }
 
-
 function loadAccnAssDetails() {
     $.ajax({
         url: "Profile.aspx/GetAssetDetails",
@@ -772,8 +769,8 @@ function renderAccnAsstTable() {
                     <td> `+ item.Remarks + ` </td>
                     <td> `+ item.Attachment + ` </td>
                     <td> `+ item.Status + ` </td>`
-                    
-                    
+
+
         //    <span style="margin-left: 4%;"><i class="bx bx-trash fa-icon-hover ibtn-mstone-delete" title="Delete Milestone" data-mstoneid="`+ item.MStoneId + `" style="color:#d33a3a; cursor:pointer;font-size: x-large;"></i> </span>`
 
         htm += `</tr>`

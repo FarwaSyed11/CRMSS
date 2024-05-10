@@ -1,4 +1,9 @@
 ﻿var listRecentPages, listMostVisited = [];
+
+var listRecentPages, listMostVisited = [];
+var day = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"];
+var monthsbyName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
 $(document).ready(function () {
 
     loadrecentpages();
@@ -196,3 +201,12 @@ document.onkeydown = (e) => {
 document.addEventListener('contextmenu', function (e) {
     e.preventDefault();
 });
+
+//date format
+function getDateInWordsFormat(dt) {
+    return monthsNameByNo[new Date(dt).getMonth()] + ', ' + new Date(dt).getDate() + ' ' + new Date(dt).getFullYear();
+}
+
+function datedayformat(dt) {
+    return (new Date(dt).getDate() + '-' + monthsbyName[new Date(dt).getMonth()] + '-' + new Date(dt).getFullYear() + ', ' + day[new Date(dt).getDay()]);
+}

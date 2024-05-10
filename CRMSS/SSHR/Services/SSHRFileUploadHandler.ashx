@@ -74,7 +74,7 @@ public class SSHRFileUploadHandler : IHttpHandler
                     pa.Add("@oper");
                     pv.Add(8);
 
-                    pa.Add("@ReqID");
+                    pa.Add("@Id");
                     pv.Add(ApplicationId);
 
                     pa.Add("@OnBehalfURL");
@@ -286,7 +286,7 @@ public class SSHRFileUploadHandler : IHttpHandler
             pa.Add("@oper");
             pv.Add(9);
 
-            pa.Add("@ReqID");
+            pa.Add("@Id");
             pv.Add(ApplicationId);
 
             pa.Add("@RequestURL");

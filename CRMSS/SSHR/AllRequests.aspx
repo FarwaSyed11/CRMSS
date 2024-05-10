@@ -616,19 +616,24 @@
                         </div>
                         <div class="col-6 divOnbehalf" style="">
                             <div class="row">
-                                <div class="col-3">
+                                <div class="col-4">
                                     <input type="checkbox" id="cbEmpOnBehalf" netliva-switch="OK" style="">
-                                    <label for="cbEmpOnBehalf" data-active-text="On Behalf" data-passive-text="On Behalf" style="--switch-active-color: #30ca51; --switch-passive-color: #66666696; display: none"></label>
-                                    <label for="html5-number-input" class="col-form-label label-custom" style="">On Behalf </label>
+                                    <label for="cbEmpOnBehalf" data-active-text="On Behalf" data-passive-text="On Behalf" style="--switch-active-color: #30ca51; --switch-passive-color: #66666696; display: none" ></label>
+                                    <label for="html5-number-input" class="col-form-label label-custom on-beh" style="">On Behalf </label>
                                 </div>
                                   
                                 <div class="col-5 onbehalf-controls-div hidden" style="">
                                     <div>
                                         <%--<label for="html5-number-input" class="col-form-label label-custom" style="float: left;padding-right: 10px;padding-top: 2px;">Employee Name </label>--%>
+                                        <div class="employee-drop">
                                         <select id="txtEmpName" style=""> </select>
+                                         </div>
+                                        <div class="employee-text" style="padding-left:20px;padding-top:10px;font-size:medium">
+                                        <label id="txtEmpNametext" style="font-weight:bold;"> </label>
+                                            </div>
                                     </div>
                                 </div>
-                                <div class="col-4 onbehalf-controls-div1 hidden" style="">
+                                <div class="col-3 onbehalf-controls-div1 hidden" style="">
                                     <div class="input-group mb-3 insert-Attachment">
                                         <%--<label for="html5-number-input" class="col-form-label label-custom" style="float: left;padding-right: 10px;padding-top: 2px;">Attachment</label>--%>
 
@@ -681,17 +686,28 @@
                             <div>
                                 <div class="row empMainInfo">
                                     <div style="align-self: center; width: 12%">
-                                        <img src="icons/EmpName.png" style="width: 28px;">
+                                        <img src="icons/Number.png" style="width: 25px;">
                                     </div>
                                     <div class="empInfo" style="width: 88%">
-                                        <label for="html5-number-input" class="col-form-label label-custom">Emp Name </label>
+                                        <label for="html5-number-input" class="col-form-label label-custom">Emp No. </label>
                                         <div class="">
-                                            <input type="text" id="lblEmpName" value="" style="width: 100%; background: #80808000; border: 0px; border: none; font-weight: bold;" readonly="">
+                                            <label id="lblEmpNo" style="font-weight: bold;"></label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row empMoreInfor">
+                                 <div style="align-self: center; width: 12%">
+                                     <img src="icons/GroupPED.png" style="width: 26px;">
+                                 </div>
+                                 <div class="empInfo" style="width: 88%">
+                                     <label for="html5-number-input" class="col-form-label label-custom">Assignment</label>
+                                     <div class="">
 
+                                         <label id="assstatus" style="font-weight: bold;">Active</label>
+                                     </div>
+                                 </div>
+                             </div>
                             <div class="row empMoreInfor" >
                                 <div style="align-self: center; width: 12%">
                                     <img src="icons/VectorDOJ.png" style="width: 26px;">
@@ -699,34 +715,32 @@
                                 <div class="empInfo " style="width: 88%">
                                     <label for="html5-number-input" class="col-form-label label-custom">Date of Joining </label>
                                     <div class="">
-
                                         <label id="lblDateOfJoin" style="font-weight: bold;">Sep, 2 2023</label>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="row empMoreInfor">
-                                <div style="align-self: center; width: 12%">
-                                    <img src="icons/GroupVED.png" style="width: 26px;">
-                                </div>
-                                <div class="empInfo" style="width: 88%">
-                                    <label for="html5-number-input" class="col-form-label label-custom">Visa Exp Date </label>
-                                    <div class="">
-                                        <label id="lblVisaExpDate" style="font-weight: bold;">Aug, 18 2023</label>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                         <div style="margin-right: 30px;width: 20%;border-right: 1px solid #dbdbdb;">
                             <div class="row empMainInfo">
                                 <div style="align-self: center; width: 12%">
-                                    <img src="icons/Number.png" style="width: 25px;">
+                                    <img src="icons/EmpName.png" style="width: 28px;">
                                 </div>
                                 <div class="empInfo" style="width: 88%">
-                                    <label for="html5-number-input" class="col-form-label label-custom">Emp No. </label>
+                                    <label for="html5-number-input" class="col-form-label label-custom">Emp Name </label>
                                     <div class="">
-                                        <label id="lblEmpNo" style="font-weight: bold;"></label>
+                                        <input type="text" id="lblEmpName" value="" style="width: 100%; background: #80808000; border: 0px; border: none; font-weight: bold;" readonly="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row empMoreInfor">
+                                <div style="align-self: center; width: 12%">
+                                    <img src="icons/VectorEED.png" style="width: 26px;">
+                                </div>
+                                <div class="empInfo" style="width: 88%">
+                                    <label for="html5-number-input" class="col-form-label label-custom">Last Ticket Encash Date</label>
+                                    <div class="">
+
+                                        <label id="lblLastVacationFromDate" style="font-weight: bold;">--</label>
                                     </div>
                                 </div>
                             </div>
@@ -742,22 +756,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row empMoreInfor">
-                                <div style="align-self: center; width: 12%">
-                                    <img src="icons/GroupPED.png" style="width: 26px;">
-                                </div>
-                                <div class="empInfo" style="width: 88%">
-                                    <label for="html5-number-input" class="col-form-label label-custom">Last Ticket Encash Date</label>
-                                    <div class="">
-
-                                        <label id="lblLeaveEncaseDate" style="font-weight: bold;">Sep, 2 2023</label>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-
                         </div>
                         <div style="margin-right: 30px;width: 20%;border-right: 1px solid #dbdbdb;">
 
@@ -773,7 +771,7 @@
                                 </div>
                             </div>
 
-                            <div class="row empMoreInfor">
+                            <%--<div class="row empMoreInfor">
                                 <div style="align-self: center; width: 12%">
                                     <img src="icons/VectorEID.png" style="width: 26px;">
                                 </div>
@@ -783,16 +781,28 @@
                                         <label id="lblEID" style="font-weight: bold;">Sep, 2 2023</label>
                                     </div>
                                 </div>
-                            </div>
-
+                            </div>--%>
                             <div class="row empMoreInfor">
                                 <div style="align-self: center; width: 12%">
-                                    <img src="icons/VectorEED.png" style="width: 26px;">
+                                    <img src="icons/VectorEID.png" style="width: 26px;">
                                 </div>
                                 <div class="empInfo" style="width: 88%">
-                                    <label for="html5-number-input" class="col-form-label label-custom">Emirates Exp Date</label>
+                                    <label for="html5-number-input" class="col-form-label label-custom">Visa Authority </label>
                                     <div class="">
-                                        <label id="lblEIDExpDate" style="font-weight: bold;">Sep, 2 2023</label>
+                                        <label id="vauth" style="font-weight: bold;">JAFZA</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                            <div class="row empMoreInfor">
+                                <div style="align-self: center; width: 12%">
+                                    <img src="icons/GroupVED.png" style="width: 26px;">
+                                </div>
+                                <div class="empInfo" style="width: 88%">
+                                    <label for="html5-number-input" class="col-form-label label-custom">Visa Exp Date </label>
+                                    <div class="">
+                                        <label id="lblVisaExpDate" style="font-weight: bold;">Aug, 18 2023</label>
                                     </div>
                                 </div>
                             </div>
@@ -819,21 +829,18 @@
                                 <div class="empInfo" style="width: 88%">
                                     <label for="html5-number-input" class="col-form-label label-custom">Weekly Off  </label>
                                     <div class="">
-
                                         <label id="lblWeeklyOff" style="font-weight: bold;">Sep, 2 2023</label>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="row empMoreInfor">
                                 <div style="align-self: center; width: 12%">
                                     <img src="icons/VectorEED.png" style="width: 26px;">
                                 </div>
                                 <div class="empInfo" style="width: 88%">
-                                    <label for="html5-number-input" class="col-form-label label-custom">Last Vacation From</label>
+                                    <label for="html5-number-input" class="col-form-label label-custom">Emirates ID Exp Date</label>
                                     <div class="">
-
-                                        <label id="lblLastVacationFromDate" style="font-weight: bold;">Sep, 2 2023</label>
+                                        <label id="lblEIDExpDate" style="font-weight: bold;">Sep, 2 2023</label>
                                     </div>
                                 </div>
                             </div>
@@ -1357,6 +1364,7 @@
         });
 
     </script>
+
     <script src="Scripts/AllRequests.js?v=1"></script>
     <link href="Css/allrequest.css" rel="stylesheet" />
 

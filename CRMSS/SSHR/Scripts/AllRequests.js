@@ -7,6 +7,7 @@ var ApplicationId = 0;
 var PPTReasonId = '';
 var reqStatus = '';
 var OrgID = 0;
+var StatusOrder=0
 
 var htmActionButton = "";
 
@@ -27,9 +28,7 @@ $(document).ready(function () {
         //    selLostDate = dateStr;
         //}
     });
-
     $('.ajax-loader').removeClass('hidden');
-    onbehalfrolecheck();
     setTimeout(function () {
         LoadRequestData('Please Wait...');
         $(".ajax-loader").addClass('hidden');
@@ -41,7 +40,6 @@ $(document).ready(function () {
     GetBasicEmpDet();
     loadEmpDetails();
     loadEmpLoanDetails();
-
 });
 
 
@@ -368,7 +366,7 @@ function LoadRequestData(loadername) {
                                  <th style="display:none;">ID</th > 
                                  <th style="width:20%">Request Number</th >
                                  <th style="width:10%">Date</th>
-                                 <th style="width:10%">Arrieved Time</th>
+                                 <th style="width:10%">Arrived Time</th>
                                  <th style="width:20%">Reason</th>
                                  <th style="width:10%">Request Date</th>
                                  <th style="width:20%">Status</th>
@@ -383,7 +381,7 @@ function LoadRequestData(loadername) {
                  <td style="text-align:center;display:none;">`+ item.ReqID + `</td> 
                   <td style="text-align:center">`+ item.Req_Number + `</td>  
                   <td style="text-align:center">`+ datedayformat(item.FROM_DATE) + `</td>  
-                 <td style="text-align:center">`+ item.ARRIVED_TIME + `</td>   
+                 <td style="text-align:center">`+ timeFormat(item.ARRIVED_TIME) + `</td>   
                  <td style="text-align:center">`+ item.REASON + `</td>   
                  <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td>   
                    <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
@@ -425,7 +423,7 @@ function LoadRequestData(loadername) {
                  <td style="text-align:center;display:none;">`+ item.ReqID + `</td> 
                   <td style="text-align:center">`+ item.Req_Number + `</td>  
                  <td style="text-align:center">`+ datedayformat(item.EXIT_DATE) + `</td>   
-                 <td style="text-align:center">`+ item.OUT_TIME + `</td>   
+                 <td style="text-align:center">`+ timeFormat(item.OUT_TIME) + `</td>   
                  <td style="text-align:center">`+ item.REASON + `</td>   
                  <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td> 
                  <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
@@ -855,10 +853,10 @@ function LoadRequestDataforOnbehalf(loadername) {
 
                 htmlHead += `  <tr style="text-align: center;">
                                  <th style="display:none;">ID</th>
+                                  <th style="display:none;">ReqTypeID</th>
                                  <th style="width:25%">Request Number</th>
-                                 <th>Applied For</th>
-                                  <th style="display:none;">ReqTypeID</th> 
-                                 <th style="width:20%">Request Type</th>
+                                   <th>Applied For</th>
+                                 
                                  <th style="width:25%">Reason</th>
                                  <th style="width:20%">Request Date</th>
                                  <th style="width:20%">Status</th>
@@ -875,7 +873,6 @@ function LoadRequestDataforOnbehalf(loadername) {
                  <td style="text-align:center;display:none;">`+ item.REQUEST_TYPEID + `</td> 
                  <td style="text-align:center">`+ item.Req_Number + `</td> 
                  <td style="text-align:center">`+ item.EmployeeName + `</td>
-                 <td style="text-align:center">`+ item.REQUEST_TYPE + `</td>  
                  <td style="text-align:center">`+ item.REASON + `</td>   
                  <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td> 
                   <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
@@ -907,6 +904,28 @@ function LoadRequestDataforOnbehalf(loadername) {
 
 
 }
+$('.tbody-emp-req-behalf').on('click', '.ibtn-AllReq-req-info', function () {
+
+
+    Type = this.parentNode.parentNode.parentNode.children[1].textContent;
+
+    if (Type == 0) {
+
+        $('#ddlRequestType').val('0');
+        $('#ddlRequestType').attr('disabled', true);
+        RequestPageLoad();
+        ClearDetails();
+        ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
+        GetAllDetails();
+        SetForm();
+
+        $('.insert-Attachment').css('display', 'none');
+        $('.download-Attachment').css('display', '');
+        $('#empLeaveModal').modal('show');
+
+    }
+});
+
 $('.tbody-emp-req').on('click', '.ibtn-AllReq-req-info', function () {
 
 
@@ -1132,8 +1151,7 @@ function getAllCompanyLoanDetails() {
         async: false,
         success: function (result) {
 
-            loadEmpDetails();
-            loadEmpLoanDetails();
+
             $('#lblStatus').html(result.d[0].Status);
             $('#lblAppID').html(result.d[0].ReqID);
 
@@ -1153,7 +1171,12 @@ function getAllCompanyLoanDetails() {
             $('#txtBDMobile').val(result.d[0].MOBALW);
             $('#txtBDOther').val(result.d[0].OTHALW);
 
-            loadAllEmployees(result.d[0].EmpNo);
+            $('.on-beh').text('Applied By');
+            $('.employee-drop').css('display', 'none');
+            $('.employee-text').css('display', '');
+
+            $('#txtEmpNametext').html(result.d[0].CreatedBy);
+            /*loadAllEmployees(result.d[0].EmpNo);*/
 
             $('#lblRequestNumber').html(result.d[0].Req_Number);
             $('#txtCLoanReqDate').val(result.d[0].CREATEDDATE);
@@ -1255,15 +1278,20 @@ function getAllEPReqDetails() {
             $('#lblEID').html(result.d[0].EmiratesId);
             $('#lblEIDExpDate').html(result.d[0].EmiratesExpDate);
 
-            loadAllEmployees(result.d[0].EmpNo);
+            $('.on-beh').text('Applied By');
+            $('.employee-drop').css('display', 'none');
+            $('.employee-text').css('display', '');
+
+            $('#txtEmpNametext').html(result.d[0].CreatedBy);
+           /* loadAllEmployees(result.d[0].EmpNo);*/
 
             $('#lblRequestNumber').html(result.d[0].Req_Number);
             /* $('#txtEXTPassDate').val(result.d[0].EXIT_DATE);*/
             /* $('#txtCLoanDedStartMonth').val(result.d[0].DATE_START);*/
             $("#txtEXTPassDate").val(result.d[0].EXIT_DATE);
             $('#ddlEXTPassType').val(result.d[0].EXIT_TYPE);
-            $('#txtEXTPassOutTime').val(result.d[0].OUT_TIME);
-            $('#txtEXTPassBackTime').val(result.d[0].BACK_TIME);
+            $('#txtEXTPassOutTime').val(timeFormat(result.d[0].OUT_TIME));
+            $('#txtEXTPassBackTime').val(timeFormat(result.d[0].BACK_TIME));
             $('#txtEXTPassReason').val(result.d[0].Reason);
 
             OnBehalfURL = result.d[0].On_Behalf_URL;
@@ -1355,13 +1383,18 @@ function getAllLAReqDetails() {
 
 
 
-            loadAllEmployees(result.d[0].EmpNo);
+            $('.on-beh').text('Applied By');
+            $('.employee-drop').css('display', 'none');
+            $('.employee-text').css('display', '');
+
+            $('#txtEmpNametext').html(result.d[0].CreatedBy);
+           /* loadAllEmployees(result.d[0].EmpNo);*/
 
             $('#lblRequestNumber').html(result.d[0].Req_Number);
             $('#txtLAReqDate').val(result.d[0].LATE_DATE);
             /* $('#txtCLoanDedStartMonth').val(result.d[0].DATE_START);*/
             $("#txtLAReqDate").val(result.d[0].LATE_DATE);
-            $('#txtLAreqTime').val(result.d[0].ARRIVED_TIME);
+            $('#txtLAreqTime').val(timeFormat(result.d[0].ARRIVED_TIME));
             $('#txtLAReqReason').val(result.d[0].Reason);
 
             OnBehalfURL = result.d[0].On_Behalf_URL;
@@ -1488,8 +1521,12 @@ function getAllMiscRequestDetails() {
             $('#lblEID').html(result.d[0].EmiratesId);
             $('#lblEIDExpDate').html(result.d[0].EmiratesExpDate);
 
+            $('.on-beh').text('Applied By');
+            $('.employee-drop').css('display', 'none');
+            $('.employee-text').css('display', '');
 
-            loadAllEmployees(result.d[0].EmpNo);
+            $('#txtEmpNametext').html(result.d[0].CreatedBy);
+           /* loadAllEmployees(result.d[0].EmpNo);*/
 
             $('#lblRequestNumber').html(result.d[0].Req_Number);
             $('#txtMiscReqDate').val(result.d[0].CREATEDDATE);
@@ -1639,8 +1676,6 @@ function getAllBankDetails() {
         dataType: "json",
         async: false,
         success: function (result) {
-            loadEmpDetails();
-            loadEmpLoanDetails();
             $('#lblStatus').html(result.d[0].Status);
             $('#lblAppID').html(result.d[0].ReqID);
 
@@ -1660,7 +1695,13 @@ function getAllBankDetails() {
             $('#txtBDMobile').val(result.d[0].MOBALW);
             $('#txtBDOther').val(result.d[0].OTHALW);
 
-            loadAllEmployees(result.d[0].EmpNo);
+            $('.on-beh').text('Applied By');
+            $('.employee-drop').css('display', 'none');
+            $('.employee-text').css('display', '');
+
+            $('#txtEmpNametext').html(result.d[0].CreatedBy);
+
+            /*loadAllEmployees(result.d[0].EmpNo);*/
 
             $('#lblRequestNumber').html(result.d[0].Req_Number);
             $('#txtBDReqDate').val(result.d[0].CREATEDDATE);
@@ -1727,7 +1768,6 @@ function getAllBankDetails() {
             $(".ActionButtons").html(htmActionButton);
             $(".dvApprovalStage").css("display", "");
             loadApproverAuthorityPeople();
-            loadEmpDetails();
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -1836,7 +1876,6 @@ function RequestPageLoad() {
     var htm = '';
 
     if (Type == 0) {
-
         htm += `
                     <div class="row">
                        <div class="col-2">
@@ -1856,8 +1895,9 @@ function RequestPageLoad() {
                       
                            <div class="col-2">
                             <label for="html5-number-input" class="col-form-label label-custom">Start Date </label>
+                            
                             <div>
-                                <input type="date" id="txtStartDate" name="nmReqDet" class="form-control flatpickr-input" />
+                                <input type="date" id="txtStartDate" name="nmReqDet" class="form-control flatpickr flatpickr-input"/>
                             </div>
                         </div>
                          <div class="col-1">
@@ -1870,13 +1910,13 @@ function RequestPageLoad() {
                         <div class="col-2 div-EndDate">
                             <label for="html5-number-input" class="col-form-label label-custom">End Date </label>
                             <div>
-                                <input type="date" id="txtEndDate"  class="form-control flatpickr-input" disabled />
+                                <input type="text" id="txtEndDate"  class="form-control flatpickr-input" disabled />
                             </div>
                         </div>
                       <div class="col-2 div-Retwork">
                             <label for="html5-number-input" class="col-form-label label-custom">Return to Work</label>
                             <div class="">
-                                <input type="date" id="txtReturnToWork" class="form-control flatpickr-input" />
+                                <input type="text" id="txtReturnToWork" class="form-control flatpickr-input" />
                             </div>
                         </div>
                         <div class="col-2">
@@ -2109,7 +2149,7 @@ function RequestPageLoad() {
         htm += `
 
         
-        <div class="row mb-2" style="margin-inline: auto;border: 1px solid #a19f9f6b;border-radius: 5px;">
+        <div class="row mb-2 detailsrow" style="margin-inline: auto;border: 1px solid #a19f9f6b;border-radius: 5px;">
             <div class="col-6 mt-2 mb-2 me-4 bankcard" id="" style="border-right: 1px solid #e7e7e7;">
 
                 <h5 class="mb-4">
@@ -2170,9 +2210,9 @@ function RequestPageLoad() {
                         <tbody class="loan-body">
                             <tr>
                                 <td id="">HRA</td>
-                                <td>1000</td>
-                                <td>2000</td>
-                                <td>20/8/2024</td>
+                                <td>000</td>
+                                <td>000</td>
+                                <td>000</td>
                             </tr>
                         </tbody>
                     </table>
@@ -2279,7 +2319,7 @@ function RequestPageLoad() {
         </div>`
 
         $('.Leave-Req').html(htm);
-
+        bankcarddisplay();
     }
 
 
@@ -2459,7 +2499,7 @@ function RequestPageLoad() {
 
         htm += `
 
-        <div class="row mb-2" style="margin-inline: auto;border: 1px solid #a19f9f6b;border-radius: 5px;">
+        <div class="row mb-2 detailsrow" style="margin-inline: auto;border: 1px solid #a19f9f6b;border-radius: 5px;">
             <div class="col-6 mt-2 mb-2 me-4 bankcard" id="" style="border-right: 1px solid #e7e7e7;">
 
                 <h5 class="mb-4">
@@ -2468,7 +2508,7 @@ function RequestPageLoad() {
                 </h5>
                 <div class="row">
 
-                    <div class="col-4 bankcard-col">
+                   <div class="col-4 bankcard-col">
                         <label>Basic:
                             <span id="txtBDBasic">000</span>
                         </label>
@@ -2508,27 +2548,21 @@ function RequestPageLoad() {
                 </h5>
 
                 <div class="table" style="margin: 0 !important;">
-                    <table class="table table-responsive">
+                   <table class="table table-responsive">
                         <thead>
                             <tr>
-                                <th>Type</th>
-                                <th>Deduction</th>
+                                <th>Loan Type</th>
+                                <th>Paid</th>
+                                <th>Recovered</th>
                                 <th>Remaining</th>
-                                <th>Date</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="loan-body">
                             <tr>
-                                <td>HRA</td>
-                                <td>1000</td>
-                                <td>2000</td>
-                                <td>20/8/2024</td>
-                            </tr>
-                            <tr>
-                                <td>Salary Advance</td>
-                                <td>1000</td>
-                                <td>2000</td>
-                                <td>20/8/2024</td>
+                                <td id="">HRA</td>
+                                <td>000</td>
+                                <td>000</td>
+                                <td>000</td>
                             </tr>
                         </tbody>
                     </table>
@@ -2536,98 +2570,95 @@ function RequestPageLoad() {
             </div>
         </div>
 
-                       <div class="row">
+        <div class="row">
                      
 
-                        <div class="col-3">
-                            <label for="html5-number-input" class="col-form-label label-custom">Request Date</label>
-                            <div>
-                                <input type="text" id="txtCLoanReqDate" class="form-control flatpickr-input" disabled />
-                            </div>
-                        </div>
+            <div class="col-3">
+                <label for="html5-number-input" class="col-form-label label-custom">Request Date</label>
+                <div>
+                    <input type="text" id="txtCLoanReqDate" class="form-control flatpickr-input" disabled />
+                </div>
+            </div>
 
 
-                          <div class="col-3">
-                            <label for="html5-number-input" class="col-form-label label-custom">Loan Type</label>
-                            <div>
-                                <select id="ddlBLLoanType" class="form-select color-dropdown  ">
-                                <option value="HRA">HRA</option>
-                                 <option value="Salary_Advance">Salary Advance</option>
-                                </select>
-                            </div>
-                        </div>
+                <div class="col-3">
+                <label for="html5-number-input" class="col-form-label label-custom">Loan Type</label>
+                <div>
+                    <select id="ddlBLLoanType" class="form-select color-dropdown  ">
+                    <option value="HRA">HRA</option>
+                        <option value="Salary Advance">Salary Advance</option>
+                    </select>
+                </div>
+            </div>
 
-                        <div class="col-3" >
-                            <label for="html5-number-input" class="col-form-label label-custom">Deduction Start Month</label>
-                            <div>
-                                <input type="month" id="txtCLoanDedStartMonth" name="nmCLControll" class="form-control" readonly="readonly" />
-                            </div>
-                        </div>
-                          <div class="col-3 divnumberofMonth">
-                            <label for="html5-number-input" class="col-form-label label-custom">No. Months</label>
-                            <div>
-                                <input type="number" id="txtNumberofMonth" name="nmCLControll" class="form-control" min="1" max="6"  value="1"/>
-                            </div>
-                        </div>
+            <div class="col-3" >
+                <label for="html5-number-input" class="col-form-label label-custom">Deduction Start Month</label>
+                <div>
+                    <input type="month" id="txtCLoanDedStartMonth" name="nmCLControll" class="form-control" readonly="readonly" />
+                </div>
+            </div>
+                <div class="col-3 divnumberofMonth">
+                <label for="html5-number-input" class="col-form-label label-custom">No. Months</label>
+                <div>
+                    <input type="number" id="txtNumberofMonth" name="nmCLControll" class="form-control" min="1" max="6"  value="1"/>
+                </div>
+            </div>
 
-                      </div>
+            </div>
 
-                      <div class="row">
-                       <div class="col-3">
-                            <label for="html5-number-input" class="col-form-label label-custom">Amount</label>
-                            <div>
-                                <input type="text" id="txtCLoanAmount" name="nmCLControll" class="form-control"  />
-                            </div>
-                        </div>
+            <div class="row">
+            <div class="col-3">
+                <label for="html5-number-input" class="col-form-label label-custom">Amount</label>
+                <div>
+                    <input type="text" id="txtCLoanAmount" name="nmCLControll" class="form-control"  />
+                </div>
+            </div>
 
-                          <div class="col-3">
-                            <label for="html5-number-input" class="col-form-label label-custom">Monthly Deduction</label>
-                            <div>
-                                <input type="text" id="txtCLoanMonthlyDed" name="nmCLControll" class="form-control" readonly="readonly"/>
-                            </div>
-                        </div>
+                <div class="col-3">
+                <label for="html5-number-input" class="col-form-label label-custom">Monthly Deduction</label>
+                <div>
+                    <input type="text" id="txtCLoanMonthlyDed" name="nmCLControll" class="form-control" readonly="readonly"/>
+                </div>
+            </div>
 
-                         <div class="col-3">
-                            <label for="html5-number-input" class="col-form-label label-custom">Reason</label>
-                            <div>
-                                <input type="text" id="txtCLoanReason" name="nmCLControll" class="form-control  "/>
-                            </div>
-                        </div>
+                <div class="col-3">
+                <label for="html5-number-input" class="col-form-label label-custom">Reason</label>
+                <div>
+                    <input type="text" id="txtCLoanReason" name="nmCLControll" class="form-control  "/>
+                </div>
+            </div>
 
 
-                       </div>
+            </div>
 
-                        <div class="row">
-                       <div class="col-3 div-Attachment">
-                            <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
+            <div class="row">
+            <div class="col-3 div-Attachment">
+                <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
 
-                            <div class="input-group mb-3 insert-Attachment">
+                <div class="input-group mb-3 insert-Attachment">
 
-                                <input class="form-control" type="file" id="fu-leave-req" title="Leave Request" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getFileName()">
-                                <label class="input-group-text ml-3" for="fu-leave-req" style="border: transparent;">
+                    <input class="form-control" type="file" id="fu-leave-req" title="Leave Request" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getFileName()">
+                    <label class="input-group-text ml-3" for="fu-leave-req" style="border: transparent;">
                                   
-                                    <img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 49px; margin-top: -10px;" />
-                                </label>
+                        <img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 49px; margin-top: -10px;" />
+                    </label>
                              
-                                <input type="text" id="lblLeaveReqFileName" value="" style="width: 70%; background: #80808000; border: 0px; color: #697a8d; border: none; margin-left: 10px;" readonly="">
-                            </div>
+                    <input type="text" id="lblLeaveReqFileName" value="" style="width: 70%; background: #80808000; border: 0px; color: #697a8d; border: none; margin-left: 10px;" readonly="">
+                </div>
 
 
-                             <div class="input-group mb-3 download-Attachment">
+                    <div class="input-group mb-3 download-Attachment">
 
-                                    <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 40px;" />
+                        <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 40px;" />
                                
-                            </div>
+                </div>
 
 
-                        </div>
-                      </div>
-
-
-                             `
+            </div>
+        </div>`
 
         $('.Leave-Req').html(htm);
-
+        bankcarddisplay();
     }
 
 
@@ -2883,6 +2914,10 @@ $('#AddNewReq').on('click', function () {
     $('.proj-det-drilldown').removeClass('bx bxs-chevron-up');
     $('.proj-det-drilldown').addClass('bx bxs-chevron-down');
 
+    $('.on-beh').text('On Behalf');
+    $('.employee-drop').css('display', '');
+    $('.employee-text').css('display', 'none');
+
     $("#lblStatus").html("NEW");
     resetEmployeeNumber();
 
@@ -2910,6 +2945,7 @@ $('#AddNewReq').on('click', function () {
         GetRefNo();
         loadLeaveType();
         InitialForm();
+        onbehalfrolecheck();
     }
     else if (Type == 1) {
 
@@ -2922,6 +2958,7 @@ $('#AddNewReq').on('click', function () {
         GetPPTRefNo();
         loadPPTReason();
         PPTInitialForm();
+        onbehalfrolecheck();
     }
 
     else if (Type == 2) {
@@ -2935,6 +2972,7 @@ $('#AddNewReq').on('click', function () {
         GetBDRefNo();
         InitialBankDet();
         loadApproverAuthorityPeople();
+        onbehalfrolecheck();
 
     }
 
@@ -2951,6 +2989,7 @@ $('#AddNewReq').on('click', function () {
         miscReqTypeFormate();
         MiscInitialForm();
         loadApproverAuthorityPeople();
+        onbehalfrolecheck();
 
     }
 
@@ -2967,6 +3006,7 @@ $('#AddNewReq').on('click', function () {
         CompanyLoanInitialForm();
         loadApproverAuthorityPeople();
         CompanyLoanTypeFormat();
+        onbehalfrolecheck();
 
     }
 
@@ -2983,6 +3023,7 @@ $('#AddNewReq').on('click', function () {
         GetLAReqRefNo();
         LateAttendanceInitialForm();
         loadApproverAuthorityPeople();
+        onbehalfrolecheck();
 
     }
 
@@ -2997,6 +3038,7 @@ $('#AddNewReq').on('click', function () {
         GetEPReqRefNo();
         ExitPassInitialForm();
         loadApproverAuthorityPeople();
+        onbehalfrolecheck();
 
     }
     else if (Type == -1) {
@@ -3011,6 +3053,7 @@ $('#AddNewReq').on('click', function () {
         loadLeaveType();
         loadApproverAuthorityPeople();
         InitialForm();
+        onbehalfrolecheck();
 
     }
     loadAllEmployees('-1');
@@ -3054,6 +3097,9 @@ function GetBasicEmpDet() {
             $('#lblDateOfJoin').html(datedayformat(result.d[0].JoiningDate));
             $('#lblEID').html(result.d[0].EmiratesId);
             $('#lblEIDExpDate').html(datedayformat(result.d[0].EmiratesExpDate));
+            $('#lblWeeklyOff').html(result.d[0].WEEKLYOFF);
+            $('#assstatus').html(result.d[0].AssStatus);
+            $('#vauth').html(result.d[0].VisaAuth);
 
 
         },
@@ -3260,11 +3306,11 @@ function ClearDetails() {
     $('#lblLeaveReqFileName').val('');
 
     $('#lblRequestNumber').html("");
+   
     $('#cbEmpOnBehalf').prop('checked', false);
     if ($('#cbEmpOnBehalf').is(':checked')) { $('.onbehalf-controls-div').removeClass('hidden'); $('.onbehalf-controls-div1').removeClass('hidden') }
     else { $('.onbehalf-controls-div').addClass('hidden'); $('.onbehalf-controls-div1').addClass('hidden') }
     $('#txtEmpName').val('');
-
 
     $('#txtLeaveBal').val('');
     $('#empLeaveModal').find('input[name="nmReqDet"]').val('');
@@ -3736,7 +3782,7 @@ $('.tbody-emp-req').on('click', '.ibtn-leave-req-info', function () {
 });
 
 function GetAllDetails() {
-
+    $("#txtStartDate").prop("type", "text");
     $.ajax({
         url: "AllRequests.aspx/GetAllDetails",
         data: JSON.stringify({ 'ApplicationId': ApplicationId }),
@@ -3757,19 +3803,25 @@ function GetAllDetails() {
             $('#lblEID').html(result.d[0].EmiratesId);
             $('#lblEIDExpDate').html(result.d[0].EmiratesExpDate);
 
-            loadAllEmployees(result.d[0].EmpNo);
+            /*loadAllEmployees(result.d[0].EmpNo);*/
+            $('.on-beh').text('Applied By');
+            $('.employee-drop').css('display','none');
+            $('.employee-text').css('display', '');
+
+            $('#txtEmpNametext').html(result.d[0].CreatedBy);
 
             reqStatus = result.d[0].Status;
+            StatusOrder = result.d[0].STATUS_ORDER;
 
 
 
 
             $('#ddlLeaveType').val(result.d[0].LEAVE_TYPE_ID);
 
-
-            $('#txtStartDate').val(result.d[0].FROM_DATE);
-            $('#txtEndDate').val(result.d[0].TO_DATE);
-            $('#txtReturnToWork').val(result.d[0].RETURNED_TO_WORK);
+            $("#txtStartDate").prop("type", "text");
+            $('#txtStartDate').val(datedayformat(result.d[0].FROM_DATE));
+            $('#txtEndDate').val(datedayformat(result.d[0].TO_DATE));
+            $('#txtReturnToWork').val(datedayformat(result.d[0].RETURNED_TO_WORK));
 
             // document.getElementById("txtStartDate").valueAsDate = new Date(result.d[0].FROM_DATE.split(" ")[0]);
             /* $('#txtEndDate').val(result.d[0].TO_DATE.split(" ")[0]);*/
@@ -3836,7 +3888,7 @@ function GetAllDetails() {
             OnBehalfChange();
             InitialForm();
             htmActionButton = "";
-            if (result.d[0].Status == "SUBMIT") {
+            if (result.d[0].Status == "SUBMIT" && StatusOrder==0) {
                 SubmitForm();
                 htmActionButton += `<div class="pull-right">
                 <button id="btnCancellRequest" type="button" class="btn btn-primary btnTagTemp"><i class='bx bx-x-circle'></i>Cancel</button>
@@ -4099,7 +4151,6 @@ function ClearPPTDetails() {
     $('#lblRequestNumber').html('');
     $('#txtTravellingDate').val('');
     $('#txtEptDOReturn').find('input[name="nmReqDet"]').val('');
-
     loadPPTReason();
 
 
@@ -4172,7 +4223,13 @@ function getAllPPTDetails() {
             $('#lblEID').html(result.d[0].EmiratesId);
             $('#lblEIDExpDate').html(result.d[0].EmiratesExpDate);
 
-            loadAllEmployees(result.d[0].EmpNo);
+            /*loadAllEmployees(result.d[0].EmpNo);*/
+
+            $('.on-beh').text('Applied By');
+            $('.employee-drop').css('display', 'none');
+            $('.employee-text').css('display', '');
+
+            $('#txtEmpNametext').html(result.d[0].CreatedBy);
 
             $('#lblRequestNumber').html(result.d[0].Req_Number);
             loadPPTReason();
@@ -4475,9 +4532,6 @@ function GetBDBasicSalaryDet() {
             $('#txtBDCar').html(result.d[0].CARALW);
             $('#txtBDMobile').html(result.d[0].MOBALW);
             $('#txtBDOther').html(result.d[0].OTHALW);
-
-
-
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -5235,7 +5289,7 @@ function CompanyLoanTypeFormat() {
 
     }
 
-    else if ($('#ddlBLLoanType').val() == 'Salary_Advance') {
+    else if ($('#ddlBLLoanType').val() == 'Salary Advance') {
         $('#txtCLoanMonthlyDed').val('0');
         $('#txtCLoanAmount').val('0');  
         $('#txtCLoanMonthlyDed').attr('disabled', true);
@@ -5367,14 +5421,13 @@ $('#ddlRequestType').on('change', function (ApplicationId) {
 });
 
 function onbehalfrolecheck() {
-    if (myroleList == '13195' || '13177' || '13173') {
-        $("#cbEmpOnBehalf").css("visibility", "visible");
+    if (myroleList.includes('13195') || myroleList.includes('13177') || myroleList.includes('13173')) {
+        $(".divOnbehalf").css("visibility", "visible");
     }
     else {
-        $("#cbEmpOnBehalf").css("visibility", "hidden");
+        $(".divOnbehalf").css("visibility", "hidden");
     }
 }
-
 function loadEmpDetails() {
 
     $.ajax({
@@ -5503,12 +5556,34 @@ function loadEmpLoanDetails() {
 
 }
 
-//function datedayformat(dt) {
-//    return day[new Date(dt).getDay()] + ', ' + monthsbyName[new Date(dt).getMonth()] + ' ' + new Date(dt).getDate() + ', ' + new Date(dt).getFullYear() ;
-//}
-
-
-function datedayformat(dt) {
-    return (new Date(dt).getDate() + '-' + monthsbyName[new Date(dt).getMonth()] + '-' + new Date(dt).getFullYear() + ', ' + day[new Date(dt).getDay()]);
+function bankcarddisplay() {
+    if (myroleList.includes("13189") || myroleList.includes("13188") || myroleList.includes("13186") || myroleList.includes("13185") || myroleList.includes("13166") || myroleList.includes("13165")) {
+        $(".detailsrow").css("display", "none")
+    }
+    else {
+        $(".detailsrow").css("display", "none")
+    }
 }
 
+//date format
+function datedayformat(dt) {
+    if (dt != null && dt != '') {
+        return (new Date(dt).getDate() + '-' + monthsbyName[new Date(dt).getMonth()] + '-' + new Date(dt).getFullYear() + ', ' + day[new Date(dt).getDay()]);
+    }
+    else {
+        return '-';
+    }
+}
+
+//time format
+function timeFormat(dTime) {
+    var date = new Date(dTime);
+    var hour = '';
+    var amPm = '';
+    hour = date.getHours();
+    hour = String('00' + hour).slice(-2);
+
+    var time = hour + ":" + String('00' + date.getMinutes()).slice(-2) + ":" + String('00' + date.getSeconds()).slice(-2);
+
+    return time;
+}

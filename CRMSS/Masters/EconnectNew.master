@@ -59,7 +59,15 @@
         body, span, label, div, p, h1, h2, h3, h4, h5, h6, nav, li, ul, th, td, thead, tbody, table.dataTable tbody th, table.dataTable tbody td {
             font-family: poppins;
         }
-
+        .badge-for-taskcode {
+            background: #fffffff5 !important;
+            letter-spacing: 2px !important;
+            padding: 8px 12px !important;
+            border: 1px solid rgb(191 36 44) !important;
+            color: #bf242c !important;
+            margin: 5px !important;
+            box-shadow: 1px 1px 2px 1px #00000042 !important;
+        }
         .layout-navbar {
             background-color: white !important;
             height: 4.7rem;

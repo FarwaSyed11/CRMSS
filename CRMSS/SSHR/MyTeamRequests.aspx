@@ -525,24 +525,24 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <%-- <h5 class="modal-title" id="empLeaveModalLabel" style="width:85%;">Leave Request Application</h5>--%>
-                    <div class="row" style="width:100%">
-                        <div class="col-2 label-alignment" style="padding-left:20px;padding-top:10px;font-size:medium">
+                    <div class="row" style="width: 100%">
+                        <div class="col-2 label-alignment" style="padding-left: 20px; padding-top: 10px; font-size: medium">
                             <svg xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24">
                                 <path fill="none" stroke="#ec1a25" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 9h16M4 15h16M10 3L8 21m8-18l-2 18" />
                             </svg>
-                            <label" id="lblRequestNumber">NA584</label>
-                      
+                            <label id="lblRequestNumber"></label>
+
                         </div>
                         <div class="col-3">
-                             <select id="ddlRequestType" class="form-select color-dropdown" style="">
-                                 <option value="0">Leave Application</option>
-                                 <option value="1">Passport Release</option>
-                                 <option value="2">Bank Related Request</option>
-                                 <option value="3">Miscellaneous Request</option>
-                                 <option value="4">Company Loan</option>
-                                 <option value="5">Late Attendance Request</option>
-                                 <option value="6">Exit Pass Request</option>
-                             </select>
+                            <select id="ddlRequestType" class="form-select color-dropdown" style="">
+                                <option value="0">Leave Application</option>
+                                <option value="1">Passport Release</option>
+                                <option value="2">Bank Related Request</option>
+                                <option value="3">Miscellaneous Request</option>
+                                <option value="4">Company Loan</option>
+                                <option value="5">Late Attendance Request</option>
+                                <option value="6">Exit Pass Request</option>
+                            </select>
                         </div>
                         <div class="col-6 divOnbehalf" style="">
                             <div class="row">
@@ -550,13 +550,13 @@
                                     <label for="html5-number-input" class="col-form-label label-custom" style="">Applied By </label>
                                     <input type="checkbox" id="cbEmpOnBehalf" netliva-switch="OK" style="">
                                     <label for="cbEmpOnBehalf" data-active-text="On Behalf" data-passive-text="On Behalf" style="--switch-active-color: #30ca51; --switch-passive-color: #66666696; display: none"></label>
-                                    
+
                                 </div>
-                              
-                                <div class="col-5 onbehalf-controls-div hidden" style="">
+
+                                <div class="col-5 onbehalf-controls-div hidden" style="padding-left: 20px; padding-top: 10px; font-size: medium">
                                     <div>
                                         <%--<label for="html5-number-input" class="col-form-label label-custom" style="float: left;padding-right: 10px;padding-top: 2px;">Employee Name </label>--%>
-                                        <select id="txtEmpName" style=""> </select>
+                                        <label style="font-weight: bold" id="txtEmpName"></label>
                                     </div>
                                 </div>
                                 <div class="col-4 onbehalf-controls-div1 hidden" style="">
@@ -565,7 +565,7 @@
 
                                         <input class="form-control" type="file" id="fu-on-behalf" title="On Behalf" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getOnBehalfFileName()" />
                                         <label class="input-group-text ml-3" for="fu-on-behalf" style="cursor: pointer;">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24" title="Download File" >
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24" title="Download File">
                                                 <g fill="none" stroke="#ec1a25" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                                                     <path d="M4 22h14a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v4" />
                                                     <path d="M14 2v4a2 2 0 0 0 2 2h4M3 15h6m-3-3v6" />
@@ -573,11 +573,11 @@
                                             </svg>
                                             <%--<img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; margin-top: -15px;" />--%>
                                         </label>
-                                        <input class="form-control" type="text" id="lblOnBehalfFU" value="" style=" background: #80808000;color: #8b8b8b !important" readonly="" />
+                                        <input class="form-control" type="text" id="lblOnBehalfFU" value="" style="background: #80808000; color: #8b8b8b !important" readonly="" />
                                     </div>
                                     <div class="download-Attachment">
-                                        <img src="Images/Icon-download.png" id="btnDownloadOBAtt" title="Download File" class="fa-icon-hover" style="cursor: pointer;width:30px" />
-                                    
+                                        <img src="Images/Icon-download.png" id="btnDownloadOBAtt" title="Download File" class="fa-icon-hover" style="cursor: pointer; width: 30px" />
+
                                     </div>
 
                                 </div>
@@ -585,31 +585,68 @@
                         </div>
                     </div>
 
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
-            </div>
-
-            <div class="modal-body">
-
-                <div style="margin-top: -13px; position: absolute; width: 96%;">
-                    <div style="text-align: right;">
-                        <i class="bx bxs-chevron-up proj-det-drilldown" onclick="hideShowProjDetails()"></i>
-                    </div>
                 </div>
 
-                <div id="proj-details-rectangle-div" style="border-left: 5px solid red;">
-                    
+                <div class="modal-body">
 
-                    <b id="empheading">  Basic Info</b>
-                    <div class="row">
-                        <div style="align-self: center; width: 10%;" class="divimage">
-
-                            <img src="http://localhost:49753/Images/Profile/NA584.jpeg" alt="" class="w-px-120 h-auto rounded-circle" id="empimgvatar">
+                    <div style="margin-top: -13px; position: absolute; width: 96%;">
+                        <div style="text-align: right;">
+                            <i class="bx bxs-chevron-up proj-det-drilldown" onclick="hideShowProjDetails()"></i>
                         </div>
-                        <div style="margin-right: 30px;width: 20%;border-right: 1px solid #dbdbdb;">
-                            <input type="hidden" id="lblAppID">
-                            <input type="hidden" id="lblStatus">
-                            <div>
+                    </div>
+
+                    <div id="proj-details-rectangle-div" style="border-left: 5px solid red;">
+
+
+                        <b id="empheading">Basic Info</b>
+                        <div class="row">
+                            <div style="align-self: center; width: 10%;" class="divimage">
+
+                                <img src="http://localhost:49753/Images/Profile/NA584.jpeg" alt="" class="w-px-120 h-auto rounded-circle" id="empimgvatar">
+                            </div>
+                            <div style="margin-right: 30px; width: 20%; border-right: 1px solid #dbdbdb;">
+                                <input type="hidden" id="lblAppID">
+                                <input type="hidden" id="lblStatus">
+                                <div>
+                                    <div class="row empMainInfo">
+                                        <div style="align-self: center; width: 12%">
+                                            <img src="icons/Number.png" style="width: 25px;">
+                                        </div>
+                                        <div class="empInfo" style="width: 88%">
+                                            <label for="html5-number-input" class="col-form-label label-custom">Emp No. </label>
+                                            <div class="">
+                                                <label id="lblEmpNo" style="font-weight: bold;"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row empMoreInfor">
+                                    <div style="align-self: center; width: 12%">
+                                        <img src="icons/GroupPED.png" style="width: 26px;">
+                                    </div>
+                                    <div class="empInfo" style="width: 88%">
+                                        <label for="html5-number-input" class="col-form-label label-custom">Assignment</label>
+                                        <div class="">
+
+                                            <label id="assstatus" style="font-weight: bold;">Active</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row empMoreInfor">
+                                    <div style="align-self: center; width: 12%">
+                                        <img src="icons/VectorDOJ.png" style="width: 26px;">
+                                    </div>
+                                    <div class="empInfo " style="width: 88%">
+                                        <label for="html5-number-input" class="col-form-label label-custom">Date of Joining </label>
+                                        <div class="">
+                                            <label id="lblDateOfJoin" style="font-weight: bold;">Sep, 2 2023</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-right: 30px; width: 20%; border-right: 1px solid #dbdbdb;">
                                 <div class="row empMainInfo">
                                     <div style="align-self: center; width: 12%">
                                         <img src="icons/EmpName.png" style="width: 28px;">
@@ -621,158 +658,123 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                <div class="row empMoreInfor">
+                                    <div style="align-self: center; width: 12%">
+                                        <img src="icons/VectorEED.png" style="width: 26px;">
+                                    </div>
+                                    <div class="empInfo" style="width: 88%">
+                                        <label for="html5-number-input" class="col-form-label label-custom">Last Ticket Encash Date</label>
+                                        <div class="">
 
-                            <div class="row empMoreInfor" >
-                                <div style="align-self: center; width: 12%">
-                                    <img src="icons/VectorDOJ.png" style="width: 26px;">
+                                            <label id="lblLastVacationFromDate" style="font-weight: bold;">--</label>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="empInfo " style="width: 88%">
-                                    <label for="html5-number-input" class="col-form-label label-custom">Date of Joining </label>
-                                    <div class="">
+                                <div class="row empMoreInfor">
+                                    <div style="align-self: center; width: 12%">
+                                        <img src="icons/GroupPED.png" style="width: 26px;">
+                                    </div>
+                                    <div class="empInfo" style="width: 88%">
+                                        <label for="html5-number-input" class="col-form-label label-custom">Passport Exp Date </label>
+                                        <div class="">
 
-                                        <label id="lblDateOfJoin" style="font-weight: bold;">Sep, 2 2023</label>
+                                            <label id="lblPassExpDate" style="font-weight: bold;">Sep, 2 2023</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <div style="margin-right: 30px; width: 20%; border-right: 1px solid #dbdbdb;">
 
-                            <div class="row empMoreInfor">
-                                <div style="align-self: center; width: 12%">
-                                    <img src="icons/GroupVED.png" style="width: 26px;">
-                                </div>
-                                <div class="empInfo" style="width: 88%">
-                                    <label for="html5-number-input" class="col-form-label label-custom">Visa Exp Date </label>
-                                    <div class="">
-                                        <label id="lblVisaExpDate" style="font-weight: bold;">Aug, 18 2023</label>
+                                <div class="row empMainInfo">
+                                    <div style="align-self: center; width: 12%">
+                                        <img src="icons/Designation.png" style="width: 26px;">
                                     </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div style="margin-right: 30px;width: 20%;border-right: 1px solid #dbdbdb;">
-                            <div class="row empMainInfo">
-                                <div style="align-self: center; width: 12%">
-                                    <img src="icons/Number.png" style="width: 25px;">
-                                </div>
-                                <div class="empInfo" style="width: 88%">
-                                    <label for="html5-number-input" class="col-form-label label-custom">Emp No. </label>
-                                    <div class="">
-                                        <label id="lblEmpNo" style="font-weight: bold;"></label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row empMoreInfor">
-                                <div style="align-self: center; width: 12%">
-                                    <img src="icons/GroupPED.png" style="width: 26px;">
-                                </div>
-                                <div class="empInfo" style="width: 88%">
-                                    <label for="html5-number-input" class="col-form-label label-custom">Passport Exp Date </label>
-                                    <div class="">
-
-                                        <label id="lblPassExpDate" style="font-weight: bold;">Sep, 2 2023</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row empMoreInfor">
-                                <div style="align-self: center; width: 12%">
-                                    <img src="icons/GroupPED.png" style="width: 26px;">
-                                </div>
-                                <div class="empInfo" style="width: 88%">
-                                    <label for="html5-number-input" class="col-form-label label-custom">Last Ticket Encash Date</label>
-                                    <div class="">
-
-                                        <label id="lblLeaveEncaseDate" style="font-weight: bold;">Sep, 2 2023</label>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-
-                        </div>
-                        <div style="margin-right: 30px;width: 20%;border-right: 1px solid #dbdbdb;">
-
-                            <div class="row empMainInfo">
-                                <div style="align-self: center; width: 12%">
-                                    <img src="icons/Designation.png" style="width: 26px;">
-                                </div>
-                                <div class="empInfo" style="width: 88%">
-                                    <label for="html5-number-input" class="col-form-label label-custom">Designation </label>
-                                    <div class="">
-                                        <input type="text" id="lblDesignation" value="" style="width: 100%; background: #80808000; border: 0px; color: #697a8d; border: none; font-weight: bold;" readonly="">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row empMoreInfor">
-                                <div style="align-self: center; width: 12%">
-                                    <img src="icons/VectorEID.png" style="width: 26px;">
-                                </div>
-                                <div class="empInfo" style="width: 88%">
-                                    <label for="html5-number-input" class="col-form-label label-custom">Emirates ID </label>
-                                    <div class="">
-                                        <label id="lblEID" style="font-weight: bold;">Sep, 2 2023</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row empMoreInfor">
-                                <div style="align-self: center; width: 12%">
-                                    <img src="icons/VectorEED.png" style="width: 26px;">
-                                </div>
-                                <div class="empInfo" style="width: 88%">
-                                    <label for="html5-number-input" class="col-form-label label-custom">Emirates Exp Date</label>
-                                    <div class="">
-                                        <label id="lblEIDExpDate" style="font-weight: bold;">Sep, 2 2023</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div style="width: 20%;">
-                            <div class="row empMainInfo">
-                                <div style="align-self: center; width: 12%">
-                                    <img src="icons/GroupDepartment.png" style="width: 26px;">
-                                </div>
-                                <div class="empInfo" style="width: 88%">
-                                    <label for="html5-number-input" class="col-form-label label-custom">Department</label>
-                                    <div class="">
-
-                                        <input type="text" id="lblDepart" value="" style="width: 100%; background: #80808000; border: 0px; color: #697a8d; border: none; font-weight: bold;" readonly="">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row empMoreInfor">
-                                <div style="align-self: center; width: 12%">
-                                    <img src="icons/VectorEID.png" style="width: 26px;">
-                                </div>
-                                <div class="empInfo" style="width: 88%">
-                                    <label for="html5-number-input" class="col-form-label label-custom">Weekly Off  </label>
-                                    <div class="">
-
-                                        <label id="lblWeeklyOff" style="font-weight: bold;">Sep, 2 2023</label>
+                                    <div class="empInfo" style="width: 88%">
+                                        <label for="html5-number-input" class="col-form-label label-custom">Designation </label>
+                                        <div class="">
+                                            <input type="text" id="lblDesignation" value="" style="width: 100%; background: #80808000; border: 0px; color: #697a8d; border: none; font-weight: bold;" readonly="">
+                                        </div>
                                     </div>
                                 </div>
 
-                            </div>
-                            <div class="row empMoreInfor">
-                                <div style="align-self: center; width: 12%">
-                                    <img src="icons/VectorEED.png" style="width: 26px;">
-                                </div>
-                                <div class="empInfo" style="width: 88%">
-                                    <label for="html5-number-input" class="col-form-label label-custom">Last Vacation From</label>
-                                    <div class="">
-
-                                        <label id="lblLastVacationFromDate" style="font-weight: bold;">Sep, 2 2023</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                
+                                <%--<div class="row empMoreInfor">
+                <div style="align-self: center; width: 12%">
+                    <img src="icons/VectorEID.png" style="width: 26px;">
                 </div>
-                <%--<div class="row" style="margin-inline: auto;" >
+                <div class="empInfo" style="width: 88%">
+                    <label for="html5-number-input" class="col-form-label label-custom">Emirates ID </label>
+                    <div class="">
+                        <label id="lblEID" style="font-weight: bold;">Sep, 2 2023</label>
+                    </div>
+                </div>
+            </div>--%>
+                                <div class="row empMoreInfor">
+                                    <div style="align-self: center; width: 12%">
+                                        <img src="icons/VectorEID.png" style="width: 26px;">
+                                    </div>
+                                    <div class="empInfo" style="width: 88%">
+                                        <label for="html5-number-input" class="col-form-label label-custom">Visa Authority </label>
+                                        <div class="">
+                                            <label id="vauth" style="font-weight: bold;">JAFZA</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row empMoreInfor">
+                                    <div style="align-self: center; width: 12%">
+                                        <img src="icons/GroupVED.png" style="width: 26px;">
+                                    </div>
+                                    <div class="empInfo" style="width: 88%">
+                                        <label for="html5-number-input" class="col-form-label label-custom">Visa Exp Date </label>
+                                        <div class="">
+                                            <label id="lblVisaExpDate" style="font-weight: bold;">Aug, 18 2023</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="width: 20%;">
+                                <div class="row empMainInfo">
+                                    <div style="align-self: center; width: 12%">
+                                        <img src="icons/GroupDepartment.png" style="width: 26px;">
+                                    </div>
+                                    <div class="empInfo" style="width: 88%">
+                                        <label for="html5-number-input" class="col-form-label label-custom">Department</label>
+                                        <div class="">
+
+                                            <input type="text" id="lblDepart" value="" style="width: 100%; background: #80808000; border: 0px; color: #697a8d; border: none; font-weight: bold;" readonly="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row empMoreInfor">
+                                    <div style="align-self: center; width: 12%">
+                                        <img src="icons/VectorEID.png" style="width: 26px;">
+                                    </div>
+                                    <div class="empInfo" style="width: 88%">
+                                        <label for="html5-number-input" class="col-form-label label-custom">Weekly Off  </label>
+                                        <div class="">
+                                            <label id="lblWeeklyOff" style="font-weight: bold;">Sep, 2 2023</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row empMoreInfor">
+                                    <div style="align-self: center; width: 12%">
+                                        <img src="icons/VectorEED.png" style="width: 26px;">
+                                    </div>
+                                    <div class="empInfo" style="width: 88%">
+                                        <label for="html5-number-input" class="col-form-label label-custom">Emirates ID Exp Date</label>
+                                        <div class="">
+                                            <label id="lblEIDExpDate" style="font-weight: bold;">Sep, 2 2023</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <%--<div class="row" style="margin-inline: auto;" >
                     <div class="col-6 mt-2 mb-2 me-4 bankcard" id="Bank-details-rectangle-div">
                     
                         <h5>
@@ -862,7 +864,7 @@
 
 
 
-                <%--<div id="bankdeetSidenav" class="sidenav" style="width:0px">
+                    <%--<div id="bankdeetSidenav" class="sidenav" style="width:0px">
                     <a href="#" onclick="hideShowSalnLoanDeets()" id="salary">Salary Details
 
                         
@@ -979,13 +981,13 @@
                       
                 </div>--%>
 
-                <%--1st Row--%>
-                <div class="Leave-Req">
-
-                    
+                    <%--1st Row--%>
+                    <div class="Leave-Req">
 
 
-                    <%-- <div class="row" style="margin-top: 14px;">
+
+
+                        <%-- <div class="row" style="margin-top: 14px;">
                     
                         <div class="col-md-2">
                         <label for="html5-number-input" class="col-form-label label-custom">On Behalf </label>
@@ -1022,11 +1024,11 @@
                         </div>
                  
                             </div>
-                    --%>
+                        --%>
 
 
-                    <%--2nd Row--%>
-                    <%-- <div class="row">
+                        <%--2nd Row--%>
+                        <%-- <div class="row">
                     <div class="col-3">
                         <label for="html5-number-input" class="col-form-label label-custom">Request No. </label>
                         <div>
@@ -1056,8 +1058,8 @@
                     </div>
                 </div>--%>
 
-                    <%--3rd Row--%>
-                    <%--<div class="row">
+                        <%--3rd Row--%>
+                        <%--<div class="row">
                     <div class="col-3">
                         <label for="html5-number-input" class="col-form-label label-custom">Start Date </label>
                         <div>
@@ -1087,10 +1089,10 @@
                     </div>
                 </div>--%>
 
-                    <%--4th Row--%>
+                        <%--4th Row--%>
 
-                    <%--will enable for sick leave--%>
-                    <%--  <div class="row ddl-opt-sick-leave Group-Of-Doc">
+                        <%--will enable for sick leave--%>
+                        <%--  <div class="row ddl-opt-sick-leave Group-Of-Doc">
                     <div class="col-3 div-Retwork">
                         <label for="html5-number-input" class="col-form-label label-custom">Return to Work</label>
                         <div class="">
@@ -1108,9 +1110,9 @@
                         </div>
                     </div>
                 </div>--%>
-                    <%--end--%>
-                    <%--will enable for annual leave--%>
-                    <%--<div class="row ddl-opt-annual-leave Grop-Of-Det">
+                        <%--end--%>
+                        <%--will enable for annual leave--%>
+                        <%--<div class="row ddl-opt-annual-leave Grop-Of-Det">
                     <div class="col-2">
                         <label for="html5-number-input" class="col-form-label label-custom">Primary Contact</label>
                         <div>
@@ -1185,11 +1187,11 @@
 
                             <input class="form-control" type="file" id="fu-leave-req" title="Leave Request" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;">
                             <label class="input-group-text ml-3" for="fu-leave-req" style="border: transparent;">--%>
-                    <%--<i class="fa fa-upload " title="Upload File" style="color: #d33a3a; cursor: pointer; font-size: x-large;"></i>--%>
-                    <%-- <img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 49px; margin-top: -10px;" />
+                        <%--<i class="fa fa-upload " title="Upload File" style="color: #d33a3a; cursor: pointer; font-size: x-large;"></i>--%>
+                        <%-- <img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 49px; margin-top: -10px;" />
                             </label>--%>
-                    <%--  <a href="#" id="btnUploadChatFile" class="btn btn-primary" style="margin-left: 4px;">Upload File </a>--%>
-                    <%--  <input type="text" id="lblLeaveReqFileName" value="" style="width: 70%; background: #80808000; border: 0px; color: #697a8d; border: none; margin-left: 10px;" readonly="">
+                        <%--  <a href="#" id="btnUploadChatFile" class="btn btn-primary" style="margin-left: 4px;">Upload File </a>--%>
+                        <%--  <input type="text" id="lblLeaveReqFileName" value="" style="width: 70%; background: #80808000; border: 0px; color: #697a8d; border: none; margin-left: 10px;" readonly="">
                         </div>
 
 
@@ -1202,41 +1204,41 @@
 
                     </div>
                 </div>--%>
-                </div>
-                <br />
-                <br />
-                <div class="row">
-                    <div class="col-12 ActionButtons">
-                        <div class="pull-right">
-                            <%-- <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>--%>
-                            <button id="btnSubmit" type="button" class="btn btn-primary btnTagTemp" style=""><i class='bx bxs-check-circle me-3'></i>Submit</button>
-                            <button id="btnSaveApplication" type="button" class="btn btn-primary btnTagTemp"><i class='bx bxs-save me-3'></i>Save as Draft</button>
-                            <button id="btnCancellRequest" type="button" class="btn btn-primary btnTagTemp"><i class='bx bx-x-circle'></i>Cancell</button>
+                    </div>
+                    <br />
+                    <br />
+                    <div class="row">
+                        <div class="col-12 ActionButtons">
+                            <div class="pull-right">
+                                <%-- <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>--%>
+                                <button id="btnSubmit" type="button" class="btn btn-primary btnTagTemp" style=""><i class='bx bxs-check-circle me-3'></i>Submit</button>
+                                <button id="btnSaveApplication" type="button" class="btn btn-primary btnTagTemp"><i class='bx bxs-save me-3'></i>Save as Draft</button>
+                                <button id="btnCancellRequest" type="button" class="btn btn-primary btnTagTemp"><i class='bx bx-x-circle'></i>Cancell</button>
+                            </div>
+                        </div>
+                        <div class="col-12 dvApprovalStage">
+                            <h5>Approver Authority List</h5>
+
+                            <div>
+                                <table class="table appr-auth-table">
+
+                                    <thead>
+                                        <tr style="text-align: center;">
+                                            <th>Role</th>
+                                            <th>Approved By</th>
+                                            <th>Approved date</th>
+                                            <th>Comment</th>
+                                            <th>Status</th>
+                                    </thead>
+                                    <tbody class="tbody-appr-auth">
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-12 dvApprovalStage">
-                        <h5>Approver Authority List</h5>
 
-                        <div>
-                            <table class="table appr-auth-table">
-
-                                <thead>
-                                    <tr style="text-align: center;">
-                                        <th>Role</th>
-                                        <th>Approved By</th>
-                                        <th>Approved date</th>
-                                        <th>Comment</th>
-                                        <th>Status</th>
-                                </thead>
-                                <tbody class="tbody-appr-auth">
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    <%--end--%>
                 </div>
-
-                <%--end--%>
-            </div>
                 <div class="modal-footer">
                 </div>
             </div>
@@ -1789,6 +1791,7 @@
             currUserId = <%=Convert.ToInt32(Session["UserId"]).ToString()%>;
             EmpNo = '<%= Session["EmpNo"] %>';
             myrole = '<%=Session["Role"]%>';
+        myroleList = '<%=Session["CurrentUserRolesList"]%>';
 
         });
 
