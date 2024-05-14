@@ -19,7 +19,7 @@ public partial class SSHR_Profile : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static void SetJobDescDet(string EmpNo, string EmpName, string JobPurpose, string KeyAccountAbilities, string KeySkills, string AdditionalResponsibilities, string Qualifications)
+    public static void SetJobDescDet(string EmpNo, string EmpName, string JobPurpose, string KeyAccountAbilities, string AdditionalResponsibilities, string Qualifications)
     {
 
         DBHandler DBH = new DBHandler();
@@ -43,8 +43,8 @@ public partial class SSHR_Profile : System.Web.UI.Page
         pa.Add("@KeyAccountAbilities");
         pv.Add(KeyAccountAbilities);
 
-        pa.Add("@KeySkills");
-        pv.Add(KeySkills);
+        //pa.Add("@KeySkills");
+        //pv.Add(KeySkills);
 
         pa.Add("@AdditionalRespons");
         pv.Add(AdditionalResponsibilities);
@@ -97,7 +97,7 @@ public partial class SSHR_Profile : System.Web.UI.Page
                     EmpName = dt.Rows[i]["EmpName"].ToString(),
                     JobPurpose = dt.Rows[i]["JobPurpose"].ToString(),
                     KeyAccountAbilities = dt.Rows[i]["KeyAccountAbilities"].ToString(),
-                    KeySkills = dt.Rows[i]["KeySkills"].ToString(),
+                    //KeySkills = dt.Rows[i]["KeySkills"].ToString(),
                     AdditionalResponsibilities = dt.Rows[i]["AdditionalResponsibilities"].ToString(),
                     Qualifications = dt.Rows[i]["Qualifications"].ToString(),
 

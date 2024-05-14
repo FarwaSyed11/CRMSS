@@ -437,12 +437,14 @@ table-staffDtls td {
 .compright {
     float: right;
     width: 65%;
+    background: #ffc9c9;
 }
 
 .percmain {
     border: 1px solid red;
     width: 100%;
 }
+
 
 .btneditjobdesc {
     border: 1px solid #cecece;

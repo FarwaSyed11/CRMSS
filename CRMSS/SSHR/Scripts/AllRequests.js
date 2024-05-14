@@ -38,8 +38,8 @@ $(document).ready(function () {
         $(".ajax-loader").addClass('hidden');
     }, 500);
     GetBasicEmpDet();
-    loadEmpDetails();
-    loadEmpLoanDetails();
+    //loadEmpDetails();
+    //loadEmpLoanDetails();
 });
 
 
@@ -381,7 +381,7 @@ function LoadRequestData(loadername) {
                  <td style="text-align:center;display:none;">`+ item.ReqID + `</td> 
                   <td style="text-align:center">`+ item.Req_Number + `</td>  
                   <td style="text-align:center">`+ datedayformat(item.FROM_DATE) + `</td>  
-                 <td style="text-align:center">`+ timeFormat(item.ARRIVED_TIME) + `</td>   
+                 <td style="text-align:center">`+ (item.ARRIVED_TIME) + `</td>   
                  <td style="text-align:center">`+ item.REASON + `</td>   
                  <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td>   
                    <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
@@ -423,7 +423,7 @@ function LoadRequestData(loadername) {
                  <td style="text-align:center;display:none;">`+ item.ReqID + `</td> 
                   <td style="text-align:center">`+ item.Req_Number + `</td>  
                  <td style="text-align:center">`+ datedayformat(item.EXIT_DATE) + `</td>   
-                 <td style="text-align:center">`+ timeFormat(item.OUT_TIME) + `</td>   
+                 <td style="text-align:center">`+ (item.OUT_TIME) + `</td>   
                  <td style="text-align:center">`+ item.REASON + `</td>   
                  <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td> 
                  <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
@@ -765,7 +765,7 @@ function LoadRequestDataforOnbehalf(loadername) {
                                  <th>Applied For</th>
                                  
                                  <th style="width:10%">Date</th>
-                                 <th style="width:10%">Arrieved Time</th>
+                                 <th style="width:10%">Arrived Time</th>
                                  <th style="width:20%">Reason</th>
                                  <th style="width:10%">Request Date</th>
                                  <th style="width:20%">Status</th>
@@ -977,6 +977,8 @@ $('.tbody-emp-req').on('click', '.ibtn-AllReq-req-info', function () {
         $('.insert-Attachment').css('display', 'none');
         $('.download-Attachment').css('display', '');
         $('#empLeaveModal').modal('show');
+        loadEmpDetails();
+        loadEmpLoanDetails();
     }
 
     else if (Type == 3) {
@@ -1010,6 +1012,8 @@ $('.tbody-emp-req').on('click', '.ibtn-AllReq-req-info', function () {
         $('.insert-Attachment').css('display', 'none');
         $('.download-Attachment').css('display', '');
         $('#empLeaveModal').modal('show');
+        loadEmpDetails();
+        loadEmpLoanDetails();
     }
 
     else if (Type == 5) {
@@ -1182,7 +1186,7 @@ function getAllCompanyLoanDetails() {
             $('#txtCLoanReqDate').val(result.d[0].CREATEDDATE);
             $('#ddlBLLoanType').val(result.d[0].REQUEST_TYPE);
             /* $('#txtCLoanDedStartMonth').val(result.d[0].DATE_START);*/
-            $("txtCLoanDedStartMonth").val(result.d[0].DATE_START);
+            $("#txtCLoanDedStartMonth").val(result.d[0].DATE_START);
             $('#txtCLoanAmount').val(result.d[0].AMOUNT);
             $('#txtCLoanMonthlyDed').val(result.d[0].MONTHLY_DEDUCTION);
             $('#txtCLoanReason').val(result.d[0].Reason);
@@ -1290,8 +1294,8 @@ function getAllEPReqDetails() {
             /* $('#txtCLoanDedStartMonth').val(result.d[0].DATE_START);*/
             $("#txtEXTPassDate").val(result.d[0].EXIT_DATE);
             $('#ddlEXTPassType').val(result.d[0].EXIT_TYPE);
-            $('#txtEXTPassOutTime').val(timeFormat(result.d[0].OUT_TIME));
-            $('#txtEXTPassBackTime').val(timeFormat(result.d[0].BACK_TIME));
+            $('#txtEXTPassOutTime').val((result.d[0].OUT_TIME));
+            $('#txtEXTPassBackTime').val((result.d[0].BACK_TIME));
             $('#txtEXTPassReason').val(result.d[0].Reason);
 
             OnBehalfURL = result.d[0].On_Behalf_URL;
@@ -1394,7 +1398,7 @@ function getAllLAReqDetails() {
             $('#txtLAReqDate').val(result.d[0].LATE_DATE);
             /* $('#txtCLoanDedStartMonth').val(result.d[0].DATE_START);*/
             $("#txtLAReqDate").val(result.d[0].LATE_DATE);
-            $('#txtLAreqTime').val(timeFormat(result.d[0].ARRIVED_TIME));
+            $('#txtLAreqTime').val((result.d[0].ARRIVED_TIME));
             $('#txtLAReqReason').val(result.d[0].Reason);
 
             OnBehalfURL = result.d[0].On_Behalf_URL;
@@ -1818,6 +1822,22 @@ $('#ddlRequests').on('change', function () {
     }, 500);
 
 });
+
+//$('#ddlStatus').on('change', function () {
+
+//    Type = $('#ddlRequests option:selected').val();
+
+//    $('.ajax-loader').removeClass('hidden');
+
+//    setTimeout(function () {
+//        LoadRequestData('Please Wait...');
+//        $(".ajax-loader").addClass('hidden');
+//    }, 500);
+
+//});
+
+
+
 
 $('#ddlStatus').on('change', function () {
 
@@ -3100,8 +3120,6 @@ function GetBasicEmpDet() {
             $('#lblWeeklyOff').html(result.d[0].WEEKLYOFF);
             $('#assstatus').html(result.d[0].AssStatus);
             $('#vauth').html(result.d[0].VisaAuth);
-
-
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -5563,6 +5581,40 @@ function bankcarddisplay() {
     else {
         $(".detailsrow").css("display", "none")
     }
+}
+
+$(function () {
+    // $('#ddlStatus').multiselect();
+    $("#ddlStatus").select2({
+        //dropdownParent: $("#ModalBriefForm"),
+        multi: true,
+        width: '100%',
+        height: '173px',
+        maximumSelectionLength: '5'
+    });
+    
+});
+
+//$("#ddlStatus").on('change', function () {
+//    var selTaskStatusesForFilers = '';
+//    $('#ddlStatus option:selected').each(function () {
+//        selTaskStatusesForFilers += $(this).val() + ',';
+//    });
+//    selTaskStatusesForFilers = (removeCommaFromTaskStatuseLast(selTaskStatusesForFilers) == "" ? '-1' : removeCommaFromTaskStatuseLast(selTaskStatusesForFilers));
+//    //filterAssignedToMetaskByStatuses();
+
+//    if (validateFilterInputDate()) {
+//        $('.ajax-loader').removeClass('hidden');
+//        setTimeout(function () {
+//            LoadRequestData()
+//            renderTasksToTable();
+//            $('.ajax-loader').addClass('hidden');
+//        }, 500);
+//    }
+//});
+
+function removeCommaFromTaskStatuseLast(sValue) {
+    return sValue.substr(0, sValue.length - 1);
 }
 
 //date format

@@ -651,7 +651,7 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     EmpNo = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
                     EmpName = dt.Rows[i]["FULL_NAME"].ToString(),
                     DeptName = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    Designation = dt.Rows[i]["JOB"].ToString(),
+                    Designation = dt.Rows[i]["POSITION"].ToString(),
                     JoiningDate = dt.Rows[i]["ORIGINAL_DATE_OF_HIRE"].ToString(),
                     EmiratesId = dt.Rows[i]["EMIRATES_ID"].ToString(),
                     EmiratesExpDate = dt.Rows[i]["EMIRATES_EXP_DATE"].ToString(),
@@ -684,6 +684,7 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     CurrentOrderNumber = dt.Rows[i]["STATUS_ORDER"].ToString(),
                     WorkFlowID = dt.Rows[i]["WorkFlowID"].ToString(),
                     CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
+                    LEAVE_BALANCE = dt.Rows[i]["LEAVE_BALANCE"].ToString(),
 
                 });
             }
@@ -1132,7 +1133,7 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     EmpNo = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
                     EmpName = dt.Rows[i]["FULL_NAME"].ToString(),
                     DeptName = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    Designation = dt.Rows[i]["JOB"].ToString(),
+                    Designation = dt.Rows[i]["POSITION"].ToString(),
                     JoiningDate = dt.Rows[i]["ORIGINAL_DATE_OF_HIRE"].ToString(),
                     EmiratesId = dt.Rows[i]["EMIRATES_ID"].ToString(),
                     EmiratesExpDate = dt.Rows[i]["EMIRATES_EXP_DATE"].ToString(),
@@ -1199,7 +1200,7 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     EmpNo = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
                     EmpName = dt.Rows[i]["FULL_NAME"].ToString(),
                     DeptName = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    Designation = dt.Rows[i]["JOB"].ToString(),
+                    Designation = dt.Rows[i]["POSITION"].ToString(),
                     JoiningDate = dt.Rows[i]["ORIGINAL_DATE_OF_HIRE"].ToString(),
                     EmiratesId = dt.Rows[i]["EMIRATES_ID"].ToString(),
                     EmiratesExpDate = dt.Rows[i]["EMIRATES_EXP_DATE"].ToString(),
@@ -1275,7 +1276,7 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     EmpNo = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
                     EmpName = dt.Rows[i]["FULL_NAME"].ToString(),
                     DeptName = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    Designation = dt.Rows[i]["JOB"].ToString(),
+                    Designation = dt.Rows[i]["POSITION"].ToString(),
                     JoiningDate = dt.Rows[i]["ORIGINAL_DATE_OF_HIRE"].ToString(),
                     EmiratesId = dt.Rows[i]["EMIRATES_ID"].ToString(),
                     EmiratesExpDate = dt.Rows[i]["EMIRATES_EXP_DATE"].ToString(),
@@ -1345,7 +1346,7 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     EmpNo = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
                     EmpName = dt.Rows[i]["FULL_NAME"].ToString(),
                     DeptName = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    Designation = dt.Rows[i]["JOB"].ToString(),
+                    Designation = dt.Rows[i]["POSITION"].ToString(),
                     JoiningDate = dt.Rows[i]["ORIGINAL_DATE_OF_HIRE"].ToString(),
                     EmiratesId = dt.Rows[i]["EMIRATES_ID"].ToString(),
                     EmiratesExpDate = dt.Rows[i]["EMIRATES_EXP_DATE"].ToString(),
@@ -1408,7 +1409,7 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     EmpNo = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
                     EmpName = dt.Rows[i]["FULL_NAME"].ToString(),
                     DeptName = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    Designation = dt.Rows[i]["JOB"].ToString(),
+                    Designation = dt.Rows[i]["POSITION"].ToString(),
                     JoiningDate = dt.Rows[i]["ORIGINAL_DATE_OF_HIRE"].ToString(),
                     EmiratesId = dt.Rows[i]["EMIRATES_ID"].ToString(),
                     EmiratesExpDate = dt.Rows[i]["EMIRATES_EXP_DATE"].ToString(),
@@ -1475,7 +1476,7 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     EmpNo = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
                     EmpName = dt.Rows[i]["FULL_NAME"].ToString(),
                     DeptName = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    Designation = dt.Rows[i]["JOB"].ToString(),
+                    Designation = dt.Rows[i]["POSITION"].ToString(),
                     JoiningDate = dt.Rows[i]["ORIGINAL_DATE_OF_HIRE"].ToString(),
                     EmiratesId = dt.Rows[i]["EMIRATES_ID"].ToString(),
                     EmiratesExpDate = dt.Rows[i]["EMIRATES_EXP_DATE"].ToString(),
@@ -2001,6 +2002,58 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
 
     }
 
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<LoanDetails> GetEmployeeLoanDetails(string EmpNo)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(41);
+
+        pa.Add("@EmpNo");
+        pv.Add(EmpNo);
+
+
+
+        DBH.CreateDataset_SSHR(ds, "sp_AllRequests", true, pa, pv);
+
+        List<LoanDetails> oLoanDetails = new List<LoanDetails>();
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                oLoanDetails.Add(new LoanDetails()
+                {
+                    ENO = dt.Rows[i]["ENO"].ToString(),
+                    LTYPE = dt.Rows[i]["LTYPE"].ToString(),
+                    PAID = dt.Rows[i]["PAID"].ToString(),
+                    RECOVERED = dt.Rows[i]["RECOVERED"].ToString(),
+                    REMAINING = dt.Rows[i]["REMAINING"].ToString()
+                });
+            }
+        }
+
+        return oLoanDetails;
+    }
+    public class LoanDetails
+    {
+        public string ENO { get; set; }
+        public string LTYPE { get; set; }
+        public string PAID { get; set; }
+        public string RECOVERED { get; set; }
+        public string REMAINING { get; set; }
+
+
+    }
     public class EmpSalDetails
     {
         public string BASIC { get; set; }

@@ -486,13 +486,14 @@
             
                                 <select id="ddlStatus" class="form-select color-dropdown">
                                     <option value="ALL">All Statuses</option>
-                                    <option value="DRAFT">Drafted</option>
-                                    <option value="SUBMIT">Submitted</option>
+                                    <option value="DRAFT" selected>Drafted</option>
+                                    <option value="SUBMIT" selected>Submitted</option>
                                     <option value="APPROVED">Approved</option>
                                     <option value="REJECTED">Rejected</option>
                                     <option value="CANCELLED">Cancelled</option>
                                 </select>
                             </div>
+                             
                             <div class="col-8">
                                 <button id="AddNewReq" type="button" class="btn btn-primary" style="float: right; width: 150px;"><i class='fa fa-plus me-3'></i>Add New</button>
                             </div>

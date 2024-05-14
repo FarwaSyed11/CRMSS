@@ -97,7 +97,7 @@ public partial class SSHR_Clearance : System.Web.UI.Page
                     EmpNo = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
                     EmpName = dt.Rows[i]["FULL_NAME"].ToString(),
                     DeptName = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    Designation = dt.Rows[i]["JOB"].ToString(),
+                    Designation = dt.Rows[i]["POSITION"].ToString(),
                     JoiningDate = dt.Rows[i]["ORIGINAL_DATE_OF_HIRE"].ToString(),
                     EmiratesId = dt.Rows[i]["EMIRATES_ID"].ToString(),
                     EmiratesExpDate = dt.Rows[i]["EMIRATES_EXP_DATE"].ToString(),

@@ -347,7 +347,7 @@ function LoadRequestData(loadername) {
                                  <th style="width:20%">Requester</th>
                                  <th style="width:10%">Request Number</th>
                                  <th style="width:10%">Date</th>
-                                 <th style="width:10%">Arrieved Time</th>
+                                 <th style="width:10%">Arrived Time</th>
                                  <th style="width:20%">Reason</th>
                                  <th style="width:10%">Request Date</th>
                                  <th style="width:10%">Status</th>
@@ -365,7 +365,7 @@ function LoadRequestData(loadername) {
                   <td style="text-align:center">`+ item.RequestBy + `</td>  
                   <td style="text-align:center">`+ item.Req_Number + `</td>  
                   <td style="text-align:center">`+ datedayformat(item.FROM_DATE) + `</td>  
-                 <td style="text-align:center">`+ timeFormat(item.ARRIVED_TIME) + `</td>   
+                 <td style="text-align:center">`+ (item.ARRIVED_TIME) + `</td>   
                  <td style="text-align:center">`+ item.REASON + `</td>   
                  <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td>   
                    <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.STATUS + `</a></td>
@@ -413,7 +413,7 @@ function LoadRequestData(loadername) {
                   <td style="text-align:center">`+ item.RequestBy + `</td>  
                   <td style="text-align:center">`+ item.Req_Number + `</td>  
                  <td style="text-align:center">`+ datedayformat(item.EXIT_DATE) + `</td>   
-                 <td style="text-align:center">`+ timeFormat(item.OUT_TIME) + `</td>   
+                 <td style="text-align:center">`+ (item.OUT_TIME) + `</td>   
                  <td style="text-align:center">`+ item.REASON + `</td>   
                  <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td> 
                  <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.STATUS + `</a></td>
@@ -751,7 +751,7 @@ function getAllCompanyLoanDetails() {
             $('#txtCLoanReqDate').val(datedayformat(result.d[0].CREATEDDATE));
             $('#ddlBLLoanType').val(result.d[0].REQUEST_TYPE);
             /* $('#txtCLoanDedStartMonth').val(result.d[0].DATE_START);*/
-            $("txtCLoanDedStartMonth").val(datedayformat(result.d[0].DATE_START));
+            $("#txtCLoanDedStartMonth").val(result.d[0].DATE_START);
             $('#txtCLoanAmount').val(result.d[0].AMOUNT);
             $('#txtCLoanMonthlyDed').val(result.d[0].MONTHLY_DEDUCTION);
             $('#txtCLoanReason').val(result.d[0].Reason);
@@ -850,8 +850,8 @@ function getAllEPReqDetails() {
             /* $('#txtCLoanDedStartMonth').val(result.d[0].DATE_START);*/
             // document.getElementById("txtEXTPassDate").valueAsDate = new Date(result.d[0].EXIT_DATE);
             $('#ddlEXTPassType').val(result.d[0].EXIT_TYPE);
-            $('#txtEXTPassOutTime').val(timeFormat(result.d[0].OUT_TIME));
-            $('#txtEXTPassBackTime').val(timeFormat(result.d[0].BACK_TIME));
+            $('#txtEXTPassOutTime').val((result.d[0].OUT_TIME));
+            $('#txtEXTPassBackTime').val((result.d[0].BACK_TIME));
             $('#txtEXTPassReason').val(result.d[0].Reason);
 
             OnBehalfURL = result.d[0].On_Behalf_URL;
@@ -942,7 +942,7 @@ function getAllLAReqDetails() {
             $('#txtLAReqDate').val(datedayformat(result.d[0].LATE_DATE));
             /* $('#txtCLoanDedStartMonth').val(result.d[0].DATE_START);*/
             //document.getElementById("txtLAReqDate").valueAsDate = new Date(result.d[0].LATE_DATE);
-            $('#txtLAreqTime').val(timeFormat(result.d[0].ARRIVED_TIME));
+            $('#txtLAreqTime').val((result.d[0].ARRIVED_TIME));
             $('#txtLAReqReason').val(result.d[0].Reason);
 
             OnBehalfURL = result.d[0].On_Behalf_URL;
@@ -2061,7 +2061,7 @@ function RequestPageLoad() {
                             <div>
                                 <select id="ddlBLLoanType" class="form-select color-dropdown  ">
                                 <option value="HRA">HRA</option>
-                                 <option value="Salary_Advance">Salary Advance</option>
+                                 <option value="Salary Advance">Salary Advance</option>
                                 </select>
                             </div>
                         </div>
@@ -2944,7 +2944,8 @@ function GetAllDetails() {
             $('#txtContactName').val(result.d[0].CONTACT_NAME_WOL);
             $('#txtContactEmail').val(result.d[0].CONTACT_EMAIL_WOL);
             $('#taRemark').val(result.d[0].OTHER_REASON);
-            $('#taRemark').val(result.d[0].EMP_REMARKS);
+            $('#taRemark').val(result.d[0].EMP_REMARKS); 
+            $('#txtLeaveBal').val(result.d[0].LEAVE_BALANCE);
 
             OnBehalfURL = result.d[0].On_BehalfURL;
             RequestURL = result.d[0].RequestURL;
@@ -3975,7 +3976,7 @@ function CompanyLoanTypeFormat() {
         $('#txtCLoanMonthlyDed').attr('disabled', false);
     }
 
-    else if ($('#ddlBLLoanType').val() == 'Salary_Advance') {
+    else if ($('#ddlBLLoanType').val() == 'Salary Advance') {
         $('#txtCLoanMonthlyDed').val('0');
         $('#txtCLoanMonthlyDed').attr('disabled', true);
 

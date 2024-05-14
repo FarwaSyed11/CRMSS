@@ -686,6 +686,7 @@ public partial class SSHR_MyTeamRequests : System.Web.UI.Page
                     CurrentOrderNumber = dt.Rows[i]["STATUS_ORDER"].ToString(),
                     WorkFlowID = dt.Rows[i]["WorkFlowID"].ToString(),
                     CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
+                    LEAVE_BALANCE = dt.Rows[i]["LEAVE_BALANCE"].ToString(),
 
                 });
             }

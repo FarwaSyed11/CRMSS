@@ -11,6 +11,7 @@ var CurrentOrderNumber = 0;
 var MyRoleID = 0;
 var WorkFlowID = 0;
 var Action = '';
+var reqEmpno = '';
 
 var htmActionButton = "";
 
@@ -42,6 +43,8 @@ $(document).ready(function () {
         $(".ajax-loader").addClass('hidden');
     }, 500);
     GetBasicEmpDet();
+    //loadEmpDetails();
+    //loadEmpLoanDetails();
 });
 
 
@@ -350,7 +353,7 @@ function LoadRequestData(loadername) {
                                  <th style="width:20%">Requester</th>
                                  <th style="width:10%">Request Number</th>
                                  <th style="width:10%">Date</th>
-                                 <th style="width:10%">Arrieved Time</th>
+                                 <th style="width:10%">Arrived Time</th>
                                  <th style="width:20%">Reason</th>
                                  <th style="width:10%">Request Date</th>
                                  <th style="width:10%">Status</th>
@@ -550,6 +553,8 @@ $('.tbody-emp-req').on('click', '.ibtn-AllReq-req-info', function () {
         $('.insert-Attachment').css('display', 'none');
         $('.download-Attachment').css('display', '');
         $('#empLeaveModal').modal('show');
+        loadEmpDetails();
+        loadEmpLoanDetails();
     }
 
     else if (Type == 3) {
@@ -582,6 +587,8 @@ $('.tbody-emp-req').on('click', '.ibtn-AllReq-req-info', function () {
         $('.insert-Attachment').css('display', 'none');
         $('.download-Attachment').css('display', '');
         $('#empLeaveModal').modal('show');
+        loadEmpDetails();
+        loadEmpLoanDetails();
     }
 
     else if (Type == 5) {
@@ -674,7 +681,8 @@ $('.tbody-emp-req').on('click', '.ibtn-CL-req-info', function () {
     $('.insert-Attachment').css('display', 'none');
     $('.download-Attachment').css('display', '');
     $('#empLeaveModal').modal('show');
-
+    loadEmpDetails();
+    loadEmpLoanDetails();
 
 
 });
@@ -734,6 +742,8 @@ function getAllCompanyLoanDetails() {
 
             $('#lblEmpName').val(result.d[0].EmpName);
             $('#lblEmpNo').html(result.d[0].EmpNo);
+            $('#lblEmpNo').html(result.d[0].EmpNo);
+            reqEmpno = result.d[0].EmpNo;
             $('#lblDesignation').val(result.d[0].Designation);
             $('#lblDepart').val(result.d[0].DeptName);
             $('#lblVisaExpDate').html(datedayformat(result.d[0].VisaExpiryDate));
@@ -755,7 +765,7 @@ function getAllCompanyLoanDetails() {
             $('#txtCLoanReqDate').val(datedayformat(result.d[0].CREATEDDATE));
             $('#ddlBLLoanType').val(result.d[0].REQUEST_TYPE);
             /* $('#txtCLoanDedStartMonth').val(result.d[0].DATE_START);*/
-            $("txtCLoanDedStartMonth").val(datedayformat(result.d[0].DATE_START));
+            $("#txtCLoanDedStartMonth").val(result.d[0].DATE_START);
             $('#txtCLoanAmount').val(result.d[0].AMOUNT);
             $('#txtCLoanMonthlyDed').val(result.d[0].MONTHLY_DEDUCTION);
             $('#txtCLoanReason').val(result.d[0].Reason);
@@ -838,6 +848,7 @@ function getAllEPReqDetails() {
             $('#lblAppID').html(result.d[0].ReqID);
             $('#lblEmpName').val(result.d[0].EmpName);
             $('#lblEmpNo').html(result.d[0].EmpNo);
+            reqEmpno = result.d[0].EmpNo;
             $('#lblDesignation').val(result.d[0].Designation);
             $('#lblDepart').val(result.d[0].DeptName);
             $('#lblVisaExpDate').html(datedayformat(result.d[0].VisaExpiryDate));
@@ -934,6 +945,7 @@ function getAllLAReqDetails() {
 
             $('#lblEmpName').val(result.d[0].EmpName);
             $('#lblEmpNo').html(result.d[0].EmpNo);
+            reqEmpno = result.d[0].EmpNo;
             $('#lblDesignation').val(result.d[0].Designation);
             $('#lblDepart').val(result.d[0].DeptName);
             $('#lblVisaExpDate').html(result.d[0].VisaExpiryDate);
@@ -1071,6 +1083,7 @@ function getAllMiscRequestDetails() {
             $('#lblAppID').html(result.d[0].ReqID);
             $('#lblEmpName').val(result.d[0].EmpName);
             $('#lblEmpNo').html(result.d[0].EmpNo);
+            reqEmpno = result.d[0].EmpNo;
             $('#lblDesignation').val(result.d[0].Designation);
             $('#lblDepart').val(result.d[0].DeptName);
             $('#lblVisaExpDate').html(datedayformat(result.d[0].VisaExpiryDate));
@@ -1185,7 +1198,8 @@ $('.tbody-emp-req').on('click', '.ibtn-BDR-req-info', function () {
     $('.insert-Attachment').css('display', 'none');
     $('.download-Attachment').css('display', '');
     $('#empLeaveModal').modal('show');
-
+    loadEmpDetails();
+    loadEmpLoanDetails();
 
 });
 
@@ -1232,6 +1246,7 @@ function getAllBankDetails() {
 
             $('#lblEmpName').val(result.d[0].EmpName);
             $('#lblEmpNo').html(result.d[0].EmpNo);
+            reqEmpno = result.d[0].EmpNo;
             $('#lblDesignation').val(result.d[0].Designation);
             $('#lblDepart').val(result.d[0].DeptName);
             $('#lblVisaExpDate').html(datedayformat(result.d[0].VisaExpiryDate));
@@ -2067,7 +2082,7 @@ function RequestPageLoad() {
                             <div>
                                 <select id="ddlBLLoanType" class="form-select color-dropdown  ">
                                 <option value="HRA">HRA</option>
-                                 <option value="Salary_Advance">Salary Advance</option>
+                                 <option value="Salary Advance">Salary Advance</option>
                                 </select>
                             </div>
                         </div>
@@ -2409,6 +2424,9 @@ function GetBasicEmpDet() {
             $('#lblDateOfJoin').html(datedayformat(result.d[0].JoiningDate));
             $('#lblEID').html(result.d[0].EmiratesId);
             $('#lblEIDExpDate').html(datedayformat(result.d[0].EmiratesExpDate));
+            $('#lblWeeklyOff').html(result.d[0].WEEKLYOFF);
+            $('#assstatus').html(result.d[0].AssStatus);
+            $('#vauth').html(result.d[0].VisaAuth);
 
 
         },
@@ -2906,6 +2924,7 @@ function GetAllDetails() {
             $('#lblRequestNumber').html(result.d[0].LEAVE_APPLICATION_NO);
             $('#lblEmpName').val(result.d[0].EmpName);
             $('#lblEmpNo').html(result.d[0].EmpNo);
+            reqEmpno=result.d[0].EmpNo;
             $('#lblDesignation').val(result.d[0].Designation);
             $('#lblDepart').val(result.d[0].DeptName);
             $('#lblVisaExpDate').html(datedayformat(result.d[0].VisaExpiryDate));
@@ -2951,6 +2970,7 @@ function GetAllDetails() {
             $('#txtContactEmail').val(result.d[0].CONTACT_EMAIL_WOL);
             $('#taRemark').val(result.d[0].OTHER_REASON);
             $('#taRemark').val(result.d[0].EMP_REMARKS);
+            $('#txtLeaveBal').val(result.d[0].LEAVE_BALANCE);
 
             OnBehalfURL = result.d[0].On_BehalfURL;
             RequestURL = result.d[0].RequestURL;
@@ -3254,6 +3274,7 @@ function getAllPPTDetails() {
 
             $('#lblEmpName').val(result.d[0].EmpName);
             $('#lblEmpNo').html(result.d[0].EmpNo);
+            reqEmpno = result.d[0].EmpNo;
             $('#lblDesignation').val(result.d[0].Designation);
             $('#lblDepart').val(result.d[0].DeptName);
             $('#lblVisaExpDate').html(datedayformat(result.d[0].VisaExpiryDate));
@@ -3551,7 +3572,8 @@ function GetBDBasicSalaryDet() {
         dataType: "json",
         async: false,
         success: function (result) {
-
+            loadEmpDetails();
+            loadEmpLoanDetails();
             $('#txtBDBasic').val(result.d[0].BASIC);
             $('#txtBDHRA').val(result.d[0].HRAA);
             $('#txtBDCar').val(result.d[0].CARALW);
@@ -3978,7 +4000,7 @@ function CompanyLoanTypeFormat() {
         $('#txtCLoanMonthlyDed').attr('disabled', false);
     }
 
-    else if ($('#ddlBLLoanType').val() == 'Salary_Advance') {
+    else if ($('#ddlBLLoanType').val() == 'Salary Advance') {
         $('#txtCLoanMonthlyDed').val('0');
         $('#txtCLoanMonthlyDed').attr('disabled', true);
 
@@ -4089,7 +4111,7 @@ function loadEmpDetails() {
 
     $.ajax({
         url: "Profile.aspx/GetEmpInfo",
-        data: JSON.stringify({ "EmpNo": EmpNo }),
+        data: JSON.stringify({ "EmpNo": reqEmpno }),
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -4146,12 +4168,12 @@ function loadEmpDetails() {
             $('#lbTKDestination').html("N/A");
             $('#lbTKTerm').html(result.d[0].EMPPERIOD);
 
-            $('#lbSLBasic').html(result.d[0].BASIC);
+            $('#txtBDBasic').html(result.d[0].BASIC);
             $('#txtBDMobile').html(result.d[0].MOBALW);
-            $('#lbSLOther').html(result.d[0].OTHALW);
+            $('#txtBDOther').html(result.d[0].OTHALW);
             $('#lbSLFood').html(result.d[0].FOODALW);
-            $('#lbSLHousingProvided').html(result.d[0].HOUSING);
-            $('#lbSLCar').html(result.d[0].CARALW);
+            $('#txtBDHRA').html(result.d[0].HOUSING);
+            $('#txtBDCar').html(result.d[0].CARALW);
 
             if (result.d[0].TransProvided == 'checked') {
 
@@ -4162,10 +4184,11 @@ function loadEmpDetails() {
             }
 
             $('#lbSLTransport').html(result.d[0].TRANSALW);
-            $('#lbSLHRA').html(result.d[0].HRAA);
+            //$('#txtBDHRA').html(result.d[0].HRAA);
             $('#lbSLCompanyCar').html("N/A");
             $('#lbSLLastSal').html("N/A");
-            $('#lbSLGrossSal').html(result.d[0].Gross_salary);
+            let gross = parseInt(result.d[0].TRANSALW) + parseInt(result.d[0].BASIC) + parseInt(result.d[0].MOBALW) + parseInt(result.d[0].FOODALW) + parseInt(result.d[0].HOUSING) + parseInt(result.d[0].CARALW) + parseInt(result.d[0].OTHALW);
+            $('#lbSLGrossSal').html(gross);
 
             $('#lbBNKPayement').html(result.d[0].PAYMETHOD);
             $('#lbBNKBranch').html(result.d[0].BANKBRANCH);
@@ -4188,7 +4211,7 @@ function loadEmpLoanDetails() {
 
     $.ajax({
         url: "AllRequests.aspx/GetEmployeeLoanDetails",
-        data: JSON.stringify({ "EmpNo": EmpNo }),
+        data: JSON.stringify({ "EmpNo": reqEmpno }),
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -4197,10 +4220,10 @@ function loadEmpLoanDetails() {
             var htm = '';
             $.each(result.d, function (key, item) {
                 htm += `<tr> 
-                    <td style="text-align: center;" > <span class="badge badge-for-taskcode"> `+ result.d[0].LTYPE + ` </span> </td>
-                    <td> `+ result.d[0].PAID + ` </td>
-                    <td> `+ result.d[0].RECOVERED + ` </td>
-                    <td> `+ result.d[0].REMAINING + ` </td>`
+                    <td style="text-align: center;" > <span class="badge badge-for-taskcode"> `+ item.LTYPE + ` </span> </td>
+                    <td> `+ item.PAID + ` </td>
+                    <td> `+ item.RECOVERED + ` </td>
+                    <td> `+ item.REMAINING + ` </td>`
                 htm += `</tr>`
             });
             $('.loan-body').html(htm);
@@ -4215,7 +4238,7 @@ function loadEmpLoanDetails() {
 
 function bankcarddisplay() {
     if (myroleList.includes("13189") || myroleList.includes("13188") || myroleList.includes("13186") || myroleList.includes("13185") || myroleList.includes("13166") || myroleList.includes("13165")) {
-        $(".detailsrow").css("display", "none")
+        $(".detailsrow").css("display", "flex")
     }
     else {
         $(".detailsrow").css("display", "none")

@@ -945,14 +945,14 @@
                                                         
                                                         <h6 id="lbSLHousingProvided">9000</h6>
                                                     </div>
-                                                    <div class="salarybox" style="">
+                                                    <%--<div class="salarybox" style="">
                                                         <div>
                                                             <img src="Images/profile/rhra.svg"/>
                                                             <p>HRA</p>
                                                         </div>
                                                         
                                                         <h6 id="lbSLHRA">9000</h6>
-                                                    </div>
+                                                    </div>--%>
                                                     <div class="salarybox" style="">
                                                         <div>
                                                             <img src="Images/profile/rcompanycar.svg"/>
@@ -1022,90 +1022,7 @@
                                                         
                                                         <h6 id="lbSLGrossSal">9000</h6>
                                                     </div>
-                                                    <%--<div class="col-4">
-                                       
-                                                        <label class="col-form-label label-custom">Basic</label>
-
-                                                        <label class="form-control lbl-inside" id="lbSLBasic"></label>
-                                                    </div>
-                                                        <div class="col-4">
-                                            
-                                                            <label class="col-form-label label-custom">Housing</label>
-
-                                                        <label class="form-control lbl-inside" id="lbSLHousingProvided"></label>
-                                                    </div>
-                                                    <div class="col-4">
-                                           
-                                                            <label class="col-form-label label-custom">HRA</label>
-                                           
-                                                        <label class="form-control lbl-inside" id="lbSLHRA"></label>
-                                                    </div>
-                                          
-                                            
-                                                    <hr style="width: 100%; margin-inline: revert;" />
-
-                                                        <div class="col-4">
-                                           
-                                                        <label class="col-form-label label-custom">Company Car</label>
-
-                                                        <label class="form-control lbl-inside" id="lbSLCompanyCar"></label>
-                                                    </div>
-                                                        <div class="col-4">
-                                               
-                                                        <label for="html5-number-input" class="col-form-label label-custom">Transport Provided</label>
-                                                        
-
-                                                    </div>
-
-                                                        <div class="col-4">
-                                          
-                                                        <label class="col-form-label label-custom">Car</label>
-
-                                                        <label class="form-control lbl-inside" id="lbSLCar"></label>
-                                                    </div>
-
-                                                    <hr style="width: 100%; margin-inline: revert;" />
-
-
-                                                        <div class="col-4">
-                                             
-                                                            <label class="col-form-label label-custom">Transport</label>
-
-                                                        <label class="form-control lbl-inside" id="lbSLTransport"></label>
-                                                    </div>
-
-                                                        <div class="col-4">
-                                                        <label class="col-form-label label-custom">Mobile</label>
-
-                                                        <label  class="form-control lbl-inside" id="lbSLMobile"></label>
-                                                    </div>
-
-                                            
-                                                    <div class="col-4">
-                                             
-                                                        <label class="col-form-label label-custom">Other</label>
-
-                                                        <label class="form-control lbl-inside" id="lbSLOther"></label>
-                                                    </div>
-                                                    <hr style="width: 100%; margin-inline: revert;" />
-
-
-                                                    <div class="col-4">
-                                              
-                                                        <label class="col-form-label label-custom">Food</label>
-                                                        <label class="form-control lbl-inside" id="lbSLFood"></label>
-                                                    </div>
-
-
-
-                                                        <div class="col-4">
-                                         
-                                                            <label class="col-form-label label-custom">Gross Salary</label>
-
-                                                        <label class="form-control lbl-inside" id="lbSLGrossSal"></label>
-                                                    </div>
-
-                                                    <hr style="width: 100%; margin-inline: revert;" />--%>
+                                                    
                                                 </div>
                                                 
                                         </div>
@@ -1281,7 +1198,9 @@
                         </div>
 
                         <div class="col-2"> 
-                             <button type="button" id="viewslip" onclick="viewslip()" class="btn rounded-pill me-2 btn-outline-secondary pull-right">View</button>
+                             <%--<button type="button" id="viewslip" onclick="viewslip()" class="btn rounded-pill me-2 btn-outline-secondary pull-right">View</button>--%>
+                            <button type="button" id="viewslip" class="btn rounded-pill me-2 btn-outline-secondary pull-right">View</button>
+
                         </div>
 
                         <div class="col-2"> 

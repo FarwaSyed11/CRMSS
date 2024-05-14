@@ -14,6 +14,7 @@ $(document).ready(function () {
     LoadSkills();
     loadAccnAssDetails();
     renderAccnAsstTable();
+    completionperc();
 });
 
 $('.jobdesc').on('click', function () {
@@ -142,7 +143,7 @@ function AddJobdescDetails() {
     $.ajax({
         url: "Profile.aspx/SetJobDescDet",
         data: JSON.stringify({
-            'EmpNo': EmpNo, "EmpName": $('#lblName').html(), "JobPurpose": $('#txtJobPurpose').val(), "KeyAccountAbilities": $('#txtKeyAccountAblities').val(), "KeySkills": $('#txtKeySkills').val(),
+            'EmpNo': EmpNo, "EmpName": $('#lblName').html(), "JobPurpose": $('#txtJobPurpose').val(), "KeyAccountAbilities": $('#txtKeyAccountAblities').val(),
             "AdditionalResponsibilities": $('#txtAdditionalRespons').val(), "Qualifications": $('#txtQualification').val()
         }),
         type: "POST",
@@ -235,11 +236,11 @@ function LoadJobDesc() {
 
             
 
-            $.each(result.d[0].KeySkills.split('⇨'), function (key, item) {
-                if (key != 0) { KsHtm += '<li class="arrow list">' + item + '</li>'; }
-                else if (result.d[0].KeySkills.split('⇨').length == 1) { KsHtm += '<label style="color: #6a6565;font-weight: bold;">No Records</label>' }
-            });
-            $('.Key-Skills').html(KsHtm);
+            //$.each(result.d[0].KeySkills.split('⇨'), function (key, item) {
+            //    if (key != 0) { KsHtm += '<li class="arrow list">' + item + '</li>'; }
+            //    else if (result.d[0].KeySkills.split('⇨').length == 1) { KsHtm += '<label style="color: #6a6565;font-weight: bold;">No Records</label>' }
+            //});
+            //$('.Key-Skills').html(KsHtm);
 
             $.each(result.d[0].AdditionalResponsibilities.split('⇨'), function (key, item) {
                 if (key != 0) {
@@ -376,7 +377,8 @@ function loadEmpDetails() {
             $('#lbSLHRA').html(result.d[0].HRAA);
             $('#lbSLCompanyCar').html("N/A");
             $('#lbSLLastSal').html("N/A");
-            $('#lbSLGrossSal').html(result.d[0].Gross_salary);
+            let gross = parseInt(result.d[0].TRANSALW) + parseInt(result.d[0].BASIC) + parseInt(result.d[0].MOBALW) + parseInt(result.d[0].FOODALW) + parseInt(result.d[0].HOUSING) + parseInt(result.d[0].CARALW) + parseInt(result.d[0].OTHALW);
+                $('#lbSLGrossSal').html(gross);
 
             $('#lbBNKPayement').html(result.d[0].PAYMETHOD);
             $('#lbBNKBranch').html(result.d[0].BANKBRANCH);
@@ -532,7 +534,7 @@ function SetProfile() {
 
             $('#lbPhoneNumber').html($('#txtEditphoneNo').val());
             $('#lbTeleNumber').html($('#txtEditTeleNo').val());
-
+            $('#basic-default-password12').html($('basic-default-password12').val());
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -697,9 +699,6 @@ function loadEmpDetailsInSlip() {
             $('#tdgtotalSalary').html(result.d[0].Gross_salary);
             $('#tdvisaexp').html(result.d[0].VVDTEXPIRY);
 
-
-
-
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -795,3 +794,34 @@ function getDateInWordsFormat(dt) {
     return monthsNameByNo[new Date(dt).getMonth()] + ', ' + new Date(dt).getDate() + ' ' + new Date(dt).getFullYear();
 }
 
+function completionperc() {
+    if (($('#lbPhoneNumber').text() != '') && ($('#lbTeleNumber').text() != '') && ($('.job-purpose-ulodd', '.Key-Responsibilitiesodd', '.Additional-Responsibilitiesodd', '.Qalificationodd').text() != ''))
+    {
+        $('.percmain').css("width", "100%"); 
+        $('.perclabel').html("100%");
+    }
+    else if (($('#lbPhoneNumber').text() == '') && ($('#lbTeleNumber').text() != '') && ($('.job-purpose-ulodd', '.Key-Responsibilitiesodd', '.Additional-Responsibilitiesodd', '.Qalificationodd').text() != '')) {
+        $('.percmain').css("width", "90%")
+        $('.perclabel').html("90%");
+    }
+    else if (($('#lbPhoneNumber').text() != '') && ($('#lbTeleNumber').text() == '') && ($('.job-purpose-ulodd', '.Key-Responsibilitiesodd', '.Additional-Responsibilitiesodd', '.Qalificationodd').text() != '')) {
+        $('.percmain').css("width", "90%")
+        $('.perclabel').html("90%");
+    }
+    else if (($('#lbPhoneNumber').text() == '') && ($('#lbTeleNumber').text() == '') && ($('.job-purpose-ulodd', '.Key-Responsibilitiesodd', '.Additional-Responsibilitiesodd', '.Qalificationodd').text() != '')) {
+        $('.percmain').css("width", "80%")
+        $('.perclabel').html("80%");
+    }
+    else if (($('#lbPhoneNumber').text() != '') && ($('#lbTeleNumber').text() == '') && ($('.job-purpose-ulodd', '.Key-Responsibilitiesodd', '.Additional-Responsibilitiesodd', '.Qalificationodd').text() == '')) {
+        $('.percmain').css("width", "50%")
+        $('.perclabel').html("50%");
+    }
+    else if (($('#lbPhoneNumber').text() == '') && ($('#lbTeleNumber').text() != '') && ($('.job-purpose-ulodd', '.Key-Responsibilitiesodd', '.Additional-Responsibilitiesodd', '.Qalificationodd').text() == '')) {
+        $('.percmain').css("width", "50%");
+        $('.perclabel').html("50%");
+    }
+    else if (($('#lbPhoneNumber').text() != '') && ($('#lbTeleNumber').text() != '') && ($('.job-purpose-ulodd', '.Key-Responsibilitiesodd', '.Additional-Responsibilitiesodd', '.Qalificationodd').text() == '')) {
+        $('.percmain').css("width", "40%");
+        $('.perclabel').html("40%");
+    }
+}
