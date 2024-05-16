@@ -591,7 +591,7 @@
 
 
 
-    <div class="modal fade" id="empLeaveModal" style="background: #fff2f085; zoom: 85%;" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="empLeaveModal" style="background: #fff2f085; zoom: 85%;" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -613,6 +613,7 @@
                                  <option value="4">Company Loan</option>
                                  <option value="5">Late Attendance Request</option>
                                  <option value="6">Exit Pass Request</option>
+                                 <option value="7">Ticket Encashment</option>
                              </select>
                         </div>
                         <div class="col-6 divOnbehalf" style="">
@@ -630,7 +631,7 @@
                                         <select id="txtEmpName" style=""> </select>
                                          </div>
                                         <div class="employee-text" style="padding-left:20px;padding-top:10px;font-size:medium">
-                                        <label id="txtEmpNametext" style="font-weight:bold;"> </label>
+                                        <label id="txtEmpNametext" style=""> </label>
                                             </div>
                                     </div>
                                 </div>
@@ -1304,6 +1305,7 @@
                                         <th>Approved date</th>
                                         <th>Comment</th>
                                         <th>Status</th>
+                                        </tr>
                                 </thead>
                                 <tbody class="tbody-appr-auth">
                                 </tbody>
@@ -1366,7 +1368,7 @@
 
     </script>
 
-    <script src="Scripts/AllRequests.js?v=1"></script>
+    <script src="Scripts/AllRequests.js?v=1.11"></script>
     <link href="Css/allrequest.css" rel="stylesheet" />
 
     <script src="../KPI/Flatpickr/js/flatpickr.js"></script>

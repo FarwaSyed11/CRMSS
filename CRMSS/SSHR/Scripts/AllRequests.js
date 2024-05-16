@@ -7,7 +7,9 @@ var ApplicationId = 0;
 var PPTReasonId = '';
 var reqStatus = '';
 var OrgID = 0;
-var StatusOrder=0
+var StatusOrder = 0;
+var RemainingHRAAdvance = 0;
+var RemainingSalaryAdvance = 0;
 
 var htmActionButton = "";
 
@@ -42,7 +44,13 @@ $(document).ready(function () {
     //loadEmpLoanDetails();
 });
 
-
+$('#empLeaveModal').on('keyup keypress', function (e) {
+    var keyCode = e.keyCode || e.which;
+    if (keyCode === 13) {
+        e.preventDefault();
+        return false;
+    }
+});
 
 function hideShowProjDetails() {
     var x = document.getElementById("proj-details-rectangle-div");
@@ -165,15 +173,15 @@ function LoadRequestData(loadername) {
 
                     htm += `  <tr>        
                
-                 <td style="text-align:center;display:none;">`+ item.LEAVE_APPLICATION_ID + `</td>  
-                 <td style="text-align:center">`+ item.LEAVE_APPLICATION_NO + `</td>  
-                 <td style="text-align:center">`+ item.LEAVE_TYPE + `</td>     
-                 <td style="text-align:center">`+ datedayformat(item.FROM_DATE) + `</td>    
-                 <td style="text-align:center">`+ datedayformat(item.TO_DATE) + `</td> 
-                  <td style="text-align:center">`+ item.REASON + `</td> 
-                  <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                 <td style=" ;display:none;">`+ item.LEAVE_APPLICATION_ID + `</td>  
+                 <td style=" text-align: center;">`+ item.LEAVE_APPLICATION_NO + `</td>
+                 <td style=" ">`+ item.LEAVE_TYPE + `</td>     
+                 <td style="text-align: center; ">`+ datedayformat(item.FROM_DATE) + `</td>
+                 <td style=" text-align: center;">`+ datedayformat(item.TO_DATE) + `</td>
+                  <td style=" ">`+ item.REASON + `</td> 
+                  <td style=" text-align: center;" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
                   <td style="text-align:center">
-                  <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-leave-req-info" title="Other" data-projid="`+ item.LEAVE_APPLICATION_NO + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-leave-req-info" title="Other" data-projid="`+ item.LEAVE_APPLICATION_NO + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
                     </tr>`;
@@ -210,15 +218,15 @@ function LoadRequestData(loadername) {
 
                     htm += `  <tr>        
                
-                 <td style="text-align:center;display:none;">`+ item.ReqID + `</td>  
-                 <td style="text-align:center">`+ item.Req_Number + `</td>  
-                 <td style="text-align:center">`+ item.RequestFor + `</td>     
-                 <td style="text-align:center">`+ datedayformat(item.Travelling_Date) + `</td>    
-                 <td style="text-align:center">`+ datedayformat(item.Expected_Date_Of_Return) + `</td> 
-                  <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td> 
-                    <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
-                   <td style="text-align:center">
-                  <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-PPT-req-info" title="Other" data-pptid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                 <td style=" ;display:none;">`+ item.ReqID + `</td>  
+                 <td style="text-align: center; ">`+ item.Req_Number + `</td>
+                 <td style=" ">`+ item.RequestFor + `</td>     
+                 <td style=" text-align: center;">`+ datedayformat(item.Travelling_Date) + `</td>
+                 <td style=" text-align: center;">`+ datedayformat(item.Expected_Date_Of_Return) + `</td>
+                  <td style="text-align: center; ">`+ datedayformat(item.RequestDate) + `</td>
+                    <td style="text-align: center; " ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                   <td style="text-align:center ">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-PPT-req-info" title="Other" data-pptid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
                    </tr>`;
@@ -251,13 +259,13 @@ function LoadRequestData(loadername) {
 
                     htm += `  <tr>        
                
-                 <td style="text-align:center;display:none;">`+ item.ReqID + `</td> 
-                  <td style="text-align:center">`+ item.Req_Number + `</td>  
-                 <td style="text-align:center">`+ item.REQUEST_TYPE + `</td>  
-                 <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td>     
-               <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
-                <td style="text-align:center">
-                  <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-BDR-req-info" title="Other" data-bankrelid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                 <td style=" ;display:none;">`+ item.ReqID + `</td> 
+                  <td style="text-align: center; ">`+ item.Req_Number + `</td>
+                 <td style=" ">`+ item.REQUEST_TYPE + `</td>  
+                 <td style="text-align: center; ">`+ datedayformat(item.RequestDate) + `</td>
+               <td style=" text-align: center;" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                <td style="text-align:center ">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-BDR-req-info" title="Other" data-bankrelid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
                   </tr>`;
@@ -291,14 +299,14 @@ function LoadRequestData(loadername) {
 
                     htm += `  <tr>        
                
-                 <td style="text-align:center;display:none;">`+ item.ReqID + `</td> 
-                  <td style="text-align:center">`+ item.Req_Number + `</td>  
-                 <td style="text-align:center">`+ item.REQUEST_TYPE + `</td>   
-                 <td style="text-align:center">`+ item.RequestFor + `</td>   
-                  <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td>   
-                 <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
-                <td style="text-align:center">
-                  <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-Misc-req-info" title="Other Misc" data-miscid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                 <td style=" ;display:none;">`+ item.ReqID + `</td> 
+                  <td style=" text-align: center;">`+ item.Req_Number + `</td>
+                 <td style=" ">`+ item.REQUEST_TYPE + `</td>   
+                 <td style=" ">`+ item.RequestFor + `</td>   
+                  <td style=" text-align: center;">`+ datedayformat(item.RequestDate) + `</td>
+                 <td style="text-align: center; " ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                <td style="text-align:center ">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-Misc-req-info" title="Other Misc" data-miscid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
                   </tr>`;
@@ -334,16 +342,16 @@ function LoadRequestData(loadername) {
 
                     htm += `  <tr>        
                
-                 <td style="text-align:center;display:none;">`+ item.ReqID + `</td> 
-                  <td style="text-align:center">`+ item.Req_Number + `</td>  
-                 <td style="text-align:center">`+ item.REQUEST_TYPE + `</td>   
-                 <td style="text-align:center">`+ item.RequestFor + `</td>   
-                 <td style="text-align:center">`+ datedayformat(item.FROM_DATE) + `</td>   
-                 <td style="text-align:center">`+ item.AMOUNT + `</td>   
-                 <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td>   
-                  <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
-                <td style="text-align:center">
-                  <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-CL-req-info" title="Other" data-comloid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                 <td style=" ;display:none;">`+ item.ReqID + `</td> 
+                  <td style=" text-align: center;">`+ item.Req_Number + `</td>
+                 <td style=" ">`+ item.REQUEST_TYPE + `</td>   
+                 <td style=" ">`+ item.RequestFor + `</td>   
+                 <td style=" text-align: center;">`+ datedayformat(item.FROM_DATE) + `</td>
+                 <td style=" text-align: center;">`+ item.AMOUNT + `</td>
+                 <td style="text-align: center; ">`+ datedayformat(item.RequestDate) + `</td>
+                  <td style=" text-align: center;" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                <td style="text-align:center ">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-CL-req-info" title="Other" data-comloid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
                   </tr>`;
@@ -378,15 +386,15 @@ function LoadRequestData(loadername) {
 
                     htm += `  <tr>        
                
-                 <td style="text-align:center;display:none;">`+ item.ReqID + `</td> 
-                  <td style="text-align:center">`+ item.Req_Number + `</td>  
-                  <td style="text-align:center">`+ datedayformat(item.FROM_DATE) + `</td>  
-                 <td style="text-align:center">`+ (item.ARRIVED_TIME) + `</td>   
-                 <td style="text-align:center">`+ item.REASON + `</td>   
-                 <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td>   
-                   <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
-                <td style="text-align:center">
-                  <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-LA-req-info" title="Other" data-laid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                 <td style=" ;display:none;">`+ item.ReqID + `</td> 
+                  <td style=" text-align: center;">`+ item.Req_Number + `</td>
+                  <td style=" text-align: center;">`+ datedayformat(item.FROM_DATE) + `</td>
+                 <td style=" text-align: center;">`+ (item.ARRIVED_TIME) + `</td>
+                 <td style=" ">`+ item.REASON + `</td>   
+                 <td style="text-align: center; ">`+ datedayformat(item.RequestDate) + `</td>
+                   <td style=" text-align: center;" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                <td style=" text-align:center">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-LA-req-info" title="Other" data-laid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
                   </tr>`;
@@ -420,15 +428,15 @@ function LoadRequestData(loadername) {
 
                     htm += `  <tr>        
                
-                 <td style="text-align:center;display:none;">`+ item.ReqID + `</td> 
-                  <td style="text-align:center">`+ item.Req_Number + `</td>  
-                 <td style="text-align:center">`+ datedayformat(item.EXIT_DATE) + `</td>   
-                 <td style="text-align:center">`+ (item.OUT_TIME) + `</td>   
-                 <td style="text-align:center">`+ item.REASON + `</td>   
-                 <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td> 
-                 <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
-                <td style="text-align:center">
-                  <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-EXTPass-req-info" title="Other" data-exitid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                 <td style=" ;display:none;">`+ item.ReqID + `</td> 
+                  <td style=" text-align: center;">`+ item.Req_Number + `</td>
+                 <td style=" text-align: center;">`+ datedayformat(item.EXIT_DATE) + `</td>
+                 <td style=" text-align: center;">`+ (item.OUT_TIME) + `</td>
+                 <td style=" ">`+ item.REASON + `</td>   
+                 <td style=" text-align: center;">`+ datedayformat(item.RequestDate) + `</td>
+                 <td style=" text-align: center;" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                <td style=" text-align:center">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-EXTPass-req-info" title="Other" data-exitid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
                   </tr>`;
@@ -440,6 +448,47 @@ function LoadRequestData(loadername) {
                 $('.tbody-emp-req').html(htm);
 
             }
+            else if ($('#ddlRequests option:selected').val() == 7) {
+
+                htmlHead += ` <tr style="text-align: center;">
+                               <th class="table-cahnge" colspan="7" style="font-size:large;background: #b70000 !important;color: white !important;">TICKET ENCASHMENT REQUEST</th></tr>`
+
+                htmlHead += `  <tr style="text-align: center;">
+                                 <th style="display:none;">ID</th > 
+                                 <th style="width:10%">Request Number</th >
+                                 <th style="width:10%">Last Ticket Encash Date</th>
+                                 <th style="width:10%">Leave Status</th>
+                                 <th style="width:20%">Reason</th>
+                                 <th style="width:10%">Status</th>
+                                  <th style="width:10%">Action</th>`
+
+
+                $.each(result.d, function (key, item) {
+
+
+                    htm += `  <tr>        
+               
+                 <td style=" ;display:none;">`+ item.ReqID + `</td> 
+                  <td style=" text-align: center;">`+ item.Req_Number + `</td>
+                 <td style=" text-align: center;">`+ datedayformat(item.EXIT_DATE) + `</td>
+                 <td style=" text-align: center;">`+ (item.OUT_TIME) + `</td>
+                 <td style=" ">`+ item.REASON + `</td>   
+                 <td style=" text-align: center;">`+ datedayformat(item.RequestDate) + `</td>
+                 <td style=" text-align: center;" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                <td style=" text-align:center">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-TE-req-info" title="Other" data-exitid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                  </td>
+
+                  </tr>`;
+
+                });
+
+
+                $('.thead-Request_Details').html(htmlHead);
+                $('.tbody-emp-req').html(htm);
+
+            }
+
             //all Request
             else if ($('#ddlRequests option:selected').val() == -1) {
 
@@ -464,16 +513,16 @@ function LoadRequestData(loadername) {
 
                     htm += `  <tr>        
                
-                 <td style="text-align:center;display:none;">`+ item.ReqID + `</td> 
-                 <td style="text-align:center;display:none;">`+ item.REQUEST_TYPEID + `</td> 
-                 <td style="text-align:center">`+ item.Req_Number + `</td> 
-                 <td style="text-align:center">`+ item.REQUEST_TYPE + `</td>   
+                 <td style=" ;display:none;">`+ item.ReqID + `</td> 
+                 <td style=" ;display:none;">`+ item.REQUEST_TYPEID + `</td> 
+                 <td style=" text-align: center;">`+ item.Req_Number + `</td>
+                 <td style=" ">`+ item.REQUEST_TYPE + `</td>   
                    
-                 <td style="text-align:center">`+ item.REASON + `</td>   
-                 <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td> 
-                  <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
-                <td style="text-align:center">
-                  <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-AllReq-req-info" title="Other" data-projid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                 <td style=" ">`+ item.REASON + `</td>   
+                 <td style=" text-align: center;">`+ datedayformat(item.RequestDate) + `</td>
+                  <td style="text-align: center; " ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                <td style=" text-align:center">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-AllReq-req-info" title="Other" data-projid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
                   </tr>`;
@@ -524,7 +573,7 @@ function LoadRequestDataforOnbehalf(loadername) {
                 htmlHead += `<tr style="text-align: center;">
                                <th class="table-cahnge" colspan="8" style="font-size:large;background: #b70000 !important;color: white !important;">LEAVE APPLICATION</th></tr>`
 
-                htmlHead += `   <tr style="text-align:center;" class="Head-tr">
+                htmlHead += `   <tr style=" ;" class="Head-tr">
                                  <th style="display:none;">ID</th>
                                  
                                  <th>Leave App No</th>
@@ -544,17 +593,17 @@ function LoadRequestDataforOnbehalf(loadername) {
 
                     htm += `  <tr>        
                
-                 <td style="text-align:center;display:none;">`+ item.LEAVE_APPLICATION_ID + `</td>  
-                 <td style="text-align:center">`+ item.LEAVE_APPLICATION_NO + `</td> 
-                 <td style="text-align:center">`+ item.EmployeeName + `</td> 
+                 <td style=" ;display:none;">`+ item.LEAVE_APPLICATION_ID + `</td>  
+                 <td style="text-align: center; ">`+ item.LEAVE_APPLICATION_NO + `</td>
+                 <td style=" ">`+ item.EmployeeName + `</td> 
                   
-                 <td style="text-align:center">`+ item.LEAVE_TYPE + `</td>     
-                 <td style="text-align:center">`+ datedayformat(item.FROM_DATE) + `</td>    
-                 <td style="text-align:center">`+ datedayformat(item.TO_DATE) + `</td> 
-                  <td style="text-align:center">`+ item.REASON + `</td> 
-                  <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
-                  <td style="text-align:center">
-                  <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-leave-req-info" title="Other" data-projid="`+ item.LEAVE_APPLICATION_NO + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                 <td style=" ">`+ item.LEAVE_TYPE + `</td>     
+                 <td style="text-align: center; ">`+ datedayformat(item.FROM_DATE) + `</td>
+                 <td style=" text-align: center;">`+ datedayformat(item.TO_DATE) + `</td>
+                  <td style=" ">`+ item.REASON + `</td> 
+                  <td style=" text-align: center;" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                  <td style="text-align:center ">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-leave-req-info" title="Other" data-projid="`+ item.LEAVE_APPLICATION_NO + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
                     </tr>`;
@@ -593,17 +642,17 @@ function LoadRequestDataforOnbehalf(loadername) {
 
                     htm += `  <tr>        
                
-                 <td style="text-align:center;display:none;">`+ item.ReqID + `</td> 
-                 <td style="text-align:center">`+ item.Req_Number + `</td> 
-                 <td style="text-align:center">`+ item.EmployeeName + `</td>
+                 <td style=" ;display:none;">`+ item.ReqID + `</td> 
+                 <td style="text-align: center; ">`+ item.Req_Number + `</td>
+                 <td style=" ">`+ item.EmployeeName + `</td>
                   
-                 <td style="text-align:center">`+ item.RequestFor + `</td>     
-                 <td style="text-align:center">`+ datedayformat(item.Travelling_Date) + `</td>    
-                 <td style="text-align:center">`+ datedayformat(item.Expected_Date_Of_Return) + `</td> 
-                  <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td> 
-                    <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
-                   <td style="text-align:center">
-                  <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-PPT-req-info" title="Other" data-pptid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                 <td style=" ">`+ item.RequestFor + `</td>     
+                 <td style=" text-align: center;">`+ datedayformat(item.Travelling_Date) + `</td>
+                 <td style=" text-align: center;">`+ datedayformat(item.Expected_Date_Of_Return) + `</td>
+                  <td style=" text-align: center;">`+ datedayformat(item.RequestDate) + `</td>
+                    <td style="text-align: center; " ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                   <td style=" text-align:center">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-PPT-req-info" title="Other" data-pptid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
                    </tr>`;
@@ -638,15 +687,15 @@ function LoadRequestDataforOnbehalf(loadername) {
 
                     htm += `  <tr>        
                
-                 <td style="text-align:center;display:none;">`+ item.ReqID + `</td> 
-                 <td style="text-align:center">`+ item.Req_Number + `</td> 
-                 <td style="text-align:center">`+ item.EmployeeName + `</td>
+                 <td style=" ;display:none;">`+ item.ReqID + `</td> 
+                 <td style="text-align: center; ">`+ item.Req_Number + `</td>
+                 <td style=" ">`+ item.EmployeeName + `</td>
                    
-                 <td style="text-align:center">`+ item.REQUEST_TYPE + `</td>  
-                 <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td>     
-               <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
-                <td style="text-align:center">
-                  <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-BDR-req-info" title="Other" data-bankrelid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                 <td style=" ">`+ item.REQUEST_TYPE + `</td>  
+                 <td style=" text-align: center;">`+ datedayformat(item.RequestDate) + `</td>
+               <td style=" text-align: center;" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                <td style="text-align:center ">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-BDR-req-info" title="Other" data-bankrelid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
                   </tr>`;
@@ -682,16 +731,16 @@ function LoadRequestDataforOnbehalf(loadername) {
 
                     htm += `  <tr>        
                
-                 <td style="text-align:center;display:none;">`+ item.ReqID + `</td> 
+                 <td style=" ;display:none;">`+ item.ReqID + `</td> 
                  
-                  <td style="text-align:center">`+ item.Req_Number + `</td>  
-                  <td style="text-align:center">`+ item.EmployeeName + `</td>
-                 <td style="text-align:center">`+ item.REQUEST_TYPE + `</td>   
-                 <td style="text-align:center">`+ item.RequestFor + `</td>   
-                  <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td>   
-                 <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
-                <td style="text-align:center">
-                  <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-Misc-req-info" title="Other Misc" data-miscid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                  <td style=" text-align: center;">`+ item.Req_Number + `</td>
+                  <td style=" ">`+ item.EmployeeName + `</td>
+                 <td style=" ">`+ item.REQUEST_TYPE + `</td>   
+                 <td style=" ">`+ item.RequestFor + `</td>   
+                  <td style=" text-align: center;">`+ datedayformat(item.RequestDate) + `</td>
+                 <td style=" text-align: center;" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                <td style=" text-align:center">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-Misc-req-info" title="Other Misc" data-miscid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
                   </tr>`;
@@ -729,18 +778,18 @@ function LoadRequestDataforOnbehalf(loadername) {
 
                     htm += `  <tr>        
                
-                 <td style="text-align:center;display:none;">`+ item.ReqID + `</td> 
-                  <td style="text-align:center">`+ item.Req_Number + `</td>
-                 <td style="text-align:center">`+ item.EmployeeName + `</td>
+                 <td style=" ;display:none;">`+ item.ReqID + `</td> 
+                  <td style=" text-align: center;">`+ item.Req_Number + `</td>
+                 <td style=" ">`+ item.EmployeeName + `</td>
                    
-                 <td style="text-align:center">`+ item.REQUEST_TYPE + `</td>   
-                 <td style="text-align:center">`+ item.RequestFor + `</td>   
-                 <td style="text-align:center">`+ datedayformat(item.FROM_DATE) + `</td>   
-                 <td style="text-align:center">`+ item.AMOUNT + `</td>   
-                 <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td>   
-                  <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
-                <td style="text-align:center">
-                  <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-CL-req-info" title="Other" data-comloid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                 <td style=" ">`+ item.REQUEST_TYPE + `</td>   
+                 <td style=" ">`+ item.RequestFor + `</td>   
+                 <td style="text-align: center; ">`+ datedayformat(item.FROM_DATE) + `</td>
+                 <td style=" text-align: center;">`+ item.AMOUNT + `</td>
+                 <td style=" text-align: center;">`+ datedayformat(item.RequestDate) + `</td>
+                  <td style=" text-align: center;" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                <td style="text-align:center ">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-CL-req-info" title="Other" data-comloid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
                   </tr>`;
@@ -777,17 +826,17 @@ function LoadRequestDataforOnbehalf(loadername) {
 
                     htm += `  <tr>        
                
-                 <td style="text-align:center;display:none;">`+ item.ReqID + `</td> 
-                 <td style="text-align:center">`+ item.Req_Number + `</td>
-                 <td style="text-align:center">`+ item.EmployeeName + `</td>
+                 <td style=" ;display:none;">`+ item.ReqID + `</td> 
+                 <td style=" ">`+ item.Req_Number + `</td>
+                 <td style=" ">`+ item.EmployeeName + `</td>
                     
-                  <td style="text-align:center">`+ datedayformat(item.FROM_DATE) + `</td>  
-                 <td style="text-align:center">`+ item.ARRIVED_TIME + `</td>   
-                 <td style="text-align:center">`+ item.REASON + `</td>   
-                 <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td>   
-                   <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
-                <td style="text-align:center">
-                  <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-LA-req-info" title="Other" data-laid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                  <td style="text-align:center ">`+ datedayformat(item.FROM_DATE) + `</td>
+                 <td style=" text-align:center">`+ item.ARRIVED_TIME + `</td>
+                 <td style=" ">`+ item.REASON + `</td>   
+                 <td style="text-align:center ">`+ datedayformat(item.RequestDate) + `</td>
+                   <td style=" text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                <td style="text-align:center ">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-LA-req-info" title="Other" data-laid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
                   </tr>`;
@@ -823,17 +872,17 @@ function LoadRequestDataforOnbehalf(loadername) {
 
                     htm += `  <tr>        
                
-                 <td style="text-align:center;display:none;">`+ item.ReqID + `</td> 
-                 <td style="text-align:center">`+ item.Req_Number + `</td> 
-                 <td style="text-align:center">`+ item.EmployeeName + `</td>
+                 <td style=" ;display:none;">`+ item.ReqID + `</td> 
+                 <td style=" ">`+ item.Req_Number + `</td> 
+                 <td style=" ">`+ item.EmployeeName + `</td>
                    
-                 <td style="text-align:center">`+ datedayformat(item.EXIT_DATE) + `</td>   
-                 <td style="text-align:center">`+ item.OUT_TIME + `</td>   
-                 <td style="text-align:center">`+ item.REASON + `</td>   
-                 <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td> 
-                 <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
-                <td style="text-align:center">
-                  <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-EXTPass-req-info" title="Other" data-exitid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                 <td style="text-align:center ">`+ datedayformat(item.EXIT_DATE) + `</td>
+                 <td style="text-align:center ">`+ item.OUT_TIME + `</td>
+                 <td style=" ">`+ item.REASON + `</td>   
+                 <td style=" text-align:center">`+ datedayformat(item.RequestDate) + `</td>
+                 <td style=" text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                <td style="text-align:center ">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-EXTPass-req-info" title="Other" data-exitid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
                   </tr>`;
@@ -868,16 +917,16 @@ function LoadRequestDataforOnbehalf(loadername) {
 
                     htm += `  <tr>        
                
-                 <td style="text-align:center;display:none;">`+ item.ReqID + `</td> 
+                 <td style=" ;display:none;">`+ item.ReqID + `</td> 
 
-                 <td style="text-align:center;display:none;">`+ item.REQUEST_TYPEID + `</td> 
-                 <td style="text-align:center">`+ item.Req_Number + `</td> 
-                 <td style="text-align:center">`+ item.EmployeeName + `</td>
-                 <td style="text-align:center">`+ item.REASON + `</td>   
-                 <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td> 
-                  <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
-                <td style="text-align:center">
-                  <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-AllReq-req-info" title="Other" data-projid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                 <td style=" ;display:none;">`+ item.REQUEST_TYPEID + `</td> 
+                 <td style="text-align: center; ">`+ item.Req_Number + `</td>
+                 <td style=" ">`+ item.EmployeeName + `</td>
+                 <td style=" ">`+ item.REASON + `</td>   
+                 <td style=" ">`+ datedayformat(item.RequestDate) + `</td> 
+                  <td style=" text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                <td style=" text-align:center">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-AllReq-req-info" title="Other" data-projid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
                   </tr>`;
@@ -903,7 +952,9 @@ function LoadRequestDataforOnbehalf(loadername) {
     });
 
 
-}
+} 
+
+
 $('.tbody-emp-req-behalf').on('click', '.ibtn-AllReq-req-info', function () {
 
 
@@ -1032,7 +1083,7 @@ $('.tbody-emp-req').on('click', '.ibtn-AllReq-req-info', function () {
 
     else if (Type == 6) {
 
-        Type = $('#ddlRequests option:selected').val();
+        $('#ddlRequests option:selected').val();
         $('#ddlRequestType').val('6');
         $('#ddlRequestType').attr('disabled', true);
         RequestPageLoad();
@@ -1043,9 +1094,39 @@ $('.tbody-emp-req').on('click', '.ibtn-AllReq-req-info', function () {
 
         $('#empLeaveModal').modal('show');
     }
+    else if (Type == 7) {
+
+        $('#ddlRequests option:selected').val();
+        $('#ddlRequestType').val('7');
+        $('#ddlRequestType').attr('disabled', true);
+        RequestPageLoad();
+        ClearEPReq();
+        ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
+        //getAllEPReqDetails();
+
+
+        $('#empLeaveModal').modal('show');
+    }
+
 
 });
 
+$('.tbody-emp-req').on('click', '.ibtn-TE-req-info', function () {
+
+
+    Type = $('#ddlRequests option:selected').val();
+    $('#ddlRequestType').val('7');
+    $('#ddlRequestType').attr('disabled', true);
+    RequestPageLoad();
+    ClearEPReq();
+    ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
+   // getAllEPReqDetails();
+
+    $('.insert-Attachment').css('display', 'none');
+    $('.download-Attachment').css('display', '');
+    $('#empLeaveModal').modal('show');
+
+});
 $('.tbody-emp-req').on('click', '.ibtn-EXTPass-req-info', function () {
 
 
@@ -1060,7 +1141,6 @@ $('.tbody-emp-req').on('click', '.ibtn-EXTPass-req-info', function () {
     $('.insert-Attachment').css('display', 'none');
     $('.download-Attachment').css('display', '');
     $('#empLeaveModal').modal('show');
-
 
 });
 
@@ -1202,7 +1282,7 @@ function getAllCompanyLoanDetails() {
             RequestURL = result.d[0].Attchement_Link;
             reqStatus = result.d[0].Status;
             ApplicationId = result.d[0].ReqID;
-
+            StatusOrder = result.d[0].StatusOrder;
 
             if (OnBehalfURL == '') {
                 $('#btnDownloadOBAtt').css('display', 'none');
@@ -1222,6 +1302,8 @@ function getAllCompanyLoanDetails() {
 
             if (result.d[0].On_Behalf == "True") {
                 $('#cbEmpOnBehalf').prop('checked', true);
+            } else {
+                $('#cbEmpOnBehalf').prop('checked', false);
             }
 
             OnBehalfChange();
@@ -1229,7 +1311,7 @@ function getAllCompanyLoanDetails() {
             CompanyLoanTypeFormat();
             htmActionButton = "";
 
-            if (result.d[0].Status == "SUBMIT") {
+            if (result.d[0].Status == "SUBMIT" && StatusOrder == 0 ) {
                 SubmitCompanyLoanDetForm();
                 htmActionButton += `<div class="pull-right">
                 <button id="btnCancellRequest" type="button" class="btn btn-primary btnTagTemp"><i class='bx bx-x-circle'></i>Cancel</button>
@@ -1303,7 +1385,7 @@ function getAllEPReqDetails() {
 
             reqStatus = result.d[0].ReqID;
             ApplicationId = result.d[0].ReqID;
-
+            StatusOrder = result.d[0].StatusOrder;
 
             if (OnBehalfURL == '') {
                 $('#btnDownloadOBAtt').css('display', 'none');
@@ -1323,13 +1405,15 @@ function getAllEPReqDetails() {
 
             if (result.d[0].On_Behalf == "True") {
                 $('#cbEmpOnBehalf').prop('checked', true);
+            } else {
+                $('#cbEmpOnBehalf').prop('checked', false);
             }
 
             OnBehalfChange();
             ExitPassInitialForm();
             htmActionButton = "";
 
-            if (result.d[0].Status == "SUBMIT") {
+            if (result.d[0].Status == "SUBMIT" && StatusOrder == 0) {
                 SubmitExitPassDetForm();
                 htmActionButton += `<div class="pull-right">
                 <button id="btnCancellRequest" type="button" class="btn btn-primary btnTagTemp"><i class='bx bx-x-circle'></i>Cancel</button>
@@ -1406,7 +1490,7 @@ function getAllLAReqDetails() {
 
             reqStatus = result.d[0].Status;
             ApplicationId = result.d[0].ReqID;
-
+            StatusOrder = result.d[0].StatusOrder;
             if (OnBehalfURL == '') {
                 $('#btnDownloadOBAtt').css('display', 'none');
             }
@@ -1425,12 +1509,14 @@ function getAllLAReqDetails() {
 
             if (result.d[0].On_Behalf == "True") {
                 $('#cbEmpOnBehalf').prop('checked', true);
+            } else {
+                $('#cbEmpOnBehalf').prop('checked', false);
             }
 
             OnBehalfChange();
             LateAttendanceInitialForm();
             htmActionButton = "";
-            if (result.d[0].Status == "SUBMIT") {
+            if (result.d[0].Status == "SUBMIT" && StatusOrder == 0) {
                 SubmitLateAttendanceDetForm();
                 htmActionButton += `<div class="pull-right">
                 <button id="btnCancellRequest" type="button" class="btn btn-primary btnTagTemp"><i class='bx bx-x-circle'></i>Cancel</button>
@@ -1585,13 +1671,15 @@ function getAllMiscRequestDetails() {
 
             if (result.d[0].On_Behalf == "True") {
                 $('#cbEmpOnBehalf').prop('checked', true);
+            } else {
+                $('#cbEmpOnBehalf').prop('checked', false);
             }
 
             OnBehalfChange();
             MiscInitialForm();
             htmActionButton = "";
 
-            if (result.d[0].Status == "SUBMIT") {
+            if (result.d[0].Status == "SUBMIT" && StatusOrder == 0) {
                 SubmitMiscDetForm();
                 htmActionButton += `<div class="pull-right">
                 <button id="btnCancellRequest" type="button" class="btn btn-primary btnTagTemp"><i class='bx bx-x-circle'></i>Cancel</button>
@@ -1745,13 +1833,15 @@ function getAllBankDetails() {
 
             if (result.d[0].On_Behalf == "True") {
                 $('#cbEmpOnBehalf').prop('checked', true);
+            } else {
+                $('#cbEmpOnBehalf').prop('checked', false);
             }
 
             OnBehalfChange();
 
             htmActionButton = "";
             InitialBankDet();
-            if (result.d[0].Status == "SUBMIT") {
+            if (result.d[0].Status == "SUBMIT" && StatusOrder == 0) {
                 SubmitBankDetForm();
                 htmActionButton += `<div class="pull-right">
                 <button id="btnCancellRequest" type="button" class="btn btn-primary btnTagTemp"><i class='bx bx-x-circle'></i>Cancel</button>
@@ -2841,7 +2931,60 @@ function RequestPageLoad() {
         $('.Leave-Req').html(htm);
 
     }
+    if (Type == 7) {
 
+        htm += `
+
+        <div class="row">
+                       
+            <div class="col-3">
+                <label for="html5-number-input" class="col-form-label label-custom">Last Encashed Date</label>
+                <div>
+                    <input type="date" id="" class="form-control flatpickr-input" disabled/>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <label for="html5-number-input" class="col-form-label label-custom">Reason</label>
+                <div>
+                    <input type="text" id="" class="form-control  "/>
+                </div>
+            </div>
+            <div class="col-3 div-Attachment">
+                <label for="html5-number-input" class="col-form-label label-custom">Upload E-Ticket</label>
+
+                <div class="input-group mb-3 insert-Attachment">
+
+                    <input class="form-control" type="file" id="fu-leave-req" title="Leave Request" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getFileName()">
+                    <label class="input-group-text ml-3" for="fu-leave-req" style="border: transparent;">
+
+                        <img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 49px; margin-top: -10px;" />
+                    </label>
+
+                    <input type="text" id="lblLeaveReqFileName" value="" style="width: 70%; background: #80808000; border: 0px; color: #697a8d; border: none; margin-left: 10px;" readonly="">
+                </div>
+
+
+                <div class="input-group mb-3 download-Attachment">
+
+                    <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 40px;" />
+
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="row">
+                       
+        </div>
+
+
+                             `
+
+        $('.Leave-Req').html(htm);
+
+    }
 
     initiateAllCB();
 
@@ -3270,7 +3413,7 @@ $('#empLeaveModal').on('change', '#txtStartDate', function () {
     if ($('#txtLeaveReqDay').val() != '') {
 
         $('#txtEndDate').val('');
-        let endDate = AddDays($('#txtStartDate').val(), $('#txtLeaveReqDay').val());
+        let endDate = AddDays((AddDays($('#txtStartDate').val(), $('#txtLeaveReqDay').val())),-1);
         $('#txtEndDate').val(endDate)
         let Return = AddDays($('#txtEndDate').val(), "1");
         $('#txtReturnToWork').val(Return)
@@ -3281,7 +3424,7 @@ $('#empLeaveModal').on('change', '#txtStartDate', function () {
 $('#empLeaveModal').on('change', '#txtLeaveReqDay', function () {
 
     $('#txtEndDate').val('');
-    let endDate = AddDays($('#txtStartDate').val(), $('#txtLeaveReqDay').val());
+    let endDate = AddDays((AddDays($('#txtStartDate').val(), $('#txtLeaveReqDay').val())), -1);
     $('#txtEndDate').val(endDate);
     let Return = AddDays($('#txtEndDate').val(), "1");
     $('#txtReturnToWork').val(Return);
@@ -3370,10 +3513,10 @@ function loadApproverAuthorityPeople() {
                 else if (item.Status == "PASSED")
                     StatusClass = 'badge bg-label-info me-1';
 
-                htm += `<tr style="text-align:center;"> 
+                htm += `<tr> 
                     <td> `+ item.STAGE + ` </td>
                     <td> `+ item.APPROVER + ` </td>
-                    <td> `+ item.ApprovedDate + ` </td>
+                    <td style="text-align:center;"> `+ item.ApprovedDate + ` </td>
                     <td> `+ item.COMMENTS + ` </td>
                      <td style="text-align:center" ><a class="`+ StatusClass + `">` + item.Status + `</a></td>             
                     </tr>`
@@ -3831,9 +3974,6 @@ function GetAllDetails() {
             reqStatus = result.d[0].Status;
             StatusOrder = result.d[0].STATUS_ORDER;
 
-
-
-
             $('#ddlLeaveType').val(result.d[0].LEAVE_TYPE_ID);
 
             $("#txtStartDate").prop("type", "text");
@@ -4118,10 +4258,7 @@ function AddPPTReqDetails() {
 
 
             if (result.d[0].Id != 0) {
-
-
-
-                ApplicationId = result.d;
+                ApplicationId = result.d[0].Id;
                 UploadTheFiles();
                 getAllPPTDetails();
                 LoadRequestData();
@@ -4263,7 +4400,7 @@ function getAllPPTDetails() {
             reqStatus = result.d[0].Status;
             ApplicationId = result.d[0].ReqID;
 
-
+            StatusOrder = result.d[0].StatusOrder;
 
 
 
@@ -4285,13 +4422,15 @@ function getAllPPTDetails() {
 
             if (result.d[0].On_Behalf == "True") {
                 $('#cbEmpOnBehalf').prop('checked', true);
+            } else {
+                $('#cbEmpOnBehalf').prop('checked', false);
             }
 
             OnBehalfChange();
             PPTInitialForm();
             htmActionButton = "";
 
-            if (result.d[0].Status == "SUBMIT") {
+            if (result.d[0].Status == "SUBMIT" && StatusOrder == 0) {
                 SubmitPPTForm();
                 htmActionButton += `<div class="pull-right">
                 <button id="btnCancellRequest" type="button" class="btn btn-primary btnTagTemp"><i class='bx bx-x-circle'></i>Cancel</button>
@@ -4632,11 +4771,21 @@ function AddBankDetReqDetails() {
         dataType: "json",
         success: function (result) {
 
-            toastr.success('Updated Successfully', '');
-            ApplicationId = result.d;
-            UploadTheFiles();
-            LoadRequestData();
-            getAllBankDetails();
+
+            if (result.d[0].Id != 0) {
+                ApplicationId = result.d[0].Id;
+                UploadTheFiles();
+                getAllBankDetails();
+                LoadRequestData();
+                toastr.success('Updated Successfully', '');
+            }
+            else {
+                toastr.error(result.d[0].Messsage, '');
+            }
+
+            
+          
+           
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -5304,6 +5453,33 @@ function CompanyLoanTypeFormat() {
         $('#txtCLoanMonthlyDed').val($('#txtBDHRA').text());
         $('#txtCLoanMonthlyDed').attr('disabled', false);
         $('#txtCLoanAmount').attr('disabled', true);
+        const dt = new Date();
+        var day = ("0" + dt.getDate()).slice(-2);
+        var month = ("0" + (dt.getMonth())).slice(-2);
+        var date;
+        
+        if (RemainingHRAAdvance > 0) {
+            var RemaingMonths = 0;
+            RemaingMonths = parseInt(RemainingHRAAdvance) / parseInt($("#txtCLoanMonthlyDed").val());
+            if (RemaingMonths == 1) {
+
+                $("#txtNumberofMonth").prop("max", 5);
+                month = ("0" + (dt.getMonth() + 2)).slice(-2);
+                date = dt.getFullYear() + "-" + month;
+                $("#txtCLoanDedStartMonth").val(date);
+
+            }
+            else if (RemaingMonths > 2) {
+                toastr.error('You are not eligible to go for HRA Advance since you have more than two months pending .. ');
+
+            }
+            else {
+                month = ("0" + (dt.getMonth() + 1)).slice(-2);
+                date = dt.getFullYear() + "-" + month;
+                $("#txtCLoanDedStartMonth").val(date);
+            }
+        }
+
 
     }
 
@@ -5315,6 +5491,17 @@ function CompanyLoanTypeFormat() {
 
         $(".divnumberofMonth").css('display', 'none');
         $('#txtNumberofMonth').val('0');
+
+
+        const dt = new Date();
+        var day = ("0" + dt.getDate()).slice(-2);
+        var month = ("0" + (dt.getMonth())).slice(-2);
+        var date;
+
+
+        month = ("0" + (dt.getMonth() + 1)).slice(-2);
+        date = dt.getFullYear() + "-" + month;
+        $("#txtCLoanDedStartMonth").val(date);
 
     }
 }
@@ -5348,16 +5535,11 @@ function ClearCLReqDetails() {
     var month = ("0" + (dt.getMonth())).slice(-2);
     var date;
 
-    if (dt.getDate() > 25) {
-        month = ("0" + (dt.getMonth() + 2)).slice(-2);
-         date = dt.getFullYear() + "-" + month;
-        $("#txtCLoanDedStartMonth").val(date);
-    }
-    else {
+  
         month = ("0" + (dt.getMonth() + 1)).slice(-2);
         date = dt.getFullYear() + "-" + month;
         $("#txtCLoanDedStartMonth").val(date);
-    }
+    
 
 
 }
@@ -5563,6 +5745,15 @@ function loadEmpLoanDetails() {
                     <td> `+ result.d[0].RECOVERED + ` </td>
                     <td> `+ result.d[0].REMAINING + ` </td>`
                 htm += `</tr>`
+
+                if (result.d[0].LTYPE == "Housing") {
+                    RemainingHRAAdvance = result.d[0].REMAINING
+                   
+                }
+                if (result.d[0].LTYPE == "SalaryAdvance") {
+                    RemainingSalaryAdvance = result.d[0].REMAINING
+                  
+                }
             });
             $('.loan-body').html(htm);
 

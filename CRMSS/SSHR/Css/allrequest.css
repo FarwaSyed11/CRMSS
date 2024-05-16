@@ -326,3 +326,14 @@ body {
 .nav .nav-link:hover, .nav .nav-link:focus {
     color: #cd0000;
 }
+
+#txtEmpNametext {
+    width: max-content;
+    background: #ededed;
+    text-align: center;
+    margin-top: -8px;
+    vertical-align: middle;
+    padding: 5px 15px;
+    border-radius: 7px;
+    margin-left: -90px;
+}

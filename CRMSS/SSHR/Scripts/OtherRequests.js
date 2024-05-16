@@ -12,7 +12,7 @@ var MyRoleID = 0;
 var WorkFlowID = 0;
 var Action = '';
 var reqEmpno = '';
-
+var RemainingHRAAdvance = 0;
 var htmActionButton = "";
 
 var selobjDatatableMisc = [];
@@ -48,6 +48,13 @@ $(document).ready(function () {
 });
 
 
+$('#empLeaveModal').on('keyup keypress', function (e) {
+    var keyCode = e.keyCode || e.which;
+    if (keyCode === 13) {
+        e.preventDefault();
+        return false;
+    }
+});
 
 function hideShowProjDetails() {
     var x = document.getElementById("proj-details-rectangle-div");
@@ -124,15 +131,15 @@ function LoadRequestData(loadername) {
                  <td style="text-align:center;display:none;">`+ item.LEAVE_APPLICATION_ID + `</td>  
                  <td style="text-align:center;display:none;">`+ item.MyOrderNumber + `</td>  
                  <td style="text-align:center;display:none;">`+ item.MyRoleID + `</td>  
-                 <td style="text-align:center">`+ item.RequestBy + `</td>  
+                 <td style=" ">`+ item.RequestBy + `</td>  
                  <td style="text-align:center">`+ item.LEAVE_APPLICATION_NO + `</td>  
-                 <td style="text-align:center">`+ item.LEAVE_TYPE + `</td>     
+                 <td style=" ">`+ item.LEAVE_TYPE + `</td>     
                  <td style="text-align:center">`+ datedayformat(item.FROM_DATE) + `</td>    
                  <td style="text-align:center">`+ datedayformat(item.TO_DATE) + `</td> 
-                  <td style="text-align:center">`+ item.REASON + `</td> 
+                  <td style=" ">`+ item.REASON + `</td> 
                   <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.STATUS + `</a></td>
                   <td style="text-align:center">
-                  <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-leave-req-info" title="Other" data-projid="`+ item.LEAVE_APPLICATION_NO + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-leave-req-info" title="Other" data-projid="`+ item.LEAVE_APPLICATION_NO + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
                     </tr>`;
@@ -175,15 +182,15 @@ function LoadRequestData(loadername) {
                  <td style="text-align:center;display:none;">`+ item.ReqID + `</td>
                  <td style="text-align:center;display:none;">`+ item.MyOrderNumber + `</td>  
                  <td style="text-align:center;display:none;">`+ item.MyRoleID + `</td>
-                 <td style="text-align:center">`+ item.RequestBy + `</td>  
+                 <td style=" ">`+ item.RequestBy + `</td>  
                  <td style="text-align:center">`+ item.Req_Number + `</td>  
-                 <td style="text-align:center">`+ item.RequestFor + `</td>     
+                 <td style=" ">`+ item.RequestFor + `</td>     
                  <td style="text-align:center">`+ datedayformat(item.Travelling_Date) + `</td>    
                  <td style="text-align:center">`+ datedayformat(item.Expected_Date_Of_Return) + `</td> 
                   <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td> 
                     <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.STATUS + `</a></td>
                    <td style="text-align:center">
-                  <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-PPT-req-info" title="Other" data-pptid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-PPT-req-info" title="Other" data-pptid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
                    </tr>`;
@@ -222,13 +229,13 @@ function LoadRequestData(loadername) {
                  <td style="text-align:center;display:none;">`+ item.ReqID + `</td>
                  <td style="text-align:center;display:none;">`+ item.MyOrderNumber + `</td>  
                  <td style="text-align:center;display:none;">`+ item.MyRoleID + `</td>
-                  <td style="text-align:center">`+ item.RequestBy + `</td>  
+                  <td style=" ">`+ item.RequestBy + `</td>  
                   <td style="text-align:center">`+ item.Req_Number + `</td>  
-                 <td style="text-align:center">`+ item.REQUEST_TYPE + `</td>  
+                 <td style=" ">`+ item.REQUEST_TYPE + `</td>  
                  <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td>     
                <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.STATUS + `</a></td>
                 <td style="text-align:center">
-                  <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-BDR-req-info" title="Other" data-bankrelid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-BDR-req-info" title="Other" data-bankrelid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
                   </tr>`;
@@ -268,15 +275,15 @@ function LoadRequestData(loadername) {
                  <td style="text-align:center;display:none;">`+ item.ReqID + `</td>
                  <td style="text-align:center;display:none;">`+ item.MyOrderNumber + `</td>  
                  <td style="text-align:center;display:none;">`+ item.MyRoleID + `</td>
-                  <td style="text-align:center">`+ item.RequestBy + `</td>  
+                  <td style=" ">`+ item.RequestBy + `</td>  
                   <td style="text-align:center">`+ item.Req_Number + `</td>  
-                 <td style="text-align:center">`+ item.REQUEST_TYPE + `</td>   
+                 <td style=" ">`+ item.REQUEST_TYPE + `</td>   
                
                  <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td>     
                   <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td>   
                  <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.STATUS + `</a></td>
                 <td style="text-align:center">
-                  <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-Misc-req-info" title="Other Misc" data-miscid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-Misc-req-info" title="Other Misc" data-miscid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
                   </tr>`;
@@ -318,16 +325,16 @@ function LoadRequestData(loadername) {
                  <td style="text-align:center;display:none;">`+ item.ReqID + `</td>
                  <td style="text-align:center;display:none;">`+ item.MyOrderNumber + `</td>  
                  <td style="text-align:center;display:none;">`+ item.MyRoleID + `</td>
-                  <td style="text-align:center">`+ item.RequestBy + `</td>  
+                  <td style=" ">`+ item.RequestBy + `</td>  
                   <td style="text-align:center">`+ item.Req_Number + `</td>  
-                 <td style="text-align:center">`+ item.REQUEST_TYPE + `</td>   
-                 <td style="text-align:center">`+ item.RequestFor + `</td>   
+                 <td style=" ">`+ item.REQUEST_TYPE + `</td>   
+                 <td style=" ">`+ item.RequestFor + `</td>   
                  <td style="text-align:center">`+ datedayformat(item.FROM_DATE) + `</td>   
                  <td style="text-align:center">`+ item.AMOUNT + `</td>   
                  <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td>   
                   <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.STATUS + `</a></td>
                 <td style="text-align:center">
-                  <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-CL-req-info" title="Other" data-comloid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-CL-req-info" title="Other" data-comloid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
                   </tr>`;
@@ -368,15 +375,15 @@ function LoadRequestData(loadername) {
                  <td style="text-align:center;display:none;">`+ item.ReqID + `</td>
                  <td style="text-align:center;display:none;">`+ item.MyOrderNumber + `</td>  
                  <td style="text-align:center;display:none;">`+ item.MyRoleID + `</td>
-                  <td style="text-align:center">`+ item.RequestBy + `</td>  
+                  <td style=" ">`+ item.RequestBy + `</td>  
                   <td style="text-align:center">`+ item.Req_Number + `</td>  
                   <td style="text-align:center">`+ datedayformat(item.FROM_DATE) + `</td>  
                  <td style="text-align:center">`+ item.ARRIVED_TIME + `</td>   
-                 <td style="text-align:center">`+ item.REASON + `</td>   
+                 <td style=" ">`+ item.REASON + `</td>   
                  <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td>   
                    <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.STATUS + `</a></td>
                 <td style="text-align:center">
-                  <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-LA-req-info" title="Other" data-laid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-LA-req-info" title="Other" data-laid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
                   </tr>`;
@@ -416,15 +423,15 @@ function LoadRequestData(loadername) {
                  <td style="text-align:center;display:none;">`+ item.ReqID + `</td>
                  <td style="text-align:center;display:none;">`+ item.MyOrderNumber + `</td>  
                  <td style="text-align:center;display:none;">`+ item.MyRoleID + `</td>
-                  <td style="text-align:center">`+ item.RequestBy + `</td>  
+                  <td style=" ">`+ item.RequestBy + `</td>  
                   <td style="text-align:center">`+ item.Req_Number + `</td>  
                  <td style="text-align:center">`+ datedayformat(item.EXIT_DATE) + `</td>   
                  <td style="text-align:center">`+ item.OUT_TIME + `</td>   
-                 <td style="text-align:center">`+ item.REASON + `</td>   
+                 <td style=" ">`+ item.REASON + `</td>   
                  <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td> 
                  <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.STATUS + `</a></td>
                 <td style="text-align:center">
-                  <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-EXTPass-req-info" title="Other" data-exitid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-EXTPass-req-info" title="Other" data-exitid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
                   </tr>`;
@@ -465,14 +472,14 @@ function LoadRequestData(loadername) {
                  <td style="text-align:center;display:none;">`+ item.REQUEST_TYPEID + `</td>
                  <td style="text-align:center;display:none;">`+ item.MyOrderNumber + `</td>  
                  <td style="text-align:center;display:none;">`+ item.MyRoleID + `</td>
-                 <td style="text-align:center">`+ item.RequestBy + `</td>   
-                 <td style="text-align:center">`+ item.REQUEST_TYPE + `</td>   
+                 <td style=" ">`+ item.RequestBy + `</td>   
+                 <td style=" ">`+ item.REQUEST_TYPE + `</td>
                  <td style="text-align:center">`+ item.Req_Number + `</td>   
-                 <td style="text-align:center">`+ item.REASON + `</td>   
+                 <td style=" ">`+ item.REASON + `</td>   
                  <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td> 
                   <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.STATUS + `</a></td>
                 <td style="text-align:center">
-                  <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-AllReq-req-info" title="Other" data-projid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-AllReq-req-info" title="Other" data-projid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
                   </tr>`;
@@ -760,6 +767,11 @@ function getAllCompanyLoanDetails() {
 
             $('#txtEmpName').html(result.d[0].CreatedBy);
            /* loadAllEmployees(result.d[0].EmpNo);*/
+            $('.on-beh').text('Applied By');
+            $('.employee-drop').css('display', 'none');
+            $('.employee-text').css('display', '');
+
+            $('#txtEmpNametext').html(result.d[0].CreatedBy);
 
             $('#txtCLoanReqNo').val(result.d[0].Req_Number);
             $('#txtCLoanReqDate').val(datedayformat(result.d[0].CREATEDDATE));
@@ -802,6 +814,8 @@ function getAllCompanyLoanDetails() {
 
             if (result.d[0].On_Behalf == "True") {
                 $('#cbEmpOnBehalf').prop('checked', true);
+            } else {
+                $('#cbEmpOnBehalf').prop('checked', false);
             }
 
             OnBehalfChange();
@@ -859,6 +873,11 @@ function getAllEPReqDetails() {
 
             $('#txtEmpName').html(result.d[0].CreatedBy);
             /*loadAllEmployees(result.d[0].EmpNo);*/
+            $('.on-beh').text('Applied By');
+            $('.employee-drop').css('display', 'none');
+            $('.employee-text').css('display', '');
+
+            $('#txtEmpNametext').html(result.d[0].CreatedBy);
 
             $('#txtEXTPassDate').val(datedayformat(result.d[0].EXIT_DATE));
             $('#txtEXTPassNo').val(result.d[0].Req_Number);
@@ -897,6 +916,8 @@ function getAllEPReqDetails() {
 
             if (result.d[0].On_Behalf == "True") {
                 $('#cbEmpOnBehalf').prop('checked', true);
+            } else {
+                $('#cbEmpOnBehalf').prop('checked', false);
             }
 
             OnBehalfChange();
@@ -954,7 +975,11 @@ function getAllLAReqDetails() {
             $('#lblEID').html(result.d[0].EmiratesId);
             $('#lblEIDExpDate').html(result.d[0].EmiratesExpDate);
 
+            $('.on-beh').text('Applied By');
+            $('.employee-drop').css('display', 'none');
+            $('.employee-text').css('display', '');
 
+            $('#txtEmpNametext').html(result.d[0].CreatedBy);
 
             $('#txtEmpName').html(result.d[0].CreatedBy);
          /*   loadAllEmployees(result.d[0].EmpNo);*/
@@ -992,6 +1017,8 @@ function getAllLAReqDetails() {
 
             if (result.d[0].On_Behalf == "True") {
                 $('#cbEmpOnBehalf').prop('checked', true);
+            } else {
+                $('#cbEmpOnBehalf').prop('checked', false);
             }
 
             OnBehalfChange();
@@ -1094,6 +1121,11 @@ function getAllMiscRequestDetails() {
 
             $('#txtEmpName').html(result.d[0].CreatedBy);
             /*loadAllEmployees(result.d[0].EmpNo);*/
+            $('.on-beh').text('Applied By');
+            $('.employee-drop').css('display', 'none');
+            $('.employee-text').css('display', '');
+
+            $('#txtEmpNametext').html(result.d[0].CreatedBy);
 
             $('#txMiscReqNo').val(result.d[0].Req_Number);
             $('#txtMiscReqDate').val(datedayformat(result.d[0].CREATEDDATE));
@@ -1149,6 +1181,8 @@ function getAllMiscRequestDetails() {
 
             if (result.d[0].On_Behalf == "True") {
                 $('#cbEmpOnBehalf').prop('checked', true);
+            } else {
+                $('#cbEmpOnBehalf').prop('checked', false);
             }
 
             OnBehalfChange();
@@ -1262,7 +1296,12 @@ function getAllBankDetails() {
             $('#txtBDOther').val(result.d[0].OTHALW);
 
             $('#txtEmpName').html(result.d[0].CreatedBy);
-         /*   loadAllEmployees(result.d[0].EmpNo);*/
+            /*   loadAllEmployees(result.d[0].EmpNo);*/
+            $('.on-beh').text('Applied By');
+            $('.employee-drop').css('display', 'none');
+            $('.employee-text').css('display', '');
+
+            $('#txtEmpNametext').html(result.d[0].CreatedBy);
 
             $('#txtBDReqNo').val(result.d[0].Req_Number);
             $('#txtBDReqDate').val(datedayformat(result.d[0].CREATEDDATE));
@@ -1303,6 +1342,8 @@ function getAllBankDetails() {
 
             if (result.d[0].On_Behalf == "True") {
                 $('#cbEmpOnBehalf').prop('checked', true);
+            } else {
+                $('#cbEmpOnBehalf').prop('checked', false);
             }
 
             OnBehalfChange();
@@ -2939,7 +2980,11 @@ function GetAllDetails() {
             CurrentOrderNumber = result.d[0].CurrentOrderNumber;
             WorkFlowID = result.d[0].WorkFlowID;
 
+            $('.on-beh').text('Applied By');
+            $('.employee-drop').css('display', 'none');
+            $('.employee-text').css('display', '');
 
+            $('#txtEmpNametext').html(result.d[0].CreatedBy);
             $('#txtReqNo').val(result.d[0].LEAVE_APPLICATION_NO);
 
             $('#ddlLeaveType').val(result.d[0].LEAVE_TYPE_ID);
@@ -3285,7 +3330,11 @@ function getAllPPTDetails() {
 
             $('#txtEmpName').html(result.d[0].CreatedBy);
            /* loadAllEmployees(result.d[0].EmpNo);*/
+            $('.on-beh').text('Applied By');
+            $('.employee-drop').css('display', 'none');
+            $('.employee-text').css('display', '');
 
+            $('#txtEmpNametext').html(result.d[0].CreatedBy);
             $('#txtPPTReqNo').val(result.d[0].Req_Number);
             loadPPTReason();
 
@@ -3324,6 +3373,8 @@ function getAllPPTDetails() {
 
             if (result.d[0].On_Behalf == "True") {
                 $('#cbEmpOnBehalf').prop('checked', true);
+            } else {
+                $('#cbEmpOnBehalf').prop('checked', false);
             }
 
             OnBehalfChange();
@@ -3995,14 +4046,55 @@ $('#empLeaveModal').on('change', '#ddlBLLoanType', function () {
 
 function CompanyLoanTypeFormat() {
     if ($('#ddlBLLoanType').val() == 'HRA') {
-
-        $('#txtCLoanMonthlyDed').val($('#txtBDHRA').val());
+        $(".divnumberofMonth").css('display', '');
+        $('#txtCLoanMonthlyDed').val($('#txtBDHRA').text());
         $('#txtCLoanMonthlyDed').attr('disabled', false);
+        $('#txtCLoanAmount').attr('disabled', true);
+        const dt = new Date();
+        var day = ("0" + dt.getDate()).slice(-2);
+        var month = ("0" + (dt.getMonth())).slice(-2);
+        var date;
+
+        if (RemainingHRAAdvance > 0) {
+            var RemaingMonths = 0;
+            RemaingMonths = parseInt(RemainingHRAAdvance) / parseInt($("#txtCLoanMonthlyDed").val());
+            if (RemaingMonths == 1) {
+                month = ("0" + (dt.getMonth() + 2)).slice(-2);
+                date = dt.getFullYear() + "-" + month;
+                $("#txtCLoanDedStartMonth").val(date);
+                
+            }
+            else if (RemaingMonths > 2) {
+                toastr.error('You are not eligible to go for HRA Advance since you have more than two months pending .. ');
+                $("#txtNumberofMonth").prop("max", 5);
+            }
+            else {
+                month = ("0" + (dt.getMonth() + 1)).slice(-2);
+                date = dt.getFullYear() + "-" + month;
+                $("#txtCLoanDedStartMonth").val(date);
+            }
+        }
+
     }
 
     else if ($('#ddlBLLoanType').val() == 'Salary Advance') {
         $('#txtCLoanMonthlyDed').val('0');
+        $('#txtCLoanAmount').val('0');
         $('#txtCLoanMonthlyDed').attr('disabled', true);
+        $('#txtCLoanAmount').removeAttr('disabled', false);
+
+        $(".divnumberofMonth").css('display', 'none');
+        $('#txtNumberofMonth').val('0');
+
+        const dt = new Date();
+        var day = ("0" + dt.getDate()).slice(-2);
+        var month = ("0" + (dt.getMonth())).slice(-2);
+        var date;
+
+
+        month = ("0" + (dt.getMonth() + 1)).slice(-2);
+        date = dt.getFullYear() + "-" + month;
+        $("#txtCLoanDedStartMonth").val(date);
 
     }
 }
@@ -4225,7 +4317,11 @@ function loadEmpLoanDetails() {
                     <td> `+ item.RECOVERED + ` </td>
                     <td> `+ item.REMAINING + ` </td>`
                 htm += `</tr>`
+                if (result.d[0].LTYPE == "Housing") {
+                    RemainingHRAAdvance = result.d[0].REMAINING
+                }
             });
+            
             $('.loan-body').html(htm);
 
         },

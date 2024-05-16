@@ -618,8 +618,28 @@
         }
     </style>
     <script>
-        $(document).ready(function () {
+        function loadEmpImage() {
 
+            $.ajax({
+                url: "../Masters/EconnectNew.master/GetEmpImage",
+                data: JSON.stringify({ "EmpNo": EmpNo }),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+
+                    $('#imgUser').attr('src', result.d);
+
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+
+        }
+        $(document).ready(function () {
+            
             currUserId = $('#<%#hfdUserId.ClientID%>');
 
             $jnine('#<%#txtSearchEmployee.ClientID%>').autocomplete({
@@ -639,6 +659,7 @@
                                     imageUrl: item.imageUrl,
                                     json: item
                                 }
+                                loadEmpImage();
                             }))
                         },
                         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -970,7 +991,8 @@
                             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online">
-                                        <img src="" alt class="w-px-40 h-auto rounded-circle" id="imgvatar" />
+                                        <img src="" alt class="w-px-40 h-auto rounded-circle" id="imgUser" />
+                                        <%--<img src="" alt class="w-px-40 h-auto rounded-circle" id="imgvatar" />--%>
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">

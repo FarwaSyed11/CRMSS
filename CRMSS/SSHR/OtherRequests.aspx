@@ -546,19 +546,24 @@
                         </div>
                         <div class="col-6 divOnbehalf" style="">
                             <div class="row">
-                                <div class="col-3">
+                                <div class="col-4">
                                     <input type="checkbox" id="cbEmpOnBehalf" netliva-switch="OK" style="">
-                                    <label for="cbEmpOnBehalf" data-active-text="On Behalf" data-passive-text="On Behalf" style="--switch-active-color: #30ca51; --switch-passive-color: #66666696; display: none"></label>
-                                    <label for="html5-number-input" class="col-form-label label-custom" style="">On Behalf </label>
+                                    <label for="cbEmpOnBehalf" data-active-text="On Behalf" data-passive-text="On Behalf" style="--switch-active-color: #30ca51; --switch-passive-color: #66666696; display: none" ></label>
+                                    <label for="html5-number-input" class="col-form-label label-custom on-beh" style="">Applied By</label>
                                 </div>
-                              
-                                <div class="col-5 onbehalf-controls-div hidden" style="padding-left:20px;padding-top:10px;font-size:medium">
+      
+                                <div class="col-5 onbehalf-controls-div hidden" style="">
                                     <div>
                                         <%--<label for="html5-number-input" class="col-form-label label-custom" style="float: left;padding-right: 10px;padding-top: 2px;">Employee Name </label>--%>
-                                        <label id="txtEmpName" style="font-weight:bold;"> </label>
+                                        <div class="employee-drop">
+                                        <select id="txtEmpName" style=""> </select>
+                                         </div>
+                                        <div class="employee-text" style="padding-left:20px;padding-top:10px;font-size:medium">
+                                        <label id="txtEmpNametext" style=""> </label>
+                                            </div>
                                     </div>
                                 </div>
-                                <div class="col-4 onbehalf-controls-div1 hidden" style="">
+                                <div class="col-3 onbehalf-controls-div1 hidden" style="">
                                     <div class="input-group mb-3 insert-Attachment">
                                         <%--<label for="html5-number-input" class="col-form-label label-custom" style="float: left;padding-right: 10px;padding-top: 2px;">Attachment</label>--%>
 
@@ -576,7 +581,7 @@
                                     </div>
                                     <div class="download-Attachment">
                                         <img src="Images/Icon-download.png" id="btnDownloadOBAtt" title="Download File" class="fa-icon-hover" style="cursor: pointer;width:30px" />
-                                    
+            
                                     </div>
 
                                 </div>

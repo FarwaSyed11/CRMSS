@@ -1283,12 +1283,16 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
             pv.Add(OtherReason);
         }
 
-        pa.Add("@TravellingDate");
-        pv.Add(TravellingDate);
-
-        pa.Add("@EDOfReturn");
-        pv.Add(EDOfReturn);
-
+        if (TravellingDate != "")
+        {
+            pa.Add("@TravellingDate");
+            pv.Add(TravellingDate);
+        }
+        if (EDOfReturn != "")
+        {
+            pa.Add("@EDOfReturn");
+            pv.Add(EDOfReturn);
+        }
         pa.Add("@userId");
         pv.Add(User);
 
@@ -1792,7 +1796,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static string setBankDetRequestDetails(string ReqID, string RefNo, string User, string EmpNo, string OnBehalf, string ReqDate, string ReqType, string Reason, string SCBank, string SCPurpose,string STLBankName,string STLIBAN,string STLBankAddress,string STLReqAmount,string ReqTypeVal,string Status)
+    public static List<Result> setBankDetRequestDetails(string ReqID, string RefNo, string User, string EmpNo, string OnBehalf, string ReqDate, string ReqType, string Reason, string SCBank, string SCPurpose,string STLBankName,string STLIBAN,string STLBankAddress,string STLReqAmount,string ReqTypeVal,string Status)
     {
 
         DBHandler DBH = new DBHandler();
@@ -1865,8 +1869,16 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
 
         DBH.CreateDataset_SSHR(ds, "sp_AllRequests", true, pa, pv);
 
-        return ds.Tables[0].Rows[0][0].ToString();
+        List<Result> Result = new List<Result>();
 
+
+        Result.Add(new Result()
+        {
+            Id = Convert.ToInt64(ds.Tables[0].Rows[0]["ReqID"].ToString()),
+            Messsage = ds.Tables[0].Rows[0]["Message"].ToString(),
+        });
+
+        return Result;
 
 
 

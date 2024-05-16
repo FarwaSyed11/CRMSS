@@ -2,15 +2,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Web;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Web.Script.Services;
 using System.Web.Services;
 using System.Web.UI;
-using System.Web.UI.WebControls;
-
+using System.Web.Http;
+using System.Web;
+using System.util;
+using System.Xml;
+using System.Net;
+using System.Linq;
+using System.Threading.Tasks;
 public partial class SSHR_MyTeamRequests : System.Web.UI.Page
 {
+    private static HttpServerUtility server;
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!Page.IsPostBack)
@@ -1305,7 +1312,7 @@ public partial class SSHR_MyTeamRequests : System.Web.UI.Page
                     StatusOrder = dt.Rows[i]["StatusOrder"].ToString(),
                     CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
                     WorkFlowID = dt.Rows[i]["WorkFlowID"].ToString(),
-
+                    //isPaid = dt.Rows[i]["ISPAID"].ToString(),
                 });
             }
         }
@@ -2005,6 +2012,38 @@ public partial class SSHR_MyTeamRequests : System.Web.UI.Page
        
     }
 
+
+    //[WebMethod]
+    //public static string SaveImage(string image)
+    //{
+    //    try
+    //    {
+    //        // Remove data prefix
+    //        image = image.Replace("data:image/png;base64,", "");
+
+    //        // Decode the base64 image data
+    //        byte[] imageBytes = Convert.FromBase64String(image);
+
+    //        // Set the file path where you want to save the image
+    //        string filePath = server.MapPath("~/SSHR/screenshots/") + Guid.NewGuid() + ".png";
+
+    //        // Save the image to the file
+    //        using (MemoryStream ms = new MemoryStream(imageBytes))
+    //        {
+    //            using (System.Drawing.Image screenshot = System.Drawing.Image.FromStream(ms))
+    //            {
+    //                screenshot.Save(filePath, ImageFormat.Png);
+    //            }
+    //        }
+
+    //        return "success";
+    //    }
+    //    catch (Exception)
+    //    {
+    //        return "error";
+    //    }
+    //}
+
     public class EmpSalDetails
     {
         public string BASIC { get; set; }
@@ -2115,6 +2154,7 @@ public partial class SSHR_MyTeamRequests : System.Web.UI.Page
         public string StatusOrder { get; set; }
         public string WorkFlowID { get; set; }
         public string CreatedBy { get; set; }
+        public string isPaid { get; set; }
 
 
     }

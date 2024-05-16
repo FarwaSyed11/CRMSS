@@ -25,10 +25,10 @@
         .card-shdadow-gardient {
             /*background-image: linear-gradient(to bottom right, #a3afbb, #99a371, #bfc96a, rgb(255, 122, 89));*/
             /*background-image:  linear-gradient(to bottom right, #67a0d9, #66bfa2, #9fad2c, rgb(255, 122, 89));*/
-            background-image: linear-gradient(to bottom right, #654745, #d2463c, #20201f, rgb(124 69 65));
+            /*background-image: linear-gradient(to bottom right, #654745, #d2463c, #20201f, rgb(124 69 65));
             color: white;
             box-shadow: 1px 2px 3px 4px #00000094;
-            text-shadow: 1px 0px #cf5959;
+            text-shadow: 1px 0px #cf5959;*/
         }
 
         .eConnect-logo {
@@ -136,18 +136,23 @@
         </div>
 
         <div class="row head-parent" style="margin-top: -47px;">
+            <div class="col-5">
+                 <div style="text-align: center">
+     <h2>Welcome to <b class="app-name" style="color: #cf5959">CRMSS</b>  </h2>
+ </div>
+ <div style="text-align: center">
+     <p id="desctionpara">This is online platform powered by <b>NAFFCO</b> which facilates you to update the job online and can see all the effective task and performances from here.</p>
+ </div>
 
-            <div style="text-align: center">
-                <h2>Welcome to <b class="app-name" style="color: #cf5959">CRMSS</b>  </h2>
+ <div style="text-align: center">
+     <button class="btn btn-primary">Get Started</button>
+     &nbsp;&nbsp;&nbsp <i class='bx bx-play-circle' style="font-size: xx-large; color: #cf5959"></i><span style="cursor: pointer;">Watch Video</span>
+ </div>
             </div>
-            <div style="text-align: center">
-                <p id="desctionpara">This is online platform powered by <b>NAFFCO</b> which facilates you to update the job online and can see all the effective task and performances from here.</p>
+            <div class="col-7">
+                 <img src="../Images/ForLandingPage/commonlanding.svg" style="width: 100%; " /> 
             </div>
-
-            <div style="text-align: center">
-                <button class="btn btn-primary">Get Started</button>
-                &nbsp;&nbsp;&nbsp <i class='bx bx-play-circle' style="font-size: xx-large; color: #cf5959"></i><span style="cursor: pointer;">Watch Video</span>
-            </div>
+           
         </div>
 
 
@@ -173,16 +178,20 @@
 
              </div>--%>
 
-            <div style="width: 12%"></div>
-            <div class="col-md-3 ">
-                <div class="card card-shdadow-gardient">
-                    <div class="card-body row">
-                        <div class="col-md-4">
-                            <%--<img src="../Images/ForLandingPage/AAK3-removebg-preview.png" style="height: 93%;  width: 137%;   margin-left: -32%;" />--%>
+            <div style="width: 100%">
+                <img src="../Images/ForLandingPage/seperator.svg" style="" />
+            </div>
+            <div class="col-4 ">
+                <div class="card-shdadow-gardient">
+                    <div class="row">
+                        <div class="col-12">
+                            <img src="../Images/ForLandingPage/usericon.svg" style="" />
+
+                            <h5 style="text-transform: uppercase;">Engr. Khalid Al Khatib</h5>
                         </div>
 
-                        <div class="col-md-8">
-                            <h5 style="color: white">Engr. Khalid Al Khatib</h5>
+                        <div class="col-12">
+                            
                             <div>
                                 <p style="text-transform: uppercase;">GREATNESS IS IN SIMPLICITY.</p>
                             </div>
@@ -192,15 +201,17 @@
 
             </div>
 
-            <div class="col-md-3">
-                <div class="card card-shdadow-gardient">
-                    <div class="card-body row">
-                        <div class="col-md-4">
+            <div class="col-4">
+                <div class="card-shdadow-gardient">
+                    <div class="row">
+                        <div class="col-12">
                             <%--<img src="../Images/ForLandingPage/Ahmed Al khatib.png" style="height: 100%;  width: 100%; margin-top: -13%;" />--%>
+                            <img src="../Images/ForLandingPage/usericon.svg" style="" />
+                            <h5 style="text-transform: uppercase;">Mr. Ahmed Al-Khatib</h5>
                         </div>
 
-                        <div class="col-md-8">
-                            <h5 style="color: white">Mr. Ahmed Al-Khatib</h5>
+                        <div class="col-12">
+                            
                             <div>
                                 <p style="text-transform: uppercase;">If a man with a vision can change the world; Imagine what a team sharing the same vision could Accomplish.</p>
                             </div>
@@ -210,15 +221,17 @@
 
             </div>
 
-            <div class="col-md-3">
-                <div class="card card-shdadow-gardient">
-                    <div class="card-body row">
-                        <div class="col-md-4">
+            <div class="col-4">
+                <div class="card-shdadow-gardient">
+                    <div class="row">
+                        <div class="col-12">
                             <%--<img src="../Images/ForLandingPage/Mr Ali-Al khatib.png" style=" height: 80%; width: 187%; margin-left: -45px;" />--%>
+                            <img src="../Images/ForLandingPage/usericon.svg" style="" />
+                            <h5 style="text-transform: uppercase;">Mr. Ali Al-Khatib</h5>
                         </div>
 
-                        <div class="col-md-8">
-                            <h5 style="color: white">Mr. Ali Al-Khatib</h5>
+                        <div class="col-12">
+                            
                             <div>
                                 <p style="text-transform: uppercase;">The positive thinker sees the Invisible, Feels the intangible and achieves the impossible.</p>
                             </div>
@@ -226,10 +239,6 @@
                     </div>
                 </div>
             </div>
-
-
-            <div style="width: 12%"></div>
-
 
 
         </div>

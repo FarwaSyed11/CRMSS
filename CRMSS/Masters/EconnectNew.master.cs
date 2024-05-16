@@ -155,6 +155,27 @@ public partial class EconnectNew : System.Web.UI.MasterPage
         }
     }
 
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static string GetEmpImage(string EmpNo)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(3);
+
+        pa.Add("@EmpNo");
+        pv.Add(EmpNo);
+
+        DBH.CreateDataset_SSHR(ds, "sp_profile", true, pa, pv);
+        return ds.Tables[0].Rows[0][0].ToString();
+
+    }
     protected void BtnEditProfile_Click(object sender, EventArgs e)
     {
         BindEmpDetails();
