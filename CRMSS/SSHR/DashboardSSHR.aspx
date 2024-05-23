@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="DashboardSSHR.aspx.cs" Inherits="SSHR_DashboardSSHR" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="DashboardSSHR.aspx.cs" Inherits="SSHR_DashboardSSHR" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
@@ -38,32 +38,32 @@
 
                 <div class="topstatuscard" style="">
                     <img src="Images/card-icons/3.svg" />
-                    <div class="headdiv" style="">Total Pending Request</div>
-                    <div class="valuediv" style="">120 </div>
+                    <div class="headdiv"  style="">Total Pending Request</div>
+                    <div class="valuediv" id="totelPendingRequest" style="">120 </div>
                 </div>
 
                 <div class="topstatuscard" style="">
                     <img src="Images/card-icons/4.svg" />
                     <div class="headdiv" style="">Total Approved Request</div>
-                    <div class="valuediv" style="">120 </div>
+                    <div class="valuediv" id="approvedReq"  style="">120 </div>
                 </div>
 
                 <div class="topstatuscard" style="">
                     <img src="Images/card-icons/5.svg" />
                     <div class="headdiv" style="">Total Rejected Request</div>
-                    <div class="valuediv" style="">120 </div>
+                    <div class="valuediv" id="rejectedRequest"  style="">120 </div>
                 </div>
 
                 <div class="topstatuscard" style="">
                     <img src="Images/card-icons/6.svg" />
-                    <div class="headdiv" style="">Total Minutes Of Late </div>
-                    <div class="valuediv" style="">120 </div>
+                    <div class="headdiv"  style="">Total Minutes Of Late </div>
+                    <div class="valuediv" id="minuteOflate" style="">120 </div>
                 </div>
 
                 <div class="topstatuscard" style="">
                     <img src="Images/card-icons/7.svg" />
                     <div class="headdiv" style="">Total Minutes Of Exit Pass </div>
-                    <div class="valuediv" style="">120 </div>
+                    <div class="valuediv"  id="earlyExitMin" style="">120 </div>
                 </div>
             </div>
         </div>
@@ -80,12 +80,12 @@
                         </div>
 
                         <div style="display: inline-flex; padding: 12px 2px;">
-                            <div style="padding: 5.5px; font-size: 12px;">2</div>
+                            <div style="padding: 5.5px; font-size: 12px;" id="Rightpendingleave"></div>
                             <div class="progrees-bar-grid">
-                                <span style="position: absolute; margin: 0.25% 3.25%;">50% </span>
-                                <div style="width: 50%; background: #fbc11e; border-radius: 60px; height: 25px;"></div>
+                                <span style="position: absolute; margin: 0.25% 3.25%;" id="Rightleaveperse"> </span>
+                                <div class="progLeaveDiv" style="width: 0%; background: #fbc11e; border-radius: 60px; height: 25px;"></div>
                             </div>
-                            <div style="padding: 5.5px; font-size: 12px;">4</div>
+                            <div style="padding: 5.5px; font-size: 12px;" id="Righttotelleave"></div>
                         </div>
 
                         <div style="float: right">
@@ -105,12 +105,12 @@
                         </div>
 
                         <div style="display: inline-flex; padding: 12px 2px;">
-                            <div style="padding: 5.5px; font-size: 12px;">2</div>
+                            <div style="padding: 5.5px; font-size: 12px;" id="rightPendingloan"></div>
                             <div class="progrees-bar-grid">
-                                <span style="position: absolute; margin: 0.25% 3.25%;">50% </span>
-                                <div style="width: 50%; background: #fbc11e; border-radius: 60px; height: 25px;"></div>
+                                <span style="position: absolute; margin: 0.25% 3.25%;" id="rightloanperce"> </span>
+                                <div class="progLoanDiv" style="width: 0%; background: #fbc11e; border-radius: 60px; height: 25px;"></div>
                             </div>
-                            <div style="padding: 5.5px; font-size: 12px;">4</div>
+                            <div style="padding: 5.5px; font-size: 12px;" id="righttotelloan"></div>
                         </div>
 
                         <div style="float: right">
@@ -130,12 +130,12 @@
                         </div>
 
                         <div style="display: inline-flex; padding: 12px 2px;">
-                            <div style="padding: 5.5px; font-size: 12px;">2</div>
+                            <div style="padding: 5.5px; font-size: 12px;" id="pendingpassportreq"></div>
                             <div class="progrees-bar-grid">
-                                <span style="position: absolute; margin: 0.25% 3.25%;">50% </span>
-                                <div style="width: 50%; background: #fbc11e; border-radius: 60px; height: 25px;"></div>
+                                <span style="position: absolute; margin: 0.25% 3.25%;" id="passportreqperc"> </span>
+                                <div class="progpassportDiv" style="width: 0%; background: #fbc11e; border-radius: 60px; height: 25px;"></div>
                             </div>
-                            <div style="padding: 5.5px; font-size: 12px;">4</div>
+                            <div style="padding: 5.5px; font-size: 12px;" id="totelpassportreq"></div>
                         </div>
 
                         <div style="float: right">
@@ -155,12 +155,12 @@
                         </div>
 
                         <div style="display: inline-flex; padding: 12px 2px;">
-                            <div style="padding: 5.5px; font-size: 12px;">2</div>
+                            <div style="padding: 5.5px; font-size: 12px;" id="pendingbankrequest"></div>
                             <div class="progrees-bar-grid">
-                                <span style="position: absolute; margin: 0.25% 3.25%;">50% </span>
-                                <div style="width: 50%; background: #fbc11e; border-radius: 60px; height: 25px;"></div>
+                                <span style="position: absolute; margin: 0.25% 3.25%;" id="bankreqPerc"> </span>
+                                <div class="progBankDiv" style="width: 0%; background: #fbc11e; border-radius: 60px; height: 25px;"></div>
                             </div>
-                            <div style="padding: 5.5px; font-size: 12px;">4</div>
+                            <div style="padding: 5.5px; font-size: 12px;" id="totelbankrequest"></div>
                         </div>
 
                         <div style="float: right">
@@ -181,12 +181,12 @@
                         </div>
 
                         <div style="display: inline-flex; padding: 12px 2px;">
-                            <div style="padding: 5.5px; font-size: 12px;">2</div>
+                            <div style="padding: 5.5px; font-size: 12px;" id="pendingmescellaneousreq"></div>
                             <div class="progrees-bar-grid">
-                                <span style="position: absolute; margin: 0.25% 3.25%;">50% </span>
-                                <div style="width: 50%; background: #fbc11e; border-radius: 60px; height: 25px;"></div>
+                                <span style="position: absolute; margin: 0.25% 3.25%;" id="misereqperce"> </span>
+                                <div class="progmiseDiv" style="width: 0%; background: #fbc11e; border-radius: 60px; height: 25px;"></div>
                             </div>
-                            <div style="padding: 5.5px; font-size: 12px;">4</div>
+                            <div style="padding: 5.5px; font-size: 12px;" id="totelmisalenusreq"></div>
                         </div>
 
                         <div style="float: right">
@@ -206,12 +206,12 @@
                         </div>
 
                         <div style="display: inline-flex; padding: 12px 2px;">
-                            <div style="padding: 5.5px; font-size: 12px;">2</div>
+                            <div style="padding: 5.5px; font-size: 12px;" id="pendinglateattreq"></div>
                             <div class="progrees-bar-grid">
-                                <span style="position: absolute; margin: 0.25% 3.25%;">50% </span>
-                                <div style="width: 50%; background: #fbc11e; border-radius: 60px; height: 25px;"></div>
+                                <span style="position: absolute; margin: 0.25% 3.25%;" id="lateattendprese"></span>
+                                <div class="progLateattenDiv" style="width: 0%; background: #fbc11e; border-radius: 60px; height: 25px;"></div>
                             </div>
-                            <div style="padding: 5.5px; font-size: 12px;">4</div>
+                            <div style="padding: 5.5px; font-size: 12px;" id="totellatereq"></div>
                         </div>
 
                         <div style="float: right">
@@ -232,12 +232,12 @@
                         </div>
 
                         <div style="display: inline-flex; padding: 12px 2px;">
-                            <div style="padding: 5.5px; font-size: 12px;">2</div>
+                            <div style="padding: 5.5px; font-size: 12px;"id="penndingexitpass"></div>
                             <div class="progrees-bar-grid">
-                                <span style="position: absolute; margin: 0.25% 3.25%;">50% </span>
-                                <div style="width: 50%; background: #fbc11e; border-radius: 60px; height: 25px;"></div>
+                                <span style="position: absolute; margin: 0.25% 3.25%;"id="exitpassperse"> </span>
+                                <div class="progExitpassDiv" style="width: 0%; background: #fbc11e; border-radius: 60px; height: 25px;"></div>
                             </div>
-                            <div style="padding: 5.5px; font-size: 12px;">4</div>
+                            <div style="padding: 5.5px; font-size: 12px;" id="totelexitpass"></div>
                         </div>
 
                         <div style="float: right">
@@ -284,11 +284,11 @@
                                         <div style="width: 34px; left: 98px; top: 100px; position: absolute; color: rgba(0, 0, 0, 0.50); font-size: 16px; font-weight: 300; word-wrap: break-word">11-15</div>
                                         <div style="width: 62px; left: 146px; top: 100px; position: absolute; color: rgba(0, 0, 0, 0.50); font-size: 16px; font-weight: 300; word-wrap: break-word">16-20</div>
                                         <div style="width: 63px; left: 201px; top: 100px; position: absolute; color: rgba(0, 0, 0, 0.50); font-size: 16px; font-weight: 300; word-wrap: break-word">21-25</div>
-                                        <div style="width: 31px; left: -6px; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">10</div>
-                                        <div style="width: 32px; left: 49px; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">15</div>
-                                        <div style="width: 33px; left: 102px; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">20</div>
-                                        <div style="width: 34px; left: 156px; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">25</div>
-                                        <div style="width: 35px; left: 210px; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">30</div>
+                                        <div id="divoneTofive" style="width: 31px; left: -6px; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">10</div>
+                                        <div id="divdixToten" style="width: 32px; left: 49px; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">15</div>
+                                        <div id="divlevenToFifteen"style="width: 33px; left: 102px; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">20</div>
+                                        <div id="divsixteenToTwenty" style="width: 34px; left: 156px; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">25</div>
+                                        <div id="divtwentyToTwefive" style="width: 35px; left: 210px; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">30</div>
                                     </div>
                                 </div>
                             </div>
@@ -374,7 +374,7 @@
                             <div class="mb-3 head" style="">Leave History</div>
 
                             <div class="table">
-                                <table class="table">
+                                <table class="table LeaveRequestTable">
                                     <thead>
                                         <tr>
                                             <th>Leave Date</th>
@@ -382,8 +382,8 @@
                                             <th>Day Of Leaves</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
+                                    <tbody class="tbody-leaveHistory">
+                                        <%--<tr>
                                             <td>22/2/2023</td>
                                             <td>22/2/2023</td>
                                             <td>
@@ -410,7 +410,7 @@
                                             <td>
                                                 <div style="width: 86px; height: 31px; background: rgba(130, 205, 89, 0.15); border-radius: 5px; padding: 5px 34px;">10</div>
                                             </td>
-                                        </tr>
+                                        </tr>--%>
                                     </tbody>
                                 </table>
                             </div>
@@ -942,7 +942,7 @@
             EmpNo = '<%= Session["EmpNo"] %>';
             myrole = '<%=Session["Role"]%>';
             actIDForAttach = $('#<%=hfAttachId.ClientID%>');
-            rolesList = '<%=Session["CurrentUserRolesList"].ToString()%>';
+          rolesList = '<%=Session["CurrentUserRolesList"].ToString()%>';
 
         });
     </script>

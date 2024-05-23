@@ -176,7 +176,7 @@ public class SSHRFileUploadHandler : IHttpHandler
 
                 }
 
-                else if(Type == "6")
+                else if(Type == "5")
                 {
 
                     DBHandler DBH = new DBHandler();
@@ -199,7 +199,7 @@ public class SSHRFileUploadHandler : IHttpHandler
 
                 }
 
-                 else if(Type == "7")
+                 else if(Type == "6")
                 {
 
                     DBHandler DBH = new DBHandler();
@@ -210,6 +210,28 @@ public class SSHRFileUploadHandler : IHttpHandler
 
                     pa.Add("@oper");
                     pv.Add(36);
+
+                    pa.Add("@ReqID");
+                    pv.Add(ApplicationId);
+
+                    pa.Add("@OnBehalfURL");
+                    pv.Add(pathAndFile);
+
+
+                    DBH.CreateDataset_SSHR(ds, "sp_AllRequests", true, pa, pv);
+
+                }
+                else if (Type == "7")
+                {
+
+                    DBHandler DBH = new DBHandler();
+                    DataSet ds = new DataSet();
+                    DataTable dt = new DataTable();
+                    ArrayList pa = new ArrayList();
+                    ArrayList pv = new ArrayList();
+
+                    pa.Add("@oper");
+                    pv.Add(45);
 
                     pa.Add("@ReqID");
                     pv.Add(ApplicationId);
@@ -395,7 +417,7 @@ public class SSHRFileUploadHandler : IHttpHandler
         }
 
 
-         else  if(Type == "6")
+         else  if(Type == "5")
         {
 
             DBHandler DBH = new DBHandler();
@@ -419,7 +441,7 @@ public class SSHRFileUploadHandler : IHttpHandler
             DBH.CreateDataset_SSHR(ds, "sp_AllRequests", true, pa, pv);
         }
 
-        else  if(Type == "7")
+        else  if(Type == "6")
         {
 
             DBHandler DBH = new DBHandler();
@@ -434,6 +456,29 @@ public class SSHRFileUploadHandler : IHttpHandler
             pa.Add("@ReqID");
             pv.Add(ApplicationId);
                     
+            pa.Add("@RequestURL");
+            pv.Add(pathAndFile);
+
+
+
+
+            DBH.CreateDataset_SSHR(ds, "sp_AllRequests", true, pa, pv);
+        }
+        else if (Type == "7")
+        {
+
+            DBHandler DBH = new DBHandler();
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+            ArrayList pa = new ArrayList();
+            ArrayList pv = new ArrayList();
+
+            pa.Add("@oper");
+            pv.Add(46);
+
+            pa.Add("@ReqID");
+            pv.Add(ApplicationId);
+
             pa.Add("@RequestURL");
             pv.Add(pathAndFile);
 

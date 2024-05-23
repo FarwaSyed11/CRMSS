@@ -371,6 +371,13 @@ function loadEmpDetails() {
             }
             else {
                 $('#cbTransportProv').prop('checked', false);
+            } 
+            if (result.d[0].FAMELIG == 'Y') {
+
+                $('#lbTKFamilyEligble').prop('checked', true);
+            }
+            else {
+                $('#lbTKFamilyEligble').prop('checked', false);
             }
 
             $('#lbSLTransport').html(result.d[0].TRANSALW);

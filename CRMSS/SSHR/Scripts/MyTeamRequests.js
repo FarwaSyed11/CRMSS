@@ -13,7 +13,10 @@ var WorkFlowID = 0;
 var Action = '';
 var htmActionButton = "";
 var selobjDatatableMisc = [];
-
+var Ispaid = -1;
+var LastTicketEncashDate = "";
+var NumberoFTicketAvailable = 0;
+let defaulSortCol = 0;
 var day = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"];
 var monthsbyName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -100,14 +103,16 @@ function LoadRequestData(loadername) {
             if (Type == 0) {
 
                 htmlHead += `<tr style="text-align: center;">
-                               <th class="table-cahnge" colspan="8" style="font-size:medium;background: #b70000 !important;color: white !important;">LEAVE APPLICATION</th></tr>`
+                               <th class="table-cahnge" colspan="10"  style="font-size:medium;background: #b70000 !important;color: white !important;">LEAVE APPLICATION</th></tr>`
 
                 htmlHead += `   <tr style="text-align:center;" class="Head-tr">
                                  <th style="display:none;">ID</th> 
                                  <th style="display:none;">MyOrderNumber</th> 
-                                 <th style="display:none;">MyRoleID</th> 
+                                 <th style="display:none;">MyRoleID</th>
+                                 <th>Leave #</th>
+                                 <th>Emp #</th>
                                  <th>Requester</th>
-                                 <th>Leave App No</th>
+                                 <th>Department</th>
                                  <th>Leave Type</th>
                                  <th>Start Date</th>
                                  <th>End Date</th>
@@ -123,14 +128,16 @@ function LoadRequestData(loadername) {
 
                     htm += `  <tr>        
                
-                 <td style=" ;display:none;">`+ item.LEAVE_APPLICATION_ID + `</td>  
-                 <td style=" ;display:none;">`+ item.MyOrderNumber + `</td>  
-                 <td style=" ;display:none;">`+ item.MyRoleID + `</td>  
+                 <td style="text-align:center;display:none;">`+ item.LEAVE_APPLICATION_ID + `</td>  
+                 <td style="text-align:center;display:none;">`+ item.MyOrderNumber + `</td>  
+                 <td style="text-align:center;display:none;">`+ item.MyRoleID + `</td>  
+                 <td style="text-align:center;font-weight: 500;">`+ item.LEAVE_APPLICATION_NO + `</td>
+                 <td style="text-align:center;">`+ item.EMP_NO + `</td>
                  <td style=" ">`+ item.RequestBy + `</td>  
-                 <td style=" text-align: center;">`+ item.LEAVE_APPLICATION_NO + `</td>
+                 <td style=" ">`+ item.Depart + `</td>  
                  <td style=" ">`+ item.LEAVE_TYPE + `</td>     
-                 <td style=" text-align: center;">`+ datedayformat(item.FROM_DATE) + `</td>
-                 <td style=" text-align: center;">`+ datedayformat(item.TO_DATE) + `</td>
+                 <td style="text-align:center"><span class="hidden"> `+ item.FromDate_Sort + `</span>` + datedayformat(item.FROM_DATE) + `</td>
+                 <td style="text-align:center"><span class="hidden"> `+ item.ToDate_Sort + `</span>` + datedayformat(item.TO_DATE) + `</td>
                   <td style=" ">`+ item.REASON + `</td> 
                   <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.STATUS + `</a></td>
                   <td style="text-align:center">
@@ -143,7 +150,7 @@ function LoadRequestData(loadername) {
 
                 $('.thead-Request_Details').html(htmlHead);
                 $('.tbody-emp-req').html(htm);
-
+                defaulSortCol = 9;
             }
 
 
@@ -154,14 +161,16 @@ function LoadRequestData(loadername) {
 
 
                 htmlHead += ` <tr style="text-align: center;" class="Head-tr">
-                                      <th class="table-cahnge" colspan="8" style="font-size:medium;background: #b70000 !important;color: white !important;">PASSPORT RELEASE</th></tr>`
+                                      <th class="table-cahnge" colspan="10"  style="font-size:medium;background: #b70000 !important;color: white !important;">PASSPORT RELEASE</th></tr>`
 
                 htmlHead += `  <tr style="text-align: center;" class="Head-tr">
                                 <th style="display:none;">ID</th>
                                 <th style="display:none;">MyOrderNumber</th>
                                 <th style="display:none;">MyRoleID</th>
+                                <th> Request #</th>
+                                <th>Emp #</th>
                                 <th>Requester</th>
-                                <th> Request Numb</th>
+                                <th>Department</th>
                                  <th>Reason</th>
                                  <th>Travelling Date</th>
                                  <th>Return Date</th>
@@ -177,12 +186,14 @@ function LoadRequestData(loadername) {
                  <td style="text-align:center;display:none;">`+ item.ReqID + `</td>
                  <td style="text-align:center;display:none;">`+ item.MyOrderNumber + `</td>  
                  <td style="text-align:center;display:none;">`+ item.MyRoleID + `</td>
+                 <td style="text-align:center;font-weight: 500;">`+ item.Req_Number + `</td>
+                 <td style="text-align:center;">`+ item.EMP_NO + `</td>
                  <td style=" ">`+ item.RequestBy + `</td>  
-                 <td style="text-align:center">`+ item.Req_Number + `</td>  
+                 <td style=" ">`+ item.Depart + `</td> 
                  <td style=" ">`+ item.RequestFor + `</td>     
-                 <td style="text-align:center">`+ datedayformat(item.Travelling_Date) + `</td>    
-                 <td style="text-align:center">`+ datedayformat(item.Expected_Date_Of_Return) + `</td> 
-                  <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td> 
+                 <td style="text-align:center"><span class="hidden"> `+ item.Travelling_Date_sort + `</span>` + datedayformat(item.Travelling_Date) + `</td>
+                 <td style="text-align:center"><span class="hidden"> `+ item.Expected_Date_Of_Return_sort + `</span>` + datedayformat(item.Expected_Date_Of_Return) + `</td>
+                  <td style="text-align:center"><span class="hidden"> `+ item.ReqDate_sort + `</span>` + datedayformat(item.RequestDate) + `</td>
                     <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.STATUS + `</a></td>
                    <td style="text-align:center">
                   <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-PPT-req-info" title="Other" data-pptid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
@@ -194,7 +205,7 @@ function LoadRequestData(loadername) {
 
                 $('.thead-Request_Details').html(htmlHead);
                 $('.tbody-emp-req').html(htm);
-
+                defaulSortCol = 11;
             }
 
 
@@ -202,14 +213,16 @@ function LoadRequestData(loadername) {
             else if (Type == 2) {
 
                 htmlHead += ` <tr style="text-align: center;">
-                               <th class="table-cahnge" colspan="6" style="font-size:medium;background: #b70000 !important;color: white !important;">BANK RELATED REQUEST</th></tr>`
+                               <th class="table-cahnge" colspan="8"  style="font-size:medium;background: #b70000 !important;color: white !important;">BANK RELATED REQUEST</th></tr>`
 
                 htmlHead += `  <tr style="text-align: center;">
                                  <th style="display:none;">ID</th>
                                 <th style="display:none;">MyOrderNumber</th>
                                 <th style="display:none;">MyRoleID</th>
+                                 <th>Request #</th>
+                                <th>Emp #</th>
                                  <th>Requester</th>
-                                 <th>Request Number</th >
+                                  <th>Department</th>
                                  <th>Request Type</th>
                                  <th>Request Date</th>
                                  <th>Request Status</th>
@@ -224,10 +237,12 @@ function LoadRequestData(loadername) {
                  <td style="text-align:center;display:none;">`+ item.ReqID + `</td>
                  <td style="text-align:center;display:none;">`+ item.MyOrderNumber + `</td>  
                  <td style="text-align:center;display:none;">`+ item.MyRoleID + `</td>
+                  <td style="text-align:center;font-weight: 500;">`+ item.Req_Number + `</td>
+                  <td style="text-align:center;">`+ item.EMP_NO + `</td>
                   <td style=" ">`+ item.RequestBy + `</td>  
-                  <td style="text-align:center">`+ item.Req_Number + `</td>  
+                  <td style=" ">`+ item.Depart + `</td> 
                  <td style=" ">`+ item.REQUEST_TYPE + `</td>  
-                 <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td>     
+                 <td style="text-align:center"><span class="hidden"> `+ item.ReqDate_sort + `</span>` + datedayformat(item.RequestDate) + `</td>     
                <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.STATUS + `</a></td>
                 <td style="text-align:center">
                   <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-BDR-req-info" title="Other" data-bankrelid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
@@ -240,21 +255,23 @@ function LoadRequestData(loadername) {
 
                 $('.thead-Request_Details').html(htmlHead);
                 $('.tbody-emp-req').html(htm);
-
+                defaulSortCol = 9;
             }
 
 
             else if (Type == 3) {
 
                 htmlHead += ` <tr style="text-align: center;">
-                               <th class="table-cahnge" colspan="7" style="font-size:medium;background: #b70000 !important;color: white !important;">MISCELLANEOUS REQUEST</th></tr>`
+                               <th class="table-cahnge" colspan="9"  style="font-size:medium;background: #b70000 !important;color: white !important;">MISCELLANEOUS REQUEST</th></tr>`
 
                 htmlHead += `  <tr style="text-align: center;">
                                  <th style="display:none;">ID</th>
                                  <th style="display:none;">MyOrderNumber</th>
                                 <th style="display:none;">MyRoleID</th>
+                                 <th>Request #</th>
+                                <th>Emp #</th>
                                  <th>Requester</th>
-                                 <th>Request Number</th >
+                                  <th>Department</th>
                                  <th>Request Type</th>
                                  <th>Reason</th>
                                  <th>Request Date</th>
@@ -270,10 +287,13 @@ function LoadRequestData(loadername) {
                  <td style="text-align:center;display:none;">`+ item.ReqID + `</td>
                  <td style="text-align:center;display:none;">`+ item.MyOrderNumber + `</td>  
                  <td style="text-align:center;display:none;">`+ item.MyRoleID + `</td>
+                  <td style="text-align:center;font-weight: 500;">`+ item.Req_Number + `</td>
+                  <td style="text-align:center;">`+ item.EMP_NO + `</td>
                   <td style=" ">`+ item.RequestBy + `</td>  
-                  <td style="text-align:center">`+ item.Req_Number + `</td>  
+                  <td style=" ">`+ item.Depart + `</td> 
                  <td style=" ">`+ item.REQUEST_TYPE + `</td>   
-                 <td style=" ">`+ item.RequestFor + `</td>   
+               
+                 <td style="text-align:center"><span class="hidden"> `+ item.ReqDate_sort + `</span>` + datedayformat(item.RequestDate) + `</td>     
                   <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td>   
                  <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.STATUS + `</a></td>
                 <td style="text-align:center">
@@ -287,21 +307,23 @@ function LoadRequestData(loadername) {
 
                 $('.thead-Request_Details').html(htmlHead);
                 $('.tbody-emp-req').html(htm);
-
+                defaulSortCol = 9;
             }
 
 
             else if (Type == 4) {
 
                 htmlHead += ` <tr style="text-align: center;">
-                               <th class="table-cahnge" colspan="9" style="font-size:medium;background: #b70000 !important;color: white !important;">COMPANY LOAN REQUEST</th></tr>`
+                               <th class="table-cahnge" colspan="11"  style="font-size:medium;background: #b70000 !important;color: white !important;">COMPANY LOAN REQUEST</th></tr>`
 
                 htmlHead += `  <tr style="text-align: center;">
                                  <th style="display:none;">ID</th>
                                  <th style="display:none;">MyOrderNumber</th>
                                 <th style="display:none;">MyRoleID</th>
+                                 <th style="width:10%">Request #</th>
+                                <th>Emp #</th>
                                  <th style="width:20%">Requester</th>
-                                 <th style="width:10%">Request Number</th>
+                                  <th>Department</th>
                                  <th style="width:10%">Loan Type</th>
                                  <th style="width:10%">Reason</th>
                                  <th style="width:10%">Date Start</th>
@@ -319,13 +341,15 @@ function LoadRequestData(loadername) {
                  <td style="text-align:center;display:none;">`+ item.ReqID + `</td>
                  <td style="text-align:center;display:none;">`+ item.MyOrderNumber + `</td>  
                  <td style="text-align:center;display:none;">`+ item.MyRoleID + `</td>
+                  <td style="text-align:center;font-weight: 500;">`+ item.Req_Number + `</td>
+                  <td style="text-align:center;">`+ item.EMP_NO + `</td>
                   <td style=" ">`+ item.RequestBy + `</td>  
-                  <td style="text-align:center">`+ item.Req_Number + `</td>  
+                  <td style=" ">`+ item.Depart + `</td> 
                  <td style=" ">`+ item.REQUEST_TYPE + `</td>   
                  <td style=" ">`+ item.RequestFor + `</td>   
-                 <td style="text-align:center">`+ datedayformat(item.FROM_DATE) + `</td>   
+                 <td style="text-align:center"><span class="hidden"> `+ item.DateStart_sort + `</span>` + datedayformat(item.FROM_DATE) + `</td>   
                  <td style="text-align:center">`+ item.AMOUNT + `</td>   
-                 <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td>   
+                 <td style="text-align:center"><span class="hidden"> `+ item.ReqDate_sort + `</span>` + datedayformat(item.RequestDate) + `</td>   
                   <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.STATUS + `</a></td>
                 <td style="text-align:center">
                   <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-CL-req-info" title="Other" data-comloid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
@@ -338,21 +362,23 @@ function LoadRequestData(loadername) {
 
                 $('.thead-Request_Details').html(htmlHead);
                 $('.tbody-emp-req').html(htm);
-
+                defaulSortCol = 12;
             }
 
 
             else if (Type == 5) {
 
                 htmlHead += ` <tr style="text-align: center;">
-                               <th class="table-cahnge" colspan="8" style="font-size:medium;background: #b70000 !important;color: white !important;">LATE ATTENDANCE REQUEST</th></tr>`
+                               <th class="table-cahnge" colspan="10"  style="font-size:medium;background: #b70000 !important;color: white !important;">LATE ATTENDANCE REQUEST</th></tr>`
 
                 htmlHead += `    <tr style="text-align: center;">
                                  <th style="display:none;">ID</th>
                                  <th style="display:none;">MyOrderNumber</th>
                                 <th style="display:none;">MyRoleID</th>
+                                 <th style="width:10%">Request #</th>
+                                <th>Emp #</th>
                                  <th style="width:20%">Requester</th>
-                                 <th style="width:10%">Request Number</th>
+                                  <th>Department</th>
                                  <th style="width:10%">Date</th>
                                  <th style="width:10%">Arrived Time</th>
                                  <th style="width:20%">Reason</th>
@@ -369,12 +395,14 @@ function LoadRequestData(loadername) {
                  <td style="text-align:center;display:none;">`+ item.ReqID + `</td>
                  <td style="text-align:center;display:none;">`+ item.MyOrderNumber + `</td>  
                  <td style="text-align:center;display:none;">`+ item.MyRoleID + `</td>
-                  <td style=" ">`+ item.RequestBy + `</td>  
-                  <td style="text-align:center">`+ item.Req_Number + `</td>  
-                  <td style="text-align:center">`+ datedayformat(item.FROM_DATE) + `</td>  
-                 <td style="text-align:center">`+ (item.ARRIVED_TIME) + `</td>   
+                  <td style="text-align:center;font-weight: 500;">`+ item.Req_Number + `</td>
+                  <td style="text-align:center;">`+ item.EMP_NO + `</td>
+                  <td style=" ">`+ item.RequestBy + `</td>
+                  <td style=" ">`+ item.Depart + `</td> 
+                  <td style="text-align:center"><span class="hidden"> `+ item.LateDate_sort + `</span>` + datedayformat(item.FROM_DATE) + `</td>  
+                 <td style="text-align:center">`+ item.ARRIVED_TIME + `</td>   
                  <td style=" ">`+ item.REASON + `</td>   
-                 <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td>   
+                 <td style="text-align:center"><span class="hidden"> `+ item.ReqDate_sort + `</span>` + datedayformat(item.RequestDate) + `</td>   
                    <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.STATUS + `</a></td>
                 <td style="text-align:center">
                   <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-LA-req-info" title="Other" data-laid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
@@ -387,20 +415,22 @@ function LoadRequestData(loadername) {
 
                 $('.thead-Request_Details').html(htmlHead);
                 $('.tbody-emp-req').html(htm);
-
+                defaulSortCol = 11;
             }
 
             else if (Type == 6) {
 
                 htmlHead += ` <tr style="text-align: center;">
-                               <th class="table-cahnge" colspan="8" style="font-size:medium;background: #b70000 !important;color: white !important;">EXIT PASS REQUEST</th></tr>`
+                               <th class="table-cahnge" colspan="10"  style="font-size:medium;background: #b70000 !important;color: white !important;">EXIT PASS REQUEST</th></tr>`
 
                 htmlHead += `  <tr style="text-align: center;">
                                  <th style="display:none;">ID</th>
                                  <th style="display:none;">MyOrderNumber</th>
                                 <th style="display:none;">MyRoleID</th>
+                                 <th style="width:5%">Request #</th>
+                                <th>Emp #</th>
                                  <th style="width:20%">Requester</th>
-                                 <th style="width:10%">Request Number</th>
+                                  <th>Department</th>
                                  <th style="width:10%">Exit Date</th>
                                  <th style="width:10%">Exit Time</th>
                                  <th style="width:20%">Reason</th>
@@ -417,12 +447,14 @@ function LoadRequestData(loadername) {
                  <td style="text-align:center;display:none;">`+ item.ReqID + `</td>
                  <td style="text-align:center;display:none;">`+ item.MyOrderNumber + `</td>  
                  <td style="text-align:center;display:none;">`+ item.MyRoleID + `</td>
-                  <td style=" ">`+ item.RequestBy + `</td>  
-                  <td style="text-align:center">`+ item.Req_Number + `</td>  
-                 <td style="text-align:center">`+ datedayformat(item.EXIT_DATE) + `</td>   
-                 <td style="text-align:center">`+ (item.OUT_TIME) + `</td>   
+                  <td style="text-align:center;font-weight: 500;">`+ item.Req_Number + `</td>
+                  <td style="text-align:center;">`+ item.EMP_NO + `</td>
+                  <td style=" ">`+ item.RequestBy + `</td> 
+                  <td style=" ">`+ item.Depart + `</td> 
+                 <td style="text-align:center"><span class="hidden"> `+ item.ExitDate_sort + `</span>` + datedayformat(item.EXIT_DATE) + `</td>   
+                 <td style="text-align:center">`+ item.OUT_TIME + `</td>   
                  <td style=" ">`+ item.REASON + `</td>   
-                 <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td> 
+                 <td style="text-align:center"><span class="hidden"> `+ item.ReqDate_sort + `</span>` + datedayformat(item.RequestDate) + `</td> 
                  <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.STATUS + `</a></td>
                 <td style="text-align:center">
                   <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-EXTPass-req-info" title="Other" data-exitid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
@@ -435,22 +467,75 @@ function LoadRequestData(loadername) {
 
                 $('.thead-Request_Details').html(htmlHead);
                 $('.tbody-emp-req').html(htm);
+                defaulSortCol = 11;
 
+            }
+            else if (Type == 7) {
+
+                htmlHead += ` <tr style="text-align: center;">
+                               <th class="table-cahnge" colspan="9" style="font-size:large;background: #b70000 !important;color: white !important;">TICKET ENCASHMENT REQUEST</th></tr>`
+
+                htmlHead += `    <tr style="text-align: center;">
+                                 <th style="display:none;">ID</th>
+                                 <th style="display:none;">MyOrderNumber</th>
+                                <th style="display:none;">MyRoleID</th>
+                                 <th style="width:10%">Request #</th>
+                                <th>Emp #</th>
+                                 <th style="width:20%">Requester</th>
+                                  <th>Department</th>
+                                 <th style="width:10%">Last Ticket Encash Date</th>
+                                 <th style="width:10%">Request Date</th>
+                                 <th style="width:20%">Reason</th>
+                                 <th style="width:10%">Status</th>
+                                  <th style="width:10%">Action</th>`
+
+
+                $.each(result.d, function (key, item) {
+
+
+                    htm += `  <tr>        
+               
+                 <td style=" ;display:none;">`+ item.ReqID + `</td> 
+                     <td style=" ;display:none;">`+ item.MyOrderNumber + `</td> 
+                               <td style=" ;display:none;">`+ item.MyRoleID + `</td> 
+                  <td style="text-align:center;font-weight: 500;">`+ item.Req_Number + `</td>
+                                <td style="text-align:center;">`+ item.EMP_NO + `</td>
+                                   <td>`+ item.RequestBy + `</td>
+                                   <td style=" ">`+ item.Depart + `</td> 
+                 <td style=" text-align: center;"><span class="hidden"> `+ item.LastTicketEncashDate_sort + `</span>` + datedayformat(item.LastEncashDate) + `</td>
+                      <td style=" text-align: center;"><span class="hidden"> `+ item.ReqDate_sort + `</span>` + datedayformat(item.RequestDate) + `</td>
+                 <td style=" ">`+ item.REASON + `</td>   
+                
+                 <td style=" text-align: center;" ><a class="`+ item.StageClass + `">` + item.STATUS + `</a></td>
+                <td style=" text-align:center">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-TE-req-info" title="Other" data-exitid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                  </td>
+
+                  </tr>`;
+
+                });
+
+
+                $('.thead-Request_Details').html(htmlHead);
+                $('.tbody-emp-req').html(htm);
+                defaulSortCol = 9;
             }
             //all Request
             else if (Type == -1) {
 
                 htmlHead += ` <tr style="text-align: center;">
-                               <th class="table-cahnge" colspan="7" style="font-size:medium;background: #b70000 !important;color: white !important;">ALL REQUESTS</th></tr>`
+                               <th class="table-cahnge" colspan="9" style="font-size:medium;background: #b70000 !important;color: white !important;">ALL REQUESTS</th></tr>`
 
                 htmlHead += `  <tr style="text-align: center;">
                                  <th style="display:none;">ID</th> 
                                   <th style="display:none;">ReqTypeID</th>
                                   <th style="display:none;">MyOrderNumber</th>
                                 <th style="display:none;">MyRoleID</th>
+                                 <th style="width:10%">Request #</th>
+                                <th>Emp #</th>
                                   <th style="width:20%">Requester</th>
+                                   <th>Department</th>
                                  <th style="width:20%">Request Type</th>
-                                 <th style="width:10%">Request Number</th>
                                  <th style="width:20%">Reason</th>
                                  <th style="width:10%">Request Date</th>
                                  <th style="width:10%">Status</th>
@@ -466,15 +551,17 @@ function LoadRequestData(loadername) {
                  <td style="text-align:center;display:none;">`+ item.REQUEST_TYPEID + `</td>
                  <td style="text-align:center;display:none;">`+ item.MyOrderNumber + `</td>  
                  <td style="text-align:center;display:none;">`+ item.MyRoleID + `</td>
+                 <td style="text-align:center;font-weight: 500;">`+ item.Req_Number + `</td>
+                 <td style="text-align:center;">`+ item.EMP_NO + `</td>
                  <td style=" ">`+ item.RequestBy + `</td>   
-                 <td style=" ">`+ item.REQUEST_TYPE + `</td>   
-                 <td style="text-align:center">`+ item.Req_Number + `</td>   
+                 <td style=" ">`+ item.Depart + `</td> 
+                 <td style=" ">`+ item.REQUEST_TYPE + `</td>
                  <td style=" ">`+ item.REASON + `</td>   
-                 <td style="text-align:center">`+ datedayformat(item.RequestDate) + `</td> 
-                  <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.STATUS + `</a></td>
-                <td style="text-align:center">
+                 <td style="text-align:center"><span class="hidden"> `+ item.ReqDate_sort + `</span>` + datedayformat(item.RequestDate) + `</td> 
+                 <td style="text-align:center" ><a class="`+ item.StageClass + `">` + item.STATUS + `</a></td>
+                 <td style="text-align:center">
                   <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-AllReq-req-info" title="Other" data-projid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
-                  </td>
+                 </td>
 
                   </tr>`;
 
@@ -483,12 +570,10 @@ function LoadRequestData(loadername) {
 
                 $('.thead-Request_Details').html(htmlHead);
                 $('.tbody-emp-req').html(htm);
-
+                //defaulSortCol = 11;
             }
 
-            initiateDataTableEmp();
-
-
+            initiateDataTableEmp(defaulSortCol);
         },
         //complete: function () {
         //    $('.ajax-loader').hide();
@@ -497,8 +582,6 @@ function LoadRequestData(loadername) {
             alert(errormessage.responseText);
         }
     });
-
-
 }
 $('.tbody-emp-req').on('click', '.ibtn-AllReq-req-info', function () {
 
@@ -539,9 +622,6 @@ $('.tbody-emp-req').on('click', '.ibtn-AllReq-req-info', function () {
     }
 
     else if (Type == 2) {
-
-
-
         $('#ddlRequestType').val('2');
         $('#ddlRequestType').attr('disabled', true);
 
@@ -617,9 +697,179 @@ $('.tbody-emp-req').on('click', '.ibtn-AllReq-req-info', function () {
         $('.download-Attachment').css('display', '');
         $('#empLeaveModal').modal('show');
     }
+    else if (Type == 7) {
 
+        $('#ddlRequests option:selected').val();
+        $('#ddlRequestType').val('7');
+        $('#ddlRequestType').attr('disabled', true);
+        RequestPageLoad();
+        ClearTEReq();
+        ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
+        getAllTEReqDetails();
+       
+        $('#empLeaveModal').modal('show');
+    }
 });
+function ClearTEReq() {
+    //LastTicketEncashDate = "";
+    $('#lblEmpName').val("");
+    $('#lblEmpNo').html("");
+    $('#lblDesignation').val("");
+    $('#lblDepart').val("");
+    $('#lblVisaExpDate').html("");
+    $('#lblPassExpDate').html("");
+    $('#lblDateOfJoin').html("");
+    $('#lblEID').html("");
+    $('#lblEIDExpDate').html("");
 
+    $('#fu-on-behalf').val('');
+    $('#lblOnBehalfFU').val('');
+    $('#fu-leave-req').val('');
+    $('#lblLeaveReqFileName').val('');
+
+    $('#lblRequestNumber').html('');
+    $('#txtEXTPassReason').val('');
+}
+function TicketencInitialForm() {
+
+
+
+    $('#cbEmpOnBehalf').attr('disabled', false);
+    $('#txtEmpName').attr('disabled', false);
+    $('#txtTikEncashReason').attr('disabled', false);
+    $('#txtNoOfTik').attr('disabled', false);
+    $('.insert-Attachment').css('display', '');
+    $('.download-Attachment').css('display', 'none');
+
+    $('#dtLastEncashDate').val(LastTicketEncashDate);
+    $('#txtNoOfTik').attr("max", NumberoFTicketAvailable);
+
+
+}
+function getAllTEReqDetails() {
+    $.ajax({
+        url: "MyTeamRequests.aspx/getAllTEReqDetails",
+        data: JSON.stringify({ 'ApplicationId': ApplicationId }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            GetTikEncashRefNo();
+            $('#lblStatus').html(result.d[0].Status);
+            $('#lblAppID').html(result.d[0].ReqID);
+            $('#lblEmpName').val(result.d[0].EmpName);
+            $('#lblEmpNo').html(result.d[0].EmpNo);
+            $('#lblDesignation').val(result.d[0].Designation);
+            $('#lblDepart').val(result.d[0].DeptName);
+            $('#lblVisaExpDate').html(result.d[0].VisaExpiryDate);
+            $('#lblPassExpDate').html(result.d[0].PassportExpireDate);
+            $('#lblDateOfJoin').html(result.d[0].JoiningDate);
+            $('#lblEID').html(result.d[0].EmiratesId);
+            $('#lblEIDExpDate').html(result.d[0].EmiratesExpDate);
+
+            $('.on-beh').text('Applied By');
+            $('.employee-drop').css('display', 'none');
+            $('.employee-text').css('display', '');
+
+            TicketencInitialForm();
+
+            $('#txtEmpNametext').html(result.d[0].CreatedBy);
+            /* loadAllEmployees(result.d[0].EmpNo);*/
+
+            $('#lblRequestNumber').html(result.d[0].Req_Number);
+            $("#txtTikEncashReason").val(result.d[0].Reason);
+            $('#dtLastEncashDate').val(result.d[0].LastEncashDate);
+            $('#txtNoOfTik').val(result.d[0].NoofTicketRequired);
+
+            OnBehalfURL = result.d[0].On_Behalf_URL;
+            RequestURL = result.d[0].Attchement_Link;
+
+            reqStatus = result.d[0].Status;
+            ApplicationId = result.d[0].ReqID;
+            StatusOrder = result.d[0].StatusOrder;
+            CurrentOrderNumber = result.d[0].StatusOrder;
+            WorkFlowID = result.d[0].WorkFlowID;
+
+            if (OnBehalfURL == '') {
+                $('#btnDownloadOBAtt').css('display', 'none');
+            }
+            else {
+                $('#btnDownloadOBAtt').css('display', '');
+            }
+
+            if (RequestURL == '') {
+                $('#btnDownloadAttachment,.btnDownloadAttachment').css('display', 'none');
+            }
+            else {
+                $('#btnDownloadAttachment,.btnDownloadAttachment').css('display', '');
+            }
+
+
+
+            if (result.d[0].On_Behalf == "True") {
+                $('#cbEmpOnBehalf').prop('checked', true);
+            } else {
+                $('#cbEmpOnBehalf').prop('checked', false);
+            }
+
+            OnBehalfChange();
+            SubmitTicketEncashDetForm();
+            htmActionButton = "";
+            if (parseInt(MyOrderNumber) == parseInt(CurrentOrderNumber) + 1 && reqStatus != "REJECTED") {
+
+                htmActionButton += `<div class="pull-right">
+                     <button id="btnApprove" style="background-color:green !important;border-color:green !important" type="button" class="btn btn-primary btnTagTemp"><i class='bx bxs-check-circle'></i>&nbsp;Approve</button>
+                        <button id="btnReject" type="button" class="btn btn-primary btnTagTemp"><i class='bx bxs-x-circle'></i>&nbsp;Reject</button>
+                    </div>`;
+
+            }
+            else {
+
+                htmActionButton = "";
+            }
+            $(".ActionButtons").html(htmActionButton);
+            $(".dvApprovalStage").css("display", "");
+            loadApproverAuthorityPeople();
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+function SubmitTicketEncashDetForm() {
+    $('#cbEmpOnBehalf').attr('disabled', true);
+    $('#txtEmpName').attr('disabled', true);
+    $('#txtTikEncashReason').attr('disabled', true);
+    $('#txtNoOfTik').attr('disabled', true);
+    $('.insert-Attachment').css('display', 'none');
+    $('.download-Attachment').css('display', '');
+}
+function GetTikEncashRefNo() {
+
+    $.ajax({
+        url: "AllRequests.aspx/GetTikEncashRefNo",
+        /*    data: JSON.stringify({ 'EmpNo': EmpNo }),*/
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+
+            const tikEcashRef = result.d;
+            //let BDRefNo = BDVal[0];
+            //let BDReqDate = BDVal[1];
+
+            //$('#txtBDReqNo').val(BDRefNo);
+            //$('#txtBDReqDate').val(BDReqDate.split(' ')[0]);
+            $('#lblRequestNumber').html(tikEcashRef);
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
 $('.tbody-emp-req').on('click', '.ibtn-EXTPass-req-info', function () {
 
 
@@ -778,11 +1028,11 @@ function getAllCompanyLoanDetails() {
             CurrentOrderNumber = result.d[0].StatusOrder;
             WorkFlowID = result.d[0].WorkFlowID;
 
-            if (result.d[0].ispaid == 'paid') {
-                $('#paidcheck').attr("value", paid);
-            } else {
-                $('#paidcheck').attr("value", unpaid);
-            }
+            //if (result.d[0].ispaid == 'paid') {
+            //    $('#paidcheck').attr("value", paid);
+            //} else {
+            //    $('#paidcheck').attr("value", unpaid);
+            //}
 
             if (OnBehalfURL == '') {
                 $('#btnDownloadOBAtt').css('display', 'none');
@@ -792,10 +1042,10 @@ function getAllCompanyLoanDetails() {
             }
 
             if (RequestURL == '') {
-                $('#btnDownloadAttachment').css('display', 'none');
+                $('#btnDownloadAttachment,.btnDownloadAttachment').css('display', 'none');
             }
             else {
-                $('#btnDownloadAttachment').css('display', '');
+                $('#btnDownloadAttachment,.btnDownloadAttachment').css('display', '');
             }
 
             if (result.d[0].On_Behalf == "True") {
@@ -831,6 +1081,102 @@ function getAllCompanyLoanDetails() {
     });
 
 }
+function GetEncashDetails() {
+
+    $.ajax({
+        url: "MyTeamRequests.aspx/GetAllEPReqDetails",
+        data: JSON.stringify({ 'ApplicationId': ApplicationId }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            $('#lblRequestNumber').html(result.d[0].Req_Number);
+            $('#lblStatus').html(result.d[0].Status);
+            $('#lblAppID').html(result.d[0].ReqID);
+            $('#lblEmpName').val(result.d[0].EmpName);
+            $('#lblEmpNo').html(result.d[0].EmpNo);
+            $('#lblDesignation').val(result.d[0].Designation);
+            $('#lblDepart').val(result.d[0].DeptName);
+            $('#lblVisaExpDate').html(datedayformat(result.d[0].VisaExpiryDate));
+            $('#lblPassExpDate').html(datedayformat(result.d[0].PassportExpireDate));
+            $('#lblDateOfJoin').html(datedayformat(result.d[0].JoiningDate));
+            $('#lblEID').html(result.d[0].EmiratesId);
+            $('#lblEIDExpDate').html(datedayformat(result.d[0].EmiratesExpDate));
+            $('#txtEXTPassDate').val(datedayformat(result.d[0].EXIT_DATE));
+
+            $('#txtEmpName').html(result.d[0].CreatedBy);
+            /*  loadAllEmployees(result.d[0].EmpNo);*/
+            $('.on-beh').text('Applied By');
+            $('.employee-drop').css('display', 'none');
+            $('.employee-text').css('display', '');
+            /*  $('#txtEXTPassNo').val(result.d[0].Req_Number);*/
+            /* $('#txtEXTPassDate').val(result.d[0].EXIT_DATE);*/
+            /* $('#txtCLoanDedStartMonth').val(result.d[0].DATE_START);*/
+            // document.getElementById("txtEXTPassDate").valueAsDate = new Date(result.d[0].EXIT_DATE);
+            $('#ddlEXTPassType').val(result.d[0].EXIT_TYPE);
+            $('#txtEXTPassOutTime').val((result.d[0].OUT_TIME));
+            $('#txtEXTPassBackTime').val((result.d[0].BACK_TIME));
+            $('#txtEXTPassReason').val(result.d[0].Reason);
+
+            OnBehalfURL = result.d[0].On_Behalf_URL;
+            RequestURL = result.d[0].Attchement_Link;
+
+            reqStatus = result.d[0].Status;
+            ApplicationId = result.d[0].ReqID;
+            CurrentOrderNumber = result.d[0].StatusOrder;
+            WorkFlowID = result.d[0].WorkFlowID;
+
+
+            if (OnBehalfURL == '') {
+                $('#btnDownloadOBAtt').css('display', 'none');
+            }
+            else {
+                $('#btnDownloadOBAtt').css('display', '');
+            }
+
+            if (RequestURL == '') {
+                $('#btnDownloadAttachment,.btnDownloadAttachment').css('display', 'none');
+            }
+            else {
+                $('#btnDownloadAttachment,.btnDownloadAttachment').css('display', '');
+            }
+
+            if (result.d[0].On_Behalf == "True") {
+                $('#cbEmpOnBehalf').prop('checked', true);
+            }
+            else {
+                $('#cbEmpOnBehalf').prop('checked', false);
+            }
+
+            OnBehalfChange();
+            ExitPassInitialForm();
+            SubmitExitPassDetForm();
+            htmActionButton = "";
+            if (parseInt(MyOrderNumber) == parseInt(CurrentOrderNumber) + 1 && reqStatus != "REJECTED") {
+
+                htmActionButton += `<div class="pull-right">
+                     <button id="btnApprove" style="background-color:green !important;border-color:green !important" type="button" class="btn btn-primary btnTagTemp"><i class='bx bxs-check-circle'></i>&nbsp;Approve</button>
+                        <button id="btnReject" type="button" class="btn btn-primary btnTagTemp"><i class='bx bxs-x-circle'></i>&nbsp;Reject</button>
+                    </div>`;
+
+            }
+            else {
+
+                htmActionButton = "";
+            }
+            $(".ActionButtons").html(htmActionButton);
+            $(".dvApprovalStage").css("display", "");
+            loadApproverAuthorityPeople();
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+
 
 function getAllEPReqDetails() {
 
@@ -873,7 +1219,7 @@ function getAllEPReqDetails() {
             OnBehalfURL = result.d[0].On_Behalf_URL;
             RequestURL = result.d[0].Attchement_Link;
 
-            reqStatus = result.d[0].ReqID;
+            reqStatus = result.d[0].Status;
             ApplicationId = result.d[0].ReqID;
             CurrentOrderNumber = result.d[0].StatusOrder;
             WorkFlowID = result.d[0].WorkFlowID;
@@ -887,10 +1233,10 @@ function getAllEPReqDetails() {
             }
 
             if (RequestURL == '') {
-                $('#btnDownloadAttachment').css('display', 'none');
+                $('#btnDownloadAttachment,.btnDownloadAttachment').css('display', 'none');
             }
             else {
-                $('#btnDownloadAttachment').css('display', '');
+                $('#btnDownloadAttachment,.btnDownloadAttachment').css('display', '');
             }
 
             if (result.d[0].On_Behalf == "True") {
@@ -982,10 +1328,10 @@ function getAllLAReqDetails() {
             }
 
             if (RequestURL == '') {
-                $('#btnDownloadAttachment').css('display', 'none');
+                $('#btnDownloadAttachment,.btnDownloadAttachment').css('display', 'none');
             }
             else {
-                $('#btnDownloadAttachment').css('display', '');
+                $('#btnDownloadAttachment,.btnDownloadAttachment').css('display', '');
             }
 
 
@@ -1012,6 +1358,31 @@ function getAllLAReqDetails() {
 
                 htmActionButton = "";
             }
+            if (parseInt(MyOrderNumber) == 1 && parseInt(CurrentOrderNumber) == 0 && reqStatus != "REJECTED") { //for paid unpaid
+                $(".ispaid").css("display", "block");
+            }
+            else {
+                $(".ispaid").css("display", "none");
+     
+            }
+            if ((parseInt(MyOrderNumber) >= 1 && parseInt(CurrentOrderNumber) >= 1 && reqStatus != "SUBMIT") || (parseInt(MyOrderNumber) >= 1 && parseInt(CurrentOrderNumber) >= 1 && reqStatus == "SUBMIT") ) {
+                if (result.d[0].Ispaid == 0) {
+                    $('#lblIsPaid').html("Paid Status: PAID")
+                }
+                else if (result.d[0].Ispaid == 1) {
+                    $('#lblIsPaid').html("Paid Status: UN-PAID")
+                }
+                else if (result.d[0].Ispaid == 2) {
+                    $('#lblIsPaid').html("Paid Status: COMPANY POLICY")
+                }
+                else if (result.d[0].Ispaid == -1) {
+                    $('#lblIsPaid').html("PAID Status: Pending..")
+                }
+            }
+            else {
+                $('#lblIsPaid').html("PAID Status: Pending..")
+            }
+
             $(".ActionButtons").html(htmActionButton);
             $(".dvApprovalStage").css("display", "");
             loadApproverAuthorityPeople();
@@ -1024,6 +1395,22 @@ function getAllLAReqDetails() {
 
 }
 
+$('.tbody-emp-req').on('click', '.ibtn-TE-req-info', function () {
+    Type = $('#ddlRequests option:selected').val();
+    $('#ddlRequestType').val('7');
+    $('#ddlRequestType').attr('disabled', true);
+    RequestPageLoad();
+    ClearTEReq();
+    ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
+    MyOrderNumber = this.parentNode.parentNode.parentNode.children[1].textContent;
+    MyRoleID = this.parentNode.parentNode.parentNode.children[2].textContent;
+    getAllTEReqDetails();
+
+    $('.insert-Attachment').css('display', 'none');
+    $('.download-Attachment').css('display', '');
+    $('#empLeaveModal').modal('show');
+
+});
 $('.tbody-emp-req').on('click', '.ibtn-Misc-req-info', function () {
 
     let selMiscId = $(this).data('miscid');
@@ -1146,10 +1533,10 @@ function getAllMiscRequestDetails() {
             }
 
             if (RequestURL == '') {
-                $('#btnDownloadAttachment').css('display', 'none');
+                $('#btnDownloadAttachment,.btnDownloadAttachment').css('display', 'none');
             }
             else {
-                $('#btnDownloadAttachment').css('display', '');
+                $('#btnDownloadAttachment,.btnDownloadAttachment').css('display', '');
             }
 
 
@@ -1302,10 +1689,10 @@ function getAllBankDetails() {
             }
 
             if (RequestURL == '') {
-                $('#btnDownloadAttachment').css('display', 'none');
+                $('#btnDownloadAttachment,.btnDownloadAttachment').css('display', 'none');
             }
             else {
-                $('#btnDownloadAttachment').css('display', '');
+                $('#btnDownloadAttachment,.btnDownloadAttachment').css('display', '');
             }
 
 
@@ -1322,15 +1709,12 @@ function getAllBankDetails() {
             InitialBankDet();
             SubmitBankDetForm();
             if (parseInt(MyOrderNumber) == parseInt(CurrentOrderNumber) + 1 && reqStatus != "REJECTED") {
-
                 htmActionButton += `<div class="pull-right">
-                                 <button id="btnApprove" style="background-color:green !important;border-color:green !important" type="button" class="btn btn-primary btnTagTemp"><i class='bx bxs-check-circle'></i>&nbsp;Approve</button>
-                                    <button id="btnReject" type="button" class="btn btn-primary btnTagTemp"><i class='bx bxs-x-circle'></i>&nbsp;Reject</button>
-                                </div>`;
-
+                                        <button id="btnApprove" style="background-color:green !important;border-color:green !important" type="button" class="btn btn-primary btnTagTemp"><i class='bx bxs-check-circle'></i>&nbsp;Approve</button>
+                                        <button id="btnReject" type="button" class="btn btn-primary btnTagTemp"><i class='bx bxs-x-circle'></i>&nbsp;Reject</button>
+                                    </div>`;
             }
             else {
-
                 htmActionButton = "";
             }
             $(".ActionButtons").html(htmActionButton);
@@ -1344,10 +1728,11 @@ function getAllBankDetails() {
 
 }
 
-function initiateDataTableEmp() {
+function initiateDataTableEmp(pDefCol) {
     objDatatable = [];
     objDatatable = $('.emp-req-table').DataTable({
         dom: 'lBfrtip',
+        order: [[pDefCol, 'desc']],
         buttons: {
             buttons: []
         },
@@ -1518,7 +1903,7 @@ function RequestPageLoad() {
                              <div class="input-group mb-3 download-Attachment" style="margin-top: 24px;margin-left: 102px;">
 
                                     <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 60px;" />
-
+<span><i class="bx bxs-show fa-icon-hover btnDownloadAttachment" style="color: #eb9d96;font-size: 1.9rem;margin: -33px 0px 0px 109px;cursor: pointer;" ></i></span>
                             </div>
                             </div>
 
@@ -1633,7 +2018,7 @@ function RequestPageLoad() {
                              <div class="input-group mb-3 download-Attachment">
 
                                     <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 40px;" />
-
+<span><i class="bx bxs-show fa-icon-hover btnDownloadAttachment" style="color: #eb9d96;font-size: 1.9rem;margin: -33px 0px 0px 109px;cursor: pointer;" ></i></span>
                             </div>
 
 
@@ -1821,7 +2206,7 @@ function RequestPageLoad() {
                     <div class="input-group mb-3 download-Attachment">
 
                         <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 40px;" />
-                               
+                               <span><i class="bx bxs-show fa-icon-hover btnDownloadAttachment" style="color: #eb9d96;font-size: 1.9rem;margin: -33px 0px 0px 109px;cursor: pointer;" ></i></span>
                 </div>
             </div>
         </div>`
@@ -1864,12 +2249,7 @@ function RequestPageLoad() {
                             </div>
                         </div>
 
-                        <div class="col-3 OtherRemarks-Area" style="display:none;">
-                            <label for="html5-number-input" class="col-form-label label-custom">Other Remarks</label>
-                            <div>
-                                <input type="text" id="txtMiscOtherRemarks" name="nmMiscControll" class="form-control  "/>
-                            </div>
-                        </div>
+                      
                           <div class="col-3 Misc_Address-ToWhom">
                             <label for="html5-number-input" class="col-form-label label-custom">Address To whom</label>
                             <div>
@@ -1880,6 +2260,12 @@ function RequestPageLoad() {
                             <label for="html5-number-input" class="col-form-label label-custom">Reason</label>
                             <div>
                                 <select id="ddlMiscReason" class="form-select color-dropdown  "></select>
+                            </div>
+                        </div>
+                          <div class="col-3 OtherRemarks-Area" style="display:none;">
+                            <label for="html5-number-input" class="col-form-label label-custom">Other Remarks</label>
+                            <div>
+                                <input type="text" id="txtMiscOtherRemarks" name="nmMiscControll" class="form-control  "/>
                             </div>
                         </div>
                           <div class="col-3 Trans-Location">
@@ -1988,7 +2374,7 @@ function RequestPageLoad() {
                              <div class="input-group mb-3 download-Attachment">
 
                                     <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 40px;" />
-
+<span><i class="bx bxs-show fa-icon-hover btnDownloadAttachment" style="color: #eb9d96;font-size: 1.9rem;margin: -33px 0px 0px 109px;cursor: pointer;" ></i></span>
                             </div>
 
 
@@ -2156,7 +2542,7 @@ function RequestPageLoad() {
                              <div class="input-group mb-3 download-Attachment">
 
                                     <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 40px;" />
-
+<span><i class="bx bxs-show fa-icon-hover btnDownloadAttachment" style="color: #eb9d96;font-size: 1.9rem;margin: -33px 0px 0px 109px;cursor: pointer;" ></i></span>
                             </div>
 
 
@@ -2175,8 +2561,7 @@ function RequestPageLoad() {
 
         htm += `
                        <div class="row">
-
-
+                        <div class="col-12"><div class="pull-right" id="lblIsPaid"></div></div>
 
                         <div class="col-3">
                             <label for="html5-number-input" class="col-form-label label-custom">Date</label>
@@ -2218,7 +2603,7 @@ function RequestPageLoad() {
                              <div class="input-group mb-3 download-Attachment">
 
                                     <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 40px;" />
-
+<span><i class="bx bxs-show fa-icon-hover btnDownloadAttachment" style="color: #eb9d96;font-size: 1.9rem;margin: -33px 0px 0px 109px;cursor: pointer;" ></i></span>
                             </div>
 
 
@@ -2307,7 +2692,7 @@ function RequestPageLoad() {
                              <div class="input-group mb-3 download-Attachment">
 
                                     <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 40px;" />
-
+<span><i class="bx bxs-show fa-icon-hover btnDownloadAttachment" style="color: #eb9d96;font-size: 1.9rem;margin: -33px 0px 0px 109px;cursor: pointer;" ></i></span>
                             </div>
 
 
@@ -2325,7 +2710,70 @@ function RequestPageLoad() {
         $('.Leave-Req').html(htm);
 
     }
+    if (Type == 7) {
 
+        htm += `
+
+        <div class="row">
+                       
+            <div class="col-3">
+                <label for="html5-number-input" class="col-form-label label-custom">Last Encashed Date</label>
+                <div>
+                    <input type="text" id="dtLastEncashDate" class="form-control flatpickr-input" disabled/>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <label for="html5-number-input" class="col-form-label label-custom">Reason</label>
+                <div>
+                    <input type="text" id="txtTikEncashReason" class="form-control  "/>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <label for="html5-number-input" class="col-form-label label-custom">No. Of Ticket(s)</label>
+                <div>
+                    <input type="number" id="txtNoOfTik" class="form-control" value="0"  min="0" max="30" />
+                </div>
+            </div>
+
+
+            <div class="col-3 div-Attachment">
+                <label for="html5-number-input" class="col-form-label label-custom">Upload E-Ticket</label>
+
+                <div class="input-group mb-3 insert-Attachment">
+
+                    <input class="form-control" type="file" id="fu-leave-req" title="Leave Request" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getFileName()">
+                    <label class="input-group-text ml-3" for="fu-leave-req" style="border: transparent;">
+
+                        <img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 49px; margin-top: -10px;" />
+                    </label>
+
+                    <input type="text" id="lblLeaveReqFileName" value="" style="width: 70%; background: #80808000; border: 0px; color: #697a8d; border: none; margin-left: 10px;" readonly="">
+                </div>
+
+
+                <div class="input-group mb-3 download-Attachment">
+
+                    <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 40px;" />
+<span><i class="bx bxs-show fa-icon-hover btnDownloadAttachment" style="color: #eb9d96;font-size: 1.9rem;margin: -33px 0px 0px 109px;cursor: pointer;" ></i></span>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div><h6 style="color: #b70000 !important;"> </h6> </div>
+        <div class="row">
+                       
+        </div>
+
+
+                             `
+
+        $('.Leave-Req').html(htm);
+
+    }
 
     initiateAllCB();
 
@@ -2836,61 +3284,76 @@ function OnBehalfChange() {
 $('.ActionButtons').on('click', '#btnApprove', function () {
     Action = "APPROVED";
     $("#txtActionComments").val("");
-    $('#mpAction').modal('show');
+    if ($('#ddlRequestType option:selected').val() == 5 && $('#ddlPaid option:selected').val() == -1 && MyRoleID==13160) {
+        toastr.error('Please select Paid/Unpaid Status.')
+    }
+    else { $('#mpAction').modal('show'); }
 });
 $('.ActionButtons').on('click', '#btnReject', function () {
     Action = "REJECTED";
     $("#txtActionComments").val("");
     $('#mpAction').modal('show');
+    toastr.info('Please enter remarks with the reason of rejection.');
 });
 
 $('.btn-Update-Action').on('click', function () {
+    if (Action == "REJECTED" && $("#txtActionComments").val() == "") {
+        toastr.error('You cannot leave remarks empty when the action is REJECT. Please enter remarks.')
+    }
+    else {
+        $.ajax({
+            url: "MyTeamRequests.aspx/UpdateActionRequest",
+            data: JSON.stringify({
+                "ReqID": ApplicationId,
+                "ReqType": $('#ddlRequestType option:selected').val(),
+                "WorkFLowID": WorkFlowID,
+                "OrderNumber": MyOrderNumber,
+                "RoleID": MyRoleID,
+                "Action": Action,
+                "Comments": $("#txtActionComments").val(),
+                "UserID": currUserId,
+                "Ispaid": $('#ddlPaid option:selected').val() == undefined ? Ispaid : $('#ddlPaid option:selected').val(),
 
-    $.ajax({
-        url: "MyTeamRequests.aspx/UpdateActionRequest",
-        data: JSON.stringify({
-            "ReqID": ApplicationId,
-            "ReqType": $('#ddlRequestType option:selected').val(),
-            "WorkFLowID": WorkFlowID,
-            "OrderNumber": MyOrderNumber,
-            "RoleID": MyRoleID,
-            "Action": Action,
-            "Comments": $("#txtActionComments").val(),
-            "UserID": currUserId,
-        }),
+            }),
 
-        type: "POST",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        success: function (result) {
-            if (result.d == "Success") {
-                toastr.success('Request Updated Successfully', '');
-                $('.ajax-loader').removeClass('hidden');
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
 
-                setTimeout(function () {
-                    Type = $("#ddlRequests option:selected").val();
-                    LoadRequestData('Please Wait...');
-                    $(".ajax-loader").addClass('hidden');
-                }, 500);
-                GetBasicEmpDet();
-                ApplicationId = 0;
-                Action = '';
-                MyOrderNumber = 0;
-                MyRoleID = 0;
-                CurrentOrderNumber = 0;
-                $("#empLeaveModal").modal("hide");
-                $("#mpAction").modal("hide");
+
+            success: function (result) {
+
+                if (result.d == "Success") {
+                    toastr.success('Request Updated Successfully', '');
+                    $('.ajax-loader').removeClass('hidden');
+
+                    setTimeout(function () {
+                        Type = $("#ddlRequests option:selected").val();
+                        LoadRequestData('Please Wait...');
+                        $(".ajax-loader").addClass('hidden');
+                    }, 500);
+                    GetBasicEmpDet();
+                    ApplicationId = 0;
+                    Action = '';
+                    MyOrderNumber = 0;
+                    MyRoleID = 0;
+                    Ispaid = -1;
+                    CurrentOrderNumber = 0;
+                    $("#empLeaveModal").modal("hide");
+                    $("#mpAction").modal("hide");
+                }
+                else {
+                    toastr.error(result.d);
+
+                }
+
+
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
             }
-            else {
-                toastr.error(result.d);
-
-            }
-
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
+        });
+    }
 
 
 
@@ -2994,10 +3457,10 @@ function GetAllDetails() {
             }
 
             if (RequestURL == '') {
-                $('#btnDownloadAttachment').css('display', 'none');
+                $('#btnDownloadAttachment,.btnDownloadAttachment').css('display', 'none');
             }
             else {
-                $('#btnDownloadAttachment').css('display', '');
+                $('#btnDownloadAttachment,.btnDownloadAttachment').css('display', '');
             }
 
 
@@ -3081,7 +3544,7 @@ $('#empLeaveModal').on('click', '#btnDownloadOBAtt', function () {
     if (OnBehalfURL != '') {
 
         window.location = 'https://crmss.naffco.com/CRMSS/Services/DownloadFileHandler.ashx?attachurl=' + OnBehalfURL;
-        window.location = '/Services/DownloadFileHandler.ashx?attachurl=' + OnBehalfURL;
+       // window.location = '/Services/DownloadFileHandler.ashx?attachurl=' + OnBehalfURL;
 
     }
 
@@ -3092,12 +3555,28 @@ $('#empLeaveModal').on('click', '#btnDownloadAttachment', function () {
     if (RequestURL != '') {
 
         window.location = 'https://crmss.naffco.com/CRMSS/Services/DownloadFileHandler.ashx?attachurl=' + RequestURL;
-        window.location = '/Services/DownloadFileHandler.ashx?attachurl=' + RequestURL;
+       // window.location = '/crmss/Services/DownloadFileHandler.ashx?attachurl=' + RequestURL;
 
     }
 
 });
 
+$('#empLeaveModal').on('click', '.btnDownloadAttachment', function () {
+
+    if (RequestURL != '') {
+        initiatePDFView(fileLink);
+    } else {
+        toastr.error('No file for preview.')
+    }
+});
+
+function initiatePDFView(fileLink) {
+
+    var _pdflink = fileLink; //"\\\\zylab\\Econnect\\Recruitment\\RRFRequest\\2077__Shafiq_original.pdf" //this.parentNode.parentNode.parentNode.children[0].textContent;
+    document.getElementById('myIframe').src = "Services/Fileviewer.ashx?attachurl=" + _pdflink;
+    $('#mpPdfviewer').modal('show');
+
+}
 
 function loadPPTReason() {
 
@@ -3329,10 +3808,10 @@ function getAllPPTDetails() {
             }
 
             if (RequestURL == '') {
-                $('#btnDownloadAttachment').css('display', 'none');
+                $('#btnDownloadAttachment,.btnDownloadAttachment').css('display', 'none');
             }
             else {
-                $('#btnDownloadAttachment').css('display', '');
+                $('#btnDownloadAttachment,.btnDownloadAttachment').css('display', '');
             }
 
 
@@ -4005,6 +4484,7 @@ function GetEPReqRefNo() {
 
 $('#empLeaveModal').on('change', '#ddlBLLoanType', function () {
 
+    $('#txtCLoanMonthlyDed').val($('#txtBDHRA').val());
     CompanyLoanTypeFormat();
 
 });
@@ -4012,7 +4492,7 @@ $('#empLeaveModal').on('change', '#ddlBLLoanType', function () {
 function CompanyLoanTypeFormat() {
     if ($('#ddlBLLoanType').val() == 'HRA') {
 
-        $('#txtCLoanMonthlyDed').val($('#txtBDHRA').val());
+       
         $('#txtCLoanMonthlyDed').attr('disabled', false);
     }
 
@@ -4021,6 +4501,11 @@ function CompanyLoanTypeFormat() {
         $('#txtCLoanMonthlyDed').attr('disabled', true);
 
     }
+}
+function CLEAREncashRequestPage() {
+    
+
+
 }
 function ClearCLReqDetails() {
     $('#lblEmpName').val("");

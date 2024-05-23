@@ -102,7 +102,10 @@ public partial class SSHR_Clearance : System.Web.UI.Page
                     EmiratesId = dt.Rows[i]["EMIRATES_ID"].ToString(),
                     EmiratesExpDate = dt.Rows[i]["EMIRATES_EXP_DATE"].ToString(),
                     PassportExpireDate = dt.Rows[i]["PPDTEXPIRY"].ToString(),
-                    VisaExpiryDate = dt.Rows[i]["VVDTEXPIRY"].ToString()
+                    VisaExpiryDate = dt.Rows[i]["VVDTEXPIRY"].ToString(),
+                    WEEKLYOFF = dt.Rows[i]["WEEKLYOFF"].ToString(),
+                    AssStatus = dt.Rows[i]["ASSIGNMENT_STATUS"].ToString(),
+                    VisaAuth = dt.Rows[i]["VISAAUTHCODE"].ToString(),
                 });
             }
         }
@@ -398,6 +401,10 @@ public partial class SSHR_Clearance : System.Web.UI.Page
         public string RequestURL { get; set; }
         public string ONBEHALF_FLAG { get; set; }
         public string CreatedBy { get; set; }
+        public string WEEKLYOFF { get; set; }
+        public string STATUS_ORDER { get; set; }
+        public string VisaAuth { get; set; }
+        public string AssStatus { get; set; }
 
     }
 

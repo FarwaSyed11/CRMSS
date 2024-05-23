@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="AssetnAccess.aspx.cs" Inherits="SSHR_AssetnAccess" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="AssetnAccess.aspx.cs" Inherits="SSHR_AssetnAccess" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
@@ -116,15 +116,14 @@ input[type="checkbox"]:checked + label[for="cbType"] {
                             <option value="0">Inactive</option>
                         </select>
                     </div>
+                    <div class=" col-8">
+                         <button id="modal-AddNewaccass" type="button" class="btn btn-primary" style="float: right; width: 150px;"><i class='fa fa-plus me-3'></i>Add New</button>
                     </div>
+                </div>
 
                 <div class="tab-content">
                <div class="tab-pane fade show active" id="pills-Recruits" role="tabpanel" aria-labelledby="pills-Recruits-tab">
-                <div class="row">
-                    <div class="col-12 mb-3">
-                        <button id="modal-AddNewaccass" type="button" class="btn btn-primary" style="float: right; width: 150px;"><i class='fa fa-plus me-3'></i>Add New</button>
-                    </div>
-                  
+                    <div class="row">
                         <div class="col-12">
                             <table class="table requestdetail" style="width: 100% !important">
                                 <thead class="table requestdetail-Head">

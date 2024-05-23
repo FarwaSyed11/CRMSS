@@ -456,6 +456,9 @@
             vertical-align: middle;
             width: 100% !important;
         }
+        .unprint-content-div{
+            
+        }
     </style>
 
 
@@ -480,7 +483,7 @@
             </div>
         </div>
 
-        <div class="card-body" style="">
+        <div class="card-body unprint-content-div" style="">
                 <div class="tab-pane fade show active" id="pills-myreq" role="tabpanel" aria-labelledby="pills-myreq-tab">
                     <div>
                         <div class="row tblfilter" runat="server" id="tbltopsearch">
@@ -494,6 +497,7 @@
                                     <option value="4">Company Loan</option>
                                     <option value="5">Late Attendance Request</option>
                                     <option value="6">Exit Pass Request</option>
+                                    <option value="7">Ticket Encashment</option>
                                 </select>
                             </div>
                             <div class="col-2">
@@ -519,11 +523,13 @@
         </div>
         <%--card-body end--%>
     </div>
-
+    <section>
+<div class="content">
     <div class="modal fade" id="empLeaveModal" style="background: #fff2f085; zoom: 85%;" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
+                     
                     <%-- <h5 class="modal-title" id="empLeaveModalLabel" style="width:85%;">Leave Request Application</h5>--%>
                     <div class="row" style="width:100%">
                         <div class="col-2 label-alignment" style="padding-left:20px;padding-top:10px;font-size:medium">
@@ -542,6 +548,7 @@
                                  <option value="4">Company Loan</option>
                                  <option value="5">Late Attendance Request</option>
                                  <option value="6">Exit Pass Request</option>
+                                 <option value="7">Ticket Encashment</option>
                              </select>
                         </div>
                         <div class="col-6 divOnbehalf" style="">
@@ -551,7 +558,6 @@
                                     <label for="cbEmpOnBehalf" data-active-text="On Behalf" data-passive-text="On Behalf" style="--switch-active-color: #30ca51; --switch-passive-color: #66666696; display: none" ></label>
                                     <label for="html5-number-input" class="col-form-label label-custom on-beh" style="">Applied By</label>
                                 </div>
-      
                                 <div class="col-5 onbehalf-controls-div hidden" style="">
                                     <div>
                                         <%--<label for="html5-number-input" class="col-form-label label-custom" style="float: left;padding-right: 10px;padding-top: 2px;">Employee Name </label>--%>
@@ -566,7 +572,6 @@
                                 <div class="col-3 onbehalf-controls-div1 hidden" style="">
                                     <div class="input-group mb-3 insert-Attachment">
                                         <%--<label for="html5-number-input" class="col-form-label label-custom" style="float: left;padding-right: 10px;padding-top: 2px;">Attachment</label>--%>
-
                                         <input class="form-control" type="file" id="fu-on-behalf" title="On Behalf" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getOnBehalfFileName()" />
                                         <label class="input-group-text ml-3" for="fu-on-behalf" style="cursor: pointer;">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24" title="Download File" >
@@ -581,19 +586,22 @@
                                     </div>
                                     <div class="download-Attachment">
                                         <img src="Images/Icon-download.png" id="btnDownloadOBAtt" title="Download File" class="fa-icon-hover" style="cursor: pointer;width:30px" />
-            
                                     </div>
 
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-1">
+                            <button class="btn btn-primary print">Print</button>
                         </div>
                     </div>
 
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
             </div>
+                 <div class="modal-body-wrapper">
 
-            <div class="modal-body">
+            <div class="modal-body modal-body-print">
 
                 <div style="margin-top: -13px; position: absolute; width: 96%;">
                     <div style="text-align: right;">
@@ -872,6 +880,7 @@
                 <br />
                 <br />
                 <div class="row">
+                     
                     <div class="col-12 ActionButtons">
                         <div class="pull-right">
                             <%-- <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>--%>
@@ -903,6 +912,7 @@
 
                 <%--end--%>
             </div>
+                     </div>
                 <div class="modal-footer">
                 </div>
             </div>
@@ -910,7 +920,8 @@
         </div>
     </div>
 
-
+    </div>
+        </section>
 
     <%--<div class="card" style="margin-top: 1%; width: 97%; left: 1.5%;">
         <div class="row m-3">
@@ -1438,8 +1449,53 @@
         </div>
     </div>
 
+    <div class="modal fade" id="mpPdfviewer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: #19191973;">
+     <div class="modal-dialog modal-dialog-centered">
+         <div class="modal-content" style="width: auto">
+             <div class="modal-header">
+                 <h5 class="modal-title"></h5>
+                 <button
+                     type="button"
+                     class="btn-close btn-close-event-modal"
+                     data-bs-dismiss="modal"
+                     aria-label="Close">
+                 </button>
+             </div>
+             <div class="modal-body dvpdfview" style="text-align: center;">
+
+                 <iframe id="myIframe" src="" style="height: 1150px; width: 841px;"></iframe>
 
 
+
+             </div>
+
+         </div>
+
+     </div>
+</div>
+
+
+         <script>
+             $(document).on("click", ".print", function () {
+                 $('#layout-navbar').addClass('hidden')
+                 $('.unprint-content-div').addClass('hidden');
+                // $('.modal-body1').removeClass('printClassv');
+                
+                 const section = $("section");
+                 const modalBody1 = $(".modal-body-print").detach();
+
+                 const content = $(".content").detach();
+                 section.append(modalBody1);
+                 window.print();
+                 section.empty();
+                 section.append(content);
+                 $(".modal-body-wrapper").append(modalBody1); 
+                 $('#empLeaveModal').css('background-color','white');
+                 $('.unprint-content-div').removeClass('hidden');
+
+                 $('#layout-navbar').removeClass('hidden');
+             });
+         </script>
 
     <script type="text/javascript">
         var currUserId = '';
@@ -1455,7 +1511,7 @@
         });
 
     </script>
-    <script src="Scripts/OtherRequests.js?v=0.5"></script>
+    <script src="Scripts/OtherRequests.js?v=2"></script>
     <link href="Css/allrequest.css" rel="stylesheet" />
 
     <script src="../KPI/Flatpickr/js/flatpickr.js"></script>

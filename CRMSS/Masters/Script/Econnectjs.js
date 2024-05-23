@@ -141,7 +141,7 @@ function loadrecentpages() {
             var htm = "";
 
             $.each(result.d, function (key, item) {
-                htm += '<div id="' + (key+1)+ '" class="col-4"><div class="card"><div class="card-body"><span class="topdeettype">recent visit</span><div class="topdeet"><img src="assets/images/mostrecent.svg" /><h6 >' + item.PageDesc + '</h6><p>' + item.PageName + '</p></div></div></div></div>';
+                htm += '<div id="' + (key + 1) + '" class="col-4"><div class="card"><div class="card-body"><span class="topdeettype">recent visit</span><div class="topdeet"><img src="assets/images/mostrecent.svg" /><h6 >' + item.PageDesc + '</h6><a href="' + item.PageName +'">Go to page..</a></div></div></div></div>';
             });
 
             $("#rc").html(htm);
@@ -167,7 +167,7 @@ function loadmostvisitedpages() {
             var htm = "";
 
             $.each(result.d, function (key, item) {
-                htm += '<div id="' + (key+1) + '" class="col-4"><div class="card"><div class="card-body"><span class="topdeettype">most visited</span><div class="topdeet"><img src="assets/images/mostvisited.svg" /><h6 >' + item.PageDesc + '</h6><p>' + item.PageName + '</p></div></div></div></div>';
+                htm += '<div id="' + (key + 1) + '" class="col-4"><div class="card"><div class="card-body"><span class="topdeettype">most visited</span><div class="topdeet"><img src="assets/images/mostvisited.svg" /><h6 >' + item.PageDesc + '</h6><a href="' + item.PageName +'">Go to page..</a></div></div></div></div>';
             });
 
             $("#mv").html(htm);

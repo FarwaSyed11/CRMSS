@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="Clearance.aspx.cs" Inherits="SSHR_Clearance" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="Clearance.aspx.cs" Inherits="SSHR_Clearance" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
@@ -7,99 +7,99 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <style type="text/css">
-        /*.kpi-year-table th{
+            /*.kpi-year-table th{
         background-color: #364150;
         color:white !important;
     }*/
 
-        .kpi-user-list-table th {
-            text-align: center;
-            color: white !important;
-            background-color: #d54832;
-        }
-
-        .overClass {
-            overflow-y: auto;
-            height: 54%;
-        }
-
-        ::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        /* Track */
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        /* Handle */
-        ::-webkit-scrollbar-thumb {
-            background: #888;
-        }
-
-            /* Handle on hover */
-            ::-webkit-scrollbar-thumb:hover {
-                background: #555;
+            .kpi-user-list-table th {
+                text-align: center;
+                color: white !important;
+                background-color: #d54832;
             }
 
-        .overFlowNavKpi {
-            overflow-y: auto;
-            height: 565px;
-        }
-
-        .accordion li {
-            font-size: small;
-        }
-
-        .form-check-input:checked, .form-check-input[type=checkbox]:indeterminate {
-            background-color: #e14b4b;
-            border-color: #e14b4b;
-            box-shadow: 0 2px 4px 0 rgb(105 108 255 / 40%);
-        }
-        /*Custom Menu Anwar*/
-        .container {
-            border-radius: 3px;
-            padding: 5px;
-            width: 60%;
-            margin: 0 auto;
-        }
-
-        h2 {
-            font-weight: normal;
-            font-size: 25px;
-        }
-
-            h2:hover {
-                cursor: pointer;
+            .overClass {
+                overflow-y: auto;
+                height: 54%;
             }
 
-        .modal-dialog-centered {
-            min-height: calc(100% - 22.5rem);
-        }
+            ::-webkit-scrollbar {
+                width: 4px;
+            }
 
-        .modal-header {
-            /*display: -webkit-box;
+            /* Track */
+            ::-webkit-scrollbar-track {
+                background: #f1f1f1;
+            }
+
+            /* Handle */
+            ::-webkit-scrollbar-thumb {
+                background: #888;
+            }
+
+                /* Handle on hover */
+                ::-webkit-scrollbar-thumb:hover {
+                    background: #555;
+                }
+
+            .overFlowNavKpi {
+                overflow-y: auto;
+                height: 565px;
+            }
+
+            .accordion li {
+                font-size: small;
+            }
+
+            .form-check-input:checked, .form-check-input[type=checkbox]:indeterminate {
+                background-color: #e14b4b;
+                border-color: #e14b4b;
+                box-shadow: 0 2px 4px 0 rgb(105 108 255 / 40%);
+            }
+            /*Custom Menu Anwar*/
+            .container {
+                border-radius: 3px;
+                padding: 5px;
+                width: 60%;
+                margin: 0 auto;
+            }
+
+            h2 {
+                font-weight: normal;
+                font-size: 25px;
+            }
+
+                h2:hover {
+                    cursor: pointer;
+                }
+
+            .modal-dialog-centered {
+                min-height: calc(100% - 22.5rem);
+            }
+
+            .modal-header {
+                /*display: -webkit-box;
     display: -ms-flexbox;*/
-            display: flex;
-            -webkit-box-align: start;
-            -ms-flex-align: start;
-            /*align-items: flex-start;*/
-            -webkit-box-pack: justify;
-            /*-ms-flex-pack: justify;*/
-            justify-content: space-between;
-            padding: 1rem;
-            border-bottom: 1px solid #98a2af !important;
-            border-top-left-radius: 0.3rem;
-            border-top-right-radius: 0.3rem;
-        }
+                display: flex;
+                -webkit-box-align: start;
+                -ms-flex-align: start;
+                /*align-items: flex-start;*/
+                -webkit-box-pack: justify;
+                /*-ms-flex-pack: justify;*/
+                justify-content: space-between;
+                padding: 1rem;
+                border-bottom: 1px solid #98a2af !important;
+                border-top-left-radius: 0.3rem;
+                border-top-right-radius: 0.3rem;
+            }
 
-        .btn-primary:hover {
-            color: #ffffff;
-            background-color: #ed974e !important;
-            border-color: #ed974e !important;
-            transform: translateY(-1px);
-        }
-        /*#DataTables_Table_0_paginate a {
+            .btn-primary:hover {
+                color: #ffffff;
+                background-color: #ed974e !important;
+                border-color: #ed974e !important;
+                transform: translateY(-1px);
+            }
+            /*#DataTables_Table_0_paginate a {
   color: black;
   float: left;
   padding: 8px 16px;
@@ -108,226 +108,222 @@
 
 
 
-        .hidden {
-            display: none !important;
-        }
-
-        .tablepopup th {
-            background-color: #a92828;
-            color: white !important;
-            text-align: center;
-        }
-
-        .tablepopup td {
-            text-align: center;
-        }
-
-        .tablepopup {
-            width: 100%;
-        }
-
-        .modal-xl {
-            max-width: 1400px !important;
-        }
-
-        .btn-primary {
-            color: #fff;
-            background-color: #a62b2b;
-            border-color: #a62b2b;
-        }
-
-            .btn-primary:hover {
-                color: #ffffff;
-                background-color: #76dd4b;
-                border-color: #7bdd59;
-                transform: translateY(-1px);
+            .hidden {
+                display: none !important;
             }
 
-            .btn-check:focus + .btn-primary, .btn-primary:focus {
-                color: #ffffff;
-                background-color: #76dd4b;
-                border-color: #7bdd59;
-                transform: translateY(-1px);
+            .tablepopup th {
+                background-color: #a92828;
+                color: white !important;
+                text-align: center;
             }
 
+            .tablepopup td {
+                text-align: center;
+            }
 
-        /*.tab-content
+            .tablepopup {
+                width: 100%;
+            }
+
+            .modal-xl {
+                max-width: 1400px !important;
+            }
+
+            .btn-primary {
+                color: #fff;
+                background-color: #a62b2b;
+                border-color: #a62b2b;
+            }
+
+                .btn-primary:hover {
+                    color: #ffffff;
+                    background-color: #76dd4b;
+                    border-color: #7bdd59;
+                    transform: translateY(-1px);
+                }
+
+                .btn-check:focus + .btn-primary, .btn-primary:focus {
+                    color: #ffffff;
+                    background-color: #76dd4b;
+                    border-color: #7bdd59;
+                    transform: translateY(-1px);
+                }
+
+
+            /*.tab-content
         {
             background: #d7d6d6 !important;
         }*/
-        hr {
-            margin: 1rem 0;
-            color: #565656;
-            background-color: currentColor;
-            border: 0;
-            opacity: 1;
-        }
+            hr {
+                margin: 1rem 0;
+                color: #565656;
+                background-color: currentColor;
+                border: 0;
+                opacity: 1;
+            }
 
-        .Survey-list-table th {
-            text-align: center;
-            color: white !important;
-            background-color: #d54832;
-        }
+            .Survey-list-table th {
+                text-align: center;
+                color: white !important;
+                background-color: #d54832;
+            }
 
-        .Survey-list-table td {
-            border-bottom: 1px solid #96a2ab45 !important;
-        }
+            .Survey-list-table td {
+                border-bottom: 1px solid #96a2ab45 !important;
+            }
 
-        .Question-list-table th {
-            text-align: center;
-            color: white !important;
-            background-color: #d54832;
-        }
+            .Question-list-table th {
+                text-align: center;
+                color: white !important;
+                background-color: #d54832;
+            }
 
-        .Question-list-table td {
-            border-bottom: 1px solid #96a2ab45 !important;
-        }
+            .Question-list-table td {
+                border-bottom: 1px solid #96a2ab45 !important;
+            }
 
-        .question-master-list-table th {
-            /*text-align: center;*/
-            color: white !important;
-            background-color: #d54832;
-        }
+            .question-master-list-table th {
+                /*text-align: center;*/
+                color: white !important;
+                background-color: #d54832;
+            }
 
-        .emp-leave-req-table th {
-            text-align: center;
-            color: white !important;
-            background-color: #d54832;
-        }
+            .emp-leave-req-table th {
+                text-align: center;
+                color: white !important;
+                background-color: #d54832;
+            }
 
-        .emp-leave-req-table td {
-            border-bottom: 1px solid #96a2ab45 !important;
-        }
+            .emp-leave-req-table td {
+                border-bottom: 1px solid #96a2ab45 !important;
+            }
 
 
-        .Answer-list-table th {
-            text-align: center;
-            color: white !important;
-            background-color: #d54832;
-        }
+            .Answer-list-table th {
+                text-align: center;
+                color: white !important;
+                background-color: #d54832;
+            }
 
-        .Answer-list-table td {
-            border-bottom: 1px solid #96a2ab45 !important;
-        }
+            .Answer-list-table td {
+                border-bottom: 1px solid #96a2ab45 !important;
+            }
 
-        .table-Costomer-Details th {
-            text-align: center;
-            color: white !important;
-            background-color: #d54832;
-        }
+            .table-Costomer-Details th {
+                text-align: center;
+                color: white !important;
+                background-color: #d54832;
+            }
 
-        .Opt-det-drilldown {
-            font-weight: 800;
-            color: #ffffff;
-            border: 1px solid #b8adad;
-            width: 3%;
-            cursor: pointer;
-            margin-top: 6px;
-            position: inherit;
-            background: #d54832e8;
-            border-radius: 13px;
-            text-align: center;
-        }
+            .Opt-det-drilldown {
+                font-weight: 800;
+                color: #ffffff;
+                border: 1px solid #b8adad;
+                width: 3%;
+                cursor: pointer;
+                margin-top: 6px;
+                position: inherit;
+                background: #d54832e8;
+                border-radius: 13px;
+                text-align: center;
+            }
 
-        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
-            color: #ffffff;
-            background-color: #a92828;
-            border-color: #fff;
-        }
+            .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+                color: #ffffff;
+                background-color: #a92828;
+                border-color: #fff;
+            }
 
-        .nav-tabs .nav-item .nav-link.active {
-            color: #ff6c00;
-            background-color: #fdfdfd;
-            border-color: #fff;
-            BORDER-BOTTOM: SOLID;
-        }
+            .nav-tabs .nav-item .nav-link.active {
+                color: #ff6c00;
+                background-color: #fdfdfd;
+                border-color: #fff;
+                BORDER-BOTTOM: SOLID;
+            }
 
-        .nav-tabs .nav-item .nav-link:hover {
-            color: #ff6c00;
-            background-color: #fdfdfd;
-            border-color: #fff;
-            BORDER-BOTTOM: SOLID;
-        }
+            .nav-tabs .nav-item .nav-link:hover {
+                color: #ff6c00;
+                background-color: #fdfdfd;
+                border-color: #fff;
+                BORDER-BOTTOM: SOLID;
+            }
 
-        /*.nav-tabs .nav-item .nav-link:not(.active) {
+            /*.nav-tabs .nav-item .nav-link:not(.active) {
             color: black;
             background-color: #b4b9bf;
         }*/
-        .nav-tabs .nav-item .nav-link:not(.active) {
-            color: #a92828;
-            background-color: #ffe7dc;
-        }
+            .nav-tabs .nav-item .nav-link:not(.active) {
+                color: #a92828;
+                background-color: #ffe7dc;
+            }
 
-        .Survey-status-Draft {
-            background-color: #fff2d6 !important;
-            color: #ffab00 !important;
-            letter-spacing: 1px;
-            box-shadow: 0px 0px 3px 0px #ffab00;
-        }
+            .Survey-status-Draft {
+                background-color: #fff2d6 !important;
+                color: #ffab00 !important;
+                letter-spacing: 1px;
+                box-shadow: 0px 0px 3px 0px #ffab00;
+            }
 
-        .Survey-status-completed {
-            /*background-color: #e8fadf !important;
+            .Survey-status-completed {
+                /*background-color: #e8fadf !important;
     color: #48a516 !important;
     letter-spacing: 0.5px;
     box-shadow: 0px 0px 3px 0px #48a516;
     min-width: 52%;
     text-align: center;*/
-            background-color: #d7f5fc !important;
-            color: #03c3ec !important;
-            letter-spacing: 1px;
-            box-shadow: 0px 0px 3px 0px #03c3ec;
-        }
+                background-color: #d7f5fc !important;
+                color: #03c3ec !important;
+                letter-spacing: 1px;
+                box-shadow: 0px 0px 3px 0px #03c3ec;
+            }
 
-        .Survey-status-NotActive {
-            background-color: #ffe0db !important;
-            color: #ff3e1d !important;
-            letter-spacing: 0.5px;
-            box-shadow: 0px 0px 3px 0px #ff3e1d;
-            min-width: 52%;
-            text-align: center;
-        }
+            .Survey-status-NotActive {
+                background-color: #ffe0db !important;
+                color: #ff3e1d !important;
+                letter-spacing: 0.5px;
+                box-shadow: 0px 0px 3px 0px #ff3e1d;
+                min-width: 52%;
+                text-align: center;
+            }
 
 
-        .Survey-det-drilldown {
-            font-weight: 800;
-            color: #ffffff;
-            border: 1px solid #b8adad;
-            width: 3%;
-            cursor: pointer;
-            margin-top: 6px;
-            position: inherit;
-            background: #d54832e8;
-            border-radius: 13px;
-            text-align: center;
-        }
+            .Survey-det-drilldown {
+                font-weight: 800;
+                color: #ffffff;
+                border: 1px solid #b8adad;
+                width: 3%;
+                cursor: pointer;
+                margin-top: 6px;
+                position: inherit;
+                background: #d54832e8;
+                border-radius: 13px;
+                text-align: center;
+            }
 
-        /* .active-tr {
+            /* .active-tr {
             border-left: 7px solid #db7e2f !important;
         }*/
 
-        .form-control:focus, .form-select:focus {
-            border-color: #ff9869 !important;
-        }
+            .form-control:focus, .form-select:focus {
+                border-color: #ff9869 !important;
+            }
 
 
 
-        .proj-det-drillup {
-            font-weight: 800;
-            color: #ffffff;
-            border: 1px solid #b8adad;
-            width: 1.5%;
-            cursor: pointer;
-            margin-top: 6px;
-            position: inherit;
-            background: #d54832e8;
-            /*border-radius: 13px;*/
-            text-align: center;
-        }
-
-
-
-
-    </style>
+            .proj-det-drillup {
+                font-weight: 800;
+                color: #ffffff;
+                border: 1px solid #b8adad;
+                width: 1.5%;
+                cursor: pointer;
+                margin-top: 6px;
+                position: inherit;
+                background: #d54832e8;
+                /*border-radius: 13px;*/
+                text-align: center;
+            }
+        </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
@@ -354,11 +350,11 @@
                             <thead>
                                 <tr>
                                     <th style="display:none;">UserId</th>
-                                    <th style="text-align:center">Emp.No</th>
-                                    <th style="text-align:center">Emp.Name</th>
+                                    <th style="text-align:center">Employee #</th>
+                                    <th style="text-align:center">Employee Name</th>
                                     <th style="text-align:center">Job Name</th>
                                     <th style="text-align:center">Department</th>
-                                    <th style="text-align:center">Email.Id</th>
+                                    <th style="text-align:center">Email ID</th>
                                     <th style="text-align:center">Action</th>
                                 </tr>
                             </thead>
@@ -401,9 +397,9 @@
                 </div>
 
                 <div id="proj-details-rectangle-div" style="border-left: 5px solid red;">
-                        
+        
 
-                    <b id="empheading">  Basic Info</b>
+                    <b id="empheading">Basic Info</b>
                     <div class="row">
                         <div style="align-self: center; width: 10%;" class="divimage">
 
@@ -415,17 +411,28 @@
                             <div>
                                 <div class="row empMainInfo">
                                     <div style="align-self: center; width: 12%">
-                                        <img src="icons/EmpName.png" style="width: 28px;">
+                                        <img src="icons/Number.png" style="width: 25px;">
                                     </div>
                                     <div class="empInfo" style="width: 88%">
-                                        <label for="html5-number-input" class="col-form-label label-custom">Emp Name </label>
+                                        <label for="html5-number-input" class="col-form-label label-custom">Emp No. </label>
                                         <div class="">
-                                            <input type="text" id="lblEmpName" value="" style="width: 100%; background: #80808000; border: 0px; border: none; font-weight: bold;" readonly="">
+                                            <label id="lblEmpNo" style="font-weight: bold;"></label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row empMoreInfor">
+                                 <div style="align-self: center; width: 12%">
+                                     <img src="icons/GroupPED.png" style="width: 26px;">
+                                 </div>
+                                 <div class="empInfo" style="width: 88%">
+                                     <label for="html5-number-input" class="col-form-label label-custom">Assignment</label>
+                                     <div class="">
 
+                                         <label id="assstatus" style="font-weight: bold;">Active</label>
+                                     </div>
+                                 </div>
+                             </div>
                             <div class="row empMoreInfor" >
                                 <div style="align-self: center; width: 12%">
                                     <img src="icons/VectorDOJ.png" style="width: 26px;">
@@ -437,29 +444,28 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="row empMoreInfor">
-                                <div style="align-self: center; width: 12%">
-                                    <img src="icons/GroupVED.png" style="width: 26px;">
-                                </div>
-                                <div class="empInfo" style="width: 88%">
-                                    <label for="html5-number-input" class="col-form-label label-custom">Visa Exp Date </label>
-                                    <div class="">
-                                        <label id="lblVisaExpDate" style="font-weight: bold;">Aug, 18 2023</label>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                         <div style="margin-right: 30px;width: 20%;border-right: 1px solid #dbdbdb;">
                             <div class="row empMainInfo">
                                 <div style="align-self: center; width: 12%">
-                                    <img src="icons/Number.png" style="width: 25px;">
+                                    <img src="icons/EmpName.png" style="width: 28px;">
                                 </div>
                                 <div class="empInfo" style="width: 88%">
-                                    <label for="html5-number-input" class="col-form-label label-custom">Emp No. </label>
+                                    <label for="html5-number-input" class="col-form-label label-custom">Emp Name </label>
                                     <div class="">
-                                        <label id="lblEmpNo" style="font-weight: bold;"></label>
+                                        <input type="text" id="lblEmpName" value="" style="width: 100%; background: #80808000; border: 0px; border: none; font-weight: bold;" readonly="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row empMoreInfor">
+                                <div style="align-self: center; width: 12%">
+                                    <img src="icons/VectorEED.png" style="width: 26px;">
+                                </div>
+                                <div class="empInfo" style="width: 88%">
+                                    <label for="html5-number-input" class="col-form-label label-custom">Last Ticket Encash Date</label>
+                                    <div class="">
+
+                                        <label id="lblLastVacationFromDate" style="font-weight: bold;">--</label>
                                     </div>
                                 </div>
                             </div>
@@ -475,19 +481,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row empMoreInfor">
-                                <div style="align-self: center; width: 12%">
-                                    <img src="icons/GroupPED.png" style="width: 26px;">
-                                </div>
-                                <div class="empInfo" style="width: 88%">
-                                    <label for="html5-number-input" class="col-form-label label-custom">Last Ticket Encash Date</label>
-                                    <div class="">
-
-                                        <label id="lblLeaveEncaseDate" style="font-weight: bold;">Sep, 2 2023</label>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                         <div style="margin-right: 30px;width: 20%;border-right: 1px solid #dbdbdb;">
 
@@ -503,7 +496,7 @@
                                 </div>
                             </div>
 
-                            <div class="row empMoreInfor">
+                            <%--<div class="row empMoreInfor">
                                 <div style="align-self: center; width: 12%">
                                     <img src="icons/VectorEID.png" style="width: 26px;">
                                 </div>
@@ -513,16 +506,28 @@
                                         <label id="lblEID" style="font-weight: bold;">Sep, 2 2023</label>
                                     </div>
                                 </div>
-                            </div>
-
+                            </div>--%>
                             <div class="row empMoreInfor">
                                 <div style="align-self: center; width: 12%">
-                                    <img src="icons/VectorEED.png" style="width: 26px;">
+                                    <img src="icons/VectorEID.png" style="width: 26px;">
                                 </div>
                                 <div class="empInfo" style="width: 88%">
-                                    <label for="html5-number-input" class="col-form-label label-custom">Emirates Exp Date</label>
+                                    <label for="html5-number-input" class="col-form-label label-custom">Visa Authority </label>
                                     <div class="">
-                                        <label id="lblEIDExpDate" style="font-weight: bold;">Sep, 2 2023</label>
+                                        <label id="vauth" style="font-weight: bold;">JAFZA</label>
+                                    </div>
+                                </div>
+                            </div>
+
+            
+                            <div class="row empMoreInfor">
+                                <div style="align-self: center; width: 12%">
+                                    <img src="icons/GroupVED.png" style="width: 26px;">
+                                </div>
+                                <div class="empInfo" style="width: 88%">
+                                    <label for="html5-number-input" class="col-form-label label-custom">Visa Exp Date </label>
+                                    <div class="">
+                                        <label id="lblVisaExpDate" style="font-weight: bold;">Aug, 18 2023</label>
                                     </div>
                                 </div>
                             </div>
@@ -549,27 +554,24 @@
                                 <div class="empInfo" style="width: 88%">
                                     <label for="html5-number-input" class="col-form-label label-custom">Weekly Off  </label>
                                     <div class="">
-
                                         <label id="lblWeeklyOff" style="font-weight: bold;">Sep, 2 2023</label>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="row empMoreInfor">
                                 <div style="align-self: center; width: 12%">
                                     <img src="icons/VectorEED.png" style="width: 26px;">
                                 </div>
                                 <div class="empInfo" style="width: 88%">
-                                    <label for="html5-number-input" class="col-form-label label-custom">Last Vacation From</label>
+                                    <label for="html5-number-input" class="col-form-label label-custom">Emirates ID Exp Date</label>
                                     <div class="">
-
-                                        <label id="lblLastVacationFromDate" style="font-weight: bold;">Sep, 2 2023</label>
+                                        <label id="lblEIDExpDate" style="font-weight: bold;">Sep, 2 2023</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+    
                 </div>
                
                 
@@ -624,19 +626,19 @@
 
 
         <script type="text/javascript">
-        var currUserId = '';
-        var EmpNo = '';
-        var myrole = '';
-        var overAllPerfo = 0;
-        $(document).ready(function () {
-            currUserId = <%=Convert.ToInt32(Session["UserId"]).ToString()%>;
+            var currUserId = '';
+            var EmpNo = '';
+            var myrole = '';
+            var overAllPerfo = 0;
+            $(document).ready(function () {
+                currUserId = <%=Convert.ToInt32(Session["UserId"]).ToString()%>;
             EmpNo = '<%= Session["EmpNo"] %>';
             myrole = '<%=Session["Role"]%>';
             myroleList = '<%=Session["CurrentUserRolesList"]%>';
 
         });
 
-            </script>
+        </script>
     <!-- Datatable plugin CSS file -->
 
     <script src="Scripts/Clearance.js?v=0.5"></script>

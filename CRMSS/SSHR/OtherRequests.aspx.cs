@@ -77,8 +77,10 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     RequestBy = dt.Rows[i]["Requester"].ToString(),
                     MyOrderNumber = dt.Rows[i]["MyOrderNumber"].ToString(),
                     MyRoleID = dt.Rows[i]["MyRoleID"].ToString(),
-
-
+                    EMP_NO = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
+                    Depart = dt.Rows[i]["DEPARTMENT"].ToString(),
+                    FromDate_Sort = dt.Rows[i]["FROM_DATE_SORT"].ToString(),
+                    ToDate_Sort = dt.Rows[i]["TO_DATE_SORT"].ToString(),
                 });
             }
         }
@@ -102,7 +104,11 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     RequestBy = dt.Rows[i]["Requester"].ToString(),
                     MyOrderNumber = dt.Rows[i]["MyOrderNumber"].ToString(),
                     MyRoleID = dt.Rows[i]["MyRoleID"].ToString(),
-
+                    EMP_NO = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
+                    Depart = dt.Rows[i]["DEPARTMENT"].ToString(),
+                    Expected_Date_Of_Return_sort = dt.Rows[i]["Expected_Date_Of_Return_sort"].ToString(),
+                    ReqDate_sort = dt.Rows[i]["ReqDate_sort"].ToString(),
+                    Travelling_Date_sort = dt.Rows[i]["Travelling_Date_sort"].ToString(),
 
                 });
             }
@@ -127,8 +133,9 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     RequestBy = dt.Rows[i]["Requester"].ToString(),
                     MyOrderNumber = dt.Rows[i]["MyOrderNumber"].ToString(),
                     MyRoleID = dt.Rows[i]["MyRoleID"].ToString(),
-
-
+                    EMP_NO = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
+                    Depart = dt.Rows[i]["DEPARTMENT"].ToString(),
+                    ReqDate_sort = dt.Rows[i]["ReqDate_sort"].ToString(),
                 });
             }
         }
@@ -152,8 +159,10 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     RequestBy = dt.Rows[i]["Requester"].ToString(),
                     MyOrderNumber = dt.Rows[i]["MyOrderNumber"].ToString(),
                     MyRoleID = dt.Rows[i]["MyRoleID"].ToString(),
-
-
+                    EMP_NO = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
+                    Depart = dt.Rows[i]["DEPARTMENT"].ToString(),
+                    ReqDate_sort = dt.Rows[i]["ReqDate_sort"].ToString(),
+                   
                 });
             }
         }
@@ -179,6 +188,10 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     RequestBy = dt.Rows[i]["Requester"].ToString(),
                     MyOrderNumber = dt.Rows[i]["MyOrderNumber"].ToString(),
                     MyRoleID = dt.Rows[i]["MyRoleID"].ToString(),
+                    EMP_NO = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
+                    Depart = dt.Rows[i]["DEPARTMENT"].ToString(),
+                    ReqDate_sort = dt.Rows[i]["ReqDate_sort"].ToString(),
+                    DateStart_sort = dt.Rows[i]["DateStart_sort"].ToString(),
                 });
             }
         }
@@ -202,8 +215,10 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     RequestBy = dt.Rows[i]["Requester"].ToString(),
                     MyOrderNumber = dt.Rows[i]["MyOrderNumber"].ToString(),
                     MyRoleID = dt.Rows[i]["MyRoleID"].ToString(),
-
-
+                    EMP_NO = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
+                    Depart = dt.Rows[i]["DEPARTMENT"].ToString(),
+                    LateDate_sort = dt.Rows[i]["LateDate_sort"].ToString(),
+                    ReqDate_sort = dt.Rows[i]["ReqDate_sort"].ToString(),
                 });
             }
         }
@@ -227,11 +242,38 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     RequestBy = dt.Rows[i]["Requester"].ToString(),
                     MyOrderNumber = dt.Rows[i]["MyOrderNumber"].ToString(),
                     MyRoleID = dt.Rows[i]["MyRoleID"].ToString(),
-
+                    EMP_NO = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
+                    Depart = dt.Rows[i]["DEPARTMENT"].ToString(),
+                    ExitDate_sort = dt.Rows[i]["ExitDate_sort"].ToString(),
+                    ReqDate_sort = dt.Rows[i]["ReqDate_sort"].ToString(),
                 });
             }
         }
+        else if (RequestType == "7")
+        {
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
 
+                AdminAction.Add(new tableData()
+                {
+                    ReqID = dt.Rows[i]["ReqID"].ToString(),
+                    Req_Number = dt.Rows[i]["ReqNumber"].ToString(),
+                    MyOrderNumber = dt.Rows[i]["MyOrderNumber"].ToString(),
+                    MyRoleID = dt.Rows[i]["MyRoleID"].ToString(),
+                    RequestBy = dt.Rows[i]["Requester"].ToString(),
+                    REASON = dt.Rows[i]["Reason"].ToString(),
+                    RequestDate = dt.Rows[i]["ReqDate"].ToString(),
+                    STATUS = dt.Rows[i]["STATUS"].ToString(),
+                    StageClass = dt.Rows[i]["StageClass"].ToString(),
+                    LastEncashDate = dt.Rows[i]["LastTicketEncashDate"].ToString(),
+                    NoofTicketRequired = dt.Rows[i]["NoofTicketRequired"].ToString(),
+                    EMP_NO = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
+                    Depart = dt.Rows[i]["DEPARTMENT"].ToString(),
+                    LastTicketEncashDate_sort = dt.Rows[i]["LastTicketEncashDate_sort"].ToString(),
+                    ReqDate_sort = dt.Rows[i]["ReqDate_sort"].ToString(),
+                });
+            }
+        }
 
         else if (RequestType == "-1") // all Request
         {
@@ -252,7 +294,9 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     RequestBy = dt.Rows[i]["Requester"].ToString(),
                     MyOrderNumber = dt.Rows[i]["MyOrderNumber"].ToString(),
                     MyRoleID = dt.Rows[i]["MyRoleID"].ToString(),
-
+                    EMP_NO = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
+                    Depart = dt.Rows[i]["DEPARTMENT"].ToString(),
+                    ReqDate_sort = dt.Rows[i]["ReqDate_sort"].ToString(),
                 });
             }
         }
@@ -1366,6 +1410,7 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     StatusOrder = dt.Rows[i]["STATUS_ORDER"].ToString(),
                     WorkFlowID = dt.Rows[i]["WorkFlowID"].ToString(),
                     CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
+                    Ispaid = dt.Rows[i]["PaidStatus"].ToString()
                 });
             }
         }
@@ -1507,6 +1552,87 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     StatusOrder = dt.Rows[i]["StatusOrder"].ToString(),
                     WorkFlowID = dt.Rows[i]["WorkFlowID"].ToString(),
                     CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
+
+                });
+            }
+        }
+
+        return oEmpList;
+        //string a = userId;
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static string GetTikEncashRefNo()
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(42);
+
+
+        DBH.CreateDataset_SSHR(ds, "sp_AllRequests", true, pa, pv);
+
+        return ds.Tables[0].Rows[0][0].ToString();
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<AllTikDetails> getAllTEReqDetails(string ApplicationId)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(44);
+
+        pa.Add("@ReqID");
+        pv.Add(ApplicationId);
+
+
+
+        DBH.CreateDataset_SSHR(ds, "sp_AllRequests", true, pa, pv);
+
+        List<AllTikDetails> oEmpList = new List<AllTikDetails>();
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                oEmpList.Add(new AllTikDetails()
+                {
+                    EmpNo = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
+                    EmpName = dt.Rows[i]["FULL_NAME"].ToString(),
+                    DeptName = dt.Rows[i]["DEPARTMENT"].ToString(),
+                    Designation = dt.Rows[i]["POSITION"].ToString(),
+                    JoiningDate = dt.Rows[i]["ORIGINAL_DATE_OF_HIRE"].ToString(),
+                    EmiratesId = dt.Rows[i]["EMIRATES_ID"].ToString(),
+                    EmiratesExpDate = dt.Rows[i]["EMIRATES_EXP_DATE"].ToString(),
+                    PassportExpireDate = dt.Rows[i]["PPDTEXPIRY"].ToString(),
+                    VisaExpiryDate = dt.Rows[i]["VVDTEXPIRY"].ToString(),
+                    Req_Number = dt.Rows[i]["Req_Number"].ToString(),
+                    Reason = dt.Rows[i]["Reason"].ToString(),
+                    LastEncashDate = dt.Rows[i]["LastEncashDate"].ToString(),
+                    On_Behalf = dt.Rows[i]["On_Behalf"].ToString(),
+                    On_Behalf_URL = dt.Rows[i]["On_Behalf_URL"].ToString(),
+                    NoofTicketRequired = dt.Rows[i]["NoofTicketRequired"].ToString(),
+                    Attchement_Link = dt.Rows[i]["Attchement_Link"].ToString(),
+                    ReqID = dt.Rows[i]["ReqID"].ToString(),
+                    Status = dt.Rows[i]["Status"].ToString(),
+                    StatusOrder = dt.Rows[i]["StatusOrder"].ToString(),
+                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
+                    WorkFlowID = dt.Rows[i]["WorkflowID"].ToString(),
 
                 });
             }
@@ -2131,6 +2257,32 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
 
     }
 
+
+    public class AllTikDetails
+    {
+        public string EmpNo { get; set; }
+        public string EmpName { get; set; }
+        public string Designation { get; set; }
+        public string DeptName { get; set; }
+        public string VisaExpiryDate { get; set; }
+        public string PassportExpireDate { get; set; }
+        public string JoiningDate { get; set; }
+        public string EmiratesId { get; set; }
+        public string EmiratesExpDate { get; set; }
+        public string Req_Number { get; set; }
+        public string LastEncashDate { get; set; }
+        public string NoofTicketRequired { get; set; }
+        public string On_Behalf { get; set; }
+        public string On_Behalf_URL { get; set; }
+        public string Reason { get; set; }
+        public string Attchement_Link { get; set; }
+        public string ReqID { get; set; }
+        public string Status { get; set; }
+        public string StatusOrder { get; set; }
+        public string CreatedBy { get; set; }
+        public string WorkFlowID { get; set; }
+    }
+
     public class AllCompanyLoanDetails
     {
         public string EmpNo { get; set; }
@@ -2193,6 +2345,8 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
         public string StatusOrder { get; set; }
         public string WorkFlowID { get; set; }
         public string CreatedBy { get; set; }
+        public string Ispaid { get; set; }
+
 
 
     }
@@ -2354,7 +2508,6 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
         public string FULL_NAME { get; set; }
         public string Travelling_Date { get; set; }
         public string Expected_Date_Of_Return { get; set; }
-
         public string REQUEST_TYPE { get; set; }
         public string REQUEST_TYPEID { get; set; }
         public string STATUS { get; set; }
@@ -2371,9 +2524,18 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
         public string StageClass { get; set; }
         public string MyOrderNumber { get; set; }
         public string MyRoleID { get; set; }
-
-
-
+        public string LastEncashDate { get; set; }
+        public string NoofTicketRequired { get; set; }
+        public string Depart { get; set; }
+        public string FromDate_Sort { get; set; }
+        public string ToDate_Sort { get; set; }
+        public string Expected_Date_Of_Return_sort { get; set; }
+        public string ReqDate_sort { get; set; }
+        public string Travelling_Date_sort { get; set; }
+        public string DateStart_sort { get; set; }
+        public string LateDate_sort { get; set; }
+        public string ExitDate_sort { get; set; }
+        public string LastTicketEncashDate_sort { get; set; }
 
     }
 }

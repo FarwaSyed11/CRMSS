@@ -18,6 +18,7 @@ $(document).ready(function () {
         LoadRequestData('Please Wait...');
         $(".ajax-loader").addClass('hidden');
     }, 500);
+    
 });
 
 
@@ -40,11 +41,11 @@ function LoadRequestData(loadername) {
                 htm += `  <tr>        
                
                      <td style="text-align:center;display:none;">`+ item.User_Id + `</td>  
-                     <td style="text-align:center">`+ item.EmpNo + `</td>     
-                     <td style="text-align:center">`+ item.EmpName + `</td>    
-                     <td style="text-align:center">`+ item.JOB_Name + `</td> 
-                     <td style="text-align:center">`+ item.DeptName + `</td> 
-                     <td style="text-align:center">`+ item.Email_Id + `</td> 
+                     <td style="text-align:center">`+ item.EmpNo + `</td>
+                     <td style="">`+ item.EmpName + `</td>    
+                     <td style="">`+ item.JOB_Name + `</td> 
+                     <td style="">`+ item.DeptName + `</td> 
+                     <td style="">`+ item.Email_Id + `</td> 
                      <td style="text-align:center">
                       <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-Clearance-Det" title="View" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                      </td>
@@ -122,6 +123,9 @@ function GetBasicEmpDet() {
             $('#lblDateOfJoin').html(datedayformat(result.d[0].JoiningDate));
             $('#lblEID').html(result.d[0].EmiratesId);
             $('#lblEIDExpDate').html(datedayformat(result.d[0].EmiratesExpDate));
+            $('#lblWeeklyOff').html(result.d[0].WEEKLYOFF);
+            $('#assstatus').html(result.d[0].AssStatus);
+            $('#vauth').html(result.d[0].VisaAuth);
 
 
         },
@@ -134,10 +138,10 @@ function GetBasicEmpDet() {
 
 function datedayformat(dt) {
     if (dt != null && dt != '') {
-        return day[new Date(dt).getDay()] + ', ' + monthsbyName[new Date(dt).getMonth()] + ' ' + new Date(dt).getDate() + ', ' + new Date(dt).getFullYear();
+        return (new Date(dt).getDate() + '-' + monthsbyName[new Date(dt).getMonth()] + '-' + new Date(dt).getFullYear() + ', ' + day[new Date(dt).getDay()]);
     }
     else {
-        return '';
+        return '-';
     }
 }
 

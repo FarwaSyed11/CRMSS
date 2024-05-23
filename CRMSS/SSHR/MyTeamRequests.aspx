@@ -537,6 +537,7 @@ https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js
                             <option value="4">Company Loan</option>
                             <option value="5">Late Attendance Request</option>
                             <option value="6">Exit Pass Request</option>
+                            <option value="7">Ticket Encashment</option>
                         </select>
                     </div>
                     <div class="col-2">
@@ -586,6 +587,7 @@ https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js
                                 <option value="4">Company Loan</option>
                                 <option value="5">Late Attendance Request</option>
                                 <option value="6">Exit Pass Request</option>
+                                <option value="7">Ticket Encashment</option>
                             </select>
                         </div>
                         <div class="col-6 divOnbehalf" style="">
@@ -822,7 +824,7 @@ https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js
                         </div>
 
                     </div>
-                    
+
                     <%--<button id="capture">Capture Screenshot</button>
                     <div class="col-3">
 
@@ -831,19 +833,25 @@ https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js
     <label class="form-check-label" for="paidcheck" style="margin: 3px">Paid</label>
 </div>--%>
 
-                        <%--<label class="form-control">
+                    <%--<label class="form-control">
                             <input id="" type="checkbox" name="checkbox" checked value="" />
                             <label class="form-label"> Paid</label>
                         </label>--%>
-
-                    </div>
-                    <%--1st Row--%>
                     <div class="Leave-Req">
                     </div>
-
                     <br />
                     <br />
                     <div class="row">
+                        <div class="ispaid" style="display:none">
+                            <div class="mb-2 pull-right" style="width: 20%;">
+                                <select id="ddlPaid" class="form-select color-dropdown">
+                                    <option value="-1" style="display:none" selected>Select Paid/Unpaid Status</option>
+                                    <option value="0">Paid</option>
+                                    <option value="1">Unpaid</option>
+                                    <option value="2">Company Policy</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="col-12 ActionButtons">
                             <div class="pull-right">
                                 <%-- <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>--%>
@@ -872,16 +880,19 @@ https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js
                             </div>
                         </div>
                     </div>
-
-                    <%--end--%>
                 </div>
+                <%--1st Row--%>
+
+
+
+
+                <%--end--%>
+
                 <div class="modal-footer">
                 </div>
             </div>
-
         </div>
     </div>
-
 
     <div class="modal fade" id="mpAction" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -913,6 +924,32 @@ https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js
         </div>
     </div>
 
+    <div class="modal fade" id="mpPdfviewer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: #19191973;">
+     <div class="modal-dialog modal-dialog-centered">
+         <div class="modal-content" style="width: auto">
+             <div class="modal-header">
+                 <h5 class="modal-title"></h5>
+                 <button
+                     type="button"
+                     class="btn-close btn-close-event-modal"
+                     data-bs-dismiss="modal"
+                     aria-label="Close">
+                 </button>
+             </div>
+             <div class="modal-body dvpdfview" style="text-align: center;">
+
+                 <iframe id="myIframe" src="" style="height: 1150px; width: 841px;"></iframe>
+
+
+
+             </div>
+
+         </div>
+
+     </div>
+</div>
+
+
     <script type="text/javascript">
         var currUserId = '';
         var EmpNo = '';
@@ -927,7 +964,7 @@ https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js
         });
 
     </script>
-    <script src="Scripts/MyTeamRequests.js?v=1"></script>
+    <script src="Scripts/MyTeamRequests.js?v=3"></script>
     <link href="Css/allrequest.css" rel="stylesheet" />
 
     <script src="../KPI/Flatpickr/js/flatpickr.js"></script>

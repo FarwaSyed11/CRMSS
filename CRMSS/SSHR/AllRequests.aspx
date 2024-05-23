@@ -479,6 +479,7 @@
                                     <option value="4">Company Loan</option>
                                     <option value="5">Late Attendance Request</option>
                                     <option value="6">Exit Pass Request</option>
+                                    <option value="7">Ticket Encashment</option>
                                 </select>
                             </div>
                             <div class="col-2">
@@ -560,6 +561,7 @@
                                 <option value="4">Company Loan</option>
                                 <option value="5">Late Attendance Request</option>
                                 <option value="6">Exit Pass Request</option>
+                                <option value="7">Ticket Encashment</option>
                             </select>
                         </div>
                         <div class="col-2">

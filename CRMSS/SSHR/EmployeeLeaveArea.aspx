@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="EmployeeLeaveArea.aspx.cs" Inherits="SSHR_EmployeeLeaveArea" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="EmployeeLeaveArea.aspx.cs" Inherits="SSHR_EmployeeLeaveArea" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 

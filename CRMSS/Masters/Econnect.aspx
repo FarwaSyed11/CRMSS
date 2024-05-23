@@ -44,7 +44,7 @@
     <link rel="stylesheet" href="../Dashboard/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="../Dashboard/assets/css/demo.css" />
 
-    <link rel="stylesheet" href="vendor/libs/animate-css/animate.css">
+    <link rel="stylesheet" href="vendor/libs/animate-css/animate.css"/>
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="../Dashboard/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
@@ -643,7 +643,7 @@
                                 <div class="app-brand demo" style="padding-left: 35%">
                                     <a href="" class="app-brand-link">
                                         <span class="app-brand-logo demo">
-                                            <img src="../Dashboard/assets/img/avatars/logo_naffco.png" style="height: 57px;"
+                                            <img src="../Images/ForLandingPage/Picture1.jpg" style="height: 57px;"
                                                 alt="View Badge User"
                                                 data-app-dark-img="illustrations/man-with-laptop-dark.png"
                                                 data-app-light-img="illustrations/man-with-laptop-light.png" />
@@ -1054,53 +1054,38 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="row" style="padding-top: 10px; padding-left: 50px; padding-bottom: 10px; width: inherit !important">
-
                                         <table class="mdlchangepas">
                                             <tr>
                                                 <td style="padding: 3px 5px; border-top: 0px;" class="label-alignment no-border">
                                                     <asp:Label runat="server" Text="Old Password" CssClass="formlbl labelsp" ID="Label3"></asp:Label>
-
                                                     <asp:TextBox runat="server" type="text" TextMode="Password" ID="txtoldPassNew" Width="88%" class="form-control" />
                                                 </td>
                                             </tr>
-
                                             <tr>
                                                 <td style="padding: 3px 5px; border-top: 0px;" class="label-alignment no-border">
                                                     <asp:Label runat="server" Text="New Password" CssClass="formlbl labelsp" ID="Label4"></asp:Label>
-
                                                     <asp:TextBox runat="server" type="text" TextMode="Password" Width="88%" ID="txNewPassNew" class="form-control" />
                                                 </td>
                                             </tr>
-
-
-
                                             <tr>
                                                 <td style="padding: 3px 5px; border-top: 0px;" class="label-alignment no-border">
                                                     <asp:Label runat="server" Text="Conform Password" CssClass="formlbl labelsp" ID="Label5"></asp:Label>
                                                     <asp:TextBox runat="server" type="text" TextMode="Password" class="form-control" Width="88%" ID="txNewConformPassNew" name="contactValue" />
                                                 </td>
                                             </tr>
-
-
                                             <tr>
                                                 <td style="float: right; border-top: 12px; padding-right: 12%; padding-top: 12px">
                                                     <a href="javascript:changepass()" class="btn btn-success">Update</i></a>
-
                                                 </td>
-
-
                                             </tr>
                                             <tr>
                                                 <td style="border-top: 0px;">
                                                     <asp:Label runat="server" Text="" CssClass="formlbl labelsp" ID="lblChangepasserror" ForeColor="Red"></asp:Label>
                                                 </td>
-
-
                                             </tr>
                                         </table>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -1230,8 +1215,6 @@
                           <div class="col-9">
                               <div class="row mb-3">
                                   <div class="col-12">
-                                          
-                                        
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="row" id="rc">
@@ -1241,9 +1224,8 @@
                                                             <span class="topdeetdate">10/10/24</span>
                                                             <span class="topdeettype"></span>
                                                             <div class="topdeet">
-          
                                                                 <img src="assets/images/leavereq.svg" />
-                                                                <h6 >Leave Requests</h6>
+                                                                <h6>Leave Requests</h6>
                                                                 <p>This request is for annually at this year</p>
                                                             </div>
                                                         </div>
@@ -1352,29 +1334,19 @@
                                               <div class="menubody">
                                                   <div>
                                                       <div class="line">
-                                                        <div class="lineheading"><h4>Our Applications</h4></div>
-
+                                                          <div class="lineheading"><h4>Our Applications</h4></div>
                                                       </div>
-                                                  
                                                   </div>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="nav_part ltrmenus">
-                                                                <ul class="ulcontainer">
-
-                                                                    <asp:Literal ID="ltrlMenu" runat="server"></asp:Literal>
-
-                                                                </ul>
-                                                            </div>
+                                                  <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="nav_part ltrmenus">
+                                                            <ul class="ulcontainer">
+                                                                <asp:Literal ID="ltrlMenu" runat="server"></asp:Literal>
+                                                            </ul>
                                                         </div>
-
-
-                                                        <%-- Sugession  --%>
-
-
-
-                                                    
                                                     </div>
+                                                        <%-- Sugession  --%>
+                                                 </div>
                                                 </div>
                                           </div>
 

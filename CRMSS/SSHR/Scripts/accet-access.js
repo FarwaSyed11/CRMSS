@@ -445,17 +445,17 @@ function LoadRequestData(loadername) {
              
 
                         htmlHead += ` <tr style="text-align: center;">
-                                      <th class="table-cahnge" colspan="9" style="height: 50px;font-size: x-large;">`+ $('#ddlRequestType option:selected').text() + `</th></tr>`
+                                      <th class="table-cahnge" colspan="9" style="font-size: large;background: #b70000 !important;color: white !important;">`+ $('#ddlRequestType option:selected').text() + `</th></tr>`
 
                         htmlHead += `  <tr style="text-align:center;">
                                  <th style="display:none;">ID</th >
                                  <th style="display:none;">TypeID</th >
-                                 <th>Reference Numb</th>
+                                 <th>Reference #</th>
                                  <th>Type</th>
                                  <th>Name</th>
                                  <th>Description</th >
-                                 <th>AssignedBy</th>
-                                 <th>AssignedTo</th>
+                                 <th>Assigned By</th>
+                                 <th>Assigned To</th>
                                  <th>Assigned On</th>
                                  <th>Remarks</th>
                                  <th>Action</th>
@@ -466,13 +466,13 @@ function LoadRequestData(loadername) {
                      <td style="text-align:center;display:none;">`+ item.ID + `</td>  
                      <td style="text-align:center;display:none;">`+ item.TypeId + `</td>  
                      <td style="text-align:center">`+ item.RefNo + `</td>     
-                     <td style="text-align:center">`+ item.TypeName + `</td>    
-                     <td style="text-align:center">`+ item.Name + `</td> 
-                     <td style="text-align:center">`+ item.Description + `</td> 
-                     <td style="text-align:center">`+ item.AssBy + `</td> 
-                     <td style="text-align:center">`+ item.AssignedTo + `</td> 
+                     <td style="">`+ item.TypeName + `</td>    
+                     <td style="">`+ item.Name + `</td> 
+                     <td style="">`+ item.Description + `</td> 
+                     <td style="">`+ item.AssBy + `</td> 
+                     <td style="">`+ item.AssignedTo + `</td> 
                      <td style="text-align:center">`+ item.AssignedOn + `</td> 
-                     <td style="text-align:center">`+ item.Remarks + `</td> 
+                     <td style="">`+ item.Remarks + `</td> 
                      <td style="text-align:center">
                        <span style = "margin-left: 10%;"> <img src="Images/icon-Transfer.png" title="Transfer" class="fa-icon-hover Transfer btn-Transfer-Req" style="cursor: pointer; width: 24px;" /></span>
                        <span style = "margin-left: 10%;"> <img src="Images/Icon-DeActivate.png" title="De-Activate" class="fa-icon-hover btn-DeActivate-Req" style="cursor: pointer; width: 24px;" /></span>
@@ -490,19 +490,19 @@ function LoadRequestData(loadername) {
             else if ($('#ddlRequestStatus option:selected').val() == 0) {
 
                 htmlHead += ` <tr style="text-align: center;">
-                              <th class="table-cahnge" colspan="9" style="height: 50px;font-size: x-large;">`+ $('#ddlRequestType option:selected').text() + `</th></tr>`
+                              <th class="table-cahnge" colspan="9" style="font-size: large;background: #b70000 !important;color: white !important;">`+ $('#ddlRequestType option:selected').text() + `</th></tr>`
 
                 htmlHead += `  <tr style="text-align:center;">
                                  <th style="display:none;">ID</th >
                                  <th style="display:none;">TypeID</th >
-                                 <th>Reference Numb</th>
+                                 <th>Reference #</th>
                                  <th>Type</th>
                                  <th>Name</th>
                                  <th>Description</th >
-                                 <th>AssignedBy</th>
-                                 <th>AssignedTo</th>
+                                 <th>Assigned By</th>
+                                 <th>Assigned To</th>
                                  <th>Assigned On</th>
-                                 <th>TransferTo</th>
+                                 <th>Transfer To</th>
                                  <th>Remarks</th>
                                  </tr>`
                 $.each(result.d, function (key, item) {
@@ -513,11 +513,11 @@ function LoadRequestData(loadername) {
                      <td style="text-align:center;display:none;">`+ item.ID + `</td>  
                      <td style="text-align:center;display:none;">`+ item.TypeId + `</td>  
                      <td style="text-align:center">`+ item.RefNo + `</td>     
-                     <td style="text-align:center">`+ item.TypeName + `</td>    
-                     <td style="text-align:center">`+ item.Name + `</td> 
-                     <td style="text-align:center">`+ item.Description + `</td> 
-                     <td style="text-align:center">`+ item.AssBy + `</td> 
-                     <td style="text-align:center">`+ item.AssignedTo + `</td> 
+                     <td style="">`+ item.TypeName + `</td>    
+                     <td style="">`+ item.Name + `</td> 
+                     <td style="">`+ item.Description + `</td> 
+                     <td style="">`+ item.AssBy + `</td> 
+                     <td style="">`+ item.AssignedTo + `</td> 
                      <td style="text-align:center">`+ item.AssignedOn + `</td> 
                      <td style="text-align:center">`+ item.TransTo + `</td> 
                      <td style="text-align:center">`+ item.Remarks + `</td> 
@@ -608,7 +608,7 @@ $('#modal-AddNewaccass').on('click', function () {
     var htmAsset = '';
     var htmAccess = '';
 
-    htmAsset += `   <div class="modal-body" style="border-left: 4px solid;border-bottom: 4px solid;border-color: #f9f9f9d9;box-shadow: -5px 1px 5px #c5c2c2;">
+    htmAsset += `   <div class="modal-body" style="">
                     <div class="row">
                          <h5 class="modal-title" style="width:85%;">Asset Details</h5>
                     </div>
@@ -647,7 +647,7 @@ $('#modal-AddNewaccass').on('click', function () {
                     
                </div>
                     <div style="padding-top:1%;">
-                        <div class="modal-body" style="border-left: 4px solid;border-bottom: 4px solid;border-color: #f9f9f9d9;box-shadow: -5px 5px 5px #c5c2c2;">
+                        <div class="modal-body" style="">
                             <div class="row">
                                 <h5 class="modal-title" style="width: 85%;">Assign Details</h5>
                             </div>

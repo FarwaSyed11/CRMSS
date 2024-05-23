@@ -42,11 +42,11 @@ function LoadRequestData(loadername) {
                
                      <td style="text-align:center;display:none;">`+ item.AssetID + `</td>  
                      <td style="text-align:center">`+ item.SlNo + `</td>     
-                     <td style="text-align:center">`+ item.Name + `</td>    
-                     <td style="text-align:center">`+ item.Description + `</td> 
-                     <td style="text-align:center">`+ item.Remarks + `</td> 
-                     <td style="text-align:center">`+ item.MoreInformation + `</td> 
-                     <td style="text-align:center">`+ item.Department + `</td> 
+                     <td style="">`+ item.Name + `</td>    
+                     <td style="">`+ item.Description + `</td> 
+                     <td style="">`+ item.Remarks + `</td> 
+                     <td style="">`+ item.MoreInformation + `</td> 
+                     <td style="">`+ item.Department + `</td> 
                      <td style="text-align:center">
                       <span style="margin-left: 4%;"> <i class="bx bxs-info-circle fa-icon-hover ibtn-Asset-Det" title="View" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                      </td>

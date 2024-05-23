@@ -10,6 +10,9 @@ var OrgID = 0;
 var StatusOrder = 0;
 var RemainingHRAAdvance = 0;
 var RemainingSalaryAdvance = 0;
+var LeaveBalance = 0;
+var LastTicketEncashDate = "";
+var NumberoFTicketAvailable = 0;
 
 var htmActionButton = "";
 
@@ -40,6 +43,7 @@ $(document).ready(function () {
         $(".ajax-loader").addClass('hidden');
     }, 500);
     GetBasicEmpDet();
+    onbehalfrolecheck();
     //loadEmpDetails();
     //loadEmpLoanDetails();
 });
@@ -457,7 +461,7 @@ function LoadRequestData(loadername) {
                                  <th style="display:none;">ID</th > 
                                  <th style="width:10%">Request Number</th >
                                  <th style="width:10%">Last Ticket Encash Date</th>
-                                 <th style="width:10%">Leave Status</th>
+                                 <th style="width:10%">Requested Date</th>
                                  <th style="width:20%">Reason</th>
                                  <th style="width:10%">Status</th>
                                   <th style="width:10%">Action</th>`
@@ -470,12 +474,12 @@ function LoadRequestData(loadername) {
                
                  <td style=" ;display:none;">`+ item.ReqID + `</td> 
                   <td style=" text-align: center;">`+ item.Req_Number + `</td>
-                 <td style=" text-align: center;">`+ datedayformat(item.EXIT_DATE) + `</td>
-                 <td style=" text-align: center;">`+ (item.OUT_TIME) + `</td>
-                 <td style=" ">`+ item.REASON + `</td>   
+
+                 <td style="text-align: center; ">`+ datedayformat(item.LastEncashDate) + `</td>
                  <td style=" text-align: center;">`+ datedayformat(item.RequestDate) + `</td>
+                  <td style=" ">`+ item.REASON + `</td>   
                  <td style=" text-align: center;" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
-                <td style=" text-align:center">
+                 <td style=" text-align:center">
                   <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-TE-req-info" title="Other" data-exitid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
@@ -1100,16 +1104,123 @@ $('.tbody-emp-req').on('click', '.ibtn-AllReq-req-info', function () {
         $('#ddlRequestType').val('7');
         $('#ddlRequestType').attr('disabled', true);
         RequestPageLoad();
-        ClearEPReq();
+        ClearTEReq();
         ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
-        //getAllEPReqDetails();
-
-
+        getAllTEReqDetails();
+        $('#dtLastEncashDate').val(LastTicketEncashDate);
         $('#empLeaveModal').modal('show');
     }
 
 
 });
+
+function getAllTEReqDetails() {
+    $.ajax({
+        url: "AllRequests.aspx/getAllTEReqDetails",
+        data: JSON.stringify({ 'ApplicationId': ApplicationId }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            GetTikEncashRefNo();
+            $('#lblStatus').html(result.d[0].Status);
+            $('#lblAppID').html(result.d[0].ReqID);
+            $('#lblEmpName').val(result.d[0].EmpName);
+            $('#lblEmpNo').html(result.d[0].EmpNo);
+            $('#lblDesignation').val(result.d[0].Designation);
+            $('#lblDepart').val(result.d[0].DeptName);
+            $('#lblVisaExpDate').html(result.d[0].VisaExpiryDate);
+            $('#lblPassExpDate').html(result.d[0].PassportExpireDate);
+            $('#lblDateOfJoin').html(result.d[0].JoiningDate);
+            $('#lblEID').html(result.d[0].EmiratesId);
+            $('#lblEIDExpDate').html(result.d[0].EmiratesExpDate);
+
+            $('.on-beh').text('Applied By');
+            $('.employee-drop').css('display', 'none');
+            $('.employee-text').css('display', '');
+
+            $('#txtEmpNametext').html(result.d[0].CreatedBy);
+            /* loadAllEmployees(result.d[0].EmpNo);*/
+
+            $('#lblRequestNumber').html(result.d[0].Req_Number);
+            $("#txtTikEncashReason").val(result.d[0].Reason);
+            $('#dtLastEncashDate').val(result.d[0].LastEncashDate);
+            $('#txtNoOfTik').val(result.d[0].NoofTicketRequired);
+
+            OnBehalfURL = result.d[0].On_Behalf_URL;
+            RequestURL = result.d[0].Attchement_Link;
+
+            reqStatus = result.d[0].ReqID;
+            ApplicationId = result.d[0].ReqID;
+            StatusOrder = result.d[0].StatusOrder;
+
+           
+
+            if (OnBehalfURL == '') {
+                $('#btnDownloadOBAtt').css('display', 'none');
+            }
+            else {
+                $('#btnDownloadOBAtt').css('display', '');
+            }
+
+            if (RequestURL == '') {
+                $('#btnDownloadAttachment').css('display', 'none');
+            }
+            else {
+                $('#btnDownloadAttachment').css('display', '');
+            }
+
+
+
+            if (result.d[0].On_Behalf == "True") {
+                $('#cbEmpOnBehalf').prop('checked', true);
+            } else {
+                $('#cbEmpOnBehalf').prop('checked', false);
+            }
+
+            OnBehalfChange();
+            TicketencInitialForm();
+            htmActionButton = "";
+
+            if (result.d[0].Status == "SUBMIT" && StatusOrder == 0) {
+                SubmitTicketEncashDetForm();
+                htmActionButton += `<div class="pull-right">
+                <button id="btnCancellRequest" type="button" class="btn btn-primary btnTagTemp"><i class='bx bx-x-circle'></i>Cancel</button>
+                </div>`;
+
+            }
+            else if (result.d[0].Status == "DRAFT") {
+
+                htmActionButton += `<div class="pull-right">
+                    <button id="btnSubmit" type="button" class="btn btn-primary btnTagTemp" style=""><i class='bx bxs-check-circle me-3'></i>Submit</button>
+                    <button id="btnSaveApplication" type="button" class="btn btn-primary btnTagTemp"><i class='bx bxs-save me-3'></i>Save as Draft</button>
+            
+                     </div>`
+            }
+            else {
+                SubmitTicketEncashDetForm();
+                htmActionButton = "";
+            }
+            $(".ActionButtons").html(htmActionButton);
+            $(".dvApprovalStage").css("display", "");
+            loadApproverAuthorityPeople();
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
+function SubmitTicketEncashDetForm() {
+    $('#cbEmpOnBehalf').attr('disabled', true);
+    $('#txtEmpName').attr('disabled', true);
+    $('#txtTikEncashReason').attr('disabled', true);
+    $('#txtNoOfTik').attr('disabled', true);
+    $('.insert-Attachment').css('display', 'none');
+    $('.download-Attachment').css('display', '');
+}
 
 $('.tbody-emp-req').on('click', '.ibtn-TE-req-info', function () {
 
@@ -1120,7 +1231,7 @@ $('.tbody-emp-req').on('click', '.ibtn-TE-req-info', function () {
     RequestPageLoad();
     ClearEPReq();
     ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
-   // getAllEPReqDetails();
+   getAllTEReqDetails();
 
     $('.insert-Attachment').css('display', 'none');
     $('.download-Attachment').css('display', '');
@@ -1222,6 +1333,8 @@ function SubmitExitPassDetForm() {
 
 
 }
+
+
 
 
 function getAllCompanyLoanDetails() {
@@ -1534,6 +1647,24 @@ function getAllLAReqDetails() {
                 SubmitLateAttendanceDetForm();
                 htmActionButton = "";
             }
+            if ((parseInt(StatusOrder) >= 1 && reqStatus != "SUBMIT") || (parseInt(StatusOrder) >= 1 && reqStatus == "SUBMIT") ) {
+                if (result.d[0].Ispaid == 0) {
+                    $('#lblIsPaid').html("Paid Status: PAID")
+                }
+                else if (result.d[0].Ispaid == 1) {
+                    $('#lblIsPaid').html("Paid Status: UN-PAID")
+                }
+                else if (result.d[0].Ispaid == 2) {
+                    $('#lblIsPaid').html("Paid Status: COMPANY POLICY")
+                }
+                else if (result.d[0].Ispaid == -1) {
+                    $('#lblIsPaid').html("PAID Status: Pending..")
+                }
+            }
+            else {
+                $('#lblIsPaid').html("PAID Status: Pending..")
+            }
+
             $(".ActionButtons").html(htmActionButton);
             $(".dvApprovalStage").css("display", "");
             loadApproverAuthorityPeople();
@@ -1972,6 +2103,7 @@ $('#empLeaveModal').on('change', '#ddlLeaveType', function () {
     selLeaveType = $('#ddlLeaveType option:selected').val();
 
     SetForm();
+
 
 });
 
@@ -2466,12 +2598,7 @@ function RequestPageLoad() {
                             </div>
                         </div>
 
-                        <div class="col-3 OtherRemarks-Area" style="display:none;">
-                            <label for="html5-number-input" class="col-form-label label-custom">Other Remarks</label>
-                            <div>
-                                <input type="text" id="txtMiscOtherRemarks" name="nmMiscControll" class="form-control  "/>
-                            </div>
-                        </div>
+                       
                           <div class="col-3 Misc_Address-ToWhom">
                             <label for="html5-number-input" class="col-form-label label-custom">Address To whom</label>
                             <div>
@@ -2482,6 +2609,12 @@ function RequestPageLoad() {
                             <label for="html5-number-input" class="col-form-label label-custom">Reason</label>
                             <div>
                                 <select id="ddlMiscReason" class="form-select color-dropdown  "></select>
+                            </div>
+                        </div>
+                         <div class="col-3 OtherRemarks-Area" style="display:none;">
+                            <label for="html5-number-input" class="col-form-label label-custom">Other Remarks</label>
+                            <div>
+                                <input type="text" id="txtMiscOtherRemarks" name="nmMiscControll" class="form-control  "/>
                             </div>
                         </div>
                           <div class="col-3 Trans-Location">
@@ -2780,7 +2913,7 @@ function RequestPageLoad() {
 
 
                        <div class="row">
-                       
+                       <div class="col-12"><div class="pull-right" id="lblIsPaid"></div></div>
                        
 
                         <div class="col-3">
@@ -2940,16 +3073,25 @@ function RequestPageLoad() {
             <div class="col-3">
                 <label for="html5-number-input" class="col-form-label label-custom">Last Encashed Date</label>
                 <div>
-                    <input type="date" id="" class="form-control flatpickr-input" disabled/>
+                    <input type="text" id="dtLastEncashDate" class="form-control flatpickr-input" disabled/>
                 </div>
             </div>
 
             <div class="col-3">
                 <label for="html5-number-input" class="col-form-label label-custom">Reason</label>
                 <div>
-                    <input type="text" id="" class="form-control  "/>
+                    <input type="text" id="txtTikEncashReason" class="form-control  "/>
                 </div>
             </div>
+
+            <div class="col-3">
+                <label for="html5-number-input" class="col-form-label label-custom">No. Of Ticket(s)</label>
+                <div>
+                    <input type="number" id="txtNoOfTik" class="form-control" value="0"  min="0" max="30" />
+                </div>
+            </div>
+
+
             <div class="col-3 div-Attachment">
                 <label for="html5-number-input" class="col-form-label label-custom">Upload E-Ticket</label>
 
@@ -2975,6 +3117,7 @@ function RequestPageLoad() {
             </div>
         </div>
 
+        <div><h6 style="color: #b70000 !important;"> Note : Please note that you will get 75% of your ticket encashment if ticket copy is not attached.</h6> </div>
         <div class="row">
                        
         </div>
@@ -3204,6 +3347,22 @@ $('#AddNewReq').on('click', function () {
         onbehalfrolecheck();
 
     }
+
+    else if (Type == 7) {
+
+        $('#ddlRequestType').attr('disabled', false);
+        $('#ddlRequestType').val('7');
+
+        RequestPageLoad();
+        ClearTEReq();
+        GetBasicEmpDet();
+        GetTikEncashRefNo();
+        TicketencInitialForm();
+        //ExitPassInitialForm();  //disabled
+        loadApproverAuthorityPeople();
+        onbehalfrolecheck();
+    }
+
     else if (Type == -1) {
 
 
@@ -3224,6 +3383,27 @@ $('#AddNewReq').on('click', function () {
     $('.download-Attachment').css('display', 'none');
     $('#empLeaveModal').modal('show');
 });
+
+function ClearTEReq() {
+    //LastTicketEncashDate = "";
+    $('#lblEmpName').val("");
+    $('#lblEmpNo').html("");
+    $('#lblDesignation').val("");
+    $('#lblDepart').val("");
+    $('#lblVisaExpDate').html("");
+    $('#lblPassExpDate').html("");
+    $('#lblDateOfJoin').html("");
+    $('#lblEID').html("");
+    $('#lblEIDExpDate').html("");
+
+    $('#fu-on-behalf').val('');
+    $('#lblOnBehalfFU').val('');
+    $('#fu-leave-req').val('');
+    $('#lblLeaveReqFileName').val('');
+
+    $('#lblRequestNumber').html('');
+    $('#txtEXTPassReason').val('');
+}
 
 function CompanyLoanInitialForm() {
 
@@ -3263,6 +3443,9 @@ function GetBasicEmpDet() {
             $('#lblWeeklyOff').html(result.d[0].WEEKLYOFF);
             $('#assstatus').html(result.d[0].AssStatus);
             $('#vauth').html(result.d[0].VisaAuth);
+            LeaveBalance = result.d[0].LeaveBalance;
+            LastTicketEncashDate = result.d[0].LastTicketEncashDate;
+            NumberoFTicketAvailable = result.d[0].NoTicketEncash;
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -3304,14 +3487,11 @@ function loadLeaveType() {
         success: function (result) {
             var opt = '';
             listLeaveType = result.d;
-
             $.each(listLeaveType, function (key, item) {
                 opt += '<option value="' + item.Id + '" >' + item.Value + '</option>';
             });
             $('#ddlLeaveType').html(opt);
             selLeaveType = $('#ddlLeaveType option:selected').val();
-
-
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -3333,7 +3513,7 @@ function SetForm() {
         $('.Grop-Of-Det').css('display', 'none');
 
         $('.Group-Of-Cb').css('display', 'none');
-        $('.div-Attachment').css('display', '');
+        $('.div-Attachment').css('display', 'none');
     }
 
     else if ($('#ddlLeaveType option:selected').val() == "143") {
@@ -3548,6 +3728,9 @@ function InitialForm() {
     $('#taRemark').attr('disabled', false);
 
     $('#empLeaveModal').find('input[name="nmSbReq"]').attr('disabled', false);
+
+
+    $("#txtLeaveBal").val(LeaveBalance);
 }
 
 function loadAllEmployees(Emp) {
@@ -3594,6 +3777,15 @@ $('#empLeaveModal').on('change', '#cbEmpOnBehalf', function () {
     }
 });
 
+$('#empLeaveModal').on('change', '#cbIsConsultWithDoc', function () {
+    if (Type == 0 && $("#ddlLeaveType").val() == '203') {
+        showconsult();
+    }
+});
+function showconsult(){
+    if ($('#cbIsConsultWithDoc').is(':checked')) { $('.div-Attachment').css('display','block'); }
+    else { $('.div-Attachment').css('display', 'none'); }
+}
 function BasicSalDetView() {
 
     if ($('#cbEmpOnBehalf').is(':checked')) {
@@ -3667,7 +3859,10 @@ $('.ActionButtons').on('click', '#btnSaveApplication', function () {
 
         AddExitPassReqDetails();
     }
+    else if (Type == 7) {
 
+        AddTEReqDetails();
+    }
 });
 $('.ActionButtons').on('click', '#btnCancellRequest', function () {
     $('#mpCancelRequest').modal('show');
@@ -3711,9 +3906,6 @@ $('.btn-Cancel-Request').on('click', function () {
             alert(errormessage.responseText);
         }
     });
-
-
-
 });
 
 
@@ -3756,7 +3948,10 @@ $('.ActionButtons').on('click', '#btnSubmit', function () {
 
         AddExitPassReqDetails();
     }
+    else if (Type == 7) {
 
+        AddTEReqDetails();
+    }
 });
 
 
@@ -3766,8 +3961,6 @@ function AddReqDetails() {
 
         $('#txtEmpName').val('');
         $('#fu-on-behalf').val('');
-
-
     }
     EmpNumb = '';
     if ($('#cbEmpOnBehalf').is(':checked') == true) {
@@ -3777,7 +3970,7 @@ function AddReqDetails() {
     else {
         EmpNumb = $('#lblEmpNo').html();
     }
-
+    
     $.ajax({
         url: "AllRequests.aspx/setRequestDetails",
         data: JSON.stringify({
@@ -3794,9 +3987,6 @@ function AddReqDetails() {
         success: function (result) {
 
             if (result.d[0].Id != 0) {
-
-
-
                 toastr.success('Updated Successfully', '');
                 ApplicationId = result.d[0].Id;
                 UploadTheFiles();
@@ -3862,8 +4052,6 @@ function onBehalfFileUpload() {
         async: false,
         success: function (status) {
             if (status != 'error') {
-
-
 
             }
         },
@@ -3994,7 +4182,12 @@ function GetAllDetails() {
                 $('#txtEmpName').val(result.d[0].EmpNo);
 
             }
-
+            if (result.d[0].CONSULTED_DOCTER == "true" && $("#ddlLeaveType").val() == "203") {
+                $(".div-Attachment").css("display","block")
+            }
+            else {
+                $(".div-Attachment").css("display", "none")
+            }
             $('#txtPrimaryContact').val(result.d[0].CONTACT_MOBNO_WOL);
             $('#txtSecContact').val(result.d[0].CONTACT_TELNO_WOL);
             $('#txtContactName').val(result.d[0].CONTACT_NAME_WOL);
@@ -4106,8 +4299,8 @@ $('#empLeaveModal').on('click', '#btnDownloadOBAtt', function () {
 
     if (OnBehalfURL != '') {
 
-        window.location = 'https://crmss.naffco.com/CRMSS/Services/DownloadFileHandler.ashx?attachurl=' + OnBehalfURL;
-        window.location = '/Services/DownloadFileHandler.ashx?attachurl=' + OnBehalfURL;
+        //window.location = 'https://crmss.naffco.com/CRMSS/Services/DownloadFileHandler.ashx?attachurl=' + OnBehalfURL;
+        window.location = '/CRMSS/Services/DownloadFileHandler.ashx?attachurl=' + OnBehalfURL;
 
     }
 
@@ -4117,8 +4310,8 @@ $('#empLeaveModal').on('click', '#btnDownloadAttachment', function () {
 
     if (RequestURL != '') {
 
-        window.location = 'https://crmss.naffco.com/CRMSS/Services/DownloadFileHandler.ashx?attachurl=' + RequestURL;
-        window.location = '/Services/DownloadFileHandler.ashx?attachurl=' + RequestURL;
+        //window.location = 'https://crmss.naffco.com/CRMSS/Services/DownloadFileHandler.ashx?attachurl=' + RequestURL;
+        window.location = '/CRMSS/Services/DownloadFileHandler.ashx?attachurl=' + RequestURL;
 
     }
 
@@ -4645,6 +4838,31 @@ function GetMiscRefNo() {
 
 }
 
+function GetTikEncashRefNo() {
+
+    $.ajax({
+        url: "AllRequests.aspx/GetTikEncashRefNo",
+        /*    data: JSON.stringify({ 'EmpNo': EmpNo }),*/
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+
+            const tikEcashRef = result.d;
+            //let BDRefNo = BDVal[0];
+            //let BDReqDate = BDVal[1];
+
+            //$('#txtBDReqNo').val(BDRefNo);
+            //$('#txtBDReqDate').val(BDReqDate.split(' ')[0]);
+            $('#lblRequestNumber').html(tikEcashRef);
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+
 function PPTInitialForm() {
     $('#cbEmpOnBehalf').attr('disabled', false);
     $('#empLeaveModal').find('input[name="nmSCB"]').attr('disabled', false);
@@ -4743,8 +4961,11 @@ function AddBankDetReqDetails() {
     else {
         EmpNumb = $('#lblEmpNo').html();
     }
+    if ($("#ddlBDReqType").val() == "6" && ($("#txtBDReqamount").val() == "" || $("#txtBDReqamount").val() == "0")) {
 
-
+        toastr.error('Amount cannot be zero');
+    }
+    else { 
     $.ajax({
         url: "AllRequests.aspx/setBankDetRequestDetails",
         data: JSON.stringify({
@@ -4782,16 +5003,12 @@ function AddBankDetReqDetails() {
             else {
                 toastr.error(result.d[0].Messsage, '');
             }
-
-            
-          
-           
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
         }
     });
-
+    }
 }
 
 function loadMiscRequestType() {
@@ -5408,11 +5625,7 @@ function AddExitPassReqDetails(Exist) {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-
-
             if (result.d[0].Id != 0) {
-
-
 
                 toastr.success('Updated Successfully', '');
                 ApplicationId = result.d[0].Id;
@@ -5423,17 +5636,69 @@ function AddExitPassReqDetails(Exist) {
             else {
                 toastr.error(result.d[0].Messsage, '');
             }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
 
+function AddTEReqDetails(Exist) {
+
+    if ($('#cbEmpOnBehalf').is(':checked') == false) {
+
+        $('#txtEmpName').val('');
+        $('#fu-on-behalf').val('');
+
+
+    }
+    EmpNumb = '';
+    if ($('#cbEmpOnBehalf').is(':checked') == true) {
+
+        EmpNumb = $('#txtEmpName option:selected').val();
+    }
+    else {
+        EmpNumb = $('#lblEmpNo').html();
+    }
+
+    $.ajax({
+        url: "AllRequests.aspx/setTEReqDetails",
+        data: JSON.stringify({
+            "ReqID": ApplicationId,
+            "RefNo": $('#lblRequestNumber').text(),
+            "User": currUserId,
+            "EmpNo": EmpNumb,
+            "OnBehalf": $('#cbEmpOnBehalf').is(':checked'),
+            //"Date": $('#txtEXTPassDate').val(),
+            "NoofTicketRequired": $('#txtNoOfTik').val(),
+            "REASON": $('#txtTikEncashReason').val(),
+            "Status": reqStatus,
+            "LastTicketEncashDate": $("#dtLastEncashDate").val(),
+        }),
+
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+
+            if (result.d[0].Id != 0) {
+                toastr.success('Updated Successfully', '');
+                ApplicationId = result.d[0].Id;
+                UploadTheFiles();
+                getAllTEReqDetails();
+                LoadRequestData();
+            }
+            else {
+                toastr.error(result.d[0].Messsage, '');
+            }
 
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
         }
     });
-
-
-
 }
+
 $('#empLeaveModal').on('change', '#ddlBLLoanType', function () {
 
     CompanyLoanTypeFormat();
@@ -5589,6 +5854,27 @@ function ClearEPReq() {
 
 }
 
+function ClearTikEncash() {
+    $('#lblEmpName').val("");
+    $('#lblEmpNo').html("");
+    $('#lblDesignation').val("");
+    $('#lblDepart').val("");
+    $('#lblVisaExpDate').html("");
+    $('#lblPassExpDate').html("");
+    $('#lblDateOfJoin').html("");
+    $('#lblEID').html("");
+    $('#lblEIDExpDate').html("");
+
+    $('#fu-on-behalf').val('');
+    $('#lblOnBehalfFU').val('');
+    $('#fu-leave-req').val('');
+    $('#lblLeaveReqFileName').val('');
+
+    $('#lblRequestNumber').html('');
+    $('#txtEXTPassReason').val('');
+    $('#ddlEXTPassType option:selected').val('0');
+}
+
 function LateAttendanceInitialForm() {
     $('#cbEmpOnBehalf').attr('disabled', false);
     $('#txtEmpName').attr('disabled', false);
@@ -5598,7 +5884,22 @@ function LateAttendanceInitialForm() {
     $('.insert-Attachment').css('display', '');
     $('.download-Attachment').css('display', 'none');
 }
+function TicketencInitialForm() {
 
+    
+   
+    $('#cbEmpOnBehalf').attr('disabled', false);
+    $('#txtEmpName').attr('disabled', false);
+    $('#txtTikEncashReason').attr('disabled', false);
+    $('#txtNoOfTik').attr('disabled', false);
+    $('.insert-Attachment').css('display', '');
+    $('.download-Attachment').css('display', 'none');
+
+    $('#dtLastEncashDate').val(LastTicketEncashDate);
+    $('#txtNoOfTik').attr("max", NumberoFTicketAvailable);
+  
+
+}
 function ExitPassInitialForm() {
     $('#cbEmpOnBehalf').attr('disabled', false);
     $('#txtEmpName').attr('disabled', false);
@@ -5622,10 +5923,12 @@ $('#ddlRequestType').on('change', function (ApplicationId) {
 
 function onbehalfrolecheck() {
     if (myroleList.includes('13195') || myroleList.includes('13177') || myroleList.includes('13173')) {
-        $(".divOnbehalf").css("visibility", "visible");
+        $(".divOnbehalf").css("display", "flex"); 
+        $("#pills-behalfreq-tab").css("display", "block");
     }
     else {
-        $(".divOnbehalf").css("visibility", "hidden");
+        $(".divOnbehalf").css("display", "none");
+        $("#pills-behalfreq-tab").css("display", "none");
     }
 }
 function loadEmpDetails() {

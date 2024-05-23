@@ -168,6 +168,7 @@
             height: 100%;
             /* width: 200%; */
             opacity: 0.8;
+                height: 100vh;
         }
 
         .overlay-panel {
@@ -369,14 +370,14 @@
                                         </div>
                                         <div class="col-6">
                                             <div class="mb-5" style="float: right;">
-                                                <label class="form-check-label">Forgot password? <a class="flipbutton" id="Forget" onclick="BtnForgotpswd_Click">Recover</a></label>
+                                                <label class="form-check-label">Default Password <a class="flipbutton">123</a></label>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="row" style="place-content: center; text-align: center;">
                                         <asp:Button ID="BtnLogIn" CssClass="signup_btn m-2" OnClick="BtnLogIn_Click" runat="server" Text="Login"></asp:Button>
-                                        <p>Don't have an account?<a class="flipbutton m-2" style="" id="loginButton" href="#">Sign Up</a></p>
+                                        <p>Don't have an account?<a class="flipbutton m-2" style="" id="loginButton" href="#">Sign Up/Forgot Password</a></p>
                                     </div>
 
                                 </div>
