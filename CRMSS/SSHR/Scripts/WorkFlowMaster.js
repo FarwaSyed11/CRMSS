@@ -4,7 +4,9 @@ var WorkFlowId = '';
 var objDTWorkFlow = [];
 var WFOrg = '';
 var StageId = '';
-
+var RoleId = '';
+var objDatatableUsers = [];
+var objDatatableStage = [];
 $(document).ready(function () {
 
     
@@ -37,7 +39,7 @@ function LoadWorkFlowMaster() {
                     <td>
                     <span class="netliva-switch">
                                     <input type="checkbox" checked="`+ item.CheckClass +`" netliva-switch="OK"> 
-                                    <label for="cbIsEnabled" data-active-text="Enable" data-passive-text="Disable" style="width: 160px; --switch-active-color: #e38671; --switch-passive-color: #66666696;max-width:55%;cursor:not-allowed"></label>
+                                    <label for="cbIsEnabled" data-active-text="Enable" data-passive-text="Disable" style="width: 160px; --switch-active-color: #2da92a; --switch-passive-color: #66666696;max-width:55%;cursor:not-allowed"></label>
                           </span>      </td>
                     <td style="text-align:center;"> <a style="margin-left: 4%;" class="image-change">
                     <img src="Images/icon-eye.png" title="View" class="fa-icon-hover ibtn-Request-Details" style="cursor: pointer; width: 34px;" />
@@ -98,6 +100,8 @@ function LoadTableDetails() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
+
+            $('.tbody-Stage td').length > 0 ? objDatatableStage.destroy() : '';
             var htms= '';
             var htme = '';
 
@@ -107,6 +111,7 @@ function LoadTableDetails() {
                 htms += `  <tr>  
 
                 <td style="text-align:center;display:none;">`+ item.StageId + `</td>
+                <td style="text-align:center;display:none;">`+ item.ROLE_ID + `</td>
                  <td style="text-align:center">`+ item.OrderNumber + `</td>
                  <td style="text-align:center">`+ item.Stage + `</td>
                  <td style="text-align:center">`+ item.Description + `</td>      
@@ -114,7 +119,7 @@ function LoadTableDetails() {
                   <td style="text-align:center">`+ item.CreatedDate + `</td>  
                   <td style="text-align:center"> <span class="netliva-switch">
                   <input type="checkbox" checked="`+ item.CheckCss +`" netliva-switch="OK"> 
-                  <label for="cbIsEnabled" data-active-text="Enable" data-passive-text="Disable" style="width: 160px; --switch-active-color: #e38671; --switch-passive-color: #66666696;max-width:55%;cursor:not-allowed"></label>
+                  <label for="cbIsEnabled" data-active-text="Enable" data-passive-text="Disable" style="width: 160px; --switch-active-color: #2da92a; --switch-passive-color: #66666696;max-width:55%;cursor:not-allowed"></label>
                           </span></td>  
                   
                 
@@ -133,7 +138,7 @@ function LoadTableDetails() {
                  <td style="text-align:center">`+ item.CreatedDate + `</td>      
                  <td style="text-align:center">  <span class="netliva-switch">
                  <input type="checkbox" checked="`+ item.CheckClass +`" netliva-switch="OK"> 
-                 <label for="cbIsEnabled" data-active-text="Enable" data-passive-text="Disable" style="width: 160px; --switch-active-color: #e38671; --switch-passive-color: #66666696;max-width:55%;cursor:not-allowed"></label>
+                 <label for="cbIsEnabled" data-active-text="Enable" data-passive-text="Disable" style="width: 160px; --switch-active-color: #2da92a; --switch-passive-color: #66666696;max-width:55%;cursor:not-allowed"></label>
                           </span>    </td>  
                  
                
@@ -144,6 +149,7 @@ function LoadTableDetails() {
 
 
             $('.tbody-Stage').html(htms);
+            initiateDataTableStage();
             $('.tbody-Employee').html(htme);
 
 
@@ -157,12 +163,28 @@ function LoadTableDetails() {
 
 }
 
+function initiateDataTableStage() {
+    objDatatableStage = [];
+    objDatatableStage = $('.stage-Details-table').DataTable({
+        dom: 'lBfrtip',
+        buttons: {
+            buttons: []
+        },
+        "columnDefs": [
+
+            { "orderable": false, "targets": [] },
+            { "orderable": true, "targets": [] }
+        ]
+    });
+}
+
 $('.tbody-Stage').on('click', 'tr', function () {
 
     $('.tbody-Stage tr').removeClass('active-tr');
     $(this).addClass('active-tr');
     StageId = this.children[0].textContent;
-    LoadAuthority();
+    RoleId = this.children[1].textContent;
+    LoadUsers();
     $('.div-Autority-table').css('display', 'block');
 
 });
@@ -171,6 +193,7 @@ $('#btnAddNewWorkFlow').on('click', function () {
 
     ClearWFdetails();
     LoadWFOrganization();
+    LoadOrginazionForCopy();
     $('#modalAddNewWorkFlow').modal('show');
 
 });
@@ -240,43 +263,54 @@ $('#btnSubmitWFDet').on('click', function () {
 });
 
 
-function LoadAuthority() {
+function LoadUsers() {
 
     $.ajax({
-        url: "WorkFlowMaster.aspx/GetAuthorityDetails",
-        data: JSON.stringify({ "StageId": StageId, "WFId": WorkFlowId }),
+        url: "WorkFlowMaster.aspx/GetUserDetails",
+        data: JSON.stringify({ "RoleId": RoleId,}),
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
+
+            $('.tbody-RoleEmployee td').length > 0 ? objDatatableUsers.destroy() : '';
             var htm = '';
             listEmps = result.d;
          
-
             $.each(listEmps, function (key, item) {
                 htm += `<tr style="text-align:center;"> 
-                    <td style="display:none"> `+ item.AuthorityId + ` </td>
-                    <td> `+ item.Authority + ` </td>
-                     <td> `+ item.Description + ` </td>
-                    <td> `+ item.CreatedBy + ` </td>
-                    <td> `+ item.CreatedDate + ` </td>
-                    <td>
-                    <span class="netliva-switch">
-                                    <input type="checkbox" checked="`+ item.CheckClass + `" netliva-switch="OK"> 
-                                    <label for="cbIsEnabled" data-active-text="Enable" data-passive-text="Disable" style="width: 160px; --switch-active-color: #e38671; --switch-passive-color: #66666696;max-width:55%;cursor:not-allowed"></label>
-                          </span>    </td>  
-                  
+                    <td style="display:none"> `+ item.User_Id + ` </td>
+                    <td> `+ item.EmpNo + ` </td>
+                     <td> `+ item.EmpName + ` </td>
+                    <td> `+ item.Email_Id + ` </td>
+                    <td> `+ item.Password + ` </td>
+                    <td><span class="`+ item.StatusClasss+`">`+ item.Status + ` </span></td>
+                   
                     </tr>`
             });
-            $('.tbody-Authority').html(htm);
-           
-
+            $('.tbody-RoleEmployee').html(htm);
+            initiateDataTableUsers();
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
         }
     });
 
+}
+
+function initiateDataTableUsers() {
+    objDatatableUsers = [];
+    objDatatableUsers = $('.Role-Employee-Det').DataTable({
+        dom: 'lBfrtip',
+        buttons: {
+            buttons: []
+        },
+        "columnDefs": [
+
+            { "orderable": false, "targets": [] },
+            { "orderable": true, "targets": [] }
+        ]
+    });
 }
 
 $('#btnAddNewStage').on('click', function () {
@@ -385,7 +419,7 @@ function AddAuthorityDetails() {
         async: false,
         success: function (result) {
             toastr.success('Updated Successfully');
-            LoadAuthority();
+            LoadUsers();
             $('#modalAddNewAuthority').modal('hide');
         },
         //complete: function () {
@@ -456,11 +490,70 @@ function ClearAuthoritydetails() {
 
 function ClearEmployeedetails() {
 
-
-    
     $('#txtEmpName').val('');
     $('#txtEmpDescription').val('');
     $('#cbEmpIsEnabled').prop('checked', false);
+}
+
+function LoadOrginazionForCopy() {
+
+    $.ajax({
+        url: "WorkFlowMaster.aspx/GetORGForCopy",
+        /* data: JSON.stringify({ "UserID": currUserId, "Company": company }),*/
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '';
+
+
+            $.each(result.d, function (key, item) {
+
+                htm += `<option value="` + item.ddlValue + `" > ` + item.ddlText + `</option>`;
+
+            });
+
+            $('#ddlFromOrg').html(htm);
+            $('#ddlToOrg').html(htm);
+
+        },
+        //complete: function () {
+        //    $('.ajax-loader').hide();
+        //},
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+
+$('#btnSubmitCopyWF').on('click', function () {
+
+
+
+});
+
+function LoadOrginazionForCopy() {
+
+    $.ajax({
+        url: "WorkFlowMaster.aspx/GetORGForCopy",
+        data: JSON.stringify({ "UserID": currUserId, "Company": company }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+           
+        },
+        //complete: function () {
+        //    $('.ajax-loader').hide();
+        //},
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
 }
 
 

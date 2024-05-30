@@ -460,7 +460,7 @@
                 <div>
                     <div>
                         <div class="row tblfilter" runat="server" id="tbltopsearch">
-                            <div class="col-2">
+                            <div style="width:15%;">
                                 <asp:Label Text="" runat="server" Font-Size="Medium" Font-Bold="true" />
                                 <select id="ddlRequests" class="form-select color-dropdown">
                                     <option value="0">Leave Application</option>
@@ -475,19 +475,20 @@
                             </div>
                            
 
-                            <div class="col-1" style="text-align:end;">
+                            <div style="width:10%;text-align:end;">
                                 <asp:Label ID="Label1" Text="Req.No/Emp.No" runat="server" Font-Size="Medium" Font-Bold="true" />
                             </div>
 
-                            <div class="col-2">
+                            <div style="width:15%;">
                                
                                <input type="text" id="txtReqNumbSearch" class="form-control" />
                             </div>
 
-                            <div class="col-2">
+                            <div style="width:10%;">
                                 <input type="button" id="btnSearch" value="Search" class="btn btn-danger d-block" style="font-size: small" />
                             </div>
-                     
+                      <div style="width:50%;">
+                          </div>
                              
                            <%-- <div class="col-8">
                                 <button id="AddNewReq" type="button" class="btn btn-primary" style="float: right; width: 150px;"><i class='fa fa-plus me-3'></i>Add New</button>
@@ -533,6 +534,118 @@
                             </tr>
                         </table>--%>
                     </div>
+                   <div class="nav-align-top tab-Inspections" style="padding-top: 1%;">
+                    <div class="card" style="border: 1px solid #14dffe61; margin-left: 30px; margin-right: 25px">
+                        <div class="row" style="min-height: 128px;">
+
+                            <div style="width: 2%; margin-left: 8px; padding: 20px 0px 0px 5px; background: #35b6fc; border-radius: 5px; color: white; box-shadow: 0px 0px 3px 3px #35b6fc9c;">
+                                <span style="writing-mode: vertical-rl; text-orientation: upleft; transform: rotate(180deg);font-size: 23px;">COUNT</span>
+                            </div>
+
+                            <div style="background: white; width: 19%;">
+                                <div class="db-box-bg" style="padding:30px 0px;">
+                                  
+                                    <div class="row" style="border-right: 1.8px solid #b7b7b738;">
+                                        <div class="col-md-4">
+                                           
+                                        </div>
+                                        <div class="col-md-8" style="text-align: right;">
+                                            <div class="row">
+
+                                                <div class="col-md-5"><label class="badge bg-label-gray me-1" style="font-size: 18px;" onclick="LoadRequestStatus('DRAFT')"> DRAFT: </label> </div>
+                                                <div class="col-md-7 box-val-Draft" style="color: #3555fc; font-weight: 600;padding-top:4%;font-size: 18px;">-</div>
+                                            </div>
+                                          
+                                        </div>
+                                    </div>
+                                </div>
+                                <%--<div class="progrees-bar-grid"><span style="position: absolute; margin-left: 6.5%; color: white;">58% </span>
+                                      <div style="width: 58%; background: #35b6fc; border-radius: 4px; height: 17px;"></div>
+                                  </div>--%>
+                            </div>
+
+                            <div style="background: white; width: 19%;">
+                                <div class="db-box-bg" style="padding:30px 0px;">
+
+                                    <div class="row" style="border-right: 1.8px solid #b7b7b738;">
+                                        <div class="col-md-4">
+                                        </div>
+                                        <div class="col-md-8" style="text-align: right;">
+                                            <div class="row">
+
+                                                <div class="col-md-5"><label class="badge bg-label-info me-1" style="font-size: 18px;" onclick="LoadRequestStatus('SUBMIT')"> PENDING:  </label></div>
+                                                <div class="col-md-7 box-val-Pending" style="color: #3555fc; font-weight: 600;padding-top:4%;font-size: 18px;">-</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                              
+                            </div>
+                               
+                           
+
+                            <div style="background: white; width: 19%;">
+                                <div class="db-box-bg" style="padding:30px 0px;">
+
+                                    <div class="row" style="border-right: 1.8px solid #b7b7b738;">
+                                        <div class="col-md-4">
+                                        </div>
+                                        <div class="col-md-8" style="text-align: right;">
+                                            <div class="row">
+
+                                                <div class="col-md-5"> <label class="badge bg-label-success me-1" style="font-size: 18px;" onclick="LoadRequestStatus('APPROVED')">APPROVED: </label> </div>
+                                                <div class="col-md-7 box-val-Approved" style="color: #3555fc; font-weight: 600;padding-top:4%;font-size: 18px;">-</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div style="background: white; width: 19%;">
+                                <div class="db-box-bg" style="padding:30px 0px;">
+
+                                    <div class="row" style="border-right: 1.8px solid #b7b7b738;">
+                                        <div class="col-md-4">
+                                        </div>
+                                        <div class="col-md-8" style="text-align: right;">
+                                            <div class="row">
+
+                                                <div class="col-md-5"> <label class="badge bg-label-danger me-1" style="font-size: 18px;" onclick="LoadRequestStatus('REJECTED')"> REJECTED:  </label></div>
+                                                <div class="col-md-7 box-val-Rejected" style="color: #3555fc; font-weight: 600;padding-top:4%;font-size: 18px;">-</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div style="background: white; width: 21%;">
+                                <div class="db-box-bg" style="padding:30px 0px;">
+
+                                    <div class="row" style="border-right: 1.8px solid #b7b7b738;">
+                                        <div class="col-md-4">
+                                        </div>
+                                        <div class="col-md-8" style="text-align: right;">
+                                            <div class="row">
+
+                                                <div class="col-md-5"><label class="badge bg-label-danger me-1" style="font-size: 18px;" onclick="LoadRequestStatus('CANCELLED')"> CANCELLED: </label> </div>
+                                                <div class="col-md-7 box-val-Cancelled" style="color: #3555fc; font-weight: 600;padding-top:4%;font-size: 18px;">-</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
                     <div class="row" style="margin-top: 1%;">
                         <table class="table Request_Details emp-req-table" style="width:100% !important">
                             <thead class="table thead-Request_Details emp-req-table-th">
@@ -546,6 +659,7 @@
         </div>
         <%--card-body end--%>
     </div>
+   </div>
 
 
 

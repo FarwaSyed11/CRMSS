@@ -1345,8 +1345,8 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     AMOUNT = dt.Rows[i]["AMOUNT"].ToString(),
                     Status = dt.Rows[i]["Status"].ToString(),
                     StatusOrder = dt.Rows[i]["StatusOrder"].ToString(),
-                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString()
-
+                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
+                    WorkFlowID = dt.Rows[i]["WorkflowId"].ToString()
                 });
             }
         }

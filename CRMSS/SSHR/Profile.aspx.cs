@@ -381,7 +381,7 @@ public partial class SSHR_Profile : System.Web.UI.Page
         pa.Add("@EmpNo");
         pv.Add(EmpNo);
 
-        pa.Add("@SkillId");
+        pa.Add("@KeySkills");
         pv.Add(SkillId);
 
 

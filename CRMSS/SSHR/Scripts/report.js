@@ -87,7 +87,8 @@ function ViewLateAttendanceList() {
                    
                   <td>`+ item.LATE_DATE + `</td>
                   <td>`+ item.ARRIVED_TIME + `</td>
-                  <td>`+ item.REASON_FOR_DELAY + `</td>`;
+                  <td>`+ item.REASON_FOR_DELAY + `</td>
+                   <td>`+ item.IsPaid + `</td>`;
 
                 htm += `</tr>`;
 

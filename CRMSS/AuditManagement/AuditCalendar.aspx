@@ -584,13 +584,9 @@
                                             <th>Observation</th>
                                             <th>Observation Owner</th>
                                             <th>Details</th>
-                                            <th>Consequence
-                                                (Score A)
-                                            </th>
-                                            <th>Consequence
-                                                (Score B) </th>
-                                            <th>Consequence
-                                                (Score AxB) </th>
+                                            <th>Impact</th>
+                                            <th>Likelihood</th>
+                                            <th>Risk Rating</th>
                                             <th>Responsibility</th>
                                             <th>Entity</th>
                                             <th>Risks</th>
@@ -598,7 +594,7 @@
                                             <th>Action Plan</th>
                                             <th>Status</th>
                                             <th>Remarks</th>
-                                            <th>View Attachments</th>
+                                            <%--<th>View Attachments</th>--%>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -770,7 +766,7 @@
                          <div class="col-6">
                             <label for="html5-number-input" class="col-form-label label-custom">Risk</label>
                              <div class="">
-                                  <select id="ddlRisks" class="form-select color-dropdown">
+                                  <select id="ddlRisks" class="form-select color-dropdown" multiple>
                                     <option value="None" selected>Select Risks</option>
                                 </select>
                              </div>
@@ -814,10 +810,11 @@
                              <div class="">
                                  <select id="ddlObsConsA" class="form-select color-dropdown">
                                     <option value="None" selected>Select Impact</option>
-                                    <option value="Low">Low</option>
-                                    <option value="Possible">Possible</option>
-                                    <option value="Moderate">Moderate</option>
-                                    <option value="High">High</option>
+                                    <option value="1">Low</option>
+                                    <option value="2">Minor</option>
+                                    <option value="3">Moderate</option>
+                                    <option value="4">Major</option>
+                                     <option value="5">Serious</option>
                                 </select>
                              </div>
                          </div>
@@ -825,24 +822,19 @@
                              <label for="html5-number-input" class="col-form-label label-custom">Likelihood<span style="color: red;">*</span></label>
                              <div class="">
                                   <select id="ddlObsConsB" class="form-select color-dropdown">
-                                    <option value="None" selected>Select Likelihood</option>
-                                    <option value="Low">Low</option>
-                                    <option value="Possible">Possible</option>
-                                    <option value="Moderate">Moderate</option>
-                                    <option value="High">High</option>
+                                      <option value="None" selected>Select Likelihood</option>
+                                      <option value="1">Rare</option>
+                                      <option value="2">Unlikely</option>
+                                      <option value="3">Possible</option>
+                                      <option value="4">Likely</option>
+                                      <option value="5">Almost Certain</option>
                                 </select>
                              </div>
                          </div>
                         <div class="col-4">
-                             <label for="html5-number-input" class="col-form-label label-custom">Risk Rating<span style="color: red;">*</span></label>
+                             <label for="html5-number-input" class="col-form-label label-custom">Risk Rating</label>
                              <div class="">
-                                  <select id="ddlObsConsAxB" class="form-select color-dropdown">
-                                    <option value="None" selected>Select Risk Rating</option>
-                                    <option value="Low">Low</option>
-                                    <option value="Possible">Possible</option>
-                                    <option value="Moderate">Moderate</option>
-                                    <option value="High">High</option>
-                                </select>
+                                  <input type="text" id="ddlObsConsAxB" class="form-select color-dropdown" disabled/>
                              </div>
                          </div>
                          <div class="col-6">

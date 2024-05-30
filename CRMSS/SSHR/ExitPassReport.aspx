@@ -73,7 +73,8 @@
                     <th> Time Out</th>                  
                     <th>Time In</th>
 
-                    <th>Remarks</th>
+                    <th style="width:25%">Remarks</th>
+                    <th>Exit Pass Type</th>
 
                 </tr>
 
@@ -104,7 +105,7 @@
      </script>
 
    
-    <script src="../SSHR/Scripts/exitpassReport.js"></script>
+    <script src="../SSHR/Scripts/exitpassReport.js?v=2.1"></script>
 
      <link href="../Template/Datatable/css/jquery.dataTables.min.css" rel="stylesheet" />
      <script src="../Template/Datatable/js/jquery.dataTables.min.js"></script>

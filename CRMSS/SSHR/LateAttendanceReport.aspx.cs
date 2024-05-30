@@ -61,6 +61,7 @@ public partial class SSHR_LateAttendanceReport : System.Web.UI.Page
                 LATE_DATE = dt.Rows[i]["LATE_DATE"].ToString(),
                 ARRIVED_TIME = dt.Rows[i]["ARRIVED_TIME"].ToString(),
                 REASON_FOR_DELAY = dt.Rows[i]["REASON_FOR_DELAY"].ToString(),
+                IsPaid = dt.Rows[i]["IsPaid"].ToString(),
 
 
 
@@ -81,6 +82,7 @@ public partial class SSHR_LateAttendanceReport : System.Web.UI.Page
         public string LATE_DATE { get; set; }
         public string DeptName { get; set; }
 
+        public string IsPaid { get; set; }
         public string ARRIVED_TIME { get; set; }
         public string REASON_FOR_DELAY { get; set; }
 

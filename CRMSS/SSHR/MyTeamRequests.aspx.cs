@@ -1360,6 +1360,7 @@ public partial class SSHR_MyTeamRequests : System.Web.UI.Page
                     StatusOrder = dt.Rows[i]["StatusOrder"].ToString(),
                     CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
                     WorkFlowID = dt.Rows[i]["WorkFlowID"].ToString(),
+                    No_OF_Month = dt.Rows[i]["NO_OF_MONTH"].ToString(),
                     //isPaid = dt.Rows[i]["ISPAID"].ToString(),
                 });
             }
@@ -2099,48 +2100,48 @@ public partial class SSHR_MyTeamRequests : System.Web.UI.Page
     public static String UpdateActionRequest(string ReqID, string ReqType, string WorkFLowID, string OrderNumber, string RoleID, string Action, string Comments, string UserID, string Ispaid)
     {
 
-        
-            DBHandler DBH = new DBHandler();
-            DataSet ds = new DataSet();
-            DataTable dt = new DataTable();
-            ArrayList pa = new ArrayList();
-            ArrayList pv = new ArrayList();
 
-            pa.Add("@oper");
-            pv.Add(8);
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
 
-            pa.Add("@ReqID");
-            pv.Add(ReqID);
+        pa.Add("@oper");
+        pv.Add(8);
 
-            pa.Add("@RequestType");
-            pv.Add(ReqType);
+        pa.Add("@ReqID");
+        pv.Add(ReqID);
 
-            pa.Add("@WorkFlowID");
-            pv.Add(WorkFLowID);
+        pa.Add("@RequestType");
+        pv.Add(ReqType);
 
-            pa.Add("@OrderNumber");
-            pv.Add(OrderNumber);
+        pa.Add("@WorkFlowID");
+        pv.Add(WorkFLowID);
 
-            pa.Add("@RoleID");
-            pv.Add(RoleID);
+        pa.Add("@OrderNumber");
+        pv.Add(OrderNumber);
 
-            pa.Add("@Action");
-            pv.Add(Action);
+        pa.Add("@RoleID");
+        pv.Add(RoleID);
 
-            pa.Add("@Comments");
-            pv.Add(Comments);
+        pa.Add("@Action");
+        pv.Add(Action);
 
-            pa.Add("@UserID");
-            pv.Add(UserID);
+        pa.Add("@Comments");
+        pv.Add(Comments);
 
-            pa.Add("@Ispaid");
-            pv.Add(Ispaid);
+        pa.Add("@UserID");
+        pv.Add(UserID);
+
+        pa.Add("@Ispaid");
+        pv.Add(Ispaid);
 
 
         DBH.CreateDataset_SSHR(ds, "Sp_MyTeamRequest", true, pa, pv);
 
-            return ds.Tables[0].Rows[0][0].ToString();
-       
+        return ds.Tables[0].Rows[0][0].ToString();
+
     }
 
 
@@ -2286,6 +2287,7 @@ public partial class SSHR_MyTeamRequests : System.Web.UI.Page
         public string WorkFlowID { get; set; }
         public string CreatedBy { get; set; }
         public string isPaid { get; set; }
+        public string No_OF_Month { get; set; }
 
 
     }

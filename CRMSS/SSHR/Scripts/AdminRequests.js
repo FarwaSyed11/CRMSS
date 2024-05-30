@@ -54,6 +54,7 @@ $('#empLeaveModal').on('keyup keypress', function (e) {
 
 $('#btnSearch').on('click', function () {
 
+    CountStatus();
     $('.ajax-loader').removeClass('hidden');
     setTimeout(function () {
         LoadRequestData('Please Wait...');
@@ -149,7 +150,7 @@ function LoadRequestData(loadername) {
         url: "AdminRequests.aspx/GettableData",
         data: JSON.stringify({
             "UserID": currUserId, "RequestType": $('#ddlRequests option:selected').val(),
-            "ReqNumb": $('#txtReqNumbSearch').val(),
+            "ReqNumb": $('#txtReqNumbSearch').val() == '' ? 'SUBMIT' : $('#txtReqNumbSearch').val(),
         }),
         type: "POST",
         contentType: "application/json;charset=utf-8",
@@ -3966,4 +3967,467 @@ function timeFormat(dTime) {
 
     return time;
 }
+
+
+function CountStatus() {
+
+    $.ajax({
+        url: "AdminRequests.aspx/getCountStatus",
+        data: JSON.stringify({
+            "UserID": currUserId, "RequestType": $('#ddlRequests option:selected').val(),
+            "ReqNumb": $('#txtReqNumbSearch').val() == '' ? 'SUBMIT' : $('#txtReqNumbSearch').val(), }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+
+            $('.box-val-Draft').html(result.d[0].CountDraft);
+            $('.box-val-Draft').css('text-decoration', 'underline');
+            $('.box-val-Pending').html(result.d[0].CountSubmit);
+            $('.box-val-Pending').css('text-decoration', 'underline');
+            $('.box-val-Approved').html(result.d[0].CountApproved);
+            $('.box-val-Approved').css('text-decoration', 'underline');
+            $('.box-val-Rejected').html(result.d[0].CountRejected);
+            $('.box-val-Rejected').css('text-decoration', 'underline');
+            $('.box-val-Cancelled').html(result.d[0].CountCancelled);
+            $('.box-val-Cancelled').css('text-decoration','underline');
+            
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+$("#txtReqNumbSearch").keypress(function (event) {
+    if (event.which == 13) {
+        CountStatus();
+        $('.ajax-loader').removeClass('hidden');
+        setTimeout(function () {
+            LoadRequestData('Please Wait...');
+            $(".ajax-loader").addClass('hidden');
+        }, 500);
+    }
+});
+
+function LoadRequestStatus(status) {
+    //$('.kpi-loader-name').html(loadername);
+    //$('.ajax-loader').show();
+    $.ajax({
+        url: "AdminRequests.aspx/GetRequestByStatus",
+        data: JSON.stringify({
+            "UserID": currUserId, "RequestType": $('#ddlRequests option:selected').val(),
+            "ReqNumb": $('#txtReqNumbSearch').val(), Status: status,
+        }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            $('.tbody-emp-req td').length > 0 ? objDatatable.destroy() : '';
+            var htm = '';
+            var htmlHead = '';
+
+            if ($('#ddlRequests option:selected').val() == 0) {
+
+                htmlHead += `<tr style="text-align: center;">
+                               <th class="table-cahnge" colspan="7" style="font-size:large;background: #b70000 !important;color: white !important;">LEAVE APPLICATION</th></tr>`
+
+                htmlHead += `   <tr style="text-align:center;" class="Head-tr">
+                                 <th style="display:none;">ID</th> 
+                                 <th>Leave App No</th>
+                                 <th>Leave Type</th>
+                                 <th>Start Date</th>
+                                 <th>End Date</th>
+                                 <th>Reason</th>
+                                 <th>Stage</th>
+                                 <th>Action</th>
+                             
+
+                 </tr>`;
+
+                $.each(result.d, function (key, item) {
+
+
+                    htm += `  <tr>        
+               
+                 <td style=" ;display:none;">`+ item.LEAVE_APPLICATION_ID + `</td>  
+                 <td style=" text-align: center;">`+ item.LEAVE_APPLICATION_NO + `</td>
+                 <td style=" ">`+ item.LEAVE_TYPE + `</td>     
+                 <td style="text-align: center; ">`+ datedayformat(item.FROM_DATE) + `</td>
+                 <td style=" text-align: center;">`+ datedayformat(item.TO_DATE) + `</td>
+                  <td style=" ">`+ item.REASON + `</td> 
+                  <td style=" text-align: center;" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                  <td style="text-align:center">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-leave-req-info" title="Other" data-projid="`+ item.LEAVE_APPLICATION_NO + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                  </td>
+
+                    </tr>`;
+
+                });
+
+                $('.thead-Request_Details').html(htmlHead);
+                $('.tbody-emp-req').html(htm);
+
+            }
+
+
+            else if ($('#ddlRequests option:selected').val() == 1) {
+
+
+
+
+
+                htmlHead += ` <tr style="text-align: center;" class="Head-tr">
+                                      <th class="table-cahnge" colspan="7" style="font-size:large;background: #b70000 !important;color: white !important;">PASSPORT RELEASE</th></tr>`
+
+                htmlHead += `  <tr style="text-align: center;" class="Head-tr">
+                                <th style="display:none;">ID</th > 
+                                <th> Request Numb</th>
+                                 <th>Reason</th>
+                                 <th>Travelling Date</th>
+                                 <th>Return Date</th>
+                                 <th>Request Date</th>
+                                 <th>Stage</th>
+                                 <th>Action</th>
+                 </tr>`;
+
+                $.each(result.d, function (key, item) {
+
+                    htm += `  <tr>        
+               
+                 <td style=" ;display:none;">`+ item.ReqID + `</td>  
+                 <td style="text-align: center; ">`+ item.Req_Number + `</td>
+                 <td style=" ">`+ item.RequestFor + `</td>     
+                 <td style=" text-align: center;">`+ datedayformat(item.Travelling_Date) + `</td>
+                 <td style=" text-align: center;">`+ datedayformat(item.Expected_Date_Of_Return) + `</td>
+                  <td style="text-align: center; ">`+ datedayformat(item.RequestDate) + `</td>
+                    <td style="text-align: center; " ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                   <td style="text-align:center ">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-PPT-req-info" title="Other" data-pptid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                  </td>
+
+                   </tr>`;
+
+                });
+
+                $('.thead-Request_Details').html(htmlHead);
+                $('.tbody-emp-req').html(htm);
+
+            }
+
+
+
+            else if ($('#ddlRequests option:selected').val() == 2) {
+
+                htmlHead += ` <tr style="text-align: center;">
+                               <th class="table-cahnge" colspan="5" style="font-size:large;background: #b70000 !important;color: white !important;">BANK RELATED REQUEST</th></tr>`
+
+                htmlHead += `  <tr style="text-align: center;">
+                                 <th style="display:none;">ID</th > 
+                                 <th>Request Number</th >
+                                 <th>Request Type</th>
+                                 <th>Request Date</th>
+                                 <th>Request Status</th>
+                                 <th>Action</th>`
+
+
+                $.each(result.d, function (key, item) {
+
+
+                    htm += `  <tr>        
+               
+                 <td style=" ;display:none;">`+ item.ReqID + `</td> 
+                  <td style="text-align: center; ">`+ item.Req_Number + `</td>
+                 <td style=" ">`+ item.REQUEST_TYPE + `</td>  
+                 <td style="text-align: center; ">`+ datedayformat(item.RequestDate) + `</td>
+               <td style=" text-align: center;" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                <td style="text-align:center ">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-BDR-req-info" title="Other" data-bankrelid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                  </td>
+
+                  </tr>`;
+
+                });
+
+
+                $('.thead-Request_Details').html(htmlHead);
+                $('.tbody-emp-req').html(htm);
+
+            }
+
+
+            else if ($('#ddlRequests option:selected').val() == 3) {
+
+                htmlHead += ` <tr style="text-align: center;">
+                               <th class="table-cahnge" colspan="6" style="font-size:large;background: #b70000 !important;color: white !important;">MISCELLANEOUS REQUEST</th></tr>`
+
+                htmlHead += `  <tr style="text-align: center;">
+                                 <th style="display:none;">ID</th > 
+                                 <th>Request Number</th >
+                                 <th>Request Type</th>
+                                 <th>Reason</th>
+                                 <th>Request Date</th>
+                                 <th>Status</th>
+                                  <th>Action</th>`
+
+
+                $.each(result.d, function (key, item) {
+
+
+                    htm += `  <tr>        
+               
+                 <td style=" ;display:none;">`+ item.ReqID + `</td> 
+                  <td style=" text-align: center;">`+ item.Req_Number + `</td>
+                 <td style=" ">`+ item.REQUEST_TYPE + `</td>   
+                 <td style=" ">`+ item.RequestFor + `</td>   
+                  <td style=" text-align: center;">`+ datedayformat(item.RequestDate) + `</td>
+                 <td style="text-align: center; " ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                <td style="text-align:center ">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-Misc-req-info" title="Other Misc" data-miscid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                  </td>
+
+                  </tr>`;
+
+                });
+
+
+                $('.thead-Request_Details').html(htmlHead);
+                $('.tbody-emp-req').html(htm);
+
+            }
+
+
+            else if ($('#ddlRequests option:selected').val() == 4) {
+
+                htmlHead += ` <tr style="text-align: center;">
+                               <th class="table-cahnge" colspan="8" style="font-size:large;background: #b70000 !important;color: white !important;">COMPANY LOAN REQUEST</th></tr>`
+
+                htmlHead += `  <tr style="text-align: center;">
+                                 <th style="display:none;">ID</th > 
+                                 <th style="width:20%">Request Number</th>
+                                 <th style="width:10%">Loan Type</th>
+                                 <th style="width:20%">Reason</th>
+                                 <th style="width:10%">Date Start</th>
+                                 <th style="width:10%">Amount</th>
+                                 <th style="width:10%">Request Date</th>
+                                 <th style="width:10%">Status</th>
+                                  <th style="width:10%">Action</th>`
+
+
+                $.each(result.d, function (key, item) {
+
+
+                    htm += `  <tr>        
+               
+                 <td style=" ;display:none;">`+ item.ReqID + `</td> 
+                  <td style=" text-align: center;">`+ item.Req_Number + `</td>
+                 <td style=" ">`+ item.REQUEST_TYPE + `</td>   
+                 <td style=" ">`+ item.RequestFor + `</td>   
+                 <td style=" text-align: center;">`+ datedayformat(item.FROM_DATE) + `</td>
+                 <td style=" text-align: center;">`+ item.AMOUNT + `</td>
+                 <td style="text-align: center; ">`+ datedayformat(item.RequestDate) + `</td>
+                  <td style=" text-align: center;" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                <td style="text-align:center ">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-CL-req-info" title="Other" data-comloid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                  </td>
+
+                  </tr>`;
+
+                });
+
+
+                $('.thead-Request_Details').html(htmlHead);
+                $('.tbody-emp-req').html(htm);
+
+            }
+
+
+            else if ($('#ddlRequests option:selected').val() == 5) {
+
+                htmlHead += ` <tr style="text-align: center;">
+                               <th class="table-cahnge" colspan="7" style="font-size:large;background: #b70000 !important;color: white !important;">LATE ATTENDANCE REQUEST</th></tr>`
+
+                htmlHead += `    <tr style="text-align: center;">
+                                 <th style="display:none;">ID</th > 
+                                 <th style="width:20%">Request Number</th >
+                                 <th style="width:10%">Date</th>
+                                 <th style="width:10%">Arrived Time</th>
+                                 <th style="width:20%">Reason</th>
+                                 <th style="width:10%">Request Date</th>
+                                 <th style="width:20%">Status</th>
+                                  <th style="width:20%">Action</th>`
+
+
+                $.each(result.d, function (key, item) {
+
+
+                    htm += `  <tr>        
+               
+                 <td style=" ;display:none;">`+ item.ReqID + `</td> 
+                  <td style=" text-align: center;">`+ item.Req_Number + `</td>
+                  <td style=" text-align: center;">`+ datedayformat(item.FROM_DATE) + `</td>
+                 <td style=" text-align: center;">`+ (item.ARRIVED_TIME) + `</td>
+                 <td style=" ">`+ item.REASON + `</td>   
+                 <td style="text-align: center; ">`+ datedayformat(item.RequestDate) + `</td>
+                   <td style=" text-align: center;" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                <td style=" text-align:center">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-LA-req-info" title="Other" data-laid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                  </td>
+
+                  </tr>`;
+
+                });
+
+
+                $('.thead-Request_Details').html(htmlHead);
+                $('.tbody-emp-req').html(htm);
+
+            }
+
+            else if ($('#ddlRequests option:selected').val() == 6) {
+
+                htmlHead += ` <tr style="text-align: center;">
+                               <th class="table-cahnge" colspan="7" style="font-size:large;background: #b70000 !important;color: white !important;">EXIT PASS REQUEST</th></tr>`
+
+                htmlHead += `  <tr style="text-align: center;">
+                                 <th style="display:none;">ID</th > 
+                                 <th style="width:10%">Request Number</th >
+                                 <th style="width:10%">Exit Date</th>
+                                 <th style="width:10%">Exit Time</th>
+                                 <th style="width:20%">Reason</th>
+                                 <th style="width:10%">Request Date</th>
+                                 <th style="width:10%">Status</th>
+                                  <th style="width:10%">Action</th>`
+
+
+                $.each(result.d, function (key, item) {
+
+
+                    htm += `  <tr>        
+               
+                 <td style=" ;display:none;">`+ item.ReqID + `</td> 
+                  <td style=" text-align: center;">`+ item.Req_Number + `</td>
+                 <td style=" text-align: center;">`+ datedayformat(item.EXIT_DATE) + `</td>
+                 <td style=" text-align: center;">`+ (item.OUT_TIME) + `</td>
+                 <td style=" ">`+ item.REASON + `</td>   
+                 <td style=" text-align: center;">`+ datedayformat(item.RequestDate) + `</td>
+                 <td style=" text-align: center;" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                <td style=" text-align:center">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-EXTPass-req-info" title="Other" data-exitid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                  </td>
+
+                  </tr>`;
+
+                });
+
+
+                $('.thead-Request_Details').html(htmlHead);
+                $('.tbody-emp-req').html(htm);
+
+            }
+            else if ($('#ddlRequests option:selected').val() == 7) {
+
+                htmlHead += ` <tr style="text-align: center;">
+                               <th class="table-cahnge" colspan="7" style="font-size:large;background: #b70000 !important;color: white !important;">TICKET ENCASHMENT REQUEST</th></tr>`
+
+                htmlHead += `  <tr style="text-align: center;">
+                                 <th style="display:none;">ID</th > 
+                                 <th style="width:10%">Request Number</th >
+                                 <th style="width:10%">Last Ticket Encash Date</th>
+                                 <th style="width:10%">Requested Date</th>
+                                 <th style="width:20%">Reason</th>
+                                 <th style="width:10%">Status</th>
+                                  <th style="width:10%">Action</th>`
+
+
+                $.each(result.d, function (key, item) {
+
+
+                    htm += `  <tr>        
+               
+                 <td style=" ;display:none;">`+ item.ReqID + `</td> 
+                  <td style=" text-align: center;">`+ item.Req_Number + `</td>
+
+                 <td style="text-align: center; ">`+ datedayformat(item.LastEncashDate) + `</td>
+                 <td style=" text-align: center;">`+ datedayformat(item.RequestDate) + `</td>
+                  <td style=" ">`+ item.REASON + `</td>   
+                 <td style=" text-align: center;" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                 <td style=" text-align:center">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-TE-req-info" title="Other" data-exitid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                  </td>
+
+                  </tr>`;
+
+                });
+
+
+                $('.thead-Request_Details').html(htmlHead);
+                $('.tbody-emp-req').html(htm);
+
+            }
+
+            //all Request
+            else if ($('#ddlRequests option:selected').val() == -1) {
+
+                htmlHead += ` <tr style="text-align: center;">
+                               <th class="table-cahnge" colspan="6" style="font-size:large;background: #b70000 !important;color: white !important;">ALL REQUESTS</th></tr>`
+
+                htmlHead += `  <tr style="text-align: center;">
+                                 <th style="display:none;">ID</th>
+                                 
+                                  <th style="display:none;">ReqTypeID</th>
+                                  <th style="width:25%">Request Number</th>
+                                 <th style="width:20%">Request Type</th>
+                                 
+                                 <th style="width:25%">Reason</th>
+                                 <th style="width:20%">Request Date</th>
+                                 <th style="width:20%">Status</th>
+                                 <th style="width:10%">Action</th>`
+
+
+                $.each(result.d, function (key, item) {
+
+
+                    htm += `  <tr>        
+               
+                 <td style=" ;display:none;">`+ item.ReqID + `</td> 
+                 <td style=" ;display:none;">`+ item.REQUEST_TYPEID + `</td> 
+                 <td style=" text-align: center;">`+ item.Req_Number + `</td>
+                 <td style=" ">`+ item.REQUEST_TYPE + `</td>   
+                   
+                 <td style=" ">`+ item.REASON + `</td>   
+                 <td style=" text-align: center;">`+ datedayformat(item.RequestDate) + `</td>
+                  <td style="text-align: center; " ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                <td style=" text-align:center">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-AllReq-req-info" title="Other" data-projid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                  </td>
+
+                  </tr>`;
+
+                });
+
+
+                $('.thead-Request_Details').html(htmlHead);
+                $('.tbody-emp-req').html(htm);
+
+            }
+
+            initiateDataTableEmp();
+
+
+        },
+        //complete: function () {
+        //    $('.ajax-loader').hide();
+        //},
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+
+}
+
 

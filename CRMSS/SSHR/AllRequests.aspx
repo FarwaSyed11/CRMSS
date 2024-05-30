@@ -560,8 +560,7 @@
                                 <option value="3">Miscellaneous Request</option>
                                 <option value="4">Company Loan</option>
                                 <option value="5">Late Attendance Request</option>
-                                <option value="6">Exit Pass Request</option>
-                                <option value="7">Ticket Encashment</option>
+                                <option value="6">Exit Pass Request</option>                                
                             </select>
                         </div>
                         <div class="col-2">
@@ -655,7 +654,7 @@
                                     </div>
                                     <div class="download-Attachment">
                                         <img src="Images/Icon-download.png" id="btnDownloadOBAtt" title="Download File" class="fa-icon-hover" style="cursor: pointer;width:30px" />
-                                        
+                                        <span><i class="bx bxs-show fa-icon-hover btnDownloadOBAtt" style="color: #eb9d96;font-size: 1.5rem;margin: -17px 0px 0px 0px;cursor: pointer;"></i></span>
                                     </div>
 
                                 </div>
@@ -1350,6 +1349,31 @@
         </div>
     </div>
 
+
+        <div class="modal fade" id="mpPdfviewer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: #19191973;">
+     <div class="modal-dialog modal-dialog-centered">
+         <div class="modal-content" style="width: auto">
+             <div class="modal-header">
+                 <h5 class="modal-title"></h5>
+                 <button
+                     type="button"
+                     class="btn-close btn-close-event-modal"
+                     data-bs-dismiss="modal"
+                     aria-label="Close">
+                 </button>
+             </div>
+             <div class="modal-body dvpdfview" style="text-align: center;">
+
+                 <iframe id="myIframe" src="" style="height: 1150px; width: 841px;"></iframe>
+
+
+
+             </div>
+
+         </div>
+
+     </div>
+</div>
 
 
 

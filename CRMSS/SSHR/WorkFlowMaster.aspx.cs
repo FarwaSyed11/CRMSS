@@ -108,6 +108,7 @@ public partial class SSHR_WorkFlowMaster : System.Web.UI.Page
                 Enabled = s.Rows[i]["Enabled"].ToString(),
                 CheckCss = s.Rows[i]["CheckCss"].ToString(),
                 OrderNumber = s.Rows[i]["OrderNumber"].ToString(),
+                ROLE_ID = s.Rows[i]["ROLE_ID"].ToString(),
             });
         }
         for (int i = 0; i < e.Rows.Count; i++)
@@ -249,7 +250,7 @@ public partial class SSHR_WorkFlowMaster : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static List<AuthorityDet> GetAuthorityDetails(string StageId,string WFId)
+    public static List<UserDet> GetUserDetails(string RoleId)
     {
 
         DBHandler DBH = new DBHandler();
@@ -261,17 +262,12 @@ public partial class SSHR_WorkFlowMaster : System.Web.UI.Page
         pa.Add("@oper");
         pv.Add(4);
 
-        pa.Add("@StageId");
-        pv.Add(Convert.ToInt64(StageId));
-
-        pa.Add("@WorkFlowId");
-        pv.Add(Convert.ToInt64(WFId));
-
-
+        pa.Add("@RoleId");
+        pv.Add(Convert.ToInt64(RoleId));
 
         DBH.CreateDataset_SSHR(ds, "sp_WorkFlowMaster", true, pa, pv);
 
-        List<AuthorityDet> oEmpList = new List<AuthorityDet>();
+        List<UserDet> oEmpList = new List<UserDet>();
 
         if (ds.Tables.Count > 0)
         {
@@ -279,15 +275,15 @@ public partial class SSHR_WorkFlowMaster : System.Web.UI.Page
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                oEmpList.Add(new AuthorityDet()
+                oEmpList.Add(new UserDet()
                 {
-                    AuthorityId = dt.Rows[i]["AuthorityId"].ToString(),
-                    Authority = dt.Rows[i]["Authority"].ToString(),
-                    Description = dt.Rows[i]["Description"].ToString(),
-                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
-                    CreatedDate = dt.Rows[i]["CreatedDate"].ToString(),
-                    CheckClass = dt.Rows[i]["CheckClass"].ToString(),
-                    IS_ENABLED = dt.Rows[i]["IsEnabled"].ToString(),
+                    User_Id = dt.Rows[i]["User_Id"].ToString(),
+                    EmpNo = dt.Rows[i]["EmpNo"].ToString(),
+                    EmpName = dt.Rows[i]["EmpName"].ToString(),
+                    Email_Id = dt.Rows[i]["Email_Id"].ToString(),
+                    Password = dt.Rows[i]["Password"].ToString(),
+                    Status = dt.Rows[i]["Status"].ToString(),
+                    StatusClasss = dt.Rows[i]["StatusClasss"].ToString(),
 
                 });
             }
@@ -434,15 +430,50 @@ public partial class SSHR_WorkFlowMaster : System.Web.UI.Page
 
 
     }
-    public class AuthorityDet
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<DropDownValues> GetORGForCopy()
     {
-        public string AuthorityId { get; set; }
-        public string Authority { get; set; }
-        public string Description { get; set; }
-        public string CreatedBy { get; set; }
-        public string CreatedDate { get; set; }
-        public string CheckClass { get; set; }
-        public string IS_ENABLED { get; set; }
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(9);
+
+
+
+        DBH.CreateDataset_SSHR(ds, "sp_WorkFlowMaster", true, pa, pv);
+
+        List<DropDownValues> drpval = new List<DropDownValues>();
+        dt = ds.Tables[0];
+
+
+
+        for (int i = 0; i < dt.Rows.Count; i++)
+        {
+            drpval.Add(new DropDownValues()
+            {
+                ddlValue = dt.Rows[i]["ORGANIZATION_ID"].ToString(),
+                ddlText = dt.Rows[i]["ORGANIZATION"].ToString()
+            });
+        }
+        return drpval;
+        //string a = userId;
+    }
+    public class UserDet
+    {
+        public string User_Id { get; set; }
+        public string EmpNo { get; set; }
+        public string EmpName { get; set; }
+        public string Email_Id { get; set; }
+        public string Password { get; set; }
+        public string Status { get; set; }
+        public string StatusClasss { get; set; }
 
     }
 
@@ -469,6 +500,7 @@ public partial class SSHR_WorkFlowMaster : System.Web.UI.Page
         public string Enabled { get; set; }
         public string CheckCss { get; set; }
         public string OrderNumber { get; set; }
+        public string ROLE_ID { get; set; }
     }
 
     public class EmploayeeDet

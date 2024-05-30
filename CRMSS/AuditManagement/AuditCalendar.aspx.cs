@@ -2434,7 +2434,7 @@ public partial class AuditManagement_AuditCalendar : System.Web.UI.Page
         pv.Add(0);
 
         pa.Add("@ObsID");
-        pv.Add(data.ObsID);
+        pv.Add(Convert.ToInt64(data.ObsID));
 
         pa.Add("@AuditAreaId");
         pv.Add(data.AreaID);
@@ -2466,7 +2466,7 @@ public partial class AuditManagement_AuditCalendar : System.Web.UI.Page
         pa.Add("@Entity");
         pv.Add(data.ObsEntity);
 
-        pa.Add("@Risk");
+        pa.Add("@RiskIds");
         pv.Add(data.ObsRisk);
 
         pa.Add("@Recommendation");
@@ -2510,7 +2510,7 @@ public partial class AuditManagement_AuditCalendar : System.Web.UI.Page
     //show all the in observation
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static List<auditobservation> GetAllAuditObservations(int AuditId)
+    public static AllInOneObsAndRisk GetAllAuditObservations(int AuditId)
     {
         DBHandler DBH = new DBHandler();
         DataSet ds = new DataSet();
@@ -2526,7 +2526,8 @@ public partial class AuditManagement_AuditCalendar : System.Web.UI.Page
 
         DBH.CreateDataset_AuditManagement(ds, "sp_AuditObservation", true, pa, pv);
 
-        List<auditobservation> oListObservation = new List<auditobservation>();
+        List<auditobservation> oListObs = new List<auditobservation>();
+        List<ObsRisks> oListObsRisks = new List<ObsRisks>();
 
         if (ds.Tables.Count > 0)
         {
@@ -2534,7 +2535,7 @@ public partial class AuditManagement_AuditCalendar : System.Web.UI.Page
 
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                oListObservation.Add(new auditobservation()
+                oListObs.Add(new auditobservation()
                 {
                     ObsID = dt.Rows[i]["ObsID"].ToString(),
                     AuditId = dt.Rows[i]["AuditId"].ToString(),
@@ -2558,18 +2559,42 @@ public partial class AuditManagement_AuditCalendar : System.Web.UI.Page
                     Status = dt.Rows[i]["Status"].ToString(),
                     StatusCss = dt.Rows[i]["StatusCss"].ToString(),
                     CreatedDate = dt.Rows[i]["CreatedDate"].ToString(),
-                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString()
-                   
-
+                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString() 
                 });
+            }
 
+            for (int i = 0; i < ds.Tables[1].Rows.Count; i++)
+            {
+                oListObsRisks.Add(new ObsRisks()
+                {
+                    ObsId = ds.Tables[1].Rows[i]["ObsId"].ToString(),
+                    RiskId = ds.Tables[1].Rows[i]["RiskId"].ToString(),
+                    RiskName = ds.Tables[1].Rows[i]["RiskName"].ToString()
+                });
             }
         }
 
-        return oListObservation;
+
+
+        return new AllInOneObsAndRisk
+        {
+            listObs = oListObs,
+            listObsRisk = oListObsRisks
+        };
 
     }
-    
+
+    public class AllInOneObsAndRisk {
+        public List<auditobservation> listObs { get; set; }
+        public List<ObsRisks> listObsRisk { get; set; }
+    }
+
+    public class ObsRisks
+    {
+        public string RiskId { get; set; } 
+        public string RiskName { get; set; } 
+        public string ObsId { get; set; } 
+    }
 
     //show all the team members
     [WebMethod]

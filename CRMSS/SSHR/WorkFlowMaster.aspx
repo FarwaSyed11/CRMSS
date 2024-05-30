@@ -237,47 +237,6 @@
             background-color: #d54832;
         }
 
-        .WorkFlow-table-details th {
-            text-align: center;
-            color: white !important;
-            background-color: #d54832;
-        }
-
-        .WorkFlow-table-details td {
-            border-bottom: 1px solid #96a2ab45 !important;
-        }
-
-        .stage-Details-table th {
-            text-align: center;
-            color: white !important;
-            background-color: #a16363;
-        }
-
-        .stage-Details-table td {
-            border-bottom: 1px solid #96a2ab45 !important;
-        }
-
-
-        .Authority-Details-table th {
-            text-align: center;
-            color: white !important;
-            background-color: #a16363;
-        }
-
-        .Authority-Details-table td {
-            border-bottom: 1px solid #96a2ab45 !important;
-        }
-
-        .employee-Details-table th {
-            text-align: center;
-            color: white !important;    
-            background-color: #a16363;
-        }
-
-        .employee-Details-table td {
-            border-bottom: 1px solid #96a2ab45 !important;
-        }
-
         .Answer-list-table th {
             text-align: center;
             color: white !important;
@@ -311,32 +270,34 @@
             text-align: center;
         }
 
-        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
-            color: #ffffff;
-            background-color: #a92828;
-            border-color: #fff;
-        }
+       .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+     color: #ffffff;
+     background-color: #a92828;
+     border-color: #fff;
+ }
 
-        .nav-tabs .nav-item .nav-link.active {
-            color: #ffffff;
-            background-color: #a92828;
-            border-color: #fff;
-        }
+ .nav-tabs .nav-item .nav-link.active {
+     color: #ff6c00;
+     background-color: #fdfdfd;
+     border-color: #fff;
+     BORDER-BOTTOM: SOLID;
+ }
 
-        .nav-tabs .nav-item .nav-link:hover {
-            color: #ffffff;
-            background-color: #a92828;
-            border-color: #fff;
-        }
+ .nav-tabs .nav-item .nav-link:hover {
+     color: #ff6c00;
+     background-color: #fdfdfd;
+     border-color: #fff;
+     BORDER-BOTTOM: SOLID;
+ }
 
-        /*.nav-tabs .nav-item .nav-link:not(.active) {
-            color: black;
-            background-color: #b4b9bf;
-        }*/
-        .nav-tabs .nav-item .nav-link:not(.active) {
-            color: #a92828;
-            background-color: #e5bbbb;
-        }
+ /*.nav-tabs .nav-item .nav-link:not(.active) {
+     color: black;
+     background-color: #b4b9bf;
+ }*/
+ .nav-tabs .nav-item .nav-link:not(.active) {
+     color: #a92828;
+     background-color: #ffe7dc;
+ }
 
         table.dataTable tbody tr:hover {
             background-color: #ff6f591a !important;
@@ -567,7 +528,7 @@
           <table class="table WorkFlow-table-details" style="width:100%;">
 
               <thead>
-                  <tr> 
+                  <tr style="text-align:center;"> 
                       <th style="width:8%;display:none;">Work FlowId</th>
                       <th style="width:10%;">Work Flow Name</th>
                        <th style="width:10%;">Organization</th>
@@ -609,12 +570,6 @@
                                 <li class="nav-item">
                                     <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#tab-Stage" aria-controls="tab-Stage" aria-selected="true">STAGE</button>
                                 </li>
-                                <li class="nav-item">
-                                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#tab-Employee" aria-controls="tab-Employee" aria-selected="false">EMPLOYEE</button>
-                                </li>
-
-
-
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane fade show active" id="tab-Stage" role="tabpanel">
@@ -626,13 +581,14 @@
                                             <a href="#" id="btnAddNewStage" class="animated-button2 Popup-Add" style="float:right;font-size:smaller;"><%--<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;--%><span></span><span></span><span></span><span></span><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add New</a>
                                         </div>
 
-                                        <table class="table table-bordered stage-Details-table" style="width:100%;">
+                                        <table class="table stage-Details-table" style="width:100%;">
 
 
                                             <thead>
-                                                <tr>
+                                                <tr style="text-align:center;">
                                                     <%--<th>Id</th>--%>
                                                     <th style="display:none;">StageId</th>
+                                                    <th style="display:none;">RoleId</th>
                                                     <th>Order Number</th>
                                                     <th>Stage</th>
                                                     <th>Description</th>
@@ -654,36 +610,22 @@
                                     </div>
 
 
-                                     <div class="div-Autority-table" style="margin-top: 3%;display:none;">
-                                          <div style="padding-left: 2%; padding-top: 1%;"> <h4 style="color: #a92828; margin-top:13px">AUTHORITY</h4></div> 
-                                         <div style="padding-bottom: 2%;">
-                                           <%-- <a href="#" id="btnAddNewAuthority" class="btn btn-primary" style="float: right;"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add New</a>--%>
-                                              <a href="#" id="btnAddNewAuthority" class="animated-button2 Popup-Add" style="float:right;font-size:smaller;"><%--<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;--%><span></span><span></span><span></span><span></span><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add New</a>
-                                        </div>
-
-                                        <table class="table table-bordered Authority-Details-table" style="width:100%;">
-
+                                    <div class="div-Autority-table" style="margin-top: 3%;display:none;">
+                                       <div style="padding-left: 2%; padding-top: 1%;"> <h4 style="color: #a92828; margin-top:13px">Users</h4></div> 
+                                        <table class="table Role-Employee-Det" style="width:100%;">
 
                                             <thead>
-                                                <tr>
+                                                <tr style="text-align:center;">
                                                     <%--<th>Id</th>--%>
-                                                    <th style="display:none;">AuthorityId</th>
-                                                    <th>Authority</th>
-                                                    <th>Description</th>
-                                                    <th>CreatedBy</th>
-                                                    <th>CreatedDate</th>
-                                                    <th>Enabled</th>
-                                                   <%-- <th>Enabled </th>
-                                                    <th>View</th>--%>
-                                                   
-                                                    <%--<th>Status</th>--%>
-
-                                                   <%-- <th style="width: 10%;">Action</th>--%>
+                                                    <th style="display:none;">UserId</th>
+                                                    <th>EmpNo</th>
+                                                    <th>Emp Name</th>
+                                                    <th>Email Id</th>
+                                                    <th>Password</th>
+                                                    <th>Status</th>
                                                 </tr>
                                             </thead>
-
-
-                                            <tbody class="tbody-Authority">
+                                            <tbody class="tbody-RoleEmployee">
                                             </tbody>
                                         </table>
                                     </div>
@@ -692,41 +634,6 @@
 
                                 </div>
 
-                                <div class="tab-pane fade" id="tab-Employee" role="tabpanel">
-
-                                    <div class="" style="margin-top: 1%;">
-                                        <div style="padding-bottom: 2%;">
-                                         <%--   <a href="#" id="btnAddNewEmployee" class="btn btn-primary" style="float: right;"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add New</a>--%>
-                                             <a href="#" id="btnAddNewEmployee" class="animated-button2 Popup-Add" style="float:right;font-size:smaller;"><%--<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;--%><span></span><span></span><span></span><span></span><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add New</a>
-                                        </div>
-
-                                        <table class="table table-bordered employee-Details-table" style="width: 100%;">
-
-
-                                            <thead>
-                                                <tr>
-                                                    <%--<th>Id</th>--%>
-                                                    <th style="display: none;">EmployeeId</th>
-                                                    <th>Employee Name</th>
-                                                    <th>Description</th>
-                                                    <th>CreatedBy</th>
-                                                    <th>Created Date</th>
-                                                    <th>Enabled</th>
-                                                  
-
-
-
-                                                    <%--<th style="width: 10%;">Action</th>--%>
-                                                </tr>
-                                            </thead>
-
-
-                                            <tbody class="tbody-Employee">
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -750,65 +657,102 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div id="Estimation-details-rectangle-div" style="background: #dbdbdb17; padding: 17px; border-radius: 12px; border: 1px solid #dbd7d6;box-shadow: 0px 0px 13px -7px #444444;"> 
+                    <nav id="nav-tab">
+                        <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="pills-AddNewWF-tab" data-bs-toggle="pill" data-bs-target="#pills-AddNewWF" type="button" role="tab" aria-controls="pills-AddNewWF" aria-selected="true">Add New WF</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-CopyWF-tab" data-bs-toggle="pill" data-bs-target="#pills-CopyWF" type="button" role="tab" aria-controls="pills-CopyWF" aria-selected="false">Copy WF</button>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-AddNewWF" role="tabpanel" aria-labelledby="pills-AddNewWF-tab">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="html5-number-input" class="col-form-label label-custom">Organization</label>
+                                    <div>
+                                        <select id="ddlWFOrg" class="form-select color-dropdown">
+                                        </select>
+                                    </div>
+                                </div>
 
-                    <div class="row">
-                        <div class="">
-                            <label for="html5-number-input" class="col-form-label label-custom">Organization</label>
-                            <div>
-                                <select id="ddlWFOrg" class="form-control textbox-border-color" >
-                                    </select>
+
+                                <div class="col-6">
+                                    <label for="html5-number-input" class="col-form-label label-custom">WorkFlow Name</label>
+                                    <div>
+                                        <input type="text" id="txtWFName" class="form-control" />
+
+                                    </div>
+                                </div>
+
                             </div>
-                        </div>
-                    </div>
-
-                     <div class="row">
-                        <div class="">
-                            <label for="html5-number-input" class="col-form-label label-custom">WorkFlow Name</label>
-                            <div>
-                                <input type="text" id="txtWFName" class="form-control textbox-border-color" />
-                                    
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="html5-number-input" class="col-form-label label-custom">Description</label>
+                                    <div>
+                                        <textarea class="form-control" id="txtWFDescription" rows="4" placeholder="Enter Description"></textarea>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
 
-                     <div class="row">
-                        <div class="">
-                            <label for="html5-number-input" class="col-form-label label-custom">Description</label>
-                            <div>
-                                <input type="text" id="txtWFDescription" class="form-control textbox-border-color" />
-                                    
+                            <div class="row">
+                                <div class="div-consultedDoctor">
+                                    <label for="html5-number-input" class="col-form-label label-custom">Is Enable</label>
+                                    <div>
+                                        <div class="netliva-switch">
+                                            <input type="checkbox" id="cbIsEnabled" netliva-switch="OK">
+                                            <label for="cbIsEnabled" data-active-text="Enable" data-passive-text="disable" style="width: 160px; --switch-active-color: #98ca3c; --switch-passive-color: #66666696; max-width: 55%"></label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="div-consultedDoctor">
-                            <label for="html5-number-input" class="col-form-label label-custom">Is Enable</label>
-                            <div>
-                                <div class="netliva-switch">
-                                    <input type="checkbox" id="cbIsEnabled" netliva-switch="OK">
-                                    <label for="cbIsEnabled" data-active-text="Enable" data-passive-text="disable" style="width: 160px; --switch-active-color: #98ca3c; --switch-passive-color: #66666696;max-width:55%"></label>
+                            <div class="row">
+                                <div style="float: right;">
+                                    <a href="#" id="btnSubmitWFDet" class="btn btn-primary pull-right" style="float: right;">Submit</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                         <div class="row">
-                             <div style="float:right;">
-                        <a href="#" id="btnSubmitWFDet" class="btn btn-primary pull-right" style="float:right;">Submit</a>
-                                 </div>
-                             </div>
+
+                        <div class="tab-pane fade" id="pills-CopyWF" role="tabpanel" aria-labelledby="pills-CopyWF-tab">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="html5-number-input" class="col-form-label label-custom">From : Organization</label>
+                                    <div>
+                                        <select id="ddlFromOrg" class="form-select color-dropdown">
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-6">
+                                    <label for="html5-number-input" class="col-form-label label-custom">To : Organization</label>
+                                    <div>
+                                        <select id="ddlToOrg" class="form-select color-dropdown">
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row" style="padding-top:2%;">
+                                <div style="float: right;">
+                                    <a href="#" id="btnSubmitCopyWF" class="btn btn-primary pull-right" style="float: right;">Submit</a>
+                                </div>
+                            </div>
+
+
 
                         </div>
 
-
-
+                    </div>
                 </div>
                 <div class="modal-footer">
                 </div>
             </div>
         </div>
-    </div>
+</div>
 
 
 
@@ -1061,7 +1005,7 @@
       </script>
     	<!-- Datatable plugin CSS file -->
     <link href="../FacilityManagement/Datatable/css/jquery.dataTables.min.css" rel="stylesheet" />
-
+     <link href="Css/allrequest.css" rel="stylesheet" />
 
     <script src="../FacilityManagement/Datatable/js/jquery.dataTables.min.js"></script>
 <%--    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>

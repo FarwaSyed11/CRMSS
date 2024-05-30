@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="Profile.aspx.cs" Inherits="SSHR_Profile" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="Profile.aspx.cs" Inherits="SSHR_Profile" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
@@ -1085,10 +1085,14 @@
                         <div class="row" style="">
 
                             <div class="col-12" style="">
-                                <select class="form-select placement-dropdown" id="ddlSkills">
-                                    <option value="-1"> All </option><option value="1">Word</option>
-                                    <option value="2">Excel</option><option value="3">PP</option>
-                                    <option value="4">SQL</option></select>
+                                <div class="chips_input " data-limit="15">
+                                    <label for="myinput">Type your skills here.<span class="limit"></span></label>
+                                    <div class="inner chip-main-div">
+                                      <%--/<span class="chip">Lorem<button aria-label="remove this chip"><i class="fa-solid fa-xmark"></i></button></span><span class="chip">ipsum<button aria-label="remove this chip"><i class="fa-solid fa-xmark"></i></button></span><span class="chip">sit<button aria-label="remove this chip"><i class="fa-solid fa-xmark"></i></button></span><span class="chip">dolor<button aria-label="remove this chip"><i class="fa-solid fa-xmark"></i></button></span><span class="chip">amet<button aria-label="remove this chip"><i class="fa-solid fa-xmark"></i></button></span>--%>
+                                      <%--<input type="text" id="myinput" name="myinput" />--%>
+                                    </div>
+    
+                                </div> 
                             </div>
                         </div>
 
@@ -1493,7 +1497,7 @@
     <%--<script src ="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>--%>
      <script src="../FireDuctWork/Scripts/jspdf.min.js"></script>
     <script src="../FireDuctWork/Scripts/html2pdf.bundle.min.js"></script>
-    <script src="Scripts/Profile.js?v=0.7"></script>
+    <script src="Scripts/Profile.js?v=4"></script>
     
 
     <link href="../FacilityManagement/Datatable/css/jquery.dataTables.min.css" rel="stylesheet" />
@@ -1507,7 +1511,7 @@
     <link href="../Template/assets/vendor/libs/toaster/toaster.css" rel="stylesheet" />
 
 
-    <link href="Css/profile.css" rel="stylesheet" />
+    <link href="Css/profile.css?v=1.2" rel="stylesheet" />
 
     <%--<link href="Css/Style.css" rel="stylesheet" />--%>
 

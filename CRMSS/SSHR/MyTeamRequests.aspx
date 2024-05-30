@@ -627,7 +627,7 @@ https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js
                                     </div>
                                     <div class="download-Attachment">
                                         <img src="Images/Icon-download.png" id="btnDownloadOBAtt" title="Download File" class="fa-icon-hover" style="cursor: pointer; width: 30px" />
-
+                                        <span><i class="bx bxs-show fa-icon-hover btnDownloadOBAtt" style="color: #eb9d96;font-size: 1.5rem;margin: -17px 0px 0px 0px;cursor: pointer;"></i></span>
                                     </div>
 
                                 </div>
@@ -964,7 +964,7 @@ https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js
         });
 
     </script>
-    <script src="Scripts/MyTeamRequests.js?v=3"></script>
+    <script src="Scripts/MyTeamRequests.js?v=2.2"></script>
     <link href="Css/allrequest.css" rel="stylesheet" />
 
     <script src="../KPI/Flatpickr/js/flatpickr.js"></script>

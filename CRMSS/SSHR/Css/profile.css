@@ -475,6 +475,91 @@ table-staffDtls td {
     margin-top: -7px !important;
 }
 
+div.chips_input {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5rem;
+    --primary: #fff;
+    --secondary: #111;
+    --invalid: #f00;
+    color: var(--secondary);
+}
+
+    div.chips_input > label {
+        opacity: 0.8;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 12px;
+        color: inherit;
+    }
+
+    div.chips_input > p {
+        font-size: 0.8rem;
+        opacity: 0.75;
+        margin: 0 0.25rem;
+        color: inherit;
+    }
+
+    div.chips_input > div.inner {
+        width: 100%;
+        min-height: 2rem;
+        background-color: var(--primary);
+        border: 1px solid #3333;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        padding: 0.5rem;
+        box-sizing: border-box;
+        max-width: 20rem;
+        position: relative;
+    }
+
+        div.chips_input > div.inner > input {
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            position: relative;
+            background: transparent;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+            color: var(--secondary);
+        }
+
+span.chip {
+    padding: 0.25rem 0.75rem;
+    box-sizing: border-box;
+    background: #e7e7e7;
+    border-radius: 0.9rem;
+    color: #3e3e3e;
+    font-size: 0.8rem;
+    padding-right: 1.75rem;
+    position: relative;
+}
+
+    span.chip > button {
+        border: none;
+        background: transparent;
+        color: transparent;
+        position: absolute;
+        top: 50%;
+        right: 0.15rem;
+        transform: translateY(-50%);
+    }
+
+        span.chip > button > i {
+            font-family: fontawesome;
+            cursor: pointer;
+            color: var(--primary);
+        }
+
+span.limit {
+    float: right;
+}
+
 @media (min-width: 1370px) and (max-width: 1605px) {
     .jobdesc-body {
         /*overflow-y: auto;

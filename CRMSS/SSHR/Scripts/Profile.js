@@ -5,18 +5,120 @@ var monthsNameByNo = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "S
 var odd = [1,3,5,7,9,11,13,15,17,19,21,23];
 var even = [2, 4, 8, 10, 12, 14,16,18,20,22,24];
 var Listitems = [], objDatatableAccnAss = [];
-
+var chipAddition = '<button aria-label="remove this chip"><i class="fa-solid fa-xmark"></i></button>';
+var skillsString = '';
 $(document).ready(function () {
+    loadEmpDetails();
     loadEmpImage();
     LoadJobDesc();
-    loadEmpDetails();
     LoadSkillsDDL();
     LoadSkills();
     loadAccnAssDetails();
     renderAccnAsstTable();
     completionperc();
+    updateLimiter();
+
+    $('div.chips_input > div.inner').click(function () {
+        $(this).find('input').focus();
+    });
+
+    //$('div.chips_input > div.inner > #myinput').keydown(function (e) {
+    $('.chip-main-div').on('keyup','#myinput',function (e) {
+        if (e.which == 13 || e.which == 9 || e.which == 188) {
+            e.preventDefault();
+
+            var value = $(this).val();
+
+            if (e.which == 188) {
+                value = value.substring(0, value.length - 1)
+            }
+
+            var matches = 0;
+            $('div.chips_input > div.inner > span').each(function () {
+                var other = $(this).html().substring(0, $(this).html().length - chipAddition.length);
+                // console.log(other, escapeHtml(value));
+                if (other.replaceAll(' ', '') == escapeHtml(value.replaceAll(' ', ''))) {
+                    matches++;
+
+                }
+            });
+
+
+            if (matches == 0 && value.replace(/\s/g, '').length > 0) {
+                if ($('div.chips_input').attr('data-limit') !== 'undefined' && $('div.chips_input').attr('data-limit') !== false && $('div.chips_input > div.inner > span').length != $('div.chips_input').attr('data-limit')) {
+                    makeChip($(this).val());
+                }
+            }
+            $(this).val('');
+        } else if (e.which == 8 && $(this).val().length == 0) {
+            $('div.chips_input > div.inner > span:last-of-type').remove();
+            updateLimiter();
+        }
+                      
+
+    });
+
+    $(document).on('click', 'div.chips_input > div.inner > span > button', function () {
+        $(this).parent().remove();
+        updateLimiter();
+    });
+
 });
 
+
+function generateHTMLForChips(arrSkills) {
+    htm = '';
+    if (arrSkills.length != 0) {
+        $.each(arrSkills[0].KeySkills.split(','), function (key, item) {
+            htm += `<span class="chip">` + item + `<button aria-label="remove this chip"><i class="fa-solid fa-xmark"></i></button></span>`;
+        });
+        htm += '<input type="text" id="myinput" name="myinput" maxlength="25" >';
+        $('.chip-main-div').html(htm);
+    }
+    
+}
+function makeChip(string) {
+    $('div.chips_input > div.inner > input').before('<span class="chip">' + escapeHtml(string) + chipAddition + '</span>');
+    updateLimiter();
+}
+
+function getChips() {
+    var result = '';
+    $('div.chips_input > div.inner > span').each(function () {
+        result = result + '' + $(this).html() + ', ';
+    });
+    var result = result.substring(0, result.length - 1); // crop comma
+    return result;
+}
+function updateLimiter() {
+    inverted = true;
+    var max = $('div.chips_input').attr('data-limit');
+    var cur = $('div.chips_input > div.inner > span').length;
+
+    if (max !== undefined && max !== false) {
+        if (inverted) {
+            cur = max - cur;
+        }
+
+        $('div.chips_input > label > span.limit').html('(' + cur + '/' + max + ')');
+
+        // color it when invalid
+        if (cur == max && inverted == false || cur == 0 && inverted == true) {
+            $('div.chips_input > label > span.limit').css('color', 'var(--invalid)');
+        } else {
+            $('div.chips_input > label > span.limit').css('color', 'inherit');
+        }
+    }
+}
+
+function escapeHtml(unsafe) {
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
 $('.jobdesc').on('click', function () {
     $("#btnEditJobPurpose").css('visibility', 'visible');
     $("#btnViewSalarySlip").css('visibility', 'hidden');
@@ -57,19 +159,25 @@ $('#viewslip').on('click', function () {
 
 $('#modal-btnaddskill').on('click', function () {
     $('#modalAddSkills').modal('show');
-
+    LoadSkills();    
 });
 
 $('#btnaddskill').on('click', function () {
+    skillsString = '';
+    $('.chip-main-div .chip').each(function (key, item) {
 
+        skillsString += item.textContent.trim() + ',';
+    })
+    skillsString = skillsString.substring(0, skillsString.length - 1);
     
     $.ajax({
         url: "Profile.aspx/addSkills",
         data: JSON.stringify({
             "EmpNo": EmpNo,
-            "SkillId": $('#ddlSkills option:selected').val()
+            "SkillId": skillsString
         }),
         type: "POST",
+        async: false,
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
@@ -102,13 +210,15 @@ function LoadSkills() {
         success: function (result) {
 
             var res = result.d;
-
             var htm = '';
 
-            $.each(result.d, function (key, item) {
-                htm += '<div class="skilltag"> ' + item.KeySkills + ' </div>'
-            })
-            $('.allskillsec').html(htm);
+            if (res.length > 0) {
+                $.each(result.d[0].KeySkills.split(','), function (key, item) {
+                    htm += '<div class="skilltag"> ' + item + ' </div>'
+                })
+                $('.allskillsec').html(htm);
+                generateHTMLForChips(res);
+            }
             
         },
         error: function (errormessage) {
@@ -392,7 +502,7 @@ function loadEmpDetails() {
             $('#lbBNKName').html(result.d[0].BANKNAME);
             $('#lbBNKIban').html(result.d[0].IBANNUMBER);
             $('#lbBNKAccntNo').html(result.d[0].ACCOUNTNUMBER);
-            $('#basic-default-password12').val(result.d[0].LDpassword);
+            $('#basic-default-password12').val(result.d[0].PassWord);;
 
         },
         error: function (errormessage) {
@@ -509,10 +619,10 @@ $('#btnHide').on('click', function () {
     var x = document.getElementById("basic-default-password12");
     if (x.type == "password") {
         x.type = "text";
-        $('#btnUpdatePassword').css('display', '');
+        //$('#btnUpdatePassword').css('display', '');
     } else {
         x.type = "password";
-        $('#btnUpdatePassword').css('display', 'none');
+        //$('#btnUpdatePassword').css('display', 'none');
 
     }
 });
@@ -799,6 +909,13 @@ function renderAccnAsstTable() {
 
 function getDateInWordsFormat(dt) {
     return monthsNameByNo[new Date(dt).getMonth()] + ', ' + new Date(dt).getDate() + ' ' + new Date(dt).getFullYear();
+}
+
+function removeComma(sValue) {
+    return sValue.substr(0, sValue.length - 1);
+}
+function addComma(sValue) {
+    return sValue.substr(0, sValue.length - 1);
 }
 
 function completionperc() {

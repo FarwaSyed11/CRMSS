@@ -3,12 +3,52 @@
   "WorkspaceRootPath": "D:\\CRMSS\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\sshr\\scripts\\myteamrequests.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\sshr\\scripts\\myteamrequests.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\sshr\\profile.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\sshr\\profile.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\sshr\\css\\profile.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\sshr\\css\\profile.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\sshr\\myteamrequests.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\sshr\\myteamrequests.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\sshr\\scripts\\profile.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\sshr\\scripts\\profile.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\sshr\\profile.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\sshr\\profile.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\security\\login.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\security\\login.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\todonew\\scripts\\task-main.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\todonew\\scripts\\task-main.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\sshr\\allrequests.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
       "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\sshr\\allrequests.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\sshr\\scripts\\allrequests.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\sshr\\scripts\\allrequests.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\sshr\\otherrequests.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\sshr\\otherrequests.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\sshr\\myteamrequests.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\sshr\\myteamrequests.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\sshr\\otherrequests.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\sshr\\otherrequests.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\sshr\\scripts\\otherrequests.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
@@ -19,104 +59,40 @@
       "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\sshr\\css\\allrequest.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\app_code\\dbhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\app_code\\dbhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\auditmanagement\\scripts\\audit-calendar.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\auditmanagement\\scripts\\audit-calendar.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\sshr\\myteamrequests.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\sshr\\myteamrequests.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\masters\\script\\econnectjs.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\masters\\script\\econnectjs.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\sshr\\scripts\\myteamrequests.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\sshr\\scripts\\myteamrequests.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\assets\\js\\econnect-common.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\assets\\js\\econnect-common.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\sshr\\otherrequests.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
-      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\sshr\\otherrequests.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\styles\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\styles\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\sshr\\allrequests.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\sshr\\allrequests.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|D:\\CRMSS\\crmss\\masters\\econnect.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
-      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\masters\\econnect.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|D:\\CRMSS\\crmss\\common\\landingpage.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\common\\landingpage.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
       "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\common\\landingpage.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\masters\\newhome.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
-      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\masters\\newhome.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\masters\\econnect.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\masters\\econnect.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|D:\\CRMSS\\crmss\\masters\\css\\e-connect.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\masters\\css\\e-connect.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|D:\\CRMSS\\crmss\\masters\\assets\\style.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
       "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\masters\\assets\\style.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|D:\\CRMSS\\crmss\\masters\\econnect.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\masters\\econnect.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|D:\\CRMSS\\crmss\\masters\\css\\home.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\masters\\css\\home.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\hse\\script\\induction.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\hse\\script\\induction.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
-      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\web.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\masters\\econnectnew.master||{B30AFBFF-D992-43B7-B62D-2642580A2883}",
       "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\masters\\econnectnew.master||{B30AFBFF-D992-43B7-B62D-2642580A2883}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\sshr\\profile.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\sshr\\profile.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\sshr\\scripts\\profile.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\sshr\\scripts\\profile.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\masters\\econnectnew.master.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\masters\\econnectnew.master.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\sshr\\profile.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
-      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\sshr\\profile.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\sshr\\otherrequests.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\sshr\\otherrequests.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\sshr\\clearance.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\sshr\\clearance.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\todonew\\taskmain.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
-      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\todonew\\taskmain.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\todonew\\taskmain.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\todonew\\taskmain.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\sshr\\dashboardsshr.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
-      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\sshr\\dashboardsshr.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\security\\login.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
-      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\security\\login.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|D:\\CRMSS\\crmss\\masters\\css\\e-connect.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\masters\\css\\e-connect.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\account\\css\\login.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
@@ -130,59 +106,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AllRequests.js",
-              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\SSHR\\Scripts\\AllRequests.js",
-              "RelativeDocumentMoniker": "CRMSS\\SSHR\\Scripts\\AllRequests.js",
-              "ToolTip": "D:\\CRMSS\\CRMSS\\SSHR\\Scripts\\AllRequests.js",
-              "RelativeToolTip": "CRMSS\\SSHR\\Scripts\\AllRequests.js",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACsAAAAYAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-05-09T08:12:13.242Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "OtherRequests.aspx",
-              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\SSHR\\OtherRequests.aspx",
-              "RelativeDocumentMoniker": "CRMSS\\SSHR\\OtherRequests.aspx",
-              "ToolTip": "D:\\CRMSS\\CRMSS\\SSHR\\OtherRequests.aspx",
-              "RelativeToolTip": "CRMSS\\SSHR\\OtherRequests.aspx",
-              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2024-05-09T09:42:10.962Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "allrequest.css",
-              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\SSHR\\Css\\allrequest.css",
-              "RelativeDocumentMoniker": "CRMSS\\SSHR\\Css\\allrequest.css",
-              "ToolTip": "D:\\CRMSS\\CRMSS\\SSHR\\Css\\allrequest.css",
-              "RelativeToolTip": "CRMSS\\SSHR\\Css\\allrequest.css",
-              "ViewState": "AQIAAP4AAAAAAAAAAAAswDwBAAAFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-05-15T09:07:10.328Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 12,
               "Title": "OtherRequests.js",
               "DocumentMoniker": "D:\\CRMSS\\CRMSS\\SSHR\\Scripts\\OtherRequests.js",
               "RelativeDocumentMoniker": "CRMSS\\SSHR\\Scripts\\OtherRequests.js",
               "ToolTip": "D:\\CRMSS\\CRMSS\\SSHR\\Scripts\\OtherRequests.js",
               "RelativeToolTip": "CRMSS\\SSHR\\Scripts\\OtherRequests.js",
-              "ViewState": "AQIAAKsQAAAAAAAAAAAqwMUQAAAfAAAA",
+              "ViewState": "AQIAAHcGAAAAAAAAAAAUwJIGAAAiAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2024-05-09T08:31:12.858Z",
               "IsPinned": true,
@@ -190,7 +124,153 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "OtherRequests.aspx.cs",
+              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\SSHR\\OtherRequests.aspx.cs",
+              "RelativeDocumentMoniker": "CRMSS\\SSHR\\OtherRequests.aspx.cs",
+              "ToolTip": "D:\\CRMSS\\CRMSS\\SSHR\\OtherRequests.aspx.cs",
+              "RelativeToolTip": "CRMSS\\SSHR\\OtherRequests.aspx.cs",
+              "ViewState": "AQIAAEcIAAAAAAAAAAAAANwJAAAxAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-10T12:09:21.186Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "MyTeamRequests.aspx.cs",
+              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\SSHR\\MyTeamRequests.aspx.cs",
+              "RelativeDocumentMoniker": "CRMSS\\SSHR\\MyTeamRequests.aspx.cs",
+              "ToolTip": "D:\\CRMSS\\CRMSS\\SSHR\\MyTeamRequests.aspx.cs",
+              "RelativeToolTip": "CRMSS\\SSHR\\MyTeamRequests.aspx.cs",
+              "ViewState": "AQIAAAEBAAAAAAAAAAAtwDkBAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-21T10:12:58.753Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "MyTeamRequests.js",
+              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\SSHR\\Scripts\\MyTeamRequests.js",
+              "RelativeDocumentMoniker": "CRMSS\\SSHR\\Scripts\\MyTeamRequests.js",
+              "ToolTip": "D:\\CRMSS\\CRMSS\\SSHR\\Scripts\\MyTeamRequests.js",
+              "RelativeToolTip": "CRMSS\\SSHR\\Scripts\\MyTeamRequests.js",
+              "ViewState": "AQIAAIIRAAAAAAAAAAAcwIcRAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-05-09T08:30:54.507Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "task-main.js",
+              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\TODONew\\Scripts\\task-main.js",
+              "RelativeDocumentMoniker": "CRMSS\\TODONew\\Scripts\\task-main.js",
+              "ToolTip": "D:\\CRMSS\\CRMSS\\TODONew\\Scripts\\task-main.js",
+              "RelativeToolTip": "CRMSS\\TODONew\\Scripts\\task-main.js",
+              "ViewState": "AQIAAN4IAAAAAAAAAAAUwAMJAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-05-23T09:40:36.013Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "profile.css",
+              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\SSHR\\Css\\profile.css",
+              "RelativeDocumentMoniker": "CRMSS\\SSHR\\Css\\profile.css",
+              "ToolTip": "D:\\CRMSS\\CRMSS\\SSHR\\Css\\profile.css",
+              "RelativeToolTip": "CRMSS\\SSHR\\Css\\profile.css",
+              "ViewState": "AQIAAOABAAAAAAAAAAAgwP0BAAAYAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-05-23T05:13:53.667Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Profile.aspx.cs",
+              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\SSHR\\Profile.aspx.cs",
+              "RelativeDocumentMoniker": "CRMSS\\SSHR\\Profile.aspx.cs",
+              "ToolTip": "D:\\CRMSS\\CRMSS\\SSHR\\Profile.aspx.cs",
+              "RelativeToolTip": "CRMSS\\SSHR\\Profile.aspx.cs",
+              "ViewState": "AQIAAHkBAAAAAAAAAAAtwKwBAAAyAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-21T06:21:53.87Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Profile.aspx",
+              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\SSHR\\Profile.aspx",
+              "RelativeDocumentMoniker": "CRMSS\\SSHR\\Profile.aspx",
+              "ToolTip": "D:\\CRMSS\\CRMSS\\SSHR\\Profile.aspx",
+              "RelativeToolTip": "CRMSS\\SSHR\\Profile.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2024-05-21T06:21:53.704Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Profile.js",
+              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\SSHR\\Scripts\\Profile.js",
+              "RelativeDocumentMoniker": "CRMSS\\SSHR\\Scripts\\Profile.js",
+              "ToolTip": "D:\\CRMSS\\CRMSS\\SSHR\\Scripts\\Profile.js",
+              "RelativeToolTip": "CRMSS\\SSHR\\Scripts\\Profile.js",
+              "ViewState": "AQIAACsAAAAAAAAAAAAtwFAAAAB7AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-05-20T08:47:41.949Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MyTeamRequests.aspx",
+              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\SSHR\\MyTeamRequests.aspx",
+              "RelativeDocumentMoniker": "CRMSS\\SSHR\\MyTeamRequests.aspx",
+              "ToolTip": "D:\\CRMSS\\CRMSS\\SSHR\\MyTeamRequests.aspx",
+              "RelativeToolTip": "CRMSS\\SSHR\\MyTeamRequests.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2024-05-18T09:37:17.998Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Login.aspx",
+              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\Security\\Login.aspx",
+              "RelativeDocumentMoniker": "CRMSS\\Security\\Login.aspx",
+              "ToolTip": "D:\\CRMSS\\CRMSS\\Security\\Login.aspx",
+              "RelativeToolTip": "CRMSS\\Security\\Login.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2024-05-18T13:13:17.53Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "OtherRequests.aspx",
+              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\SSHR\\OtherRequests.aspx",
+              "RelativeDocumentMoniker": "CRMSS\\SSHR\\OtherRequests.aspx",
+              "ToolTip": "D:\\CRMSS\\CRMSS\\SSHR\\OtherRequests.aspx",
+              "RelativeToolTip": "CRMSS\\SSHR\\OtherRequests.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2024-05-18T09:36:46.107Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "AllRequests.aspx",
               "DocumentMoniker": "D:\\CRMSS\\CRMSS\\SSHR\\AllRequests.aspx",
               "RelativeDocumentMoniker": "CRMSS\\SSHR\\AllRequests.aspx",
@@ -203,85 +283,72 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "AllRequests.aspx.cs",
-              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\SSHR\\AllRequests.aspx.cs",
-              "RelativeDocumentMoniker": "CRMSS\\SSHR\\AllRequests.aspx.cs",
-              "ToolTip": "D:\\CRMSS\\CRMSS\\SSHR\\AllRequests.aspx.cs",
-              "RelativeToolTip": "CRMSS\\SSHR\\AllRequests.aspx.cs",
-              "ViewState": "AQIAAOMBAAAAAAAAAAAgwCkCAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-09T10:37:48.775Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "DBHandler.cs",
-              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\App_Code\\DBHandler.cs",
-              "RelativeDocumentMoniker": "CRMSS\\App_Code\\DBHandler.cs",
-              "ToolTip": "D:\\CRMSS\\CRMSS\\App_Code\\DBHandler.cs",
-              "RelativeToolTip": "CRMSS\\App_Code\\DBHandler.cs",
-              "ViewState": "AQIAAI8BAAAAAAAAAAAlwLIBAAAMAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-16T08:22:13.754Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "MyTeamRequests.js",
-              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\SSHR\\Scripts\\MyTeamRequests.js",
-              "RelativeDocumentMoniker": "CRMSS\\SSHR\\Scripts\\MyTeamRequests.js",
-              "ToolTip": "D:\\CRMSS\\CRMSS\\SSHR\\Scripts\\MyTeamRequests.js",
-              "RelativeToolTip": "CRMSS\\SSHR\\Scripts\\MyTeamRequests.js",
-              "ViewState": "AQIAAAsLAAAAAAAAAAAswCwLAAAcAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-05-09T08:30:54.507Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 13,
-              "Title": "Econnect.aspx.cs",
-              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\Masters\\Econnect.aspx.cs",
-              "RelativeDocumentMoniker": "CRMSS\\Masters\\Econnect.aspx.cs",
-              "ToolTip": "D:\\CRMSS\\CRMSS\\Masters\\Econnect.aspx.cs",
-              "RelativeToolTip": "CRMSS\\Masters\\Econnect.aspx.cs",
-              "ViewState": "AQIAAJMEAAAAAAAAAAA4wLUEAAA7AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-05T07:48:28.737Z",
+              "Title": "allrequest.css",
+              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\SSHR\\Css\\allrequest.css",
+              "RelativeDocumentMoniker": "CRMSS\\SSHR\\Css\\allrequest.css",
+              "ToolTip": "D:\\CRMSS\\CRMSS\\SSHR\\Css\\allrequest.css",
+              "RelativeToolTip": "CRMSS\\SSHR\\Css\\allrequest.css",
+              "ViewState": "AQIAADkAAAAAAAAAAAAAAG8AAAAnAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-05-15T09:07:10.328Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "MyTeamRequests.aspx.cs",
-              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\SSHR\\MyTeamRequests.aspx.cs",
-              "RelativeDocumentMoniker": "CRMSS\\SSHR\\MyTeamRequests.aspx.cs",
-              "ToolTip": "D:\\CRMSS\\CRMSS\\SSHR\\MyTeamRequests.aspx.cs",
-              "RelativeToolTip": "CRMSS\\SSHR\\MyTeamRequests.aspx.cs",
-              "ViewState": "AQIAAJoHAAAAAAAAAAAtwNgHAAAbAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-10T11:45:03.699Z",
+              "DocumentIndex": 14,
+              "Title": "audit-calendar.js",
+              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\AuditManagement\\Scripts\\audit-calendar.js",
+              "RelativeDocumentMoniker": "CRMSS\\AuditManagement\\Scripts\\audit-calendar.js",
+              "ToolTip": "D:\\CRMSS\\CRMSS\\AuditManagement\\Scripts\\audit-calendar.js",
+              "RelativeToolTip": "CRMSS\\AuditManagement\\Scripts\\audit-calendar.js",
+              "ViewState": "AQIAAP8FAAAAAAAAAAAtwC0GAABaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-05-20T05:45:51.128Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Econnect.aspx",
-              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\Masters\\Econnect.aspx",
-              "RelativeDocumentMoniker": "CRMSS\\Masters\\Econnect.aspx",
-              "ToolTip": "D:\\CRMSS\\CRMSS\\Masters\\Econnect.aspx",
-              "RelativeToolTip": "CRMSS\\Masters\\Econnect.aspx",
-              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2024-04-02T09:43:40.47Z",
+              "DocumentIndex": 15,
+              "Title": "Econnectjs.js",
+              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\Masters\\Script\\Econnectjs.js",
+              "RelativeDocumentMoniker": "CRMSS\\Masters\\Script\\Econnectjs.js",
+              "ToolTip": "D:\\CRMSS\\CRMSS\\Masters\\Script\\Econnectjs.js",
+              "RelativeToolTip": "CRMSS\\Masters\\Script\\Econnectjs.js",
+              "ViewState": "AQIAAGYAAAAAAAAAAAAAAJIAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-05-18T12:35:05.575Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 16,
+              "Title": "econnect-common.js",
+              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\assets\\js\\econnect-common.js",
+              "RelativeDocumentMoniker": "CRMSS\\assets\\js\\econnect-common.js",
+              "ToolTip": "D:\\CRMSS\\CRMSS\\assets\\js\\econnect-common.js",
+              "RelativeToolTip": "CRMSS\\assets\\js\\econnect-common.js",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABsAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-05-18T12:48:15.346Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Site.css",
+              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\Styles\\Site.css",
+              "RelativeDocumentMoniker": "CRMSS\\Styles\\Site.css",
+              "ToolTip": "D:\\CRMSS\\CRMSS\\Styles\\Site.css",
+              "RelativeToolTip": "CRMSS\\Styles\\Site.css",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-05-18T12:58:53.764Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
               "Title": "LandingPage.aspx",
               "DocumentMoniker": "D:\\CRMSS\\CRMSS\\Common\\LandingPage.aspx",
               "RelativeDocumentMoniker": "CRMSS\\Common\\LandingPage.aspx",
@@ -289,77 +356,42 @@
               "RelativeToolTip": "CRMSS\\Common\\LandingPage.aspx",
               "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2024-04-02T09:51:23.074Z",
+              "WhenOpened": "2024-05-18T12:42:09.493Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "NEWHome.aspx",
-              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\Masters\\NEWHome.aspx",
-              "RelativeDocumentMoniker": "CRMSS\\Masters\\NEWHome.aspx",
-              "ToolTip": "D:\\CRMSS\\CRMSS\\Masters\\NEWHome.aspx",
-              "RelativeToolTip": "CRMSS\\Masters\\NEWHome.aspx",
+              "DocumentIndex": 19,
+              "Title": "Econnect.aspx",
+              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\Masters\\Econnect.aspx",
+              "RelativeDocumentMoniker": "CRMSS\\Masters\\Econnect.aspx",
+              "ToolTip": "D:\\CRMSS\\CRMSS\\Masters\\Econnect.aspx",
+              "RelativeToolTip": "CRMSS\\Masters\\Econnect.aspx",
               "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2024-05-17T08:44:23.503Z",
+              "WhenOpened": "2024-05-18T12:33:10.276Z",
               "EditorCaption": ""
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "home.css",
-              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\Masters\\css\\home.css",
-              "RelativeDocumentMoniker": "CRMSS\\Masters\\css\\home.css",
-              "ToolTip": "D:\\CRMSS\\CRMSS\\Masters\\css\\home.css",
-              "RelativeToolTip": "CRMSS\\Masters\\css\\home.css",
-              "ViewState": "AQIAAD0AAAAAAAAAAAAYwNcCAAAgAAAA",
+              "DocumentIndex": 20,
+              "Title": "e-connect.css",
+              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\Masters\\css\\e-connect.css",
+              "RelativeDocumentMoniker": "CRMSS\\Masters\\css\\e-connect.css",
+              "ToolTip": "D:\\CRMSS\\CRMSS\\Masters\\css\\e-connect.css",
+              "RelativeToolTip": "CRMSS\\Masters\\css\\e-connect.css",
+              "ViewState": "AQIAAOMBAAAAAAAAAAAcwBACAAARAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-04-05T06:04:23.466Z",
+              "WhenOpened": "2024-04-05T05:52:24.82Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "style.css",
-              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\Masters\\assets\\style.css",
-              "RelativeDocumentMoniker": "CRMSS\\Masters\\assets\\style.css",
-              "ToolTip": "D:\\CRMSS\\CRMSS\\Masters\\assets\\style.css",
-              "RelativeToolTip": "CRMSS\\Masters\\assets\\style.css",
-              "ViewState": "AQIAAIoGAAAAAAAAAAApwJoGAAARAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-04-02T09:59:43.333Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "induction.js",
-              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\HSE\\script\\induction.js",
-              "RelativeDocumentMoniker": "CRMSS\\HSE\\script\\induction.js",
-              "ToolTip": "D:\\CRMSS\\CRMSS\\HSE\\script\\induction.js",
-              "RelativeToolTip": "CRMSS\\HSE\\script\\induction.js",
-              "ViewState": "AQIAAC8AAAAAAAAAAAAUwFUAAABZAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-05-16T08:25:25.346Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "Web.config",
-              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\Web.config",
-              "RelativeDocumentMoniker": "CRMSS\\Web.config",
-              "ToolTip": "D:\\CRMSS\\CRMSS\\Web.config",
-              "RelativeToolTip": "CRMSS\\Web.config",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAADcAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
-              "WhenOpened": "2024-05-16T08:19:40.685Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 22,
               "Title": "EconnectNew.master",
               "DocumentMoniker": "D:\\CRMSS\\CRMSS\\Masters\\EconnectNew.master",
               "RelativeDocumentMoniker": "CRMSS\\Masters\\EconnectNew.master",
@@ -372,150 +404,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "Profile.aspx.cs",
-              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\SSHR\\Profile.aspx.cs",
-              "RelativeDocumentMoniker": "CRMSS\\SSHR\\Profile.aspx.cs",
-              "ToolTip": "D:\\CRMSS\\CRMSS\\SSHR\\Profile.aspx.cs",
-              "RelativeToolTip": "CRMSS\\SSHR\\Profile.aspx.cs",
-              "ViewState": "AQIAAL8AAAAAAAAAAAD4v/EAAAAIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-13T09:52:24.958Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "Profile.js",
-              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\SSHR\\Scripts\\Profile.js",
-              "RelativeDocumentMoniker": "CRMSS\\SSHR\\Scripts\\Profile.js",
-              "ToolTip": "D:\\CRMSS\\CRMSS\\SSHR\\Scripts\\Profile.js",
-              "RelativeToolTip": "CRMSS\\SSHR\\Scripts\\Profile.js",
-              "ViewState": "AQIAAHwBAAAAAAAAAAAWwJoBAAAXAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-05-13T10:19:33.445Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "EconnectNew.master.cs",
-              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\Masters\\EconnectNew.master.cs",
-              "RelativeDocumentMoniker": "CRMSS\\Masters\\EconnectNew.master.cs",
-              "ToolTip": "D:\\CRMSS\\CRMSS\\Masters\\EconnectNew.master.cs",
-              "RelativeToolTip": "CRMSS\\Masters\\EconnectNew.master.cs",
-              "ViewState": "AQIAAI4AAAAAAAAAAAAAAJ8AAAAkAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-15T11:58:51.311Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 21,
-              "Title": "Profile.aspx",
-              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\SSHR\\Profile.aspx",
-              "RelativeDocumentMoniker": "CRMSS\\SSHR\\Profile.aspx",
-              "ToolTip": "D:\\CRMSS\\CRMSS\\SSHR\\Profile.aspx",
-              "RelativeToolTip": "CRMSS\\SSHR\\Profile.aspx",
-              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2024-05-09T07:53:40.569Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "OtherRequests.aspx.cs",
-              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\SSHR\\OtherRequests.aspx.cs",
-              "RelativeDocumentMoniker": "CRMSS\\SSHR\\OtherRequests.aspx.cs",
-              "ToolTip": "D:\\CRMSS\\CRMSS\\SSHR\\OtherRequests.aspx.cs",
-              "RelativeToolTip": "CRMSS\\SSHR\\OtherRequests.aspx.cs",
-              "ViewState": "AQIAAH8CAAAAAAAAAAAWwK4CAABLAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-10T12:09:21.186Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "TaskMain.aspx",
-              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\TODONew\\TaskMain.aspx",
-              "RelativeDocumentMoniker": "CRMSS\\TODONew\\TaskMain.aspx",
-              "ToolTip": "D:\\CRMSS\\CRMSS\\TODONew\\TaskMain.aspx",
-              "RelativeToolTip": "CRMSS\\TODONew\\TaskMain.aspx",
-              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2024-05-13T08:08:40.51Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "TaskMain.aspx.cs",
-              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\TODONew\\TaskMain.aspx.cs",
-              "RelativeDocumentMoniker": "CRMSS\\TODONew\\TaskMain.aspx.cs",
-              "ToolTip": "D:\\CRMSS\\CRMSS\\TODONew\\TaskMain.aspx.cs",
-              "RelativeToolTip": "CRMSS\\TODONew\\TaskMain.aspx.cs",
-              "ViewState": "AQIAAHsFAAAAAAAAAAD4v5UFAAA7AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-13T08:33:45.561Z",
+              "Title": "style.css",
+              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\Masters\\assets\\style.css",
+              "RelativeDocumentMoniker": "CRMSS\\Masters\\assets\\style.css",
+              "ToolTip": "D:\\CRMSS\\CRMSS\\Masters\\assets\\style.css",
+              "RelativeToolTip": "CRMSS\\Masters\\assets\\style.css",
+              "ViewState": "AQIAAIoGAAAAAAAAAAApwJoGAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-04-02T09:59:43.333Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 23,
-              "Title": "Clearance.aspx.cs",
-              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\SSHR\\Clearance.aspx.cs",
-              "RelativeDocumentMoniker": "CRMSS\\SSHR\\Clearance.aspx.cs",
-              "ToolTip": "D:\\CRMSS\\CRMSS\\SSHR\\Clearance.aspx.cs",
-              "RelativeToolTip": "CRMSS\\SSHR\\Clearance.aspx.cs",
-              "ViewState": "AQIAAEMAAAAAAAAAAAA3wGAAAABFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-13T11:18:14.076Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "DashboardSSHR.aspx",
-              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\SSHR\\DashboardSSHR.aspx",
-              "RelativeDocumentMoniker": "CRMSS\\SSHR\\DashboardSSHR.aspx",
-              "ToolTip": "D:\\CRMSS\\CRMSS\\SSHR\\DashboardSSHR.aspx",
-              "RelativeToolTip": "CRMSS\\SSHR\\DashboardSSHR.aspx",
-              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2024-05-09T09:42:56.792Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "Login.aspx",
-              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\Security\\Login.aspx",
-              "RelativeDocumentMoniker": "CRMSS\\Security\\Login.aspx",
-              "ToolTip": "D:\\CRMSS\\CRMSS\\Security\\Login.aspx",
-              "RelativeToolTip": "CRMSS\\Security\\Login.aspx",
-              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2024-05-06T11:24:42.744Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 28,
-              "Title": "e-connect.css",
-              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\Masters\\css\\e-connect.css",
-              "RelativeDocumentMoniker": "CRMSS\\Masters\\css\\e-connect.css",
-              "ToolTip": "D:\\CRMSS\\CRMSS\\Masters\\css\\e-connect.css",
-              "RelativeToolTip": "CRMSS\\Masters\\css\\e-connect.css",
-              "ViewState": "AQIAAGYCAAAAAAAAAAAgwJcCAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-04-05T05:52:24.82Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 29,
               "Title": "login.css",
               "DocumentMoniker": "D:\\CRMSS\\CRMSS\\Account\\css\\login.css",
               "RelativeDocumentMoniker": "CRMSS\\Account\\css\\login.css",

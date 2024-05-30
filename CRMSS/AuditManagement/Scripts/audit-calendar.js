@@ -46,7 +46,7 @@ var dpContractFFStart = [], dpContractFFEnd = []; dpContractTarget = [];
 
 var selActFromDate, selActFromTime, selActToDate, selActToTime, selActTarget;
 
-var listAuditAct = [], listAuditArea = [], ListAuditObservation = [], ListTeam = [], ListRequirement = [], ListEscalation = []; //Audit
+var listAuditAct = [], listAuditArea = [], ListAuditObservation = [], ListAuditObsRisks = [], ListTeam = [], ListRequirement = [], ListEscalation = []; //Audit
 
 var listActivities = [];
 var objOptDT = [], objProjDT = [];
@@ -104,7 +104,7 @@ var selProjsForCustVisit = '', selOppForCustVisit = '';
 
 var OppIdsMulti = '', ProjIdsMulti = '';
 var exportUserCount = 0;
-
+var selRiskforobservation = '-1';
 var _blinkOpptab;
 const myMenu = [{
     icon: 'fas fa-angle-right',
@@ -186,7 +186,7 @@ $(document).ready(function () {
             let endDate = AddDays($('#StartDateTask').val(), $('#NoOfDaysTask').val());
             $('#DueDateTask').val(endDate);
         }
-    }); 
+    });
 
     flatpickr(jQuery("#dateTarget"), {
         "disable": [function (date) {
@@ -197,7 +197,7 @@ $(document).ready(function () {
         noCalendar: false,
         onChange: function (selectedDates, dateStr, instance) {
 
-          
+
         }
     });
     flatpickr(jQuery("#dpDueDate"), {
@@ -433,15 +433,19 @@ function initializeCalendar() {
                 selAudActObj = listAuditAct.filter(s => s.AuditId == info.event.id);
                 selActDateForAttendees = selAudActObj[0].StartDate;
                 //showTabsAccordingly(selActivityObj[0].Type);
+
                 loadAuditAreas();
                 renderAuditAreaTable();
                 loadAuditObservations();
                 renderAuditObservationTable();
-                loadAddedObservationDDL();
                 loadRiskList();
                 renderRiskListTable();
                 loadAddedRiskList();
                 renderAddedRiskListTable();
+                loadAddedObservationDDL();
+                
+
+
                 loadRequirements();
                 renderRequirementTable();
                 //loadEscalation();
@@ -2230,7 +2234,7 @@ $('.btnAddAuditObs').on('click', function () {
                 "ObsActionPlan": $('#taObsPlan').val().trim(),
                 "ObsRemarks": $('#txtObsRemarks').val().trim(),
                 "TargetDate": $('#dateTarget').val(),
-                "ObsRisk": selObsObj[0].ObsRisk,
+                "ObsRisk": selRiskforobservation, //selObsObj[0].ObsRisk,
                 "ConsequenceA": $('#ddlObsConsA option:selected').val() == undefined ? "" : $('#ddlObsConsA option:selected').val(),
                 "ConsequenceB": $('#ddlObsConsB option:selected').val() == undefined ? "" : $('#ddlObsConsB option:selected').val(),
                 "AxB": $('#ddlObsConsAxB option:selected').val() == undefined ? "" : $('#ddlObsConsAxB option:selected').val(),
@@ -2260,7 +2264,7 @@ $('.btnAddAuditObs').on('click', function () {
                 "ObsActionPlan": $('#taObsPlan').val().trim(),
                 "ObsRemarks": $('#txtObsRemarks').val().trim(),
                 "TargetDate": $('#dateTarget').val(),
-                "ObsRisk": $('#ddlRisks option:selected').val(),
+                "ObsRisk": selRiskforobservation, //$('#ddlRisks option:selected').val(),
                 "ConsequenceA": $('#ddlObsConsA option:selected').val() == undefined ? "" : $('#ddlObsConsA option:selected').val(),
                 "ConsequenceB": $('#ddlObsConsB option:selected').val() == undefined ? "" : $('#ddlObsConsB option:selected').val(),
                 "AxB": $('#ddlObsConsAxB option:selected').val() == undefined ? "" : $('#ddlObsConsAxB option:selected').val(),
@@ -2311,7 +2315,8 @@ function loadAuditObservations() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-            ListAuditObservation = result.d;
+            ListAuditObservation = result.d.listObs;
+            ListAuditObsRisks = result.d.listObsRisk;
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -2335,7 +2340,7 @@ function initiateAuditObservationDataTable() {
 
         "columnDefs": [
             { "width": "120px", "targets": 0 },
-            { "orderable": false, "targets": [9] },
+            { "orderable": false, "targets": [15] },
             { "orderable": true, "targets": [] }
         ]
         //select: true,
@@ -2351,6 +2356,14 @@ function renderAuditObservationTable() {
 
     $.each(ListAuditObservation, function (key, item) {
 
+        let ulForRisks = '<ul>No Risk';
+        var filterdRisks = ListAuditObsRisks.filter(xx => xx.ObsId == item.ObsID);
+
+        $.each(filterdRisks, function (key, item) {
+            ulForRisks += '<li> ' + item.RiskName + '</li>'
+        });
+        ulForRisks += '</ul>'
+
         htm += `<tr> 
                     <td> <span class="badge badge-for-taskcode"> `+ item.ObsCode + ` </span> </td>
                     <td> <span class=""> `+ item.AreaName + ` </span> </td>
@@ -2362,7 +2375,9 @@ function renderAuditObservationTable() {
                     <td> `+ item.AxB + ` </td>
                     <td> `+ item.ObsRes + ` </td>
                     <td> `+ item.ObsEntity + ` </td>
-                    <td> `+ item.ObsRiskName + ` </td>
+
+                    <td> `+ ulForRisks + ` </td>
+
                     <td> `+ item.ObsRecom + ` </td>
                     <td> `+ item.ObsActionPlan + ` </td>
                     <td> <span class="badge `+ item.StatusCss + `">` + item.Status + ` </span></td>
@@ -2395,7 +2410,7 @@ $('.obs-list-tbody').on('click', '.ibtn-obs-edit,.ibtn-obs-delete', function () 
 
         $('#ddlRisks,#ddlObsConsA,#ddlObsConsB,#ddlObsStatus,#ddlObsConsAxB,#txtObsName,#ddlAuditor2,#taObsDeets,#txtObsResp,#txtObsEntity,#taObsRecom,#taObsPlan,#txtObsRemarks').css({ 'box-shadow': '' }, { 'border-color': 'lightgrey' });
 
-        $('#ddlRisks').val(selObsObj[0].ObsRisk);
+        
         $('#ddlObsConsA').val(selObsObj[0].ConsequenceA);
         $('#ddlObsConsB').val(selObsObj[0].ConsequenceB);
         $('#ddlObsConsAxB').val(selObsObj[0].AxB);
@@ -2408,6 +2423,41 @@ $('.obs-list-tbody').on('click', '.ibtn-obs-edit,.ibtn-obs-delete', function () 
         $('#taObsRecom').val(selObsObj[0].ObsRecom);
         $('#taObsPlan').val(selObsObj[0].ObsActionPlan);
         $('#txtObsRemarks').val(selObsObj[0].ObsRemarks);
+
+
+        loadAddedRiskDDL();
+        var htm = '';
+        //$.each(ListAuditObsRisks.filter(ss => ss.ObsId == selObsObj[0].ObsID), function (key, item) {
+
+        //    let selAttr = listAddedRiskAct.filter(xx => xx.RiskId == item.RiskId).length > 0 ? 'selected' : '';
+
+        //    htm += `<option value="` + item.RiskId + `" ` + selAttr +`> ` + item.RiskName + `</option>`;
+        //});
+
+        $.each(listAddedRiskAct, function (key, item) {
+
+            //let selAttr = listAddedRiskAct.filter(xx => xx.RiskId == item.RiskId).length > 0 ? 'selected' : '';
+
+            var res = ListAuditObsRisks.filter(ss => ss.ObsId == selObsObj[0].ObsID);
+            var selAttr = '';
+            if (res.length > 0) { selAttr = res.filter(s => s.RiskId == item.RiskId).length > 0 ? 'selected' : ''; }                       
+
+            htm += `<option value="` + item.RiskId + `" ` + selAttr +`> ` + item.RiskName + `</option>`;
+        });
+
+        $('#ddlRisks').html(htm);
+
+
+        $("#ddlRisks").select2({
+            dropdownParent: $("#AddObservationaModal"),
+            width: '100%',
+            height: '73%',
+            multi: true
+        });
+       /* $('#ddlRisks').val(selObsObj[0].ObsRisk);*/
+
+
+
 
         $('#AddObservationaModal').modal('show');
         $('.btnAddAuditObs').html('Update');
@@ -2429,6 +2479,29 @@ function loadAddedObservationDDL() {
         height: '73%'
     });
 }
+
+
+function riskRatingCalculation(likelihood, Impact) {
+    var rating = likelihood * Impact;
+    if (rating < 6) {
+        $('#ddlObsConsAxB').val('Low:  '+rating);
+    }
+    else if (rating > 5 && rating < 16) {
+        $('#ddlObsConsAxB').val('Medium:  ' + rating);
+    }
+    else if (rating > 15 && rating < 26) {
+        $('#ddlObsConsAxB').val('High:  ' + rating);
+    }
+}
+
+$('#AddObservationaModal').on('change', '#ddlObsConsA, #ddlObsConsB', function () {
+
+    var I = parseInt($('#ddlObsConsA option:selected').val());
+    var L = parseInt($('#ddlObsConsB option:selected').val());
+
+    riskRatingCalculation(L,I);
+
+});
 
 /***************AUDIT OBSERVATION ENDS HERE****************/
 
@@ -2543,10 +2616,27 @@ function loadAddedRiskDDL() {
     $("#ddlRisks").select2({
         dropdownParent: $("#AddObservationaModal"),
         width: '100%',
-        height: '73%'
+        height: '73%',
+        multi: true
     });
 }
+$("#ddlRisks").on('change', function () {
+    selRiskforobservation = '';
+    $('#ddlRisks option:selected').each(function () {
+        selRiskforobservation += $(this).val() + ',';
+    });
+    selRiskforobservation = (removeCommaFromLast(selRiskforobservation) == "" ? '-1' : removeCommaFromLast(selRiskforobservation));
 
+    //filterAssignedToMetaskByStatuses();
+    //if (validateFilterInputDate()) {
+    //    $('.ajax-loader').removeClass('hidden');
+    //    setTimeout(function () {
+    //        getAllRaisedTasksByMe()
+    //        renderRaisedTasksToTable();
+    //        $('.ajax-loader').addClass('hidden');
+    //    }, 500);
+    //}
+})
 /*************AUDIT RISK MANAGEMENT PAGE ENDS HERE*****************/
 
 /*TEAM MEMBERS WORK STARTS HERE*/
@@ -2658,31 +2748,31 @@ function loadTeamMembersss(Id) {
 
 /*************TEAM MEMBERS WORK ENDS HERE*****************/
 
-$('#EventDetails').on('click', 'li', function () {
-    var isActive = this.textContent.trim();
+//$('#EventDetails').on('click', 'li', function () {
+//    var isActive = this.textContent.trim();
 
-    if (isActive == 'Audit Area') {
+//    if (isActive == 'Audit Area') {
 
-        loadAuditAreas();
-        renderAuditAreaTable();
-    }
-    else if (isActive == 'Risk Control') {
-        loadRiskList();
-        renderRiskListTable();
-        renderAddedRiskListTable();
-        loadAddedRiskDDL();
-    }
-    else if (isActive == 'Observations') {
-        loadAuditObservations();
-        renderAuditObservationTable();
-        loadAddedRiskList();
-        loadAddedAreaDDL();
-    }
-    else if (isActive == 'Team Members') {
-        loadTeamMembersss(selAudActObj[0].AuditId);
-    }
+//        loadAuditAreas();
+//        renderAuditAreaTable();
+//    }
+//    else if (isActive == 'Risk Control') {
+//        loadRiskList();
+//        renderRiskListTable();
+//        renderAddedRiskListTable();
+//        loadAddedRiskDDL();
+//    }
+//    else if (isActive == 'Observations') {
+//        loadAuditObservations();
+//        renderAuditObservationTable();
+//        loadAddedRiskList();
+//        loadAddedAreaDDL();
+//    }
+//    else if (isActive == 'Team Members') {
+//        loadTeamMembersss(selAudActObj[0].AuditId);
+//    }
 
-})
+//})
 
 function totlegend() {
     var strstatus = $.grep(listAuditAct, function (elt) {
@@ -2917,7 +3007,7 @@ $('.req-list-tbody').on('click', '.ibtn-req-esacalation, .ibtn-view-esacalation'
         $('#escalationViewModal').modal("show");
         loadEscalation(selReqId);
         renderEscalationTable();
-        
+
     }
 });
 
@@ -3501,7 +3591,7 @@ function RoleMaster(status) {
     var htmCreate = '';
     var alerthtml = '<div class="alert alert-primary" role = "alert">This audit is a draft and pending on approval with your manager. You will be able to add more details (area, risks, etc) as soon as your manager approves this audit. </br> Would you like to make changes? <a href="/AuditManagement/AuditLIst.aspx" class="alert-link">Go to Audit List.</a></div>';
 
-    if ((status == 'DRAFT' && myroleList.includes("13202")) || (status == 'SUBMIT' && myroleList.includes("13202")) ) {
+    if ((status == 'DRAFT' && myroleList.includes("13202")) || (status == 'SUBMIT' && myroleList.includes("13202"))) {
         htmCreate = ``;
         $('.Create-Audit-Area').html(` `);
         $('.Create-Risk').html(``);
@@ -3561,9 +3651,9 @@ function reloadCalendarOnCreateModalOnly() {
 function checkWithinAuditRange() {
     isWithin = true;
     msg = 'Date Exceeds with the Audit Date! Please select within the audit date range.';
-    let StartDate = $('#StartDateArea').val().trim();
-    let EndDate = $('#DueDateArea').val().trim();
-    if ((getDateInWordsFormat(StartDate) >= getDateInWordsFormat(selAudActObj[0].StartDate)) || (getDateInWordsFormat(selAudActObj[0].EndDate) >= getDateInWordsFormat(EndDate))) {
+    let StartDate = new Date($('#StartDateArea').val().trim());
+    let EndDate = new Date($('#DueDateArea').val().trim());
+    if ((getDateInWordsFormat(StartDate) >= getDateInWordsFormat(selAudActObj[0].StartDate)) && (getDateInWordsFormat(selAudActObj[0].EndDate) >= getDateInWordsFormat(EndDate))) {
         isWithin = true;
     }
     else {

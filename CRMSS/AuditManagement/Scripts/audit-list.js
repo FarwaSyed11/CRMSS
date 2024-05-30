@@ -486,13 +486,14 @@ function setApprovalStatus() {
 
 function RoleMaster(status) {
     var htmCreate = '';
-    var alerthtml = '<div class="alert alert-primary" role = "alert">This audit is a draft and pending on approval with your manager. You will be able to add more details (area, risks, etc) as soon as your manager approves this audit. </br> Would you like to make changes? </div>';
+    var alerthtml = '<div class="alert alert-primary" role = "alert">This audit is a draft and pending on approval with your manager. You will be able to add more details (area, risks, etc) as soon as your manager approves this audit. </br> Would you like to make changes? <a href="/AuditManagement/AuditLIst.aspx" class="alert-link">Go to Audit List.</a></div>';
 
     if ((status == 'DRAFT' && myroleList.includes("13202")) || (status == 'SUBMIT' && myroleList.includes("13202"))) {
         htmCreate = ``;
         $('.Create-Audit-Area').html(` `);
         $('.Create-Risk').html(``);
         $('.Create-Requirement').html(``);
+        $('.Create-Observation').html(``);
         $('.Create-Audit').html(htmCreate);
         $('.useralert').html(alerthtml);
 

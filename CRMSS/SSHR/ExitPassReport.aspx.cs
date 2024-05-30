@@ -32,7 +32,7 @@ public partial class SSHR_ExitPassReport : System.Web.UI.Page
 
 
         pa.Add("@oper");
-        pv.Add(0);
+        pv.Add(1);
 
         pa.Add("@StartDate");
         pv.Add(StartDate);
@@ -64,6 +64,7 @@ public partial class SSHR_ExitPassReport : System.Web.UI.Page
                 TimeOut = dt.Rows[i]["TimeOut"].ToString(),
                 TimeIn = dt.Rows[i]["TimeIn"].ToString(),
                 Remarks = dt.Rows[i]["Remarks"].ToString(),
+                ExitPasstype = dt.Rows[i]["ExitPasstype"].ToString(),
 
             });
         }
@@ -86,6 +87,8 @@ public partial class SSHR_ExitPassReport : System.Web.UI.Page
         public string TimeIn { get; set; }
 
         public string Remarks { get; set; }
+
+        public string ExitPasstype { get; set; }
 
     }
 }

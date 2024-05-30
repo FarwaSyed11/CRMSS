@@ -1060,10 +1060,11 @@ $('.tbody-emp-req').on('click', '.ibtn-AllReq-req-info', function () {
 
         RequestPageLoad();
         ClearCLReqDetails();
+        CompanyLoanInitialForm();
         ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
         getAllCompanyLoanDetails();
         CompanyLoanTypeFormat();
-
+        
         $('.insert-Attachment').css('display', 'none');
         $('.download-Attachment').css('display', '');
         $('#empLeaveModal').modal('show');
@@ -1298,6 +1299,7 @@ function SubmitCompanyLoanDetForm() {
     $('#cbEmpOnBehalf').attr('disabled', true);
     $('#txtEmpName').attr('disabled', true);
     $('#empLeaveModal').find('input[name="nmCLControll"]').attr('disabled', true);
+    $('#txtCLoanReason').attr('disabled', true);
     $('#ddlBLLoanType').attr('disabled', true);
     $('#txtCLoanAmount').attr('disabled', true);
 
@@ -1318,8 +1320,6 @@ function SubmitLateAttendanceDetForm() {
 
 }
 function SubmitExitPassDetForm() {
-
-
     $('#cbEmpOnBehalf').attr('disabled', true);
     $('#txtEmpName').attr('disabled', true);
     $('#txtEXTPassDate').attr('disabled', true);
@@ -1329,14 +1329,7 @@ function SubmitExitPassDetForm() {
     $('#txtEXTPassReason').attr('disabled', true);
     $('.insert-Attachment').css('display', 'none');
     $('.download-Attachment').css('display', '');
-
-
-
 }
-
-
-
-
 function getAllCompanyLoanDetails() {
 
     $.ajax({
@@ -1705,6 +1698,7 @@ function SubmitMiscDetForm(id, sts) {
     $('#cbEmpOnBehalf').attr('disabled', true);
     $('#txtEmpName').attr('disabled', true);
     $('#empLeaveModal').find('input[name="nmMiscControll"]').attr('disabled', true);
+    $('#txtMiscReason').attr('disabled', true);
     $('#ddlMiscReqType').attr('disabled', true);
     $('#ddlMiscReason').attr('disabled', true);
     $('#ddlMiscEmpType').attr('disabled', true);
@@ -2119,185 +2113,170 @@ function RequestPageLoad() {
 
     if (Type == 0) {
         htm += `
-                    <div class="row">
-                       <div class="col-2">
-                            <label for="html5-number-input" class="col-form-label label-custom">Leave Type  </label>
-                            <div>
-                                <select id="ddlLeaveType" class="form-select color-dropdown"></select>
-                            </div>
-                        </div>
+        <div class="row">
+            <div class="col-2">
+                <label for="html5-number-input" class="col-form-label label-custom">Leave Type  </label>
+                <div>
+                    <select id="ddlLeaveType" class="form-select color-dropdown"></select>
+                </div>
+            </div>
 
-                        <div class="col-1">
-                            <label for="html5-number-input" class="col-form-label label-custom">Balance </label>
-                            <div>
-                                <input type="text" id="txtLeaveBal" class="form-control  " disabled />
-                            </div>
-                        </div>
+            <div class="col-1">
+                <label for="html5-number-input" class="col-form-label label-custom">Balance </label>
+                <div>
+                    <input type="text" id="txtLeaveBal" class="form-control  " disabled />
+                </div>
+            </div>
 
                       
-                           <div class="col-2">
-                            <label for="html5-number-input" class="col-form-label label-custom">Start Date </label>
+                <div class="col-2">
+                <label for="html5-number-input" class="col-form-label label-custom">Start Date </label>
                             
-                            <div>
-                                <input type="date" id="txtStartDate" name="nmReqDet" class="form-control flatpickr flatpickr-input"/>
-                            </div>
-                        </div>
-                         <div class="col-1">
-                            <label for="html5-number-input" class="col-form-label label-custom">No of Day </label>
-                            <div>
-                                <input type="text" id="txtLeaveReqDay" name="nmReqDet" class="form-control   " />
-                            </div>
-                        </div>
+                <div>
+                    <input type="date" id="txtStartDate" name="nmReqDet" class="form-control flatpickr flatpickr-input"/>
+                </div>
+            </div>
+                <div class="col-1">
+                <label for="html5-number-input" class="col-form-label label-custom">No of Day </label>
+                <div>
+                    <input type="text" id="txtLeaveReqDay" name="nmReqDet" class="form-control   " />
+                </div>
+            </div>
 
-                        <div class="col-2 div-EndDate">
-                            <label for="html5-number-input" class="col-form-label label-custom">End Date </label>
-                            <div>
-                                <input type="text" id="txtEndDate"  class="form-control flatpickr-input" disabled />
-                            </div>
-                        </div>
-                      <div class="col-2 div-Retwork">
-                            <label for="html5-number-input" class="col-form-label label-custom">Return to Work</label>
-                            <div class="">
-                                <input type="text" id="txtReturnToWork" class="form-control flatpickr-input" />
-                            </div>
-                        </div>
-                        <div class="col-2">
-                            <label for="html5-number-input" class="col-form-label label-custom">Primary Contact</label>
-                            <div>
-                                <input type="text" id="txtPrimaryContact" name="nmContactDet" class="form-control  " />
-                            </div>
-                        </div>
-                    </div>
+            <div class="col-2 div-EndDate">
+                <label for="html5-number-input" class="col-form-label label-custom">End Date </label>
+                <div>
+                    <input type="text" id="txtEndDate"  class="form-control flatpickr-input" disabled />
+                </div>
+            </div>
+            <div class="col-2 div-Retwork">
+                <label for="html5-number-input" class="col-form-label label-custom">Return to Work</label>
+                <div class="">
+                    <input type="text" id="txtReturnToWork" class="form-control flatpickr-input" />
+                </div>
+            </div>
+            <div class="col-2">
+                <label for="html5-number-input" class="col-form-label label-custom">Primary Contact</label>
+                <div>
+                    <input type="text" id="txtPrimaryContact" name="nmContactDet" class="form-control  " />
+                </div>
+            </div>
+        </div>
 
                 
-                    <div class="row">
-                     
+        <div class="row">
+            <div class="col-3" style="display:none;">
+                <label for="html5-number-input" class="col-form-label label-custom">Leave Status</label>
+                <div>
+                    <input type="text" id="txtLeaveStatus" name="nmReqDet" class="form-control  " />
+                </div>
+            </div>
+        </div>
 
-                       
-
-                        <div class="col-3" style="display:none;">
-                            <label for="html5-number-input" class="col-form-label label-custom">Leave Status</label>
-                            <div>
-                                <input type="text" id="txtLeaveStatus" name="nmReqDet" class="form-control  " />
-                            </div>
-                        </div>
-
-                        
-                    </div>
-
-                   
-
-                 
-
-                     
-                 
-                  
-                    <div class="row ddl-opt-annual-leave Grop-Of-Det">
+        <div class="row ddl-opt-annual-leave Grop-Of-Det">
                         
 
-                        <div class="col-2">
-                            <label for="html5-number-input" class="col-form-label label-custom">Secondary Contact</label>
-                            <div>
-                                <input type="text" id="txtSecContact" name="nmContactDet" class="form-control  " />
-                            </div>
-                        </div>
+            <div class="col-2">
+                <label for="html5-number-input" class="col-form-label label-custom">Secondary Contact</label>
+                <div>
+                    <input type="text" id="txtSecContact" name="nmContactDet" class="form-control  " />
+                </div>
+            </div>
 
-                        <div class="col-3">
-                            <label for="html5-number-input" class="col-form-label label-custom">Contact Name</label>
-                            <div>
-                                <input type="text" id="txtContactName" name="nmContactDet" class="form-control  " />
-                            </div>
-                        </div>
+            <div class="col-3">
+                <label for="html5-number-input" class="col-form-label label-custom">Contact Name</label>
+                <div>
+                    <input type="text" id="txtContactName" name="nmContactDet" class="form-control  " />
+                </div>
+            </div>
 
-                        <div class="col-3">
-                            <label for="html5-number-input" class="col-form-label label-custom">Contact Email</label>
-                            <div>
-                                <input type="text" id="txtContactEmail" name="nmContactDet" class="form-control  " />
-                            </div>
-                        </div>
+            <div class="col-3">
+                <label for="html5-number-input" class="col-form-label label-custom">Contact Email</label>
+                <div>
+                    <input type="text" id="txtContactEmail" name="nmContactDet" class="form-control  " />
+                </div>
+            </div>
 
                       
 
+        </div>
+
+        <div class="row ddl-opt-annual-leave">
+            <div class="col-4">
+                <label for="html5-number-input" class="col-form-label label-custom">Remark</label>
+                <div>
+                    <textarea class="form-control  " id="taRemark" rows="4" placeholder="Enter Remarks"></textarea>
+                </div>
+            </div>
+            <div class="col-3 div-Attachment">
+                <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
+                <div style="align-content: center;height: 106px;border: 1px solid #d9dee3;">
+
+                <div class="input-group mb-3 insert-Attachment" style="">
+
+                    <input class="form-control" type="file" id="fu-leave-req" title="Leave Request" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getFileName()">
+                    <label class="input-group-text ml-3" for="fu-leave-req" style="border: transparent;">
+
+                        <img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 49px; margin-top: -10px;" />
+                    </label>
+
+                    <input type="text" id="lblLeaveReqFileName" value="" style="width: 70%; background: #80808000; border: 0px; color: #697a8d; border: none; margin-left: 10px;" readonly="">
+                </div>
+
+
+                    <div class="input-group mb-3 download-Attachment" style="margin-left: 102px;">
+                    <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 60px;" />
+                </div>
+            </div>
+
+            </div>
+
+                <div class="col-5" style="align-self: center;">
+            <div class="Group-Of-Cb" style="overflow-x: auto;">
+                            
+                <div style="float: left;padding-top: 7px;padding-right: 10px;">
+                    <div class="netliva-switch">
+                        <input type="checkbox" id="cbIsAdvSalaryReq" name="nmSbReq" netliva-switch="OK">
+                        <label for="cbIsAdvSalaryReq" data-active-text="Consulted Doctor?" data-passive-text="Consulted Doctor?" style="width: 160px; --switch-active-color: #98ca3c; --switch-passive-color: #66666696; display: none"></label>
+                    </div>
+                </div>
+                <label for="html5-number-input" class="col-form-label label-custom">Advanced Salary Required? </label>
+            </div>
+            <div class="Group-Of-Cb" style="overflow-x: auto;">
+                            
+                <div style="float: left;padding-top: 7px;padding-right: 10px;">
+                    <div class="netliva-switch">
+                        <input type="checkbox" id="cbIsTicketReq" name="nmSbReq" netliva-switch="OK">
+                        <label for="cbIsTicketReq" data-active-text="Consulted Doctor?" data-passive-text="Consulted Doctor?" style="width: 160px; --switch-active-color: #98ca3c; --switch-passive-color: #66666696; display: none"></label>
+                    </div>
+                </div>
+                <label for="html5-number-input" class="col-form-label label-custom">Ticket Required? </label>
+            </div>
+
+            <div class="Group-Of-Cb" style="overflow-x: auto;">
+                            
+                <div style="float: left;padding-top: 7px;padding-right: 10px;">
+                    <div class="netliva-switch">
+                        <input type="checkbox" id="cbIsPassReq" name="nmSbReq" netliva-switch="OK">
+                        <label for="cbIsPassReq" data-active-text="Consulted Doctor?" data-passive-text="Consulted Doctor?" style="width: 160px; --switch-active-color: #98ca3c; --switch-passive-color: #66666696; display: none"></label>
+                    </div>
+                </div>
+                <label for="html5-number-input" class="col-form-label label-custom">Passport Required?</label>
+            </div>
+                <div class="div-Cons-Doc" style="overflow-x: auto;">
+                            
+                    <div style="float: left;padding-top: 7px;padding-right: 10px;">
+                        <div class="netliva-switch">
+                        <input type="checkbox" id="cbIsConsultWithDoc" name="nmSbReq" netliva-switch="OK">
+                        <label for="cbIsConsultWithDoc" data-active-text="Consulted Doctor?" data-passive-text="Consulted Doctor?" style="width: 160px; --switch-active-color: #98ca3c; --switch-passive-color: #66666696; display: none"></label>
                     </div>
 
-                    <div class="row ddl-opt-annual-leave">
-                      <div class="col-4">
-                            <label for="html5-number-input" class="col-form-label label-custom">Remark</label>
-                            <div>
-                                <textarea class="form-control  " id="taRemark" rows="4" placeholder="Enter Remarks"></textarea>
-                            </div>
-                        </div>
-                        <div class="col-3 div-Attachment">
-                            <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
-                           <div style="border: groove;height: 106px;">
-
-                            <div class="input-group mb-3 insert-Attachment" style="margin-top: 24px;">
-
-                                <input class="form-control" type="file" id="fu-leave-req" title="Leave Request" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getFileName()">
-                                <label class="input-group-text ml-3" for="fu-leave-req" style="border: transparent;">
-
-                                    <img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 49px; margin-top: -10px;" />
-                                </label>
-
-                                <input type="text" id="lblLeaveReqFileName" value="" style="width: 70%; background: #80808000; border: 0px; color: #697a8d; border: none; margin-left: 10px;" readonly="">
-                            </div>
-
-
-                             <div class="input-group mb-3 download-Attachment" style="margin-top: 24px;margin-left: 102px;">
-
-                                    <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 60px;" />
-
-                            </div>
-                            </div>
-
-                        </div>
-
-                           <div class="col-5" style="align-self: center;">
-                        <div class="Group-Of-Cb" style="overflow-x: auto;">
-                            
-                            <div style="float: left;padding-top: 7px;padding-right: 10px;">
-                                <div class="netliva-switch">
-                                    <input type="checkbox" id="cbIsAdvSalaryReq" name="nmSbReq" netliva-switch="OK">
-                                    <label for="cbIsAdvSalaryReq" data-active-text="Consulted Doctor?" data-passive-text="Consulted Doctor?" style="width: 160px; --switch-active-color: #98ca3c; --switch-passive-color: #66666696; display: none"></label>
-                                </div>
-                            </div>
-                            <label for="html5-number-input" class="col-form-label label-custom">Advanced Salary Required? </label>
-                        </div>
-                        <div class="Group-Of-Cb" style="overflow-x: auto;">
-                            
-                            <div style="float: left;padding-top: 7px;padding-right: 10px;">
-                                <div class="netliva-switch">
-                                    <input type="checkbox" id="cbIsTicketReq" name="nmSbReq" netliva-switch="OK">
-                                    <label for="cbIsTicketReq" data-active-text="Consulted Doctor?" data-passive-text="Consulted Doctor?" style="width: 160px; --switch-active-color: #98ca3c; --switch-passive-color: #66666696; display: none"></label>
-                                </div>
-                            </div>
-                            <label for="html5-number-input" class="col-form-label label-custom">Ticket Required? </label>
-                        </div>
-
-                        <div class="Group-Of-Cb" style="overflow-x: auto;">
-                            
-                            <div style="float: left;padding-top: 7px;padding-right: 10px;">
-                                <div class="netliva-switch">
-                                    <input type="checkbox" id="cbIsPassReq" name="nmSbReq" netliva-switch="OK">
-                                    <label for="cbIsPassReq" data-active-text="Consulted Doctor?" data-passive-text="Consulted Doctor?" style="width: 160px; --switch-active-color: #98ca3c; --switch-passive-color: #66666696; display: none"></label>
-                                </div>
-                            </div>
-                            <label for="html5-number-input" class="col-form-label label-custom">Passport Required?</label>
-                        </div>
-                           <div class="div-Cons-Doc" style="overflow-x: auto;">
-                            
-                             <div style="float: left;padding-top: 7px;padding-right: 10px;">
-                                 <div class="netliva-switch">
-                                    <input type="checkbox" id="cbIsConsultWithDoc" name="nmSbReq" netliva-switch="OK">
-                                    <label for="cbIsConsultWithDoc" data-active-text="Consulted Doctor?" data-passive-text="Consulted Doctor?" style="width: 160px; --switch-active-color: #98ca3c; --switch-passive-color: #66666696; display: none"></label>
-                                </div>
-
-                            </div>
-                             <label for="html5-number-input" class="col-form-label label-custom">Consulted Doctor? </label>
-                        </div>
-                        </div>
+                </div>
+                    <label for="html5-number-input" class="col-form-label label-custom">Consulted Doctor? </label>
+            </div>
+            </div>
                         
-                    </div>
+        </div>
 
         `
 
@@ -2311,75 +2290,69 @@ function RequestPageLoad() {
 
         htm += `
 
-        
-                             
-
-                     <div class="row">
+        <div class="row">
                       
 
-                        <div class="col-3">
-                            <label for="html5-number-input" class="col-form-label label-custom">Reason</label>
-                            <div>
-                               <select id="ddlPPTReason" class="form-select color-dropdown  "></select>
-                            </div>
-                        </div>
+            <div class="col-3">
+                <label for="html5-number-input" class="col-form-label label-custom">Reason</label>
+                <div>
+                    <select id="ddlPPTReason" class="form-select color-dropdown  "></select>
+                </div>
+            </div>
 
-                          <div class="col-3 Other-Reason" style="display:none;">
-                            <label for="html5-number-input" class="col-form-label label-custom">Other Reason</label>
-                            <div>
-                               <select id="ddlPPTOtherReason" class="form-select color-dropdown  "></select>
-                            </div>
-                        </div>
+                <div class="col-3 Other-Reason" style="display:none;">
+                <label for="html5-number-input" class="col-form-label label-custom">Other Reason</label>
+                <div>
+                    <select id="ddlPPTOtherReason" class="form-select color-dropdown  "></select>
+                </div>
+            </div>
 
 
-                         <div class="col-3">
-                            <label for="html5-number-input" class="col-form-label label-custom">Travelling Date</label>
-                            <div>
-                                <input type="date" id="txtTravellingDate" name="nmReqDet" class="form-control flatpickr-input" />
-                            </div>
-                        </div>
+                <div class="col-3">
+                <label for="html5-number-input" class="col-form-label label-custom">Travelling Date</label>
+                <div>
+                    <input type="date" id="txtTravellingDate" name="nmReqDet" class="form-control flatpickr-input" />
+                </div>
+            </div>
                   
 
                     
-                        <div class="col-3">
-                            <label for="html5-number-input" class="col-form-label label-custom">Expected Date Of Return</label>
-                            <div>
-                                <input type="date" id="txtEptDOReturn" class="form-control flatpickr-input"/>
-                            </div>
-                        </div>
-                                               <div class="col-3 div-Attachment">
-                            <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
+            <div class="col-3">
+                <label for="html5-number-input" class="col-form-label label-custom">Expected Date Of Return</label>
+                <div>
+                    <input type="date" id="txtEptDOReturn" class="form-control flatpickr-input"/>
+                </div>
+            </div>
+            <div class="col-3 div-Attachment">
+                <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
 
-                            <div class="input-group mb-3 insert-Attachment">
+                <div class="input-group mb-3 insert-Attachment">
 
-                                <input class="form-control" type="file" id="fu-leave-req" title="Leave Request" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getFileName()">
-                                <label class="input-group-text ml-3" for="fu-leave-req" style="border: transparent;">
+                    <input class="form-control" type="file" id="fu-leave-req" title="Leave Request" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getFileName()">
+                    <label class="input-group-text ml-3" for="fu-leave-req" style="border: transparent;">
 
-                                    <img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 49px; margin-top: -10px;" />
-                                </label>
+                        <img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 49px; margin-top: -10px;" />
+                    </label>
 
-                                <input type="text" id="lblLeaveReqFileName" value="" style="width: 70%; background: #80808000; border: 0px; color: #697a8d; border: none; margin-left: 10px;" readonly="">
-                            </div>
-
-
-                             <div class="input-group mb-3 download-Attachment">
-
-                                    <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 40px;" />
-
-                            </div>
+                    <input type="text" id="lblLeaveReqFileName" value="" style="width: 70%; background: #80808000; border: 0px; color: #697a8d; border: none; margin-left: 10px;" readonly="">
+                </div>
 
 
-                        </div>
+                    <div class="input-group mb-3 download-Attachment">
 
-                      </div>
+                        <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 40px;" />
 
-
-                      <div class="row">
-
-                      </div>
+                </div>
 
 
-                             `
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+        </div> `
 
         $('.Leave-Req').html(htm);
 
@@ -2462,100 +2435,99 @@ function RequestPageLoad() {
             </div>
         </div>
                     
-        <div class="row">
-
-            <div class="col-3">
-                <label for="html5-number-input" class="col-form-label label-custom">Request Date</label>
-                <div>
-                    <input type="text" id="txtBDReqDate" name="nmBasicDet" class="form-control flatpickr-input" disabled />
-                </div>
-            </div>
-
+        <div class="row">     
+            <div class="row">
 
                 <div class="col-3">
-                <label for="html5-number-input" class="col-form-label label-custom">Request Type</label>
-                <div>
-                    <select id="ddlBDReqType" class="form-select color-dropdown"></select>
+                    <label for="html5-number-input" class="col-form-label label-custom">Request Date</label>
+                    <div>
+                        <input type="text" id="txtBDReqDate" name="nmBasicDet" class="form-control flatpickr-input" disabled />
+                    </div>
                 </div>
-            </div>
-
-            <div class="col-3">
-                <label for="html5-number-input" class="col-form-label label-custom">Reason</label>
-                <div>
-                    <select id="ddlBDReason" class="form-select color-dropdown "></select>
-                </div>
-            </div>
-                <div class="col-3 Salary-CF">
-                <label for="html5-number-input" class="col-form-label label-custom">Bank</label>
-                <div>
-                    <input type="text" id="txtBDBank" name="nmSCB" class="form-control"/>
-                </div>
-            </div>
-
-        </div>
-                     
-
-        <div class="row Salary-CF">
-            <div class="col-3" style="display:none">
-                <label for="html5-number-input" class="col-form-label label-custom">Purpose</label>
-                <div>
-                    <input type="text" id="txtBDPurpose" name="nmSCB" class="form-control" disabled />
-                </div>
-            </div>
-        </div>
 
 
-        <div class="row Salary-TL" style="display:none;">
-            <div class="col-3">
-                <label for="html5-number-input" class="col-form-label label-custom">Bank Name</label>
-                <div>
-                    <input type="text" id="txtBDBankName" name="nmSTL" class="form-control  " disabled/>
+                    <div class="col-3">
+                    <label for="html5-number-input" class="col-form-label label-custom">Request Type</label>
+                    <div>
+                        <select id="ddlBDReqType" class="form-select color-dropdown"></select>
+                    </div>
                 </div>
-            </div>
 
                 <div class="col-3">
-                <label for="html5-number-input" class="col-form-label label-custom">IBAN No.</label>
-                <div>
-                    <input type="text" id="txtBDIBANNo" name="nmSTL" class="form-control  " disabled  />
+                    <label for="html5-number-input" class="col-form-label label-custom">Reason</label>
+                    <div>
+                        <select id="ddlBDReason" class="form-select color-dropdown "></select>
+                    </div>
+                </div>
+               <div class="col-3">
+                    <label for="html5-number-input" class="col-form-label label-custom">Requested Amount</label>
+                    <div>
+                        <input type="number" id="txtBDReqamount" name="nmSTL" class="form-control" value="0 AED" />
+                    </div>
+                </div>
+            
+            </div>
+
+            <div class="row Salary-CF">
+                <div class="col-3" style="display:none">
+                    <label for="html5-number-input" class="col-form-label label-custom">Purpose</label>
+                    <div>
+                        <input type="text" id="txtBDPurpose" name="nmSCB" class="form-control" disabled />
+                    </div>
                 </div>
             </div>
+
+            <div class="row Salary-TL" style="display:none;">
+                <div class="col-3">
+                    <label for="html5-number-input" class="col-form-label label-custom">Bank Name</label>
+                    <div>
+                        <input type="text" id="txtBDBankName" name="nmSTL" class="form-control  " disabled/>
+                    </div>
+                </div>
 
                 <div class="col-3">
-                <label for="html5-number-input" class="col-form-label label-custom">Bank Address</label>
-                <div>
-                    <input type="text" id="txtBDBankAddress" name="nmSTL" class="form-control  "  />
+                    <label for="html5-number-input" class="col-form-label label-custom">IBAN No.</label>
+                    <div>
+                        <input type="text" id="txtBDIBANNo" name="nmSTL" class="form-control  " disabled  />
+                    </div>
+                </div>
+
+                <div class="col-3">
+                    <label for="html5-number-input" class="col-form-label label-custom">Bank Address</label>
+                    <div>
+                        <input type="text" id="txtBDBankAddress" name="nmSTL" class="form-control  "  />
+                    </div>
                 </div>
             </div>
 
-                       
-            <div class="col-3">
-                <label for="html5-number-input" class="col-form-label label-custom">Requested Amount</label>
-                <div>
-                    <input type="text" id="txtBDReqamount" name="nmSTL" class="form-control  "  />
+            <div class="row">
+                
+                 <div class="col-3 Salary-CF">
+                    <label for="html5-number-input" class="col-form-label label-custom">Bank</label>
+                    <div>
+                        <input type="text" id="txtBDBank" name="nmSCB" class="form-control"/>
+                    </div>
                 </div>
-            </div>
-        </div>
+                <div class="col-3 div-Attachment">
+                    <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
 
-        <div class="row">
-            <div class="col-3 div-Attachment">
-                <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
+                    <div class="input-group mb-3 insert-Attachment">
 
-                <div class="input-group mb-3 insert-Attachment">
+                        <input class="form-control" type="file" id="fu-leave-req" title="Leave Request" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getFileName()">
+                        <label class="input-group-text ml-3" for="fu-leave-req" style="border: transparent;">
 
-                    <input class="form-control" type="file" id="fu-leave-req" title="Leave Request" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getFileName()">
-                    <label class="input-group-text ml-3" for="fu-leave-req" style="border: transparent;">
-                                  
-                        <img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 49px; margin-top: -10px;" />
-                    </label>
-                             
-                    <input type="text" id="lblLeaveReqFileName" value="" style="width: 70%; background: #80808000; border: 0px; color: #697a8d; border: none; margin-left: 10px;" readonly="">
-                </div>
+                            <img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 49px; margin-top: -10px;" />
+                        </label>
+
+                        <input type="text" id="lblLeaveReqFileName" value="" style="width: 70%; background: #80808000; border: 0px; color: #697a8d; border: none; margin-left: 10px;" readonly="">
+                    </div>
 
 
                     <div class="input-group mb-3 download-Attachment">
 
                         <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 40px;" />
-                               
+                        <span><i class="bx bxs-show fa-icon-hover btnDownloadAttachment" style="color: #eb9d96;font-size: 1.9rem;margin: -33px 0px 0px 109px;cursor: pointer;" ></i></span>
+                    </div>
                 </div>
             </div>
         </div>`
@@ -2569,169 +2541,147 @@ function RequestPageLoad() {
 
         htm += `
 
-        
-
-
-                       <div class="row">
+        <div class="row">
                        
+            <div class="col-3">
+                <label for="html5-number-input" class="col-form-label label-custom">Request Date</label>
+                <div>
+                    <input type="text" id="txtMiscReqDate" class="form-control flatpickr-input" disabled />
+                </div>
+            </div>
+
+            <div class="col-3">
+                <label for="html5-number-input" class="col-form-label label-custom">Request Type</label>
+                <div>
+                    <select id="ddlMiscReqType" class="form-select color-dropdown  "></select>
+                </div>
+            </div>
                        
+            <div class="col-3 Misc_Address-ToWhom">
+                <label for="html5-number-input" class="col-form-label label-custom">Address To whom</label>
+                <div>
+                    <input type="text" id="txtMiscAddToWhom" name="nmMiscControll" class="form-control  "/>
+                </div>
+            </div>
+            <div class="col-3 MiscReason-Drop">
+                <label for="html5-number-input" class="col-form-label label-custom">Reason</label>
+                <div>
+                    <select id="ddlMiscReason" class="form-select color-dropdown  "></select>
+                </div>
+            </div>
+            <div class="col-3 OtherRemarks-Area" style="display:none;">
+                <label for="html5-number-input" class="col-form-label label-custom">Other Remarks</label>
+                <div>
+                    <input type="text" id="txtMiscOtherRemarks" name="nmMiscControll" class="form-control  "/>
+                </div>
+            </div>
+            <div class="col-3 Trans-Location">
+                <label for="html5-number-input" class="col-form-label label-custom">Employee Type</label>
+                <div>
+                    <select id="ddlMiscEmpType" class="form-select color-dropdown  ">
+                    </select>
+                </div>
+            </div>
+        </div>
 
-                        <div class="col-3">
-                            <label for="html5-number-input" class="col-form-label label-custom">Request Date</label>
-                            <div>
-                                <input type="text" id="txtMiscReqDate" class="form-control flatpickr-input" disabled />
-                            </div>
+        <div class="row">
+
+            <div class="col-3 Date-Period">
+                <label for="html5-number-input" class="col-form-label label-custom">From Date</label>
+                <div>
+                    <input type="date" id="txtMiscFromDate" class="form-control flatpickr-input " />
+                </div>
+            </div>
+
+            <div class="col-3 Date-Period">
+                <label for="html5-number-input" class="col-form-label label-custom">To Date</label>
+                <div>
+                    <input type="date" id="txtMiscToDate" class="form-control  flatpickr-input"   />
+                </div>
+            </div>
+
+            <div class="col-3 Date-Period">
+                <label for="html5-number-input" class="col-form-label label-custom">Country To Apply Visa</label>
+                <div>
+                    <input type="text" id="txtCountryToApplyVisa" name="nmMiscControll" class="form-control  "  />
+                </div>
+            </div>
+
+            <div class="col-3 Trans-Location">
+                <label for="html5-number-input" class="col-form-label label-custom">Current Location</label>
+                <div>
+                    <input type="text" id="txtMiscCurrLocation" name="nmMiscControll" class="form-control  "  />
+                </div>
+            </div>
+
+            <div class="col-3 Trans-Location">
+                <label for="html5-number-input" class="col-form-label label-custom">Req Location</label>
+                <div>
+                    <input type="text" id="txtMiscReqLocation" name="nmMiscControll" class="form-control  "  />
+                </div>
+            </div>
+
+            <div class="col-3 Trans-Type">
+                <label for="html5-number-input" class="col-form-label label-custom">Tranport Type</label>
+                <div>
+                    <select id="ddlMiscTransType" class="form-select color-dropdown  ">
+                    <option value="1">Permenent Change of Location</option>
+                    <option value="2">Temporary Request</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-3 Date-Of-Change">
+                <label for="html5-number-input" class="col-form-label label-custom">Date Of Change</label>
+                <div>
+                    <input type="date" id="txtMiscDateOfChange" name="nmMiscControll" class="form-control flatpickr-input"  />
+                </div>
+            </div>
+
+            <div class="col-3 Diff-Date">
+                <label for="html5-number-input" class="col-form-label label-custom">From Date</label>
+                <div>
+                    <input type="date" id="txtMiscFromDateTrans" class="form-control flatpickr-input"  />
+                </div>
+            </div>
+
+            <div class="col-3 Diff-Date">
+                <label for="html5-number-input" class="col-form-label label-custom">To Date</label>
+                <div>
+                    <input type="date" id="txtMiscToDateTrans" class="form-control flatpickr-input"  />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4 MiscReason-Area">
+                    <label for="html5-number-input" class="col-form-label label-custom">Reason</label>
+                    <div>
+                        <textarea id="txtMiscReason" name="nmMiscControll" class="form-control" rows="4" placeholder="Enter reason..."></textarea>
+                    </div>
+                </div>
+
+                <div class="col-3 div-Attachment">
+                    <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
+                    <div style="align-content: center;height: 106px;border: 1px solid #d9dee3;">
+                        <div class="input-group mb-3 insert-Attachment">
+                            <input class="form-control" type="file" id="fu-leave-req" title="Leave Request" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getFileName()">
+                            <label class="input-group-text ml-3" for="fu-leave-req" style="border: transparent;">
+
+                                <img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 49px; margin-top: -10px;" />
+                            </label>
+
+                            <input type="text" id="lblLeaveReqFileName" value="" style="width: 70%; background: #80808000; border: 0px; color: #697a8d; border: none; margin-left: 10px;" readonly="">
                         </div>
 
-
-                          <div class="col-3">
-                            <label for="html5-number-input" class="col-form-label label-custom">Request Type</label>
-                            <div>
-                                <select id="ddlMiscReqType" class="form-select color-dropdown  "></select>
-                            </div>
+                        <div class="input-group mb-3 download-Attachment">
+                            <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 40px;" />
                         </div>
 
-                        <div class="col-3 MiscReason-Area">
-                            <label for="html5-number-input" class="col-form-label label-custom">Reason</label>
-                            <div>
-                                <input type="text" id="txtMiscReason" name="nmMiscControll" class="form-control  "/>
-                            </div>
-                        </div>
+                    </div>
+                </div>
+            </div>
 
-                       
-                          <div class="col-3 Misc_Address-ToWhom">
-                            <label for="html5-number-input" class="col-form-label label-custom">Address To whom</label>
-                            <div>
-                                <input type="text" id="txtMiscAddToWhom" name="nmMiscControll" class="form-control  "/>
-                            </div>
-                        </div>
-                         <div class="col-3 MiscReason-Drop">
-                            <label for="html5-number-input" class="col-form-label label-custom">Reason</label>
-                            <div>
-                                <select id="ddlMiscReason" class="form-select color-dropdown  "></select>
-                            </div>
-                        </div>
-                         <div class="col-3 OtherRemarks-Area" style="display:none;">
-                            <label for="html5-number-input" class="col-form-label label-custom">Other Remarks</label>
-                            <div>
-                                <input type="text" id="txtMiscOtherRemarks" name="nmMiscControll" class="form-control  "/>
-                            </div>
-                        </div>
-                          <div class="col-3 Trans-Location">
-                            <label for="html5-number-input" class="col-form-label label-custom">Employee Type</label>
-                            <div>
-                                <select id="ddlMiscEmpType" class="form-select color-dropdown  ">
-                                </select>
-                            </div>
-                        </div>
-                      </div>
-
-                      <div class="row">
-                     
-
-                           
-
-                       <div class="col-3 Date-Period">
-                            <label for="html5-number-input" class="col-form-label label-custom">From Date</label>
-                            <div>
-                                <input type="date" id="txtMiscFromDate" class="form-control flatpickr-input " />
-                            </div>
-                        </div>
-
-                         <div class="col-3 Date-Period">
-                            <label for="html5-number-input" class="col-form-label label-custom">To Date</label>
-                            <div>
-                                <input type="date" id="txtMiscToDate" class="form-control  flatpickr-input"   />
-                            </div>
-                        </div>
-
-                          <div class="col-3 Date-Period">
-                            <label for="html5-number-input" class="col-form-label label-custom">Country To Apply Visa</label>
-                            <div>
-                                <input type="text" id="txtCountryToApplyVisa" name="nmMiscControll" class="form-control  "  />
-                            </div>
-                        </div>
-
-                       
-                      
-
-                        <div class="col-3 Trans-Location">
-                            <label for="html5-number-input" class="col-form-label label-custom">Current Location</label>
-                            <div>
-                                <input type="text" id="txtMiscCurrLocation" name="nmMiscControll" class="form-control  "  />
-                            </div>
-                        </div>
-
-                         <div class="col-3 Trans-Location">
-                            <label for="html5-number-input" class="col-form-label label-custom">Req Location</label>
-                            <div>
-                                <input type="text" id="txtMiscReqLocation" name="nmMiscControll" class="form-control  "  />
-                            </div>
-                        </div>
-
-                        <div class="col-3 Trans-Type">
-                            <label for="html5-number-input" class="col-form-label label-custom">Tranport Type</label>
-                            <div>
-                                <select id="ddlMiscTransType" class="form-select color-dropdown  ">
-                                <option value="1">Permenent Change of Location</option>
-                                <option value="2">Temporary Request</option>
-                                </select>
-                            </div>
-                        </div>
-
-                           <div class="col-3 Date-Of-Change">
-                            <label for="html5-number-input" class="col-form-label label-custom">Date Of Change</label>
-                            <div>
-                                <input type="date" id="txtMiscDateOfChange" name="nmMiscControll" class="form-control flatpickr-input"  />
-                            </div>
-                        </div>
-
-                        <div class="col-3 Diff-Date">
-                            <label for="html5-number-input" class="col-form-label label-custom">From Date</label>
-                            <div>
-                                <input type="date" id="txtMiscFromDateTrans" class="form-control flatpickr-input"  />
-                            </div>
-                        </div>
-
-                        <div class="col-3 Diff-Date">
-                            <label for="html5-number-input" class="col-form-label label-custom">To Date</label>
-                            <div>
-                                <input type="date" id="txtMiscToDateTrans" class="form-control flatpickr-input"  />
-                            </div>
-                        </div>
-
-
-
-                       </div>
-
-                        <div class="row">
-                       <div class="col-3 div-Attachment">
-                            <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
-
-                            <div class="input-group mb-3 insert-Attachment">
-
-                                <input class="form-control" type="file" id="fu-leave-req" title="Leave Request" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getFileName()">
-                                <label class="input-group-text ml-3" for="fu-leave-req" style="border: transparent;">
-                                  
-                                    <img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 49px; margin-top: -10px;" />
-                                </label>
-                             
-                                <input type="text" id="lblLeaveReqFileName" value="" style="width: 70%; background: #80808000; border: 0px; color: #697a8d; border: none; margin-left: 10px;" readonly="">
-                            </div>
-
-
-                             <div class="input-group mb-3 download-Attachment">
-
-                                    <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 40px;" />
-                               
-                            </div>
-
-
-                        </div>
-                      </div>
-
-
-                             `
+        </div> `
 
         $('.Leave-Req').html(htm);
 
@@ -2814,8 +2764,6 @@ function RequestPageLoad() {
         </div>
 
         <div class="row">
-                     
-
             <div class="col-3">
                 <label for="html5-number-input" class="col-form-label label-custom">Request Date</label>
                 <div>
@@ -2824,7 +2772,7 @@ function RequestPageLoad() {
             </div>
 
 
-                <div class="col-3">
+            <div class="col-3">
                 <label for="html5-number-input" class="col-form-label label-custom">Loan Type</label>
                 <div>
                     <select id="ddlBLLoanType" class="form-select color-dropdown  ">
@@ -2840,16 +2788,16 @@ function RequestPageLoad() {
                     <input type="month" id="txtCLoanDedStartMonth" name="nmCLControll" class="form-control" readonly="readonly" />
                 </div>
             </div>
-                <div class="col-3 divnumberofMonth">
+            <div class="col-3 divnumberofMonth">
                 <label for="html5-number-input" class="col-form-label label-custom">No. Months</label>
                 <div>
                     <input type="number" id="txtNumberofMonth" name="nmCLControll" class="form-control" min="1" max="6"  value="1"/>
                 </div>
             </div>
 
-            </div>
+        </div>
 
-            <div class="row">
+        <div class="row">
             <div class="col-3">
                 <label for="html5-number-input" class="col-form-label label-custom">Amount</label>
                 <div>
@@ -2857,48 +2805,40 @@ function RequestPageLoad() {
                 </div>
             </div>
 
-                <div class="col-3">
+            <div class="col-3">
                 <label for="html5-number-input" class="col-form-label label-custom">Monthly Deduction</label>
                 <div>
                     <input type="text" id="txtCLoanMonthlyDed" name="nmCLControll" class="form-control" readonly="readonly"/>
                 </div>
             </div>
+        </div>
 
-                <div class="col-3">
+        <div class="row">
+            <div class="col-4">
                 <label for="html5-number-input" class="col-form-label label-custom">Reason</label>
                 <div>
-                    <input type="text" id="txtCLoanReason" name="nmCLControll" class="form-control  "/>
+                    <textarea type="text" id="txtCLoanReason" name="nmCLControll" class="form-control" rows="4" placeholder="Enter reason..."></textarea>
                 </div>
             </div>
-
-
-            </div>
-
-            <div class="row">
             <div class="col-3 div-Attachment">
                 <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
-
-                <div class="input-group mb-3 insert-Attachment">
-
-                    <input class="form-control" type="file" id="fu-leave-req" title="Leave Request" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getFileName()">
-                    <label class="input-group-text ml-3" for="fu-leave-req" style="border: transparent;">
+                <div style="align-content: center;height: 106px;border: 1px solid #d9dee3;">
+                    <div class="input-group mb-3 insert-Attachment">
+                        <input class="form-control" type="file" id="fu-leave-req" title="Leave Request" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getFileName()">
+                        <label class="input-group-text ml-3" for="fu-leave-req" style="border: transparent;">
                                   
-                        <img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 49px; margin-top: -10px;" />
-                    </label>
+                            <img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 49px; margin-top: -10px;" />
+                        </label>
                              
-                    <input type="text" id="lblLeaveReqFileName" value="" style="width: 70%; background: #80808000; border: 0px; color: #697a8d; border: none; margin-left: 10px;" readonly="">
-                </div>
-
-
+                        <input type="text" id="lblLeaveReqFileName" value="" style="width: 70%; background: #80808000; border: 0px; color: #697a8d; border: none; margin-left: 10px;" readonly="">
+                    </div>
                     <div class="input-group mb-3 download-Attachment">
-
                         <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 40px;" />
-                               
+                    </div>
                 </div>
-
-
             </div>
-        </div>`
+        </div>
+                `
 
         $('.Leave-Req').html(htm);
         bankcarddisplay();
@@ -2908,68 +2848,57 @@ function RequestPageLoad() {
     if (Type == 5) {
 
         htm += `
+        <div class="row">
+            <div class="col-12"><div class="pull-right" id="lblIsPaid"></div></div>
 
-       
+            <div class="col-3">
+                <label for="html5-number-input" class="col-form-label label-custom">Date</label>
+                <div>
+                    <input type="date" id="txtLAReqDate" class="form-control flatpickr-input"/>
+                </div>
+            </div>
 
 
-                       <div class="row">
-                       <div class="col-12"><div class="pull-right" id="lblIsPaid"></div></div>
+            <div class="col-3">
+                <label for="html5-number-input" class="col-form-label label-custom">Time Arrived</label>
+                <div>
+                    <input type="time" id="txtLAreqTime" class="form-control  flatpickr-input"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    <label for="html5-number-input" class="col-form-label label-custom">Reason For Delay</label>
+                    <div>
+                        <textarea type="text" id="txtLAReqReason" class="form-control" rows="4" placeholder="Enter reason.."></textarea>
+                    </div>
+                </div>
+
+                <div class="col-3 div-Attachment">
+                    <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
+
+                    <div style="align-content: center;height: 106px;border: 1px solid #d9dee3;">
+                        <div class="input-group mb-3 insert-Attachment">
+
+                            <input class="form-control" type="file" id="fu-leave-req" title="Leave Request" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getFileName()">
+                            <label class="input-group-text ml-3" for="fu-leave-req" style="border: transparent;">
+
+                                <img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 49px; margin-top: -10px;" />
+                            </label>
+
+                            <input type="text" id="lblLeaveReqFileName" value="" style="width: 70%; background: #80808000; border: 0px; color: #697a8d; border: none; margin-left: 10px;" readonly="">
+                        </div>
+                        <div class="input-group mb-3 download-Attachment">
+                            <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 40px;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
                        
-
-                        <div class="col-3">
-                            <label for="html5-number-input" class="col-form-label label-custom">Date</label>
-                            <div>
-                                <input type="date" id="txtLAReqDate" class="form-control flatpickr-input"/>
-                            </div>
-                        </div>
-
-
-                          <div class="col-3">
-                            <label for="html5-number-input" class="col-form-label label-custom">Time Arrived</label>
-                            <div>
-                                <input type="time" id="txtLAreqTime" class="form-control  flatpickr-input"/>
-                            </div>
-                        </div>
-
-
-                        <div class="col-3">
-                            <label for="html5-number-input" class="col-form-label label-custom">Reason For Delay</label>
-                            <div>
-                                <input type="text" id="txtLAReqReason" class="form-control  "/>
-                            </div>
-                        </div>
-                        <div class="col-3 div-Attachment">
-                            <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
-
-                            <div class="input-group mb-3 insert-Attachment">
-
-                                <input class="form-control" type="file" id="fu-leave-req" title="Leave Request" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getFileName()">
-                                <label class="input-group-text ml-3" for="fu-leave-req" style="border: transparent;">
-
-                                    <img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 49px; margin-top: -10px;" />
-                                </label>
-
-                                <input type="text" id="lblLeaveReqFileName" value="" style="width: 70%; background: #80808000; border: 0px; color: #697a8d; border: none; margin-left: 10px;" readonly="">
-                            </div>
-
-
-                             <div class="input-group mb-3 download-Attachment">
-
-                                    <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 40px;" />
-
-                            </div>
-
-
-                        </div>
-                      </div>
-
-                     
-                        <div class="row">
-                       
-                      </div>
-
-
-                             `
+        </div> `
 
         $('.Leave-Req').html(htm);
 
@@ -2979,87 +2908,73 @@ function RequestPageLoad() {
     if (Type == 6) {
 
         htm += `
+        <div class="row">
+            <div class="col-3">
+                <label for="html5-number-input" class="col-form-label label-custom">Date</label>
+                <div>
+                    <input type="date" id="txtEXTPassDate" class="form-control flatpickr-input" />
+                </div>
+            </div>
 
-         
-                             
+            <div class="col-3">
+                <label for="html5-number-input" class="col-form-label label-custom">Exit Type</label>
+                <div>
+                    <select id="ddlEXTPassType" class="form-select color-dropdown  ">
+                    <option value="0">Personal</option>
+                    <option value="1">Official</option>
+                    </select>
+                </div>
+            </div>
 
+            <div class="col-3">
+                <label for="html5-number-input" class="col-form-label label-custom">Out Time</label>
+                <div>
+                    <input type="time" id="txtEXTPassOutTime" class="form-control flatpickr-input"/>
+                </div>
+            </div>
 
-                       <div class="row">
-                       
-                       
-
-                        <div class="col-3">
-                            <label for="html5-number-input" class="col-form-label label-custom">Date</label>
-                            <div>
-                                <input type="date" id="txtEXTPassDate" class="form-control flatpickr-input" />
-                            </div>
-                        </div>
-
-
-                          <div class="col-3">
-                            <label for="html5-number-input" class="col-form-label label-custom">Exit Type</label>
-                            <div>
-                                <select id="ddlEXTPassType" class="form-select color-dropdown  ">
-                                <option value="0">Personal</option>
-                                <option value="1">Official</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-3">
-                            <label for="html5-number-input" class="col-form-label label-custom">Out Time</label>
-                            <div>
-                                <input type="time" id="txtEXTPassOutTime" class="form-control flatpickr-input"/>
-                            </div>
-                        </div>
-
-                        <div class="col-3">
-                            <label for="html5-number-input" class="col-form-label label-custom">Back Time</label>
-                            <div>
-                                <input type="time" id="txtEXTPassBackTime" class="form-control flatpickr-input"/>
-                            </div>
-                        </div>
+            <div class="col-3">
+                <label for="html5-number-input" class="col-form-label label-custom">Back Time</label>
+                <div>
+                    <input type="time" id="txtEXTPassBackTime" class="form-control flatpickr-input"/>
+                </div>
+            </div>
 
             
 
                  
-                       <div class="col-3">
-                            <label for="html5-number-input" class="col-form-label label-custom">Exit Reason</label>
-                            <div>
-                                <input type="text" id="txtEXTPassReason" class="form-control  "/>
-                            </div>
-                        </div>
-                    <div class="col-3 div-Attachment">
-                            <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
+            <div class="col-3">
+                <label for="html5-number-input" class="col-form-label label-custom">Exit Reason</label>
+                <div>
+                    <textarea type="text" id="txtEXTPassReason" class="form-control" rows="4" placeholder="Enter reason..."></textarea>
+                </div>
+            </div>
 
-                            <div class="input-group mb-3 insert-Attachment">
+            <div class="col-3 div-Attachment">
+                <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
+                <div style="align-content: center;height: 106px;border: 1px solid #d9dee3;">
+                    <div class="input-group mb-3 insert-Attachment">
 
-                                <input class="form-control" type="file" id="fu-leave-req" title="Leave Request" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getFileName()">
-                                <label class="input-group-text ml-3" for="fu-leave-req" style="border: transparent;">
+                        <input class="form-control" type="file" id="fu-leave-req" title="Leave Request" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getFileName()">
+                        <label class="input-group-text ml-3" for="fu-leave-req" style="border: transparent;">
 
-                                    <img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 49px; margin-top: -10px;" />
-                                </label>
+                            <img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 49px; margin-top: -10px;" />
+                        </label>
 
-                                <input type="text" id="lblLeaveReqFileName" value="" style="width: 70%; background: #80808000; border: 0px; color: #697a8d; border: none; margin-left: 10px;" readonly="">
-                            </div>
-
-
-                             <div class="input-group mb-3 download-Attachment">
-
-                                    <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 40px;" />
-
-                            </div>
+                        <input type="text" id="lblLeaveReqFileName" value="" style="width: 70%; background: #80808000; border: 0px; color: #697a8d; border: none; margin-left: 10px;" readonly="">
+                    </div>
 
 
-                        </div>
-                                    </div>
+                    <div class="input-group mb-3 download-Attachment">
+                        <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 40px;" />
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                        <div class="row">
+        <div class="row">
                        
-                      </div>
-
-
-                             `
+        </div> `
 
         $('.Leave-Req').html(htm);
 
@@ -3076,54 +2991,46 @@ function RequestPageLoad() {
                     <input type="text" id="dtLastEncashDate" class="form-control flatpickr-input" disabled/>
                 </div>
             </div>
-
-            <div class="col-3">
-                <label for="html5-number-input" class="col-form-label label-custom">Reason</label>
-                <div>
-                    <input type="text" id="txtTikEncashReason" class="form-control  "/>
-                </div>
-            </div>
-
             <div class="col-3">
                 <label for="html5-number-input" class="col-form-label label-custom">No. Of Ticket(s)</label>
                 <div>
                     <input type="number" id="txtNoOfTik" class="form-control" value="0"  min="0" max="30" />
                 </div>
             </div>
-
-
-            <div class="col-3 div-Attachment">
-                <label for="html5-number-input" class="col-form-label label-custom">Upload E-Ticket</label>
-
-                <div class="input-group mb-3 insert-Attachment">
-
-                    <input class="form-control" type="file" id="fu-leave-req" title="Leave Request" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getFileName()">
-                    <label class="input-group-text ml-3" for="fu-leave-req" style="border: transparent;">
-
-                        <img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 49px; margin-top: -10px;" />
-                    </label>
-
-                    <input type="text" id="lblLeaveReqFileName" value="" style="width: 70%; background: #80808000; border: 0px; color: #697a8d; border: none; margin-left: 10px;" readonly="">
+            
+            <div class="row">
+                <div class="col-4">
+                    <label for="html5-number-input" class="col-form-label label-custom">Reason</label>
+                    <div>
+                        <textarea type="text" id="txtTikEncashReason" class="form-control" rows="4" placeholder="Enter reason..."></textarea>
+                    </div>
                 </div>
+                <div class="col-3 div-Attachment">
+                    <label for="html5-number-input" class="col-form-label label-custom">Upload E-Ticket</label>
 
+                    <div style="align-content: center;height: 106px;border: 1px solid #d9dee3;">
+                        <div class="input-group mb-3 insert-Attachment">
 
-                <div class="input-group mb-3 download-Attachment">
+                            <input class="form-control" type="file" id="fu-leave-req" title="Leave Request" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getFileName()">
+                            <label class="input-group-text ml-3" for="fu-leave-req" style="border: transparent;">
 
-                    <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 40px;" />
+                                <img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 49px; margin-top: -10px;" />
+                            </label>
 
+                            <input type="text" id="lblLeaveReqFileName" value="" style="width: 70%; background: #80808000; border: 0px; color: #697a8d; border: none; margin-left: 10px;" readonly="">
+                        </div>
+                        <div class="input-group mb-3 download-Attachment">
+                            <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 40px;" />
+                        </div>
+                    </div>
                 </div>
-
-
             </div>
         </div>
 
-        <div><h6 style="color: #b70000 !important;"> Note : Please note that you will get 75% of your ticket encashment if ticket copy is not attached.</h6> </div>
+        <div class="mt-3"><h6 style="color: #b70000 !important;"> Note : Please note that you will get 75% of your ticket encashment if ticket copy is not attached.</h6> </div>
         <div class="row">
                        
-        </div>
-
-
-                             `
+        </div>  `
 
         $('.Leave-Req').html(htm);
 
@@ -3409,7 +3316,8 @@ function CompanyLoanInitialForm() {
 
     $('#cbEmpOnBehalf').attr('disabled', false);
     $('#txtEmpName').attr('disabled', false);
-    $('#empLeaveModal').find('input[name="nmCLControll"]').attr('disabled', false);
+    $('#empLeaveModal').find('input[name="nmCLControll"]').attr('disabled', false); 
+    $('#txtCLoanReason').attr('disabled', false);
     $('#ddlBLLoanType').attr('disabled', false);
     $('.insert-Attachment').css('display', '');
     $('.download-Attachment').css('display', 'none');
@@ -3975,8 +3883,8 @@ function AddReqDetails() {
         url: "AllRequests.aspx/setRequestDetails",
         data: JSON.stringify({
             "LeaveApplicationID": ApplicationId, "RefNo": $('#lblRequestNumber').text(), "User": currUserId, "EmpNo": EmpNumb, "OnBehalf": $('#cbEmpOnBehalf').is(':checked'), "LeaveBal": $('#txtLeaveBal').val(), "LeaveType": $('#ddlLeaveType option:selected').text(),
-            "StartDate": $('#txtStartDate').val(), "EndDate": $('#txtEndDate').val(), "LeaveReqDay": $('#txtLeaveReqDay').val(), "LeavetypeId": $('#ddlLeaveType').val(),
-            "ReturnToWork": $('#txtReturnToWork').val(), "Consulted": $('#cbIsConsultWithDoc').is(':checked'),
+            "StartDate": $('#txtStartDate').val().split(',')[0], "EndDate": $('#txtEndDate').val().split(',')[0], "LeaveReqDay": $('#txtLeaveReqDay').val(), "LeavetypeId": $('#ddlLeaveType').val(),
+            "ReturnToWork": $('#txtReturnToWork').val().split(',')[0], "Consulted": $('#cbIsConsultWithDoc').is(':checked'),
             "PrimaryContact": $('#txtPrimaryContact').val(), "SecondaryContact": $('#txtSecContact').val(), "ContactName": $('#txtContactName').val(), "ContactEmail": $('#txtContactEmail').val(), "EMPRemarks": $('#taRemark').val(),
             "AdvanceSalRequired": $('#cbIsAdvSalaryReq').is(':checked'), "TicketRequired": $('#cbIsTicketReq').is(':checked'), "PassportRequired": $('#cbIsPassReq').is(':checked'), "Status": reqStatus,
         }),
@@ -4983,7 +4891,7 @@ function AddBankDetReqDetails() {
             "STLBankName": $('#ddlBDReqType option:selected').val() == 6 ? $('#txtBDBankName').val() : '',
             "STLIBAN": $('#ddlBDReqType option:selected').val() == 6 ? $('#txtBDIBANNo').val() : '',
             "STLBankAddress": $('#ddlBDReqType option:selected').val() == 6 ? $('#txtBDBankAddress').val() : '',
-            "STLReqAmount": $('#ddlBDReqType option:selected').val() == 6 ? $('#txtBDReqamount').val() : '',
+            "STLReqAmount": $('#txtBDReqamount').val() != '' ? $('#txtBDReqamount').val() : 0,
             "Status": reqStatus,
         }),
 
@@ -5280,7 +5188,7 @@ function ClearMiscReqDetails() {
     $('#lblRequestNumber').html('');
     $('#txtMiscReqDate').val('');
     $('#empLeaveModal').find('input[name="nmMiscControll"]').val('');
-
+    $('#txtMiscReason').val('');
 
 }
 
@@ -5288,6 +5196,7 @@ function MiscInitialForm() {
     $('#cbEmpOnBehalf').attr('disabled', false);
     $('#txtEmpName').attr('disabled', false);
     $('#empLeaveModal').find('input[name="nmMiscControll"]').attr('disabled', false);
+    $('#txtMiscReason').attr('disabled', false);
     $('#ddlMiscReqType').attr('disabled', false);
     $('#ddlMiscReason').attr('disabled', false);
     $('#ddlMiscEmpType').attr('disabled', false);
@@ -5474,6 +5383,8 @@ function AddCompanyLoanReqDetails() {
         return;
     }
 
+   
+
 
     $.ajax({
         url: "AllRequests.aspx/setCompanyLoanRequestDetails",
@@ -5605,42 +5516,47 @@ function AddExitPassReqDetails(Exist) {
         EmpNumb = $('#lblEmpNo').html();
     }
 
-    $.ajax({
-        url: "AllRequests.aspx/setExitPassReqDetails",
-        data: JSON.stringify({
-            "ReqID": ApplicationId,
-            "RefNo": $('#lblRequestNumber').text(),
-            "User": currUserId,
-            "EmpNo": EmpNumb,
-            "OnBehalf": $('#cbEmpOnBehalf').is(':checked'),
-            "Date": $('#txtEXTPassDate').val(),
-            "ExitType": $('#ddlEXTPassType option:selected').val(),
-            "OutTime": $('#txtEXTPassOutTime').val(),
-            "BackTime": $('#txtEXTPassBackTime').val(),
-            "Reason": $('#txtEXTPassReason').val(),
-            "Status": reqStatus,
-        }),
+    if ($('#txtEXTPassDate').val() == "" || $('#txtEXTPassOutTime').val() == "") {
+        toastr.error("Please fill all the fields", '');
+    }
+    else {
+        $.ajax({
+            url: "AllRequests.aspx/setExitPassReqDetails",
+            data: JSON.stringify({
+                "ReqID": ApplicationId,
+                "RefNo": $('#lblRequestNumber').text(),
+                "User": currUserId,
+                "EmpNo": EmpNumb,
+                "OnBehalf": $('#cbEmpOnBehalf').is(':checked'),
+                "Date": $('#txtEXTPassDate').val(),
+                "ExitType": $('#ddlEXTPassType option:selected').val(),
+                "OutTime": $('#txtEXTPassOutTime').val(),
+                "BackTime": $('#txtEXTPassBackTime').val(),
+                "Reason": $('#txtEXTPassReason').val(),
+                "Status": reqStatus,
+            }),
 
-        type: "POST",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        success: function (result) {
-            if (result.d[0].Id != 0) {
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                if (result.d[0].Id != 0) {
 
-                toastr.success('Updated Successfully', '');
-                ApplicationId = result.d[0].Id;
-                UploadTheFiles();
-                getAllEPReqDetails();
-                LoadRequestData();
+                    toastr.success('Updated Successfully', '');
+                    ApplicationId = result.d[0].Id;
+                    UploadTheFiles();
+                    getAllEPReqDetails();
+                    LoadRequestData();
+                }
+                else {
+                    toastr.error(result.d[0].Messsage, '');
+                }
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
             }
-            else {
-                toastr.error(result.d[0].Messsage, '');
-            }
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
+        });
+    }
 }
 
 function AddTEReqDetails(Exist) {
@@ -5789,6 +5705,7 @@ function ClearCLReqDetails() {
     $('#lblRequestNumber').text('');
     $('#txtCLoanReqDate').val('');
     $('#empLeaveModal').find('input[name="nmCLControll"]').val('');
+    $('#txtCLoanReason').val('');
     $('#empLeaveModal').find('input[name="nmBDBasicSalDet"]').val('');
     $('#ddlBLLoanType').val('HRA');
     $('#txtNumberofMonth').val('0');

@@ -428,10 +428,10 @@ table.dataTable thead .sorting, table.dataTable thead .sorting_asc, table.dataTa
     }
 
 .iconClassExcel {
-    position: absolute;
-    margin-left: 12px;
+    float: right;
     background: #933737 !important;
-    margin-top: -4px;
+    margin-top: 0px;
+    margin-right: 15px;
 }
 
     .iconClassExcel:hover {

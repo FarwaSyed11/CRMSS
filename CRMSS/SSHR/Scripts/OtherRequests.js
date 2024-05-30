@@ -703,7 +703,7 @@ $('.tbody-emp-req').on('click', '.ibtn-AllReq-req-info', function () {
 
     else if (Type == 6) {
 
-        Type = $('#ddlRequests option:selected').val();
+       
         $('#ddlRequestType').val('6');
         $('#ddlRequestType').attr('disabled', true);
         RequestPageLoad();
@@ -859,10 +859,10 @@ function getAllTEReqDetails() {
             WorkFlowID = result.d[0].WorkFlowID;
 
             if (OnBehalfURL == '') {
-                $('#btnDownloadOBAtt').css('display', 'none');
+                $('#btnDownloadOBAtt,.btnDownloadOBAtt').css('display', 'none');
             }
             else {
-                $('#btnDownloadOBAtt').css('display', '');
+                $('#btnDownloadOBAtt,.btnDownloadOBAtt').css('display', '');
             }
 
             if (RequestURL == '') {
@@ -930,7 +930,7 @@ $('.tbody-emp-req').on('click', '.ibtn-LA-req-info', function () {
 
 
     Type = $('#ddlRequests option:selected').val();
-    $('#ddlRequestType').val('6');
+    $('#ddlRequestType').val('5');
     $('#ddlRequestType').attr('disabled', true);
     RequestPageLoad();
     ClearLAReq();
@@ -1080,10 +1080,10 @@ function getAllCompanyLoanDetails() {
             }
 
             if (OnBehalfURL == '') {
-                $('#btnDownloadOBAtt').css('display', 'none');
+                $('#btnDownloadOBAtt,.btnDownloadOBAtt').css('display', 'none');
             }
             else {
-                $('#btnDownloadOBAtt').css('display', '');
+                $('#btnDownloadOBAtt,.btnDownloadOBAtt').css('display', '');
             }
 
             if (RequestURL == '') {
@@ -1182,10 +1182,10 @@ function getAllEPReqDetails() {
 
 
             if (OnBehalfURL == '') {
-                $('#btnDownloadOBAtt').css('display', 'none');
+                $('#btnDownloadOBAtt,.btnDownloadOBAtt').css('display', 'none');
             }
             else {
-                $('#btnDownloadOBAtt').css('display', '');
+                $('#btnDownloadOBAtt,.btnDownloadOBAtt').css('display', '');
             }
 
             if (RequestURL == '') {
@@ -1283,10 +1283,10 @@ function getAllLAReqDetails() {
             WorkFlowID = result.d[0].WorkFlowID;
 
             if (OnBehalfURL == '') {
-                $('#btnDownloadOBAtt').css('display', 'none');
+                $('#btnDownloadOBAtt,.btnDownloadOBAtt').css('display', 'none');
             }
             else {
-                $('#btnDownloadOBAtt').css('display', '');
+                $('#btnDownloadOBAtt,.btnDownloadOBAtt').css('display', '');
             }
 
             if (RequestURL == '') {
@@ -1466,10 +1466,10 @@ function getAllMiscRequestDetails() {
             WorkFlowID = result.d[0].WorkFlowID;
 
             if (OnBehalfURL == '') {
-                $('#btnDownloadOBAtt').css('display', 'none');
+                $('#btnDownloadOBAtt,.btnDownloadOBAtt').css('display', 'none');
             }
             else {
-                $('#btnDownloadOBAtt').css('display', '');
+                $('#btnDownloadOBAtt,.btnDownloadOBAtt').css('display', '');
             }
 
             if (RequestURL == '') {
@@ -1627,10 +1627,10 @@ function getAllBankDetails() {
             WorkFlowID = result.d[0].WorkFlowID;
 
             if (OnBehalfURL == '') {
-                $('#btnDownloadOBAtt').css('display', 'none');
+                $('#btnDownloadOBAtt,.btnDownloadOBAtt').css('display', 'none');
             }
             else {
-                $('#btnDownloadOBAtt').css('display', '');
+                $('#btnDownloadOBAtt,.btnDownloadOBAtt').css('display', '');
             }
 
             if (RequestURL == '') {
@@ -2038,100 +2038,99 @@ function RequestPageLoad() {
             
         </div>
                     
-        <div class="row">
-
-            <div class="col-3">
-                <label for="html5-number-input" class="col-form-label label-custom">Request Date</label>
-                <div>
-                    <input type="text" id="txtBDReqDate" name="nmBasicDet" class="form-control flatpickr-input" disabled />
-                </div>
-            </div>
-
+         <div class="row">     
+            <div class="row">
 
                 <div class="col-3">
-                <label for="html5-number-input" class="col-form-label label-custom">Request Type</label>
-                <div>
-                    <select id="ddlBDReqType" class="form-select color-dropdown"></select>
+                    <label for="html5-number-input" class="col-form-label label-custom">Request Date</label>
+                    <div>
+                        <input type="text" id="txtBDReqDate" name="nmBasicDet" class="form-control flatpickr-input" disabled />
+                    </div>
                 </div>
-            </div>
-
-            <div class="col-3">
-                <label for="html5-number-input" class="col-form-label label-custom">Reason</label>
-                <div>
-                    <select id="ddlBDReason" class="form-select color-dropdown "></select>
-                </div>
-            </div>
-                <div class="col-3 Salary-CF">
-                <label for="html5-number-input" class="col-form-label label-custom">Bank</label>
-                <div>
-                    <input type="text" id="txtBDBank" name="nmSCB" class="form-control"/>
-                </div>
-            </div>
-
-        </div>
-                     
-
-        <div class="row Salary-CF">
-            <div class="col-3" style="display:none">
-                <label for="html5-number-input" class="col-form-label label-custom">Purpose</label>
-                <div>
-                    <input type="text" id="txtBDPurpose" name="nmSCB" class="form-control" disabled />
-                </div>
-            </div>
-        </div>
 
 
-        <div class="row Salary-TL" style="display:none;">
-            <div class="col-3">
-                <label for="html5-number-input" class="col-form-label label-custom">Bank Name</label>
-                <div>
-                    <input type="text" id="txtBDBankName" name="nmSTL" class="form-control  " disabled/>
+                    <div class="col-3">
+                    <label for="html5-number-input" class="col-form-label label-custom">Request Type</label>
+                    <div>
+                        <select id="ddlBDReqType" class="form-select color-dropdown"></select>
+                    </div>
                 </div>
-            </div>
 
                 <div class="col-3">
-                <label for="html5-number-input" class="col-form-label label-custom">IBAN No.</label>
-                <div>
-                    <input type="text" id="txtBDIBANNo" name="nmSTL" class="form-control  " disabled  />
+                    <label for="html5-number-input" class="col-form-label label-custom">Reason</label>
+                    <div>
+                        <select id="ddlBDReason" class="form-select color-dropdown "></select>
+                    </div>
+                </div>
+               <div class="col-3">
+                    <label for="html5-number-input" class="col-form-label label-custom">Requested Amount</label>
+                    <div>
+                        <input type="text" id="txtBDReqamount" name="nmSTL" class="form-control  "  />
+                    </div>
+                </div>
+            
+            </div>
+
+            <div class="row Salary-CF">
+                <div class="col-3" style="display:none">
+                    <label for="html5-number-input" class="col-form-label label-custom">Purpose</label>
+                    <div>
+                        <input type="text" id="txtBDPurpose" name="nmSCB" class="form-control" disabled />
+                    </div>
                 </div>
             </div>
+
+            <div class="row Salary-TL" style="display:none;">
+                <div class="col-3">
+                    <label for="html5-number-input" class="col-form-label label-custom">Bank Name</label>
+                    <div>
+                        <input type="text" id="txtBDBankName" name="nmSTL" class="form-control  " disabled/>
+                    </div>
+                </div>
 
                 <div class="col-3">
-                <label for="html5-number-input" class="col-form-label label-custom">Bank Address</label>
-                <div>
-                    <input type="text" id="txtBDBankAddress" name="nmSTL" class="form-control  "  />
+                    <label for="html5-number-input" class="col-form-label label-custom">IBAN No.</label>
+                    <div>
+                        <input type="text" id="txtBDIBANNo" name="nmSTL" class="form-control  " disabled  />
+                    </div>
+                </div>
+
+                <div class="col-3">
+                    <label for="html5-number-input" class="col-form-label label-custom">Bank Address</label>
+                    <div>
+                        <input type="text" id="txtBDBankAddress" name="nmSTL" class="form-control  "  />
+                    </div>
                 </div>
             </div>
 
-                       
-            <div class="col-3">
-                <label for="html5-number-input" class="col-form-label label-custom">Requested Amount</label>
-                <div>
-                    <input type="text" id="txtBDReqamount" name="nmSTL" class="form-control  "  />
+            <div class="row">
+                
+                 <div class="col-3 Salary-CF">
+                    <label for="html5-number-input" class="col-form-label label-custom">Bank</label>
+                    <div>
+                        <input type="text" id="txtBDBank" name="nmSCB" class="form-control"/>
+                    </div>
                 </div>
-            </div>
-        </div>
+                <div class="col-3 div-Attachment">
+                    <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
 
-        <div class="row">
-            <div class="col-3 div-Attachment">
-                <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
+                    <div class="input-group mb-3 insert-Attachment">
 
-                <div class="input-group mb-3 insert-Attachment">
+                        <input class="form-control" type="file" id="fu-leave-req" title="Leave Request" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getFileName()">
+                        <label class="input-group-text ml-3" for="fu-leave-req" style="border: transparent;">
 
-                    <input class="form-control" type="file" id="fu-leave-req" title="Leave Request" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getFileName()">
-                    <label class="input-group-text ml-3" for="fu-leave-req" style="border: transparent;">
-                                  
-                        <img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 49px; margin-top: -10px;" />
-                    </label>
-                             
-                    <input type="text" id="lblLeaveReqFileName" value="" style="width: 70%; background: #80808000; border: 0px; color: #697a8d; border: none; margin-left: 10px;" readonly="">
-                </div>
+                            <img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 49px; margin-top: -10px;" />
+                        </label>
+
+                        <input type="text" id="lblLeaveReqFileName" value="" style="width: 70%; background: #80808000; border: 0px; color: #697a8d; border: none; margin-left: 10px;" readonly="">
+                    </div>
 
 
-                    <div class="input-group mb-3 download-Attachment">
+                        <div class="input-group mb-3 download-Attachment">
 
-                        <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 40px;" />
-                               <span><i class="bx bxs-show fa-icon-hover btnDownloadAttachment" style="color: #eb9d96;font-size: 1.9rem;margin: -33px 0px 0px 109px;cursor: pointer;" ></i></span>
+                            <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 40px;" />
+                                   <span><i class="bx bxs-show fa-icon-hover btnDownloadAttachment" style="color: #eb9d96;font-size: 1.9rem;margin: -33px 0px 0px 109px;cursor: pointer;" ></i></span>
+                    </div>
                 </div>
             </div>
         </div>`
@@ -2468,7 +2467,7 @@ function RequestPageLoad() {
                         <div class="col-3">
                             <label for="html5-number-input" class="col-form-label label-custom">Date</label>
                             <div>
-                                <input type="date" id="txtLAReqDate" class="form-control flatpickr-input"/>
+                                <input type="Text" id="txtLAReqDate" class="form-control flatpickr-input"/>
                             </div>
                         </div>
 
@@ -3347,10 +3346,10 @@ function GetAllDetails() {
             RequestURL = result.d[0].RequestURL;
 
             if (OnBehalfURL == '') {
-                $('#btnDownloadOBAtt').css('display', 'none');
+                $('#btnDownloadOBAtt,.btnDownloadOBAtt').css('display', 'none');
             }
             else {
-                $('#btnDownloadOBAtt').css('display', '');
+                $('#btnDownloadOBAtt,.btnDownloadOBAtt').css('display', '');
             }
 
             if (RequestURL == '') {
@@ -3446,6 +3445,15 @@ $('#empLeaveModal').on('click', '#btnDownloadOBAtt', function () {
     }
 
 });
+$('#empLeaveModal').on('click', '.btnDownloadOBAtt', function () {
+
+    if (OnBehalfURL != '') {
+        initiatePDFView(OnBehalfURL);
+    } else {
+        toastr.error('No file for preview.')
+    }
+
+});
 
 $('#empLeaveModal').on('click', '#btnDownloadAttachment', function () {
 
@@ -3461,7 +3469,7 @@ $('#empLeaveModal').on('click', '#btnDownloadAttachment', function () {
 $('#empLeaveModal').on('click', '.btnDownloadAttachment', function () {
 
     if (RequestURL != '') {
-        initiatePDFView(fileLink);
+        initiatePDFView(RequestURL);
     } else {
         toastr.error('No file for preview.')
     }
@@ -3699,10 +3707,10 @@ function getAllPPTDetails() {
 
 
             if (OnBehalfURL == '') {
-                $('#btnDownloadOBAtt').css('display', 'none');
+                $('#btnDownloadOBAtt,.btnDownloadOBAtt').css('display', 'none');
             }
             else {
-                $('#btnDownloadOBAtt').css('display', '');
+                $('#btnDownloadOBAtt,.btnDownloadOBAtt').css('display', '');
             }
 
             if (RequestURL == '') {
@@ -4678,7 +4686,7 @@ function loadEmpLoanDetails() {
 }
 
 function bankcarddisplay() {
-    if (myroleList.includes("13189") || myroleList.includes("13188") || myroleList.includes("13186") || myroleList.includes("13185") || myroleList.includes("13166") || myroleList.includes("13165")) {
+    if (myroleList.includes("13189") || myroleList.includes("13188") || myroleList.includes("13186") || myroleList.includes("13185") || myroleList.includes("13166") || myroleList.includes("13165") || myroleList.includes("13171") || myroleList.includes("13170") || myroleList.includes("13192")) {
         $(".detailsrow").css("display", "flex")
     }
     else {

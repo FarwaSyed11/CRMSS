@@ -73,10 +73,11 @@
                         <th>Employee Name</th>
                         <th>Department</th>
                         <th>Request Date</th>
-                        <th>Late Date</th>
+                        <th style="width:10%">Late Date</th>
                         <th>Arrived Time</th>
                       
-                         <th>Reason For Delay</th>
+                         <th style="width:25%">Reason For Delay</th>
+                        <th> Is Paid</th>
 
                     </tr>
 
@@ -106,7 +107,7 @@
   </script>
 
 
-    <script src="Scripts/report.js"></script>
+    <script src="Scripts/report.js?v=3.1"></script>
 
      <link href="../Template/Datatable/css/jquery.dataTables.min.css" rel="stylesheet" />
     <script src="../Template/Datatable/js/jquery.dataTables.min.js"></script>

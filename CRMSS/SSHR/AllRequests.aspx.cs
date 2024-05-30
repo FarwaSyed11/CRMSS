@@ -2005,7 +2005,8 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
         pa.Add("@Reason");
         pv.Add(Reason);
 
-
+        pa.Add("@STLAmount");
+        pv.Add(STLReqAmount);
 
         if (ReqTypeVal == "5")
         {
@@ -2027,8 +2028,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
             pa.Add("@BankAddress");
             pv.Add(STLBankAddress);
 
-            pa.Add("@STLAmount");
-            pv.Add(STLReqAmount);
+          
 
 
         }

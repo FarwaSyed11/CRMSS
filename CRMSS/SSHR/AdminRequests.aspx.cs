@@ -1162,7 +1162,301 @@ public partial class SSHR_AdminRequests : System.Web.UI.Page
         return ds.Tables[0].Rows[0][0].ToString();
     }
 
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<CountRow> getCountStatus(string UserID, string RequestType, string ReqNumb)
+    {
 
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add("0");
+
+        pa.Add("@userId");
+        pv.Add(UserID);
+
+        pa.Add("@requestType");
+        pv.Add(RequestType);
+
+        pa.Add("@ReqNumber");
+        pv.Add(ReqNumb);
+
+        DBH.CreateDataset_SSHR(ds, "sp_AdminRequests", true, pa, pv);
+
+        List<CountRow> AdminAction = new List<CountRow>();
+        dt = ds.Tables[1];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+
+
+                AdminAction.Add(new CountRow()
+                {
+                    CountDraft = dt.Rows[i]["CountDraft"].ToString(),
+                    CountSubmit = dt.Rows[i]["CountSubmit"].ToString(),
+                    CountApproved = dt.Rows[i]["CountApproved"].ToString(),
+                    CountRejected = dt.Rows[i]["CountRejected"].ToString(),
+                    CountCancelled = dt.Rows[i]["CountCancelled"].ToString(),
+                  
+
+                });
+            }
+        
+
+        return AdminAction;
+        //string a = userId;
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<tableData> GetRequestByStatus(string UserID, string RequestType, string ReqNumb,string Status)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add("1");
+
+        pa.Add("@userId");
+        pv.Add(UserID);
+
+        pa.Add("@requestType");
+        pv.Add(RequestType);
+
+        pa.Add("@ReqNumber");
+        pv.Add(ReqNumb);
+
+        pa.Add("@Status");
+        pv.Add(Status);
+
+        DBH.CreateDataset_SSHR(ds, "sp_AdminRequests", true, pa, pv);
+
+        List<tableData> AdminAction = new List<tableData>();
+        dt = ds.Tables[0];
+
+
+        if (RequestType == "0")
+        {
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+
+
+                AdminAction.Add(new tableData()
+                {
+                    LEAVE_APPLICATION_ID = dt.Rows[i]["LEAVE_APPLICATION_ID"].ToString(),
+                    LEAVE_APPLICATION_NO = dt.Rows[i]["LEAVE_APPLICATION_NO"].ToString(),
+                    LEAVE_TYPE = dt.Rows[i]["LEAVE_TYPE"].ToString(),
+                    FROM_DATE = dt.Rows[i]["FROM_DATE"].ToString(),
+                    TO_DATE = dt.Rows[i]["TO_DATE"].ToString(),
+                    REASON = dt.Rows[i]["REASON"].ToString(),
+                    Stage = dt.Rows[i]["Stage"].ToString(),
+                    StageClass = dt.Rows[i]["StageClass"].ToString(),
+
+
+                });
+            }
+        }
+
+        else if (RequestType == "1")
+        {
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+
+
+                AdminAction.Add(new tableData()
+                {
+                    ReqID = dt.Rows[i]["ReqID"].ToString(),
+                    Req_Number = dt.Rows[i]["Req_Number"].ToString(),
+                    RequestFor = dt.Rows[i]["Reason"].ToString(),
+                    Travelling_Date = dt.Rows[i]["Travelling_Date"].ToString(),
+                    Expected_Date_Of_Return = dt.Rows[i]["Expected_Date_Of_Return"].ToString(),
+                    RequestDate = dt.Rows[i]["ReqDate"].ToString(),
+                    StageClass = dt.Rows[i]["StageClass"].ToString(),
+                    Stage = dt.Rows[i]["Stage"].ToString(),
+
+
+                });
+            }
+        }
+
+
+
+        else if (RequestType == "2")
+        {
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+
+
+                AdminAction.Add(new tableData()
+                {
+                    ReqID = dt.Rows[i]["ReqID"].ToString(),
+                    Req_Number = dt.Rows[i]["Req_Number"].ToString(),
+                    REQUEST_TYPE = dt.Rows[i]["REQUEST_TYPE"].ToString(),
+                    StageClass = dt.Rows[i]["StageClass"].ToString(),
+                    Stage = dt.Rows[i]["Stage"].ToString(),
+                    RequestDate = dt.Rows[i]["ReqDate"].ToString(),
+
+
+                });
+            }
+        }
+
+
+        else if (RequestType == "3")
+        {
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+
+
+                AdminAction.Add(new tableData()
+                {
+                    ReqID = dt.Rows[i]["ReqID"].ToString(),
+                    Req_Number = dt.Rows[i]["Req_Number"].ToString(),
+                    REQUEST_TYPE = dt.Rows[i]["RequestType"].ToString(),
+                    RequestFor = dt.Rows[i]["Reason"].ToString(),
+                    RequestDate = dt.Rows[i]["ReqDate"].ToString(),
+                    Stage = dt.Rows[i]["Stage"].ToString(),
+                    StageClass = dt.Rows[i]["StageClass"].ToString(),
+
+
+                });
+            }
+        }
+
+
+        else if (RequestType == "4")
+        {
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+
+
+                AdminAction.Add(new tableData()
+                {
+                    ReqID = dt.Rows[i]["ReqID"].ToString(),
+                    Req_Number = dt.Rows[i]["Req_Number"].ToString(),
+                    REQUEST_TYPE = dt.Rows[i]["LOAN_TYPE"].ToString(),
+                    RequestFor = dt.Rows[i]["Reason"].ToString(),
+                    AMOUNT = dt.Rows[i]["AMOUNT"].ToString(),
+                    FROM_DATE = dt.Rows[i]["DATE_START"].ToString(),
+                    RequestDate = dt.Rows[i]["ReqDate"].ToString(),
+                    Stage = dt.Rows[i]["Stage"].ToString(),
+                    StageClass = dt.Rows[i]["StageClass"].ToString(),
+                });
+            }
+        }
+
+        else if (RequestType == "5")
+        {
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+
+
+                AdminAction.Add(new tableData()
+                {
+                    ReqID = dt.Rows[i]["ReqID"].ToString(),
+                    Req_Number = dt.Rows[i]["Req_Number"].ToString(),
+                    FROM_DATE = dt.Rows[i]["Date"].ToString(),
+                    ARRIVED_TIME = dt.Rows[i]["ARRIVED_TIME"].ToString(),
+                    REASON = dt.Rows[i]["Reason"].ToString(),
+                    RequestDate = dt.Rows[i]["ReqDate"].ToString(),
+                    Stage = dt.Rows[i]["Stage"].ToString(),
+                    StageClass = dt.Rows[i]["StageClass"].ToString(),
+
+
+                });
+            }
+        }
+
+        else if (RequestType == "6")
+        {
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+
+
+                AdminAction.Add(new tableData()
+                {
+                    ReqID = dt.Rows[i]["ReqID"].ToString(),
+                    Req_Number = dt.Rows[i]["Req_Number"].ToString(),
+                    EXIT_DATE = dt.Rows[i]["Date"].ToString(),
+                    OUT_TIME = dt.Rows[i]["OUT_TIME"].ToString(),
+                    REASON = dt.Rows[i]["Reason"].ToString(),
+                    RequestDate = dt.Rows[i]["ReqDate"].ToString(),
+                    Stage = dt.Rows[i]["Stage"].ToString(),
+                    StageClass = dt.Rows[i]["StageClass"].ToString(),
+
+                });
+            }
+        }
+
+
+        else if (RequestType == "7")
+        {
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+
+
+                AdminAction.Add(new tableData()
+                {
+                    ReqID = dt.Rows[i]["ReqID"].ToString(),
+                    Req_Number = dt.Rows[i]["ReqNumber"].ToString(),
+
+                    REASON = dt.Rows[i]["Reason"].ToString(),
+                    RequestDate = dt.Rows[i]["ReqDate"].ToString(),
+                    Stage = dt.Rows[i]["Stage"].ToString(),
+                    StageClass = dt.Rows[i]["StageClass"].ToString(),
+                    LastEncashDate = dt.Rows[i]["LastTicketEncashDate"].ToString(),
+                    NoofTicketRequired = dt.Rows[i]["NoofTicketRequired"].ToString(),
+
+                });
+            }
+        }
+
+
+        else if (RequestType == "-1") // all Request
+        {
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+
+
+                AdminAction.Add(new tableData()
+                {
+
+                    ReqID = dt.Rows[i]["ReqID"].ToString(),
+                    REQUEST_TYPEID = dt.Rows[i]["ReqTypeID"].ToString(),
+                    REQUEST_TYPE = dt.Rows[i]["ReqType"].ToString(),
+                    Req_Number = dt.Rows[i]["ReqNumber"].ToString(),
+                    REASON = dt.Rows[i]["Reason"].ToString(),
+                    RequestDate = dt.Rows[i]["ReqDate"].ToString(),
+                    Stage = dt.Rows[i]["Stage"].ToString(),
+                    StageClass = dt.Rows[i]["StageClass"].ToString(),
+
+                });
+            }
+        }
+
+
+        return AdminAction;
+        //string a = userId;
+    }
+
+
+    public class CountRow
+    {
+        public string CountDraft { get; set; }
+        public string CountSubmit { get; set; }
+        public string CountApproved { get; set; }
+        public string CountRejected { get; set; }
+        public string CountCancelled { get; set; }
+       
+    }
     public class tableData
     {
         public string onbehalf_bit { get; set; }
