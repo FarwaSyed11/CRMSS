@@ -3328,6 +3328,13 @@ $('#empLeaveModal').on('change', '#txtEmpName', function () {
 
     EmpNo = $("#txtEmpName").val();
     GetBasicEmpDet();
+
+    if (Type == 4){
+        GetBDBasicSalaryDet();
+        
+        CompanyLoanTypeFormat();
+
+    }
 });
 function GetBasicEmpDet() {
 
@@ -3354,6 +3361,8 @@ function GetBasicEmpDet() {
             LeaveBalance = result.d[0].LeaveBalance;
             LastTicketEncashDate = result.d[0].LastTicketEncashDate;
             NumberoFTicketAvailable = result.d[0].NoTicketEncash;
+
+
         },
         error: function (errormessage) {
             alert(errormessage.responseText);

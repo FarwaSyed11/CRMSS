@@ -1063,6 +1063,7 @@ function getAllCompanyLoanDetails() {
             $('#txtBDIBANNo').val(result.d[0].IBAN_NO);
             $('#txtBDBankAddress').val(result.d[0].BANK_ADDRESS);
             $('#txtBDReqamount').val(result.d[0].AMOUNT);
+            $("#txtNumberofMonth").val(result.d[0].No_OF_Month);
 
             OnBehalfURL = result.d[0].On_Behalf_URL;
             RequestURL = result.d[0].Attchement_Link;
@@ -1070,6 +1071,7 @@ function getAllCompanyLoanDetails() {
             ApplicationId = result.d[0].ReqID;
             CurrentOrderNumber = result.d[0].StatusOrder;
             WorkFlowID = result.d[0].WorkFlowID;
+           
 
             if ($('#ddlBLLoanType').val() == 'HRA') {
                 $(".divnumberofMonth").css('display', '');

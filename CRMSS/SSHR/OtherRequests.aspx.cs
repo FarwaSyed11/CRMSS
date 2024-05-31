@@ -1346,7 +1346,8 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                     Status = dt.Rows[i]["Status"].ToString(),
                     StatusOrder = dt.Rows[i]["StatusOrder"].ToString(),
                     CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
-                    WorkFlowID = dt.Rows[i]["WorkflowId"].ToString()
+                    WorkFlowID = dt.Rows[i]["WorkflowId"].ToString(),
+                    No_OF_Month = dt.Rows[i]["NO_OF_MONTH"].ToString(),
                 });
             }
         }
@@ -2316,6 +2317,7 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
         public string StatusOrder { get; set; }
         public string WorkFlowID { get; set; }
         public string CreatedBy { get; set; }
+        public string No_OF_Month { get; set; }
 
 
     }

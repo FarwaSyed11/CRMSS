@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="AllRequests.aspx.cs" Inherits="SSHR_AllRequests" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="AllRequests.aspx.cs" Inherits="SSHR_AllRequests" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
@@ -1394,8 +1394,8 @@
 
     </script>
 
-    <script src="Scripts/AllRequests.js?v=1.11"></script>
-    <link href="Css/allrequest.css" rel="stylesheet" />
+    <script src="Scripts/AllRequests.js?v=3"></script>
+    <link href="Css/allrequest.css?v=1.31" rel="stylesheet" />
 
     <script src="../KPI/Flatpickr/js/flatpickr.js"></script>
     <link href="../KPI/Flatpickr/css/_flatpickr.css" rel="stylesheet" />
