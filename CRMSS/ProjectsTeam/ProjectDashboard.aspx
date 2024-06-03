@@ -107,6 +107,14 @@
         .grossprofit {
             border-top: 1px solid #FF233D;
         }
+
+        .category {
+            text-align: center;
+            background: rgb(236 26 37 / 30%);
+            font-size: 12px;
+            padding: 5px;
+            border-radius: 30px;
+        }
     </style>
 
     <div class="container-fluid" style="margin-top: 1%; width: 98%;">
@@ -294,7 +302,7 @@
             <div class="col-4">
                 <div class="row">
                     <div class="col-12">
-                        <div class="card" style="height: 195px;">
+                        <div class="card" style="height: 210px;">
                             <div class="card-body">
                                 Installation Material Performance
                                 <div id="chartInstMaterial"></div>
@@ -302,7 +310,7 @@
                         </div>
                     </div>
                     <div class="col-12">
-                        <div class="card" style="height: 195px;">
+                        <div class="card" style="height: 230px;">
                             <div class="card-body">
                                 Man-hour & Overtime Analysis
                                 <div class="table">
@@ -350,7 +358,7 @@
                         </div>
                     </div>
                     <div class="col-12">
-                        <div class="card" style="height: 395px;">
+                        <div class="card" style="height: 445px;">
                             <div class="card-body">
                                 Packages Budget
                                 <div class="table">
@@ -359,45 +367,81 @@
                                             <tr>
                                                 <th>Category</th>
                                                 <th>Budget At completion</th>
-                                                <th>Category</th>
-                                                <th>Actual Consumption</th>
+                                                <th>Actual Consumption Value</th>
+                                                <th>Actual Consumption %</th>
                                             </tr>
 
                                         </thead>
                                         <tbody class="project-detail">
                                             <tr>
-                                                <td>Equipment</td>
+                                                <td>
+                                                    <div class="category">Equipment</div>
+                                                </td>
                                                 <td>AED 0.00</td>
-                                                <td>Unbudgeted</td>
                                                 <td>AED 0.00</td>
+                                                <td>
+                                                    <div class="progrees-bar-grid">
+                                                        <span style="position: absolute; margin: 0.25% 3.25%;" id=""></span>
+                                                        <div class="" style="width: 0%; background: #fbc11e; border-radius: 60px; height: 25px;"></div>
+                                                    </div>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>Installation Material</td>
+                                                <td>
+                                                    <div class="category">Installation Material</div>
+                                                </td>
                                                 <td>AED 0.00</td>
-                                                <td>Unbudgeted</td>
-
                                                 <td>AED 0.00</td>
+                                                <td>
+                                                    <div class="progrees-bar-grid">
+                                                        <span style="position: absolute; margin: 0.25% 3.25%;" id=""></span>
+                                                        <div class="" style="width: 0%; background: #fbc11e; border-radius: 60px; height: 25px;"></div>
+                                                    </div>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>Supervisions</td>
+                                                <td>
+                                                    <div class="category">Supervision</div>
+                                                </td>
                                                 <td>AED 0.00</td>
-                                                <td>Unbudgeted</td>
                                                 <td>AED 0.00</td>
+                                                <td>
+                                                    <div class="progrees-bar-grid">
+                                                        <span style="position: absolute; margin: 0.25% 3.25%;" id=""></span>
+                                                        <div class="" style="width: 0%; background: #fbc11e; border-radius: 60px; height: 25px;"></div>
+                                                    </div>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>Manpower</td>
+                                                <td>
+                                                    <div class="category">Manpower</div>
+                                                </td>
                                                 <td>AED 0.00</td>
-                                                <td>Unbudgeted</td>
                                                 <td>AED 0.00</td>
+                                                <td>
+                                                    <div class="progrees-bar-grid">
+                                                        <span style="position: absolute; margin: 0.25% 3.25%;" id=""></span>
+                                                        <div class="" style="width: 0%; background: #fbc11e; border-radius: 60px; height: 25px;"></div>
+                                                    </div>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>MISC</td>
+                                                <td>
+                                                    <div class="category">MISC</div>
+                                                </td>
                                                 <td>AED 0.00</td>
-                                                <td>Unbudgeted</td>
                                                 <td>AED 0.00</td>
+                                                <td>
+                                                    <div class="progrees-bar-grid">
+                                                        <span style="position: absolute; margin: 0.25% 3.25%;" id=""></span>
+                                                        <div class="" style="width: 0%; background: #fbc11e; border-radius: 60px; height: 25px;"></div>
+                                                    </div>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>Total Cost Budget</td>
+                                                <td>
+                                                    <div class="category">Total Cost Budget</div>
+                                                </td>
                                                 <td>AED 0.00</td>
                                                 <td>Total Consumed</td>
                                                 <td>AED 0.00</td>
@@ -462,22 +506,22 @@
                                     <table>
                                         <tbody>
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>Planned Performance Index</td>
+                                                <td>For every 10K AED manpower utilized</td>
+                                                <td>AED 123.234.234</td>
+                                                <td>Project completion progress is to be achieved </td>
                                             </tr>
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>Actual Performance Index</td>
+                                                <td>For every 10K AED manpower utilized</td>
+                                                <td>AED 123.234.234</td>
+                                                <td>Project completion progress is to be achieved </td>
                                             </tr>
                                             <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
+                                                <td>To Recover Performance Index</td>
+                                                <td>For every 10K AED manpower utilized</td>
+                                                <td>AED 123.234.234</td>
+                                                <td>Project completion progress is to be achieved </td>
                                             </tr>
                                         </tbody>
                                     </table>

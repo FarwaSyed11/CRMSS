@@ -3,19 +3,23 @@
   "WorkspaceRootPath": "D:\\CRMSS\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\projectsteam\\projectdashboard.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\agenda\\newmyactivity.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\agenda\\newmyactivity.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|D:\\CRMSS\\crmss\\projectsteam\\projectdashboard.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
       "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\projectsteam\\projectdashboard.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\projectsteam\\script\\dashboard.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|D:\\CRMSS\\crmss\\projectsteam\\script\\dashboard.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\projectsteam\\script\\dashboard.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\projectsteam\\css\\dashboard.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|D:\\CRMSS\\crmss\\projectsteam\\css\\dashboard.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
       "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\projectsteam\\css\\dashboard.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|d:\\crmss\\crmss\\sshr\\css\\allrequest.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "AbsoluteMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|D:\\CRMSS\\crmss\\sshr\\css\\allrequest.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
       "RelativeMoniker": "D:0:0:{84278684-D1A0-4FEB-8E4E-84A518703C50}|D:\\CRMSS\\CRMSS|solutionrelative:crmss\\sshr\\css\\allrequest.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     }
   ],
@@ -26,11 +30,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
+              "Title": "NewMyActivity.aspx",
+              "DocumentMoniker": "D:\\CRMSS\\CRMSS\\Agenda\\NewMyActivity.aspx",
+              "RelativeDocumentMoniker": "CRMSS\\Agenda\\NewMyActivity.aspx",
+              "ToolTip": "D:\\CRMSS\\CRMSS\\Agenda\\NewMyActivity.aspx",
+              "RelativeToolTip": "CRMSS\\Agenda\\NewMyActivity.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2024-06-03T04:18:41.771Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "Dashboard.css",
               "DocumentMoniker": "D:\\CRMSS\\CRMSS\\ProjectsTeam\\css\\Dashboard.css",
               "RelativeDocumentMoniker": "CRMSS\\ProjectsTeam\\css\\Dashboard.css",
@@ -38,12 +55,11 @@
               "RelativeToolTip": "CRMSS\\ProjectsTeam\\css\\Dashboard.css",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-05-30T04:15:46.161Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-30T04:15:46.161Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Dashboard.js",
               "DocumentMoniker": "D:\\CRMSS\\CRMSS\\ProjectsTeam\\script\\Dashboard.js",
               "RelativeDocumentMoniker": "CRMSS\\ProjectsTeam\\script\\Dashboard.js",
@@ -51,12 +67,11 @@
               "RelativeToolTip": "CRMSS\\ProjectsTeam\\script\\Dashboard.js",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-05-30T04:15:30.491Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-30T04:15:30.491Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "ProjectDashboard.aspx",
               "DocumentMoniker": "D:\\CRMSS\\CRMSS\\ProjectsTeam\\ProjectDashboard.aspx",
               "RelativeDocumentMoniker": "CRMSS\\ProjectsTeam\\ProjectDashboard.aspx",
@@ -64,12 +79,11 @@
               "RelativeToolTip": "CRMSS\\ProjectsTeam\\ProjectDashboard.aspx",
               "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
-              "WhenOpened": "2024-05-30T04:14:12.651Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-30T04:14:12.651Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "allrequest.css",
               "DocumentMoniker": "D:\\CRMSS\\CRMSS\\SSHR\\Css\\allrequest.css",
               "RelativeDocumentMoniker": "CRMSS\\SSHR\\Css\\allrequest.css",
@@ -77,8 +91,7 @@
               "RelativeToolTip": "CRMSS\\SSHR\\Css\\allrequest.css",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAG8AAAAnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-05-15T09:07:10.328Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-15T09:07:10.328Z"
             }
           ]
         }
