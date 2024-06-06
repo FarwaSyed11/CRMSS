@@ -1,4 +1,8 @@
 ﻿
+$(document).ready(function () {
+
+});
+
 //================================================== Installation Material Performance
 var options = {
     series: [{
@@ -376,3 +380,62 @@ var options = {
 
 var chart = new ApexCharts(document.querySelector("#ManpowerPerf"), options);
 chart.render();
+
+
+$("#projectFilter").change(function () {
+    loadProjectDetails($("#projectFilter").val());
+});
+
+function loadProjectDetails(PN) {
+    $.ajax({
+        url: "ProjectDashboard.aspx/loadProjectDetails",
+        data: JSON.stringify({ 'PN': PN }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            var htm = '';
+            htm += `<tr>        
+
+                    <td style=" ;display:none;">`+ result.PN + `</td> 
+                 
+                    <td>Project Manager</td>
+                    <td>`+ result.d[0].PM +`</td>
+                </tr>
+                <tr>
+                    <td>Project Name</td>
+                    <td>`+ result.d[0].Name +`</td>
+                </tr>
+                <tr>
+                    <td>Customer Name</td>
+                    <td>`+ result.d[0].Customer +`</td>
+                </tr>
+                <tr>
+                    <td>Salesman</td>
+                    <td>`+ result.d[0].Salesman +`</td>
+                </tr>
+                <tr>
+                    <td>Date</td>
+                    <td>`+ result.d[0].StartDate +`</td>
+                </tr>
+                <tr>
+                    <td>Original Project Value</td>
+                    <td>`+ result.d[0].originalvalue +`</td>
+                </tr>
+                <tr>
+                    <td>Variations</td>
+                    <td>`+ result.d[0].variation +`</td>
+                </tr>
+                <tr>
+                    <td>Total Project Value</td>
+                    <td>`+ result.d[0].Totalvalue +`</td>
+                </tr>`;
+
+
+            $('.prj-detail-tbody').html(htm);
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}

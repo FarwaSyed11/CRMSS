@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="../EconnectNew.master" AutoEventWireup="true" CodeFile="LateAttendanceReport.aspx.cs" Inherits="SSHR_LateAttendanceReport" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="LateAttendanceReport.aspx.cs" Inherits="SSHR_LateAttendanceReport" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 
@@ -78,6 +78,7 @@
                       
                          <th style="width:25%">Reason For Delay</th>
                         <th> Is Paid</th>
+                        <th>Status</th>
 
                     </tr>
 
@@ -107,7 +108,7 @@
   </script>
 
 
-    <script src="Scripts/report.js?v=3.1"></script>
+    <script src="Scripts/report.js"></script>
 
      <link href="../Template/Datatable/css/jquery.dataTables.min.css" rel="stylesheet" />
     <script src="../Template/Datatable/js/jquery.dataTables.min.js"></script>

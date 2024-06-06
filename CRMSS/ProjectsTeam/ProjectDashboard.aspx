@@ -16,105 +16,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <style>
-        .input-group:focus-within .form-control, .input-group:focus-within .input-group-text {
-            border-color: #80bdff;
-        }
-
-        .week {
-            display: flex;
-        }
-
-        .weekday {
-            background: #f1f1f1;
-            padding: 6px;
-            width: 15%;
-            margin-right: 5px;
-            height: 48px;
-            border-radius: 10px;
-            color: #9e9e9e;
-            text-align: -webkit-center;
-        }
-
-        .day {
-            margin-right: 10px;
-        }
-
-        .date {
-            font-size: 22px;
-            color: #555555;
-        }
-
-        .weekday.active {
-            background: #ffc7c7a6;
-        }
-
-            .weekday.active .day, .weekday.active .date {
-                color: #f33333;
-            }
-
-        .table.project-table thead th {
-            vertical-align: bottom;
-            border: none !important;
-            font-size: 8px;
-            text-align: center;
-            text-transform: capitalize;
-            padding: 8px !important;
-        }
-
-        .table.project-table tbody td {
-            padding: 8px !important;
-        }
-
-        .project-table tbody, .project-table td, .project-table tfoot {
-            font-size: 10px !important;
-            background-color: white;
-        }
-
-            .project-table tbody tr {
-                border-bottom: 1px solid #e4e4e4;
-            }
-
-        .table.project-table .project-detail td {
-            font-size: 14px !important;
-            padding: 14px !important;
-        }
-
-            .table.project-table .project-detail td:last-child {
-                color: black;
-                font-weight: 600;
-            }
-
-        .inforow {
-            display: flex;
-        }
-
-        .infocards {
-            font-size: 14px;
-            text-align: center;
-            padding: 15px;
-            border: 1px solid #e4e4e4;
-            margin: 10px;
-        }
-
-        .totalcost {
-            border-top: 1px solid #fe8c3a;
-        }
-
-        .grossmargin {
-            border-top: 1px solid #2ADCA6;
-        }
-
-        .grossprofit {
-            border-top: 1px solid #FF233D;
-        }
-
-        .category {
-            text-align: center;
-            background: rgb(236 26 37 / 30%);
-            font-size: 12px;
-            padding: 5px;
-            border-radius: 30px;
-        }
+       
     </style>
 
     <div class="container-fluid" style="margin-top: 1%; width: 98%;">
@@ -249,7 +151,7 @@
                                 </div>
                                 <div class="table">
                                     <table class="table project-table">
-                                        <tbody class="project-detail">
+                                        <tbody class="project-detail prj-detail-tbody">
                                             <tr>
                                                 <td>Project Manager</td>
                                                 <td>XYZ</td>

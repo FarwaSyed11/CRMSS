@@ -472,7 +472,7 @@ function loadEmpDetails() {
             $('#lbSLMobile').html(result.d[0].MOBALW);
             $('#lbSLOther').html(result.d[0].OTHALW);
             $('#lbSLFood').html(result.d[0].FOODALW);
-            $('#lbSLHousingProvided').html(result.d[0].HOUSING);
+            $('#lbSLHousingProvided').html(result.d[0].HRAP);
             $('#lbSLCar').html(result.d[0].CARALW);
 
             if (result.d[0].TransProvided == 'checked') {
@@ -494,7 +494,7 @@ function loadEmpDetails() {
             $('#lbSLHRA').html(result.d[0].HRAA);
             $('#lbSLCompanyCar').html("N/A");
             $('#lbSLLastSal').html("N/A");
-            let gross = parseInt(result.d[0].TRANSALW) + parseInt(result.d[0].BASIC) + parseInt(result.d[0].MOBALW) + parseInt(result.d[0].FOODALW) + parseInt(result.d[0].HOUSING) + parseInt(result.d[0].CARALW) + parseInt(result.d[0].OTHALW);
+            let gross = parseInt(result.d[0].TRANSALW) + parseInt(result.d[0].BASIC) + parseInt(result.d[0].MOBALW) + parseInt(result.d[0].FOODALW) + parseInt(result.d[0].HRAP) + parseInt(result.d[0].CARALW) + parseInt(result.d[0].OTHALW);
                 $('#lbSLGrossSal').html(gross);
 
             $('#lbBNKPayement').html(result.d[0].PAYMETHOD);

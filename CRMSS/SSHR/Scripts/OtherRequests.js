@@ -3979,7 +3979,7 @@ function GetBDBasicSalaryDet() {
             loadEmpDetails();
             loadEmpLoanDetails();
             $('#txtBDBasic').val(result.d[0].BASIC);
-            $('#txtBDHRA').val(result.d[0].HOUSING);
+            $('#txtBDHRA').val(result.d[0].HRAP);
             $('#txtBDCar').val(result.d[0].CARALW);
             $('#txtBDMobile').val(result.d[0].MOBALW);
             $('#txtBDOther').val(result.d[0].OTHALW);
@@ -4618,7 +4618,7 @@ function loadEmpDetails() {
             $('#txtBDMobile').html(result.d[0].MOBALW);
             $('#txtBDOther').html(result.d[0].OTHALW);
             $('#lbSLFood').html(result.d[0].FOODALW);
-            $('#txtBDHRA').html(result.d[0].HOUSING);
+            $('#txtBDHRA').html(result.d[0].HRAP);
             $('#txtBDCar').html(result.d[0].CARALW);
 
             $('#txtBDCarnPetrol').html(parseInt(result.d[0].CARALW) + parseInt(result.d[0].TRANSALW));
@@ -4637,7 +4637,7 @@ function loadEmpDetails() {
             //$('#txtBDHRA').html(result.d[0].HRAA);
             $('#lbSLCompanyCar').html("N/A");
             $('#lbSLLastSal').html("N/A");
-            let gross = parseInt(result.d[0].TRANSALW) + parseInt(result.d[0].BASIC) + parseInt(result.d[0].MOBALW) + parseInt(result.d[0].FOODALW) + parseInt(result.d[0].HOUSING) + parseInt(result.d[0].CARALW) + parseInt(result.d[0].OTHALW);
+            let gross = parseInt(result.d[0].TRANSALW) + parseInt(result.d[0].BASIC) + parseInt(result.d[0].MOBALW) + parseInt(result.d[0].FOODALW) + parseInt(result.d[0].HRAP) + parseInt(result.d[0].CARALW) + parseInt(result.d[0].OTHALW);
             $('#lbSLGrossSal').html(gross);
 
             $('#lbBNKPayement').html(result.d[0].PAYMETHOD);

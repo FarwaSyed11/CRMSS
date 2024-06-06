@@ -1036,6 +1036,15 @@ function getAllCompanyLoanDetails() {
             //    $('#paidcheck').attr("value", unpaid);
             //}
 
+
+            if ($('#ddlBLLoanType').val() == 'HRA') {
+                $(".divnumberofMonth").css('display', '');
+            }
+            else {
+                $(".divnumberofMonth").css('display', 'none');
+
+            }
+
             if (OnBehalfURL == '') {
                 $('#btnDownloadOBAtt,.btnDownloadOBAtt').css('display', 'none');
             }
@@ -4426,7 +4435,7 @@ function CompanyLoanTypeFormat() {
     }
 
     else if ($('#ddlBLLoanType').val() == 'Salary Advance') {
-        $('#txtCLoanMonthlyDed').val('0');
+       // $('#txtCLoanMonthlyDed').val('0');
         $('#txtCLoanMonthlyDed').attr('disabled', true);
 
     }

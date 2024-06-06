@@ -1234,7 +1234,35 @@ public class DBHandler
             throw ex;
         }
     }
+    public void CreateDataset_ProjectTeams(DataSet ds, string StrSql, bool IsStoredProcedure = false, ArrayList pa = null, ArrayList pv = null)
+    {
+        try
+        {
 
+            SqlConnection con = new SqlConnection();
+            con.ConnectionString = ConfigurationManager.ConnectionStrings["PrjAnalysis"].ToString();
+
+            con.Open();
+            SqlDataAdapter adaptor = new SqlDataAdapter(StrSql, con);
+            adaptor.SelectCommand.CommandTimeout = 0;
+            if (IsStoredProcedure == true)
+            {
+                adaptor.SelectCommand.CommandType = CommandType.StoredProcedure;
+                for (int count = 0; count < pa.Count; count++)
+                {
+                    // pa[count] = pv[count];
+                    adaptor.SelectCommand.Parameters.AddWithValue(pa[count].ToString(), pv[count]);
+                }
+            }
+            adaptor.Fill(ds);
+            con.Close();
+        }
+        catch (Exception ex)
+        {
+
+            throw ex;
+        }
+    }
 
 
 

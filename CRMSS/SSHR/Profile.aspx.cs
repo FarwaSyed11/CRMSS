@@ -195,7 +195,7 @@ public partial class SSHR_Profile : System.Web.UI.Page
                     HRAA = dt.Rows[i]["HRAA"].ToString(),
                     Gross_salary = dt.Rows[i]["Gross_salary"].ToString(),
                     TransProvided = dt.Rows[i]["TransProvided"].ToString(),
-
+                    HRAP = dt.Rows[i]["HRAP"].ToString(),
 
 
                     PAYMETHOD = dt.Rows[i]["PAYMETHOD"].ToString(),
@@ -645,7 +645,7 @@ public partial class SSHR_Profile : System.Web.UI.Page
         public string CARALW { get; set; }
         public string TRANSALW { get; set; }
         public string HRAA { get; set; }
-
+        public string HRAP { get; set; }
         public string Transport { get; set; }
         public string Gross_salary { get; set; }
 
@@ -659,7 +659,7 @@ public partial class SSHR_Profile : System.Web.UI.Page
         public string PassWord { get; set; }
 
         public string TransProvided { get; set; }
-
+       
 
 
     }

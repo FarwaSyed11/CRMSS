@@ -1394,7 +1394,7 @@
 
     </script>
 
-    <script src="Scripts/AllRequests.js?v=3"></script>
+    <script src="Scripts/AllRequests.js?v=5"></script>
     <link href="Css/allrequest.css?v=1.31" rel="stylesheet" />
 
     <script src="../KPI/Flatpickr/js/flatpickr.js"></script>

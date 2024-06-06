@@ -1676,11 +1676,11 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
                 oEmpList.Add(new EmpSalDetails()
                 {
                     BASIC = dt.Rows[i]["BASIC"].ToString(),
-                    HRAA = dt.Rows[i]["HRAP"].ToString(),
+                    HRAA = dt.Rows[i]["HRAA"].ToString(),
                     CARALW = dt.Rows[i]["CARALW"].ToString(),
                     MOBALW = dt.Rows[i]["MOBALW"].ToString(),
                     OTHALW = dt.Rows[i]["OTHALW"].ToString(),
-
+                    HRAP = dt.Rows[i]["HRAP"].ToString(),
                 });
             }
         }
@@ -2188,7 +2188,7 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
         public string CARALW { get; set; }
         public string MOBALW { get; set; }
         public string OTHALW { get; set; }
-
+        public string HRAP { get; set; }
 
     }
     public class AllPPTDetails

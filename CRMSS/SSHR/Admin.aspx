@@ -466,12 +466,26 @@
                 <div>
                     <div>
                         <div class="row tblfilter" runat="server" id="tbltopsearch">
-                            <div class="col-2">
+                            <div style="width: 15%;">
                                 <asp:Label Text="" runat="server" Font-Size="Medium" Font-Bold="true" />
                                 <select id="ddlRoles" class="form-select color-dropdown">
                                 </select>
                             </div>
-                           
+                            <div style="width: 12%; text-align: end;">
+                                <asp:Label ID="Label1" Text="General Search" runat="server" Font-Size="Medium" Font-Bold="true" />
+                            </div>
+
+                            <div style="width: 15%;">
+
+                                <input type="text" id="txtGeneralSearch" class="form-control" />
+                            </div>
+
+                            <div style="width: 10%;">
+                                <input type="button" id="btnSearch" value="Search" class="btn btn-danger d-block" style="font-size: small" />
+                            </div>
+                            <div style="width: 48%;">
+                            </div>
+
                         </div>
                        
                     </div>
@@ -571,7 +585,7 @@
 
         </script>
 
-    <script src="Scripts/Admin.js?v=0.5"></script>
+    <script src="Scripts/Admin.js?v=1.5"></script>
     <link href="Css/allrequest.css" rel="stylesheet" />
 
     <script src="../KPI/Flatpickr/js/flatpickr.js"></script>

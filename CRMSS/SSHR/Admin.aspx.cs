@@ -52,7 +52,7 @@ public partial class SSHR_Admin : System.Web.UI.Page
     }
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static List<UserDetails> GetTableBasicDetails(string User, string RoleID)
+    public static List<UserDetails> GetTableBasicDetails(string User, string RoleID,string GenSearch)
     {
 
         DBHandler DBH = new DBHandler();
@@ -75,6 +75,9 @@ public partial class SSHR_Admin : System.Web.UI.Page
 
         pa.Add("@RoleID");
         pv.Add(RoleID);
+
+        pa.Add("@GeneralSearch");
+        pv.Add(GenSearch);
 
 
         DBH.CreateDataset_SSHR(ds, "sp_AdminRequests", true, pa, pv);

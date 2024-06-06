@@ -1061,15 +1061,18 @@ $('.tbody-emp-req').on('click', '.ibtn-AllReq-req-info', function () {
         RequestPageLoad();
         ClearCLReqDetails();
         CompanyLoanInitialForm();
+        loadEmpDetails();
+        loadEmpLoanDetails();
+
         ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
         getAllCompanyLoanDetails();
-        CompanyLoanTypeFormat();
+        
         
         $('.insert-Attachment').css('display', 'none');
         $('.download-Attachment').css('display', '');
         $('#empLeaveModal').modal('show');
-        loadEmpDetails();
-        loadEmpLoanDetails();
+        
+        
     }
 
     else if (Type == 5) {
@@ -1356,7 +1359,7 @@ function getAllCompanyLoanDetails() {
             $('#lblEIDExpDate').html(result.d[0].EmiratesExpDate);
 
             $('#txtBDBasic').val(result.d[0].BASIC);
-            $('#txtBDHRA').html(result.d[0].HRAP);
+            $('#txtBDHRA').html(result.d[0].HRAA);
             $('#txtBDCar').val(result.d[0].CARALW);
             $('#txtBDMobile').val(result.d[0].MOBALW);
             $('#txtBDOther').val(result.d[0].OTHALW);
@@ -1414,7 +1417,16 @@ function getAllCompanyLoanDetails() {
 
             OnBehalfChange();
             CompanyLoanInitialForm();
-            CompanyLoanTypeFormat();
+            if ($('#ddlBLLoanType').val() == 'HRA') {
+
+                $(".divnumberofMonth").css('display', '');
+
+
+            }
+            else {
+                $(".divnumberofMonth").css('display', 'none');
+            }
+          
             htmActionButton = "";
 
             if (result.d[0].Status == "SUBMIT" && StatusOrder == 0 ) {
@@ -1907,7 +1919,7 @@ function getAllBankDetails() {
             $('#lblEIDExpDate').html(datedayformat(result.d[0].EmiratesExpDate));
 
             $('#txtBDBasic').val(result.d[0].BASIC);
-            $('#txtBDHRA').val(result.d[0].HRAP);
+            $('#txtBDHRA').val(result.d[0].HRAA);
             $('#txtBDCar').val(result.d[0].CARALW);
             $('#txtBDMobile').val(result.d[0].MOBALW);
             $('#txtBDOther').val(result.d[0].OTHALW);
@@ -2791,7 +2803,7 @@ function RequestPageLoad() {
             <div class="col-3 divnumberofMonth">
                 <label for="html5-number-input" class="col-form-label label-custom">No. Months</label>
                 <div>
-                    <input type="number" id="txtNumberofMonth" name="nmCLControll" class="form-control" min="1" max="6"  value="1"/>
+                    <input type="number" id="txtNumberofMonth" name="nmCLControll" class="form-control" min="0" max="6"  value="1"/>
                 </div>
             </div>
 
@@ -2801,7 +2813,7 @@ function RequestPageLoad() {
             <div class="col-3">
                 <label for="html5-number-input" class="col-form-label label-custom">Amount</label>
                 <div>
-                    <input type="text" id="txtCLoanAmount" name="nmCLControll" class="form-control"  />
+                    <input type="text" id="txtCLoanAmount" name="nmCLControll" class="form-control" disabled />
                 </div>
             </div>
 
@@ -3219,6 +3231,7 @@ $('#AddNewReq').on('click', function () {
         CompanyLoanInitialForm();
         loadApproverAuthorityPeople();
         CompanyLoanTypeFormat();
+ 
         onbehalfrolecheck();
 
     }
@@ -3359,6 +3372,7 @@ function GetBasicEmpDet() {
             $('#assstatus').html(result.d[0].AssStatus);
             $('#vauth').html(result.d[0].VisaAuth);
             LeaveBalance = result.d[0].LeaveBalance;
+            $('#txtLeaveBal').val(LeaveBalance);
             LastTicketEncashDate = result.d[0].LastTicketEncashDate;
             NumberoFTicketAvailable = result.d[0].NoTicketEncash;
 
@@ -5633,16 +5647,18 @@ $('#empLeaveModal').on('change', '#txtNumberofMonth', function () {
     $("#txtCLoanAmount").val(parseInt($("#txtBDHRA").text()) * parseInt($("#txtNumberofMonth").val() == "" ? 0 : $("#txtNumberofMonth").val()));
 });
 
+
 $('#empLeaveModal').on('change', '#txtCLoanAmount', function () {
     $("#txtCLoanMonthlyDed").val($("#txtCLoanAmount").val());
 });
-
 function CompanyLoanTypeFormat() {
     if ($('#ddlBLLoanType').val() == 'HRA') {
         $(".divnumberofMonth").css('display', '');
         $('#txtCLoanMonthlyDed').val($('#txtBDHRA').text());
         $('#txtCLoanMonthlyDed').attr('disabled', false);
         $('#txtCLoanAmount').attr('disabled', true);
+        $("#txtNumberofMonth").attr('value', '0');
+        $("#txtCLoanAmount").val('0');
         const dt = new Date();
         var day = ("0" + dt.getDate()).slice(-2);
         var month = ("0" + (dt.getMonth())).slice(-2);
@@ -5659,14 +5675,15 @@ function CompanyLoanTypeFormat() {
                 $("#txtCLoanDedStartMonth").val(date);
 
             }
-            else if (RemaingMonths > 2) {
+            else if (RemaingMonths >= 2) {
                 toastr.error('You are not eligible to go for HRA Advance since you have more than two months pending .. ');
-
+                $("#txtNumberofMonth").prop("max", 0);
             }
             else {
                 month = ("0" + (dt.getMonth() + 1)).slice(-2);
                 date = dt.getFullYear() + "-" + month;
                 $("#txtCLoanDedStartMonth").val(date);
+                  
             }
         }
 
@@ -5677,7 +5694,7 @@ function CompanyLoanTypeFormat() {
         $('#txtCLoanMonthlyDed').val('0');
         $('#txtCLoanAmount').val('0');  
         $('#txtCLoanMonthlyDed').attr('disabled', true);
-        $('#txtCLoanAmount').removeAttr('disabled', false);
+        $('#txtCLoanAmount').removeAttr('disabled', true);
 
         $(".divnumberofMonth").css('display', 'none');
         $('#txtNumberofMonth').val('0');
@@ -5922,7 +5939,7 @@ function loadEmpDetails() {
             $('#txtBDMobile').html(result.d[0].MOBALW);
             $('#lbSLOther').html(result.d[0].OTHALW);
             $('#lbSLFood').html(result.d[0].FOODALW);
-            $('#lbSLHousingProvided').html(result.d[0].HOUSING);
+            $('#lbSLHousingProvided').html(result.d[0].HRAP);
             $('#lbSLCar').html(result.d[0].CARALW);
 
             if (result.d[0].TransProvided == 'checked') {
@@ -5934,7 +5951,7 @@ function loadEmpDetails() {
             }
 
             $('#lbSLTransport').html(result.d[0].TRANSALW);
-            $('#lbSLHRA').html(result.d[0].HRAA);
+            $('#lbSLHRA').html(result.d[0].HRAP);
             $('#lbSLCompanyCar').html("N/A");
             $('#lbSLLastSal').html("N/A");
             $('#lbSLGrossSal').html(result.d[0].Gross_salary);

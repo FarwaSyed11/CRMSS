@@ -5,9 +5,21 @@ var UserId = '';
 $(document).ready(function () {
 
     LoadRoles();
+    $('#txtGeneralSearch').prop('disabled', false);
 
     $('.ajax-loader').removeClass('hidden');
 
+    setTimeout(function () {
+
+        GetTableDetails('Please wait...');
+        $(".ajax-loader").addClass('hidden');
+    }, 500);
+
+});
+
+$('#btnSearch').on('click', function () {
+
+    $('.ajax-loader').removeClass('hidden');
     setTimeout(function () {
 
         GetTableDetails('Please wait...');
@@ -52,7 +64,7 @@ function LoadRoles() {
 function GetTableDetails(Loader) {
     $.ajax({
         url: "Admin.aspx/GetTableBasicDetails",
-        data: JSON.stringify({ "User": currUserId, "RoleID": $('#ddlRoles option:selected').val(),}),
+        data: JSON.stringify({ "User": currUserId, "RoleID": $('#ddlRoles option:selected').val(), "GenSearch": $('#txtGeneralSearch').val() }),
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -127,6 +139,12 @@ function initiateDataTable() {
 
 $('#ddlRoles').on('change', function () {
 
+    if ($('#ddlRoles option:selected').val() == '-1') {
+        $('#txtGeneralSearch').prop('disabled', false);
+    }
+    else {
+        $('#txtGeneralSearch').prop('disabled', true);
+    }
     $('.ajax-loader').removeClass('hidden');
     setTimeout(function () {
 

@@ -964,7 +964,7 @@ https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js
         });
 
     </script>
-    <script src="Scripts/MyTeamRequests.js?v=3.2"></script>
+    <script src="Scripts/MyTeamRequests.js?v=4"></script>
     <link href="Css/allrequest.css?v=1.2" rel="stylesheet" />
 
     <script src="../KPI/Flatpickr/js/flatpickr.js"></script>

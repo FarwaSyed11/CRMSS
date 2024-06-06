@@ -85,7 +85,8 @@ function ViewExitPassReqList() {
                   <td>`+ item.ExitDate + `</td>
                   <td>`+ item.TimeOut + `</td>
                   <td>`+ item.TimeIn + `</td>
-                  <td> `+ item.Remarks + `</td >
+                  <td> `+ item.STATUS + `</td >
+                   <td> `+ item.Remarks + `</td >
                    <td> `+ item.ExitPasstype + `</td >`;
 
                 htm += `</tr>`;

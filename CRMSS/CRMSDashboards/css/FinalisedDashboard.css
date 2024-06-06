@@ -1,0 +1,67 @@
+﻿body {
+}
+.table.project-table thead th {
+    vertical-align: bottom;
+    border: none !important;
+    font-size: 12px;
+    /* text-align: center; */
+    text-transform: capitalize;
+    padding: 10px !important;
+}
+
+.table.project-table tbody td {
+    padding: 8px !important;
+    vertical-align: middle;
+    overflow-wrap: anywhere;
+}
+
+.project-table tbody, .project-table td, .project-table tfoot {
+    font-size: 10px !important;
+    background-color: white;
+}
+
+    .project-table tbody tr {
+        border-bottom: 1px solid #e4e4e4;
+    }
+
+.table.project-table .project-detail td {
+    font-size: 14px !important;
+    padding: 14px !important;
+}
+
+    .table.project-table .project-detail td:last-child {
+        color: black;
+        font-weight: 600;
+    }
+
+.dropbtn {
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1
+        }
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}

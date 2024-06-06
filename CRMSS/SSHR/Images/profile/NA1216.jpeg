@@ -1,0 +1,20 @@
+{
+  "enableAnrDetection" : false,
+  "timestamp" : 0,
+  "autoScreenshot" : false,
+  "enableJsAgent" : true,
+  "flushInterval" : 300,
+  "enableAnrStackTrace" : false,
+  "enableCrashReporting" : true,
+  "enableScreenshot" : false,
+  "enableJsAgentSPA" : true,
+  "anrThreshold" : 3000,
+  "screenshotUseCellular" : false,
+  "deviceMetricsConfigurations" : {
+
+  },
+  "enableFeatures" : [
+
+  ],
+  "enableJsAgentAjax" : false
+}
