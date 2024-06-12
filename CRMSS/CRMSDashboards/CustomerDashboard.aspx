@@ -4,8 +4,9 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="bootstrap-5.2.3/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../Calendar/plugins/fullcalendar/main.css">
     <link rel="stylesheet" href="../Calendar/dist/adminlte.min.css">
     <link href="../KPI/Flatpickr/css/_flatpickr.css" rel="stylesheet" />
@@ -246,14 +247,14 @@
             </div>
             <div class="width-14">
                 <div class="card p-3 d-flex flex-row justify-content-between">
-                    <div class="mt-2 me-2">
+                    <div class="mt-2 me-1">
                         <div class="mb-4">Potential Never Visited</div>
                         <div class="d-flex">
                             <img src="image/tickred.svg" class="">
                             <h5 class="ms-2 mt-2">123.5K</h5>
                         </div>
                     </div>
-                    <div class="dropdown ms-2">
+                    <div class="dropdown ms-1">
                         <button class="dropbtn">
                             <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 0 24 24">
                                 <path fill="none" stroke="#6b6b6b" stroke-linejoin="round" stroke-width="3.75" d="M12 12h.01v.01H12zm0-7h.01v.01H12zm0 14h.01v.01H12z"></path>
@@ -268,7 +269,7 @@
         </div>
         <div class="row">
             <div class="col-6">
-                <div class="card" style="height: 750px;">
+                <div class="card" style="height: 690px;">
                     <div class="card-body">
                         Customer Behavior
                         <div class="mt-3 table">
@@ -426,16 +427,26 @@
                     <div class="col-12">
                         <div class="card" style="height: 365px;">
                             <div class="card-body">
-                               New Assigned Customer
+                                New Assigned Customer
                                <div id="AssignedCustomer"></div>
                             </div>
                         </div>
                     </div>
                     <div class="col-12">
-                        <div class="card" style="height: 365px;">
+                        <div class="card" style="height: 305px;">
                             <div class="card-body">
                                 Type Of Potential
-                                <div id="TypePotential"></div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div id="TypePotential3"></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div id="TypePotential1"></div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div id="TypePotential2"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -444,39 +455,80 @@
             <div class="col-3">
                 <div class="row">
                     <div class="col-12">
-                        <div class="card" style="height: 275px;">
+                        <div class="card" style="height: 690px;">
                             <div class="card-body">
-                                Total Pending Request Per Day
-                                 <div style="position: relative;">
-                                     <div style="">
-                                         <div style="width: 20%; height: 190px; background: #43D1B7;"></div>
-                                         <div style="width: 20%; height: 190px; left: 20%; top: 0px; position: absolute; background: rgb(67 209 183 / 70%);"></div>
-                                         <div style="width: 20%; height: 190px; left: 40%; top: 0px; position: absolute; background: rgb(104 209 243 / 70%);"></div>
-                                         <div style="width: 20%; height: 190px; left: 60%; top: 0px; position: absolute; background: rgb(104 209 243 / 40%);"></div>
-                                         <div style="width: 20%; height: 190px; left: 80%; top: 0px; position: absolute; background: rgb(226 6 19 / 20%);"></div>
-                                     </div>
-                                     <div style="left: 26px; bottom: 99px; position: relative;">
-                                         <div style="width: 30px; left: 3%; top: 100px; position: absolute; color: rgba(0, 0, 0, 0.50); font-size: 16px; font-weight: 300; word-wrap: break-word">1-5</div>
-                                         <div style="left: 22%; top: 100px; position: absolute; color: rgba(0, 0, 0, 0.50); font-size: 16px; font-weight: 300; word-wrap: break-word">6-10</div>
-                                         <div style="width: 34px; left: 43%; top: 100px; position: absolute; color: rgba(0, 0, 0, 0.50); font-size: 16px; font-weight: 300; word-wrap: break-word">11-15</div>
-                                         <div style="width: 62px; left: 62%; top: 100px; position: absolute; color: rgba(0, 0, 0, 0.50); font-size: 16px; font-weight: 300; word-wrap: break-word">16-20</div>
-                                         <div style="width: 63px; left: 82%; top: 100px; position: absolute; color: rgba(0, 0, 0, 0.50); font-size: 16px; font-weight: 300; word-wrap: break-word">21-25</div>
-                                         <div id="divoneTofive" style="width: 31px; l; left: 3%; op: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">10</div>
-                                         <div id="divdixToten" style="width: 32px; left: 24%; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">15</div>
-                                         <div id="divlevenToFifteen" style="width: 33px; left: 44%; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">20</div>
-                                         <div id="divsixteenToTwenty" style="width: 34px; left: 64%; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">25</div>
-                                         <div id="divtwentyToTwefive" style="width: 35px; left: 84%; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">30</div>
-                                     </div>
-                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="card" style="height: 425px;">
-                            <div class="card-body">
-                                Letter Of Intent progress <span style="font-size: 10px">(LOI)</span>
-                                <div style="text-align: center; margin-top: 18%;">
-                                    <img src="image/futureplan.svg" />
+                                Top Customer Based On Value
+                                <div class="topcustomers">
+                                    <div class="d-flex justify-content-between border-bottom p-3 m-2 align-items-center">
+                                        <div class="d-flex">
+                                            <div class="rounded-circle shadow-sm w-100 border p-4 me-3" style="border: 2px solid rgb(26 128 187 / 40%) !important;">AH</div>
+                                            <div>
+                                                <div class="">ABCEFG HIJK</div>
+                                                <div class="text-muted">XYZ</div>
+                                                <div class="d-flex text-muted" style="font-size: 10px">
+                                                    <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">11</span>
+                                                    <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">765.4K</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-danger fs-4">45%</div>
+                                    </div>
+                                    <div class="d-flex justify-content-between border-bottom p-3 m-2 align-items-center">
+                                        <div class="d-flex">
+                                            <div class="rounded-circle shadow-sm w-100 border p-4 me-3" style="border: 2px solid rgb(26 128 187 / 40%) !important;">AH</div>
+                                            <div>
+                                                <div class="">ABCEFG HIJK</div>
+                                                <div class="text-muted">XYZ</div>
+                                                <div class="d-flex text-muted" style="font-size: 10px">
+                                                    <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">11</span>
+                                                    <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">765.4K</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-danger fs-4">45%</div>
+                                    </div>
+                                    <div class="d-flex justify-content-between border-bottom p-3 m-2 align-items-center">
+                                        <div class="d-flex">
+                                            <div class="rounded-circle shadow-sm w-100 border p-4 me-3" style="border: 2px solid rgb(26 128 187 / 40%) !important;">AH</div>
+                                            <div>
+                                                <div class="">ABCEFG HIJK</div>
+                                                <div class="text-muted">XYZ</div>
+                                                <div class="d-flex text-muted" style="font-size: 10px">
+                                                    <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">11</span>
+                                                    <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">765.4K</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-danger fs-4">45%</div>
+                                    </div>
+                                    <div class="d-flex justify-content-between border-bottom p-3 m-2 align-items-center">
+                                        <div class="d-flex">
+                                            <div class="rounded-circle shadow-sm w-100 border p-4 me-3" style="border: 2px solid rgb(26 128 187 / 40%) !important;">AH</div>
+                                            <div>
+                                                <div class="">ABCEFG HIJK</div>
+                                                <div class="text-muted">XYZ</div>
+                                                <div class="d-flex text-muted" style="font-size: 10px">
+                                                    <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">11</span>
+                                                    <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">765.4K</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-danger fs-4">45%</div>
+                                    </div>
+                                    <div class="d-flex justify-content-between border-bottom p-3 m-2 align-items-center">
+                                        <div class="d-flex">
+                                            <div class="rounded-circle shadow-sm w-100 border p-4 me-3" style="border: 2px solid rgb(26 128 187 / 40%) !important;">AH</div>
+                                            <div>
+                                                <div class="">ABCEFG HIJK</div>
+                                                <div class="text-muted">XYZ</div>
+                                                <div class="d-flex text-muted" style="font-size: 10px">
+                                                    <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">11</span>
+                                                    <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">765.4K</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-danger fs-4">45%</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -506,9 +558,9 @@
     <script src="script/CustomerDashboard.js"></script>
     <link rel="stylesheet" href="css/FinalisedDashboard.css" />
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="bootstrap-5.2.3/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" integrity="sha512-GWzVrcGlo0TxTRvz9ttioyYJ+Wwk9Ck0G81D+eO63BaqHaJ3YZX9wuqjwgfcV/MrB2PhaVX9DkYVhbFpStnqpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
 
     <link href="../Template/assets/vendor/libs/toaster/toaster.css" rel="stylesheet" />
     <script src="../Template/assets/vendor/libs/toaster/toaster.js"></script>

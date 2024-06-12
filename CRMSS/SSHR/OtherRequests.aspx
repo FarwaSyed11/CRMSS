@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="OtherRequests.aspx.cs" Inherits="SSHR_OtherRequests" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="OtherRequests.aspx.cs" Inherits="SSHR_OtherRequests" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">

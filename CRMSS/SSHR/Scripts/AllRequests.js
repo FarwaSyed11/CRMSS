@@ -3893,14 +3893,8 @@ function AddReqDetails() {
         $('#txtEmpName').val('');
         $('#fu-on-behalf').val('');
     }
-    EmpNumb = '';
-    if ($('#cbEmpOnBehalf').is(':checked') == true) {
-
-        EmpNumb = $('#txtEmpName option:selected').val();
-    }
-    else {
-        EmpNumb = $('#lblEmpNo').html();
-    }
+    EmpNumb = $("#lblEmpNo").val();
+   
     
     $.ajax({
         url: "AllRequests.aspx/setRequestDetails",
@@ -4062,7 +4056,8 @@ $('.tbody-emp-req').on('click', '.ibtn-leave-req-info', function () {
 });
 
 function GetAllDetails() {
-    $("#txtStartDate").prop("type", "text");
+    
+    
     $.ajax({
         url: "AllRequests.aspx/GetAllDetails",
         data: JSON.stringify({ 'ApplicationId': ApplicationId }),
@@ -4095,10 +4090,20 @@ function GetAllDetails() {
 
             $('#ddlLeaveType').val(result.d[0].LEAVE_TYPE_ID);
 
-            $("#txtStartDate").prop("type", "text");
-            $('#txtStartDate').val(datedayformat(result.d[0].FROM_DATE));
-            $('#txtEndDate').val(datedayformat(result.d[0].TO_DATE));
-            $('#txtReturnToWork').val(datedayformat(result.d[0].RETURNED_TO_WORK));
+            if (result.d[0].Status == "DRAFT") {
+                $("#txtStartDate").prop("type", "date");
+                $('#txtStartDate').val(result.d[0].FROM_DATE);
+                $('#txtEndDate').val(result.d[0].TO_DATE);
+                $('#txtReturnToWork').val(result.d[0].RETURNED_TO_WORK);
+            }
+            else {
+                $("#txtStartDate").prop("type", "text");
+                $('#txtStartDate').val(datedayformat(result.d[0].FROM_DATE));
+                $('#txtEndDate').val(datedayformat(result.d[0].TO_DATE));
+                $('#txtReturnToWork').val(datedayformat(result.d[0].RETURNED_TO_WORK));
+            }
+            
+            
 
             // document.getElementById("txtStartDate").valueAsDate = new Date(result.d[0].FROM_DATE.split(" ")[0]);
             /* $('#txtEndDate').val(result.d[0].TO_DATE.split(" ")[0]);*/
