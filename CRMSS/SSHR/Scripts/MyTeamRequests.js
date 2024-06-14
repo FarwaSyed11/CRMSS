@@ -614,8 +614,7 @@ $('.tbody-emp-req').on('click', '.ibtn-AllReq-req-info', function () {
         ClearPPTDetails();
         ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
         getAllPPTDetails();
-        SetPPTForm();
-
+       
         $('.insert-Attachment').css('display', 'none');
         $('.download-Attachment').css('display', '');
         $('#empLeaveModal').modal('show');
@@ -680,6 +679,7 @@ $('.tbody-emp-req').on('click', '.ibtn-AllReq-req-info', function () {
 
         $('.insert-Attachment').css('display', 'none');
         $('.download-Attachment').css('display', '');
+        $('#ddlPaid').css('display', '');
         $('#empLeaveModal').modal('show');
     }
 
@@ -692,13 +692,13 @@ $('.tbody-emp-req').on('click', '.ibtn-AllReq-req-info', function () {
         ClearEPReq();
         ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
         getAllEPReqDetails();
-
+        $('#ddlPaid').css('display', 'none');
         $('.insert-Attachment').css('display', 'none');
         $('.download-Attachment').css('display', '');
         $('#empLeaveModal').modal('show');
     }
     else if (Type == 7) {
-
+        $('#ddlPaid').css('display', 'none');
         $('#ddlRequests option:selected').val();
         $('#ddlRequestType').val('7');
         $('#ddlRequestType').attr('disabled', true);
@@ -731,9 +731,6 @@ function ClearTEReq() {
     $('#txtEXTPassReason').val('');
 }
 function TicketencInitialForm() {
-
-
-
     $('#cbEmpOnBehalf').attr('disabled', false);
     $('#txtEmpName').attr('disabled', false);
     $('#txtTikEncashReason').attr('disabled', false);
@@ -755,7 +752,7 @@ function getAllTEReqDetails() {
         dataType: "json",
         async: false,
         success: function (result) {
-            GetTikEncashRefNo();
+            
             $('#lblStatus').html(result.d[0].Status);
             $('#lblAppID').html(result.d[0].ReqID);
             $('#lblEmpName').val(result.d[0].EmpName);
@@ -854,6 +851,7 @@ function GetTikEncashRefNo() {
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
+        async: false,
         success: function (result) {
 
             const tikEcashRef = result.d;
@@ -1884,7 +1882,7 @@ function RequestPageLoad() {
                 </div>
             </div>
             <div class="col-3 div-Attachment">
-                <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
+                <label for="html5-number-input" class="col-form-label label-custom">View/Download Attachment</label>
                 <div style="align-content: center;height: 106px;border: 1px solid #d9dee3;">
 
                 <div class="input-group mb-3 insert-Attachment" style="">
@@ -1999,7 +1997,7 @@ function RequestPageLoad() {
                 </div>
             </div>
             <div class="col-3 div-Attachment">
-                <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
+                <label for="html5-number-input" class="col-form-label label-custom">View/Download Attachment</label>
 
                 <div class="input-group mb-3 insert-Attachment">
 
@@ -2184,7 +2182,7 @@ function RequestPageLoad() {
                     </div>
                 </div>
                 <div class="col-3 div-Attachment">
-                    <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
+                    <label for="html5-number-input" class="col-form-label label-custom">View/Download Attachment</label>
 
                     <div class="input-group mb-3 insert-Attachment">
 
@@ -2336,7 +2334,7 @@ function RequestPageLoad() {
                 </div>
 
                 <div class="col-3 div-Attachment">
-                    <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
+                    <label for="html5-number-input" class="col-form-label label-custom">View/Download Attachment</label>
                     <div style="align-content: center;height: 106px;border: 1px solid #d9dee3;">
                         <div class="input-group mb-3 insert-Attachment">
                             <input class="form-control" type="file" id="fu-leave-req" title="Leave Request" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getFileName()">
@@ -2496,7 +2494,7 @@ function RequestPageLoad() {
                 </div>
             </div>
             <div class="col-3 div-Attachment">
-                <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
+                <label for="html5-number-input" class="col-form-label label-custom">View/Download Attachment</label>
                 <div style="align-content: center;height: 106px;border: 1px solid #d9dee3;">
                     <div class="input-group mb-3 insert-Attachment">
                         <input class="form-control" type="file" id="fu-leave-req" title="Leave Request" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getFileName()">
@@ -2550,7 +2548,7 @@ function RequestPageLoad() {
                 </div>
 
                 <div class="col-3 div-Attachment">
-                    <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
+                    <label for="html5-number-input" class="col-form-label label-custom">View/Download Attachment</label>
 
                     <div style="align-content: center;height: 106px;border: 1px solid #d9dee3;">
                         <div class="input-group mb-3 insert-Attachment">
@@ -2626,7 +2624,7 @@ function RequestPageLoad() {
             </div>
 
             <div class="col-3 div-Attachment">
-                <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
+                <label for="html5-number-input" class="col-form-label label-custom">View/Download Attachment</label>
                 <div style="align-content: center;height: 106px;border: 1px solid #d9dee3;">
                     <div class="input-group mb-3 insert-Attachment">
 
@@ -2681,7 +2679,7 @@ function RequestPageLoad() {
                     </div>
                 </div>
                 <div class="col-3 div-Attachment">
-                    <label for="html5-number-input" class="col-form-label label-custom">Upload E-Ticket</label>
+                    <label for="html5-number-input" class="col-form-label label-custom">View/Download E-Ticket</label>
 
                     <div style="align-content: center;height: 106px;border: 1px solid #d9dee3;">
                         <div class="input-group mb-3 insert-Attachment">
@@ -2823,7 +2821,8 @@ function GetBasicEmpDet() {
             $('#lblWeeklyOff').html(result.d[0].WEEKLYOFF);
             $('#assstatus').html(result.d[0].AssStatus);
             $('#vauth').html(result.d[0].VisaAuth);
-
+            //$('#lblLastVacationFromDate').html(datedayformat(result.d[0].LastTicketEncashDate));
+$('#lblLastVacationFromDate').html("--");
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -2840,6 +2839,7 @@ function GetRefNo() {
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
+        async: false,
         success: function (result) {
 
 
@@ -2915,7 +2915,7 @@ $('#empLeaveModal').on('change', '#ddlLeaveType', function () {
 
 
 function SetForm() {
-
+    $('#ddlPaid').css('display', 'none');
     if ($('#ddlLeaveType option:selected').val() == "203") {
         $('.div-EndDate').css('display', '');
         $('.Group-Of-Doc').css('display', '');
@@ -3558,6 +3558,7 @@ function GetPPTRefNo() {
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
+        async: false,
         success: function (result) {
 
 
@@ -3677,7 +3678,7 @@ $('.tbody-emp-req').on('click', '.ibtn-PPT-req-info', function () {
     MyOrderNumber = this.parentNode.parentNode.parentNode.children[1].textContent;
     MyRoleID = this.parentNode.parentNode.parentNode.children[2].textContent;
     getAllPPTDetails();
-    SetPPTForm();
+
 
     $('.insert-Attachment').css('display', 'none');
     $('.download-Attachment').css('display', '');
@@ -3725,6 +3726,8 @@ function getAllPPTDetails() {
             loadPPTReason();
 
             $('#ddlPPTReason').val(result.d[0].ReasonValue);
+            $('#ddlPPTReason').trigger('change');
+            $('#ddlPPTOtherReason').val(result.d[0].OtherReason);
             $("#txtTravellingDate").val(datedayformat(result.d[0].Travelling_Date));
             $("#txtEptDOReturn").val(datedayformat(result.d[0].Expected_Date_Of_Return));
 
@@ -3863,6 +3866,7 @@ $('#empLeaveModal').on('change', '#ddlBDReqType', function () {
 
 
 function ClearPPTDetails() {
+    $('#ddlPaid').css('display', 'none');
     $('#lblEmpName').val("");
     $('#lblEmpNo').html("");
     $('#lblDesignation').val("");
@@ -3926,6 +3930,7 @@ function GetBDRefNo() {
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
+        async: false,
         success: function (result) {
 
             const BDVal = result.d.split(',');
@@ -3951,6 +3956,7 @@ function GetMiscRefNo() {
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
+        async: false,
         success: function (result) {
 
             const BDVal = result.d.split(',');
@@ -3976,7 +3982,7 @@ function PPTInitialForm() {
 }
 
 function BankDetReqTypeChange() {
-
+    $('#ddlPaid').css('display', 'none');
     if ($('#ddlBDReqType').val() == 5) {
 
         $("#txtBDPurpose").val("BANK");
@@ -4033,6 +4039,7 @@ function GetBDSTLDet() {
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
+        async: false,
         success: function (result) {
 
             const BankDet = result.d.split(',');
@@ -4080,7 +4087,7 @@ function loadMiscRequestType() {
 }
 
 function miscReqTypeFormate() {
-
+    $('#ddlPaid').css('display', 'none');
     if ($('#ddlMiscReqType').val() == '10005') {
 
         $('.MiscReason-Area').css('display', '');
@@ -4352,6 +4359,7 @@ function GetCLoanRefNo() {
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
+        async: false,
         success: function (result) {
 
             const BDVal = result.d.split(',');
@@ -4377,6 +4385,7 @@ function GetLAReqRefNo() {
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
+        async: false,
         success: function (result) {
 
             const BDVal = result.d.split(',');
@@ -4402,6 +4411,7 @@ function GetEPReqRefNo() {
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
+        async: false,
         success: function (result) {
 
             const BDVal = result.d.split(',');
@@ -4428,6 +4438,7 @@ $('#empLeaveModal').on('change', '#ddlBLLoanType', function () {
 });
 
 function CompanyLoanTypeFormat() {
+    $('#ddlPaid').css('display', 'none');
     if ($('#ddlBLLoanType').val() == 'HRA') {
 
        

@@ -360,6 +360,7 @@ public partial class SSHR_MyTeamRequests : System.Web.UI.Page
                     WEEKLYOFF = dt.Rows[i]["WEEKLYOFF"].ToString(),
                     AssStatus = dt.Rows[i]["ASSIGNMENT_STATUS"].ToString(),
                     VisaAuth = dt.Rows[i]["VISAAUTHCODE"].ToString(),
+                    LastTicketEncashDate = dt.Rows[i]["LastTicketEncashDate"].ToString(),
                 });
             }
         }
@@ -2488,7 +2489,7 @@ public partial class SSHR_MyTeamRequests : System.Web.UI.Page
         public string STATUS_ORDER { get; set; }
         public string VisaAuth { get; set; }
         public string AssStatus { get; set; }
-
+        public string LastTicketEncashDate { get; set; }
     }
 
     public class tableData

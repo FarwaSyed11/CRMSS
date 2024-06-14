@@ -625,8 +625,7 @@ $('.tbody-emp-req').on('click', '.ibtn-AllReq-req-info', function () {
         ClearPPTDetails();
         ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
         getAllPPTDetails();
-        SetPPTForm();
-
+      
         $('.insert-Attachment').css('display', 'none');
         $('.download-Attachment').css('display', '');
         $('#empLeaveModal').modal('show');
@@ -1836,7 +1835,7 @@ function RequestPageLoad() {
                             </div>
                         </div>
                         <div class="col-3 div-Attachment">
-                            <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
+                            <label for="html5-number-input" class="col-form-label label-custom">View/Download Attachment</label>
                            <div style="border: groove;height: 106px;">
 
                             <div class="input-group mb-3 insert-Attachment" style="margin-top: 24px;">
@@ -1953,7 +1952,7 @@ function RequestPageLoad() {
                             </div>
                         </div>
                                                <div class="col-3 div-Attachment">
-                            <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
+                            <label for="html5-number-input" class="col-form-label label-custom">View/Download Attachment</label>
 
                             <div class="input-group mb-3 insert-Attachment">
 
@@ -2114,7 +2113,7 @@ function RequestPageLoad() {
                     </div>
                 </div>
                 <div class="col-3 div-Attachment">
-                    <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
+                    <label for="html5-number-input" class="col-form-label label-custom">View/Download Attachment</label>
 
                     <div class="input-group mb-3 insert-Attachment">
 
@@ -2270,7 +2269,7 @@ function RequestPageLoad() {
 
                 <div class="row">
                 <div class="col-3 div-Attachment">
-                    <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
+                    <label for="html5-number-input" class="col-form-label label-custom">View/Download Attachment</label>
 
                     <div class="input-group mb-3 insert-Attachment">
 
@@ -2425,7 +2424,7 @@ function RequestPageLoad() {
 
                         <div class="row">
                        <div class="col-3 div-Attachment">
-                            <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
+                            <label for="html5-number-input" class="col-form-label label-custom">View/Download Attachment</label>
 
                             <div class="input-group mb-3 insert-Attachment">
 
@@ -2489,7 +2488,7 @@ function RequestPageLoad() {
                             </div>
                         </div>
                         <div class="col-3 div-Attachment">
-                            <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
+                            <label for="html5-number-input" class="col-form-label label-custom">View/Download Attachment</label>
 
                             <div class="input-group mb-3 insert-Attachment">
 
@@ -2576,7 +2575,7 @@ function RequestPageLoad() {
                             </div>
                         </div>
                     <div class="col-3 div-Attachment">
-                            <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
+                            <label for="html5-number-input" class="col-form-label label-custom">View/Download Attachment</label>
 
                             <div class="input-group mb-3 insert-Attachment">
 
@@ -2639,7 +2638,7 @@ function RequestPageLoad() {
 
 
             <div class="col-3 div-Attachment">
-                <label for="html5-number-input" class="col-form-label label-custom">Upload E-Ticket</label>
+                <label for="html5-number-input" class="col-form-label label-custom">View/Download E-Ticket</label>
 
                 <div class="input-group mb-3 insert-Attachment">
 
@@ -2656,7 +2655,7 @@ function RequestPageLoad() {
                 <div class="input-group mb-3 download-Attachment">
 
                     <img src="Images/Icon-download.png" id="btnDownloadAttachment" title="Upload File" class="fa-icon-hover" style="cursor: pointer; width: 40px;" />
-<span><i class="bx bxs-show fa-icon-hover btnDownloadAttachment" style="color: #eb9d96;font-size: 1.9rem;margin: -33px 0px 0px 109px;cursor: pointer;" ></i></span>
+                    <span><i class="bx bxs-show fa-icon-hover btnDownloadAttachment" style="color: #eb9d96;font-size: 1.9rem;margin: -33px 0px 0px 109px;cursor: pointer;" ></i></span>
                 </div>
 
 
@@ -2785,8 +2784,8 @@ function GetBasicEmpDet() {
             $('#lblWeeklyOff').html(result.d[0].WEEKLYOFF);
             $('#assstatus').html(result.d[0].AssStatus);
             $('#vauth').html(result.d[0].VisaAuth);
-
-
+            //$('#lblLastVacationFromDate').html(datedayformat(result.d[0].LastTicketEncashDate));
+$('#lblLastVacationFromDate').html("--");
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -3641,7 +3640,7 @@ $('.tbody-emp-req').on('click', '.ibtn-PPT-req-info', function () {
     MyOrderNumber = this.parentNode.parentNode.parentNode.children[1].textContent;
     MyRoleID = this.parentNode.parentNode.parentNode.children[2].textContent;
     getAllPPTDetails();
-    SetPPTForm();
+  
 
     $('.insert-Attachment').css('display', 'none');
     $('.download-Attachment').css('display', '');
@@ -3692,6 +3691,8 @@ function getAllPPTDetails() {
             loadPPTReason();
 
             $('#ddlPPTReason').val(result.d[0].ReasonValue);
+            $('#ddlPPTReason').trigger('change');
+            $('#ddlPPTOtherReason').val(result.d[0].OtherReason);
             $("#txtTravellingDate").val(datedayformat(result.d[0].Travelling_Date));
             $("#txtEptDOReturn").val(datedayformat(result.d[0].Expected_Date_Of_Return));
 

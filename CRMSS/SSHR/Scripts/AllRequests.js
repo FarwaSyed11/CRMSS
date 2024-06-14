@@ -979,8 +979,215 @@ $('.tbody-emp-req-behalf').on('click', '.ibtn-AllReq-req-info', function () {
         $('#empLeaveModal').modal('show');
 
     }
+    else if (Type == 1) {
+
+
+        $('#ddlRequestType').val('1');
+        $('#ddlRequestType').attr('disabled', true);
+        RequestPageLoad();
+        ClearPPTDetails();
+        ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
+        getAllPPTDetails();
+       
+
+        $('#empLeaveModal').modal('show');
+    }
+
+    else if (Type == 2) {
+
+
+
+        $('#ddlRequestType').val('2');
+        $('#ddlRequestType').attr('disabled', true);
+
+        RequestPageLoad();
+        ClearBankDetails();
+        ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
+        getAllBankDetails();
+        BankDetReqTypeChange();
+
+        $('.insert-Attachment').css('display', 'none');
+        $('.download-Attachment').css('display', '');
+        $('#empLeaveModal').modal('show');
+        loadEmpDetails();
+        loadEmpLoanDetails();
+    }
+
+    else if (Type == 3) {
+
+        $('#ddlRequestType').val('3');
+        $('#ddlRequestType').attr('disabled', true);
+        RequestPageLoad();
+        ClearMiscReqDetails();
+        ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
+        getAllMiscRequestDetails();
+        miscReqTypeFormate();
+
+
+        $('.insert-Attachment').css('display', 'none');
+        $('.download-Attachment').css('display', '');
+        $('#empLeaveModal').modal('show');
+    }
+
+    else if (Type == 4) {
+
+
+        $('#ddlRequestType').val('4');
+        $('#ddlRequestType').attr('disabled', true);
+
+        RequestPageLoad();
+        ClearCLReqDetails();
+        CompanyLoanInitialForm();
+        loadEmpDetails();
+        loadEmpLoanDetails();
+
+        ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
+        getAllCompanyLoanDetails();
+
+
+        $('.insert-Attachment').css('display', 'none');
+        $('.download-Attachment').css('display', '');
+        $('#empLeaveModal').modal('show');
+
+
+    }
+
+    else if (Type == 5) {
+
+
+        $('#ddlRequestType').val('5');
+        $('#ddlRequestType').attr('disabled', true);
+        RequestPageLoad();
+        ClearLAReq();
+        ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
+        getAllLAReqDetails();
+
+
+        $('#empLeaveModal').modal('show');
+    }
+
+    else if (Type == 6) {
+
+        $('#ddlRequests option:selected').val();
+        $('#ddlRequestType').val('6');
+        $('#ddlRequestType').attr('disabled', true);
+        RequestPageLoad();
+        ClearEPReq();
+        ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
+        getAllEPReqDetails();
+
+
+        $('#empLeaveModal').modal('show');
+    }
 });
 
+$('.tbody-emp-req-behalf').on('click', '.ibtn-leave-req-info', function () {
+
+    Type = $('#ddlRequests option:selected').val();
+    $('#ddlRequestType').val('0');
+    $('#ddlRequestType').attr('disabled', true);
+    RequestPageLoad();
+    ClearDetails();
+    ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
+    GetAllDetails();
+    SetForm();
+    $('.insert-Attachment').css('display', 'none');
+    $('.download-Attachment').css('display', '');
+    $('#empLeaveModal').modal('show');
+});
+$('.tbody-emp-req-behalf').on('click', '.ibtn-PPT-req-info', function () {
+
+
+    Type = $('#ddlRequests option:selected').val();
+    $('#ddlRequestType').val('1');
+    $('#ddlRequestType').attr('disabled', true);
+    RequestPageLoad();
+    ClearPPTDetails();
+    ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
+    getAllPPTDetails();
+   
+    $('.insert-Attachment').css('display', 'none');
+    $('.download-Attachment').css('display', '');
+    $('#empLeaveModal').modal('show');
+});
+$('.tbody-emp-req-behalf').on('click', '.ibtn-BDR-req-info', function () {
+
+
+    let selBADId = $(this).data('bankrelid');
+
+    Type = $('#ddlRequests option:selected').val();
+    $('#ddlRequestType').val('2');
+    $('#ddlRequestType').attr('disabled', true);
+
+    RequestPageLoad();
+    ClearBankDetails();
+    ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
+    getAllBankDetails();
+    BankDetReqTypeChange();
+
+    $('.insert-Attachment').css('display', 'none');
+    $('.download-Attachment').css('display', '');
+    $('#empLeaveModal').modal('show');
+});
+$('.tbody-emp-req-behalf').on('click', '.ibtn-misc-req-info', function () {
+    let selMiscId = $(this).data('miscid');
+    //selobjDatatableMisc = result.filter(s => s.ID == selMiscId);
+
+    Type = $('#ddlRequests option:selected').val();
+    $('#ddlRequestType').val('3');
+    $('#ddlRequestType').attr('disabled', true);
+    RequestPageLoad();
+    ClearMiscReqDetails();
+    ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
+    getAllMiscRequestDetails();
+    miscReqTypeFormate();
+    $('#empLeaveModal').modal('show');
+});
+
+
+$('.tbody-emp-req-behalf').on('click', '.ibtn-CL-req-info', function () {
+
+    Type = $('#ddlRequests option:selected').val();
+    $('#ddlRequestType').val('4');
+    $('#ddlRequestType').attr('disabled', true);
+    RequestPageLoad();
+    ClearCLReqDetails();
+    ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
+    getAllCompanyLoanDetails();
+    $('#empLeaveModal').modal('show');
+});
+
+$('.tbody-emp-req-behalf').on('click', '.ibtn-LA-req-info', function () {
+
+
+    Type = $('#ddlRequests option:selected').val();
+    $('#ddlRequestType').val('5');
+    $('#ddlRequestType').attr('disabled', true);
+    RequestPageLoad();
+    ClearLAReq();
+    ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
+    getAllLAReqDetails();
+
+    $('.insert-Attachment').css('display', 'none');
+    $('.download-Attachment').css('display', '');
+    $('#empLeaveModal').modal('show');
+
+});
+$('.tbody-emp-req-behalf').on('click', '.ibtn-EXTPass-req-info', function () {
+
+
+    Type = $('#ddlRequests option:selected').val();
+    $('#ddlRequestType').val('6');
+    $('#ddlRequestType').attr('disabled', true);
+    RequestPageLoad();
+    ClearEPReq();
+    ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
+    getAllEPReqDetails();
+
+    $('.insert-Attachment').css('display', 'none');
+    $('.download-Attachment').css('display', '');
+    $('#empLeaveModal').modal('show');
+});
 $('.tbody-emp-req').on('click', '.ibtn-AllReq-req-info', function () {
 
 
@@ -1010,8 +1217,7 @@ $('.tbody-emp-req').on('click', '.ibtn-AllReq-req-info', function () {
         ClearPPTDetails();
         ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
         getAllPPTDetails();
-        SetPPTForm();
-
+       
 
         $('#empLeaveModal').modal('show');
     }
@@ -1127,7 +1333,7 @@ function getAllTEReqDetails() {
         dataType: "json",
         async: false,
         success: function (result) {
-            GetTikEncashRefNo();
+            //GetTikEncashRefNo();
             $('#lblStatus').html(result.d[0].Status);
             $('#lblAppID').html(result.d[0].ReqID);
             $('#lblEmpName').val(result.d[0].EmpName);
@@ -1143,7 +1349,7 @@ function getAllTEReqDetails() {
             $('.on-beh').text('Applied By');
             $('.employee-drop').css('display', 'none');
             $('.employee-text').css('display', '');
-
+            TicketencInitialForm();
             $('#txtEmpNametext').html(result.d[0].CreatedBy);
             /* loadAllEmployees(result.d[0].EmpNo);*/
 
@@ -1184,7 +1390,7 @@ function getAllTEReqDetails() {
             }
 
             OnBehalfChange();
-            TicketencInitialForm();
+            
             htmActionButton = "";
 
             if (result.d[0].Status == "SUBMIT" && StatusOrder == 0) {
@@ -1308,6 +1514,15 @@ function SubmitCompanyLoanDetForm() {
 
     $('.insert-Attachment').css('display', 'none');
     $('.download-Attachment').css('display', '');
+     if ($('#ddlBLLoanType').val() == 'HRA') {
+
+                $(".divnumberofMonth").css('display', '');
+
+
+            }
+            else {
+                $(".divnumberofMonth").css('display', 'none');
+            }
 }
 
 function SubmitLateAttendanceDetForm() {
@@ -1344,7 +1559,7 @@ function getAllCompanyLoanDetails() {
         async: false,
         success: function (result) {
 
-
+             GetBDBasicSalaryDet();
             $('#lblStatus').html(result.d[0].Status);
             $('#lblAppID').html(result.d[0].ReqID);
 
@@ -1374,6 +1589,8 @@ function getAllCompanyLoanDetails() {
             $('#lblRequestNumber').html(result.d[0].Req_Number);
             $('#txtCLoanReqDate').val(result.d[0].CREATEDDATE);
             $('#ddlBLLoanType').val(result.d[0].REQUEST_TYPE);
+            CompanyLoanInitialForm();
+            CompanyLoanTypeFormat();
             /* $('#txtCLoanDedStartMonth').val(result.d[0].DATE_START);*/
             $("#txtCLoanDedStartMonth").val(result.d[0].DATE_START);
             $('#txtCLoanAmount').val(result.d[0].AMOUNT);
@@ -1416,17 +1633,7 @@ function getAllCompanyLoanDetails() {
             }
 
             OnBehalfChange();
-            CompanyLoanInitialForm();
-            if ($('#ddlBLLoanType').val() == 'HRA') {
-
-                $(".divnumberofMonth").css('display', '');
-
-
-            }
-            else {
-                $(".divnumberofMonth").css('display', 'none');
-            }
-          
+            
             htmActionButton = "";
 
             if (result.d[0].Status == "SUBMIT" && StatusOrder == 0 ) {
@@ -2323,7 +2530,7 @@ function RequestPageLoad() {
                 <div class="col-3">
                 <label for="html5-number-input" class="col-form-label label-custom">Travelling Date</label>
                 <div>
-                    <input type="date" id="txtTravellingDate" name="nmReqDet" class="form-control flatpickr-input" />
+                    <input type="date" id="txtTravellingDate" name="nmReqDet" class="form-control flatpickr-input" placeholder="dd/mm/yyyy" />
                 </div>
             </div>
                   
@@ -3371,12 +3578,14 @@ function GetBasicEmpDet() {
             $('#lblWeeklyOff').html(result.d[0].WEEKLYOFF);
             $('#assstatus').html(result.d[0].AssStatus);
             $('#vauth').html(result.d[0].VisaAuth);
+            //$('#lblLastVacationFromDate').html(datedayformat(result.d[0].LastTicketEncashDate));
+$('#lblLastVacationFromDate').html("--");
             LeaveBalance = result.d[0].LeaveBalance;
             $('#txtLeaveBal').val(LeaveBalance);
             LastTicketEncashDate = result.d[0].LastTicketEncashDate;
             NumberoFTicketAvailable = result.d[0].NoTicketEncash;
-
-
+            $('#dtLastEncashDate').val(LastTicketEncashDate);
+            $('#txtNoOfTik').attr("max", NumberoFTicketAvailable);
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -3393,6 +3602,7 @@ function GetRefNo() {
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
+        async:false,
         success: function (result) {
 
             $('#lblRequestNumber').html(result.d);
@@ -3893,8 +4103,7 @@ function AddReqDetails() {
         $('#txtEmpName').val('');
         $('#fu-on-behalf').val('');
     }
-    EmpNumb = $("#lblEmpNo").val();
-   
+    EmpNumb = $("#lblEmpNo").html();
     
     $.ajax({
         url: "AllRequests.aspx/setRequestDetails",
@@ -4056,8 +4265,7 @@ $('.tbody-emp-req').on('click', '.ibtn-leave-req-info', function () {
 });
 
 function GetAllDetails() {
-    
-    
+    //$("#txtStartDate").prop("type", "text");
     $.ajax({
         url: "AllRequests.aspx/GetAllDetails",
         data: JSON.stringify({ 'ApplicationId': ApplicationId }),
@@ -4091,19 +4299,17 @@ function GetAllDetails() {
             $('#ddlLeaveType').val(result.d[0].LEAVE_TYPE_ID);
 
             if (result.d[0].Status == "DRAFT") {
-                $("#txtStartDate").prop("type", "date");
-                $('#txtStartDate').val(result.d[0].FROM_DATE);
-                $('#txtEndDate').val(result.d[0].TO_DATE);
-                $('#txtReturnToWork').val(result.d[0].RETURNED_TO_WORK);
-            }
-            else {
-                $("#txtStartDate").prop("type", "text");
-                $('#txtStartDate').val(datedayformat(result.d[0].FROM_DATE));
-                $('#txtEndDate').val(datedayformat(result.d[0].TO_DATE));
-                $('#txtReturnToWork').val(datedayformat(result.d[0].RETURNED_TO_WORK));
-            }
-            
-            
+    		$("#txtStartDate").prop("type", "date");
+    		$('#txtStartDate').val(result.d[0].FROM_DATE);
+    		$('#txtEndDate').val(result.d[0].TO_DATE);
+    		$('#txtReturnToWork').val(result.d[0].RETURNED_TO_WORK);
+		}
+		else {
+    			$("#txtStartDate").prop("type", "text");
+    			$('#txtStartDate').val(datedayformat(result.d[0].FROM_DATE));
+    			$('#txtEndDate').val(datedayformat(result.d[0].TO_DATE));
+    			$('#txtReturnToWork').val(datedayformat(result.d[0].RETURNED_TO_WORK));
+		}	
 
             // document.getElementById("txtStartDate").valueAsDate = new Date(result.d[0].FROM_DATE.split(" ")[0]);
             /* $('#txtEndDate').val(result.d[0].TO_DATE.split(" ")[0]);*/
@@ -4290,6 +4496,7 @@ function GetPPTRefNo() {
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
+        async:false,
         success: function (result) {
 
             $('#lblRequestNumber').html(result.d)
@@ -4469,7 +4676,7 @@ $('.tbody-emp-req').on('click', '.ibtn-PPT-req-info', function () {
     ClearPPTDetails();
     ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
     getAllPPTDetails();
-    SetPPTForm();
+   
 
     $('.insert-Attachment').css('display', 'none');
     $('.download-Attachment').css('display', '');
@@ -4519,6 +4726,8 @@ function getAllPPTDetails() {
             loadPPTReason();
 
             $('#ddlPPTReason').val(result.d[0].ReasonValue);
+            $('#ddlPPTReason').trigger('change');
+            $('#ddlPPTOtherReason').val(result.d[0].OtherReason);
             $("#txtTravellingDate").val(result.d[0].Travelling_Date);
             $("#txtEptDOReturn").val(result.d[0].Expected_Date_Of_Return);
 
@@ -4732,6 +4941,7 @@ function GetBDRefNo() {
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
+        async:false,
         success: function (result) {
 
             const BDVal = result.d.split(',');
@@ -4757,6 +4967,7 @@ function GetMiscRefNo() {
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
+        async:false,
         success: function (result) {
 
             const BDVal = result.d.split(',');
@@ -4782,9 +4993,10 @@ function GetTikEncashRefNo() {
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
+        async:false,
         success: function (result) {
 
-            const tikEcashRef = result.d;
+            let tikEcashRef = result.d;
             //let BDRefNo = BDVal[0];
             //let BDReqDate = BDVal[1];
 
@@ -4862,6 +5074,7 @@ function GetBDSTLDet() {
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
+        async:false,
         success: function (result) {
 
             const BankDet = result.d.split(',');
@@ -5320,6 +5533,7 @@ function GetCLoanRefNo() {
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
+        async:false,
         success: function (result) {
 
             const BDVal = result.d.split(',');
@@ -5345,6 +5559,7 @@ function GetLAReqRefNo() {
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
+        async:false,
         success: function (result) {
 
             const BDVal = result.d.split(',');
@@ -5370,6 +5585,7 @@ function GetEPReqRefNo() {
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
+        async:false,
         success: function (result) {
 
             const BDVal = result.d.split(',');
@@ -5661,7 +5877,7 @@ function CompanyLoanTypeFormat() {
         $(".divnumberofMonth").css('display', '');
         $('#txtCLoanMonthlyDed').val($('#txtBDHRA').text());
         $('#txtCLoanMonthlyDed').attr('disabled', false);
-        $('#txtCLoanAmount').attr('disabled', true);
+        $("#txtCLoanAmount").attr('disabled',true)
         $("#txtNumberofMonth").attr('value', '0');
         $("#txtCLoanAmount").val('0');
         const dt = new Date();

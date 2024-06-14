@@ -98,10 +98,11 @@
                 <div class="col-2">
                     <div style="color: black; font-size: 26px; font-weight: 400; word-wrap: break-word; margin: 10px 0">Dashboard</div>
                 </div>
-                <div class="col-10 mt-2 ptfilter">
+                <div class="col-10 mb-2 ptfilter">
                     <div class="row">
                         <div class="width-13">
-                            <select class="form-select" id="territoryFilter" placeholder="Select Authority">
+                            <span class="form-label">Territory</span>
+                            <select class="form-select" id="territoryFilter" placeholder="Select Authority" >
                                 <option value="-1">terriroty</option>
                                 <option value="1">One</option>
                                 <option value="2">Two</option>
@@ -109,6 +110,7 @@
                             </select>
                         </div>
                         <div class="width-13">
+                            <span class="form-label">Company</span>
                             <select class="form-select" id="companyFilter" placeholder="Select Authority">
                                 <option value="-1">company</option>
                                 <option value="1">One</option>
@@ -117,6 +119,7 @@
                             </select>
                         </div>
                         <div class="width-13">
+                            <span class="form-label">Manager</span>
                             <select class="form-select" id="managerFilter" placeholder="Select Authority">
                                 <option value="-1">manager</option>
                                 <option value="1">One</option>
@@ -125,6 +128,7 @@
                             </select>
                         </div>
                         <div class="width-13">
+                            <span class="form-label">Salesman</span>
                             <select class="form-select" id="salesmanFilter" placeholder="Select Authority">
                                 <option value="-1">salesman</option>
                                 <option value="1">One</option>
@@ -133,6 +137,7 @@
                             </select>
                         </div>
                         <div class="width-13">
+                            <span class="form-label">Year to Date</span>
                             <select class="form-select" id="yeardateFilter" placeholder="Select Authority">
                                 <option value="-1">year to date</option>
                                 <option value="1">One</option>
@@ -141,6 +146,7 @@
                             </select>
                         </div>
                         <div class="width-13">
+                            <span class="form-label">Year</span>
                             <select class="form-select" id="yearFilter" placeholder="Select Authority">
                                 <option value="-1">year</option>
                                 <option value="1">One</option>
@@ -149,6 +155,7 @@
                             </select>
                         </div>
                         <div class="width-13">
+                            <span class="form-label">Month</span>
                             <select class="form-select" id="monthFilter" placeholder="Select Authority">
                                 <option value="-1">month</option>
                                 <option value="1">One</option>
@@ -157,7 +164,7 @@
                             </select>
                         </div>
                         <div class="" style="width: 1%">
-                            <button type="button" class="btn btn-primary" id="btngoFilter">
+                            <button type="button" class="btn btn-primary mt-4" id="btngoFilter">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
                                     <path fill="#ffffff" d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0a5.5 5.5 0 0 1 11 0" />
                                 </svg>
@@ -224,12 +231,12 @@
                         <div class="row">
                             <div class="col-6 border-end">
                                 <div class="text-center" style="font-size: 10px;">
-                                    <div class="text-muted fs-5">123</div>
+                                    <div class="text-muted fs-5">--</div>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="text-center" style="font-size: 10px;">
-                                    <div class="text-muted fs-5">123K</div>
+                                    <div class="text-muted fs-5" id="valOverallSO">--</div>
                                 </div>
                             </div>
                         </div>
@@ -244,7 +251,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="text-center" style="font-size: 10px;">
-                                    <div class="text-muted fs-5">123</div>
+                                    <div class="text-muted fs-5" id="valOverallINV">--</div>
                                 </div>
                             </div>
                         </div>
@@ -259,7 +266,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="text-center" style="font-size: 10px;">
-                                    <div class="text-muted fs-5">123</div>
+                                    <div class="text-muted fs-5" id="valOverallCollection">--</div>
                                 </div>
                             </div>
                         </div>
@@ -280,9 +287,9 @@
                             </div>
                         </div>
                         <div class="text-danger position-relative mt-2">
-                            <h5>123.4 K</h5>
+                            <h5 id="valSOYTD">123.4 K</h5>
                             <div class="position-absolute" style="top: 14px; font-size: 10px; left: 69px;">
-                                Value
+                                
                             </div>
                         </div>
                         <div class="row">
@@ -296,7 +303,7 @@
                                                 </div>
                                                 <div class="me-2 my-1">Total Entered</div>
                                                 <div class="value position-absolute">12</div>
-                                                <div>123.4 K</div>
+                                                <div id="valTotEntered">--</div>
                                             </div>
                                             <div class="infocards totalbooked">
                                                 <div>
@@ -304,7 +311,7 @@
                                                 </div>
                                                 <div class="me-2 my-1">Total Booked</div>
                                                 <div class="value position-absolute">12</div>
-                                                <div>123.4 K</div>
+                                                <div id="valTotBooked">--</div>
                                             </div>
                                             <div class="infocards totalclosed">
                                                 <div>
@@ -312,7 +319,7 @@
                                                 </div>
                                                 <div class="me-2 my-1">Total Closed</div>
                                                 <div class="value position-absolute">12</div>
-                                                <div>123.4 K</div>
+                                                <div id="valTotClosed">--</div>
                                             </div>
                                         </div>
                                     </div>
@@ -328,9 +335,9 @@
                                                 </tr>
                                                 <tr>
                                                     <td style="padding: 10px !important; font-weight: 600;">Value</td>
-                                                    <td style="padding: 10px !important;">50.12K</td>
-                                                    <td style="padding: 10px !important;">145.86 K</td>
-                                                    <td style="padding: 10px !important;">145.86k</td>
+                                                    <td style="padding: 10px !important;" id="valTotal">--</td>
+                                                    <td style="padding: 10px !important;" id="valInvAmount">--</td>
+                                                    <td style="padding: 10px !important;"id="valPendingInv">--</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -343,14 +350,14 @@
                                     <div class="col-6 border-end">
                                         <div class="text-center " style="font-size: 10px;">
                                             Achievement
-                                            <div class="text-danger fs-5">123.4</div>
+                                            <div class="text-danger fs-5" id="valSOAchievement">--</div>
                                         </div>
 
                                     </div>
                                     <div class="col-6">
                                         <div class="text-center " style="font-size: 10px;">
                                             Target
-                                            <div class="text-success  fs-5">60%</div>
+                                            <div class="text-success  fs-5" id="valSOTarget">--</div>
                                         </div>
                                     </div>
                                 </div>
@@ -371,9 +378,9 @@
                             </div>
                         </div>
                         <div class="text-danger position-relative mt-2">
-                            <h5>123.4 K</h5>
+                            <h5 id="valInvoiceYTD">--</h5>
                             <div class="position-absolute" style="top: 14px; font-size: 10px; left: 69px;">
-                                Value
+                                
                             </div>
                         </div>
                         <div class="row">
@@ -386,14 +393,14 @@
                                                     <img src="image/ydiCollected.svg" />
                                                 </div>
                                                 <div class="me-2 my-1">Collected</div>
-                                                <div>123.4 K</div>
+                                                <div id="valCollected">--</div>
                                             </div>
                                             <div class="infocards totalclosed">
                                                 <div>
                                                     <img src="image/ydiNotCollected.svg" />
                                                 </div>
                                                 <div class="me-2 my-1">Not Collected</div>
-                                                <div>123.4 K</div>
+                                                <div id="valNotCollected">--</div>
                                             </div>
                                         </div>
                                     </div>
@@ -408,8 +415,8 @@
                                                 </tr>
                                                 <tr>
                                                     <td style="padding: 10px !important; font-weight: 600;">Value</td>
-                                                    <td style="padding: 10px !important;">50.12K</td>
-                                                    <td style="padding: 10px !important;">145.86 K</td>
+                                                    <td style="padding: 10px !important;" id="valPendingDue">--</td>
+                                                    <td style="padding: 10px !important;" id="valPendingNotDue">--</td>
 
                                                 </tr>
                                             </tbody>
@@ -423,14 +430,14 @@
                                     <div class="col-6 border-end">
                                         <div class="text-center" style="font-size: 10px;">
                                             Achievement
-                                            <div class="text-danger fs-5">123.4</div>
+                                            <div class="text-danger fs-5" id="valINVAchievement">--</div>
                                         </div>
 
                                     </div>
                                     <div class="col-6">
                                         <div class="text-center" style="font-size: 10px;">
                                             Target
-                                            <div class="text-success fs-5">60%</div>
+                                            <div class="text-success fs-5"id="valINVTarget">--</div>
                                         </div>
                                     </div>
                                 </div>
@@ -451,9 +458,9 @@
                             </div>
                         </div>
                         <div class="text-danger position-relative mt-2">
-                            <h5>123.4 K</h5>
+                            <h5  id="valCOYTD">--</h5>
                             <div class="position-absolute" style="top: 14px; font-size: 10px; left: 69px;">
-                                Value
+                                
                             </div>
                         </div>
                         <div class="row">
@@ -466,14 +473,14 @@
                                                     <img src="image/ydcCleared.svg" />
                                                 </div>
                                                 <div class="me-2 my-1">Cleared</div>
-                                                <div>123.4 K</div>
+                                                <div id="valCleared">--</div>
                                             </div>
                                             <div class="infocards totalbooked">
                                                 <div>
                                                     <img src="image/ydcremitted.svg" />
                                                 </div>
                                                 <div class="me-2 my-1">Remitted</div>
-                                                <div>123.4 K</div>
+                                                <div id="valRemitted">--</div>
                                             </div>
                                         </div>
                                     </div>
@@ -488,8 +495,8 @@
                                                 </tr>
                                                 <tr>
                                                     <td style="padding: 10px !important; font-weight: 600;">Value</td>
-                                                    <td style="padding: 10px !important;">50.12K</td>
-                                                    <td style="padding: 10px !important;">145.86 K</td>
+                                                    <td style="padding: 10px !important;" id="valMatured">--</td>
+                                                    <td style="padding: 10px !important;" id="valNotMatured">--</td>
 
                                                 </tr>
                                             </tbody>
@@ -503,14 +510,14 @@
                                     <div class="col-6 border-end">
                                         <div class="text-center" style="font-size: 10px;">
                                             Achievement
-                                            <div class="text-danger fs-5">123.4</div>
+                                            <div class="text-danger fs-5" id="valCOAchievement">--</div>
                                         </div>
 
                                     </div>
                                     <div class="col-6">
                                         <div class="text-center" style="font-size: 10px;">
                                             Target
-                                            <div class="text-success fs-5">60%</div>
+                                            <div class="text-success fs-5" id="valCOTarget">--</div>
                                         </div>
                                     </div>
                                 </div>
