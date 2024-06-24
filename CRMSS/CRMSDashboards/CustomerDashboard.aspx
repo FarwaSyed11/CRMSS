@@ -17,29 +17,6 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <style>
-        .width-13 {
-            width: 13.75%;
-        }
-
-        .width-14 {
-            width: 14.2%;
-        }
-
-        .won, .loss {
-            padding: 3px 6px;
-            width: max-content;
-            border-radius: 5px;
-        }
-
-        .loss {
-            background: #e85e5e4d;
-            color: #de0000;
-        }
-
-        .won {
-            color: darkgreen;
-            background: #50ed504d;
-        }
     </style>
 
     <div class="container-fluid" style="margin-top: 1%; width: 98%;">

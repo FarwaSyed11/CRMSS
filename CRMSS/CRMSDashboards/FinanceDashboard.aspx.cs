@@ -712,6 +712,64 @@ public partial class CRMSDashboards_FinanceDashboard : System.Web.UI.Page
         //string a = userId;
     }
 
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<aginglist> loadFinanceAging()
+    {
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@Oper");
+        pv.Add(5);
+
+        //pa.Add("@Company");
+        //pv.Add(Company);
+
+        //pa.Add("@ManagerID");
+        //pv.Add(Convert.ToInt64(ManagerID));
+
+        //pa.Add("@SalesmanID");
+        //pv.Add(Convert.ToInt64(SalesmanID));
+
+        //pa.Add("@Year");
+        //pv.Add(Year);
+
+        DBH.CreateDatasetCRMEBSDATA(ds, "SP_CRMFinanceDashboard", true, pa, pv);
+
+        List<aginglist> oListAgingValues = new List<aginglist>();
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                oListAgingValues.Add(new aginglist()
+                {
+                    Five = dt.Rows[i]["LessThanOneMonthCount"].ToString(),
+                    Ten = dt.Rows[i]["LessThanThreeMonthCount"].ToString(),
+                    Fifteen = dt.Rows[i]["LessThanSixMonthCount"].ToString(),
+                    Twenty = dt.Rows[i]["LessThanOneYearCount"].ToString(),
+                    MorethanTwentyfive = dt.Rows[i]["GreaterThanOneYearCount"].ToString(),
+
+                });
+            }
+        }
+
+        return oListAgingValues;
+    }
+    public class aginglist
+    {
+        public string Five { get; set; }
+        public string Ten { get; set; }
+        public string Fifteen { get; set; }
+        public string Twenty { get; set; }
+        public string Twentyfive { get; set; }
+        public string MorethanTwentyfive { get; set; }
+    }
     public class DDL
     {
         public string territory { get; set; }

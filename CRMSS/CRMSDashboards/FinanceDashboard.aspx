@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../Calendar/dist/adminlte.min.css">
     <link href="../KPI/Flatpickr/css/_flatpickr.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="../Dashboard/assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
 </asp:Content>
@@ -95,30 +96,24 @@
         <div class="card">
             <div class="row m-2" style="">
 
-                <div class="col-2">
+                <div class="col-4">
                     <div style="color: black; font-size: 26px; font-weight: 400; word-wrap: break-word; margin: 10px 0">Dashboard</div>
                 </div>
-                <div class="col-10 mb-2 ptfilter">
+                <div class="col-8 mb-2 ptfilter">
                     <div class="row">
-                        <div class="width-13">
+                        <div class="width-18">
                             <span class="form-label">Territory</span>
-                            <select class="form-select" id="territoryFilter" placeholder="Select Authority" >
+                            <select class="form-select" id="territoryFilter" placeholder="Select Authority">
                                 <option value="-1">terriroty</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
                             </select>
                         </div>
-                        <div class="width-13">
+                        <div class="width-18">
                             <span class="form-label">Company</span>
-                            <select class="form-select" id="companyFilter" placeholder="Select Authority">
+                            <select class="form-select" id="companyFilter" placeholder="Select Authority" multiple>
                                 <option value="-1">company</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
                             </select>
                         </div>
-                        <div class="width-13">
+                        <div class="width-18">
                             <span class="form-label">Manager</span>
                             <select class="form-select" id="managerFilter" placeholder="Select Authority">
                                 <option value="-1">manager</option>
@@ -127,16 +122,13 @@
                                 <option value="3">Three</option>
                             </select>
                         </div>
-                        <div class="width-13">
+                        <div class="width-18">
                             <span class="form-label">Salesman</span>
                             <select class="form-select" id="salesmanFilter" placeholder="Select Authority">
                                 <option value="-1">salesman</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
                             </select>
                         </div>
-                        <div class="width-13">
+                        <%--<div class="width-13">
                             <span class="form-label">Year to Date</span>
                             <select class="form-select" id="yeardateFilter" placeholder="Select Authority">
                                 <option value="-1">year to date</option>
@@ -144,17 +136,14 @@
                                 <option value="2">Two</option>
                                 <option value="3">Three</option>
                             </select>
-                        </div>
-                        <div class="width-13">
+                        </div>--%>
+                        <div class="width-18">
                             <span class="form-label">Year</span>
                             <select class="form-select" id="yearFilter" placeholder="Select Authority">
-                                <option value="-1">year</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                
                             </select>
                         </div>
-                        <div class="width-13">
+                       <%-- <div class="width-13">
                             <span class="form-label">Month</span>
                             <select class="form-select" id="monthFilter" placeholder="Select Authority">
                                 <option value="-1">month</option>
@@ -162,7 +151,7 @@
                                 <option value="2">Two</option>
                                 <option value="3">Three</option>
                             </select>
-                        </div>
+                        </div>--%>
                         <div class="" style="width: 1%">
                             <button type="button" class="btn btn-primary mt-4" id="btngoFilter">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
@@ -230,6 +219,21 @@
                         <div id="SOperc"></div>
                         <div class="row">
                             <div class="col-6 border-end">
+                                <div class="text-center " style="font-size: 10px;">
+                                    Achievement
+                                    <div class="text-danger fs-6" id="valSOAchievement">--</div>
+                                </div>
+
+                            </div>
+                            <div class="col-6">
+                                <div class="text-center " style="font-size: 10px;">
+                                    Target
+                                    <div class="text-success  fs-6" id="valSOTarget">--</div>
+                                </div>
+                            </div>
+                        </div>
+                        <%--<div class="row">
+                            <div class="col-6 border-end">
                                 <div class="text-center" style="font-size: 10px;">
                                     <div class="text-muted fs-5">--</div>
                                 </div>
@@ -239,7 +243,7 @@
                                     <div class="text-muted fs-5" id="valOverallSO">--</div>
                                 </div>
                             </div>
-                        </div>
+                        </div>--%>
                     </div>
                 </div>
             </div>
@@ -249,12 +253,27 @@
                         Invoice  <b>%</b>
                         <div id="InvcPerc"></div>
                         <div class="row">
+                            <div class="col-6 border-end">
+                                <div class="text-center" style="font-size: 10px;">
+                                    Achievement
+                                    <div class="text-danger fs-6" id="valINVAchievement">--</div>
+                                </div>
+
+                            </div>
+                            <div class="col-6">
+                                <div class="text-center" style="font-size: 10px;">
+                                    Target
+                                    <div class="text-success fs-6" id="valINVTarget">--</div>
+                                </div>
+                            </div>
+                        </div>
+                        <%--<div class="row">
                             <div class="col-12">
                                 <div class="text-center" style="font-size: 10px;">
                                     <div class="text-muted fs-5" id="valOverallINV">--</div>
                                 </div>
                             </div>
-                        </div>
+                        </div>--%>
                     </div>
                 </div>
             </div>
@@ -264,12 +283,27 @@
                         Collection  <b>%</b>
                         <div id="CollectPerc"></div>
                         <div class="row">
+                            <div class="col-6 border-end">
+                                <div class="text-center" style="font-size: 10px;">
+                                    Achievement
+                                    <div class="text-danger fs-6" id="valCOAchievement">--</div>
+                                </div>
+
+                            </div>
+                            <div class="col-6">
+                                <div class="text-center" style="font-size: 10px;">
+                                    Target
+                                    <div class="text-success fs-6" id="valCOTarget">--</div>
+                                </div>
+                            </div>
+                        </div>
+                        <%--<div class="row">
                             <div class="col-12">
                                 <div class="text-center" style="font-size: 10px;">
                                     <div class="text-muted fs-5" id="valOverallCollection">--</div>
                                 </div>
                             </div>
-                        </div>
+                        </div>--%>
                     </div>
                 </div>
             </div>
@@ -287,9 +321,8 @@
                             </div>
                         </div>
                         <div class="text-danger position-relative mt-2">
-                            <h5 id="valSOYTD">123.4 K</h5>
+                            <h5 id="valSOYTD">--</h5>
                             <div class="position-absolute" style="top: 14px; font-size: 10px; left: 69px;">
-                                
                             </div>
                         </div>
                         <div class="row">
@@ -329,15 +362,13 @@
                                             <tbody>
                                                 <tr style="background: rgb(70 181 141 / 30%) !important; font-weight: 600;">
                                                     <td style="padding: 10px !important;">Info</td>
-                                                    <td style="padding: 10px !important;">Total</td>
                                                     <td style="padding: 10px !important;">Invoice Amount</td>
                                                     <td style="padding: 10px !important;">Pending For Invoice</td>
                                                 </tr>
                                                 <tr>
                                                     <td style="padding: 10px !important; font-weight: 600;">Value</td>
-                                                    <td style="padding: 10px !important;" id="valTotal">--</td>
                                                     <td style="padding: 10px !important;" id="valInvAmount">--</td>
-                                                    <td style="padding: 10px !important;"id="valPendingInv">--</td>
+                                                    <td style="padding: 10px !important;" id="valPendingInv">--</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -349,15 +380,15 @@
                                 <div class="row">
                                     <div class="col-6 border-end">
                                         <div class="text-center " style="font-size: 10px;">
-                                            Achievement
-                                            <div class="text-danger fs-5" id="valSOAchievement">--</div>
+                                            This Year
+                                            <div class="text-danger fs-6" id="valSOThisYear">--</div>
                                         </div>
 
                                     </div>
                                     <div class="col-6">
                                         <div class="text-center " style="font-size: 10px;">
-                                            Target
-                                            <div class="text-success  fs-5" id="valSOTarget">--</div>
+                                            Last Year
+                                            <div class="text-success  fs-6" id="valSOLastYear">--</div>
                                         </div>
                                     </div>
                                 </div>
@@ -380,7 +411,6 @@
                         <div class="text-danger position-relative mt-2">
                             <h5 id="valInvoiceYTD">--</h5>
                             <div class="position-absolute" style="top: 14px; font-size: 10px; left: 69px;">
-                                
                             </div>
                         </div>
                         <div class="row">
@@ -429,15 +459,15 @@
                                 <div class="row">
                                     <div class="col-6 border-end">
                                         <div class="text-center" style="font-size: 10px;">
-                                            Achievement
-                                            <div class="text-danger fs-5" id="valINVAchievement">--</div>
+                                            This Year
+                                            <div class="text-danger fs-6" id="valINVThisYear">--</div>
                                         </div>
 
                                     </div>
                                     <div class="col-6">
                                         <div class="text-center" style="font-size: 10px;">
-                                            Target
-                                            <div class="text-success fs-5"id="valINVTarget">--</div>
+                                            Last Year
+                                            <div class="text-success fs-6" id="valINVLastYear">--</div>
                                         </div>
                                     </div>
                                 </div>
@@ -458,9 +488,8 @@
                             </div>
                         </div>
                         <div class="text-danger position-relative mt-2">
-                            <h5  id="valCOYTD">--</h5>
+                            <h5 id="valCOYTD">--</h5>
                             <div class="position-absolute" style="top: 14px; font-size: 10px; left: 69px;">
-                                
                             </div>
                         </div>
                         <div class="row">
@@ -509,15 +538,15 @@
                                 <div class="row">
                                     <div class="col-6 border-end">
                                         <div class="text-center" style="font-size: 10px;">
-                                            Achievement
-                                            <div class="text-danger fs-5" id="valCOAchievement">--</div>
+                                            This Year
+                                            <div class="text-danger fs-6" id="valCOThisYear">--</div>
                                         </div>
 
                                     </div>
                                     <div class="col-6">
                                         <div class="text-center" style="font-size: 10px;">
-                                            Target
-                                            <div class="text-success fs-5" id="valCOTarget">--</div>
+                                            Last Year
+                                            <div class="text-success fs-6" id="valCOLastYear">--</div>
                                         </div>
                                     </div>
                                 </div>
@@ -646,20 +675,14 @@
     </script>
 
     <script src="script/FinanceDashboard.js"></script>
-    <link rel="stylesheet" href="css/FinanceDashboard.css" />
-
+    <link rel="stylesheet" href="css/FinalisedDashboard.css" />
     <script src="bootstrap-5.2.3/js/bootstrap.bundle.min.js"></script>
 
-    <script src="../Calendar/plugins/jquery-ui/jquery-ui.min.js"></script>
-    <script src="../Calendar/dist/js/adminlte.min.js"></script>
+    <link href="../Template/assets/vendor/libs/toaster/toaster.css" rel="stylesheet" />
+    <script src="../Template/assets/vendor/libs/toaster/toaster.js"></script>
 
     <script src="../KPI/Flatpickr/js/flatpickr.js"></script>
     <link href="../KPI/Flatpickr/css/_flatpickr.css" rel="stylesheet" />
-
-
-
-    <link href="../Calendar/dist/select2.css" rel="stylesheet" />
-    <script src="../Calendar/dist/select2.js"></script>
 
     <!-- Datatable plugin CSS file -->
     <link href="../FacilityManagement/Datatable/css/jquery.dataTables.min.css" rel="stylesheet" />
@@ -673,8 +696,6 @@
     <script src="../FacilityManagement/Datatable/js/buttons.html5.min.js"></script>
     <script src="../FacilityManagement/Datatable/js/buttons.print.min.js"></script>
 
-    <script src="https://phpcoder.tech/multiselect/js/jquery.multiselect.js"></script>
-    <link rel="stylesheet" href="https://phpcoder.tech/multiselect/css/jquery.multiselect.css">
+    <script src="../CRMAdmin/Assets/Js/multiple-select.js"></script>
+    <link href="../SiteSurvey/Assets/Css/multiple-select.css" rel="stylesheet" />
 </asp:Content>
-
-

@@ -1,194 +1,557 @@
-﻿var options = {
-    chart: {
-        height: 200,
-        type: "radialBar",
-    },
+﻿
+var selTerritory, selCompany, selManager, selSalesman = '';
+var listCompanyID = '';
+var listAllValuenPerc = [];
 
-    series: [67],
-    colors: ["#FFAF9B"],
-    plotOptions: {
-        radialBar: {
-            hollow: {
-                margin: 15,
-                size: "50%",
-                background: "#E0E0E0"
-            },
-            track: {
-                dropShadow: {
-                    enabled: true,
-                    top: 2,
-                    left: 0,
-                    blur: 4,
-                    opacity: 0.15
-                }
-            },
-            dataLabels: {
-                name: {
-                    show: false,
+var LPOperc, LOIperc, Contractperc = 0;
+
+var listFinalisedProdGraph, listAllProducts, listAllFinalisedValues = [];
+
+var objDatatableProjList, listTableProjLOI = [];
+
+var chartFinalisedperc, chartLPOperc, chartContractperc, chartFinalisedProduct = [];
+
+var listAgingFinalised = [];
+
+$(document).ready(function () {
+
+    LoadTerritory();
+    //getCompniesFromDDL();
+    LoadCompany(selTerritory, currUserId);
+    LoadManager(selTerritory, getCompniesFromDDL(), currUserId);
+    LoadSalesman(selTerritory, getCompniesFromDDL(), selManager, currUserId);
+    LoadLPOLOIContract();
+    LoadFinalisedProduct();
+    LoadProjList();
+    loadFinalisedAging();
+
+
+});
+
+
+
+$('#territoryFilter').on('change', function () {
+    selTerritory = $('#territoryFilter option:selected').val();
+    LoadCompany(selTerritory, currUserId);
+});
+
+$('#managerFilter').on('change', function () {
+    selTerritory = $('#territoryFilter option:selected').val();
+    listCompanyID = getCompniesFromDDL();
+    selManager = $('#managerFilter option:selected').val();
+    LoadSalesman(selTerritory, listCompanyID, selManager, currUserId);
+});
+
+$('#btngoFilter').on('click', function () {
+    selTerritory = $('#territoryFilter option:selected').val();
+    selCompany = getCompniesFromDDL();
+    selManager = $('#managerFilter option:selected').val();
+    selSalesman = $('#salesmanFilter option:selected').val();
+    chartFinalisedperc.destroy();
+    chartLPOperc.destroy();
+    chartContractperc.destroy();
+    chartFinalisedProduct.destroy();
+    LoadLPOLOIContract();
+    LoadFinalisedProduct();
+    LoadProjList();
+    loadFinalisedAging();
+});
+
+
+function LoadTerritory() {
+    $.ajax({
+        url: "FinalisedDashbaord.aspx/ddlTerritoryFilter",
+        data: JSON.stringify({ "UserId": currUserId }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var content = '';
+            listDDL = result.d;
+            $.each(listDDL, function (key, item) {
+                content += '<option value="' + item.territory + '" >' + item.territory + '</option>';
+            });
+            $('#territoryFilter').html(content);
+            $('#territoryFilter option[value="United Arab Emirates"]').prop('selected', true);
+            selTerritory = $('#territoryFilter option:selected').val().trim();
+            LoadCompany(selTerritory, currUserId);
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
+function LoadCompany(selTerritory, currUserId) {
+    selTerritory = selTerritory;
+    $.ajax({
+        url: "FinalisedDashbaord.aspx/ddlCompanyFilter",
+        data: JSON.stringify({ "UserId": currUserId, "Territory": selTerritory }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var content = '';
+            listDDL = result.d;
+            $.each(listDDL, function (key, item) {
+                content += item.company == 'Local Sales' ? '<option value="' + item.company + '" selected>' + item.company + '</option>' : '<option value="' + item.company + '" >' + item.company + '</option>';
+            });
+            $('#ddlCompany').html(content);
+            //$('#ddlCompany option[value="Local Sales"]').prop('selected', true);
+            selCompany = getCompniesFromDDL();
+            //selCompany = $('#ddlCompany option:selected').val();
+            //listCompanyID = getCompniesFromDDL();
+            $('#ddlCompany').multipleSelect({
+                onClick: function (view) {
+                    listCompanyID = getCompniesFromDDL();
+                    selTerritory = $('#territoryFilter option:selected').val();
+                    //selCompany = $('#companyFilter option:selected').val();
+                    LoadManager(selTerritory, listCompanyID, currUserId);
                 },
-                value: {
-                    color: "#555",
-                    fontSize: "15px",
-                    show: true,
-                    offsetY: 5
+                onCheckAll: function () {
+                    LoadManager(selTerritory, selCompany, currUserId);
+                },
+                onUncheckAll: function () {
+                    if (getCompanyFromDDL() == "") {
+                        toastr.error('Please select any company.', '');
+                        $('.ms-parent').css('box-shadow', 'rgb(255 0 0) 0px 0.5px 3.5px');
+                    } else {
+                        $('.ms-parent').css('box-shadow', ' ');
+                        LoadManager(selTerritory, selCompany, currUserId);
+                    }
+
+                }
+            });
+
+            LoadManager(selTerritory, selCompany, currUserId)
+
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
+
+function getCompniesFromDDL() {
+    var compnies = '';
+    for (var i = 0; i < $('#ddlCompany option:selected').length; i++) {
+        compnies += $('#ddlCompany option:selected')[i].text.trim() + ',';
+    }
+    return compnies.substring(0, compnies.lastIndexOf(","));
+}
+
+function LoadManager(selTerritory, listCompanyID, currUserId) {
+    listCompanyID = listCompanyID;
+    $.ajax({
+        url: "FinalisedDashbaord.aspx/ddlManagerFilter",
+        data: JSON.stringify({ "UserId": currUserId, "Territory": selTerritory, "Company": listCompanyID }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var content = '';
+            listDDL = result.d;
+            content = result.d.length > 1 ? '<option value="-1"> All </option>' : '';
+            $.each(listDDL, function (key, item) {
+                content += '<option value="' + item.value + '" >' + item.name + '</option>';
+            });
+            $('#managerFilter').html(content);
+            selManager = $('#managerFilter option:selected').val();
+            LoadSalesman(selTerritory, listCompanyID, selManager, currUserId)
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
+function LoadSalesman(selTerritory, listCompanyID, selManager, currUserId) {
+    listCompanyID = listCompanyID
+    $.ajax({
+        url: "FinalisedDashbaord.aspx/ddlSalesmanFilter",
+        data: JSON.stringify({ "UserId": currUserId, "Territory": selTerritory, "Company": listCompanyID, "Manager": selManager }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var content = '';
+            listDDL = result.d;
+            content = result.d.length > 1 ? '<option value="-1"> All </option>' : '';
+            $.each(listDDL, function (key, item) {
+                content += '<option value="' + item.value + '" >' + item.name + '</option>';
+            });
+            $('#salesmanFilter').html(content);
+            selSalesman = $('#salesmanFilter option:selected').val();
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
+
+
+function LoadLPOLOIContract() {
+    $.ajax({
+        url: "FinalisedDashbaord.aspx/LoadLPOLOIContract",
+        data: JSON.stringify({ "Company": selCompany, "ManagerID": selManager, "SalesmanID": selSalesman }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+
+            listAllValuenPerc = result.d.listLPOLOIContractPercnValue;
+
+            LPOperc, LOIperc, Contractperc = 0;
+
+            $.each(listAllValuenPerc, function (key, item) {
+                LPOperc = parseInt(item.LPOPerc);
+            });
+
+            $.each(listAllValuenPerc, function (key, item) {
+                LOIperc = parseInt(item.LOIPerc)
+            });
+
+            $.each(listAllValuenPerc, function (key, item) {
+                Contractperc = parseInt(item.ContractPerc)
+            });
+
+            initiateLOIContractLPOperc(LPOperc, LOIperc, Contractperc)
+
+            $.each(listAllValuenPerc, function (key, item) {
+                $("#valTotUnderrisk").html(nFormatter(parseInt(item.UnderriskValue)));
+                $("#valTotOnTrack").html(nFormatter(parseInt(item.OntrackValue)));
+                $("#valTotSecure").html(nFormatter(parseInt(item.SecuredValue)));
+                $("#valTotLOI").html(nFormatter(parseInt(item.LOIValue)));
+            });
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
+function LoadProjList() {
+
+    $.ajax({
+        url: "FinalisedDashbaord.aspx/LoadProjList",
+        data: JSON.stringify({ "Company": selCompany, "ManagerID": selManager, "SalesmanID": selSalesman }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+
+            var htm = '';
+            listTableProjLOI = result.d.listLOIProjects;
+            $('.ProjLOI-tbody td').length > 0 ? objDatatableProjList.destroy() : '';
+            $.each(listTableProjLOI, function (key, item) {
+                htm += '<tr><td>' + item.Customer + '</td><td>' + item.OptName + '</td><td>' + item.Product + '</td><td>' + nFormatter(parseInt(item.Value)) + '</td></tr >'
+            });
+            $('.ProjLOI-tbody').html(htm);
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+    initiateProjListDataTable();
+}
+
+function initiateProjListDataTable() {
+    //$('#ProjLOI-tbody td').length > 0 ? objDatatableProjList.destroy() : '';
+    objDatatableProjList = [];
+    objDatatableProjList = $('#ProjLOI-table').DataTable({
+        dom: 'lBfrtip',
+        "bStateSave": true,
+        buttons: {
+            buttons: [
+                {
+                    extend: 'excel', text: '<i class="fa-solid fa-file-excel" aria-hidden="true" style="font-size: x-large;" title="Export Excel"></i>', className: 'btn btn-secondary iconClassExcel '
+                }
+            ]
+        },
+        "columnDefs": [
+            { "orderable": true, "targets": [] }
+        ]
+    });
+
+}
+
+
+function nFormatter(num) {
+
+    if (num >= 1000000000000) {
+        return (num / 1000000000000).toFixed(1).replace(/\.0$/, '') + 'T';
+    }
+    else if (num >= 1000000000) {
+        return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
+    }
+    else if (num >= 1000000) {
+        return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    }
+    else if (num >= 1000) {
+        return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    }
+    return num;
+}
+
+function initiateLOIContractLPOperc(LPOperc, LOIperc, Contractperc) {
+    var options1 = {
+        chart: {
+            height: 200,
+            type: "radialBar",
+        },
+
+        series: [LOIperc],
+        colors: ["#FFAF9B"],
+        plotOptions: {
+            radialBar: {
+                hollow: {
+                    margin: 15,
+                    size: "50%",
+                    background: "#E0E0E0"
+                },
+                track: {
+                    dropShadow: {
+                        enabled: true,
+                        top: 2,
+                        left: 0,
+                        blur: 4,
+                        opacity: 0.15
+                    }
+                },
+                dataLabels: {
+                    name: {
+                        show: false,
+                    },
+                    value: {
+                        color: "#555",
+                        fontSize: "15px",
+                        show: true,
+                        offsetY: 5
+                    }
                 }
             }
+        },
+        fill: {
+            type: "gradient",
+            gradient: {
+                shade: "dark",
+                type: "vertical",
+                gradientToColors: ["#FFDA3F"],
+                stops: [0, 100]
+            }
+        },
+        stroke: {
+            lineCap: "straight"
         }
-    },
-    fill: {
-        type: "gradient",
-        gradient: {
-            shade: "dark",
-            type: "vertical",
-            gradientToColors: ["#FFDA3F"],
-            stops: [0, 100]
-        }
-    },
-    stroke: {
-        lineCap: "straight"
-    }
-};
+    };
 
-var chart = new ApexCharts(document.querySelector("#Finalisedperc"), options);
+    chartFinalisedperc = new ApexCharts(document.querySelector("#Finalisedperc"), options1);
 
-chart.render();
+    chartFinalisedperc.render();
 
-var options = {
-    chart: {
-        height: 200,
-        type: "radialBar",
-    },
+    var options2 = {
+        chart: {
+            height: 200,
+            type: "radialBar",
+        },
 
-    series: [67],
-    colors: ["#6981FF"],
-    plotOptions: {
-        radialBar: {
-            hollow: {
-                margin: 15,
-                size: "50%",
-                background: "#E0E0E0"
-            },
-            track: {
-                dropShadow: {
-                    enabled: true,
-                    top: 2,
-                    left: 0,
-                    blur: 4,
-                    opacity: 0.15
-                }
-            },
-            dataLabels: {
-                name: {
-                    show: false,
+        series: [LPOperc],
+        colors: ["#6981FF"],
+        plotOptions: {
+            radialBar: {
+                hollow: {
+                    margin: 15,
+                    size: "50%",
+                    background: "#E0E0E0"
                 },
-                value: {
-                    color: "#555",
-                    fontSize: "15px",
-                    show: true,
-                    offsetY: 5
+                track: {
+                    dropShadow: {
+                        enabled: true,
+                        top: 2,
+                        left: 0,
+                        blur: 4,
+                        opacity: 0.15
+                    }
+                },
+                dataLabels: {
+                    name: {
+                        show: false,
+                    },
+                    value: {
+                        color: "#555",
+                        fontSize: "15px",
+                        show: true,
+                        offsetY: 5
+                    }
                 }
             }
+        },
+        fill: {
+            type: "gradient",
+            gradient: {
+                shade: "dark",
+                type: "vertical",
+                gradientToColors: ["#94D9FF"],
+                stops: [0, 100]
+            }
+        },
+        stroke: {
+            lineCap: "straight"
         }
-    },
-    fill: {
-        type: "gradient",
-        gradient: {
-            shade: "dark",
-            type: "vertical",
-            gradientToColors: ["#94D9FF"],
-            stops: [0, 100]
-        }
-    },
-    stroke: {
-        lineCap: "straight"
-    }
-};
+    };
 
-var chart = new ApexCharts(document.querySelector("#LPOperc"), options);
+    chartLPOperc = new ApexCharts(document.querySelector("#LPOperc"), options2);
 
-chart.render();
+    chartLPOperc.render();
 
-var options = {
-    chart: {
-        height: 200,
-        type: "radialBar",
-    },
+    var options3 = {
+        chart: {
+            height: 200,
+            type: "radialBar",
+        },
 
-    series: [67],
-    colors: ["#FF81FF"],
-    plotOptions: {
-        radialBar: {
-            hollow: {
-                margin: 15,
-                size: "50%",
-                background: "#E0E0E0"
-            },
-            track: {
-                dropShadow: {
-                    enabled: true,
-                    top: 2,
-                    left: 0,
-                    blur: 4,
-                    opacity: 0.15
-                }
-            },
-            dataLabels: {
-                name: {
-                    show: false,
+        series: [Contractperc],
+        colors: ["#FF81FF"],
+        plotOptions: {
+            radialBar: {
+                hollow: {
+                    margin: 15,
+                    size: "50%",
+                    background: "#E0E0E0"
                 },
-                value: {
-                    color: "#555",
-                    fontSize: "15px",
-                    show: true,
-                    offsetY: 5
+                track: {
+                    dropShadow: {
+                        enabled: true,
+                        top: 2,
+                        left: 0,
+                        blur: 4,
+                        opacity: 0.15
+                    }
+                },
+                dataLabels: {
+                    name: {
+                        show: false,
+                    },
+                    value: {
+                        color: "#555",
+                        fontSize: "15px",
+                        show: true,
+                        offsetY: 5
+                    }
                 }
             }
+        },
+        fill: {
+            type: "gradient",
+            gradient: {
+                shade: "dark",
+                type: "vertical",
+                gradientToColors: ["#FFC3D1"],
+                stops: [0, 100]
+            }
+        },
+        stroke: {
+            lineCap: "straight",
         }
-    },
-    fill: {
-        type: "gradient",
-        gradient: {
-            shade: "dark",
-            type: "vertical",
-            gradientToColors: ["#FFC3D1"],
-            stops: [0, 100]
+    };
+
+    chartContractperc = new ApexCharts(document.querySelector("#Contractperc"), options3);
+    chartContractperc.render();
+
+}
+
+function LoadFinalisedProduct() {
+
+    $.ajax({
+        url: "FinalisedDashbaord.aspx/LoadFinalisedProduct",
+        data: JSON.stringify({ "Company": selCompany, "ManagerID": selManager, "SalesmanID": selSalesman }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+
+            listFinalisedProdGraph = result.d.listProdnValue;
+            listAllProducts = [];
+            $.each(listFinalisedProdGraph, function (key, item) {
+                listAllProducts.push(item.ItemType);
+            });
+            listAllFinalisedValues = [];
+            $.each(listFinalisedProdGraph, function (key, item) {
+                listAllFinalisedValues.push(parseInt(item.Value))
+            });
+
+            initiateFinalisedProdGraph(listAllProducts, listAllFinalisedValues)
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
         }
-    },
-    stroke: {
-        lineCap: "straight",
-    }
-};
+    });
 
-var chart = new ApexCharts(document.querySelector("#Contractperc"), options);
+}
 
-chart.render();
-
-
-var options = {
-    series: [{
-        data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
-    }],
-    chart: {
-        type: 'bar',
-        height: 400
-    },
-    plotOptions: {
-        bar: {
-            borderRadius: 4,
-            borderRadiusApplication: 'end',
-            horizontal: true,
-            distributed: true
+function initiateFinalisedProdGraph(listAllProducts, listAllFinalisedValues) {
+    var options = {
+        series: [{
+            data: listAllFinalisedValues
+        }],
+        chart: {
+            type: 'bar',
+            height: 500
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 4,
+                borderRadiusApplication: 'end',
+                horizontal: true,
+                distributed: true
+            }
+        },
+        dataLabels: {
+            enabled: true
+        },
+        xaxis: {
+            categories: listAllProducts,
         }
-    },
-    dataLabels: {
-        enabled: false
-    },
-    xaxis: {
-        categories: ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan',
-            'United States', 'China', 'Germany'
-        ],
-    }
-};
+    };
 
-var chart = new ApexCharts(document.querySelector("#FinalisedProduct"), options);
-chart.render();
+    chartFinalisedProduct = new ApexCharts(document.querySelector("#FinalisedProduct"), options);
+    chartFinalisedProduct.render();
+}
+
+function loadFinalisedAging() {
+
+    $.ajax({
+        url: "FinalisedDashbaord.aspx/loadFinalisedAging",
+        data: JSON.stringify({ "Company": selCompany, "ManagerID": selManager, "SalesmanID": selSalesman }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            $.each(result, function (key, item) {
+                $("#divoneTofive").html(nFormatter(parseInt(result.d[0].Five)));
+                $("#divdixToten").html(nFormatter(parseInt(result.d[0].Ten)));
+                $("#divlevenToFifteen").html(nFormatter(parseInt(result.d[0].Fifteen)));
+                $("#divsixteenToTwenty").html(nFormatter(parseInt(result.d[0].Twenty)));
+                $("#divtwentyToTwefive").html(nFormatter(parseInt(result.d[0].Twentyfive)));
+            });
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}

@@ -20,6 +20,10 @@
             width: 13.75%;
         }
 
+        .width-18 {
+            width: 18.75%
+        }
+
         .width-20 {
             width: 20%;
         }
@@ -125,69 +129,53 @@
         <div class="card">
             <div class="row m-2" style="">
 
-                <div class="col-2">
+                <div class="col-5">
                     <div style="color: black; font-size: 26px; font-weight: 400; word-wrap: break-word; margin: 10px 0">Dashboard</div>
                 </div>
-                <div class="col-10 mt-2 ptfilter">
+                <div class="col-7 mb-2 ptfilter">
                     <div class="row">
-                        <div class="width-13">
-                            <select class="form-select" id="territoryFilter" placeholder="Select Authority">
-                                <option value="-1">terriroty</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
+                        <div class="width-23">
+                            <span class="form-label">Territory</span>
+                            <select class="form-select" id="territoryFilter" placeholder="Select Authority"></select>
                         </div>
-                        <div class="width-13">
-                            <select class="form-select" id="companyFilter" placeholder="Select Authority">
-                                <option value="-1">company</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
+                        <div class="width-23">
+                            <span class="form-label">Company</span>
+                            <select class="form-select" id="companyFilter" placeholder="Select Authority" multiple></select>
                         </div>
-                        <div class="width-13">
-                            <select class="form-select" id="managerFilter" placeholder="Select Authority">
-                                <option value="-1">manager</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
+                        <div class="width-23">
+                            <span class="form-label">Manager</span>
+                            <select class="form-select" id="managerFilter" placeholder="Select Authority"></select>
                         </div>
-                        <div class="width-13">
-                            <select class="form-select" id="salesmanFilter" placeholder="Select Authority">
-                                <option value="-1">salesman</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
+                        <div class="width-23">
+                            <span class="form-label">Salesman</span>
+                            <select class="form-select" id="salesmanFilter" placeholder="Select Authority"></select>
                         </div>
-                        <div class="width-13">
+                        <%--<div class="width-13">
+                            <span class="form-label">Year to Date</span>
                             <select class="form-select" id="yeardateFilter" placeholder="Select Authority">
-                                <option value="-1">year to date</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                <option value="1" selected>2024</option>
+                                <option value="2">2023</option>
+                                <option value="3">2021</option>
                             </select>
-                        </div>
-                        <div class="width-13">
+                        </div>--%>
+                        <%--<div class="width-18">
+                            <span class="form-label">Year</span>
                             <select class="form-select" id="yearFilter" placeholder="Select Authority">
-                                <option value="-1">year</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                <option value="1" selected>2024</option>
+                                <option value="2">2023</option>
+                                <option value="3">2022</option>
                             </select>
-                        </div>
-                        <div class="width-13">
+                        </div>--%>
+                        <%--<div class="width-13">
                             <select class="form-select" id="monthFilter" placeholder="Select Authority">
                                 <option value="-1">month</option>
                                 <option value="1">One</option>
                                 <option value="2">Two</option>
                                 <option value="3">Three</option>
                             </select>
-                        </div>
+                        </div>--%>
                         <div class="" style="width: 1%">
-                            <button type="button" class="btn btn-primary" id="btngoFilter">
+                            <button type="button" class="btn btn-primary mt-4" id="btngoFilter">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
                                     <path fill="#ffffff" d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0a5.5 5.5 0 0 1 11 0" />
                                 </svg>
@@ -201,16 +189,15 @@
             <div class="width-20">
                 <div class="card p-3 d-flex flex-row justify-content-between">
 
+
                     <div class="mt-2 ms-3">
-                        <div class="mb-3 text-muted" style="font-size: small;">
-                            Total Number Of Projects
-                        </div>
+                        <div class="mb-3 text-muted" style="font-size: small;">Projects Info</div>
                         <div class="d-flex flex-row">
+                                <img src="image/noofproj.svg" class="mt-2 mx-3" />
                             <div class="">
-                                <h2>123.5K</h2>
-                                <img src="image/noofproj.svg" class="mt-3 ms-4" />
+                                <h2 id="ValTotProj">--</h2>
                             </div>
-                            <div id="NoofProj"></div>
+                            <div id="CountTotProj"></div>
                         </div>
                     </div>
                     <div class="dropdown ms-3">
@@ -229,13 +216,13 @@
                 <div class="card p-3 d-flex flex-row justify-content-between">
 
                     <div class="mt-2 ms-3">
-                        <div class="mb-3 text-muted" style="font-size: small;">Projects Info</div>
+                        <div class="mb-3 text-muted" style="font-size: small;">JOH</div>
                         <div class="d-flex flex-row">
+                                <img src="image/projinfo.svg" class="mx-3" />
                             <div class="">
-                                <h2>123.5K</h2>
-                                <img src="image/projinfo.svg" class="ms-4" />
+                                <h2 id="ValTotJOH">--</h2>
                             </div>
-                            <div id="ProjInfo"></div>
+                            <div id="CountTotJOH"></div>
                         </div>
                     </div>
                     <div class="dropdown ms-3">
@@ -256,11 +243,12 @@
                     <div class="mt-2 ms-3">
                         <div class="mb-3 text-muted" style="font-size: small;">BOQ</div>
                         <div class="d-flex flex-row">
+                                <img src="image/boq.svg" class="mt-2 mx-3" />
                             <div class="">
-                                <h2>123.5K</h2>
-                                <img src="image/boq.svg" class="mt-2 ms-4" />
+                                <h2 id="ValTotBOQ">--</h2>
                             </div>
-                            <div id="BOQ"></div>
+                            <div id="CountTotBOQ"></div>
+                            <%--<div id="BOQ"></div>--%>
                         </div>
                     </div>
                     <div class="dropdown ms-3">
@@ -280,13 +268,15 @@
                 <div class="card p-3 d-flex flex-row justify-content-between">
 
                     <div class="mt-2 ms-3">
-                        <div class="mb-3 text-muted" style="font-size: small;">Quotation Supply</div>
+                        <div class="mb-3 text-muted" style="font-size: small;">Tender</div>
                         <div class="d-flex flex-row">
+                            <img src="image/quotsupply.svg" class="mt-2 mx-3" />
                             <div class="">
-                                <h2>123.5K</h2>
-                                <img src="image/quotsupply.svg" class="mt-1 ms-4" />
+                                <h2 id="ValTotTender">--</h2>
+                                
                             </div>
-                            <div id="QuotSupply"></div>
+                            <div id="CountTotTender"></div>
+                            <%--<div id="QuotSupply"></div>--%>
                         </div>
                     </div>
                     <div class="dropdown ms-3">
@@ -305,13 +295,15 @@
                 <div class="card p-3 d-flex flex-row justify-content-between">
 
                     <div class="mt-2 ms-3">
-                        <div class="mb-3 text-muted" style="font-size: small;">Quotation Supply & Installation</div>
+                        <div class="mb-3 text-muted" style="font-size: small;">On Hold</div>
                         <div class="d-flex flex-row">
+                            <img src="image/quotsupplyinst.svg" class="mt-2 mx-3" />
                             <div class="">
-                                <h2>123.5K</h2>
-                                <img src="image/quotsupplyinst.svg" class="mt-1 ms-4" />
+                                <h2 id="ValTotOnHold">--</h2>
+                                
                             </div>
-                            <div id="QuotSupplynInstall"></div>
+                            <div id="CountTotOnHold"></div>
+                            <%--<div id="QuotSupplynInstall"></div>--%>
                         </div>
                     </div>
                     <div class="dropdown ms-3">
@@ -336,32 +328,32 @@
                             <div class="ovs text-muted b-lightblue">
                                 <img src="image/secured.png" />
                                 Secured
-                                <span>120</span>
+                                <span id="securedcount">--</span>
                             </div>
                             <div class="ovs text-muted b-red">
                                 <img src="image/underrisk.png" />
                                 Under Risk
-                                <span>380</span>
+                                <span id="underriskcount">--</span>
                             </div>
                             <div class="ovs text-muted b-green">
                                 <img src="image/ontrack.png" />
                                 On Track
-                                <span>18</span>
+                                <span id="ontrackcount">--</span>
                             </div>
                             <div class="ovs text-muted b-purple">
                                 <img src="image/earlytojuj.png" />
                                 Early to Judge
-                                <span>140</span>
+                                <span id="ETJcount">--</span>
                             </div>
                             <div class="ovs text-muted b-pink">
                                 <img src="image/lost.png" />
                                 Lost
-                                <span>150</span>
+                                <span id="lostcount">--</span>
                             </div>
                             <div class="ovs text-muted b-blue">
                                 <img src="image/other.png" />
                                 Others
-                                <span>180</span>
+                                <span id="otherscount">--</span>
                             </div>
                         </div>
 
@@ -373,73 +365,40 @@
                     <div class="col-12">
                         <div class="card" style="height: 625px;">
                             <div class="card-body">
-                               Top Customer Based On Value
-                               <div class="topcustomers">
+                                Product-wise Overview
+                               <div class="topcustomers" style="overflow-x: hidden;height: 560px;">
                                    <div class="d-flex justify-content-between border-bottom p-3 m-2 align-items-center">
                                        <div class="d-flex">
-                                           <div class="rounded-circle shadow-sm w-100 border p-4 me-3" style="border: 2px solid rgb(26 128 187 / 40%) !important;">AH</div>
                                            <div>
                                                <div class="">ABCEFG HIJK</div>
-                                               <div class="text-muted">XYZ</div>
-                                               <div class="d-flex text-muted" style="font-size: 10px">
-                                                   <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">11</span>
-                                                   <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">765.4K</span>
+                                               <div class="d-flex text-muted mb-2" style="font-size: 14px">
+
+                                                   <span class="px-3 py-2 mx-1 rounded-pill shadow-sm border text-center">
+                                                      <img src="image/secured.png" style="width: 16px;"/>
+                                                      <div>11<b>|</b>123K</div> 
+                                                   </span>
+                                                   <span class="px-3 py-2 mx-1 rounded-pill shadow-sm border text-center">
+                                                       <img src="image/underrisk.png" style="width: 16px;"/>
+                                                      <div>11<b>|</b>123K</div> 
+                                                   </span>
+                                                   <span class="px-3 py-2 mx-1 rounded-pill shadow-sm border text-center">
+                                                       <img src="image/ontrack.png" style="width: 16px;"/>
+                                                       <div>11<b>|</b>123K</div> 
+                                                   </span>
                                                </div>
-                                           </div>
-                                       </div>
-                                       <div class="text-danger fs-4">45%</div>
-                                   </div>
-                                   <div class="d-flex justify-content-between border-bottom p-3 m-2 align-items-center">
-                                       <div class="d-flex">
-                                           <div class="rounded-circle shadow-sm w-100 border p-4 me-3" style="border: 2px solid rgb(26 128 187 / 40%) !important;">AH</div>
-                                           <div>
-                                               <div class="">ABCEFG HIJK</div>
-                                               <div class="text-muted">XYZ</div>
-                                               <div class="d-flex text-muted" style="font-size: 10px">
-                                                   <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">11</span>
-                                                   <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">765.4K</span>
-                                               </div>
-                                           </div>
-                                       </div>
-                                       <div class="text-danger fs-4">45%</div>
-                                   </div>
-                                   <div class="d-flex justify-content-between border-bottom p-3 m-2 align-items-center">
-                                       <div class="d-flex">
-                                           <div class="rounded-circle shadow-sm w-100 border p-4 me-3" style="border: 2px solid rgb(26 128 187 / 40%) !important;">AH</div>
-                                           <div>
-                                               <div class="">ABCEFG HIJK</div>
-                                               <div class="text-muted">XYZ</div>
-                                               <div class="d-flex text-muted" style="font-size: 10px">
-                                                   <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">11</span>
-                                                   <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">765.4K</span>
-                                               </div>
-                                           </div>
-                                       </div>
-                                       <div class="text-danger fs-4">45%</div>
-                                   </div>
-                                   <div class="d-flex justify-content-between border-bottom p-3 m-2 align-items-center">
-                                       <div class="d-flex">
-                                           <div class="rounded-circle shadow-sm w-100 border p-4 me-3" style="border: 2px solid rgb(26 128 187 / 40%) !important;">AH</div>
-                                           <div>
-                                               <div class="">ABCEFG HIJK</div>
-                                               <div class="text-muted">XYZ</div>
-                                               <div class="d-flex text-muted" style="font-size: 10px">
-                                                   <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">11</span>
-                                                   <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">765.4K</span>
-                                               </div>
-                                           </div>
-                                       </div>
-                                       <div class="text-danger fs-4">45%</div>
-                                   </div>
-                                   <div class="d-flex justify-content-between border-bottom p-3 m-2 align-items-center">
-                                       <div class="d-flex">
-                                           <div class="rounded-circle shadow-sm w-100 border p-4 me-3" style="border: 2px solid rgb(26 128 187 / 40%) !important;">AH</div>
-                                           <div>
-                                               <div class="">ABCEFG HIJK</div>
-                                               <div class="text-muted">XYZ</div>
-                                               <div class="d-flex text-muted" style="font-size: 10px">
-                                                   <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">11</span>
-                                                   <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">765.4K</span>
+                                               <div class="d-flex text-muted" style="font-size: 14px">
+                                                   <span class="px-3 py-2 mx-1 rounded-pill shadow-sm border text-center">
+                                                       <img src="image/earlytojuj.png" style="width: 16px;"/>
+                                                       <div>11<b>|</b>123K</div> 
+                                                   </span>
+                                                   <span class="px-3 py-2 mx-1 rounded-pill shadow-sm border text-center">
+                                                       <img src="image/lost.png" style="width: 16px;"/>
+                                                       <div>11<b>|</b>123K</div> 
+                                                   </span>
+                                                   <span class="px-3 py-2 mx-1 rounded-pill shadow-sm border text-center">
+                                                       <img src="image/other.png" style="width: 16px;"/>
+                                                       <div>11<b>|</b>123K</div> 
+                                                   </span>
                                                </div>
                                            </div>
                                        </div>
@@ -457,7 +416,7 @@
                     <div class="col-12">
                         <div class="card" style="height: 335px;">
                             <div class="card-body">
-                                Product Wise
+                                Product-wise
                                 <div id="ProductWise">
                                 </div>
                             </div>
@@ -466,7 +425,7 @@
                     <div class="col-12">
                         <div class="card" style="height: 275px;">
                             <div class="card-body">
-                                Total Pending Request Per Day
+                                Aging
                                  <div class="mt-2" style="position: relative;">
                                      <div style="">
                                          <div style="width: 20%; height: 180px; background: rgb(70 181 141 / 30%);"></div>
@@ -508,56 +467,7 @@
                         </nav>
                         <div class="tab-content" id="pills-tabContent2">
                             <div class="tab-pane fade show active" id="pills-joh" role="tabpanel" aria-labelledby="pills-joh-tab">
-                                <div style="overflow-y: scroll; height: 540px;">
-                                    <div class="forcard">
-                                        <div class="forcard-head">KULDEEP BABANRAO MANE</div>
-                                        <span class="forcard-label">20</span>
-                                        <div class="forcard-body">
-                                            Commercial and residential building(G+P+R+U) on plot 618-12345 @ Nad Al Sheba
-                                        </div>
-                                    </div>
-                                    <div class="forcard">
-                                        <div class="forcard-head">KULDEEP BABANRAO MANE</div>
-                                        <span class="forcard-label">20</span>
-                                        <div class="forcard-body">
-                                            Commercial and residential building(G+P+R+U) on plot 618-12345 @ Nad Al Sheba
-                                        </div>
-                                    </div>
-                                    <div class="forcard">
-                                        <div class="forcard-head">KULDEEP BABANRAO MANE</div>
-                                        <span class="forcard-label">20</span>
-                                        <div class="forcard-body">
-                                            Commercial and residential building(G+P+R+U) on plot 618-12345 @ Nad Al Sheba
-                                        </div>
-                                    </div>
-                                    <div class="forcard">
-                                        <div class="forcard-head">KULDEEP BABANRAO MANE</div>
-                                        <span class="forcard-label">20</span>
-                                        <div class="forcard-body">
-                                            Commercial and residential building(G+P+R+U) on plot 618-12345 @ Nad Al Sheba
-                                        </div>
-                                    </div>
-                                    <div class="forcard">
-                                        <div class="forcard-head">KULDEEP BABANRAO MANE</div>
-                                        <span class="forcard-label">20</span>
-                                        <div class="forcard-body">
-                                            Commercial and residential building(G+P+R+U) on plot 618-12345 @ Nad Al Sheba
-                                        </div>
-                                    </div>
-                                    <div class="forcard">
-                                        <div class="forcard-head">KULDEEP BABANRAO MANE</div>
-                                        <span class="forcard-label">20</span>
-                                        <div class="forcard-body">
-                                            Commercial and residential building(G+P+R+U) on plot 618-12345 @ Nad Al Sheba
-                                        </div>
-                                    </div>
-                                    <div class="forcard">
-                                        <div class="forcard-head">KULDEEP BABANRAO MANE</div>
-                                        <span class="forcard-label">20</span>
-                                        <div class="forcard-body">
-                                            Commercial and residential building(G+P+R+U) on plot 618-12345 @ Nad Al Sheba
-                                        </div>
-                                    </div>
+                                <div id="top50jobs" style="overflow-y: scroll; height: 540px;">
                                 </div>
 
 
@@ -595,21 +505,8 @@
     <link href="../Template/assets/vendor/libs/toaster/toaster.css" rel="stylesheet" />
     <script src="../Template/assets/vendor/libs/toaster/toaster.js"></script>
 
-    <script src="../Calendar/plugins/jquery-ui/jquery-ui.min.js"></script>
-    <script src="../Calendar/dist/js/adminlte.min.js"></script>
-    <script src="../Calendar/plugins/moment/moment.min.js"></script>
-
-
-    <link rel="stylesheet" href="../Calendar/plugins/fullcalendar/main.css">
-    <script src="../Calendar/plugins/fullcalendar/main.js"></script>
-
     <script src="../KPI/Flatpickr/js/flatpickr.js"></script>
     <link href="../KPI/Flatpickr/css/_flatpickr.css" rel="stylesheet" />
-
-
-
-    <link href="../Calendar/dist/select2.css" rel="stylesheet" />
-    <script src="../Calendar/dist/select2.js"></script>
 
     <!-- Datatable plugin CSS file -->
     <link href="../FacilityManagement/Datatable/css/jquery.dataTables.min.css" rel="stylesheet" />
@@ -623,7 +520,7 @@
     <script src="../FacilityManagement/Datatable/js/buttons.html5.min.js"></script>
     <script src="../FacilityManagement/Datatable/js/buttons.print.min.js"></script>
 
-    <script src="https://phpcoder.tech/multiselect/js/jquery.multiselect.js"></script>
-    <link rel="stylesheet" href="https://phpcoder.tech/multiselect/css/jquery.multiselect.css">
+    <script src="../CRMAdmin/Assets/Js/multiple-select.js"></script>
+    <link href="../SiteSurvey/Assets/Css/multiple-select.css" rel="stylesheet" />
 </asp:Content>
 
