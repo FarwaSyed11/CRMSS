@@ -20,7 +20,7 @@ public partial class Account_UpdatePassword : System.Web.UI.Page
              string UserId = Request.QueryString["Id"];
              if (String.IsNullOrEmpty(UserId))
              {
-                 Response.Redirect("../Account/Login.aspx", false);
+                 Response.Redirect("../Security/Login.aspx", false);
              }
         }
     }
@@ -51,7 +51,7 @@ public partial class Account_UpdatePassword : System.Web.UI.Page
 
                    
 
-                    Response.Redirect("../Account/Login.aspx", false);
+                    Response.Redirect("../Security/Login.aspx", false);
                 }
                 else
                 {

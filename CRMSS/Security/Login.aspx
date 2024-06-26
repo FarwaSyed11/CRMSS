@@ -416,6 +416,7 @@
                                         <div class="row" style="place-content: center; text-align: center;">
                                             <asp:Label ID="lblforgotpassword" runat="server" Text="" ForeColor="Red" CssClass="m-3"></asp:Label>
                                             <asp:Button ID="BtnForgotpswd" CssClass="signup_btn  m-2" runat="server" OnClick="BtnForgotpswd_Click" Text="Send Link"></asp:Button>
+                                            <%--<asp:Button ID="BtnForgotpswd" CssClass="signup_btn  m-2" runat="server" OnClick="BtnForgotpswd_Click" Text="Send Link"></asp:Button>--%>
                                             <p>Already have an account?<a class="flipbutton m-2" id="registerButton" href="#">Back To Login</a></p>
                                         </div>
 

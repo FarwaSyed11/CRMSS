@@ -4,93 +4,106 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 
 <!DOCTYPE html>
-  
+
 
 <html>
 <head>
 
-      
-        <link rel="stylesheet" href="../Account/css/login.css" type="text/css" />
-<style type="text/css">
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;500&display=swap');
 
-:root {
-	--primary-color: #a92828;
-	--secondary-color: #a92828;
-}
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="../Dashboard/assets/vendor/fonts/boxicons.css" />
+    <script src="../js/jquery-1.11.2.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="../Account/css/login.css" type="text/css" />
+    <!-- Bootstrap -->
+    <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
 
-* {
-	box-sizing: border-box;
-}
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
-body {
-	/*background: #EDEDEE;*/
-    background-image:url(/CRMSS/media/Images/logbg2.png);
-    background-repeat:no-repeat;
-    background-size:cover;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	font-family: 'Raleway', sans-serif;
-	height: 100vh;
-	margin: 0px 0 0px;
+    <style type="text/css">
+        /*@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;500&display=swap');*/
 
-}
+        :root {
+            --primary-color: #a92828;
+            --secondary-color: #a92828;
+        }
+
+        /* * {
+            box-sizing: border-box;
+        }*/
+
+        body {
+            background: #EDEDEE;
+            background-image: url(../Icons/LoginImages/loginbgfull.svg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            /* display: flex; */
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-family: poppins;
+            overflow: hidden;
+            /* height: 100vh; */
+            background-clip: 10px;
+            margin: 0px 0 0px;
+            background-blend-mode: multiply;
+            background-position-x: -270px;
+        }
 
         h1 {
-            font-weight: bold;
+            /*font-weight: bold;
             margin: 0;
             font-size: xxx-large;
-            font-family: auto;
+            font-family: auto;*/
         }
 
 
-h2 {
-	text-align: center;
-}
+        h2, H1 {
+            text-align: center;
+        }
 
-p {
-	font-size: 14px;
-	font-weight: 100;
-	line-height: 20px;
-	margin: 20px 0 30px;
-}
+        p {
+            /*font-size: 14px;
+            font-weight: 100;
+            line-height: 20px;
+            margin: 20px 0 30px;*/
+        }
 
-a {
-	color: #333;
-	font-size: 14px;
-	text-decoration: none;
-	margin: 15px 0;
-}
+        a {
+            color: #333;
+            font-size: 14px;
+            text-decoration: none;
+            margin: 15px 0;
+        }
 
 
-button:hover {
-	transform: scale(1.05);
-}
-
-.signup_btn {
-	background-color: transparent;
-	border-color: #FFFFFF;
-
-    border-radius: 20px;
-	border: 1px solid var(--primary-color);
-	background-color: var(--secondary-color);
-	color: #FFFFFF;
-	font-size: 12px;
-	font-weight: bold;
-	padding: 12px 45px;
-	text-transform: uppercase;
-	cursor: pointer;
-    
-
-    
-}
-    .signup_btn:hover {
+        button:hover {
             transform: scale(1.05);
         }
 
-/*form {
+        .signup_btn {
+            background-color: transparent;
+            border-color: #FFFFFF;
+            border-radius: 5px;
+            border: 1px solid var(--primary-color);
+            background-color: var(--secondary-color);
+            color: #FFFFFF;
+            font-size: 12px;
+            font-weight: bold;
+            /* padding: 12px 45px; */
+            width: 40%;
+            /* text-transform: uppercase; */
+            cursor: pointer;
+        }
+
+            .signup_btn:hover {
+                transform: scale(0.97);
+            }
+
+        /*form {
 	background-color: #FFFFFF;
 	display: flex;
 	align-items: center;
@@ -101,97 +114,182 @@ button:hover {
 	text-align: center;
 }*/
 
-input {
-	background-color: #EDEDEE;
-	border: none;
-	padding: 12px 15px;
-	margin: 8px 0;
-	width: 100%;
-}
+        input {
+            /*background-color: #EDEDEE;
+            border: none;
+            padding: 12px 15px;
+            margin: 8px 0;
+            width: 100%;*/
+        }
 
-.container {
-	background-color: #fff;
-	border-radius: 10px;
-  	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
-			0 10px 10px rgba(0,0,0,0.22);
-	position: relative;
-	overflow: hidden;
-	width: 768px;
-	max-width: 100%;
-	min-height: 480px;
-}
+        .container {
+            margin-left: 950px;
+            font-family: "Poppins", sans-serif;
+            /*background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+            position: relative;
+            overflow: hidden;
+            width: 768px;
+            max-width: 100%;
+            min-height: 480px;*/
+        }
 
-.form {
-	position: absolute;
-	top: 0;
-	height: 100%;
-}
+        .form {
+            /*position: absolute;
+            top: 0;
+            height: 100%;*/
+        }
 
-.sign-in-container {
-	left: 0;
-	width: 50%;
-}
+        .col-6, .col-5, .col-7 {
+            padding: 0px !important
+        }
 
-.overlay-container {
-	position: absolute;
-	top: 0;
-	left: 50%;
-	width: 50%;
-	height: 100%;
-	overflow: hidden;
-}
+        .sign-in-container {
+            left: 0;
+            width: 50%;
+        }
 
-.overlay {
-	background: #41C2CB;
-	background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: 0 0;
-	color: #FFFFFF;
-	position: relative;
-	left: -100%;
-	height: 100%;
-	width: 200%;
-}
+        .overlay-container {
+            position: absolute;
+            top: 0;
+            right: 50%;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+        }
 
-.overlay-panel {
-	position: absolute;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	padding: 0 40px;
-	text-align: center;
-	top: 0;
-	height: 100%;
-	width: 50%;
-}
+        .overlay {
+            /* background: #41C2CB; */
+            background: radial-gradient(at center, rgba(169, 40, 40, 1.0), rgba(67, 17, 17, 1.0));
+            /* background-image: url(../Icons/LoginImages/loginbgfull.svg);
+            background: linear-gradient(to right, rgb(169 40 40), rgb(67 16 16));*/
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: 0 0;
+            /* color: #FFFFFF; */
+            /* position: relative; */
+            left: -100%;
+            height: 100%;
+            /* width: 200%; */
+            opacity: 0.8;
+            height: 100vh;
+        }
 
-.overlay-right {
-	right: 0;
-}
+        .overlay-panel {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 0 40px;
+            text-align: center;
+            top: 0;
+            height: 100%;
+            width: 50%;
+        }
 
-.social-container {
-	margin: 20px 0;
-}
+        .overlay-right {
+            left: 0;
+        }
 
-.social-container a {
-	border: 1px solid var(--primary-color);
-	border-radius: 50%;
-	display: inline-flex;
-	justify-content: center;
-	align-items: center;
-	margin: 0 5px;
-	height: 40px;
-	width: 40px;
-}
-.social-container a:hover{
-	transform: scale(1.08);
-}
-        </style>
+        .social-container {
+            margin: 20px 0;
+        }
+
+            .social-container a {
+                border: 1px solid var(--primary-color);
+                border-radius: 50%;
+                display: inline-flex;
+                justify-content: center;
+                align-items: center;
+                margin: 0 5px;
+                height: 40px;
+                width: 40px;
+            }
+
+                .social-container a:hover {
+                    transform: scale(1.08);
+                }
+
+        .form-check-input:checked {
+            background-color: #a92828 !important;
+        }
+
+        .form-check-input {
+            border-color: #a92828 !important;
+        }
+
+        .bg {
+            background-image: url(../Icons/LoginImages/loginbghalf.svg);
+            background-repeat: no-repeat;
+        }
+
+        .naffco {
+            padding: 10px;
+        }
+
+        .econn {
+            text-align: center
+        }
+
+        .overlay p {
+            font-size: 1.5em;
+            color: white;
+            text-align: center
+        }
+
+        canvas {
+            background: white;
+            background: radial-gradient(#fff, #ddd);
+            transform-origin: 0 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .ui {
+            display: none;
+            position: fixed;
+            z-index: 5;
+            bottom: 0;
+            left: 0;
+            width: 120px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+            .ui p {
+                font-size: 11px;
+                font-weight: 700;
+            }
+
+                .ui p.zoom {
+                    margin-bottom: 5px;
+                }
+
+                    .ui p.zoom span {
+                        margin-right: 5px;
+                        border: solid 1px #777;
+                        cursor: pointer;
+                        border-radius: 2px;
+                    }
+
+                        .ui p.zoom span.zoomin {
+                            padding: 2px 5px;
+                        }
+
+                        .ui p.zoom span.zoomout {
+                            padding: 2px 8px;
+                        }
+
+                        .ui p.zoom span:hover {
+                            background: black;
+                            color: white;
+                        }
+    </style>
 
 
-	<title>E-Connect</title>
+    <title>E-Connect - Update Password</title>
 
 </head>
 <body>
@@ -201,8 +299,74 @@ input {
         <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Always">
             <ContentTemplate>
 
-                 
-                <div class="container">
+
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-7">
+
+                            <div class="overlay">
+                                <%--<div class="bg"></div>--%>
+                                <div class="naffco">
+                                    <img src="../Icons/loginImages/naffcologowhite.svg" alt="Arkan" style="" />
+                                </div>
+                                <div class="econn">
+                                    <img src="../Icons/loginImages/econnectlogowhite.svg" alt="Arkan" style="" />
+                                </div>
+                                <p>
+                                    Welcome to our central portal!
+                                    <br />
+                                    One login, many applications. Simplify your workflow across departments. 
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-5">
+
+                            <div class="flipper" id="flipper">
+                                <div class="globe">
+                                    <img src="../Icons/loginImages/redglobe.svg" alt="" style="float: right; margin: -30px;" />
+                                </div>
+                                <div class="front">
+                                    <h1 class="" style="margin-bottom: 2em">Reset Password</h1>
+                                    <div class="row">
+                                        
+                                        <h1> <asp:Label ID="Label1" runat="server" Text="E-CONNECT" ForeColor="White" Style="font-family:'Exo 2'"></asp:Label></h1>
+
+                                        <asp:Label ID="lblError" runat="server" Text="" ForeColor="Red"></asp:Label>
+
+                                        <h6 class="mb-2">New Password</h6>
+                                        <div class="col-10 input-group mb-4">
+                                            <span class="input-group-text" style="background: transparent;">
+                                                <img src="../Icons/loginImages/inputkey.svg" alt="" style="" />
+                                            </span>
+                                            <asp:TextBox ID="txtPassword" runat="server" class="form-control" Text="" placeholder="password" required autofocus TextMode="enter new password"></asp:TextBox>
+                                        </div>
+
+                                        <h6 class="mb-2">Confirm Passsword</h6>
+                                        <div class="col-10 input-group mb-3">
+                                            <span class="input-group-text" style="background: transparent;">
+                                                <img src="../Icons/loginImages/inputkey.svg" alt="" style="" />
+                                            </span>
+                                            <asp:TextBox ID="txtRepeatPassword" runat="server" class="form-control" Text="" TextMode="Password" placeholder="confirm password" required></asp:TextBox>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="row" style="place-content: center; text-align: center;">
+                                        <asp:Button ID="btnUpdate" CssClass="signup_btn" OnClick="btnUpdate_Click" runat="server" Text="Update Password"></asp:Button>
+                                    </div>
+                                </div>
+
+                
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                   
+                </div>
+
+                <%-- <div class="container">
 
 
 
@@ -215,11 +379,11 @@ input {
                             <asp:Label ID="lblError" runat="server" Text="" ForeColor="Red"></asp:Label>
 
 
-                            <asp:TextBox ID="txtPassword" runat="server" class="form-control" Text="" placeholder="password" required autofocus TextMode="Password"></asp:TextBox>
+                            <asp:TextBox ID="txtPassword" runat="server" class="form-control" Text="" placeholder="password" required autofocus TextMode="New password"></asp:TextBox>
 
 
 
-                            <asp:TextBox ID="txtRepeatPassword" runat="server" class="form-control" Text="" TextMode="Password" placeholder="Repeat Password" required></asp:TextBox>
+                            <asp:TextBox ID="txtRepeatPassword" runat="server" class="form-control" Text="" TextMode="Password" placeholder="Confirm assword" required></asp:TextBox>
 
 
                             <asp:Button ID="btnUpdate" CssClass="signup_btn" OnClick="btnUpdate_Click" runat="server" Text="Update Password"></asp:Button>
@@ -229,7 +393,7 @@ input {
                        
                         </div>
 
-            
+
 
 
                     </div>
@@ -239,25 +403,23 @@ input {
                         <div class="overlay">
                             <div class="overlay-panel overlay-right">
                                 <img src="../icons/LogoEconnect2.png" alt="Arkan" style="height: 200px; width: 275px;" />
-                                <%--<h1> <asp:Label ID="Label1" runat="server" Text="E-CONNECT" ForeColor="White" Style="font-family:'Exo 2'"></asp:Label></h1>--%>
+                                <%--<h1> <asp:Label ID="Label1" runat="server" Text="E-CONNECT" ForeColor="White" Style="font-family:'Exo 2'"></asp:Label></h1>--%
                                 <p></p>
 
                             </div>
                         </div>
                     </div>
-                </div>
-                
-     
+                </div>--%>
             </ContentTemplate>
         </asp:UpdatePanel>
 
     </form>
 </body>
 
-   
 
 
-    
-  
+
+
+
 </html>
 

@@ -647,3 +647,7 @@ function initiateProductGraph(listProduct, listProductValue) {
 }
 
 
+var pluginName = "multiSelect",
+    defaults = {
+        'noneText': '-- Select --',
+    };

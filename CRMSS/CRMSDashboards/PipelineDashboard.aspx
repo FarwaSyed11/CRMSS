@@ -16,68 +16,6 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <style>
-        .width-13 {
-            width: 13.75%;
-        }
-
-        .width-18 {
-            width: 18.75%
-        }
-
-        .width-20 {
-            width: 20%;
-        }
-
-        .forcard {
-            border-radius: 6px;
-            border: 1px solid #e0e0e0;
-            padding: 8px 8px;
-            margin-bottom: 5px;
-        }
-
-        .forcard-body {
-            font-size: smaller;
-            width: 90%;
-        }
-
-        .forcard-head {
-            font-size: small;
-            color: #005dae;
-            text-transform: capitalize;
-        }
-
-        .forcard-label {
-            color: #930000a6;
-            background: #ff00003d;
-            padding: 2px 10px;
-            font-size: small;
-            border-radius: 6px;
-            float: right;
-        }
-
-        .nav .nav-link:hover, .nav .nav-link:focus {
-            color: #9d0000a3 !important;
-        }
-
-        .nav-pills .nav-link.active, .nav-pills .nav-link.active:hover, .nav-pills .nav-link.active:focus {
-            background-color: #ffdddd54 !important;
-            color: #000000 !important;
-            box-shadow: none !important;
-        }
-
-        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-            color: #000 !important;
-            background-color: #ededed !important;
-        }
-
-        .nav-pills .nav-link {
-            font-size: 12px;
-        }
-
-        .tab-content {
-            padding: 10px 0px !important;
-        }
-
         .ovs {
             text-align: center;
             display: flex;
@@ -88,41 +26,15 @@
             border: 1px solid #e0e0e0;
             padding: 25px 12px;
         }
-
             .ovs img {
                 margin-bottom: 10px;
                 width: 20px;
             }
-
             .ovs span {
                 color: black;
                 margin-top: 10px;
                 font-weight: 500;
             }
-
-        .b-blue {
-            border-top: 1px solid #1ac2f7
-        }
-
-        .b-lightblue {
-            border-top: 1px solid #87cce9
-        }
-
-        .b-red {
-            border-top: 1px solid #ed1b26
-        }
-
-        .b-green {
-            border-top: 1px solid #43d1b7
-        }
-
-        .b-purple {
-            border-top: 1px solid #a24ad8
-        }
-
-        .b-pink {
-            border-top: 1px solid #f99ad3
-        }
     </style>
 
     <div class="container-fluid" style="margin-top: 1%; width: 98%;">
@@ -140,40 +52,16 @@
                         </div>
                         <div class="width-23">
                             <span class="form-label">Company</span>
-                            <select class="form-select" id="companyFilter" placeholder="Select Authority" multiple></select>
+                            <select class="form-select" id="companyFilter" placeholder="Select Company" multiple></select>
                         </div>
                         <div class="width-23">
                             <span class="form-label">Manager</span>
-                            <select class="form-select" id="managerFilter" placeholder="Select Authority"></select>
+                            <select class="form-select" id="managerFilter" placeholder="Select Manager"></select>
                         </div>
                         <div class="width-23">
                             <span class="form-label">Salesman</span>
-                            <select class="form-select" id="salesmanFilter" placeholder="Select Authority"></select>
+                            <select class="form-select" id="salesmanFilter" placeholder="Select Salesman"></select>
                         </div>
-                        <%--<div class="width-13">
-                            <span class="form-label">Year to Date</span>
-                            <select class="form-select" id="yeardateFilter" placeholder="Select Authority">
-                                <option value="1" selected>2024</option>
-                                <option value="2">2023</option>
-                                <option value="3">2021</option>
-                            </select>
-                        </div>--%>
-                        <%--<div class="width-18">
-                            <span class="form-label">Year</span>
-                            <select class="form-select" id="yearFilter" placeholder="Select Authority">
-                                <option value="1" selected>2024</option>
-                                <option value="2">2023</option>
-                                <option value="3">2022</option>
-                            </select>
-                        </div>--%>
-                        <%--<div class="width-13">
-                            <select class="form-select" id="monthFilter" placeholder="Select Authority">
-                                <option value="-1">month</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>--%>
                         <div class="" style="width: 1%">
                             <button type="button" class="btn btn-primary mt-4" id="btngoFilter">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
