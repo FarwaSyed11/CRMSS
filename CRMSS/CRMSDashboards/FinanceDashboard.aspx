@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../Calendar/dist/adminlte.min.css">
     <link href="../KPI/Flatpickr/css/_flatpickr.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="../Dashboard/assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
 </asp:Content>
@@ -140,10 +140,9 @@
                         <div class="width-18">
                             <span class="form-label">Year</span>
                             <select class="form-select" id="yearFilter" placeholder="Select Authority">
-                                
                             </select>
                         </div>
-                       <%-- <div class="width-13">
+                        <%-- <div class="width-13">
                             <span class="form-label">Month</span>
                             <select class="form-select" id="monthFilter" placeholder="Select Authority">
                                 <option value="-1">month</option>
@@ -183,28 +182,31 @@
                             </div>
                             <div class="col-8">
                                 <h6 class="text-center">Your Performance</h6>
-                                <div>
+                                <div style="width: 90%;">
                                     <div style="width: 100%; height: 50px; position: relative">
-                                        <div style="width: 20%; height: 50px; left: 0px; top: 0px; position: absolute; background: #DA0D0D; border-top-left-radius: 50px; border-bottom-left-radius: 50px;">
-                                            <div style="left: 35%; top: 13.78px; position: absolute; color: white;">Min</div>
+                                        <div style="width: 30%;height: 50px;left: 0px;top: 0px;position: absolute;background: #DA0D0D;border-top-left-radius: 50px;border-bottom-left-radius: 50px;">
+                                            <div style="left: 32%;top: 13.78px;position: absolute;color: white;">Very Bad</div>
                                         </div>
-                                        <div style="width: 20%; height: 50px; left: 20%; top: 0px; position: absolute">
+                                        <div style="width: 20%;height: 50px;left: 30%;top: 0px;position: absolute">
                                             <div style="width: 100%; height: 50px; left: 0px; top: 0px; position: absolute; background: #F21818"></div>
-                                            <div style="left: 36%; top: 13.78px; position: absolute; color: white;">Low</div>
+                                            <div style="left: 34%; top: 13.78px; position: absolute; color: white;">Bad</div>
                                         </div>
-                                        <div style="width: 20%; height: 50px; left: 40%; top: 0px; position: absolute">
+                                        <div style="width: 20%;height: 50px;left: 50%;top: 0px;position: absolute">
                                             <div style="width: 100%; height: 50px; left: 0px; top: 0px; position: absolute; background: #FFE601"></div>
                                             <div style="left: 34%; top: 13.78px; position: absolute; color: white;">Med</div>
                                         </div>
-                                        <div style="width: 20%; height: 50px; left: 60%; top: 0px; position: absolute">
+                                        <div style="width: 20%;height: 50px;left: 70%;top: 0px;position: absolute">
                                             <div style="width: 100%; height: 50px; left: 0px; top: 0px; position: absolute; background: rgba(126.82, 185.94, 67.71, 0.70)"></div>
-                                            <div style="height: 27.56px; left: 30%; top: 13.78px; position: absolute; color: white;">High</div>
+                                            <div style="height: 27.56px; left: 30%; top: 13.78px; position: absolute; color: white;">Good</div>
                                         </div>
-                                        <div style="width: 20%; height: 50px; left: 80%; top: 0px; position: absolute">
+                                        <div style="width: 10%;height: 50px;left: 90%;top: 0px;position: absolute">
                                             <div style="width: 100%; height: 50px; left: 0px; top: 0px; position: absolute; background: #7FBA44; border-bottom-right-radius: 50px; border-top-right-radius: 50px"></div>
-                                            <div style="height: 27.56px; left: 30%; top: 13.78px; position: absolute; color: white;">Max</div>
+                                            <div style="height: 1.56px;left: 18%;top: 5.78px;position: absolute;color: white;font-size: small;">Very Good</div>
                                         </div>
                                     </div>
+                                </div>
+                                <div id="MeterPerf" style="width: 100%">
+                                    <img src="image/perfindicator.svg" />
                                 </div>
                             </div>
                         </div>
@@ -640,16 +642,22 @@
                                 <div style="width: 80%; height: 80px; left: 10px; top: 400%; position: absolute; background: rgb(122 218 231 / 70%);"></div>
                             </div>
                             <div style="left: 26px; bottom: 99px; position: relative;">
-                                <div style="width: 20%; right: 10px; top: 50px; position: absolute; color: rgb(0 0 0); font-size: 10px; font-weight: 300; word-wrap: break-word">&gt; 1 month</div>
-                                <div style="right: 35px; top: 130px; position: absolute; color: rgb(0 0 0); font-size: 10px; font-weight: 300; word-wrap: break-word">&gt; 3 months</div>
-                                <div style="right: 35px; top: 214px; position: absolute; color: rgb(0 0 0); font-size: 10px; font-weight: 300; word-wrap: break-word">&gt; 6 months</div>
-                                <div style="right: 55px; top: 290px; position: absolute; color: rgb(0 0 0); font-size: 10px; font-weight: 300; word-wrap: break-word">&gt; 1 year</div>
-                                <div style="right: 55px; top: 375px; position: absolute; color: rgb(0 0 0); font-size: 10px; font-weight: 300; word-wrap: break-word">&lt; 1 year</div>
-                                <div id="divoneTofive" style="width: 20%; l; left: 35%; top: 50px; position: absolute; color: #ffffff; font-size: 16px; font-weight: 500; word-wrap: break-word">10</div>
-                                <div id="divdixToten" style="width: 20%; left: 35%; top: 130px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">15</div>
-                                <div id="divlevenToFifteen" style="width: 20%; left: 35%; top: 210px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">20</div>
-                                <div id="divsixteenToTwenty" style="width: 20%; left: 35%; top: 290px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">25</div>
-                                <div id="divtwentyToTwefive" style="width: 20%; left: 35%; top: 370px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">30</div>
+                                <div style="width: 11%; right: 46px; top: 50px; position: absolute; color: rgb(0 0 0); font-size: 10px; font-weight: 300; word-wrap: break-word">less than a month</div>
+                                <div style="right: 48px; top: 130px; width: 48px; position: absolute; color: rgb(0 0 0); font-size: 10px; font-weight: 300; word-wrap: break-word">less than 3 months</div>
+                                <div style="right: 33px; width: 63px; top: 214px; position: absolute; color: rgb(0 0 0); font-size: 10px; font-weight: 300; word-wrap: break-word">less than 6 months</div>
+                                <div style="right: 44px; width: 52px; top: 290px; position: absolute; color: rgb(0 0 0); font-size: 10px; font-weight: 300; word-wrap: break-word">less than a year</div>
+                                <div style="right: 33px; top: 375px; width: 64px; position: absolute; color: rgb(0 0 0); font-size: 10px; font-weight: 300; word-wrap: break-word">greater than a year</div>
+                                <div id="divoneTofive" style="width: 20%; l; left: 35%; top: 35px; position: absolute; color: #ffffff; font-size: 13px; font-weight: 500; word-wrap: break-word">62</div>
+                                <div id="divoneTofiveval" style="width: 20%; l; left: 35%; top: 50px; position: absolute; color: #ffffff; font-size: 16px; font-weight: 500; word-wrap: break-word">62</div>
+                                <div id="divdixToten" style="width: 20%; left: 35%; top: 115px; position: absolute; color: white; font-size: 14px; font-weight: 500; word-wrap: break-word">58</div>
+                                <div id="divdixTotenval" style="width: 20%; left: 35%; top: 130px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">58</div>
+                                <div id="divlevenToFifteen" style="width: 20%; left: 35%; top: 195px; position: absolute; color: white; font-size: 14px; font-weight: 500; word-wrap: break-word">119</div>
+                                <div id="divlevenToFifteenval" style="width: 20%; left: 35%; top: 210px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">119</div>
+                                <div id="divsixteenToTwenty" style="width: 20%; left: 35%; top: 276px; position: absolute; color: white; font-size: 14px; font-weight: 500; word-wrap: break-word">83</div>
+                                <div id="divsixteenToTwentyval" style="width: 20%; left: 35%; top: 290px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">83</div>
+                                <div id="divtwentyToTwefive" style="width: 20%; left: 35%; top: 355px; position: absolute; color: white; font-size: 14px; font-weight: 500; word-wrap: break-word">97</div>
+                                <div id="divtwentyToTwefiveval" style="width: 20%; left: 35%; top: 370px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">97</div>
+
                             </div>
                         </div>
                     </div>
@@ -657,7 +665,6 @@
             </div>
         </div>
     </div>
-
     <script type="text/javascript">
         var currUserId = '';
         var EmpNo = '';
@@ -668,10 +675,10 @@
         var loggedInUserName = '';
         $(document).ready(function () {
             currUserId = <%=Convert.ToInt32(Session["UserId"]).ToString()%>;
-            EmpNo = '<%= Session["EmpNo"] %>';
-            myrole = '<%=Session["Role"]%>';
-            myroleList = '<%=Session["CurrentUserRolesList"]%>';
-        });
+                EmpNo = '<%= Session["EmpNo"] %>';
+                myrole = '<%=Session["Role"]%>';
+                myroleList = '<%=Session["CurrentUserRolesList"]%>';
+            });
     </script>
 
     <script src="script/FinanceDashboard.js"></script>

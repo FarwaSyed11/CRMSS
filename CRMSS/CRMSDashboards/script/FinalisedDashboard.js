@@ -267,7 +267,7 @@ function LoadProjList() {
     initiateProjListDataTable();
 }
 
-function initiateProjListDataTable() {
+function initiateProjListDataTable() {                                                                                                                                                                                                                                                                                                                       
     //$('#ProjLOI-tbody td').length > 0 ? objDatatableProjList.destroy() : '';
     objDatatableProjList = [];
     objDatatableProjList = $('#ProjLOI-table').DataTable({
@@ -280,31 +280,141 @@ function initiateProjListDataTable() {
                 }
             ]
         },
-        "columnDefs": [
-            { "orderable": true, "targets": [] }
+        columnDefs: [
+            { orderable: true, "targets": [] },
         ]
     });
 
 }
 
+$('#ProjLOI-table').DataTable({
+    order: [[3, 'asc']],
+    columnDefs: [
+        { type: 'num', targets: 3 }
+    ],
+    aoColumnDefs: [
+        { "sType": "numeric" }
+    ]
+});
 
-function nFormatter(num) {
 
-    if (num >= 1000000000000) {
-        return (num / 1000000000000).toFixed(1).replace(/\.0$/, '') + 'T';
-    }
-    else if (num >= 1000000000) {
-        return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
-    }
-    else if (num >= 1000000) {
-        return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
-    }
-    else if (num >= 1000) {
-        return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
-    }
-    return num;
+function loadFinalisedAging() {
+
+    $.ajax({
+        url: "FinalisedDashbaord.aspx/loadFinalisedAging",
+        data: JSON.stringify({ "Company": selCompany, "ManagerID": selManager, "SalesmanID": selSalesman }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            $.each(result, function (key, item) {
+                $("#divoneTofive").html(nFormatter(parseInt(result.d[0].Five)));
+                $("#divdixToten").html(nFormatter(parseInt(result.d[0].Ten)));
+                $("#divlevenToFifteen").html(nFormatter(parseInt(result.d[0].Fifteen)));
+                $("#divsixteenToTwenty").html(nFormatter(parseInt(result.d[0].Twenty)));
+                $("#divtwentyToTwefive").html(nFormatter(parseInt(result.d[0].MorethanTwentyfive)));
+            });
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
 }
 
+function LoadFinalisedProduct() {
+
+    $.ajax({
+        url: "FinalisedDashbaord.aspx/LoadFinalisedProduct",
+        data: JSON.stringify({ "Company": selCompany, "ManagerID": selManager, "SalesmanID": selSalesman }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+
+            listFinalisedProdGraph = result.d.listProdnValue;
+            listAllProducts = [];
+            $.each(listFinalisedProdGraph, function (key, item) {
+                listAllProducts.push(item.ItemType);
+            });
+            listAllFinalisedValues = [];
+            $.each(listFinalisedProdGraph, function (key, item) {
+                listAllFinalisedValues.push(parseInt(item.Value))
+            });
+
+            initiateFinalisedProdGraph(listAllProducts, listAllFinalisedValues)
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+
+function initiateFinalisedProdGraph(listAllProducts, listAllFinalisedValues) {
+    var options = {
+        series: [{
+            data: listAllFinalisedValues
+        }],
+        chart: {
+            type: 'bar',
+            height: 500
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 4,
+                borderRadiusApplication: 'end',
+                horizontal: true,
+                distributed: true
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            formatter: function (val, opts) {
+                return numberWithCommas(val)
+            },
+            style: {
+                fontSize: '14px',
+                fontFamily: 'Helvetica, Arial, sans-serif',
+                fontWeight: 'bold',
+                colors: undefined
+            },
+            background: {
+                enabled: true,
+                foreColor: '#fff',
+                padding: 5,
+                borderRadius: 2,
+                borderWidth: 1,
+                borderColor: '#fff',
+                opacity: 0.9,
+            }
+        },
+        xaxis: {
+            categories: listAllProducts,
+            labels: {
+                formatter: function (value) {
+                    return nFormatter(value) + " AED";
+                }
+            },
+        },
+        tooltip: {
+            x: [
+                {
+                    title: {
+                        formatter: function (val) {
+                            return numberWithCommas(val)
+                        }
+                    }
+                },
+            ]
+        }
+    };
+
+    chartFinalisedProduct = new ApexCharts(document.querySelector("#FinalisedProduct"), options);
+    chartFinalisedProduct.render();
+}
 function initiateLOIContractLPOperc(LPOperc, LOIperc, Contractperc) {
     var options1 = {
         chart: {
@@ -471,87 +581,25 @@ function initiateLOIContractLPOperc(LPOperc, LOIperc, Contractperc) {
     chartContractperc.render();
 
 }
-
-function LoadFinalisedProduct() {
-
-    $.ajax({
-        url: "FinalisedDashbaord.aspx/LoadFinalisedProduct",
-        data: JSON.stringify({ "Company": selCompany, "ManagerID": selManager, "SalesmanID": selSalesman }),
-        type: "POST",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {
-
-            listFinalisedProdGraph = result.d.listProdnValue;
-            listAllProducts = [];
-            $.each(listFinalisedProdGraph, function (key, item) {
-                listAllProducts.push(item.ItemType);
-            });
-            listAllFinalisedValues = [];
-            $.each(listFinalisedProdGraph, function (key, item) {
-                listAllFinalisedValues.push(parseInt(item.Value))
-            });
-
-            initiateFinalisedProdGraph(listAllProducts, listAllFinalisedValues)
-
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
-
+function numberWithCommas(number) {
+    var parts = number.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
 }
 
-function initiateFinalisedProdGraph(listAllProducts, listAllFinalisedValues) {
-    var options = {
-        series: [{
-            data: listAllFinalisedValues
-        }],
-        chart: {
-            type: 'bar',
-            height: 500
-        },
-        plotOptions: {
-            bar: {
-                borderRadius: 4,
-                borderRadiusApplication: 'end',
-                horizontal: true,
-                distributed: true
-            }
-        },
-        dataLabels: {
-            enabled: true
-        },
-        xaxis: {
-            categories: listAllProducts,
-        }
-    };
+function nFormatter(num) {
 
-    chartFinalisedProduct = new ApexCharts(document.querySelector("#FinalisedProduct"), options);
-    chartFinalisedProduct.render();
-}
-
-function loadFinalisedAging() {
-
-    $.ajax({
-        url: "FinalisedDashbaord.aspx/loadFinalisedAging",
-        data: JSON.stringify({ "Company": selCompany, "ManagerID": selManager, "SalesmanID": selSalesman }),
-        type: "POST",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {
-            $.each(result, function (key, item) {
-                $("#divoneTofive").html(nFormatter(parseInt(result.d[0].Five)));
-                $("#divdixToten").html(nFormatter(parseInt(result.d[0].Ten)));
-                $("#divlevenToFifteen").html(nFormatter(parseInt(result.d[0].Fifteen)));
-                $("#divsixteenToTwenty").html(nFormatter(parseInt(result.d[0].Twenty)));
-                $("#divtwentyToTwefive").html(nFormatter(parseInt(result.d[0].Twentyfive)));
-            });
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
+    if (num >= 1000000000000) {
+        return (num / 1000000000000).toFixed(1).replace(/\.0$/, '') + 'T';
+    }
+    else if (num >= 1000000000) {
+        return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
+    }
+    else if (num >= 1000000) {
+        return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    }
+    else if (num >= 1000) {
+        return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    }
+    return num;
 }

@@ -229,6 +229,7 @@ public partial class CRMSDashboards_FinanceDashboard : System.Web.UI.Page
                 {
                     Month = dt.Rows[i]["MonthNumber"].ToString(),
                     Value = dt.Rows[i]["value"].ToString(),
+                    ValueLY = dt.Rows[i]["PYvalue"].ToString(),
                 });
             }
             for (int i = 0; i < ds.Tables[1].Rows.Count; i++)
@@ -237,6 +238,7 @@ public partial class CRMSDashboards_FinanceDashboard : System.Web.UI.Page
                 {
                     Month = ds.Tables[1].Rows[i]["MonthNumber"].ToString(),
                     Value = ds.Tables[1].Rows[i]["value"].ToString(),
+                    ValueLY = ds.Tables[1].Rows[i]["PYvalue"].ToString(),
                 });
             }
 
@@ -248,6 +250,7 @@ public partial class CRMSDashboards_FinanceDashboard : System.Web.UI.Page
                 {
                     Month = ds.Tables[2].Rows[i]["MonthNumber"].ToString(),
                     Value = ds.Tables[2].Rows[i]["value"].ToString(),
+                    ValueLY = ds.Tables[2].Rows[i]["PYvalue"].ToString(),
                 });
             }
         }
@@ -274,6 +277,9 @@ public partial class CRMSDashboards_FinanceDashboard : System.Web.UI.Page
     {
         public string Month { get; set; }
         public string Value { get; set; }
+        public string ValueLY { get; set; }
+
+
     }
 
     [WebMethod]
@@ -541,8 +547,6 @@ public partial class CRMSDashboards_FinanceDashboard : System.Web.UI.Page
                 });
             }
 
-
-
             for (int i = 0; i < ds.Tables[2].Rows.Count; i++)
             {
                 oListCollectionComp.Add(new CompGraphValues()
@@ -714,7 +718,7 @@ public partial class CRMSDashboards_FinanceDashboard : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static List<aginglist> loadFinanceAging()
+    public static List<aginglist> loadFinanceAging(string ManagerID, string SalesmanID, string Company)
     {
         DBHandler DBH = new DBHandler();
         DataSet ds = new DataSet();
@@ -725,14 +729,14 @@ public partial class CRMSDashboards_FinanceDashboard : System.Web.UI.Page
         pa.Add("@Oper");
         pv.Add(5);
 
-        //pa.Add("@Company");
-        //pv.Add(Company);
+        pa.Add("@Company");
+        pv.Add(Company);
 
-        //pa.Add("@ManagerID");
-        //pv.Add(Convert.ToInt64(ManagerID));
+        pa.Add("@ManagerID");
+        pv.Add(Convert.ToInt64(ManagerID));
 
-        //pa.Add("@SalesmanID");
-        //pv.Add(Convert.ToInt64(SalesmanID));
+        pa.Add("@SalesmanID");
+        pv.Add(Convert.ToInt64(SalesmanID));
 
         //pa.Add("@Year");
         //pv.Add(Year);
@@ -749,12 +753,17 @@ public partial class CRMSDashboards_FinanceDashboard : System.Web.UI.Page
             {
                 oListAgingValues.Add(new aginglist()
                 {
-                    Five = dt.Rows[i]["LessThanOneMonthCount"].ToString(),
-                    Ten = dt.Rows[i]["LessThanThreeMonthCount"].ToString(),
-                    Fifteen = dt.Rows[i]["LessThanSixMonthCount"].ToString(),
-                    Twenty = dt.Rows[i]["LessThanOneYearCount"].ToString(),
-                    MorethanTwentyfive = dt.Rows[i]["GreaterThanOneYearCount"].ToString(),
+                    one = dt.Rows[i]["LessThanOneMonthCount"].ToString(),
+                    three = dt.Rows[i]["LessThanThreeMonthCount"].ToString(),
+                    six = dt.Rows[i]["LessThanSixMonthCount"].ToString(),
+                    twelve = dt.Rows[i]["LessThanOneYearCount"].ToString(),
+                    morethantwelve = dt.Rows[i]["GreaterThanOneYearCount"].ToString(),
 
+                    Valone = dt.Rows[i]["LessThanOneMonthValue"].ToString(),
+                    Valthree = dt.Rows[i]["LessThanThreeMonthValue"].ToString(),
+                    Valsix = dt.Rows[i]["LessThanSixMonthValue"].ToString(),
+                    Valtwelve = dt.Rows[i]["LessThanOneYearValue"].ToString(),
+                    Valmorethantwelve = dt.Rows[i]["GreaterThanOneYearValue"].ToString(),
                 });
             }
         }
@@ -763,12 +772,16 @@ public partial class CRMSDashboards_FinanceDashboard : System.Web.UI.Page
     }
     public class aginglist
     {
-        public string Five { get; set; }
-        public string Ten { get; set; }
-        public string Fifteen { get; set; }
-        public string Twenty { get; set; }
-        public string Twentyfive { get; set; }
-        public string MorethanTwentyfive { get; set; }
+        public string one { get; set; }
+        public string three { get; set; }
+        public string six { get; set; }
+        public string twelve { get; set; }
+        public string morethantwelve { get; set; }
+        public string Valone { get; set; }
+        public string Valthree { get; set; }
+        public string Valsix { get; set; }
+        public string Valtwelve { get; set; }
+        public string Valmorethantwelve { get; set; }
     }
     public class DDL
     {

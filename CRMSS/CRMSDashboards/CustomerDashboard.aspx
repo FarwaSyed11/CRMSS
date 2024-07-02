@@ -23,12 +23,12 @@
         <div class="card">
             <div class="row m-2" style="">
 
-                <div class="col-2">
+                <div class="col-5">
                     <div style="color: black; font-size: 26px; font-weight: 400; word-wrap: break-word; margin: 10px 0">Dashboard</div>
                 </div>
-                <div class="col-10 mt-2 ptfilter">
+                <div class="col-7 mt-2 ptfilter">
                     <div class="row">
-                        <div class="width-13">
+                        <div class="width-23">
                             <select class="form-select" id="territoryFilter" placeholder="Select Authority">
                                 <option value="-1">terriroty</option>
                                 <option value="1">One</option>
@@ -36,15 +36,15 @@
                                 <option value="3">Three</option>
                             </select>
                         </div>
-                        <div class="width-13">
-                            <select class="form-select" id="companyFilter" placeholder="Select Authority">
+                        <div class="width-23">
+                            <select class="form-select" id="companyFilter" placeholder="Select Authority" multiple>
                                 <option value="-1">company</option>
                                 <option value="1">One</option>
                                 <option value="2">Two</option>
                                 <option value="3">Three</option>
                             </select>
                         </div>
-                        <div class="width-13">
+                        <div class="width-23">
                             <select class="form-select" id="managerFilter" placeholder="Select Authority">
                                 <option value="-1">manager</option>
                                 <option value="1">One</option>
@@ -52,33 +52,9 @@
                                 <option value="3">Three</option>
                             </select>
                         </div>
-                        <div class="width-13">
+                        <div class="width-23">
                             <select class="form-select" id="salesmanFilter" placeholder="Select Authority">
                                 <option value="-1">salesman</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>
-                        <div class="width-13">
-                            <select class="form-select" id="yeardateFilter" placeholder="Select Authority">
-                                <option value="-1">year to date</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>
-                        <div class="width-13">
-                            <select class="form-select" id="yearFilter" placeholder="Select Authority">
-                                <option value="-1">year</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>
-                        <div class="width-13">
-                            <select class="form-select" id="monthFilter" placeholder="Select Authority">
-                                <option value="-1">month</option>
                                 <option value="1">One</option>
                                 <option value="2">Two</option>
                                 <option value="3">Three</option>
@@ -102,7 +78,7 @@
                         <div class="mb-4">Total Customer</div>
                         <div class="d-flex">
                             <img src="image/tickpurple.svg" class="">
-                            <h5 class="ms-2 mt-2">123.5K</h5>
+                            <h5 class="ms-2 mt-2" id="valTotCust">--</h5>
                         </div>
                     </div>
                     <div class="dropdown ms-2">
@@ -123,7 +99,7 @@
                         <div class="mb-4">Big Potential</div>
                         <div class="d-flex">
                             <img src="image/tickblue.svg" class="">
-                            <h5 class="ms-2 mt-2">123.5K</h5>
+                            <h5 class="ms-2 mt-2" id="valBigPotential">--</h5>
                         </div>
                     </div>
                     <div class="dropdown ms-2">
@@ -144,7 +120,7 @@
                         <div class="mb-4">JOH Potential</div>
                         <div class="d-flex">
                             <img src="image/tickyellow.svg" class="">
-                            <h5 class="ms-2 mt-2">123.5K</h5>
+                            <h5 class="ms-2 mt-2" id="valJOHPotential">--</h5>
                         </div>
                     </div>
                     <div class="dropdown ms-2">
@@ -165,7 +141,7 @@
                         <div class="mb-4">Tender Potential</div>
                         <div class="d-flex">
                             <img src="image/tickgreen.svg" class="">
-                            <h5 class="ms-2 mt-2">123.5K</h5>
+                            <h5 class="ms-2 mt-2" id="valTenderPotential">--</h5>
                         </div>
                     </div>
                     <div class="dropdown ms-2">
@@ -186,7 +162,7 @@
                         <div class="mb-4">Potential Visited</div>
                         <div class="d-flex">
                             <img src="image/ticklightblue.svg" class="">
-                            <h5 class="ms-2 mt-2">123.5K</h5>
+                            <h5 class="ms-2 mt-2" id="valPotVisited">--</h5>
                         </div>
                     </div>
                     <div class="dropdown ms-2">
@@ -207,7 +183,7 @@
                         <div class="mb-4">Potential Not Visited</div>
                         <div class="d-flex">
                             <img src="image/tickaqua.svg" class="">
-                            <h5 class="ms-2 mt-2">123.5K</h5>
+                            <h5 class="ms-2 mt-2" id="valNotVisited">--</h5>
                         </div>
                     </div>
                     <div class="dropdown ms-2">
@@ -228,7 +204,7 @@
                         <div class="mb-4">Potential Never Visited</div>
                         <div class="d-flex">
                             <img src="image/tickred.svg" class="">
-                            <h5 class="ms-2 mt-2">123.5K</h5>
+                            <h5 class="ms-2 mt-2" id="valNeverVisited">--</h5>
                         </div>
                     </div>
                     <div class="dropdown ms-1">
@@ -246,11 +222,11 @@
         </div>
         <div class="row">
             <div class="col-6">
-                <div class="card" style="height: 690px;">
+                <div class="card" style="height: 705px;">
                     <div class="card-body">
                         Customer Behavior
                         <div class="mt-3 table">
-                            <table class="table project-table">
+                            <table class="table project-table table-customerbehaviour">
                                 <thead>
                                     <tr>
                                         <th>Customer Name</th>
@@ -258,141 +234,11 @@
                                         <th>Won</th>
                                         <th>Lost</th>
                                         <th>%</th>
-                                        <th>Overall</th>
+                                        <th>Pipeline</th>
                                         <th>Primary Competitors</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>ABC</td>
-                                        <td>XYZ</td>
-                                        <td>
-                                            <div class="won">123.56K</div>
-                                        </td>
-                                        <td>
-                                            <div class="loss">123.56K</div>
-                                        </td>
-                                        <td></td>
-                                        <td>1234.5K</td>
-                                        <td>RST</td>
-                                    </tr>
-                                    <tr>
-                                        <td>ABC</td>
-                                        <td>XYZ</td>
-                                        <td>
-                                            <div class="won">123.56K</div>
-                                        </td>
-                                        <td>
-                                            <div class="loss">123.56K</div>
-                                        </td>
-                                        <td></td>
-                                        <td>1234.5K</td>
-                                        <td>RST</td>
-                                    </tr>
-                                    <tr>
-                                        <td>ABC</td>
-                                        <td>XYZ</td>
-                                        <td>
-                                            <div class="won">123.56K</div>
-                                        </td>
-                                        <td>
-                                            <div class="loss">123.56K</div>
-                                        </td>
-                                        <td></td>
-                                        <td>1234.5K</td>
-                                        <td>RST</td>
-                                    </tr>
-                                    <tr>
-                                        <td>ABC</td>
-                                        <td>XYZ</td>
-                                        <td>
-                                            <div class="won">123.56K</div>
-                                        </td>
-                                        <td>
-                                            <div class="loss">123.56K</div>
-                                        </td>
-                                        <td></td>
-                                        <td>1234.5K</td>
-                                        <td>RST</td>
-                                    </tr>
-                                    <tr>
-                                        <td>ABC</td>
-                                        <td>XYZ</td>
-                                        <td>
-                                            <div class="won">123.56K</div>
-                                        </td>
-                                        <td>
-                                            <div class="loss">123.56K</div>
-                                        </td>
-                                        <td></td>
-                                        <td>1234.5K</td>
-                                        <td>RST</td>
-                                    </tr>
-                                    <tr>
-                                        <td>ABC</td>
-                                        <td>XYZ</td>
-                                        <td>
-                                            <div class="won">123.56K</div>
-                                        </td>
-                                        <td>
-                                            <div class="loss">123.56K</div>
-                                        </td>
-                                        <td></td>
-                                        <td>1234.5K</td>
-                                        <td>RST</td>
-                                    </tr>
-                                    <tr>
-                                        <td>ABC</td>
-                                        <td>XYZ</td>
-                                        <td>
-                                            <div class="won">123.56K</div>
-                                        </td>
-                                        <td>
-                                            <div class="loss">123.56K</div>
-                                        </td>
-                                        <td></td>
-                                        <td>1234.5K</td>
-                                        <td>RST</td>
-                                    </tr>
-                                    <tr>
-                                        <td>ABC</td>
-                                        <td>XYZ</td>
-                                        <td>
-                                            <div class="won">123.56K</div>
-                                        </td>
-                                        <td>
-                                            <div class="loss">123.56K</div>
-                                        </td>
-                                        <td></td>
-                                        <td>1234.5K</td>
-                                        <td>RST</td>
-                                    </tr>
-                                    <tr>
-                                        <td>ABC</td>
-                                        <td>XYZ</td>
-                                        <td>
-                                            <div class="won">123.56K</div>
-                                        </td>
-                                        <td>
-                                            <div class="loss">123.56K</div>
-                                        </td>
-                                        <td></td>
-                                        <td>1234.5K</td>
-                                        <td>RST</td>
-                                    </tr>
-                                    <tr>
-                                        <td>ABC</td>
-                                        <td>XYZ</td>
-                                        <td>
-                                            <div class="won">123.56K</div>
-                                        </td>
-                                        <td>
-                                            <div class="loss">123.56K</div>
-                                        </td>
-                                        <td></td>
-                                        <td>1234.5K</td>
-                                        <td>RST</td>
-                                    </tr>
+                                <tbody class="tbody-customerbehaviour">
                                 </tbody>
                             </table>
                         </div>
@@ -410,18 +256,25 @@
                         </div>
                     </div>
                     <div class="col-12">
-                        <div class="card" style="height: 305px;">
+                        <div class="card" style="height: 325px;">
                             <div class="card-body">
                                 Type Of Potential
                                 <div class="row">
-                                    <div class="col-4">
-                                        <div id="TypePotential3"></div>
+                                    <div class="col-4 text-muted">
+                                        <div id="chartBigPotential"></div>
+                                        <p style="margin-top: -40px; font-size: small; margin-left: 15px;">Big Potential</p>
                                     </div>
-                                    <div class="col-4">
-                                        <div id="TypePotential1"></div>
+                                    <div class="col-4 text-muted">
+                                        <div id="chartJOHPotential"></div>
+                                        <p style="margin-top: 96px; font-size: small; margin-left: 20px;">
+                                            JOH Potential
+                                        </p>
                                     </div>
-                                    <div class="col-4">
-                                        <div id="TypePotential2"></div>
+                                    <div class="col-4 text-muted">
+                                        <div id="chartTenderPotential"></div>
+                                        <p style="margin-top: 96px; font-size: small; margin-left: 20px;">
+                                            Tender Potential
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -432,80 +285,11 @@
             <div class="col-3">
                 <div class="row">
                     <div class="col-12">
-                        <div class="card" style="height: 690px;">
+                        <div class="card" style="height: 705px;">
                             <div class="card-body">
-                                Top Customer Based On Value
-                                <div class="topcustomers">
-                                    <div class="d-flex justify-content-between border-bottom p-3 m-2 align-items-center">
-                                        <div class="d-flex">
-                                            <div class="rounded-circle shadow-sm w-100 border p-4 me-3" style="border: 2px solid rgb(26 128 187 / 40%) !important;">AH</div>
-                                            <div>
-                                                <div class="">ABCEFG HIJK</div>
-                                                <div class="text-muted">XYZ</div>
-                                                <div class="d-flex text-muted" style="font-size: 10px">
-                                                    <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">11</span>
-                                                    <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">765.4K</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="text-danger fs-4">45%</div>
-                                    </div>
-                                    <div class="d-flex justify-content-between border-bottom p-3 m-2 align-items-center">
-                                        <div class="d-flex">
-                                            <div class="rounded-circle shadow-sm w-100 border p-4 me-3" style="border: 2px solid rgb(26 128 187 / 40%) !important;">AH</div>
-                                            <div>
-                                                <div class="">ABCEFG HIJK</div>
-                                                <div class="text-muted">XYZ</div>
-                                                <div class="d-flex text-muted" style="font-size: 10px">
-                                                    <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">11</span>
-                                                    <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">765.4K</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="text-danger fs-4">45%</div>
-                                    </div>
-                                    <div class="d-flex justify-content-between border-bottom p-3 m-2 align-items-center">
-                                        <div class="d-flex">
-                                            <div class="rounded-circle shadow-sm w-100 border p-4 me-3" style="border: 2px solid rgb(26 128 187 / 40%) !important;">AH</div>
-                                            <div>
-                                                <div class="">ABCEFG HIJK</div>
-                                                <div class="text-muted">XYZ</div>
-                                                <div class="d-flex text-muted" style="font-size: 10px">
-                                                    <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">11</span>
-                                                    <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">765.4K</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="text-danger fs-4">45%</div>
-                                    </div>
-                                    <div class="d-flex justify-content-between border-bottom p-3 m-2 align-items-center">
-                                        <div class="d-flex">
-                                            <div class="rounded-circle shadow-sm w-100 border p-4 me-3" style="border: 2px solid rgb(26 128 187 / 40%) !important;">AH</div>
-                                            <div>
-                                                <div class="">ABCEFG HIJK</div>
-                                                <div class="text-muted">XYZ</div>
-                                                <div class="d-flex text-muted" style="font-size: 10px">
-                                                    <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">11</span>
-                                                    <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">765.4K</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="text-danger fs-4">45%</div>
-                                    </div>
-                                    <div class="d-flex justify-content-between border-bottom p-3 m-2 align-items-center">
-                                        <div class="d-flex">
-                                            <div class="rounded-circle shadow-sm w-100 border p-4 me-3" style="border: 2px solid rgb(26 128 187 / 40%) !important;">AH</div>
-                                            <div>
-                                                <div class="">ABCEFG HIJK</div>
-                                                <div class="text-muted">XYZ</div>
-                                                <div class="d-flex text-muted" style="font-size: 10px">
-                                                    <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">11</span>
-                                                    <span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">765.4K</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="text-danger fs-4">45%</div>
-                                    </div>
+                                Top Customer Based On JOH
+                                <div class="topcustomers" style="height: 640px;overflow-y: scroll;">
+                                   
                                 </div>
                             </div>
                         </div>
@@ -534,29 +318,13 @@
 
     <script src="script/CustomerDashboard.js"></script>
     <link rel="stylesheet" href="css/FinalisedDashboard.css" />
-
     <script src="bootstrap-5.2.3/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" integrity="sha512-GWzVrcGlo0TxTRvz9ttioyYJ+Wwk9Ck0G81D+eO63BaqHaJ3YZX9wuqjwgfcV/MrB2PhaVX9DkYVhbFpStnqpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
 
     <link href="../Template/assets/vendor/libs/toaster/toaster.css" rel="stylesheet" />
     <script src="../Template/assets/vendor/libs/toaster/toaster.js"></script>
 
-    <script src="../Calendar/plugins/jquery-ui/jquery-ui.min.js"></script>
-    <script src="../Calendar/dist/js/adminlte.min.js"></script>
-    <script src="../Calendar/plugins/moment/moment.min.js"></script>
-
-
-    <link rel="stylesheet" href="../Calendar/plugins/fullcalendar/main.css">
-    <script src="../Calendar/plugins/fullcalendar/main.js"></script>
-
     <script src="../KPI/Flatpickr/js/flatpickr.js"></script>
     <link href="../KPI/Flatpickr/css/_flatpickr.css" rel="stylesheet" />
-
-
-
-    <link href="../Calendar/dist/select2.css" rel="stylesheet" />
-    <script src="../Calendar/dist/select2.js"></script>
 
     <!-- Datatable plugin CSS file -->
     <link href="../FacilityManagement/Datatable/css/jquery.dataTables.min.css" rel="stylesheet" />
@@ -570,8 +338,8 @@
     <script src="../FacilityManagement/Datatable/js/buttons.html5.min.js"></script>
     <script src="../FacilityManagement/Datatable/js/buttons.print.min.js"></script>
 
-    <script src="https://phpcoder.tech/multiselect/js/jquery.multiselect.js"></script>
-    <link rel="stylesheet" href="https://phpcoder.tech/multiselect/css/jquery.multiselect.css">
+    <script src="../CRMAdmin/Assets/Js/multiple-select.js"></script>
+    <link href="../SiteSurvey/Assets/Css/multiple-select.css" rel="stylesheet" />
 </asp:Content>
 
 

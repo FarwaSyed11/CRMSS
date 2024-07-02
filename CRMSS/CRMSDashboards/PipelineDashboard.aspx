@@ -26,10 +26,12 @@
             border: 1px solid #e0e0e0;
             padding: 25px 12px;
         }
+
             .ovs img {
                 margin-bottom: 10px;
                 width: 20px;
             }
+
             .ovs span {
                 color: black;
                 margin-top: 10px;
@@ -74,14 +76,38 @@
             </div>
         </div>
         <div class="row" style="">
+
             <div class="width-20">
                 <div class="card p-3 d-flex flex-row justify-content-between">
 
-
+                    <div class="mt-2 ms-3">
+                        <div class="mb-3 text-muted" style="font-size: small;">JOH</div>
+                        <div class="d-flex flex-row">
+                            <img src="image/projinfo.svg" class="mx-3" />
+                            <div class="">
+                                <h2 id="ValTotJOH">--</h2>
+                            </div>
+                            <div id="CountTotJOH"></div>
+                        </div>
+                    </div>
+                    <div class="dropdown ms-3">
+                        <button class="dropbtn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 0 24 24">
+                                <path fill="none" stroke="#6b6b6b" stroke-linejoin="round" stroke-width="3.75" d="M12 12h.01v.01H12zm0-7h.01v.01H12zm0 14h.01v.01H12z" />
+                            </svg>
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="#">More Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="width-20">
+                <div class="card p-3 d-flex flex-row justify-content-between">
                     <div class="mt-2 ms-3">
                         <div class="mb-3 text-muted" style="font-size: small;">Projects Info</div>
                         <div class="d-flex flex-row">
-                                <img src="image/noofproj.svg" class="mt-2 mx-3" />
+                            <img src="image/noofproj.svg" class="mt-2 mx-3" />
                             <div class="">
                                 <h2 id="ValTotProj">--</h2>
                             </div>
@@ -104,34 +130,9 @@
                 <div class="card p-3 d-flex flex-row justify-content-between">
 
                     <div class="mt-2 ms-3">
-                        <div class="mb-3 text-muted" style="font-size: small;">JOH</div>
-                        <div class="d-flex flex-row">
-                                <img src="image/projinfo.svg" class="mx-3" />
-                            <div class="">
-                                <h2 id="ValTotJOH">--</h2>
-                            </div>
-                            <div id="CountTotJOH"></div>
-                        </div>
-                    </div>
-                    <div class="dropdown ms-3">
-                        <button class="dropbtn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="1rem" height="1rem" viewBox="0 0 24 24">
-                                <path fill="none" stroke="#6b6b6b" stroke-linejoin="round" stroke-width="3.75" d="M12 12h.01v.01H12zm0-7h.01v.01H12zm0 14h.01v.01H12z" />
-                            </svg>
-                        </button>
-                        <div class="dropdown-content">
-                            <a href="#">More Details</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="width-20">
-                <div class="card p-3 d-flex flex-row justify-content-between">
-
-                    <div class="mt-2 ms-3">
                         <div class="mb-3 text-muted" style="font-size: small;">BOQ</div>
                         <div class="d-flex flex-row">
-                                <img src="image/boq.svg" class="mt-2 mx-3" />
+                            <img src="image/boq.svg" class="mt-2 mx-3" />
                             <div class="">
                                 <h2 id="ValTotBOQ">--</h2>
                             </div>
@@ -161,7 +162,7 @@
                             <img src="image/quotsupply.svg" class="mt-2 mx-3" />
                             <div class="">
                                 <h2 id="ValTotTender">--</h2>
-                                
+
                             </div>
                             <div id="CountTotTender"></div>
                             <%--<div id="QuotSupply"></div>--%>
@@ -188,7 +189,7 @@
                             <img src="image/quotsupplyinst.svg" class="mt-2 mx-3" />
                             <div class="">
                                 <h2 id="ValTotOnHold">--</h2>
-                                
+
                             </div>
                             <div id="CountTotOnHold"></div>
                             <%--<div id="QuotSupplynInstall"></div>--%>
@@ -211,7 +212,7 @@
             <div class="col-3">
                 <div class="card" style="height: 625px;">
                     <div class="card-body">
-                        Overview
+                        Opportunity Overview 
                         <div class="d-flex flex-wrap">
                             <div class="ovs text-muted b-lightblue">
                                 <img src="image/secured.png" />
@@ -254,38 +255,38 @@
                         <div class="card" style="height: 625px;">
                             <div class="card-body">
                                 Product-wise Overview
-                               <div class="topcustomers" style="overflow-x: hidden;height: 560px;">
+                               <div class="topcustomers" style="overflow-x: hidden; height: 560px;">
                                    <div class="d-flex justify-content-between border-bottom p-3 m-2 align-items-center">
                                        <div class="d-flex">
                                            <div>
                                                <div class="">ABCEFG HIJK</div>
                                                <div class="d-flex text-muted mb-2" style="font-size: 14px">
 
-                                                   <span class="px-3 py-2 mx-1 rounded-pill shadow-sm border text-center">
-                                                      <img src="image/secured.png" style="width: 16px;"/>
-                                                      <div>11<b>|</b>123K</div> 
+                                                   <span class="px-3 py-2 mx-1 rounded shadow-sm border text-center">
+                                                       <img src="image/secured.png" style="width: 16px;" />
+                                                       <div>11<b>|</b>123K</div>
+                                                   </span>
+                                                   <span class="px-3 py-2 mx-1 rounded shadow-sm border text-center">
+                                                       <img src="image/underrisk.png" style="width: 16px;" />
+                                                       <div>11<b>|</b>123K</div>
                                                    </span>
                                                    <span class="px-3 py-2 mx-1 rounded-pill shadow-sm border text-center">
-                                                       <img src="image/underrisk.png" style="width: 16px;"/>
-                                                      <div>11<b>|</b>123K</div> 
-                                                   </span>
-                                                   <span class="px-3 py-2 mx-1 rounded-pill shadow-sm border text-center">
-                                                       <img src="image/ontrack.png" style="width: 16px;"/>
-                                                       <div>11<b>|</b>123K</div> 
+                                                       <img src="image/ontrack.png" style="width: 16px;" />
+                                                       <div>11<b>|</b>123K</div>
                                                    </span>
                                                </div>
                                                <div class="d-flex text-muted" style="font-size: 14px">
                                                    <span class="px-3 py-2 mx-1 rounded-pill shadow-sm border text-center">
-                                                       <img src="image/earlytojuj.png" style="width: 16px;"/>
-                                                       <div>11<b>|</b>123K</div> 
+                                                       <img src="image/earlytojuj.png" style="width: 16px;" />
+                                                       <div>11<b>|</b>123K</div>
                                                    </span>
                                                    <span class="px-3 py-2 mx-1 rounded-pill shadow-sm border text-center">
-                                                       <img src="image/lost.png" style="width: 16px;"/>
-                                                       <div>11<b>|</b>123K</div> 
+                                                       <img src="image/lost.png" style="width: 16px;" />
+                                                       <div>11<b>|</b>123K</div>
                                                    </span>
                                                    <span class="px-3 py-2 mx-1 rounded-pill shadow-sm border text-center">
-                                                       <img src="image/other.png" style="width: 16px;"/>
-                                                       <div>11<b>|</b>123K</div> 
+                                                       <img src="image/other.png" style="width: 16px;" />
+                                                       <div>11<b>|</b>123K</div>
                                                    </span>
                                                </div>
                                            </div>
@@ -313,7 +314,7 @@
                     <div class="col-12">
                         <div class="card" style="height: 275px;">
                             <div class="card-body">
-                                Aging
+                                Aging by JOH 
                                  <div class="mt-2" style="position: relative;">
                                      <div style="">
                                          <div style="width: 20%; height: 180px; background: rgb(70 181 141 / 30%);"></div>
@@ -323,16 +324,16 @@
                                          <div style="width: 20%; height: 180px; left: 80%; top: 0px; position: absolute; background: #CFE8FF;"></div>
                                      </div>
                                      <div style="left: 26px; bottom: 99px; position: relative;">
-                                         <div style="width: 30px; left: 1%; top: 100px; position: absolute; color: rgba(0, 0, 0, 0.50); font-size: 16px; font-weight: 300; word-wrap: break-word">1-5</div>
-                                         <div style="left: 19%; top: 100px; position: absolute; color: rgba(0, 0, 0, 0.50); font-size: 16px; font-weight: 300; word-wrap: break-word">6-10</div>
-                                         <div style="width: 34px; left: 39%; top: 100px; position: absolute; color: rgba(0, 0, 0, 0.50); font-size: 16px; font-weight: 300; word-wrap: break-word">11-15</div>
-                                         <div style="width: 62px; left: 58%; top: 100px; position: absolute; color: rgba(0, 0, 0, 0.50); font-size: 16px; font-weight: 300; word-wrap: break-word">16-20</div>
-                                         <div style="width: 63px; left: 78%; top: 100px; position: absolute; color: rgba(0, 0, 0, 0.50); font-size: 16px; font-weight: 300; word-wrap: break-word">21-25</div>
-                                         <div id="divoneTofive" style="width: 31px; l; left: 1%; op: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">10</div>
-                                         <div id="divdixToten" style="width: 32px; left: 21%; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">15</div>
-                                         <div id="divlevenToFifteen" style="width: 33px; left: 40%; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">20</div>
-                                         <div id="divsixteenToTwenty" style="width: 34px; left: 61%; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">25</div>
-                                         <div id="divtwentyToTwefive" style="width: 35px; left: 80%; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">30</div>
+                                         <div style="width: 80px;text-align: center;left: -4%;top: 100px;position: absolute;color: rgb(0 0 0);font-size: 11px;font-weight: 500;word-wrap: break-word">less than a month</div>
+                                         <div style="left: 15%;top: 100px;text-align: center;width: 80px;position: absolute;color: rgb(0 0 0);font-size: 11px;font-weight: 500;word-wrap: break-word">less than 3 months</div>
+                                         <div style="width: 80px;left: 35%;top: 100px;position: absolute;color: rgb(0 0 0);font-size: 11px;font-weight: 500;text-align: center;word-wrap: break-word">less than 6 months</div>
+                                         <div style="width: 78px;left: 55%;text-align: center;top: 100px;position: absolute;color: rgb(0 0 0);font-size: 11px;font-weight: 500;word-wrap: break-word">less than a year</div>
+                                         <div style="width: 65px;left: 76%;text-align: center;top: 100px;position: absolute;color: rgb(0 0 0);font-size: 11px;font-weight: 500;word-wrap: break-word">greater than a year</div>
+                                         <div id="divoneTofive" style="width: 31px; l; left: 1%; op: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">-</div>
+                                         <div id="divdixToten" style="width: 32px; left: 21%; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">-</div>
+                                         <div id="divlevenToFifteen" style="width: 33px; left: 40%; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">-</div>
+                                         <div id="divsixteenToTwenty" style="width: 34px; left: 61%; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">-</div>
+                                         <div id="divtwentyToTwefive" style="width: 35px; left: 80%; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">-</div>
                                      </div>
                                  </div>
                             </div>
@@ -361,6 +362,8 @@
 
                             </div>
                             <div class="tab-pane fade" id="pills-tender" role="tabpanel" aria-labelledby="pills-tender-tab">
+                                <div id="top50tenders" style="overflow-y: scroll; height: 540px;">
+                                </div>
                             </div>
                         </div>
 

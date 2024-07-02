@@ -13,7 +13,6 @@ $(document).ready(function () {
 });
 
 function LoadYearddl() {
-
     var htm = '';
     for (var i = 0; i < 3; i++) {
         let year = new Date().getFullYear() - i;
@@ -21,6 +20,7 @@ function LoadYearddl() {
     }
     $("#yearFilter").html(htm);
 }
+
 function initiateSubstageGraph() {
     var options = {
         series: [{

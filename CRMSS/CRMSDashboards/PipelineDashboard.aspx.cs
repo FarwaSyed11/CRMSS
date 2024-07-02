@@ -353,7 +353,7 @@ public partial class CRMSDashboards_PipelineDashboard : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static List<ListTop50> loadTop50Jobs(string ManagerID, string SalesmanID, string Company)
+    public static ListTop50JOHandTender loadTop50Jobs(string ManagerID, string SalesmanID, string Company)
     {
         DBHandler DBH = new DBHandler();
         DataSet ds = new DataSet();
@@ -373,12 +373,10 @@ public partial class CRMSDashboards_PipelineDashboard : System.Web.UI.Page
         pa.Add("@SalesmanID");
         pv.Add(Convert.ToInt64(SalesmanID));
 
-        //pa.Add("@Year");
-        //pv.Add(Year);
-
         DBH.CreateDatasetCRMEBSDATA(ds, "SP_CRMPipelineDashboard", true, pa, pv);
 
         List<ListTop50> oListTop50JOH = new List<ListTop50>();
+        List<ListTop50> oListTop50Tender = new List<ListTop50>();
 
         if (ds.Tables.Count > 0)
         {
@@ -395,11 +393,29 @@ public partial class CRMSDashboards_PipelineDashboard : System.Web.UI.Page
 
                 });
             }
+            for (int i = 0; i < ds.Tables[1].Rows.Count; i++)
+            {
+                oListTop50Tender.Add(new ListTop50()
+                {
+                    Value = ds.Tables[1].Rows[i]["Value"].ToString(),
+                    ProjectName = ds.Tables[1].Rows[i]["ProjectName"].ToString(),
+                    SalesmanName = ds.Tables[1].Rows[i]["Salesman"].ToString(),
+                });
+            }
         }
+        return new ListTop50JOHandTender
+        {
+            listTop50JOH = oListTop50JOH,
+            ListTop50Tender = oListTop50Tender
+        };
 
-        return oListTop50JOH;
     }
 
+    public class ListTop50JOHandTender
+    {
+        public List<ListTop50> listTop50JOH { get; set; }
+        public List<ListTop50> ListTop50Tender { get; set; }
+    }
     public class ListTop50
     {
         public string SalesmanName { get; set; }
@@ -407,6 +423,7 @@ public partial class CRMSDashboards_PipelineDashboard : System.Web.UI.Page
         public string Value { get; set; }
 
     }
+
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
@@ -519,11 +536,11 @@ public partial class CRMSDashboards_PipelineDashboard : System.Web.UI.Page
             {
                 oListAgingValues.Add(new aginglist()
                 {
-                    Five = dt.Rows[i]["1TO5"].ToString(),
-                    Ten = dt.Rows[i]["6TO10"].ToString(),
-                    Fifteen = dt.Rows[i]["11TO15"].ToString(),
-                    Twenty = dt.Rows[i]["16TO20"].ToString(),
-                    MorethanTwentyfive = dt.Rows[i]["MoreThan25"].ToString(),
+                    lessthan1 = dt.Rows[i]["1"].ToString(),
+                    lessthan3 = dt.Rows[i]["2"].ToString(),
+                    lessthan6 = dt.Rows[i]["3"].ToString(),
+                    lessthan12 = dt.Rows[i]["4"].ToString(),
+                    morethan12 = dt.Rows[i]["5"].ToString(),
 
                 });
             }
@@ -533,11 +550,11 @@ public partial class CRMSDashboards_PipelineDashboard : System.Web.UI.Page
     }
     public class aginglist
     {
-        public string Five { get; set; }
-        public string Ten { get; set; }
-        public string Fifteen { get; set; }
-        public string Twenty { get; set; }
-        public string Twentyfive { get; set; }
+        public string lessthan1 { get; set; }
+        public string lessthan3 { get; set; }
+        public string lessthan6 { get; set; }
+        public string lessthan12 { get; set; }
+        public string morethan12 { get; set; }
         public string MorethanTwentyfive { get; set; }
     }
 }

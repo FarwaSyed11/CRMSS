@@ -4,7 +4,7 @@ var listCompanyID = [];
 var listTopCards = [];
 var listOverview = [];
 var listProductgraph, listProduct, listProductValue = [];
-var listTop50Jobs = [];
+var listTop50Jobs = [], listTop50Tender = [];
 var ProductWiseChart = [];
 
 $(document).ready(function () {
@@ -253,11 +253,11 @@ function loadPipelineAging() {
         async: false,
         success: function (result) {
             $.each(result, function (key, item) {
-                $("#divoneTofive").html(result.d[0].Five);
-                $("#divdixToten").html(result.d[0].Ten);
-                $("#divlevenToFifteen").html(result.d[0].Fifteen);
-                $("#divsixteenToTwenty").html(result.d[0].Twenty);
-                $("#divtwentyToTwefive").html(result.d[0].Twentyfive);
+                $("#divoneTofive").html(result.d[0].lessthan1);
+                $("#divdixToten").html(result.d[0].lessthan3);
+                $("#divlevenToFifteen").html(result.d[0].lessthan6);
+                $("#divsixteenToTwenty").html(result.d[0].lessthan12);
+                $("#divtwentyToTwefive").html(result.d[0].morethan12);
             });
         },
         error: function (errormessage) {
@@ -280,7 +280,7 @@ function loadProductWise() {
             listProductgraph = result.d;
 
             $.each(listProductgraph, function (key, item) {
-                htm += '<div class="d-flex justify-content-between border-bottom p-3 m-2 align-items-center"><div class="d-flex"><div><div class="" style="font-weight: 500;text-transform: capitalize;">' + item.ProdType + '</div><div class="d-flex text-muted mb-2" style="font-size: 14px"><span class="px-3 py-2 mx-1 rounded-pill shadow-sm border text-center"><img src="image/secured.png" style="width: 16px;"/><div>' + item.CountSecured + '<b class="mx-1">|</b>' + nFormatter(parseInt(item.Secured)) + '</div></span><span class="px-3 py-2 mx-1 rounded-pill shadow-sm border text-center"><img src="image/underrisk.png" style="width: 16px;"/><div>' + item.CountUnderrisk + '<b class="mx-1">|</b>' + nFormatter(parseInt(item.Underrisk)) + '</div></span><span class="px-3 py-2 mx-1 rounded-pill shadow-sm border text-center"><img src="image/ontrack.png" style="width: 16px;"/><div>' + item.CountOntrack + '<b class="mx-1">|</b>' + nFormatter(parseInt(item.Ontrack)) + '</div></span></div><div class="d-flex text-muted" style="font-size: 14px"><span class="px-3 py-2 mx-1 rounded-pill shadow-sm border text-center"><img src="image/earlytojuj.png" style="width: 16px;"/><div>' + item.CountEarlytoJuj + '<b class="mx-1">|</b>1' + nFormatter(parseInt(item.EarlytoJuj)) + '</div> </span><span class="px-3 py-2 mx-1 rounded-pill shadow-sm border text-center"><img src="image/lost.png" style="width: 16px;"/><div>' + item.CountLost + '<b class="mx-1">|</b>' + nFormatter(parseInt(item.Lost)) + '</div> </span><span class="px-3 py-2 mx-1 rounded-pill shadow-sm border text-center"><img src="image/other.png" style="width: 16px;"/><div>' + item.CountOther + '<b class="mx-1">|</b>' + nFormatter(parseInt(item.Other)) + '</div> </span></div></div></div><div class="text-danger fs-4">' + nFormatter(parseInt(item.Value)) + '</div></div>'
+                htm += '<div class="d-flex justify-content-between border-bottom p-3 m-2 align-items-center"><div class="d-flex"><div><div class="" style="font-weight: 500;text-transform: capitalize;">' + item.ProdType + '</div><div class="d-flex text-muted mb-2" style="font-size: 14px"><span class="p-2 mx-1 rounded shadow-sm border text-center"><img src="image/secured.png" style="width: 16px;"/><div>' + item.CountSecured + '<b class="mx-1">|</b>' + nFormatter(parseInt(item.Secured)) + '</div></span><span class="p-2 mx-1 rounded shadow-sm border text-center"><img src="image/underrisk.png" style="width: 16px;"/><div>' + item.CountUnderrisk + '<b class="mx-1">|</b>' + nFormatter(parseInt(item.Underrisk)) + '</div></span><span class="p-2 mx-1 rounded shadow-sm border text-center"><img src="image/ontrack.png" style="width: 16px;"/><div>' + item.CountOntrack + '<b class="mx-1">|</b>' + nFormatter(parseInt(item.Ontrack)) + '</div></span></div><div class="d-flex text-muted" style="font-size: 14px"><span class="p-2 mx-1 rounded shadow-sm border text-center"><img src="image/earlytojuj.png" style="width: 16px;"/><div>' + item.CountEarlytoJuj + '<b class="mx-1">|</b>1' + nFormatter(parseInt(item.EarlytoJuj)) + '</div> </span><span class="p-2 mx-1 rounded shadow-sm border text-center"><img src="image/lost.png" style="width: 16px;"/><div>' + item.CountLost + '<b class="mx-1">|</b>' + nFormatter(parseInt(item.Lost)) + '</div> </span><span class="p-2 mx-1 rounded shadow-sm border text-center"><img src="image/other.png" style="width: 16px;"/><div>' + item.CountOther + '<b class="mx-1">|</b>' + nFormatter(parseInt(item.Other)) + '</div> </span></div></div></div><div class="text-danger fs-4">' + nFormatter(parseInt(item.Value)) + '</div></div>'
             });
             $(".topcustomers").html(htm);
 
@@ -311,13 +311,19 @@ function loadTop50Jobs() {
         dataType: "json",
         async: false,
         success: function (result) {
-            listTop50Jobs = result.d;
-            var htm = ''
+            listTop50Jobs = result.d.listTop50JOH;
+            listTop50Tender = result.d.ListTop50Tender;
+            var htmjobs = '', htmtender = '';
             $.each(listTop50Jobs, function (key, item) {
-                htm += '<div class="forcard"><div class="forcard-head">' + item.SalesmanName + '</div><span class="forcard-label">' + nFormatter(parseInt(item.Value)) + '</span><div class="forcard-body">' + item.ProjectName + '</div></div>'
+                htmjobs += '<div class="forcard"><div class="forcard-head">' + item.SalesmanName + '</div><span class="forcard-label">' + nFormatter(parseInt(item.Value)) + '</span><div class="forcard-body">' + item.ProjectName + '</div></div>'
 
             });
-            $("#top50jobs").html(htm);
+            $.each(listTop50Tender, function (key, item) {
+                htmtender += '<div class="forcard"><div class="forcard-head">' + item.SalesmanName + '</div><span class="forcard-label">' + nFormatter(parseInt(item.Value)) + '</span><div class="forcard-body">' + item.ProjectName + '</div></div>'
+
+            });
+            $("#top50jobs").html(htmjobs);
+            $("#top50tenders").html(htmtender);
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -624,8 +630,13 @@ function initiateProductGraph(listProduct, listProductValue) {
         },
         yaxis: {
             title: {
-                text: 'AED (thousands)'
-            }
+                text: 'AED'
+            },
+            labels: {
+                formatter: function (value) {
+                    return nFormatter(value) + " AED";
+                }
+            },
         },
         fill: {
             opacity: 0.8
@@ -633,7 +644,7 @@ function initiateProductGraph(listProduct, listProductValue) {
         tooltip: {
             y: {
                 formatter: function (val) {
-                    return "AED " + val + " "
+                    return "AED " + numberWithCommas(val) + " "
                 }
             }
         },
@@ -645,9 +656,8 @@ function initiateProductGraph(listProduct, listProductValue) {
     ProductWiseChart = new ApexCharts(document.querySelector("#ProductWise"), options);
     ProductWiseChart.render();
 }
-
-
-var pluginName = "multiSelect",
-    defaults = {
-        'noneText': '-- Select --',
-    };
+function numberWithCommas(number) {
+    var parts = number.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+}

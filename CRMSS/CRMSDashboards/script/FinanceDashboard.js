@@ -1,6 +1,7 @@
 ﻿var selTerritory, selCompany, selManager =  '';
 var lgGrowthSO, lgGrowthInv, lgGrowthCO = [];
-var listvalgrowthSO, listvalgrowthINV, listvalgrowthCO = [];
+var listvalgrowthSO = [], listvalgrowthINV = [], listvalgrowthCO = [];
+var listvalgrowthSOLY = [], listvalgrowthINVLY = [], listvalgrowthCOLY = [];
 
 var listCompanyID = '';
 var lgCompSO, lgCompInv, lgCompCO = [];
@@ -14,7 +15,8 @@ var listallPERCnTARG = [];
 
 var SOOverallVal, INVOverallVal, COOverallVal = 0;
 var SOPercVal, INVPercVal, COPercVal = [];
-
+var TotOVerall = 0;
+var invOV = 0, soOV = 0, coOV = 0;
 //var chart1SOperc = '';
 
 var chart1SOperc = [], chart2InvcPerc = [], chart3CollectPerc = [];
@@ -255,21 +257,27 @@ function LoadGrowthColInvSO() {
             lgGrowthCO = result.d.listCOGrowth;
 
             listvalgrowthSO = [];
+            listvalgrowthSOLY = [];
             $.each(lgGrowthSO, function (key, item) {
                 listvalgrowthSO.push(parseInt(item.Value));
+                listvalgrowthSOLY.push(parseInt(item.ValueLY));
             });
             
             listvalgrowthINV = [];
+            listvalgrowthINVLY = [];
             $.each(lgGrowthInv, function (key, item) {
                 listvalgrowthINV.push(parseInt(item.Value))
+                listvalgrowthINVLY.push(parseInt(item.ValueLY))
             });
            
             listvalgrowthCO = [];
+            listvalgrowthCOLY = [];
             $.each(lgGrowthCO, function (key, item) {
                 listvalgrowthCO.push(parseInt(item.Value))
+                listvalgrowthCOLY.push(parseInt(item.ValueLY))
             });
             
-            initiateSalesGrowthGraphs(listvalgrowthSO, listvalgrowthINV, listvalgrowthCO)
+            initiateSalesGrowthGraphs(listvalgrowthSO, listvalgrowthSOLY, listvalgrowthINV, listvalgrowthINVLY, listvalgrowthCO, listvalgrowthCOLY);
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -392,30 +400,39 @@ function loadTargetPercAch() {
         dataType: "json",
         //async: false,
         success: function (result) {
-
+            var htm = '';
             listallPERCnTARG = result.d.allPercentageTarget;
             SOPercVal, INVPercVal, COPercVal = [];
+            TotOVerall = 0;
+            invOV = 0, soOV = 0, coOV = 0;
+
             $.each(listallPERCnTARG, function (key, item) {
                 if (item.Name == "SO") {
                     SOPercVal = parseInt(item.Percentage);
                     $("#valSOAchievement").html(nFormatter(parseInt(item.Achiement)));
                     $("#valSOTarget").html(nFormatter(parseInt(item.Target)));
-                    $("#valOverallSO").html(nFormatter(parseInt(item.Overall)));
+                    soOV = parseInt(item.Overall);
                 }
                 if (item.Name == "INV") {
                     INVPercVal = parseInt(item.Percentage);
                     $("#valINVAchievement").html(nFormatter(parseInt(item.Achiement)));
                     $("#valINVTarget").html(nFormatter(parseInt(item.Target)));
-                    $("#valOverallINV").html(item.Overall);
+                    invOV = parseInt(item.Overall)
                 }
                 if (item.Name == "COL") {
                     COPercVal = parseInt(item.Percentage);
                     $("#valCOAchievement").html(nFormatter(parseInt(item.Achiement)));
                     $("#valCOTarget").html(nFormatter(parseInt(item.Target)));
-                    $("#valOverallCollection").html(item.Overall);
+                    coOV = parseInt(item.Overall);
                 }
             });
-            initiateAllOverallPie(SOPercVal, INVPercVal, COOverallVal);
+            
+            TotOVerall = soOV + invOV + coOV;
+            htm += '<img src="image/perfindicator.svg" style="margin-top:10px;float:right"><span style="position:absolute;margin-top: 56px;left:' + (TotOVerall-13) + '%">' + TotOVerall +'%</span></img>'
+            $("#MeterPerf").css("max-width", TotOVerall+"%");
+            $("#MeterPerf").html(htm);
+
+            initiateAllOverallPie(SOPercVal, INVPercVal, COPercVal);
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -444,17 +461,23 @@ function loadFinanceAging() {
 
     $.ajax({
         url: "FinanceDashboard.aspx/loadFinanceAging",
+        data: JSON.stringify({ "Company": selCompany, "ManagerID": selManager, "SalesmanID": selSalesman}),
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         async: false,
         success: function (result) {
             $.each(result, function (key, item) {
-                $("#divoneTofive").html(result.d[0].Five);
-                $("#divdixToten").html(result.d[0].Ten);
-                $("#divlevenToFifteen").html(result.d[0].Fifteen);
-                $("#divsixteenToTwenty").html(result.d[0].Twenty);
-                $("#divtwentyToTwefive").html(result.d[0].Twentyfive);
+                $("#divoneTofive").html(result.d[0].one);
+                $("#divdixToten").html(result.d[0].three);
+                $("#divlevenToFifteen").html(result.d[0].six);
+                $("#divsixteenToTwenty").html(result.d[0].twelve);
+                $("#divtwentyToTwefive").html(result.d[0].morethantwelve);
+                $("#divoneTofiveval").html(nFormatter(result.d[0].Valone));
+                $("#divdixTotenval").html(nFormatter(result.d[0].Valthree));
+                $("#divlevenToFifteenval").html(nFormatter(result.d[0].Valsix));
+                $("#divsixteenToTwentyval").html(nFormatter(result.d[0].Valtwelve));
+                $("#divtwentyToTwefiveval").html(nFormatter(result.d[0].Valmorethantwelve));
             });
         },
         error: function (errormessage) {
@@ -464,7 +487,7 @@ function loadFinanceAging() {
 }
 
 
-function initiateAllOverallPie(SOPercVal, INVPercVal, COOverallVal) {
+function initiateAllOverallPie(SOPercVal, INVPercVal, COPercVal) {
     var options1 = {
         chart: {
             height: 200,
@@ -578,7 +601,7 @@ function initiateAllOverallPie(SOPercVal, INVPercVal, COOverallVal) {
             type: "radialBar",
         },
 
-        series: [COOverallVal],
+        series: [COPercVal],
         colors: ["#FF81FF"],
         plotOptions: {
             radialBar: {
@@ -627,13 +650,19 @@ function initiateAllOverallPie(SOPercVal, INVPercVal, COOverallVal) {
 
 }
 
-function initiateSalesGrowthGraphs(listvalgrowthSO, listvalgrowthINV, listvalgrowthCO) {
+function initiateSalesGrowthGraphs(listvalgrowthSO, listvalgrowthSOLY, listvalgrowthINV, listvalgrowthINVLY, listvalgrowthCO, listvalgrowthCOLY) {
 
     var options = {
         series: [{
-            name: "This Year",
+            name: 'This Year',
+            type: 'area',
             data: listvalgrowthSO,
+        }, {
+            name: 'Last Year',
+            type: 'line',
+            data: listvalgrowthSOLY,
         }],
+
         chart: {
             height: 360,
             type: 'line',
@@ -651,7 +680,7 @@ function initiateSalesGrowthGraphs(listvalgrowthSO, listvalgrowthINV, listvalgro
         },
         legend: {
             tooltipHoverFormatter: function (val, opts) {
-                return val + ' - <strong>' + opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] + '</strong>'
+                return numberWithCommas(val) + ' - <strong>' + numberWithCommas(opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex])+ '</strong>'
             }
         },
         markers: {
@@ -660,6 +689,13 @@ function initiateSalesGrowthGraphs(listvalgrowthSO, listvalgrowthINV, listvalgro
                 sizeOffset: 6
             },
 
+        },
+        yaxis: {
+            labels: {
+                formatter: function (value) {
+                    return nFormatter(value) + " AED";
+                }
+            },
         },
         xaxis: {
             categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -689,10 +725,16 @@ function initiateSalesGrowthGraphs(listvalgrowthSO, listvalgrowthINV, listvalgro
 
     var options1 = {
         series: [{
-            name: "This Year",
+            name: 'This Year',
+            type: 'area',
             data: listvalgrowthINV,
-            color: '#FF69B4'
-        },],
+            color: '#25FFD4'
+        }, {
+            name: 'Last Year',
+            type: 'line',
+            data: listvalgrowthINVLY,
+            color: '#FA8072'
+        }],
         chart: {
             height: 360,
             type: 'line',
@@ -707,14 +749,14 @@ function initiateSalesGrowthGraphs(listvalgrowthSO, listvalgrowthINV, listvalgro
             width: [2, 2],
             curve: 'smooth',
             dashArray: [0, 4],
-            colors: ['#FF69B4', '#FA8072']
+            colors: ['#25FFD4', '#FA8072']
         },
         legend: {
             tooltipHoverFormatter: function (val, opts) {
-                return val + ' - <strong>' + opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] + '</strong>'
+                return numberWithCommas(val) + ' - <strong>' + numberWithCommas(opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex]) + '</strong>'
             },
             markers: {
-                fillColors: ['#FF69B4', '#FA8072']
+                fillColors: ['#25FFD4', '#FA8072']
             },
         },
         markers: {
@@ -722,7 +764,14 @@ function initiateSalesGrowthGraphs(listvalgrowthSO, listvalgrowthINV, listvalgro
             hover: {
                 sizeOffset: 6
             },
-            colors: ['#FF69B4', '#FA8072']
+            colors: ['#25FFD4', '#FA8072']
+        },
+        yaxis: {
+            labels: {
+                formatter: function (value) {
+                    return nFormatter(value) + " AED";
+                }
+            },
         },
         xaxis: {
             categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -759,10 +808,16 @@ function initiateSalesGrowthGraphs(listvalgrowthSO, listvalgrowthINV, listvalgro
 
     var options2 = {
         series: [{
-            name: "This Year",
+            name: 'This Year',
+            type: 'area',
             data: listvalgrowthCO,
-            color: '#48D1CC'
-        },],
+            color: '#BC8F8F'
+        }, {
+            name: 'Last Year',
+            type: 'line',
+            data: listvalgrowthCOLY,
+            color: '#FA8072'
+        }],
         chart: {
             height: 360,
             type: 'line',
@@ -781,7 +836,7 @@ function initiateSalesGrowthGraphs(listvalgrowthSO, listvalgrowthINV, listvalgro
         },
         legend: {
             tooltipHoverFormatter: function (val, opts) {
-                return val + ' - <strong>' + opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] + '</strong>'
+                return numberWithCommas(val) + ' - <strong>' + numberWithCommas(opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex]) + '</strong>'
             },
             markers: {
                 fillColors: ['#48D1CC', '#BC8F8F'],
@@ -794,6 +849,13 @@ function initiateSalesGrowthGraphs(listvalgrowthSO, listvalgrowthINV, listvalgro
             },
             colors: ['#48D1CC', '#BC8F8F']
         },
+        yaxis: {
+            labels: {
+                formatter: function (value) {
+                    return nFormatter(value) + " AED";
+                }
+            },
+        },
         xaxis: {
             categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         },
@@ -802,21 +864,21 @@ function initiateSalesGrowthGraphs(listvalgrowthSO, listvalgrowthINV, listvalgro
                 {
                     title: {
                         formatter: function (val) {
-                            return val + " (Collections)"
+                            return (val) + " (Collections)"
                         }
                     }
                 },
                 {
                     title: {
                         formatter: function (val) {
-                            return val + " per session"
+                            return (val) + " "
                         }
                     }
                 },
                 {
                     title: {
                         formatter: function (val) {
-                            return val;
+                            return (val);
                         }
                     }
                 }
@@ -859,6 +921,13 @@ function initiateComparisionGraph(listvalCompSOTY, listvalCompSOLY, listvalCompI
                 gradientToColors: ['#E0FFFF']
             },
         },
+        yaxis: {
+            labels: {
+                formatter: function (value) {
+                    return nFormatter(value) + " AED";
+                }
+            },
+        },
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         markers: {
             size: 0
@@ -869,9 +938,9 @@ function initiateComparisionGraph(listvalCompSOTY, listvalCompSOLY, listvalCompI
             y: {
                 formatter: function (y) {
                     if (typeof y !== "undefined") {
-                        return y.toFixed(0) + " points";
+                        return numberWithCommas(y.toFixed(0)) + " ";
                     }
-                    return y;
+                    return numberWithCommas(y);
                 }
             }
         }
@@ -910,6 +979,13 @@ function initiateComparisionGraph(listvalCompSOTY, listvalCompSOLY, listvalCompI
                 gradientToColors: ['#00FF7F']
             },
         },
+        yaxis: {
+            labels: {
+                formatter: function (value) {
+                    return nFormatter(value) + " AED";
+                }
+            },
+        },
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         markers: {
             size: 0
@@ -920,9 +996,9 @@ function initiateComparisionGraph(listvalCompSOTY, listvalCompSOLY, listvalCompI
             y: {
                 formatter: function (y) {
                     if (typeof y !== "undefined") {
-                        return y.toFixed(0) + " points";
+                        return numberWithCommas(y.toFixed(0)) + " ";
                     }
-                    return y;
+                    return numberWithCommas(y);
                 }
             }
         }
@@ -936,7 +1012,7 @@ function initiateComparisionGraph(listvalCompSOTY, listvalCompSOLY, listvalCompI
             name: 'This Year',
             type: 'area',
             data: listvalCompCOTY,
-            color: '#E0FFFF'
+            color: '#556EF8'
         }, {
             name: 'Last Year',
             type: 'line',
@@ -961,6 +1037,13 @@ function initiateComparisionGraph(listvalCompSOTY, listvalCompSOLY, listvalCompI
                 gradientToColors: ['#E0FFFF']
             },
         },
+        yaxis: {
+            labels: {
+                formatter: function (value) {
+                    return nFormatter(value) + " AED";
+                }
+            },
+        },
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         markers: {
             size: 0
@@ -971,9 +1054,9 @@ function initiateComparisionGraph(listvalCompSOTY, listvalCompSOLY, listvalCompI
             y: {
                 formatter: function (y) {
                     if (typeof y !== "undefined") {
-                        return y.toFixed(0) + " points";
+                        return numberWithCommas(y.toFixed(0)) + " ";
                     }
-                    return y;
+                    return numberWithCommas(y);
                 }
             }
         }
@@ -983,7 +1066,11 @@ function initiateComparisionGraph(listvalCompSOTY, listvalCompSOLY, listvalCompI
     cpCollectionchart.render();
 
 }
-
+function numberWithCommas(number) {
+    var parts = number.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+}
 function initiateYTDPercRange(ytdSOpercVal, ytdINVpercVal, ytdCOpercVal) {
     var options1 = {
         chart: {
@@ -1123,7 +1210,7 @@ function initiateYTDPercRange(ytdSOpercVal, ytdINVpercVal, ytdCOpercVal) {
 
 $('#btngoFilter').on('click', function () {
     selTerritory = $('#territoryFilter option:selected').val();
-    selCompany = $('#companyFilter option:selected').val();
+    selCompany = getCompniesFromDDL();
     selManager = $('#managerFilter option:selected').val();
     selSalesman = $('#salesmanFilter option:selected').val();
 
@@ -1144,4 +1231,5 @@ $('#btngoFilter').on('click', function () {
     LoadComparisionColInvSO();
     loadYeartoDate();
     loadTargetPercAch();
+    loadFinanceAging();
 });

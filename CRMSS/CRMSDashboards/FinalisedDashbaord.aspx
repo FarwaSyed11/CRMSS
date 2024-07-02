@@ -114,7 +114,7 @@
                 <div class="card p-3 d-flex flex-row justify-content-between">
                     <img src="image/totfinaliseproj.svg" class="mb-4" />
                     <div class="mt-3 ms-3 me-4">
-                        <div class="mb-4">Total Value Of LOI Projects</div>
+                        <div class="mb-4">Total Value Of Finalised Projects</div>
                         <h3 id="valTotLOI">-- </h3>
                     </div>
                     <div class="dropdown ms-3">
@@ -229,7 +229,7 @@
                     <div class="col-12">
                         <div class="card" style="height: 915px;">
                             <div class="card-body">
-                                Letter Of Intent Project List  <span style="font-size: 10px">(LOI)</span>
+                                List of Finalised Projects
                                 <div class="mt-3 table">
                                     <table class="table project-table" id="ProjLOI-table">
                                         <thead>
@@ -254,7 +254,7 @@
                     <div class="col-12">
                         <div class="card" style="height: 345px;">
                             <div class="card-body">
-                                Aging
+                                Aging by Revenue
                                 <div class="mt-3" style="position: relative;">
                                     <div style="">
                                         <div style="width: 20%; height: 240px; background: #43D1B7;"></div>
@@ -264,16 +264,16 @@
                                         <div style="width: 20%; height: 240px; left: 80%; top: 0px; position: absolute; background: rgb(226 6 19 / 20%);"></div>
                                     </div>
                                     <div style="left: 30px; bottom: 93px; position: relative;">
-                                        <div style="width: 30px; left: 3%; top: 100px; position: absolute; color: rgba(0, 0, 0, 0.50); font-size: 16px; font-weight: 300; word-wrap: break-word">1-5</div>
-                                        <div style="left: 22%; top: 100px; position: absolute; color: rgba(0, 0, 0, 0.50); font-size: 16px; font-weight: 300; word-wrap: break-word">6-10</div>
-                                        <div style="width: 34px; left: 43%; top: 100px; position: absolute; color: rgba(0, 0, 0, 0.50); font-size: 16px; font-weight: 300; word-wrap: break-word">11-15</div>
-                                        <div style="width: 62px; left: 62%; top: 100px; position: absolute; color: rgba(0, 0, 0, 0.50); font-size: 16px; font-weight: 300; word-wrap: break-word">16-20</div>
-                                        <div style="width: 63px; left: 82%; top: 100px; position: absolute; color: rgba(0, 0, 0, 0.50); font-size: 16px; font-weight: 300; word-wrap: break-word">21-25</div>
-                                        <div id="divoneTofive" style="left: 3%; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">0</div>
-                                        <div id="divdixToten" style="left: 24%; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">0</div>
-                                        <div id="divlevenToFifteen" style="left: 44%; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">0</div>
-                                        <div id="divsixteenToTwenty" style="left: 64%; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">0</div>
-                                        <div id="divtwentyToTwefive" style="left: 84%; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">0</div>
+                                        <div style="width: 80px;text-align: center;left: -2%;top: 100px;position: absolute;color: rgb(0 0 0);font-size: 11px;font-weight: 500;word-wrap: break-word">less than a month</div>
+                                        <div style="left: 18%;top: 100px;text-align: center;width: 80px;position: absolute;color: rgb(0 0 0);font-size: 11px;font-weight: 500;word-wrap: break-word">less than 3 months</div>
+                                        <div style="width: 80px;left: 38%;top: 100px;position: absolute;color: rgb(0 0 0);font-size: 11px;font-weight: 500;text-align: center;word-wrap: break-word">less than 6 months</div>
+                                        <div style="width: 78px;left: 58%;text-align: center;top: 100px;position: absolute;color: rgb(0 0 0);font-size: 11px;font-weight: 500;word-wrap: break-word">less than a year</div>
+                                        <div style="width: 65px;left: 80%;text-align: center;top: 100px;position: absolute;color: rgb(0 0 0);font-size: 11px;font-weight: 500;word-wrap: break-word">greater than a year</div>
+                                        <div id="divoneTofive" style="left: 1%;top: 0px;position: absolute;color: white;font-size: 16px;font-weight: 500;word-wrap: break-word">49.3M</div>
+                                        <div id="divdixToten" style="left: 22%;top: 0px;position: absolute;color: white;font-size: 16px;font-weight: 500;word-wrap: break-word">5.1M</div>
+                                        <div id="divlevenToFifteen" style="left: 42%;top: 0px;position: absolute;color: white;font-size: 16px;font-weight: 500;word-wrap: break-word">14.1M</div>
+                                        <div id="divsixteenToTwenty" style="left: 62%;top: 0px;position: absolute;color: white;font-size: 16px;font-weight: 500;word-wrap: break-word">5.3M</div>
+                                        <div id="divtwentyToTwefive" style="left: 84%; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word"></div>
                                     </div>
                                 </div>
                             </div>
@@ -315,6 +315,7 @@
     <link rel="stylesheet" href="css/FinalisedDashboard.css" />
     <script src="script/FinalisedDashboard.js"></script>
 
+    <script src="script/any-number.js"></script>
     <script src="bootstrap-5.2.3/js/bootstrap.bundle.min.js"></script>
 
     <link href="../Template/assets/vendor/libs/toaster/toaster.css" rel="stylesheet" />

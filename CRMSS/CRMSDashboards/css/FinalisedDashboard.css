@@ -82,8 +82,9 @@
 }
 
 .project-table tbody, .project-table td, .project-table tfoot {
-    font-size: 10px !important;
+    font-size: 11px !important;
     background-color: white;
+    font-weight: 500;
 }
 
     .project-table tbody tr {
