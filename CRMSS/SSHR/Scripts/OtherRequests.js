@@ -1584,6 +1584,8 @@ function getAllBankDetails() {
             $('#lblEmpName').val(result.d[0].EmpName);
             $('#lblEmpNo').html(result.d[0].EmpNo);
             reqEmpno = result.d[0].EmpNo;
+            EmpNo= result.d[0].EmpNo;
+
             $('#lblDesignation').val(result.d[0].Designation);
             $('#lblDepart').val(result.d[0].DeptName);
             $('#lblVisaExpDate').html(datedayformat(result.d[0].VisaExpiryDate));
@@ -1681,6 +1683,7 @@ function initiateDataTableEmp(pDefCol) {
     objDatatable = [];
     objDatatable = $('.emp-req-table').DataTable({
         dom: 'lBfrtip',
+        "bStateSave": true,
         order: [[pDefCol,'desc']],
         buttons: {
             buttons: []

@@ -901,6 +901,50 @@ public partial class SSHR_AdminRequests : System.Web.UI.Page
         //string a = userId;
     }
 
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<DDLResponse> GetAllPPTOtherReasons(string ReasonValue, string Reason)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(5);
+
+        pa.Add("@ddlId");
+        pv.Add(ReasonValue);
+
+        pa.Add("@ddlValue");
+        pv.Add(Reason);
+
+        DBH.CreateDataset_SSHR(ds, "sp_AllRequests", true, pa, pv);
+
+        List<DDLResponse> oLeaveType = new List<DDLResponse>();
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                oLeaveType.Add(new DDLResponse()
+                {
+                    //Id = dt.Rows[i]["ReasonValues"].ToString(),
+                    Value = dt.Rows[i]["ReasonValues"].ToString(),
+                    Text = dt.Rows[i]["ReasonText"].ToString(),
+
+                });
+            }
+        }
+
+        return oLeaveType;
+        //string a = userId;
+    }
+
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]

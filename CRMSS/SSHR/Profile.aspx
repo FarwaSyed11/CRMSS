@@ -1511,7 +1511,7 @@
     <link href="../Template/assets/vendor/libs/toaster/toaster.css" rel="stylesheet" />
 
 
-    <link href="Css/profile.css?v=1.2" rel="stylesheet" />
+    <link href="Css/profile.css?v=2" rel="stylesheet" />
 
     <%--<link href="Css/Style.css" rel="stylesheet" />--%>
 

@@ -341,7 +341,10 @@ public partial class CRMSDashboards_FinalisedDashbaord : System.Web.UI.Page
         pv.Add(Convert.ToInt64(ManagerID));
 
         pa.Add("@SalesmanID");
-        pv.Add(Convert.ToInt64(SalesmanID));
+        pv.Add(Convert.ToInt64(SalesmanID)); 
+        
+        //pa.Add("@SortType");
+        //pv.Add(SortType);
 
         //pa.Add("@Year");
         //pv.Add(Year);
@@ -449,16 +452,13 @@ public partial class CRMSDashboards_FinalisedDashbaord : System.Web.UI.Page
         public string Twentyfive { get; set; }
         public string MorethanTwentyfive { get; set; }
     }
+
     public class DDL
     {
-        
         public string territory { get; set; }
         public string territoryID { get; set; }
         public string company { get; set; }
         public string name { get; set; }
         public string value { get; set; }
-
-
-
     }
 }

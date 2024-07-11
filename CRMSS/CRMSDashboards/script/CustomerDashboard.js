@@ -19,6 +19,7 @@ var listMonths = [], listAssVal = [];
 var chartAssignedCustomer = [];
 
 var listTopCustomers = [];
+var $select = $('#companyFilter');
 $(document).ready(function () {
 
     LoadTerritory();
@@ -30,6 +31,20 @@ $(document).ready(function () {
     CustomerBehaviorTable();
     NewAssignedCustomerChart();
     TopCustomeronJOH();
+
+ 
+
+    $(function () {
+        $select.multipleSelect();
+
+        $('#checkBtn').click(function () {
+            $select.multipleSelect('check', 2)
+        })
+
+        $('#uncheckBtn').click(function () {
+            $select.multipleSelect('uncheck', 2)
+        })
+    })
 });
 
 
@@ -100,7 +115,8 @@ function LoadCompany(selTerritory, currUserId) {
             var content = '';
             listDDL = result.d;
             $.each(listDDL, function (key, item) {
-                content += item.company == 'Local Sales' ? '<option value="' + item.company + '" selected>' + item.company + '</option>' : '<option value="' + item.company + '" >' + item.company + '</option>';
+                content += '<option value="' + item.company + '" selected>' + item.company + '</option>';
+                //content += item.company == 'Local Sales' ? '<option value="' + item.company + '" selected>' + item.company + '</option>' : '<option value="' + item.company + '" >' + item.company + '</option>';
             });
             $('#companyFilter').html(content);
             //$('#ddlCompany option[value="Local Sales"]').prop('selected', true);
@@ -113,16 +129,18 @@ function LoadCompany(selTerritory, currUserId) {
                     selTerritory = $('#territoryFilter option:selected').val();
                     //selCompany = $('#companyFilter option:selected').val();
                     LoadManager(selTerritory, listCompanyID, currUserId);
+                    $('.ms-parent').css('box-shadow', 'none');
                 },
                 onCheckAll: function () {
                     LoadManager(selTerritory, selCompany, currUserId);
+                    $('.ms-parent').css('box-shadow', 'none');
                 },
                 onUncheckAll: function () {
-                    if (getCompanyFromDDL() == "") {
+                    if ($('#companyFilter').val() == "") {
                         toastr.error('Please select any company.', '');
                         $('.ms-parent').css('box-shadow', 'rgb(255 0 0) 0px 0.5px 3.5px');
                     } else {
-                        $('.ms-parent').css('box-shadow', ' ');
+                        $('.ms-parent').css('box-shadow', 'none');
                         LoadManager(selTerritory, selCompany, currUserId);
                     }
 
@@ -198,7 +216,6 @@ function LoadSalesman(selTerritory, listCompanyID, selManager, currUserId) {
     });
 }
 
-
 function TopRowValuesnCount() {
     $.ajax({
         url: "CustomerDashboard.aspx/TopRowValuesnCount",
@@ -262,7 +279,7 @@ function CustomerBehaviorTable() {
             $.each(listCustomerBehaviortable, function (key, item) {
                // percTotWon = parseInt(item.PRC);
                 //initiatetableOverallPerc(percTotWon, 'pieChart-' + key)
-                htm += '<tr><td>' + item.MEPContractor + '</td><td>' + item.ProductType + '</td><td style="width:50px"><i style="display:none">' + parseInt(item.WONVALUE) + '</i><div class="won">' + nFormatter(parseInt(item.WONVALUE)) + '</div></td><td style="width:50px"><span style="display:none">' + parseInt(item.LOSTVALUE) + '</span><span class="loss">' + nFormatter(parseInt(item.LOSTVALUE)) + '</span></td><td id="pieChart-' + key + '">' + parseInt(item.PRC) + '</td><td><span style="display:none">' + item.OVERALLVALUE + '</span>' + nFormatter(parseInt(item.OVERALLVALUE)) + '</td><td>' + item.CompetitorName + '</td></tr >'
+                htm += '<tr><td>' + item.MEPContractor + '</td><td>' + item.ProductType + '</td><td style="width:70px"><span style="display:none">' + parseFloat(item.WONVALUE) + '</span><span class="won">' + nFormatter(parseInt(item.WONVALUE)) + '</span></td><td style="width:70px"><span style="display:none">' + parseFloat(item.LOSTVALUE) + '</span><span class="loss">' + nFormatter(parseInt(item.LOSTVALUE)) + '</span></td><td id="pieChart-' + key + '" style="width:70px">' + parseInt(item.PRC) + ' <b>%</b></td><td><span style="display:none">' + parseFloat(item.OVERALLVALUE) + '</span>' + nFormatter(parseInt(item.OVERALLVALUE)) + '</td><td>' + item.CompetitorName + '</td></tr >'
             });
             $('.tbody-customerbehaviour').html(htm);
 
@@ -272,19 +289,24 @@ function CustomerBehaviorTable() {
             //    if (key == 10) { return false; }
             //});
 
-
+            initiateCustomerDataTable();
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
         }
     });
-    initiateCustomerDataTable();
+    
 }
-
 
 function initiateCustomerDataTable() {
     objDatatable = [];
     objDatatable = $('.table-customerbehaviour').DataTable({
+        "order": [[2, 'desc']],
+        "columnDefs": [
+            { "orderable": true, "targets": [] },
+            { "type": 'html-num-fmt', "targets": 2 }
+        ],
+        "columns": [null, null, { type: 'html-num-fmt' }, null, null, null, null],
         dom: 'lBfrtip',
         "bStateSave": true,
         buttons: {
@@ -294,9 +316,7 @@ function initiateCustomerDataTable() {
                 }
             ]
         },
-        "columnDefs": [
-            { "orderable": true, "targets": [] }
-        ]
+        
     });
 
 }
@@ -340,7 +360,7 @@ function TopCustomeronJOH() {
             var htm = '';
             listTopCustomers = result.d.TopCustomerDetails;
             $.each(listTopCustomers, function (key, item) {
-                htm += '<div class="d-flex justify-content-between border-bottom p-3 m-2 align-items-center"><div class="d-flex"><div><div class="">' + item.MEPContractor +'</div><div class="d-flex text-muted" style="font-size: 10px"><span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">' + item.JOHCount +'</span><span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">' + nFormatter(parseInt(item.JOHValue)) + '</span></div></div></div><div class="text-danger fs-4">' + item.PERC + '%</div></div>'
+                htm += '<div class="d-flex justify-content-between border-bottom p-3 m-2 align-items-center"><div class="d-flex"><div><div class="">' + item.MEPContractor +'</div><div class="d-flex text-muted" style="font-size: 14px"><span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">' + item.JOHCount +'</span><span class="px-3 py-1 mx-1 rounded-pill shadow-sm border">' + nFormatter(parseInt(item.JOHValue)) + '</span></div></div></div><div class="text-danger fs-4">' + item.PERC + '%</div></div>'
             });
             $(".topcustomers").html(htm);
         },
@@ -349,22 +369,7 @@ function TopCustomeronJOH() {
         }
     });
 }
-function nFormatter(num) {
 
-    if (num >= 1000000000000) {
-        return (num / 1000000000000).toFixed(1).replace(/\.0$/, '') + 'T';
-    }
-    else if (num >= 1000000000) {
-        return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
-    }
-    else if (num >= 1000000) {
-        return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
-    }
-    else if (num >= 1000) {
-        return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
-    }
-    return num;
-}
 
 function inititateTypePotentialCharts(listBigPotentialPerc, listJOHPerc, listTenderPerc) {
 
@@ -382,13 +387,28 @@ function inititateTypePotentialCharts(listBigPotentialPerc, listJOHPerc, listTen
                 },
             },
         },
+        colors: ["#F96441", "#FFD62B", "#4CDB86"],
         legend: {
             position: 'top',
             horizontalAlign: 'left',
             offsetX: 60,
             offsetY: 0
         },
-        labels: ['Never Visited', 'Visited', 'Not Visited'],
+        dataLabels: {
+            style: {
+                colors: undefined
+            },
+            background: {
+                enabled: true,
+                foreColor: '#fff',
+                padding: 5,
+                borderRadius: 2,
+                borderWidth: 1,
+                borderColor: '#fff',
+                opacity: 0.9,
+            }
+        },
+        labels: ['Never Visited', 'Not Visited', 'Visited'],
         responsive: [{
             breakpoint: 480,
             options: {
@@ -417,6 +437,22 @@ function inititateTypePotentialCharts(listBigPotentialPerc, listJOHPerc, listTen
         legend: {
             show: false
         },
+        dataLabels: {
+            style: {
+                colors: undefined
+            },
+            background: {
+                enabled: true,
+                foreColor: '#fff',
+                padding: 5,
+                borderRadius: 2,
+                borderWidth: 1,
+                borderColor: '#fff',
+                opacity: 0.9,
+            }
+        },
+        colors: ["#F96441", "#FFD62B", "#4CDB86"],
+        labels: ['Never Visited', 'Not Visited', 'Visited'],
         responsive: [{
             breakpoint: 480,
             options: {
@@ -441,6 +477,22 @@ function inititateTypePotentialCharts(listBigPotentialPerc, listJOHPerc, listTen
         legend: {
             show: false
         },
+        dataLabels: {
+            style: {
+                colors: undefined
+            },
+            background: {
+                enabled: true,
+                foreColor: '#fff',
+                padding: 5,
+                borderRadius: 2,
+                borderWidth: 1,
+                borderColor: '#fff',
+                opacity: 0.9,
+            }
+        },
+        colors: ["#F96441", "#FFD62B", "#4CDB86"],
+        labels: ['Never Visited', 'Not Visited', 'Visited'],
         responsive: [{
             breakpoint: 480,
             options: {
@@ -539,4 +591,21 @@ function initiateAssignedCustomer(listAssVal, listMonths) {
 
     chartAssignedCustomer = new ApexCharts(document.querySelector("#AssignedCustomer"), options);
     chartAssignedCustomer.render();
+}
+
+function nFormatter(num) {
+
+    if (num >= 1000000000000) {
+        return (num / 1000000000000).toFixed(1).replace(/\.0$/, '') + 'T';
+    }
+    else if (num >= 1000000000) {
+        return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
+    }
+    else if (num >= 1000000) {
+        return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    }
+    else if (num >= 1000) {
+        return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    }
+    return num;
 }

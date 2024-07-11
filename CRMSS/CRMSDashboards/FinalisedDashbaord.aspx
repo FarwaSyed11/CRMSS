@@ -71,33 +71,6 @@
                                 <option value="3">Three</option>
                             </select>
                         </div>
-                        <%--<div class="width-13">
-                            <span class="form-label">Year to Date</span>
-                            <select class="form-select" id="yeardateFilter" placeholder="Select Authority">
-                                <option value="-1">year to date</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>
-                        <div class="width-13">
-                            <span class="form-label">Year</span>
-                            <select class="form-select" id="yearFilter" placeholder="Select Authority">
-
-                                <option value="1" selected>2024</option>
-                                <option value="2">2023</option>
-                                <option value="3">2022</option>
-                            </select>
-                        </div>
-                        <div class="width-13">
-                            <span class="form-label">Month</span>
-                            <select class="form-select" id="monthFilter" placeholder="Select Authority">
-                                <option value="-1">month</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>--%>
                         <div class="" style="width: 1%">
                             <button type="button" class="btn btn-primary mt-4" id="btngoFilter">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
@@ -237,7 +210,8 @@
                                                 <th>Customer</th>
                                                 <th>Opportunity</th>
                                                 <th>Product</th>
-                                                <th>Value</th>
+                                                <th class="tbl_valuecol">Value</th>
+
                                             </tr>
                                         </thead>
                                         <tbody id="ProjLOI-tbody" class="ProjLOI-tbody">
@@ -257,23 +231,23 @@
                                 Aging by Revenue
                                 <div class="mt-3" style="position: relative;">
                                     <div style="">
-                                        <div style="width: 20%; height: 240px; background: #43D1B7;"></div>
-                                        <div style="width: 20%; height: 240px; left: 20%; top: 0px; position: absolute; background: rgb(67 209 183 / 70%);"></div>
-                                        <div style="width: 20%; height: 240px; left: 40%; top: 0px; position: absolute; background: rgb(104 209 243 / 70%);"></div>
-                                        <div style="width: 20%; height: 240px; left: 60%; top: 0px; position: absolute; background: rgb(104 209 243 / 40%);"></div>
-                                        <div style="width: 20%; height: 240px; left: 80%; top: 0px; position: absolute; background: rgb(226 6 19 / 20%);"></div>
+                                        <div class="lowest" style="width: 20%; height: 240px;"></div>
+                                        <div class="low" style="width: 20%; height: 240px; left: 20%; top: 0px; position: absolute;"></div>
+                                        <div class="med" style="width: 20%; height: 240px; left: 40%; top: 0px; position: absolute;"></div>
+                                        <div class="high" style="width: 20%; height: 240px; left: 60%; top: 0px; position: absolute;"></div>
+                                        <div class="highest" style="width: 20%; height: 240px; left: 80%; top: 0px; position: absolute;"></div>
                                     </div>
                                     <div style="left: 30px; bottom: 93px; position: relative;">
-                                        <div style="width: 80px;text-align: center;left: -2%;top: 100px;position: absolute;color: rgb(0 0 0);font-size: 11px;font-weight: 500;word-wrap: break-word">less than a month</div>
-                                        <div style="left: 18%;top: 100px;text-align: center;width: 80px;position: absolute;color: rgb(0 0 0);font-size: 11px;font-weight: 500;word-wrap: break-word">less than 3 months</div>
-                                        <div style="width: 80px;left: 38%;top: 100px;position: absolute;color: rgb(0 0 0);font-size: 11px;font-weight: 500;text-align: center;word-wrap: break-word">less than 6 months</div>
-                                        <div style="width: 78px;left: 58%;text-align: center;top: 100px;position: absolute;color: rgb(0 0 0);font-size: 11px;font-weight: 500;word-wrap: break-word">less than a year</div>
-                                        <div style="width: 65px;left: 80%;text-align: center;top: 100px;position: absolute;color: rgb(0 0 0);font-size: 11px;font-weight: 500;word-wrap: break-word">greater than a year</div>
-                                        <div id="divoneTofive" style="left: 1%;top: 0px;position: absolute;color: white;font-size: 16px;font-weight: 500;word-wrap: break-word">49.3M</div>
-                                        <div id="divdixToten" style="left: 22%;top: 0px;position: absolute;color: white;font-size: 16px;font-weight: 500;word-wrap: break-word">5.1M</div>
-                                        <div id="divlevenToFifteen" style="left: 42%;top: 0px;position: absolute;color: white;font-size: 16px;font-weight: 500;word-wrap: break-word">14.1M</div>
-                                        <div id="divsixteenToTwenty" style="left: 62%;top: 0px;position: absolute;color: white;font-size: 16px;font-weight: 500;word-wrap: break-word">5.3M</div>
-                                        <div id="divtwentyToTwefive" style="left: 84%; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word"></div>
+                                        <div style="width: 80px; text-align: center; left: -2%; top: 100px; position: absolute; color: rgb(0 0 0); font-size: 11px; font-weight: 500; word-wrap: break-word">less than a month</div>
+                                        <div style="left: 18%; top: 100px; text-align: center; width: 80px; position: absolute; color: rgb(0 0 0); font-size: 11px; font-weight: 500; word-wrap: break-word">less than 3 months</div>
+                                        <div style="width: 80px; left: 38%; top: 100px; position: absolute; color: rgb(0 0 0); font-size: 11px; font-weight: 500; text-align: center; word-wrap: break-word">less than 6 months</div>
+                                        <div style="width: 78px; left: 58%; text-align: center; top: 100px; position: absolute; color: rgb(0 0 0); font-size: 11px; font-weight: 500; word-wrap: break-word">less than a year</div>
+                                        <div style="width: 65px; left: 80%; text-align: center; top: 100px; position: absolute; color: rgb(0 0 0); font-size: 11px; font-weight: 500; word-wrap: break-word">greater than a year</div>
+                                        <div id="divoneTofive" style="left: 1%; top: 0px; position: absolute; color: #343434; font-size: 16px; font-weight: bold; word-wrap: break-word">--</div>
+                                        <div id="divdixToten" style="left: 22%; top: 0px; position: absolute; color: #343434; font-size: 16px; font-weight: bold; word-wrap: break-word">--</div>
+                                        <div id="divlevenToFifteen" style="left: 42%; top: 0px; position: absolute; color: #343434; font-size: 16px; font-weight: bold; word-wrap: break-word">--</div>
+                                        <div id="divsixteenToTwenty" style="left: 62%; top: 0px; position: absolute; color: #343434; font-size: 16px; font-weight: bold; word-wrap: break-word">--</div>
+                                        <div id="divtwentyToTwefive" style="left: 84%; top: 0px; position: absolute; color: #343434; font-size: 16px; font-weight: bold; word-wrap: break-word">--</div>
                                     </div>
                                 </div>
                             </div>
@@ -325,18 +299,31 @@
     <link href="../KPI/Flatpickr/css/_flatpickr.css" rel="stylesheet" />
 
     <!-- Datatable plugin CSS file -->
-    <link href="../FacilityManagement/Datatable/css/jquery.dataTables.min.css" rel="stylesheet" />
-    <!-- Datatable plugin JS library file -->
-    <script src="../FacilityManagement/Datatable/js/jquery.dataTables.min.js"></script>
+    <%-- <link href="../FacilityManagement/Datatable/css/jquery.dataTables.min.css" rel="stylesheet" />--%>
 
-    <script src="../FacilityManagement/Datatable/js/dataTables.buttons.min.js"></script>
+    <!-- Datatable plugin JS library file -->
+    <%--<script src="../FacilityManagement/Datatable/js/jquery.dataTables.min.js"></script>--%>
+
+
+
+
+    <%--<script src="../FacilityManagement/Datatable/js/dataTables.buttons.min.js"></script>
     <script src="../FacilityManagement/Datatable/js/jszip.min.js"></script>
     <script src="../FacilityManagement/Datatable/js/pdfmake.min.js"></script>
     <script src="../FacilityManagement/Datatable/js/vfs_fonts.js"></script>
     <script src="../FacilityManagement/Datatable/js/buttons.html5.min.js"></script>
-    <script src="../FacilityManagement/Datatable/js/buttons.print.min.js"></script>
+    <script src="../FacilityManagement/Datatable/js/buttons.print.min.js"></script>--%>
 
-    <script src="../CRMAdmin/Assets/Js/multiple-select.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css" />
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.min.js"></script>
+    <script src="../FacilityManagement/Datatable/js/jszip.min.js"></script>
+    <script src="../FacilityManagement/Datatable/js/pdfmake.min.js"></script>
+    <script src="../FacilityManagement/Datatable/js/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.print.min.js"></script>
+
+    <script src="script/multiple-select.js"></script>
     <link href="../SiteSurvey/Assets/Css/multiple-select.css" rel="stylesheet" />
 </asp:Content>
 

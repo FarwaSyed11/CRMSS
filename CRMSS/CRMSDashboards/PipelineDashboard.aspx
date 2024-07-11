@@ -40,6 +40,7 @@
     </style>
 
     <div class="container-fluid" style="margin-top: 1%; width: 98%;">
+        <div id="main-loader"></div>
         <div class="card">
             <div class="row m-2" style="">
 
@@ -234,16 +235,17 @@
                                 Early to Judge
                                 <span id="ETJcount">--</span>
                             </div>
-                            <div class="ovs text-muted b-pink">
-                                <img src="image/lost.png" />
-                                Lost
-                                <span id="lostcount">--</span>
-                            </div>
                             <div class="ovs text-muted b-blue">
                                 <img src="image/other.png" />
                                 Others
                                 <span id="otherscount">--</span>
                             </div>
+                            <div class="ovs text-muted b-pink">
+                                <img src="image/lost.png" />
+                                Never Updated
+                                <span id="lostcount">--</span>
+                            </div>
+
                         </div>
 
                     </div>
@@ -317,23 +319,23 @@
                                 Aging by JOH 
                                  <div class="mt-2" style="position: relative;">
                                      <div style="">
-                                         <div style="width: 20%; height: 180px; background: rgb(70 181 141 / 30%);"></div>
-                                         <div style="width: 20%; height: 180px; left: 20%; top: 0px; position: absolute; background: #ECCCFF;"></div>
-                                         <div style="width: 20%; height: 180px; left: 40%; top: 0px; position: absolute; background: #DCCCFF;"></div>
-                                         <div style="width: 20%; height: 180px; left: 60%; top: 0px; position: absolute; background: #BDD7FF;"></div>
-                                         <div style="width: 20%; height: 180px; left: 80%; top: 0px; position: absolute; background: #CFE8FF;"></div>
+                                         <div class="lowest" style="width: 20%; height: 180px;"></div>
+                                         <div class="low" style="width: 20%; height: 180px; left: 20%; top: 0px; position: absolute;"></div>
+                                         <div class="med" style="width: 20%; height: 180px; left: 40%; top: 0px; position: absolute;"></div>
+                                         <div class="high" style="width: 20%; height: 180px; left: 60%; top: 0px; position: absolute;"></div>
+                                         <div class="highest" style="width: 20%; height: 180px; left: 80%; top: 0px; position: absolute;"></div>
                                      </div>
                                      <div style="left: 26px; bottom: 99px; position: relative;">
-                                         <div style="width: 80px;text-align: center;left: -4%;top: 100px;position: absolute;color: rgb(0 0 0);font-size: 11px;font-weight: 500;word-wrap: break-word">less than a month</div>
-                                         <div style="left: 15%;top: 100px;text-align: center;width: 80px;position: absolute;color: rgb(0 0 0);font-size: 11px;font-weight: 500;word-wrap: break-word">less than 3 months</div>
-                                         <div style="width: 80px;left: 35%;top: 100px;position: absolute;color: rgb(0 0 0);font-size: 11px;font-weight: 500;text-align: center;word-wrap: break-word">less than 6 months</div>
-                                         <div style="width: 78px;left: 55%;text-align: center;top: 100px;position: absolute;color: rgb(0 0 0);font-size: 11px;font-weight: 500;word-wrap: break-word">less than a year</div>
-                                         <div style="width: 65px;left: 76%;text-align: center;top: 100px;position: absolute;color: rgb(0 0 0);font-size: 11px;font-weight: 500;word-wrap: break-word">greater than a year</div>
-                                         <div id="divoneTofive" style="width: 31px; l; left: 1%; op: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">-</div>
-                                         <div id="divdixToten" style="width: 32px; left: 21%; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">-</div>
-                                         <div id="divlevenToFifteen" style="width: 33px; left: 40%; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">-</div>
-                                         <div id="divsixteenToTwenty" style="width: 34px; left: 61%; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">-</div>
-                                         <div id="divtwentyToTwefive" style="width: 35px; left: 80%; top: 0px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">-</div>
+                                         <div style="width: 80px; text-align: center; left: -4%; top: 100px; position: absolute; color: rgb(0 0 0); font-size: 11px; font-weight: 500; word-wrap: break-word">less than a month</div>
+                                         <div style="left: 15%; top: 100px; text-align: center; width: 80px; position: absolute; color: rgb(0 0 0); font-size: 11px; font-weight: 500; word-wrap: break-word">less than 3 months</div>
+                                         <div style="width: 80px; left: 35%; top: 100px; position: absolute; color: rgb(0 0 0); font-size: 11px; font-weight: 500; text-align: center; word-wrap: break-word">less than 6 months</div>
+                                         <div style="width: 78px; left: 55%; text-align: center; top: 100px; position: absolute; color: rgb(0 0 0); font-size: 11px; font-weight: 500; word-wrap: break-word">less than a year</div>
+                                         <div style="width: 65px; left: 76%; text-align: center; top: 100px; position: absolute; color: rgb(0 0 0); font-size: 11px; font-weight: 500; word-wrap: break-word">greater than a year</div>
+                                         <div id="divoneTofive" style="width: 31px; l; left: 1%; op: 0px; position: absolute; color: #343434; font-size: 16px; font-weight: bold; word-wrap: break-word">-</div>
+                                         <div id="divdixToten" style="width: 32px; left: 21%; top: 0px; position: absolute; color: #343434; font-size: 16px; font-weight: bold; word-wrap: break-word">-</div>
+                                         <div id="divlevenToFifteen" style="width: 33px; left: 40%; top: 0px; position: absolute; color: #343434; font-size: 16px; font-weight: bold; word-wrap: break-word">-</div>
+                                         <div id="divsixteenToTwenty" style="width: 34px; left: 61%; top: 0px; position: absolute; color: #343434; font-size: 16px; font-weight: bold; word-wrap: break-word">-</div>
+                                         <div id="divtwentyToTwefive" style="width: 35px; left: 80%; top: 0px; position: absolute; color: #343434; font-size: 16px; font-weight: bold; word-wrap: break-word">-</div>
                                      </div>
                                  </div>
                             </div>
@@ -411,7 +413,7 @@
     <script src="../FacilityManagement/Datatable/js/buttons.html5.min.js"></script>
     <script src="../FacilityManagement/Datatable/js/buttons.print.min.js"></script>
 
-    <script src="../CRMAdmin/Assets/Js/multiple-select.js"></script>
+    <script src="script/multiple-select.js"></script>
     <link href="../SiteSurvey/Assets/Css/multiple-select.css" rel="stylesheet" />
 </asp:Content>
 

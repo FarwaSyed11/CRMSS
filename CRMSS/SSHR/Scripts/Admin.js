@@ -2,6 +2,7 @@
 
 var objDatatable = [];
 var UserId = '';
+var EmpNo = '';
 $(document).ready(function () {
 
     LoadRoles();
@@ -87,6 +88,7 @@ function GetTableDetails(Loader) {
                   <td style="text-align:center;display:none;">`+ item.Password + `</td>
                   <td style="text-align:center;"> <a style="margin-left: 4%;" class="image-change">
                   <img src="Images/profile/password.svg" title="Password" class="fa-icon-hover ibtn-Password-Details" style="cursor: pointer; width: 30px;" />
+                   <img src="Images/icon-login.png" title="Login" class="fa-icon-hover ibtn-Login-Details" style="cursor: pointer; width: 30px;" />
                   </a></td>`;
 
                 htm += `</tr>`;
@@ -108,6 +110,16 @@ function GetTableDetails(Loader) {
 
 }
 
+$('.tbody-emp-Det').on('click', '.ibtn-Login-Details', function () {
+
+    UserId = this.parentNode.parentNode.parentNode.children[0].textContent;
+    EmpName = this.parentNode.parentNode.parentNode.children[2].textContent;
+    Password = this.parentNode.parentNode.parentNode.children[5].textContent;
+    EmpNo = this.parentNode.parentNode.parentNode.children[1].textContent;
+
+    window.location.replace('../SSHR/Services/RedirectToLogin.aspx?EmpNo=' + EmpNo);
+
+});
 $('.tbody-emp-Det').on('click', '.ibtn-Password-Details', function () {
 
     UserId = this.parentNode.parentNode.parentNode.children[0].textContent;

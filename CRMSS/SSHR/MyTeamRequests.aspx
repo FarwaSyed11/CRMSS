@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="MyTeamRequests.aspx.cs" Inherits="SSHR_MyTeamRequests" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="MyTeamRequests.aspx.cs" Inherits="SSHR_MyTeamRequests" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <script src="
@@ -964,7 +964,7 @@ https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js
         });
 
     </script>
-    <script src="Scripts/MyTeamRequests.js?v=5"></script>
+    <script src="Scripts/MyTeamRequests.js?v=6"></script>
     <link href="Css/allrequest.css?v=1.2" rel="stylesheet" />
 
     <script src="../KPI/Flatpickr/js/flatpickr.js"></script>

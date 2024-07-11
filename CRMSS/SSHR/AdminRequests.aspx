@@ -1440,7 +1440,7 @@
 
     </script>
 
-    <script src="Scripts/AdminRequests.js?v=0.5"></script>
+    <script src="Scripts/AdminRequests.js?v=0.7"></script>
     <link href="Css/allrequest.css" rel="stylesheet" />
 
     <script src="../KPI/Flatpickr/js/flatpickr.js"></script>

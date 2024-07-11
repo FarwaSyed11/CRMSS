@@ -18,6 +18,7 @@ $(document).ready(function () {
     loadTopCards();
     loadProductWise();
     loadTop50Jobs();
+
 });
 
 
@@ -32,7 +33,7 @@ $('#managerFilter').on('change', function () {
     LoadSalesman(selTerritory, listCompanyID, selManager, currUserId);
 });
 $('#btngoFilter').on('click', function () {
-    
+    //loader();
     selTerritory = $('#territoryFilter option:selected').val();
     selCompany = getCompniesFromDDL();
     selManager = $('#managerFilter option:selected').val();
@@ -43,8 +44,24 @@ $('#btngoFilter').on('click', function () {
     loadTopCards();
     loadProductWise();
     loadTop50Jobs();
-    
 });
+$("#btngoFilter").click(function () {
+    setTimeout(loader, 2000);
+});
+function loader() {
+    //$('.ajax-loader').removeClass('hidden');
+    
+    //setTimeout(function () {
+    //    #btngoFilter('Please Wait...');
+    //    $(".ajax-loader").addClass('hidden');
+    //}, 500);
+    //setTimeout(function () {
+    //    LoadRequestDataforOnbehalf('Please Wait...');
+    //    $(".ajax-loader").addClass('hidden');
+    //}, 500);
+    var htm = '<div class="loader"></div>'
+    return $("#main-loader").html(htm);
+}
 function LoadYearddl() {
 
     var htm = '';
@@ -94,25 +111,28 @@ function LoadCompany(selTerritory, currUserId) {
             var content = '';
             listDDL = result.d;
             $.each(listDDL, function (key, item) {
-                content += item.company == 'Local Sales' ? '<option value="' + item.company + '" selected>' + item.company + '</option>' : '<option value="' + item.company + '" >' + item.company + '</option>';
+                content += '<option value="' + item.company + '" selected>' + item.company + '</option>';
+                //content += item.company == 'Local Sales' ? '<option value="' + item.company + '" selected>' + item.company + '</option>' : '<option value="' + item.company + '" >' + item.company + '</option>';
             });
             $('#companyFilter').html(content);
             selCompany = getCompniesFromDDL();
             $('#companyFilter').multipleSelect({
                 onClick: function (view) {
+                    $('.ms-parent').css('box-shadow', 'none');
                     listCompanyID = getCompniesFromDDL();
                     selTerritory = $('#territoryFilter option:selected').val();
                     LoadManager(selTerritory, listCompanyID, currUserId);
                 },
                 onCheckAll: function () {
+                    $('.ms-parent').css('box-shadow', 'none');
                     LoadManager(selTerritory, selCompany, currUserId);
                 },
                 onUncheckAll: function () {
-                    if (getCompanyFromDDL() == "") {
+                    if ($('#companyFilter').val() == "") {
                         toastr.error('Please select any company.', '');
                         $('.ms-parent').css('box-shadow', 'rgb(255 0 0) 0px 0.5px 3.5px');
                     } else {
-                        $('.ms-parent').css('box-shadow', ' ');
+                        $('.ms-parent').css('box-shadow', 'none');
                         LoadManager(selTerritory, selCompany, currUserId);
                     }
 
@@ -280,7 +300,7 @@ function loadProductWise() {
             listProductgraph = result.d;
 
             $.each(listProductgraph, function (key, item) {
-                htm += '<div class="d-flex justify-content-between border-bottom p-3 m-2 align-items-center"><div class="d-flex"><div><div class="" style="font-weight: 500;text-transform: capitalize;">' + item.ProdType + '</div><div class="d-flex text-muted mb-2" style="font-size: 14px"><span class="p-2 mx-1 rounded shadow-sm border text-center"><img src="image/secured.png" style="width: 16px;"/><div>' + item.CountSecured + '<b class="mx-1">|</b>' + nFormatter(parseInt(item.Secured)) + '</div></span><span class="p-2 mx-1 rounded shadow-sm border text-center"><img src="image/underrisk.png" style="width: 16px;"/><div>' + item.CountUnderrisk + '<b class="mx-1">|</b>' + nFormatter(parseInt(item.Underrisk)) + '</div></span><span class="p-2 mx-1 rounded shadow-sm border text-center"><img src="image/ontrack.png" style="width: 16px;"/><div>' + item.CountOntrack + '<b class="mx-1">|</b>' + nFormatter(parseInt(item.Ontrack)) + '</div></span></div><div class="d-flex text-muted" style="font-size: 14px"><span class="p-2 mx-1 rounded shadow-sm border text-center"><img src="image/earlytojuj.png" style="width: 16px;"/><div>' + item.CountEarlytoJuj + '<b class="mx-1">|</b>1' + nFormatter(parseInt(item.EarlytoJuj)) + '</div> </span><span class="p-2 mx-1 rounded shadow-sm border text-center"><img src="image/lost.png" style="width: 16px;"/><div>' + item.CountLost + '<b class="mx-1">|</b>' + nFormatter(parseInt(item.Lost)) + '</div> </span><span class="p-2 mx-1 rounded shadow-sm border text-center"><img src="image/other.png" style="width: 16px;"/><div>' + item.CountOther + '<b class="mx-1">|</b>' + nFormatter(parseInt(item.Other)) + '</div> </span></div></div></div><div class="text-danger fs-4">' + nFormatter(parseInt(item.Value)) + '</div></div>'
+                htm += '<div class="d-flex justify-content-between border-bottom p-3 m-2 align-items-center"><div class="d-flex"><div><div class="" style="font-weight: 500;text-transform: capitalize;">' + item.ProdType + '</div><div class="d-flex text-muted mb-2" style="font-size: 14px"><span class="p-2 mx-1 rounded shadow-sm border text-center"><img src="image/secured.png" style="width: 16px;"/><div>' + item.CountSecured + '<b class="mx-1">|</b>' + nFormatter(parseInt(item.Secured)) + '</div></span><span class="p-2 mx-1 rounded shadow-sm border text-center"><img src="image/underrisk.png" style="width: 16px;"/><div>' + item.CountUnderrisk + '<b class="mx-1">|</b>' + nFormatter(parseInt(item.Underrisk)) + '</div></span><span class="p-2 mx-1 rounded shadow-sm border text-center"><img src="image/ontrack.png" style="width: 16px;"/><div>' + item.CountOntrack + '<b class="mx-1">|</b>' + nFormatter(parseInt(item.Ontrack)) + '</div></span></div><div class="d-flex text-muted" style="font-size: 14px"><span class="p-2 mx-1 rounded shadow-sm border text-center"><img src="image/earlytojuj.png" style="width: 16px;"/><div>' + item.CountEarlytoJuj + '<b class="mx-1">|</b>1' + nFormatter(parseInt(item.EarlytoJuj)) + '</div> </span><span class="p-2 mx-1 rounded shadow-sm border text-center"><img src="image/other.png" style="width: 16px;"/><div>' + item.CountOther + '<b class="mx-1">|</b>' + nFormatter(parseInt(item.Other)) + '</div> </span><span class="p-2 mx-1 rounded shadow-sm border text-center"><img src="image/lost.png" style="width: 16px;"/><div>' + item.CountLost + '<b class="mx-1">|</b>' + nFormatter(parseInt(item.Lost)) + '</div> </span></div></div></div><div class="text-danger fs-4">' + nFormatter(parseInt(item.Value)) + '</div></div>'
             });
             $(".topcustomers").html(htm);
 
@@ -630,11 +650,11 @@ function initiateProductGraph(listProduct, listProductValue) {
         },
         yaxis: {
             title: {
-                text: 'AED'
+                text: 'Amount'
             },
             labels: {
                 formatter: function (value) {
-                    return nFormatter(value) + " AED";
+                    return nFormatter(value) + " ";
                 }
             },
         },
@@ -644,7 +664,7 @@ function initiateProductGraph(listProduct, listProductValue) {
         tooltip: {
             y: {
                 formatter: function (val) {
-                    return "AED " + numberWithCommas(val) + " "
+                    return " " + numberWithCommas(val) + " "
                 }
             }
         },

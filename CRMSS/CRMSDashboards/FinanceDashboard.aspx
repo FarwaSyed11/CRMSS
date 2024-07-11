@@ -184,24 +184,24 @@
                                 <h6 class="text-center">Your Performance</h6>
                                 <div style="width: 90%;">
                                     <div style="width: 100%; height: 50px; position: relative">
-                                        <div style="width: 30%;height: 50px;left: 0px;top: 0px;position: absolute;background: #DA0D0D;border-top-left-radius: 50px;border-bottom-left-radius: 50px;">
-                                            <div style="left: 32%;top: 13.78px;position: absolute;color: white;">Very Bad</div>
+                                        <div style="width: 30%; height: 50px; left: 0px; top: 0px; position: absolute; background: #DA0D0D; border-top-left-radius: 50px; border-bottom-left-radius: 50px;">
+                                            <div style="left: 32%; top: 13.78px; position: absolute; color: white;">Very Bad</div>
                                         </div>
-                                        <div style="width: 20%;height: 50px;left: 30%;top: 0px;position: absolute">
+                                        <div style="width: 20%; height: 50px; left: 30%; top: 0px; position: absolute">
                                             <div style="width: 100%; height: 50px; left: 0px; top: 0px; position: absolute; background: #F21818"></div>
                                             <div style="left: 34%; top: 13.78px; position: absolute; color: white;">Bad</div>
                                         </div>
-                                        <div style="width: 20%;height: 50px;left: 50%;top: 0px;position: absolute">
+                                        <div style="width: 20%; height: 50px; left: 50%; top: 0px; position: absolute">
                                             <div style="width: 100%; height: 50px; left: 0px; top: 0px; position: absolute; background: #FFE601"></div>
                                             <div style="left: 34%; top: 13.78px; position: absolute; color: white;">Med</div>
                                         </div>
-                                        <div style="width: 20%;height: 50px;left: 70%;top: 0px;position: absolute">
+                                        <div style="width: 20%; height: 50px; left: 70%; top: 0px; position: absolute">
                                             <div style="width: 100%; height: 50px; left: 0px; top: 0px; position: absolute; background: rgba(126.82, 185.94, 67.71, 0.70)"></div>
                                             <div style="height: 27.56px; left: 30%; top: 13.78px; position: absolute; color: white;">Good</div>
                                         </div>
-                                        <div style="width: 10%;height: 50px;left: 90%;top: 0px;position: absolute">
+                                        <div style="width: 10%; height: 50px; left: 90%; top: 0px; position: absolute">
                                             <div style="width: 100%; height: 50px; left: 0px; top: 0px; position: absolute; background: #7FBA44; border-bottom-right-radius: 50px; border-top-right-radius: 50px"></div>
-                                            <div style="height: 1.56px;left: 18%;top: 5.78px;position: absolute;color: white;font-size: small;">Very Good</div>
+                                            <div style="height: 1.56px; left: 18%; top: 5.78px; position: absolute; color: white; font-size: small;">Very Good</div>
                                         </div>
                                     </div>
                                 </div>
@@ -337,7 +337,7 @@
                                                     <img src="image/ydsTotEntered.svg" />
                                                 </div>
                                                 <div class="me-2 my-1">Total Entered</div>
-                                                <div class="value position-absolute">12</div>
+                                                <div class="value position-absolute"></div>
                                                 <div id="valTotEntered">--</div>
                                             </div>
                                             <div class="infocards totalbooked">
@@ -345,7 +345,7 @@
                                                     <img src="image/ydsTotBooked.svg" />
                                                 </div>
                                                 <div class="me-2 my-1">Total Booked</div>
-                                                <div class="value position-absolute">12</div>
+                                                <div class="value position-absolute"></div>
                                                 <div id="valTotBooked">--</div>
                                             </div>
                                             <div class="infocards totalclosed">
@@ -353,12 +353,12 @@
                                                     <img src="image/ydsTotClosed.svg" />
                                                 </div>
                                                 <div class="me-2 my-1">Total Closed</div>
-                                                <div class="value position-absolute">12</div>
+                                                <div class="value position-absolute"></div>
                                                 <div id="valTotClosed">--</div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12 mt-2">
+                                    <%--<div class="col-12 mt-2">
                                         Confirm Order
                                         <table class="" style="font-size: 12px; background: rgb(70 181 141 / 30%) !important;">
                                             <tbody>
@@ -374,7 +374,7 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                    </div>
+                                    </div>--%>
                                 </div>
                             </div>
                             <div class="col-4">
@@ -436,7 +436,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12 mt-2">
+                                    <%--<div class="col-12 mt-2">
                                         Pending For Collection
                                         <table class="" style="font-size: 12px; background: rgb(220 204 255 / 30%) !important">
                                             <tbody>
@@ -453,7 +453,7 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                    </div>
+                                    </div>--%>
                                 </div>
                             </div>
                             <div class="col-4">
@@ -515,7 +515,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12 mt-2">
+                                    <%--<div class="col-12 mt-2">
                                         Pending For Collection
                                         <table class="" style="font-size: 12px; background: #BBE3FF !important">
                                             <tbody>
@@ -532,7 +532,7 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                    </div>
+                                    </div>--%>
                                 </div>
                             </div>
                             <div class="col-4">
@@ -632,31 +632,31 @@
             <div class="col-3">
                 <div class="card" style="height: 480px;">
                     <div class="card-body">
-                        Aging Entered Sales Order
+                        Aging by Entered Sales Order
                         <div style="position: relative; margin-top: 15px;">
                             <div style="">
-                                <div style="width: 80%; margin-left: 10px; height: 80px; background: #59CDBF;"></div>
-                                <div style="width: 80%; height: 80px; left: 10px; top: 100%; position: absolute; background: rgb(89 205 177 / 70%);"></div>
-                                <div style="width: 80%; height: 80px; left: 10px; top: 200%; position: absolute; background: #3FBAC1;"></div>
-                                <div style="width: 80%; height: 80px; left: 10px; top: 300%; position: absolute; background: rgb(57 178 204 / 70%);"></div>
-                                <div style="width: 80%; height: 80px; left: 10px; top: 400%; position: absolute; background: rgb(122 218 231 / 70%);"></div>
+                                <div class="lowest" style="width: 80%; margin-left: 10px; height: 80px;"></div>
+                                <div class="low" style="width: 80%; height: 80px; left: 10px; top: 100%; position: absolute;"></div>
+                                <div class="med" style="width: 80%; height: 80px; left: 10px; top: 200%; position: absolute;"></div>
+                                <div class="high" style="width: 80%; height: 80px; left: 10px; top: 300%; position: absolute;"></div>
+                                <div class="highest" style="width: 80%; height: 80px; left: 10px; top: 400%; position: absolute;"></div>
                             </div>
                             <div style="left: 26px; bottom: 99px; position: relative;">
-                                <div style="width: 11%; right: 46px; top: 50px; position: absolute; color: rgb(0 0 0); font-size: 10px; font-weight: 300; word-wrap: break-word">less than a month</div>
-                                <div style="right: 48px; top: 130px; width: 48px; position: absolute; color: rgb(0 0 0); font-size: 10px; font-weight: 300; word-wrap: break-word">less than 3 months</div>
-                                <div style="right: 33px; width: 63px; top: 214px; position: absolute; color: rgb(0 0 0); font-size: 10px; font-weight: 300; word-wrap: break-word">less than 6 months</div>
-                                <div style="right: 44px; width: 52px; top: 290px; position: absolute; color: rgb(0 0 0); font-size: 10px; font-weight: 300; word-wrap: break-word">less than a year</div>
-                                <div style="right: 33px; top: 375px; width: 64px; position: absolute; color: rgb(0 0 0); font-size: 10px; font-weight: 300; word-wrap: break-word">greater than a year</div>
-                                <div id="divoneTofive" style="width: 20%; l; left: 35%; top: 35px; position: absolute; color: #ffffff; font-size: 13px; font-weight: 500; word-wrap: break-word">62</div>
-                                <div id="divoneTofiveval" style="width: 20%; l; left: 35%; top: 50px; position: absolute; color: #ffffff; font-size: 16px; font-weight: 500; word-wrap: break-word">62</div>
-                                <div id="divdixToten" style="width: 20%; left: 35%; top: 115px; position: absolute; color: white; font-size: 14px; font-weight: 500; word-wrap: break-word">58</div>
-                                <div id="divdixTotenval" style="width: 20%; left: 35%; top: 130px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">58</div>
-                                <div id="divlevenToFifteen" style="width: 20%; left: 35%; top: 195px; position: absolute; color: white; font-size: 14px; font-weight: 500; word-wrap: break-word">119</div>
-                                <div id="divlevenToFifteenval" style="width: 20%; left: 35%; top: 210px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">119</div>
-                                <div id="divsixteenToTwenty" style="width: 20%; left: 35%; top: 276px; position: absolute; color: white; font-size: 14px; font-weight: 500; word-wrap: break-word">83</div>
-                                <div id="divsixteenToTwentyval" style="width: 20%; left: 35%; top: 290px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">83</div>
-                                <div id="divtwentyToTwefive" style="width: 20%; left: 35%; top: 355px; position: absolute; color: white; font-size: 14px; font-weight: 500; word-wrap: break-word">97</div>
-                                <div id="divtwentyToTwefiveval" style="width: 20%; left: 35%; top: 370px; position: absolute; color: white; font-size: 16px; font-weight: 500; word-wrap: break-word">97</div>
+                                <div style="width: 12%; right: 44px; top: 43px; position: absolute; color: rgb(0 0 0); font-size: 11px; font-weight: 500; word-wrap: break-word">less than a month</div>
+                                <div style="right: 44px; top: 122px; width: 53px; position: absolute; color: rgb(0 0 0); font-size: 11px; font-weight: 500; word-wrap: break-word">less than 3 months</div>
+                                <div style="right: 38px; width: 58px; top: 205px; position: absolute; color: rgb(0 0 0); font-size: 11px; font-weight: 500; word-wrap: break-word">less than 6 months</div>
+                                <div style="right: 44px; width: 52px; top: 285px; position: absolute; color: rgb(0 0 0); font-size: 11px; font-weight: 500; word-wrap: break-word">less than a year</div>
+                                <div style="right: 26px; top: 363px; width: 70px; position: absolute; color: rgb(0 0 0); font-size: 11px; font-weight: 500; word-wrap: break-word">greater than a year</div>
+                                <div id="divoneTofive" style="width: 20%; l; left: 35%; top: 35px; position: absolute; color: #343434; font-size: 13px; font-weight: bold; word-wrap: break-word">-</div>
+                                <div id="divoneTofiveval" style="width: 20%; l; left: 35%; top: 50px; position: absolute; color: #343434; font-size: 16px; font-weight: bold; word-wrap: break-word">--</div>
+                                <div id="divdixToten" style="width: 20%; left: 35%; top: 115px; position: absolute; color: #343434; font-size: 14px; font-weight: bold; word-wrap: break-word">-</div>
+                                <div id="divdixTotenval" style="width: 20%; left: 35%; top: 130px; position: absolute; color: #343434; font-size: 16px; font-weight: bold; word-wrap: break-word">--</div>
+                                <div id="divlevenToFifteen" style="width: 20%; left: 35%; top: 195px; position: absolute; color: #343434; font-size: 14px; font-weight: bold; word-wrap: break-word">-</div>
+                                <div id="divlevenToFifteenval" style="width: 20%; left: 35%; top: 210px; position: absolute; color: #343434; font-size: 16px; font-weight: bold; word-wrap: break-word">--</div>
+                                <div id="divsixteenToTwenty" style="width: 20%; left: 35%; top: 276px; position: absolute; color: #343434; font-size: 14px; font-weight: bold; word-wrap: break-word">-</div>
+                                <div id="divsixteenToTwentyval" style="width: 20%; left: 35%; top: 290px; position: absolute; color: #343434; font-size: 16px; font-weight: bold; word-wrap: break-word">--</div>
+                                <div id="divtwentyToTwefive" style="width: 20%; left: 35%; top: 355px; position: absolute; color: #343434; font-size: 14px; font-weight: bold; word-wrap: break-word">-</div>
+                                <div id="divtwentyToTwefiveval" style="width: 20%; left: 35%; top: 370px; position: absolute; color: #343434; font-size: 16px; font-weight: bold; word-wrap: break-word">--</div>
 
                             </div>
                         </div>
@@ -675,10 +675,10 @@
         var loggedInUserName = '';
         $(document).ready(function () {
             currUserId = <%=Convert.ToInt32(Session["UserId"]).ToString()%>;
-                EmpNo = '<%= Session["EmpNo"] %>';
-                myrole = '<%=Session["Role"]%>';
-                myroleList = '<%=Session["CurrentUserRolesList"]%>';
-            });
+            EmpNo = '<%= Session["EmpNo"] %>';
+            myrole = '<%=Session["Role"]%>';
+            myroleList = '<%=Session["CurrentUserRolesList"]%>';
+        });
     </script>
 
     <script src="script/FinanceDashboard.js"></script>
@@ -703,6 +703,6 @@
     <script src="../FacilityManagement/Datatable/js/buttons.html5.min.js"></script>
     <script src="../FacilityManagement/Datatable/js/buttons.print.min.js"></script>
 
-    <script src="../CRMAdmin/Assets/Js/multiple-select.js"></script>
+    <script src="script/multiple-select.js"></script>
     <link href="../SiteSurvey/Assets/Css/multiple-select.css" rel="stylesheet" />
 </asp:Content>

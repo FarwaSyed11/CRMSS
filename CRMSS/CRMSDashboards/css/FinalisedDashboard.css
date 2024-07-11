@@ -246,3 +246,89 @@
     margin-top: 10px;
     font-weight: 500;
 }
+
+.inforow {
+    display: flex;
+}
+
+.infocards {
+    font-size: 11px;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #e4e4e4;
+    margin: 5px;
+    position: relative;
+    width: 40%;
+}
+
+.totalentered {
+    border-top: 1px solid #fe8c3a;
+}
+
+.totalbooked {
+    border-top: 1px solid #2ADCA6;
+}
+
+.totalclosed {
+    border-top: 1px solid #FF233D;
+}
+
+.value {
+    right: 8px;
+    font-weight: 600;
+    top: 42px;
+}
+
+.low {
+    background: #7fb969;
+}
+.lowest {
+    background: #91d3ac;
+}
+.med {
+    background: rgb(247 213 84);
+}
+.high {
+    background: rgb(255 131 0 / 79%);
+}
+.highest {
+    background: rgb(226 6 19 / 74%);
+}
+
+@keyframes blink-animation {
+    to {
+        border-color:red;
+    }
+}
+
+@-webkit-keyframes blink-animation {
+    to {
+        border-color: red;
+    }
+}
+#ddlCompany, #companyFilter {
+    animation: blinking 1s infinite;
+}
+
+/* HTML:  */
+.loader {
+    width: fit-content;
+    font-weight: bold;
+    font-family: monospace;
+    font-size: 30px;
+    color: #0000;
+    background: linear-gradient(90deg,#C02942 calc(50% + 0.5ch),#000 0) right/calc(200% + 1ch) 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: l7 2s infinite steps(11);
+}
+
+    .loader:before {
+        content: "Loading..."
+    }
+
+@keyframes l7 {
+    to {
+        background-position: left
+    }
+}

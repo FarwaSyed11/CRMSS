@@ -1,4 +1,185 @@
-﻿var options2 = {
+﻿
+var selTerritory, selCompany, selManager, selSalesman = '';
+var listCompanyID = [];
+
+
+$(document).ready(function () {
+    LoadYearddl();
+    LoadTerritory();
+    LoadCompany(selTerritory, currUserId);
+    LoadManager(selTerritory, getCompniesFromDDL(), currUserId);
+    LoadSalesman(selTerritory, getCompniesFromDDL(), selManager, currUserId);
+
+});
+
+
+$('#territoryFilter').on('change', function () {
+    selTerritory = $('#territoryFilter option:selected').val();
+    LoadCompany(selTerritory, currUserId);
+});
+$('#managerFilter').on('change', function () {
+    selTerritory = $('#territoryFilter option:selected').val();
+    listCompanyID = getCompniesFromDDL();
+    selManager = $('#managerFilter option:selected').val();
+    LoadSalesman(selTerritory, listCompanyID, selManager, currUserId);
+});
+$('#btngoFilter').on('click', function () {
+
+    selTerritory = $('#territoryFilter option:selected').val();
+    selCompany = getCompniesFromDDL();
+    selManager = $('#managerFilter option:selected').val();
+    selSalesman = $('#salesmanFilter option:selected').val();
+    ProductWiseChart.destroy();
+   
+
+});
+function LoadYearddl() {
+
+    var htm = '';
+    for (var i = 0; i < 3; i++) {
+        let year = new Date().getFullYear() - i;
+        htm += '<option value="' + year + '">' + year + '</option>';
+    }
+    $("#yearFilter").html(htm);
+}
+
+function LoadTerritory() {
+    $.ajax({
+        url: "PipelineDashboard.aspx/ddlTerritoryFilter",
+        data: JSON.stringify({ "UserId": currUserId }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var content = '';
+            listDDL = result.d;
+            $.each(listDDL, function (key, item) {
+                content += '<option value="' + item.territory + '" >' + item.territory + '</option>';
+            });
+            $('#territoryFilter').html(content);
+            $('#territoryFilter option[value="United Arab Emirates"]').prop('selected', true);
+            selTerritory = $('#territoryFilter option:selected').val();
+            LoadCompany(selTerritory, currUserId);
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
+function LoadCompany(selTerritory, currUserId) {
+    selTerritory = selTerritory;
+    $.ajax({
+        url: "PipelineDashboard.aspx/ddlCompanyFilter",
+        data: JSON.stringify({ "UserId": currUserId, "Territory": selTerritory }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var content = '';
+            listDDL = result.d;
+            $.each(listDDL, function (key, item) {
+                content += '<option value="' + item.company + '" selected>' + item.company + '</option>';
+                //content += item.company == 'Local Sales' ? '<option value="' + item.company + '" selected>' + item.company + '</option>' : '<option value="' + item.company + '" >' + item.company + '</option>';
+            });
+            $('#companyFilter').html(content);
+            selCompany = getCompniesFromDDL();
+            $('#companyFilter').multipleSelect({
+                onClick: function (view) {
+                    $('.ms-parent').css('box-shadow', 'none');
+                    listCompanyID = getCompniesFromDDL();
+                    selTerritory = $('#territoryFilter option:selected').val();
+                    LoadManager(selTerritory, listCompanyID, currUserId);
+                },
+                onCheckAll: function () {
+                    $('.ms-parent').css('box-shadow', 'none');
+                    LoadManager(selTerritory, selCompany, currUserId);
+                },
+                onUncheckAll: function () {
+                    if ($('#companyFilter').val() == "") {
+                        toastr.error('Please select any company.', '');
+                        $('.ms-parent').css('box-shadow', 'rgb(255 0 0) 0px 0.5px 3.5px');
+                    } else {
+                        $('.ms-parent').css('box-shadow', 'none');
+                        LoadManager(selTerritory, selCompany, currUserId);
+                    }
+
+                }
+            });
+
+            LoadManager(selTerritory, selCompany, currUserId)
+
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+function getCompniesFromDDL() {
+    var compnies = '';
+    for (var i = 0; i < $('#companyFilter option:selected').length; i++) {
+        compnies += $('#companyFilter option:selected')[i].text.trim() + ',';
+    }
+    return compnies.substring(0, compnies.lastIndexOf(","));
+}
+
+function LoadManager(selTerritory, listCompanyID, currUserId) {
+    listCompanyID = listCompanyID;
+    $.ajax({
+        url: "PipelineDashboard.aspx/ddlManagerFilter",
+        data: JSON.stringify({ "UserId": currUserId, "Territory": selTerritory, "Company": listCompanyID }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var content = '';
+            listDDL = result.d;
+            content = result.d.length > 1 ? '<option value="-1"> All </option>' : '';
+            $.each(listDDL, function (key, item) {
+                content += '<option value="' + item.value + '" >' + item.name + '</option>';
+            });
+            $('#managerFilter').html(content);
+            selManager = $('#managerFilter option:selected').val();
+            LoadSalesman(selTerritory, listCompanyID, selManager, currUserId)
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
+function LoadSalesman(selTerritory, listCompanyID, selManager, currUserId) {
+    listCompanyID = listCompanyID
+    $.ajax({
+        url: "PipelineDashboard.aspx/ddlSalesmanFilter",
+        data: JSON.stringify({ "UserId": currUserId, "Territory": selTerritory, "Company": listCompanyID, "Manager": selManager }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var content = '';
+            listDDL = result.d;
+            content = result.d.length > 1 ? '<option value="-1"> All </option>' : '';
+            $.each(listDDL, function (key, item) {
+                content += '<option value="' + item.value + '" >' + item.name + '</option>';
+            });
+            $('#salesmanFilter').html(content);
+            selSalesman = $('#salesmanFilter option:selected').val();
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
+
+var options2 = {
     chart: {
         height: 350,
         type: "radialBar",

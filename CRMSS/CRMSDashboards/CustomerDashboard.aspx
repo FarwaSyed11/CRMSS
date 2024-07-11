@@ -22,13 +22,13 @@
     <div class="container-fluid" style="margin-top: 1%; width: 98%;">
         <div class="card">
             <div class="row m-2" style="">
-
                 <div class="col-5">
                     <div style="color: black; font-size: 26px; font-weight: 400; word-wrap: break-word; margin: 10px 0">Dashboard</div>
                 </div>
-                <div class="col-7 mt-2 ptfilter">
+                <div class="col-7 mb-2 ptfilter">
                     <div class="row">
                         <div class="width-23">
+                            <span class="form-label">Territory</span>
                             <select class="form-select" id="territoryFilter" placeholder="Select Authority">
                                 <option value="-1">terriroty</option>
                                 <option value="1">One</option>
@@ -37,6 +37,7 @@
                             </select>
                         </div>
                         <div class="width-23">
+                            <span class="form-label">Company</span>
                             <select class="form-select" id="companyFilter" placeholder="Select Authority" multiple>
                                 <option value="-1">company</option>
                                 <option value="1">One</option>
@@ -45,6 +46,7 @@
                             </select>
                         </div>
                         <div class="width-23">
+                            <span class="form-label">Manager</span>
                             <select class="form-select" id="managerFilter" placeholder="Select Authority">
                                 <option value="-1">manager</option>
                                 <option value="1">One</option>
@@ -53,6 +55,7 @@
                             </select>
                         </div>
                         <div class="width-23">
+                            <span class="form-label">Salesman</span>
                             <select class="form-select" id="salesmanFilter" placeholder="Select Authority">
                                 <option value="-1">salesman</option>
                                 <option value="1">One</option>
@@ -61,7 +64,7 @@
                             </select>
                         </div>
                         <div class="" style="width: 1%">
-                            <button type="button" class="btn btn-primary" id="btngoFilter">
+                            <button type="button" class="btn btn-primary mt-4" id="btngoFilter">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
                                     <path fill="#ffffff" d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0a5.5 5.5 0 0 1 11 0" />
                                 </svg>
@@ -288,8 +291,7 @@
                         <div class="card" style="height: 705px;">
                             <div class="card-body">
                                 Top Customer Based On JOH
-                                <div class="topcustomers" style="height: 640px;overflow-y: scroll;">
-                                   
+                                <div class="topcustomers" style="height: 640px; overflow-y: scroll;">
                                 </div>
                             </div>
                         </div>
@@ -338,7 +340,16 @@
     <script src="../FacilityManagement/Datatable/js/buttons.html5.min.js"></script>
     <script src="../FacilityManagement/Datatable/js/buttons.print.min.js"></script>
 
-    <script src="../CRMAdmin/Assets/Js/multiple-select.js"></script>
+    <%--<link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css" />
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.min.js"></script>
+    <script src="../FacilityManagement/Datatable/js/jszip.min.js"></script>
+    <script src="../FacilityManagement/Datatable/js/pdfmake.min.js"></script>
+    <script src="../FacilityManagement/Datatable/js/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.0.2/js/buttons.print.min.js"></script>--%>
+
+    <script src="script/multiple-select.js"></script>
     <link href="../SiteSurvey/Assets/Css/multiple-select.css" rel="stylesheet" />
 </asp:Content>
 

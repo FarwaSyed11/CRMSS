@@ -3,20 +3,19 @@ var selTerritory, selCompany, selManager, selSalesman = '';
 var listCompanyID = '';
 var listAllValuenPerc = [];
 
-var LPOperc, LOIperc, Contractperc = 0;
+var LPOperc = 0, LOIperc = 0, Contractperc = 0;
 
-var listFinalisedProdGraph, listAllProducts, listAllFinalisedValues = [];
+var listFinalisedProdGraph = [], listAllProducts= [], listAllFinalisedValues = [];
 
-var objDatatableProjList, listTableProjLOI = [];
+var objDatatableProjList = [], listTableProjLOI = [];
 
-var chartFinalisedperc, chartLPOperc, chartContractperc, chartFinalisedProduct = [];
+var chartFinalisedperc = [], chartLPOperc = [], chartContractperc = [], chartFinalisedProduct = [];
 
 var listAgingFinalised = [];
 
 $(document).ready(function () {
 
     LoadTerritory();
-    //getCompniesFromDDL();
     LoadCompany(selTerritory, currUserId);
     LoadManager(selTerritory, getCompniesFromDDL(), currUserId);
     LoadSalesman(selTerritory, getCompniesFromDDL(), selManager, currUserId);
@@ -25,10 +24,7 @@ $(document).ready(function () {
     LoadProjList();
     loadFinalisedAging();
 
-
 });
-
-
 
 $('#territoryFilter').on('change', function () {
     selTerritory = $('#territoryFilter option:selected').val();
@@ -56,7 +52,6 @@ $('#btngoFilter').on('click', function () {
     LoadProjList();
     loadFinalisedAging();
 });
-
 
 function LoadTerritory() {
     $.ajax({
@@ -94,10 +89,11 @@ function LoadCompany(selTerritory, currUserId) {
         dataType: "json",
         async: false,
         success: function (result) {
-            var content = '';
+            var content = '';//<option value="-1" selected> ALL</option>
             listDDL = result.d;
             $.each(listDDL, function (key, item) {
-                content += item.company == 'Local Sales' ? '<option value="' + item.company + '" selected>' + item.company + '</option>' : '<option value="' + item.company + '" >' + item.company + '</option>';
+                //content += item.company == 'Local Sales' ? '<option value="' + item.company + '" selected>' + item.company + '</option>' : '<option value="' + item.company + '" >' + item.company + '</option>';
+                content += '<option value="' + item.company + '" selected>' + item.company + '</option>';
             });
             $('#ddlCompany').html(content);
             //$('#ddlCompany option[value="Local Sales"]').prop('selected', true);
@@ -106,20 +102,23 @@ function LoadCompany(selTerritory, currUserId) {
             //listCompanyID = getCompniesFromDDL();
             $('#ddlCompany').multipleSelect({
                 onClick: function (view) {
+                    $('.ms-parent').css('box-shadow', 'none');
                     listCompanyID = getCompniesFromDDL();
                     selTerritory = $('#territoryFilter option:selected').val();
                     //selCompany = $('#companyFilter option:selected').val();
                     LoadManager(selTerritory, listCompanyID, currUserId);
                 },
+                selectAll: { 'checked': true},
                 onCheckAll: function () {
+                    $('.ms-parent').css('box-shadow', 'none');
                     LoadManager(selTerritory, selCompany, currUserId);
                 },
                 onUncheckAll: function () {
-                    if (getCompanyFromDDL() == "") {
+                    if ($('#ddlCompany').val() == "") {
                         toastr.error('Please select any company.', '');
-                        $('.ms-parent').css('box-shadow', 'rgb(255 0 0) 0px 0.5px 3.5px');
+                        $('.ms-parent').css('animation', 'blink-animation 1s steps(5, start) infinite');
                     } else {
-                        $('.ms-parent').css('box-shadow', ' ');
+                        $('.ms-parent').css('box-shadow', 'none');
                         LoadManager(selTerritory, selCompany, currUserId);
                     }
 
@@ -135,7 +134,6 @@ function LoadCompany(selTerritory, currUserId) {
         }
     });
 }
-
 
 function getCompniesFromDDL() {
     var compnies = '';
@@ -196,8 +194,6 @@ function LoadSalesman(selTerritory, listCompanyID, selManager, currUserId) {
     });
 }
 
-
-
 function LoadLPOLOIContract() {
     $.ajax({
         url: "FinalisedDashbaord.aspx/LoadLPOLOIContract",
@@ -253,18 +249,17 @@ function LoadProjList() {
             var htm = '';
             listTableProjLOI = result.d.listLOIProjects;
             $('.ProjLOI-tbody td').length > 0 ? objDatatableProjList.destroy() : '';
-            $.each(listTableProjLOI, function (key, item) {
-                htm += '<tr><td>' + item.Customer + '</td><td>' + item.OptName + '</td><td>' + item.Product + '</td><td>' + nFormatter(parseInt(item.Value)) + '</td></tr >'
+            $.each(listTableProjLOI, function (key, item) {//nFormatter(parseInt(item.Value))                                                                           '999.5K'.substring('999.5K'.length-1, '999.5K'.length); //<span>' + (nFormatter(parseInt(item.Value))).substring(nFormatter(item.Value).length - 1, nFormatter(item.Value).length) + '</span>
+                htm += '<tr><td>' + item.Customer + '</td><td>' + item.OptName + '</td><td>' + item.Product + '</td><td><span style="display:none">' + parseFloat(item.Value) + '</span> ' + nFormatter(parseInt(item.Value)) + ' </td> </tr>'
+                //htm += '<td><span> ' + (nFormatter(parseInt(item.Value))).substring(nFormatter(item.Value).length - 1, nFormatter(item.Value).length) + '</span> </td></tr>'
             });
             $('.ProjLOI-tbody').html(htm);
-
+            initiateProjListDataTable();
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
         }
     });
-
-    initiateProjListDataTable();
 }
 
 function initiateProjListDataTable() {                                                                                                                                                                                                                                                                                                                       
@@ -280,22 +275,16 @@ function initiateProjListDataTable() {
                 }
             ]
         },
-        columnDefs: [
+        "order": [[3, 'desc']],
+        "columnDefs": [
             { orderable: true, "targets": [] },
-        ]
+            { type: 'num-fmt', targets: 3 }
+        ],
+        "columns": [null, null, null, { type: 'num-fmt' }]
+        
     });
 
 }
-
-$('#ProjLOI-table').DataTable({
-    order: [[3, 'asc']],
-    columnDefs: [
-        { type: 'num', targets: 3 }
-    ],
-    aoColumnDefs: [
-        { "sType": "numeric" }
-    ]
-});
 
 
 function loadFinalisedAging() {
@@ -395,7 +384,7 @@ function initiateFinalisedProdGraph(listAllProducts, listAllFinalisedValues) {
             categories: listAllProducts,
             labels: {
                 formatter: function (value) {
-                    return nFormatter(value) + " AED";
+                    return nFormatter(value) + " ";
                 }
             },
         },

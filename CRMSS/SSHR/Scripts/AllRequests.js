@@ -180,8 +180,8 @@ function LoadRequestData(loadername) {
                  <td style=" ;display:none;">`+ item.LEAVE_APPLICATION_ID + `</td>  
                  <td style=" text-align: center;">`+ item.LEAVE_APPLICATION_NO + `</td>
                  <td style=" ">`+ item.LEAVE_TYPE + `</td>     
-                 <td style="text-align: center; ">`+ datedayformat(item.FROM_DATE) + `</td>
-                 <td style=" text-align: center;">`+ datedayformat(item.TO_DATE) + `</td>
+                 <td style="text-align:center"><span class="hidden"> `+ item.FromDate_Sort + `</span>` + datedayformat(item.FROM_DATE) + `</td>
+                 <td style="text-align:center"><span class="hidden"> `+ item.ToDate_Sort + `</span>` + datedayformat(item.TO_DATE) + `</td>
                   <td style=" ">`+ item.REASON + `</td> 
                   <td style=" text-align: center;" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
                   <td style="text-align:center">
@@ -225,9 +225,9 @@ function LoadRequestData(loadername) {
                  <td style=" ;display:none;">`+ item.ReqID + `</td>  
                  <td style="text-align: center; ">`+ item.Req_Number + `</td>
                  <td style=" ">`+ item.RequestFor + `</td>     
-                 <td style=" text-align: center;">`+ datedayformat(item.Travelling_Date) + `</td>
-                 <td style=" text-align: center;">`+ datedayformat(item.Expected_Date_Of_Return) + `</td>
-                  <td style="text-align: center; ">`+ datedayformat(item.RequestDate) + `</td>
+                 <td style="text-align:center"><span class="hidden"> `+ item.Travelling_Date_sort + `</span>` + datedayformat(item.Travelling_Date) + `</td>
+                 <td style="text-align:center"><span class="hidden"> `+ item.Expected_Date_Of_Return_sort + `</span>` + datedayformat(item.Expected_Date_Of_Return) + `</td>
+                  <td style="text-align:center"><span class="hidden"> `+ item.ReqDate_sort + `</span>` + datedayformat(item.RequestDate) + `</td>
                     <td style="text-align: center; " ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
                    <td style="text-align:center ">
                   <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-PPT-req-info" title="Other" data-pptid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
@@ -266,7 +266,7 @@ function LoadRequestData(loadername) {
                  <td style=" ;display:none;">`+ item.ReqID + `</td> 
                   <td style="text-align: center; ">`+ item.Req_Number + `</td>
                  <td style=" ">`+ item.REQUEST_TYPE + `</td>  
-                 <td style="text-align: center; ">`+ datedayformat(item.RequestDate) + `</td>
+                 <td style="text-align:center"><span class="hidden"> `+ item.ReqDate_sort + `</span>` + datedayformat(item.RequestDate) + `</td> 
                <td style=" text-align: center;" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
                 <td style="text-align:center ">
                   <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-BDR-req-info" title="Other" data-bankrelid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
@@ -307,7 +307,7 @@ function LoadRequestData(loadername) {
                   <td style=" text-align: center;">`+ item.Req_Number + `</td>
                  <td style=" ">`+ item.REQUEST_TYPE + `</td>   
                  <td style=" ">`+ item.RequestFor + `</td>   
-                  <td style=" text-align: center;">`+ datedayformat(item.RequestDate) + `</td>
+                  <td style="text-align:center"><span class="hidden"> `+ item.ReqDate_sort + `</span>` + datedayformat(item.RequestDate) + `</td> 
                  <td style="text-align: center; " ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
                 <td style="text-align:center ">
                   <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-Misc-req-info" title="Other Misc" data-miscid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
@@ -350,9 +350,9 @@ function LoadRequestData(loadername) {
                   <td style=" text-align: center;">`+ item.Req_Number + `</td>
                  <td style=" ">`+ item.REQUEST_TYPE + `</td>   
                  <td style=" ">`+ item.RequestFor + `</td>   
-                 <td style=" text-align: center;">`+ datedayformat(item.FROM_DATE) + `</td>
+                 <td style="text-align:center"><span class="hidden"> `+ item.DateStart_sort + `</span>` + datedayformat(item.FROM_DATE) + `</td>
                  <td style=" text-align: center;">`+ item.AMOUNT + `</td>
-                 <td style="text-align: center; ">`+ datedayformat(item.RequestDate) + `</td>
+                 <td style="text-align:center"><span class="hidden"> `+ item.ReqDate_sort + `</span>` + datedayformat(item.RequestDate) + `</td> 
                   <td style=" text-align: center;" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
                 <td style="text-align:center ">
                   <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-CL-req-info" title="Other" data-comloid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
@@ -392,10 +392,10 @@ function LoadRequestData(loadername) {
                
                  <td style=" ;display:none;">`+ item.ReqID + `</td> 
                   <td style=" text-align: center;">`+ item.Req_Number + `</td>
-                  <td style=" text-align: center;">`+ datedayformat(item.FROM_DATE) + `</td>
+                  <td style="text-align:center"><span class="hidden"> `+ item.LateDate_sort + `</span>` + datedayformat(item.FROM_DATE) + `</td> 
                  <td style=" text-align: center;">`+ (item.ARRIVED_TIME) + `</td>
                  <td style=" ">`+ item.REASON + `</td>   
-                 <td style="text-align: center; ">`+ datedayformat(item.RequestDate) + `</td>
+                 <td style="text-align:center"><span class="hidden"> `+ item.ReqDate_sort + `</span>` + datedayformat(item.RequestDate) + `</td>  
                    <td style=" text-align: center;" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
                 <td style=" text-align:center">
                   <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-LA-req-info" title="Other" data-laid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
@@ -434,10 +434,10 @@ function LoadRequestData(loadername) {
                
                  <td style=" ;display:none;">`+ item.ReqID + `</td> 
                   <td style=" text-align: center;">`+ item.Req_Number + `</td>
-                 <td style=" text-align: center;">`+ datedayformat(item.EXIT_DATE) + `</td>
+                <td style="text-align:center"><span class="hidden"> `+ item.ExitDate_sort + `</span>` + datedayformat(item.EXIT_DATE) + `</td>  
                  <td style=" text-align: center;">`+ (item.OUT_TIME) + `</td>
                  <td style=" ">`+ item.REASON + `</td>   
-                 <td style=" text-align: center;">`+ datedayformat(item.RequestDate) + `</td>
+                <td style="text-align:center"><span class="hidden"> `+ item.ReqDate_sort + `</span>` + datedayformat(item.RequestDate) + `</td>  
                  <td style=" text-align: center;" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
                 <td style=" text-align:center">
                   <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-EXTPass-req-info" title="Other" data-exitid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
@@ -475,8 +475,8 @@ function LoadRequestData(loadername) {
                  <td style=" ;display:none;">`+ item.ReqID + `</td> 
                   <td style=" text-align: center;">`+ item.Req_Number + `</td>
 
-                 <td style="text-align: center; ">`+ datedayformat(item.LastEncashDate) + `</td>
-                 <td style=" text-align: center;">`+ datedayformat(item.RequestDate) + `</td>
+                 <td style=" text-align: center;"><span class="hidden"> `+ item.LastTicketEncashDate_sort + `</span>` + datedayformat(item.LastEncashDate) + `</td>
+                      <td style=" text-align: center;"><span class="hidden"> `+ item.ReqDate_sort + `</span>` + datedayformat(item.RequestDate) + `</td>
                   <td style=" ">`+ item.REASON + `</td>   
                  <td style=" text-align: center;" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
                  <td style=" text-align:center">
@@ -523,7 +523,7 @@ function LoadRequestData(loadername) {
                  <td style=" ">`+ item.REQUEST_TYPE + `</td>   
                    
                  <td style=" ">`+ item.REASON + `</td>   
-                 <td style=" text-align: center;">`+ datedayformat(item.RequestDate) + `</td>
+                 <td style="text-align:center"><span class="hidden"> `+ item.ReqDate_sort + `</span>` + datedayformat(item.RequestDate) + `</td> 
                   <td style="text-align: center; " ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
                 <td style=" text-align:center">
                   <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-AllReq-req-info" title="Other" data-projid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
@@ -898,6 +898,46 @@ function LoadRequestDataforOnbehalf(loadername) {
                 $('.tbody-emp-req-behalf').html(htm);
 
             }
+            else if ($('#ddlRequests-behalf option:selected').val() == 7) {
+
+                htmlHead += ` <tr style="text-align: center;">
+                               <th class="table-cahnge" colspan="7" style="font-size:large;background: #b70000 !important;color: white !important;">TICKET ENCASHMENT REQUEST</th></tr>`
+
+                htmlHead += `  <tr style="text-align: center;">
+                                 <th style="display:none;">ID</th > 
+                                 <th style="width:10%">Request Number</th >
+                                 <th style="width:10%">Last Ticket Encash Date</th>
+                                 <th style="width:10%">Requested Date</th>
+                                 <th style="width:20%">Reason</th>
+                                 <th style="width:10%">Status</th>
+                                  <th style="width:10%">Action</th>`
+
+
+                $.each(result.d, function (key, item) {
+
+
+                    htm += `  <tr>        
+               
+                 <td style=" ;display:none;">`+ item.ReqID + `</td> 
+                  <td style=" text-align: center;">`+ item.Req_Number + `</td>
+
+                 <td style="text-align: center; ">`+ datedayformat(item.LastEncashDate) + `</td>
+                 <td style=" text-align: center;">`+ datedayformat(item.RequestDate) + `</td>
+                  <td style=" ">`+ item.REASON + `</td>   
+                 <td style=" text-align: center;" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                 <td style=" text-align:center">
+                  <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-TE-req-info" title="Other" data-exitid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
+                  </td>
+
+                  </tr>`;
+
+                });
+
+
+                $('.thead-Request_Details-behalf').html(htmlHead);
+                $('.tbody-emp-req-behalf').html(htm);
+
+            }
             //all Request
             else if ($('#ddlRequests-behalf option:selected').val() == -1) {
 
@@ -928,8 +968,8 @@ function LoadRequestDataforOnbehalf(loadername) {
                  <td style=" ">`+ item.EmployeeName + `</td>
                  <td style=" ">`+ item.REASON + `</td>   
                  <td style=" ">`+ datedayformat(item.RequestDate) + `</td> 
-                  <td style=" text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
-                <td style=" text-align:center">
+                 <td style=" text-align:center" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                 <td style=" text-align:center">
                   <span style="margin-left: 4%;"> <i class="bx bx-area fa-icon-hover ibtn-AllReq-req-info" title="Other" data-projid="`+ item.ReqID + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>
                   </td>
 
@@ -981,7 +1021,6 @@ $('.tbody-emp-req-behalf').on('click', '.ibtn-AllReq-req-info', function () {
     }
     else if (Type == 1) {
 
-
         $('#ddlRequestType').val('1');
         $('#ddlRequestType').attr('disabled', true);
         RequestPageLoad();
@@ -994,8 +1033,6 @@ $('.tbody-emp-req-behalf').on('click', '.ibtn-AllReq-req-info', function () {
     }
 
     else if (Type == 2) {
-
-
 
         $('#ddlRequestType').val('2');
         $('#ddlRequestType').attr('disabled', true);
@@ -1023,14 +1060,12 @@ $('.tbody-emp-req-behalf').on('click', '.ibtn-AllReq-req-info', function () {
         getAllMiscRequestDetails();
         miscReqTypeFormate();
 
-
         $('.insert-Attachment').css('display', 'none');
         $('.download-Attachment').css('display', '');
         $('#empLeaveModal').modal('show');
     }
 
     else if (Type == 4) {
-
 
         $('#ddlRequestType').val('4');
         $('#ddlRequestType').attr('disabled', true);
@@ -1044,16 +1079,13 @@ $('.tbody-emp-req-behalf').on('click', '.ibtn-AllReq-req-info', function () {
         ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
         getAllCompanyLoanDetails();
 
-
         $('.insert-Attachment').css('display', 'none');
         $('.download-Attachment').css('display', '');
         $('#empLeaveModal').modal('show');
 
-
     }
 
     else if (Type == 5) {
-
 
         $('#ddlRequestType').val('5');
         $('#ddlRequestType').attr('disabled', true);
@@ -1061,7 +1093,6 @@ $('.tbody-emp-req-behalf').on('click', '.ibtn-AllReq-req-info', function () {
         ClearLAReq();
         ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
         getAllLAReqDetails();
-
 
         $('#empLeaveModal').modal('show');
     }
@@ -1076,7 +1107,18 @@ $('.tbody-emp-req-behalf').on('click', '.ibtn-AllReq-req-info', function () {
         ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
         getAllEPReqDetails();
 
+        $('#empLeaveModal').modal('show');
+    }
+    else if (Type == 7) {
 
+        $('#ddlRequests option:selected').val();
+        $('#ddlRequestType').val('7');
+        $('#ddlRequestType').attr('disabled', true);
+        RequestPageLoad();
+        ClearTEReq();
+        ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
+        getAllTEReqDetails();
+        $('#dtLastEncashDate').val(LastTicketEncashDate);
         $('#empLeaveModal').modal('show');
     }
 });
@@ -1187,6 +1229,22 @@ $('.tbody-emp-req-behalf').on('click', '.ibtn-EXTPass-req-info', function () {
     $('.insert-Attachment').css('display', 'none');
     $('.download-Attachment').css('display', '');
     $('#empLeaveModal').modal('show');
+});
+$('.tbody-emp-req-behalf').on('click', '.ibtn-TE-req-info', function () {
+
+
+    Type = $('#ddlRequests option:selected').val();
+    $('#ddlRequestType').val('7');
+    $('#ddlRequestType').attr('disabled', true);
+    RequestPageLoad();
+    ClearEPReq();
+    ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
+    getAllTEReqDetails();
+
+    $('.insert-Attachment').css('display', 'none');
+    $('.download-Attachment').css('display', '');
+    $('#empLeaveModal').modal('show');
+
 });
 $('.tbody-emp-req').on('click', '.ibtn-AllReq-req-info', function () {
 
@@ -3550,6 +3608,7 @@ $('#empLeaveModal').on('change', '#txtEmpName', function () {
     GetBasicEmpDet();
 
     if (Type == 4){
+	
         GetBDBasicSalaryDet();
         
         CompanyLoanTypeFormat();
@@ -5907,6 +5966,9 @@ function CompanyLoanTypeFormat() {
                   
             }
         }
+  else if (RemainingHRAAdvance==0) {
+    $("#txtNumberofMonth").prop("max", 6);
+}
 
 
     }
@@ -6205,20 +6267,25 @@ function loadEmpLoanDetails() {
         async: false,
         success: function (result) {
             var htm = '';
+		  if (result.d.length == 0) {
+      				RemainingHRAAdvance = 0;
+      				RemainingSalaryAdvance = 0;
+  			}
+
             $.each(result.d, function (key, item) {
                 htm += `<tr> 
-                    <td style="text-align: center;" > <span class="badge badge-for-taskcode"> `+ result.d[0].LTYPE + ` </span> </td>
-                    <td> `+ result.d[0].PAID + ` </td>
-                    <td> `+ result.d[0].RECOVERED + ` </td>
-                    <td> `+ result.d[0].REMAINING + ` </td>`
+                    <td style="text-align: center;" > <span class="badge badge-for-taskcode"> `+ item.LTYPE + ` </span> </td>
+                    <td> `+ item.PAID + ` </td>
+                    <td> `+ item.RECOVERED + ` </td>
+                    <td> `+ item.REMAINING + ` </td>`
                 htm += `</tr>`
 
-                if (result.d[0].LTYPE == "Housing") {
-                    RemainingHRAAdvance = result.d[0].REMAINING
+                if (item.LTYPE == "Housing") {
+                    RemainingHRAAdvance = item.REMAINING
                    
                 }
-                if (result.d[0].LTYPE == "SalaryAdvance") {
-                    RemainingSalaryAdvance = result.d[0].REMAINING
+                if (item.LTYPE == "SalaryAdvance") {
+                    RemainingSalaryAdvance = item.REMAINING
                   
                 }
             });

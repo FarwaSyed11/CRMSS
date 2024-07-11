@@ -687,7 +687,7 @@ $('.tbody-emp-req').on('click', '.ibtn-PPT-req-info', function () {
     ClearPPTDetails();
     ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
     getAllPPTDetails();
-    SetPPTForm();
+    /*SetPPTForm();*/
 
     $('.insert-Attachment').css('display', 'none');
     $('.download-Attachment').css('display', '');
@@ -2325,6 +2325,8 @@ function getAllPPTDetails() {
             loadPPTReason();
 
             $('#ddlPPTReason').val(result.d[0].ReasonValue);
+            $('#ddlPPTReason').trigger('change');
+            $('#ddlPPTOtherReason').val(result.d[0].OtherReason);
             $("#txtTravellingDate").val(result.d[0].Travelling_Date);
             $("#txtEptDOReturn").val(result.d[0].Expected_Date_Of_Return);
 
@@ -2441,6 +2443,34 @@ $('#empLeaveModal').on('change', '#ddlPPTReason', function () {
     }
 
 });
+function loadPPTOtherReason() {
+
+    $.ajax({
+        url: "AdminRequests.aspx/GetAllPPTOtherReasons",
+        data: JSON.stringify({ "ReasonValue": $('#ddlPPTReason option:selected').val(), "Reason": $('#ddlPPTReason option:selected').text(), }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var opt = '';
+            listLeaveType = result.d;
+
+            $.each(listLeaveType, function (key, item) {
+                opt += '<option value="' + item.Value + '" >' + item.Text + '</option>';
+            });
+            $('#ddlPPTOtherReason').html(opt);
+
+
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
+
 
 function SetPPTForm() {
 

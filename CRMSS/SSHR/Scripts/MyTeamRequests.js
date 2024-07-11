@@ -660,7 +660,7 @@ $('.tbody-emp-req').on('click', '.ibtn-AllReq-req-info', function () {
         ClearCLReqDetails();
         ApplicationId = this.parentNode.parentNode.parentNode.children[0].textContent;
         getAllCompanyLoanDetails();
-        CompanyLoanTypeFormat();
+        //CompanyLoanTypeFormat();
 
         $('.insert-Attachment').css('display', 'none');
         $('.download-Attachment').css('display', '');
@@ -921,7 +921,7 @@ $('.tbody-emp-req').on('click', '.ibtn-CL-req-info', function () {
     MyOrderNumber = this.parentNode.parentNode.parentNode.children[1].textContent;
     MyRoleID = this.parentNode.parentNode.parentNode.children[2].textContent;
     getAllCompanyLoanDetails();
-    CompanyLoanTypeFormat();
+    //CompanyLoanTypeFormat();
 
     $('.insert-Attachment').css('display', 'none');
     $('.download-Attachment').css('display', '');
@@ -1651,6 +1651,9 @@ function getAllBankDetails() {
 
             $('#lblEmpName').val(result.d[0].EmpName);
             $('#lblEmpNo').html(result.d[0].EmpNo);
+            reqEmpno = result.d[0].EmpNo;
+            EmpNo = result.d[0].EmpNo;
+
             $('#lblDesignation').val(result.d[0].Designation);
             $('#lblDepart').val(result.d[0].DeptName);
             $('#lblVisaExpDate').html(datedayformat(result.d[0].VisaExpiryDate));
@@ -1742,6 +1745,7 @@ function initiateDataTableEmp(pDefCol) {
     objDatatable = [];
     objDatatable = $('.emp-req-table').DataTable({
         dom: 'lBfrtip',
+        "bStateSave": true,
         order: [[pDefCol, 'desc']],
         buttons: {
             buttons: []

@@ -16,64 +16,6 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <style>
-        .width-13 {
-            width: 13.75%;
-        }
-
-        .width-20 {
-            width: 20%;
-        }
-
-        .forcard {
-            border-radius: 6px;
-            border: 1px solid #e0e0e0;
-            padding: 8px 8px;
-            margin-bottom: 5px;
-        }
-
-        .forcard-body {
-            font-size: smaller;
-            width: 90%;
-        }
-
-        .forcard-head {
-            font-size: small;
-            color: #005dae;
-            text-transform: capitalize;
-        }
-
-        .forcard-label {
-            color: #930000a6;
-            background: #ff00003d;
-            padding: 2px 10px;
-            font-size: small;
-            border-radius: 6px;
-            float: right;
-        }
-
-        .nav .nav-link:hover, .nav .nav-link:focus {
-            color: #9d0000a3 !important;
-        }
-
-        .nav-pills .nav-link.active, .nav-pills .nav-link.active:hover, .nav-pills .nav-link.active:focus {
-            background-color: #ffdddd54 !important;
-            color: #000000 !important;
-            box-shadow: none !important;
-        }
-
-        .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-            color: #000 !important;
-            background-color: #ededed !important;
-        }
-
-        .nav-pills .nav-link {
-            font-size: 12px;
-        }
-
-        .tab-content {
-            padding: 10px 0px !important;
-        }
-
         .ovs {
             text-align: center;
             display: flex;
@@ -96,130 +38,44 @@
                 font-weight: 500;
             }
 
-        .b-blue {
-            border-top: 1px solid #1ac2f7 !important
-        }
-
-        .b-lightblue {
-            border-top: 1px solid #87cce9 !important
-        }
-
-        .b-red {
-            border-top: 1px solid #ed1b26 !important
-        }
-
-        .b-green {
-            border-top: 1px solid #43d1b7 !important
-        }
-
-        .b-purple {
-            border-top: 1px solid #a24ad8 !important
-        }
-
-        .b-pink {
-            border-top: 1px solid #f99ad3 !important
-        }
-
-        .inforow {
-            display: flex;
-        }
-
-        .infocards {
-            font-size: 11px;
-            text-align: center;
-            padding: 10px;
-            border: 1px solid #e4e4e4;
-            margin: 5px;
-            position: relative;
-            width: 40%;
-        }
-
-        .totalentered {
-            border-top: 1px solid #fe8c3a;
-        }
-
-        .totalbooked {
-            border-top: 1px solid #2ADCA6;
-        }
-
-        .totalclosed {
-            border-top: 1px solid #FF233D;
-        }
-
-        .value {
-            right: 8px;
-            font-weight: 600;
-            top: 42px;
-        }
     </style>
 
     <div class="container-fluid" style="margin-top: 1%; width: 98%;">
         <div class="card">
             <div class="row m-2" style="">
 
-                <div class="col-2">
+                <div class="col-4">
                     <div style="color: black; font-size: 26px; font-weight: 400; word-wrap: break-word; margin: 10px 0">Dashboard</div>
                 </div>
-                <div class="col-10 mt-2 ptfilter">
+                <div class="col-8 mb-2 ptfilter">
                     <div class="row">
-                        <div class="width-13">
-                            <select class="form-select" id="territoryFilter" placeholder="Select Authority">
-                                <option value="-1">terriroty</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
+                        <div class="width-18">
+                            <span class="form-label">Territory</span>
+                            <select class="form-select" id="territoryFilter" placeholder="Select terriroty"></select>
                         </div>
-                        <div class="width-13">
-                            <select class="form-select" id="companyFilter" placeholder="Select Authority">
-                                <option value="-1">company</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
+                        <div class="width-18">
+                            <span class="form-label">Company</span>
+                            <select class="form-select" id="companyFilter" placeholder="Select company"></select>
                         </div>
-                        <div class="width-13">
-                            <select class="form-select" id="managerFilter" placeholder="Select Authority">
-                                <option value="-1">manager</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
+                        <div class="width-18">
+                            <span class="form-label">Manager</span>
+                            <select class="form-select" id="managerFilter" placeholder="Select manager"> </select>
                         </div>
-                        <div class="width-13">
-                            <select class="form-select" id="salesmanFilter" placeholder="Select Authority">
-                                <option value="-1">salesman</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
+                        <div class="width-18">
+                            <span class="form-label">Salesman</span>
+                            <select class="form-select" id="salesmanFilter" placeholder="Select salesman"></select>
                         </div>
-                        <div class="width-13">
-                            <select class="form-select" id="yeardateFilter" placeholder="Select Authority">
-                                <option value="-1">year to date</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>
-                        <div class="width-13">
-                            <select class="form-select" id="yearFilter" placeholder="Select Authority">
+                        <div class="width-18">
+                            <span class="form-label">Year</span>
+                            <select class="form-select" id="yearFilter" placeholder="Select year">
                                 <option value="-1">year</option>
                                 <option value="1">One</option>
                                 <option value="2">Two</option>
                                 <option value="3">Three</option>
                             </select>
                         </div>
-                        <div class="width-13">
-                            <select class="form-select" id="monthFilter" placeholder="Select Authority">
-                                <option value="-1">month</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                        </div>
                         <div class="" style="width: 1%">
-                            <button type="button" class="btn btn-primary" id="btngoFilter">
+                            <button type="button" class="btn btn-primary mt-4" id="btngoFilter">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
                                     <path fill="#ffffff" d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0a5.5 5.5 0 0 1 11 0" />
                                 </svg>
@@ -407,7 +263,7 @@
                                                 <div class="my-1">P-Achievement</div>
                                                 <div>11</div>
                                             </div>
-                                            <div class="infocards totalbooked">
+                                            <div class="infocards b-red">
                                                 <div>
                                                     <img src="image/p-perc.svg" />
                                                 </div>

@@ -593,7 +593,8 @@
                             </div>
                         </div>
                         <div class="col-1">
-                            <button class="btn btn-primary print">Print</button>
+                            <span class="btn btn-primary print">Print</span>
+                            <%--<button class="btn btn-primary print">Print</button>--%>
                         </div>
                     </div>
 
@@ -1512,7 +1513,7 @@
         });
 
     </script>
-    <script src="Scripts/OtherRequests.js?v=10"></script>
+    <script src="Scripts/OtherRequests.js?v=11"></script>
     <link href="Css/allrequest.css" rel="stylesheet" />
 
     <script src="../KPI/Flatpickr/js/flatpickr.js"></script>

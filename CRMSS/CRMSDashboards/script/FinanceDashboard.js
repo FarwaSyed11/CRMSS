@@ -51,6 +51,31 @@ $('#managerFilter').on('change', function () {
     LoadSalesman(selTerritory, listCompanyID, selManager, currUserId);
 });
 
+$('#btngoFilter').on('click', function () {
+    selTerritory = $('#territoryFilter option:selected').val();
+    selCompany = getCompniesFromDDL();
+    selManager = $('#managerFilter option:selected').val();
+    selSalesman = $('#salesmanFilter option:selected').val();
+
+    chart1SOperc.destroy();
+    chart3CollectPerc.destroy();
+    invoicerange.destroy();
+    chart2InvcPerc.destroy();
+    cpSalesOrderchart.destroy();
+    sgSalesOrderchart.destroy();
+    sgInvoicechart1.destroy();
+    collectionrange.destroy();
+    cpInvoicechart.destroy();
+    sgCollectionchart2.destroy();
+    cpCollectionchart.destroy();
+    salesorderrange.destroy();
+
+    LoadGrowthColInvSO();
+    LoadComparisionColInvSO();
+    loadYeartoDate();
+    loadTargetPercAch();
+    loadFinanceAging();
+});
 
 
 function loadEmpImage() {
@@ -151,7 +176,8 @@ function LoadCompany(selTerritory, currUserId) {
             var content = '';
             listDDL = result.d;
             $.each(listDDL, function (key, item) {
-                content += item.company == 'Local Sales' ? '<option value="' + item.company + '" selected>' + item.company + '</option>' : '<option value="' + item.company + '" >' + item.company + '</option>';
+                content += '<option value="' + item.company + '" selected>' + item.company + '</option>';
+                //content += item.company == 'Local Sales' ? '<option value="' + item.company + '" selected>' + item.company + '</option>' : '<option value="' + item.company + '" >' + item.company + '</option>';
             });
             $('#companyFilter').html(content);
             selCompany = getCompniesFromDDL();
@@ -160,16 +186,18 @@ function LoadCompany(selTerritory, currUserId) {
                     listCompanyID = getCompniesFromDDL();
                     selTerritory = $('#territoryFilter option:selected').val();
                     LoadManager(selTerritory, listCompanyID, currUserId);
+                    $('.ms-parent').css('box-shadow', 'none');
                 },
                 onCheckAll: function () {
+                    $('.ms-parent').css('box-shadow', 'none');
                     LoadManager(selTerritory, selCompany, currUserId);
                 },
                 onUncheckAll: function () {
-                    if (getCompanyFromDDL() == "") {
+                    if ($('#companyFilter').val() == "") {
                         toastr.error('Please select any company.', '');
                         $('.ms-parent').css('box-shadow', 'rgb(255 0 0) 0px 0.5px 3.5px');
                     } else {
-                        $('.ms-parent').css('box-shadow', ' ');
+                        $('.ms-parent').css('box-shadow', 'none');
                         LoadManager(selTerritory, selCompany, currUserId);
                     }
 
@@ -440,23 +468,6 @@ function loadTargetPercAch() {
     });
 }
 
-function nFormatter(num) {
-
-    if (num >= 1000000000000) {
-        return (num / 1000000000000).toFixed(1).replace(/\.0$/, '') + 'T';
-    }
-    else if (num >= 1000000000) {
-        return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
-    }
-    else if (num >= 1000000) {
-        return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
-    }
-    else if (num >= 1000) {
-        return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
-    }
-    return num;
-}
-
 function loadFinanceAging() {
 
     $.ajax({
@@ -485,8 +496,6 @@ function loadFinanceAging() {
         }
     });
 }
-
-
 function initiateAllOverallPie(SOPercVal, INVPercVal, COPercVal) {
     var options1 = {
         chart: {
@@ -1066,11 +1075,7 @@ function initiateComparisionGraph(listvalCompSOTY, listvalCompSOLY, listvalCompI
     cpCollectionchart.render();
 
 }
-function numberWithCommas(number) {
-    var parts = number.toString().split(".");
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return parts.join(".");
-}
+
 function initiateYTDPercRange(ytdSOpercVal, ytdINVpercVal, ytdCOpercVal) {
     var options1 = {
         chart: {
@@ -1208,28 +1213,25 @@ function initiateYTDPercRange(ytdSOpercVal, ytdINVpercVal, ytdCOpercVal) {
     collectionrange.render();
 }
 
-$('#btngoFilter').on('click', function () {
-    selTerritory = $('#territoryFilter option:selected').val();
-    selCompany = getCompniesFromDDL();
-    selManager = $('#managerFilter option:selected').val();
-    selSalesman = $('#salesmanFilter option:selected').val();
+function numberWithCommas(number) {
+    var parts = number.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+}
 
-    chart1SOperc.destroy();
-    chart3CollectPerc.destroy();
-    invoicerange.destroy();
-    chart2InvcPerc.destroy();
-    cpSalesOrderchart.destroy();
-    sgSalesOrderchart.destroy();
-    sgInvoicechart1.destroy();
-    collectionrange.destroy();
-    cpInvoicechart.destroy();
-    sgCollectionchart2.destroy();
-    cpCollectionchart.destroy();
-    salesorderrange.destroy();
+function nFormatter(num) {
 
-    LoadGrowthColInvSO();
-    LoadComparisionColInvSO();
-    loadYeartoDate();
-    loadTargetPercAch();
-    loadFinanceAging();
-});
+    if (num >= 1000000000000) {
+        return (num / 1000000000000).toFixed(1).replace(/\.0$/, '') + 'T';
+    }
+    else if (num >= 1000000000) {
+        return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
+    }
+    else if (num >= 1000000) {
+        return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    }
+    else if (num >= 1000) {
+        return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    }
+    return num;
+}

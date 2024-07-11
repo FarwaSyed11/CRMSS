@@ -120,12 +120,12 @@ function escapeHtml(unsafe) {
         .replace(/'/g, "&#039;");
 }
 $('.jobdesc').on('click', function () {
-    $("#btnEditJobPurpose").css('visibility', 'visible');
+    $("#btnEditJobPurpose").css('visibility', 'hidden');
     $("#btnViewSalarySlip").css('visibility', 'hidden');
 });
 
 $('.salaryinfo').on('click', function () {
-    $("#btnViewSalarySlip").css('visibility', 'visible');
+    $("#btnViewSalarySlip").css('visibility', 'hidden');
     $("#btnEditJobPurpose").css('visibility', 'hidden');
 });
 
