@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="ERMMaster.aspx.cs" Inherits="ERM_ERMMaster" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="ERMMaster.aspx.cs" Inherits="ERM_ERMMaster" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 
@@ -631,6 +631,7 @@ h2:hover{
                                                     <th>Status</th>
                                                     <th>Company</th>
                                                     <th style="display: none;">MarktingID</th>
+                                                    <th>Marketing</th>
 
                                                 </tr>
                                             </thead>
@@ -682,7 +683,7 @@ h2:hover{
                                 <button type="button" class="btn btn-danger btnReject" style="float: right;"><i class="bx bxs-x-circle"></i>Reject</button>
                             </div>
                             <div>
-                                <button type="button" class="btn btn-success btnReceived" style="float: right; margin-left: 5px;"><i class="bx bxs-check-circle"></i>Recieved</button>
+                                <button type="button" class="btn btn-success btnReceived" style="float: right; margin-left: 5px;"><i class="bx bxs-check-circle"></i>Assigned</button>
                             </div>
                             <div>
                                 <button type="button" class="btn btn-danger btnCompleted" style="float: right;"><i class="bx bxs-x-circle"></i>Completed</button>
@@ -889,14 +890,27 @@ h2:hover{
                                     <input type="text" id="txtPrjURL" value="" class="form-control" style="border-bottom: solid; border-color: #ffc1a3;" />
                                 </div>
                             </div>
-                              <div style="width: 25%;">
-                              <label for="html5-number-input" class="col-form-label label-custom">Estimation Team Org </label>
-                              <div class="">
+                            <div style="width: 25%;">
+                                <label for="html5-number-input" class="col-form-label label-custom">Estimation Team Org </label>
+                                <div class="">
 
-                                  <select id="ddlEstimationTeamOrg" class="form-select color-dropdown"></select>
-                              </div>
-                          </div>
+                                    <select id="ddlEstimationTeamOrg" class="form-select color-dropdown"></select>
+                                </div>
+                            </div>
+                            <div style="width: 25%;">
+                                <label for="html5-number-input" class="col-form-label label-custom">Salesman</label>
+                                <div class="">
 
+                                    <input type="text" id="txtSalesman" value="" class="form-control" style="border-bottom: solid; border-color: #ffc1a3;" disabled />
+                                </div>
+                            </div>
+                            <div style="width: 25%;">
+                                <label for="html5-number-input" class="col-form-label label-custom">Marketing</label>
+                                <div class="">
+
+                                    <input type="text" id="txtMarketing" value="" class="form-control" style="border-bottom: solid; border-color: #ffc1a3;" disabled />
+                                </div>
+                            </div>
                         </div>
 
                         <br />
@@ -923,6 +937,41 @@ h2:hover{
                            <%-- <a href="#" id="btnSubmitOptDet" class="btn btn-primary" style="float:right;">Submit</a>--%>
                             </div>
                         </div>
+                          <%-- Estimation Co-ordinator --%>
+
+                        <div class="row" style="padding-top:1%;">
+                            <div style="width: 25%;" class="Estimation-TeamLeader">
+                                <label for="html5-number-input" class="col-form-label label-custom">TeamLeader </label>
+                                <div class="">
+
+                                    <select id="ddlTeamLeader" class="form-select color-dropdown"></select>
+                                </div>
+                            </div>
+
+                            <div class="col-3 Assign-Attachment">
+                                <label for="html5-number-input" class="col-form-label label-custom">Attachment</label>
+                                <div class="input-group mb-3 insert-Attachment">
+                                    <%--<label for="html5-number-input" class="col-form-label label-custom" style="float: left;padding-right: 10px;padding-top: 2px;">Attachment</label>--%>
+
+                                    <input class="form-control" type="file" id="fu-upload-ERMReq" title="Attachment" accept=".doc,.docx,.pdf,.png,.jpeg" style="display: none;" onchange="getERMFileName()" />
+                                    <label class="input-group-text ml-3" for="fu-upload-ERMReq" style="cursor: pointer;border-color:#ff00007d;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24" title="File Upload">
+                                            <g fill="none" stroke="#ec1a25" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                                <path d="M4 22h14a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v4" />
+                                                <path d="M14 2v4a2 2 0 0 0 2 2h4M3 15h6m-3-3v6" />
+                                            </g>
+                                        </svg>
+                                        <%--<img src="Images/icon-upload.png" title="Upload File" class="fa-icon-hover" style="cursor: pointer; margin-top: -15px;" />--%>
+                                    </label>
+                                    <input class="form-control" type="text" id="lblERMFile" value="" style="background: #80808000; color: #8b8b8b !important;border-color:#ff00007d;" readonly="" />
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+
                         <div class="row">
                             <img src="images/icons8-submi-progress.png" id="btnSubmitOptDet" title="Submit" class="fa-icon-hover submit-button" style="cursor: pointer; width: 84px; float: right;" />
                         </div>
@@ -1340,7 +1389,7 @@ h2:hover{
                                 <div class="col-12 pull-left upload-Attatchment" style="display: block">
                                     <div class="input-group mb-3" style="position: relative; top: 10px;">
                                         <input class="form-control" type="file" id="colFileUpload" accept=".pdf,.png,.jpeg" multiple>
-                                        <label class="input-group-text" for="inputGroupFile02"><i class="fa fa-upload " title="Download File" style="color: #d33a3a; cursor: pointer; font-size: x-large;"></i></label>
+                                        <label class="input-group-text File-Upload-Multi" for="colFileUpload"><i class="fa fa-upload " title="Download File" style="color: #d33a3a; cursor: pointer; font-size: x-large;"></i></label>
 
                                         <div style="margin-left: 9px;">
 
@@ -2040,7 +2089,7 @@ h2:hover{
 
 
     <!-- Datatable plugin JS library file -->
-    <script src="Scripts/ERMMaster.js?v=0.5"></script>
+    <script src="Scripts/ERMMaster.js?v=5"></script>
 
     <%--      <link href="Css/ERMStyle.css" rel="stylesheet" />--%>
     <%--       <link href="Css/ERMtextbox.scss" rel="stylesheet" />--%>

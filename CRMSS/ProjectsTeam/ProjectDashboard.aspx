@@ -819,7 +819,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="row">
-                            <div class="card" style="height: 405px;">
+                            <div class="card" style="height: 370px;">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-7">
@@ -827,23 +827,23 @@
                                             <div id="ManpowerPerformance"></div>
                                         </div>
                                         <div class="col-5 text-center" style="font-size: 10px">
-                                            <h6 class="mb-3">Efficiency</h6>
+                                            <h6 class="">Efficiency</h6>
                                             <div id="ManpowerPerformanceEff"></div>
                                             <div class="row">
                                                 <div class="rounded-2 bg-light bg-gradient p-2 mb-2 fw-bold text-center">Till Date</div>
                                                 <div class="col-4 border-end">
                                                     <b>Planned value</b>
-                                                    <span class="text-muted">3,45653 AED
+                                                    <span class=" ">3,45653 AED
                                                     </span>
                                                 </div>
                                                 <div class="col-4 border-end">
                                                     <b>Actual cost till date</b>
-                                                    <span class="text-muted">3,45653 AED
+                                                    <span class=" ">3,45653 AED
                                                     </span>
                                                 </div>
-                                                <div class="col-4 border-end">
+                                                <div class="col-4">
                                                     <b>Budget variance</b>
-                                                    <span class="text-muted text-danger">3,45653 AED
+                                                    <span class="  text-danger">3,45653 AED
                                                     </span>
                                                 </div>
                                             </div>
@@ -851,17 +851,17 @@
                                                 <div class="rounded-2 bg-light bg-gradient  p-2 mb-2 fw-bold text-center">Predication At Completion</div>
                                                 <div class="col-4 border-end">
                                                     <b>Budget at completion</b>
-                                                    <span class="text-muted">3,45653 AED
+                                                    <span class=" ">3,45653 AED
                                                     </span>
                                                 </div>
                                                 <div class="col-4 border-end">
                                                     <b>EAC-same performance</b>
-                                                    <span class="text-muted">3,45653 AED
+                                                    <span class=" ">3,45653 AED
                                                     </span>
                                                 </div>
-                                                <div class="col-4 border-end">
+                                                <div class="col-4">
                                                     <b>Budget variance</b>
-                                                    <span class="text-muted text-danger">3,45653 AED
+                                                    <span class="  text-danger">3,45653 AED
                                                     </span>
                                                 </div>
                                             </div>
@@ -873,7 +873,7 @@
                     </div>
                     <div class="col-12">
                         <div class="row">
-                            <div class="card" style="height: 405px;">
+                            <div class="card" style="height: 370px;">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-7">
@@ -881,23 +881,23 @@
                                             <div id="InstMatrlPerformance"></div>
                                         </div>
                                         <div class="col-5 text-center" style="font-size: 10px">
-                                            <h6 class="mb-3">Efficiency</h6>
+                                            <h6 class="">Efficiency</h6>
                                             <div id="InstMatrlPerformanceEff"></div>
                                             <div class="row">
                                                 <div class="rounded-2 bg-light bg-gradient p-2 mb-2 fw-bold text-center">Till Date</div>
                                                 <div class="col-4 border-end">
                                                     <b>Planned value</b>
-                                                    <span class="text-muted">3,45653 AED
+                                                    <span class="">3,45653 AED
                                                     </span>
                                                 </div>
                                                 <div class="col-4 border-end">
                                                     <b>Actual cost till date</b>
-                                                    <span class="text-muted">3,45653 AED
+                                                    <span class="">3,45653 AED
                                                     </span>
                                                 </div>
-                                                <div class="col-4 border-end">
+                                                <div class="col-4">
                                                     <b>Budget variance</b>
-                                                    <span class="text-muted text-danger">3,45653 AED
+                                                    <span class="  text-danger">3,45653 AED
                                                     </span>
                                                 </div>
                                             </div>
@@ -905,17 +905,17 @@
                                                 <div class="rounded-2 bg-light bg-gradient  p-2 mb-2 fw-bold text-center">Predication At Completion</div>
                                                 <div class="col-4 border-end">
                                                     <b>Budget at completion</b>
-                                                    <span class="text-muted">3,45653 AED
+                                                    <span class=" ">3,45653 AED
                                                     </span>
                                                 </div>
                                                 <div class="col-4 border-end">
                                                     <b>EAC-same performance</b>
-                                                    <span class="text-muted">3,45653 AED
+                                                    <span class=" ">3,45653 AED
                                                     </span>
                                                 </div>
-                                                <div class="col-4 border-end">
+                                                <div class="col-4">
                                                     <b>Budget variance</b>
-                                                    <span class="text-muted text-danger">3,45653 AED
+                                                    <span class="  text-danger">3,45653 AED
                                                     </span>
                                                 </div>
                                             </div>
@@ -927,7 +927,7 @@
                     </div>
                     <div class="col-12">
                         <div class="row">
-                            <div class="card" style="height: 405px;">
+                            <div class="card" style="height: 385px;">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-7">
@@ -935,41 +935,41 @@
                                             <div id="OverallPrjPerformance"></div>
                                         </div>
                                         <div class="col-5 text-center" style="font-size: 10px">
-                                            <h6 class="mb-3">Project Performance Till Date (Uncapped)</h6>
+                                            <Label class="">Project Performance Till Date (Uncapped)</Label>
                                             <div id="PrjPerfTillDate"></div>
-                                            <div class="row">
+                                            <div class="row mb-3">
                                                 <div class="col-4 border-end">
                                                     <b>Planned value</b>
-                                                    <span class="text-muted">3,45653 AED
+                                                    <span class=" ">3,45653 AED
                                                     </span>
                                                 </div>
                                                 <div class="col-4 border-end">
                                                     <b>Actual cost till date</b>
-                                                    <span class="text-muted">3,45653 AED
+                                                    <span class=" ">3,45653 AED
                                                     </span>
                                                 </div>
-                                                <div class="col-4 border-end">
+                                                <div class="col-4">
                                                     <b>Budget variance</b>
-                                                    <span class="text-muted text-danger">3,45653 AED
+                                                    <span class="  text-danger">3,45653 AED
                                                     </span>
                                                 </div>
                                             </div>
-                                            <h6 class="mb-3">Project Performance At Completion (capped)</h6>
+                                            <label class="">Project Performance At Completion (capped)</label>
                                             <div id="PrjPerfatCompltn"></div>
                                             <div class="row">
                                                 <div class="col-4 border-end">
                                                     <b>Planned value</b>
-                                                    <span class="text-muted">3,45653 AED
+                                                    <span class=" ">3,45653 AED
                                                     </span>
                                                 </div>
                                                 <div class="col-4 border-end">
                                                     <b>Actual cost till date</b>
-                                                    <span class="text-muted">3,45653 AED
+                                                    <span class=" ">3,45653 AED
                                                     </span>
                                                 </div>
-                                                <div class="col-4 border-end">
+                                                <div class="col-4">
                                                     <b>Budget variance</b>
-                                                    <span class="text-muted text-danger">3,45653 AED
+                                                    <span class="  text-danger">3,45653 AED
                                                     </span>
                                                 </div>
                                             </div>

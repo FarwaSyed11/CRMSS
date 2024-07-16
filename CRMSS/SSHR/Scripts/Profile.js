@@ -2,11 +2,28 @@
 var weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 var monthname = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
 var monthsNameByNo = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-var odd = [1,3,5,7,9,11,13,15,17,19,21,23];
-var even = [2, 4, 8, 10, 12, 14,16,18,20,22,24];
+var odd = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23];
+var even = [2, 4, 8, 10, 12, 14, 16, 18, 20, 22, 24];
 var Listitems = [], objDatatableAccnAss = [];
 var chipAddition = '<button aria-label="remove this chip"><i class="fa-solid fa-xmark"></i></button>';
 var skillsString = '';
+
+//-----Employee summary variables---start
+var empSummaryCards = [];
+var listLeaveHistory = [];
+var listReqHistory = [];
+var listLateHours = [], listExitHours = [];
+var arrExitPassChart = [], arrLateAttendance = [];
+var ExitPiechart = [], LatePiechart = [], LoanDetailschart = [];
+
+var LeaveBalance = 0;
+
+var TotBalance = 0, loanMisc = 0, loanSalaryAdv = 0, loanHousing = 0, loanPersonal = 0;
+
+//-----Employee summary variables---end
+
+
+
 $(document).ready(function () {
     loadEmpDetails();
     loadEmpImage();
@@ -17,13 +34,17 @@ $(document).ready(function () {
     renderAccnAsstTable();
     completionperc();
     updateLimiter();
+    loadProfileSummary();
+    loadEmpLoanDetails();
+    GetBasicEmpDet();
+    //loadRequestHistoryTable();
 
     $('div.chips_input > div.inner').click(function () {
         $(this).find('input').focus();
     });
 
     //$('div.chips_input > div.inner > #myinput').keydown(function (e) {
-    $('.chip-main-div').on('keyup','#myinput',function (e) {
+    $('.chip-main-div').on('keyup', '#myinput', function (e) {
         if (e.which == 13 || e.which == 9 || e.which == 188) {
             e.preventDefault();
 
@@ -54,7 +75,7 @@ $(document).ready(function () {
             $('div.chips_input > div.inner > span:last-of-type').remove();
             updateLimiter();
         }
-                      
+
 
     });
 
@@ -75,7 +96,7 @@ function generateHTMLForChips(arrSkills) {
         htm += '<input type="text" id="myinput" name="myinput" maxlength="25" >';
         $('.chip-main-div').html(htm);
     }
-    
+
 }
 function makeChip(string) {
     $('div.chips_input > div.inner > input').before('<span class="chip">' + escapeHtml(string) + chipAddition + '</span>');
@@ -120,12 +141,12 @@ function escapeHtml(unsafe) {
         .replace(/'/g, "&#039;");
 }
 $('.jobdesc').on('click', function () {
-    $("#btnEditJobPurpose").css('visibility', 'hidden');
+    $("#btnEditJobPurpose").css('visibility', 'visible');
     $("#btnViewSalarySlip").css('visibility', 'hidden');
 });
 
 $('.salaryinfo').on('click', function () {
-    $("#btnViewSalarySlip").css('visibility', 'hidden');
+    $("#btnViewSalarySlip").css('visibility', 'visible');
     $("#btnEditJobPurpose").css('visibility', 'hidden');
 });
 
@@ -159,7 +180,7 @@ $('#viewslip').on('click', function () {
 
 $('#modal-btnaddskill').on('click', function () {
     $('#modalAddSkills').modal('show');
-    LoadSkills();    
+    LoadSkills();
 });
 
 $('#btnaddskill').on('click', function () {
@@ -169,7 +190,7 @@ $('#btnaddskill').on('click', function () {
         skillsString += item.textContent.trim() + ',';
     })
     skillsString = skillsString.substring(0, skillsString.length - 1);
-    
+
     $.ajax({
         url: "Profile.aspx/addSkills",
         data: JSON.stringify({
@@ -181,15 +202,13 @@ $('#btnaddskill').on('click', function () {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-            if (result.d.MessageType =='error') {
+            if (result.d.MessageType == 'error') {
                 toastr.error(result.d.Message, '');
             } else {
                 toastr.success(result.d.Message, '');
                 LoadSkills();
                 $('#modalAddSkills').modal('hide');
-            }                       
-
-
+            }
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -219,7 +238,7 @@ function LoadSkills() {
                 $('.allskillsec').html(htm);
                 generateHTMLForChips(res);
             }
-            
+
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -324,8 +343,8 @@ function LoadJobDesc() {
                     $('.norecordjob').html(jpHtm);
                 }
             });
-            
-            
+
+
 
             $.each(result.d[0].KeyAccountAbilities.split('⇨'), function (key, item) {
                 if (key != 0) {
@@ -344,7 +363,7 @@ function LoadJobDesc() {
                 }
             });
 
-            
+
 
             //$.each(result.d[0].KeySkills.split('⇨'), function (key, item) {
             //    if (key != 0) { KsHtm += '<li class="arrow list">' + item + '</li>'; }
@@ -481,7 +500,7 @@ function loadEmpDetails() {
             }
             else {
                 $('#cbTransportProv').prop('checked', false);
-            } 
+            }
             if (result.d[0].FAMELIG == 'Y') {
 
                 $('#lbTKFamilyEligble').prop('checked', true);
@@ -495,7 +514,7 @@ function loadEmpDetails() {
             $('#lbSLCompanyCar').html("N/A");
             $('#lbSLLastSal').html("N/A");
             let gross = parseInt(result.d[0].TRANSALW) + parseInt(result.d[0].BASIC) + parseInt(result.d[0].MOBALW) + parseInt(result.d[0].FOODALW) + parseInt(result.d[0].HRAP) + parseInt(result.d[0].CARALW) + parseInt(result.d[0].OTHALW);
-                $('#lbSLGrossSal').html(gross);
+            $('#lbSLGrossSal').html(gross);
 
             $('#lbBNKPayement').html(result.d[0].PAYMETHOD);
             $('#lbBNKBranch').html(result.d[0].BANKBRANCH);
@@ -919,9 +938,8 @@ function addComma(sValue) {
 }
 
 function completionperc() {
-    if (($('#lbPhoneNumber').text() != '') && ($('#lbTeleNumber').text() != '') && ($('.job-purpose-ulodd', '.Key-Responsibilitiesodd', '.Additional-Responsibilitiesodd', '.Qalificationodd').text() != ''))
-    {
-        $('.percmain').css("width", "100%"); 
+    if (($('#lbPhoneNumber').text() != '') && ($('#lbTeleNumber').text() != '') && ($('.job-purpose-ulodd', '.Key-Responsibilitiesodd', '.Additional-Responsibilitiesodd', '.Qalificationodd').text() != '')) {
+        $('.percmain').css("width", "100%");
         $('.perclabel').html("100%");
     }
     else if (($('#lbPhoneNumber').text() == '') && ($('#lbTeleNumber').text() != '') && ($('.job-purpose-ulodd', '.Key-Responsibilitiesodd', '.Additional-Responsibilitiesodd', '.Qalificationodd').text() != '')) {
@@ -948,4 +966,465 @@ function completionperc() {
         $('.percmain').css("width", "40%");
         $('.perclabel').html("40%");
     }
+}
+
+
+function loadProfileSummary() {
+
+    $.ajax({
+        url: "Profile.aspx/loadProfileSummary",
+        data: JSON.stringify({ "EmpNo": EmpNo, "Month": '7', "Year": "2024", "UserId": currUserId, }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+
+        success: function (result) {
+            var htmhistory = '';
+            var htm = '';
+            empSummaryCards = result.d.listTopBoxes;
+            listLateHours = result.d.listTypeHOurGraph2 ;
+            listExitHours = result.d.listTypeHOurGraph1;
+            listLeaveHistory = result.d.listLeaveHis;
+            listReqHistory = result.d.listRequestHist;
+            $.each(empSummaryCards, function (key, item) {
+
+                $('#totelPendingRequest').html(item.PENDINGREQUEST);
+                $('#approvedReq').html(item.APPROVEDREQ);
+                $('#rejectedRequest').html(item.REJECTEDREQ);
+                $('#minuteOflate').html(item.LateMin);
+                $('#earlyExitMin').html(item.EarlyExitMin);
+            });
+
+            $.each(listExitHours, function (key, item) {
+
+                arrExitPassChart.push(parseInt(item.Hours));
+            });
+            inititateExitPassPieChart(arrExitPassChart);
+
+            $.each(listLateHours, function (key, item) {
+
+                arrLateAttendance.push(parseInt(item.Hours));
+
+            });
+            inititateLateAttendancePieChart(arrLateAttendance);
+
+            $.each(listLeaveHistory, function (key, item) {
+
+                htmhistory += `  <tr>        
+               
+                 <td>`+ item.LeaveType + `</td>
+                 <td>`+ getDateInWordsFormat(item.FromDate.split(' ')[0]) + `</td>
+                 <td>`+ getDateInWordsFormat(item.ReturnToWork.split(' ')[0]) + `</td> 
+                 <td><span style="width: 86px; height: 31px; background: rgba(130, 205, 89, 0.15); border-radius: 5px; padding: 5px 34px;">`+ item.LeaveReqDays + `</span></td>`;
+                htmhistory += `</tr>`;
+
+                $('.tbody-leaveHistory').html(htmhistory);
+            });
+
+            $.each(listReqHistory, function (key, item) {
+
+                htm += `  <tr>        
+                    <td style="width:25% ">`+ item.REQUEST_TYPE + `</td>     
+                    <td style="width:25% "></td>
+                    <td style=" text-align: center; ;width:25%" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+                    <td style="text-align:center;width:25%">` + getDateInWordsFormat(item.RequestDate) + `</td>
+                    </tr>`;
+                $('.tbody-RequestHistory').html(htm);
+            });
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+
+function GetBasicEmpDet() {
+
+    $.ajax({
+        url: "Profile.aspx/GetBasicDetails",
+        data: JSON.stringify({ 'EmpNo': EmpNo }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            $.each(result.d, function (key, item) {
+                $('#leavebal').html(item.LeaveBalance);
+            });
+            //LeaveBalance = result.d[0].LeaveBalance;
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
+//function loadRequestHistoryTable() {
+
+//    $.ajax({
+//        url: "Profile.aspx/loadRequestHistoryTable",
+//        data: JSON.stringify({
+//            "UserID": currUserId, "RequestType": "-1",
+//            "Status": "ALL",
+//        }),
+//        type: "POST",
+//        contentType: "application/json;charset=utf-8",
+//        dataType: "json",
+//        success: function (result) {
+//            var htm = '';
+
+//            $.each(result.d, function (key, item) {
+
+//                htm += `  <tr>        
+//                    <td style="width:25% ">`+ item.REQUEST_TYPE + `</td>     
+//                    <td style="width:25% "></td>
+//                    <td style=" text-align: center; ;width:25%" ><a class="`+ item.StageClass + `">` + item.Stage + `</a></td>
+//                    <td style="text-align:center;width:25%"><span class="hidden"> `+ item.ReqDate_sort + `</span>` + getDateInWordsFormat(item.RequestDate) + `</td>
+//                    </tr>`;
+//                $('.tbody-RequestHistory').html(htm);
+//            });
+
+            
+
+//        },
+//        error: function (errormessage) {
+//            alert(errormessage.responseText);
+//        }
+//    });
+//}
+
+function loadEmpLoanDetails() {
+
+    $.ajax({
+        url: "Profile.aspx/GetEmployeeLoanDetails",
+        data: JSON.stringify({ "EmpNo": EmpNo }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '';
+            loanMisc = 0, loanSalaryAdv = 0, loanHousing = 0, loanPersonal = 0;
+            $.each(result.d, function (key, item) {
+                if (item.LTYPE == "Personalloan") {
+                    if (item.REMAINING == "") {
+                        loanPersonal = 0;
+                    }
+                    else {
+                        loanPersonal = parseInt(item.REMAINING);
+                    }
+                }
+
+                else if (item.LTYPE == "Housing") {
+                    if (item.REMAINING == "") {
+                        loanHousing = 0;
+                    }
+                    else {
+                        loanHousing = parseInt(item.REMAINING);
+                    }
+                }
+
+                else if (item.LTYPE == "SalaryAdvance") {
+                    if (item.REMAINING == "") {
+                        loanSalaryAdv = 0;
+                    }
+                    else {
+                        loanSalaryAdv = parseInt(item.REMAINING);
+                    }
+                }
+
+                else if (item.LTYPE == "Miscellaneous") {
+                    if (item.REMAINING == "") {
+                        loanMisc = 0;
+                    }
+                    else {
+                        loanMisc = parseInt(item.REMAINING);
+                    }
+                }
+
+                TotBalance = loanMisc + loanSalaryAdv + loanHousing + loanPersonal
+                $('#totLoanBal').html(TotBalance);
+
+            });
+            initiateLoanDetails();
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+
+//********************Late Attendance piechart*********************************/
+
+function inititateLateAttendancePieChart(arrLateAttendance) {
+    var options = {
+        series: arrLateAttendance,  // [70, 30],
+        chart: {
+            width: 165,
+            height: 200,
+            type: 'pie',
+            offsetX: -10
+        },
+        noData: {
+            text: undefined,
+            align: 'center',
+            verticalAlign: 'middle',
+            offsetX: 0,
+            offsetY: 0,
+            style: {
+                color: undefined,
+                fontSize: '14px',
+                fontFamily: undefined
+            }
+        },
+        labels: ['Paid', 'Unpaid'],
+        colors: ['#82CD59', '#EC1A25'],
+        legend: {
+            position: 'bottom',
+            horizontalAlign: 'center',
+            offsetX: -35,
+        },
+        grid: {
+            padding: { left: -35, right: -20, top: -10, bottom: -10 },
+        },
+        fill: {
+            opacity: 1,
+        },
+        stroke: {
+            width: 4,
+        },
+        dataLabels: {
+            enabled: true,
+            style: {
+                colors: ['#555']
+            },
+            background: {
+                enabled: true,
+                foreColor: '#fff',
+                borderWidth: 0
+            }
+        },
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 100
+                },
+                legend: {
+                    position: 'bottom',
+                    horizontalAlign: 'left'
+                }
+            }
+        }]
+    };
+
+    var options2 = {
+        chart: {
+            width: 165,
+            height: 200,
+            type: 'pie',
+            offsetX: -10
+        },
+        grid: {
+            padding: { left: -35, right: -20, top: -10, bottom: -10 },
+        },
+        series: [1],
+        labels: ['No Data'],
+        colors: ['#f0f0f0'],
+        legend: {
+            position: 'bottom',
+            horizontalAlign: 'center',
+            offsetX: -35,
+        },
+    };
+
+
+
+    if (options.series[0] == 0 && options.series[1] == 0) {
+        LatePiechart = new ApexCharts(document.querySelector("#LatePiechart"), options2);
+        LatePiechart.render();
+    }
+    else {
+        LatePiechart = new ApexCharts(document.querySelector("#LatePiechart"), options);
+        LatePiechart.render();
+    }
+}
+
+//**********************Exit Pass Piechart***********************************//
+
+function inititateExitPassPieChart(arrExitPassChart) {
+    var options = {
+        series: arrExitPassChart,// [40, 60],
+        chart: {
+            width: 165,
+            height: 200,
+            type: 'pie',
+            offsetX: -10
+        },
+        noData: {
+            text: undefined,
+            align: 'center',
+            verticalAlign: 'middle',
+            offsetX: 0,
+            offsetY: 0,
+            style: {
+                color: undefined,
+                fontSize: '14px',
+                fontFamily: undefined
+            }
+        },
+        labels: ['Official', 'Personal'],
+        colors: ['#FFE601', '#FF9518'],
+        legend: {
+            position: 'bottom',
+            horizontalAlign: 'center',
+            offsetX: -25,
+        },
+        grid: {
+            padding: { left: -35, right: -20, top: -10, bottom: -10 },
+        },
+        fill: {
+            opacity: 1,
+        },
+        dataLabels: {
+            enabled: true,
+            style: {
+                colors: ['#555']
+            },
+            background: {
+                enabled: true,
+                foreColor: '#fff',
+                borderWidth: 0
+            }
+        },
+        stroke: {
+            //show: true,
+            width: 4,
+            //colors: ['transparent']
+        },
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    width: 100
+                },
+                legend: {
+                    position: 'top',
+                    horizontalAlign: 'left'
+                }
+            }
+        }]
+    };
+
+    var options2 = {
+        chart: {
+            width: 165,
+            height: 200,
+            type: 'pie',
+            offsetX: -10
+        },
+        grid: {
+            padding: { left: -35, right: -20, top: -10, bottom: -10 },
+        },
+        series: [1],
+        labels: ['No Data'],
+        colors: ['#f0f0f0'],
+        legend: {
+            position: 'bottom',
+            horizontalAlign: 'center',
+            offsetX: -35,
+        },
+    };
+
+   
+
+    if (options.series[0] == 0 && options.series[1] == 0) {
+        ExitPiechart = new ApexCharts(document.querySelector("#ExitPiechart"), options2);
+        ExitPiechart.render();
+    }
+    else {
+        ExitPiechart = new ApexCharts(document.querySelector("#ExitPiechart"), options);
+        ExitPiechart.render();
+    }
+   
+}
+
+//*********************Loan Details Bar Chart*************/
+
+function initiateLoanDetails() {
+    var options = {
+        series: [{
+            data: [loanMisc, loanPersonal, loanSalaryAdv, loanHousing]
+        }],
+        chart: {
+            type: 'bar',
+            height: 100,
+            toolbar: {
+                show: false
+            }
+        },
+        grid: {
+            padding: { left: -5, right: 0, top: -30, bottom: -15 },
+        },
+        plotOptions: {
+            bar: {
+                barHeight: '100%',
+                distributed: true,
+                horizontal: true,
+                dataLabels: {
+                    position: 'bottom'
+                },
+            }
+        },
+        colors: ['#33b2df', '#546E7A', '#d4526e', '#13d8aa'],
+        dataLabels: {
+            enabled: true,
+            textAnchor: 'start',
+            style: {
+                colors: ['#fff']
+            },
+            formatter: function (val, opt) {
+                return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val
+            },
+            offsetX: 0,
+            dropShadow: {
+                enabled: true
+            }
+        },
+        stroke: {
+            width: 1,
+            colors: ['#fff']
+        },
+
+        yaxis: {
+            labels: {
+                show: false
+            }
+        },
+        xaxis: {
+            categories: ['Misc Loan', 'Personal Loan', 'Salary Adv', 'Housing'],
+        },
+        tooltip: {
+            theme: 'dark',
+            x: {
+                show: false
+            },
+            y: {
+                title: {
+                    formatter: function () {
+                        return ''
+                    }
+                }
+            }
+        },
+        legend: {
+            show: false,
+        }
+    };
+
+    LoanDetailschart = new ApexCharts(document.querySelector("#LoanDetailschart"), options);
+    LoanDetailschart.render();
+
 }

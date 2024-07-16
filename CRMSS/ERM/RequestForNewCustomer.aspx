@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="RequestForNewCustomer.aspx.cs" Inherits="ERM_RequestForNewUser" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="RequestForNewCustomer.aspx.cs" Inherits="ERM_RequestForNewUser" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
    

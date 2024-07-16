@@ -100,7 +100,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
     }
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static Boolean RequestStatusUpdate(string UserId, string RequestNumber, string Status, string comments, string RoleID)
+    public static Boolean RequestStatusUpdate(string UserId, string RequestNumber, string Status, string comments, string RoleID, string ReqOrderNumber,string TeamLeader)
     {
         try
         {
@@ -132,6 +132,15 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
             pa.Add("@ReqRoleID");
             pv.Add(RoleID);
+
+            pa.Add("@currentOrderNumber");
+            pv.Add(ReqOrderNumber);
+
+            if(Status== "RECEIVED")
+            {
+                pa.Add("@EstTeamLeader");
+                pv.Add(TeamLeader);
+            }
 
 
             DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
@@ -199,6 +208,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
             ind.StatusCode = dt.Rows[i]["StatusCode"].ToString();
             ind.Company = dt.Rows[i]["Company"].ToString();
             ind.MarketingId = dt.Rows[i]["MarketingId"].ToString();
+            ind.Marketing = dt.Rows[i]["Marketing"].ToString();
 
 
             listProjDet.Add(ind);
@@ -975,6 +985,8 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
             ind.OwnerID = dt.Rows[i]["OwnerID"].ToString();
             ind.MarketingID = dt.Rows[i]["MarketingID"].ToString();
             ind.EstimationOrg = dt.Rows[i]["EstimationOrg"].ToString();
+            ind.Salesman = dt.Rows[i]["Salesman"].ToString();
+            ind.Marketing = dt.Rows[i]["Marketing"].ToString();
 
 
 
@@ -1395,6 +1407,41 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         return appList;
 
     }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<DropDownValues> GetTeamLeader()
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add("29");
+
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+
+        List<DropDownValues> drpval = new List<DropDownValues>();
+        dt = ds.Tables[0];
+
+
+
+        for (int i = 0; i < dt.Rows.Count; i++)
+        {
+            drpval.Add(new DropDownValues()
+            {
+                ddlValue = dt.Rows[i]["User_Id"].ToString(),
+                ddlText = dt.Rows[i]["Name"].ToString()
+            });
+        }
+        return drpval;
+        //string a = userId;
+    }
     public class ApprovaStatuslList
     {
         public string Role { get; set; }
@@ -1473,6 +1520,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         public string StatusCode { get; set; }
         public string Company { get; set; }
         public string MarketingId { get; set; }
+        public string Marketing { get; set; }
 
        
         public string Locationurl { get; set; }
@@ -1526,6 +1574,8 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         public string OwnerID { get; set; }
         public string MarketingID { get; set; }
         public string EstimationOrg { get; set; }
+        public string Salesman { get; set; }
+        public string Marketing { get; set; }
 
 
     }

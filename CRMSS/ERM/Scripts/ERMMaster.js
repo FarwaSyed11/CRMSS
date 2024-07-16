@@ -36,17 +36,23 @@ $(document).ready(function () {
     var htmdrop = '';
     if (myroleList.includes("2084")) {
         $("#btnNewAddReq").removeClass('hidden');
-        htmdrop += `<option value="DRAFT" >DRAFT</option>`;
+        htmdrop += `<option value="PENDING" >DRAFT</option>`;
         htmdrop += `<option value="SUBMIT" >SUBMIT</option>`;
         htmdrop += `<option value="APPROVED">APPROVED</option>`;
-        htmdrop += `<option value="RECEIVED">Under Estimation</option>`;
+        htmdrop += `<option value="RECEIVED">UNDER ESTIMATION</option>`;
         htmdrop += `<option value="COMPLETED">COMPLETED</option>`;
         htmdrop += `<option value="REJECTED" >REJECTED</option>`;
     }
     else if (myroleList.includes("2085")) {
         $("#btnNewAddReq").addClass('hidden');
         htmdrop += `<option value="PENDING" >PENDING</option>`;
-        htmdrop += `<option value="RECEIVED">Under Estimation</option>`;
+        htmdrop += `<option value="COMPLETED" >COMPLETED</option>`;
+
+    }
+
+    else if (myroleList.includes("13199")) {
+        $("#btnNewAddReq").addClass('hidden');
+        htmdrop += `<option value="UNDER ESTIMATION" >UNDER ESTIMATION</option>`;
         htmdrop += `<option value="COMPLETED" >COMPLETED</option>`;
 
     }
@@ -234,6 +240,8 @@ function RequestAccess() {
                 $(".btnCompleted").css("display", "none");
                 /*   $(".btn-close-proj-modal").css("margin-right", "-92%");*/
                 $("#btnNewAddProduct").css("display", "block");
+                $('.Estimation-TeamLeader').css("display", "none");
+                $('.Assign-Attachment').css("display", "none");
                 /* $(".btn-close-proj-modal").css("margin-left", "0%");*/
 
             }
@@ -244,24 +252,33 @@ function RequestAccess() {
                 $(".btnReceived").css("display", "none");
                 $(".btnCompleted").css("display", "none");
                 $("#btnNewAddProduct").css("display", "none");
+                $('.Estimation-TeamLeader').css("display", "none");
+                $('.Assign-Attachment').css("display", "none");
                 /*  $(".btn-close-proj-modal").css("margin-left", "77%");*/
             }
-            else if (result.d == "RECEIVED") {
+            else if (result.d == "ASSIGNED") {
                 $(".btnSubmitRequest").css("display", "none");
                 $(".btnApprove").css("display", "none");
                 $(".btnReject").css("display", "none");
                 $(".btnReceived").css("display", "");
                 $(".btnCompleted").css("display", "none");
                 $("#btnNewAddProduct").css("display", "none");
+                TeamLeader();
+                $('.Estimation-TeamLeader').css("display", "");
+                $('.Assign-Attachment').css("display", "none");
+
+              
                 /*  $(".btn-close-proj-modal").css("margin-left", "77%");*/
             }
-            else if (result.d == "COMPLETED") {
+            else if (result.d == "UNDER ESTIMATION") {
                 $(".btnSubmitRequest").css("display", "none");
                 $(".btnApprove").css("display", "none");
                 $(".btnReject").css("display", "none");
                 $(".btnReceived").css("display", "none");
                 $(".btnCompleted").css("display", "");
                 $("#btnNewAddProduct").css("display", "none");
+                $('.Estimation-TeamLeader').css("display", "none");
+                $('.Assign-Attachment').css("display", "");
                 /*  $(".btn-close-proj-modal").css("margin-left", "77%");*/
             }
             else {
@@ -273,6 +290,8 @@ function RequestAccess() {
                 //$(".btn-close-proj-modal").css("margin-left", "0%");
                 //$(".btn-close-proj-modal").css("margin-right", "-85%");
                 $("#btnNewAddProduct").css("display", "none");
+                $('.Estimation-TeamLeader').css("display", "none");
+                $('.Assign-Attachment').css("display", "none");
             }
            
         },
@@ -303,6 +322,7 @@ function initiateDataTable() {
 $('.tbody-Consultant-details').on('click', 'tr', function () {
 
     MarketingID = this.children[2].textContent;
+    $("#txtMarketing").val(this.children[3].textContent);
     $("#txtPrjConsultant").val(this.children[1].textContent);
 
     $('#ModalConsultant').modal('hide');
@@ -439,7 +459,10 @@ function GetOPTDetails() {
                   <td style="text-align:center;">`+ item.SalesStageName + `</td>
                    <td style="text-align:center;">`+ item.StatusCode + `</td>
                   <td style="text-align:center;">`+ item.Company + `</td>;
-                   <td style="text-align:center;display:none;">`+ item.MarketingID + `</td>`;
+                   <td style="text-align:center;display:none;">`+ item.MarketingId + `</td>
+                   <td style="text-align:center;">`+ item.Marketing + `</td>
+
+                   `;
 
 
 
@@ -513,6 +536,8 @@ function initiateDataTableOPT() {
 $('.tbody-Customer-details').on('click', 'tr', function () {
 
     AccountId = this.children[0].textContent;
+    $("#txtSalesman").val(this.children[3].textContent);
+    
     OwnerIdOpt = this.children[2].textContent;
     MarketingID = 0;
     ContactId = 0;
@@ -530,6 +555,10 @@ $('#btnAddOpp').on('click', function () {
     $(".btnSubmitRequest").css("display", "none");
     $(".btnApprove").css("display", "none");
     $(".btnReject").css("display", "none");
+    $(".btnReceived").css("display", "none");
+    $(".btnCompleted").css("display", "none");
+    $('.Estimation-TeamLeader').css("display", "none");
+    $('.Assign-Attachment').css("display", "none");
     $('#txtEstYear').val(new Date().getFullYear());
     OptNo = '';
     RequestId = 0;
@@ -561,6 +590,15 @@ $('.btnApprove').on('click', function () {
 
 });
 
+$('.btnReject').on('click', function () {
+
+    $('#mpActionComments').modal('show');
+    $('#hfdAction').val('REJECTED');
+    $('#txtActionComments').val('');
+
+
+});
+
 $('.btnReceived').on('click', function () {
 
     $('#mpActionComments').modal('show');
@@ -583,7 +621,7 @@ $('#btnSaveAction').on('click', function () {
     }
     else {
 
-        if ((myroleList.includes("2066") && (ReqOrderNumber == 1 || ReqOrderNumber == 5)) || ReqOrderNumber == 0) {
+        if (((myroleList.includes("2066") && (ReqOrderNumber == 1 || ReqOrderNumber == 5)) || ReqOrderNumber == 0) && $('#hfdAction').val()!="REJECTED")  {
 
             if (MarketingID == 0) {
                 toastr.error("Please select the Consultant");
@@ -622,6 +660,8 @@ function UpdateTheStatus(RequestId, Status,comments) {
             "Status": Status,
             "comments": comments,
             "RoleID": ReqRoleID,
+            "ReqOrderNumber": ReqOrderNumber,
+            "TeamLeader": Status == 'RECEIVED' ? $('#ddlTeamLeader option:selected').val():'',
             
 
         }),
@@ -634,7 +674,10 @@ function UpdateTheStatus(RequestId, Status,comments) {
             $(".ajax-loader").fadeOut(500);
 
            
-                toastr.success(Status + " Successfully");
+            toastr.success(Status + " Successfully");
+            if (Status == 'COMPLETED') {
+                ERMFileUpload();
+            }
            
 
             
@@ -731,6 +774,8 @@ $('.tbody-Opportunity-details').on('click', 'tr', function () {
     OptId = this.children[0].textContent;
     OptNo = this.children[1].textContent;
     MarketingID = this.children[9].textContent;
+        Marketing = this.children[10].textContent;
+        $("#txtMarketing").val(Marketing);
     ClearDet();
     GetRefNo();
     $('#btnSubmitOptDet').css('display', 'block');
@@ -742,8 +787,11 @@ $('.tbody-Opportunity-details').on('click', 'tr', function () {
         $(".btnReject").css("display", "none");
         $(".btnReceived").css("display", "none");
         $(".btnCompleted").css("display", "none");
+        $('.Estimation-TeamLeader').css("display", "none");
+        $('.Assign-Attachment').css("display", "none");
        // $(".btn-close-proj-modal").css("margin-right", "%");
         $("#btnNewAddProduct").css("display", "none");
+        
         // $(".btn-close-proj-modal").css("margin-left", "0%");
         LoadEstimationTeamOrg();
         RequestId = 0;
@@ -899,7 +947,12 @@ function ClearDet() {
     $('#txtPrjContactPerson').removeAttr('disabled');
     $('#txtPrjWinningPerc').removeAttr('disabled');
     $('#txtPrjBudget').removeAttr('disabled');
-    $('#txtPrjURL').removeAttr('disabled');
+        $('#txtPrjURL').removeAttr('disabled');
+
+
+        $('#rdStgTender').removeAttr("disabled");
+        $('#rdSp').removeAttr("disabled");
+        $('#rdSpInstall').removeAttr("disabled");
 
     $('#rdStgTender').prop('checked', false);
     $('#rdStgJOH').prop('checked', false);
@@ -1193,6 +1246,7 @@ function ClearCustomerDet() {
 
 $('#btnNewAttacment').on('click', function () {
 
+    ClearAttachment();
     $('#ModalReqAttachment').modal('show');
 
 });
@@ -1200,24 +1254,24 @@ $('#btnNewAttacment').on('click', function () {
 
 $('#btnUpload1').on('click', function () {
     if ($('#colFileUpload').val().trim() != "" && $('#txtAttachmentComment').val().trim() != "") {
-        uploadMultiFilesByAjax();
+        ERMMultiFileUpload();
     } else {
         toastr.error('Required All Fields. ', '');
     }
 
 });
 
-function uploadMultiFilesByAjax() {
+function getERMFileName() {
 
-    //var seloption = $('input[name="inlineRadioOptions"]:checked').val().trim();
+    $('#lblERMFile').val($('#fu-upload-ERMReq')[0].files[0].name);
+}
+
+function ERMMultiFileUpload() {
+
+    var Type = 'Multiple';
 
 
-    //let paraProjName = $('#txtsuggprojectname').val();
-    //let paraSuggType = $('input[name=inlineRadioOptions]:checked').val()
-    //let paraModName = $('#ddlsuggmoduleName').val();
-
-  
-
+    var formData = new FormData();
     var formData = new FormData();
     var fileUpload = $('#colFileUpload').get(0);
     var files = fileUpload.files;
@@ -1226,8 +1280,9 @@ function uploadMultiFilesByAjax() {
         formData.append(files[i].name, files[i]);
     }
 
-    /*var qrystringLocal = 'https://crmss.naffco.com/CRMSS/Services/FUForRMA.ashx?RefNo=' + RefNo + 'UserId=' + currUserId + '&RefID=' + RefID + '&desc=' + $('#txtAttachmentComment').val().trim() ;    //for Live*/
-    var qrystringLocal = '/Services/FUForERM.ashx?RefNo=' + $('#txtEstRef').val() + '&UserId=' + currUserId + '&RefID=' + RequestId + '&desc=' + $('#txtAttachmentComment').val().trim();    // For Development
+
+    //var qrystringLocal = 'https://crmss.naffco.com/CRMSS/Services/SSHRFileUploadHandler.ashx?fufor=leaveattach&ApplicationId=' + ApplicationId;    // For Development
+    var qrystringLocal = 'Service/ERMFileUpload.ashx?ReqID=' + RequestId + '&RefNo=' + $('#txtEstRef').val() + '&UserId=' + currUserId + '&Comments=' + $('#txtAttachmentComment').val() + '&Type=' + Type;    // For Development
 
     let sURL = 'TestFoCalendar.aspx/Upload';
 
@@ -1237,28 +1292,74 @@ function uploadMultiFilesByAjax() {
         type: 'post',
         url: qrystringLocal,
         data: formData,
+        async: false,
         success: function (status) {
             if (status != 'error') {
-                var my_path = "MediaUploader/" + status;
-                //  $("#myUploadedImg").attr("src", my_path);
-                toastr.success('File has been Uploaded Successfully. ', '');
-                //$('.WO-Root-Casuse-table td').length > 0 ? objDatatablePaySch.destroy() : '';
-                $('#colFileUpload').val('');
-                $('#txtAttachmentComment').val('');
-                GetAttachmentDet();
-                GetApprovalStatusList();
 
-            
+                toastr.success("Updated Successfully");
+                GetAttachmentDet();
+                ClearAttachment();
+
             }
         },
         processData: false,
         contentType: false,
-        error: function () {
+        error: function (errormessage) {
+            console.log(errormessage.responseText);
             alert("Whoops something went wrong!");
+
         }
     });
 
 }
+
+
+function ERMFileUpload() {
+
+    var Type = 'AssignToAttachment';
+
+
+    var formData = new FormData();
+    var formData = new FormData();
+    var fileUpload = $('#fu-upload-ERMReq').get(0);
+    var files = fileUpload.files;
+    for (var i = 0; i < files.length; i++) {
+        console.log(files[i].name);
+        formData.append(files[i].name, files[i]);
+    }
+
+
+    //var qrystringLocal = 'https://crmss.naffco.com/CRMSS/Services/SSHRFileUploadHandler.ashx?fufor=leaveattach&ApplicationId=' + ApplicationId;    // For Development
+    var qrystringLocal = 'Service/ERMFileUpload.ashx?ReqID=' + RequestId + '&RefNo=' + $('#txtEstRef').val() + '&UserId=' + currUserId + '&Type=' +Type;    // For Development
+
+    let sURL = 'TestFoCalendar.aspx/Upload';
+
+    //var formData = new FormData();
+    //formData.append('file', $('#f_UploadImage')[0].files[0]);
+    $.ajax({
+        type: 'post',
+        url: qrystringLocal,
+        data: formData,
+        async: false,
+        success: function (status) {
+            if (status != 'error') {
+
+                toastr.success("Updated Successfully");
+                GetAttachmentDet();
+
+            }
+        },
+        processData: false,
+        contentType: false,
+        error: function (errormessage) {
+            console.log(errormessage.responseText);
+            alert("Whoops something went wrong!");
+
+        }
+    });
+
+}
+
 
 
 function GetAttachmentDet() {
@@ -1467,7 +1568,7 @@ function UpdateOptDetails() {
         async: false,
         success: function (result) {
 
-            if (result.d == 1) {
+            if (result.d == 0) {
 
                 GetRefNo();
                 $('#btnSubmitOptDet').trigger('click');
@@ -1763,6 +1864,8 @@ function FillAllDetails() {
                 $('#txtPrjWinningPerc').val(result.d[0].WinPerc);
                 $('#txtPrjBudget').val(result.d[0].Budget);
                 $('#txtPrjURL').val(result.d[0].DocumentLink);
+                $('#txtSalesman').val(result.d[0].Salesman);
+                $('#txtMarketing').val(result.d[0].Marketing);
                 ReqOrderNumber = result.d[0].ReqorderNumber;
                 OwnerIdOpt = result.d[0].OwnerID;
                 LoadEstimationTeamOrg();
@@ -2463,4 +2566,44 @@ function AccessForTheRequest() {
             alert(errormessage.responseText);
         }
     });
+}
+
+
+function TeamLeader() {
+
+    $.ajax({
+        url: "ERMMaster.aspx/GetTeamLeader",
+        data: JSON.stringify({  }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '';
+          
+
+            $.each(result.d, function (key, item) {
+
+                htm += `<option value="` + item.ddlValue + `" > ` + item.ddlText + `</option>`;
+
+            });
+
+            $('#ddlTeamLeader').html(htm);
+            /*  City = $('#ddlEngCity option:selected').val().trim();*/
+
+        },
+        //complete: function () {
+        //    $('.ajax-loader').hide();
+        //},
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+
+   
+}
+function ClearAttachment() {
+    $('#txtAttachmentComment').val('');
+    $('#colFileUpload').val('');
 }

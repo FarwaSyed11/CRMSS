@@ -540,6 +540,353 @@ public partial class SSHR_Profile : System.Web.UI.Page
         //string a = userId;
     }
 
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static AllInOne loadProfileSummary(string EmpNo, string Month, string Year, string UserId)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        //pa.Add("@oper");
+        //pv.Add(0);
+
+        pa.Add("@EmpNo");
+        pv.Add(EmpNo);
+
+        pa.Add("@Month");
+        pv.Add(Month);
+
+        pa.Add("@Year");
+        pv.Add(Year);
+        
+        pa.Add("@userId");
+        pv.Add(UserId);
+
+        AllInOne oMain = new AllInOne();
+
+        List<TopBoxes> oTopBox = new List<TopBoxes>();
+        List<DatValue> oG1 = new List<DatValue>();
+        List<DatValue> oG2 = new List<DatValue>();
+        List<RectangleGraph> oRecG = new List<RectangleGraph>();
+        List<RightSection> oRightSec = new List<RightSection>();
+        List<TypeHOurGraph> oDownG1 = new List<TypeHOurGraph>();
+        List<TypeHOurGraph> oDownG2 = new List<TypeHOurGraph>();
+        List<LeaveHistoryTable> oLeaveHis = new List<LeaveHistoryTable>();
+        List<AllRequestHist> oAllReqHistory = new List<AllRequestHist>();
+
+
+
+        DBH.CreateDataset_SSHR(ds, "sshr_EmployeeDashboard", true, pa, pv);
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+
+            //table[0]
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                oTopBox.Add(new TopBoxes()
+                {
+                    PENDINGREQUEST = dt.Rows[i]["PENDINGREQUEST"].ToString(),
+                    APPROVEDREQ = dt.Rows[i]["APPROVEDREQ"].ToString(),
+                    REJECTEDREQ = dt.Rows[i]["REJECTEDREQ"].ToString(),
+                    LateMin = dt.Rows[i]["LateMin"].ToString(),
+                    EarlyExitMin = dt.Rows[i]["EarlyExitMin"].ToString()
+
+                });
+            }
+
+            //table[1]
+            for (int i = 0; i < ds.Tables[1].Rows.Count; i++)
+            {
+                oG1.Add(new DatValue()
+                {
+                    TYPE = ds.Tables[1].Rows[i]["TYPE"].ToString(),
+                    Day = ds.Tables[1].Rows[i]["Day"].ToString(),
+                    Value = ds.Tables[1].Rows[i]["VALUE"].ToString()
+                });
+            }
+
+            //table[2]
+            for (int i = 0; i < ds.Tables[2].Rows.Count; i++)
+            {
+                oG2.Add(new DatValue()
+                {
+                    TYPE = ds.Tables[2].Rows[i]["TYPE"].ToString(),
+                    Day = ds.Tables[2].Rows[i]["Day"].ToString(),
+                    Value = ds.Tables[2].Rows[i]["VALUE"].ToString()
+                });
+            }
+
+            //table[3]
+            for (int i = 0; i < ds.Tables[3].Rows.Count; i++)
+            {
+                oRecG.Add(new RectangleGraph()
+                {
+                    OneTo5 = ds.Tables[3].Rows[i]["1 to 5"].ToString(),
+                    SixTo10 = ds.Tables[3].Rows[i]["6_to_10"].ToString(),
+                    ElevenTo15 = ds.Tables[3].Rows[i]["11_to_15"].ToString(),
+                    SixteenTo20 = ds.Tables[3].Rows[i]["16_to_20"].ToString(),
+                    TwentyOneTo25 = ds.Tables[3].Rows[i]["21_to_25"].ToString()
+                });
+            }
+
+            //table[4]
+            for (int i = 0; i < ds.Tables[4].Rows.Count; i++)
+            {
+                oRightSec.Add(new RightSection()
+                {
+                    PENDINGREQUEST = ds.Tables[4].Rows[i]["PENDINGREQUEST"].ToString(),
+                    TOTALREQ = ds.Tables[4].Rows[i]["TOTALREQ"].ToString(),
+                    TYPE = ds.Tables[4].Rows[i]["TYPE"].ToString(),
+                    perc = ds.Tables[4].Rows[i]["perc"].ToString(),
+                });
+            }
+            //table[5]
+            for (int i = 0; i < ds.Tables[5].Rows.Count; i++)
+            {
+                oDownG1.Add(new TypeHOurGraph()
+                {
+                    Type = ds.Tables[5].Rows[i]["Type"].ToString(),
+                    Hours = ds.Tables[5].Rows[i]["Hours"].ToString()
+
+                });
+            }
+            //table[6]
+
+            for (int i = 0; i < ds.Tables[6].Rows.Count; i++)
+            {
+                oDownG2.Add(new TypeHOurGraph()
+                {
+                    Type = ds.Tables[6].Rows[i]["Type"].ToString(),
+                    Hours = ds.Tables[6].Rows[i]["Hours"].ToString()
+
+                });
+            }
+
+            for (int i = 0; i < ds.Tables[7].Rows.Count; i++)
+            {
+                oLeaveHis.Add(new LeaveHistoryTable()
+                {
+                    LeaveType = ds.Tables[7].Rows[i]["LEAVE_TYPE"].ToString(),
+                    FromDate = ds.Tables[7].Rows[i]["From_Date"].ToString(),
+                    ReturnToWork = ds.Tables[7].Rows[i]["Returned_To_Work"].ToString(),
+                    LeaveReqDays = ds.Tables[7].Rows[i]["Leave_Req_Days"].ToString()
+
+                });
+            }
+
+            for (int i = 0; i < ds.Tables[9].Rows.Count; i++)
+            {
+
+                oAllReqHistory.Add(new AllRequestHist()
+                {
+
+                    ReqID = ds.Tables[9].Rows[i]["ReqID"].ToString(),
+                    REQUEST_TYPEID = ds.Tables[9].Rows[i]["ReqTypeID"].ToString(),
+                    REQUEST_TYPE = ds.Tables[9].Rows[i]["ReqType"].ToString(),
+                    Req_Number = ds.Tables[9].Rows[i]["ReqNumber"].ToString(),
+                    REASON = ds.Tables[9].Rows[i]["Reason"].ToString(),
+                    RequestDate = ds.Tables[9].Rows[i]["ReqDate"].ToString(),
+                    Stage = ds.Tables[9].Rows[i]["Stage"].ToString(),
+                    StageClass = ds.Tables[9].Rows[i]["StageClass"].ToString(),
+                    ReqDate_sort = ds.Tables[9].Rows[i]["ReqDate_sort"].ToString(),
+                });
+            }
+
+        }
+
+        oMain.listTopBoxes = oTopBox;
+        oMain.listGraph1 = oG1;
+        oMain.listGraph2 = oG2;
+        oMain.listRectGraph = oRecG;
+        oMain.listRightSec = oRightSec;
+        oMain.listTypeHOurGraph1 = oDownG1;
+        oMain.listTypeHOurGraph2 = oDownG2;
+        oMain.listLeaveHis = oLeaveHis;
+        oMain.listRequestHist = oAllReqHistory;
+
+        return oMain;
+
+    }
+
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<EmpleaveBalance> GetBasicDetails(string EmpNo)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(5);
+
+        pa.Add("@EmpNo");
+        pv.Add(EmpNo);
+
+        DBH.CreateDataset_SSHR(ds, "sp_LeaveApplicationControls", true, pa, pv);
+
+        List<EmpleaveBalance> oEmpList = new List<EmpleaveBalance>();
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                oEmpList.Add(new EmpleaveBalance()
+                {
+                    LeaveBalance = dt.Rows[i]["LeaveBalance"].ToString(),
+                });
+            }
+        }
+
+        return oEmpList;
+        //string a = userId;
+    }
+
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<LoanDetails> GetEmployeeLoanDetails(string EmpNo)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(41);
+
+        pa.Add("@EmpNo");
+        pv.Add(EmpNo);
+
+
+        DBH.CreateDataset_SSHR(ds, "sp_AllRequests", true, pa, pv);
+
+        List<LoanDetails> oLoanDetails = new List<LoanDetails>();
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                oLoanDetails.Add(new LoanDetails()
+                {
+                    ENO = dt.Rows[i]["ENO"].ToString(),
+                    LTYPE = dt.Rows[i]["LTYPE"].ToString(),
+                    PAID = dt.Rows[i]["PAID"].ToString(),
+                    RECOVERED = dt.Rows[i]["RECOVERED"].ToString(),
+                    REMAINING = dt.Rows[i]["REMAINING"].ToString()
+                });
+            }
+        }
+
+        return oLoanDetails;
+    }
+
+    public class AllRequestHist
+    {
+        public string REASON { get; set; }
+        public string ReqID { get; set; }
+        public string Req_Number { get; set; }
+        public string REQUEST_TYPE { get; set; }
+        public string REQUEST_TYPEID { get; set; }
+        public string RequestDate { get; set; }
+        public string Stage { get; set; }
+        public string StageClass { get; set; }
+        public string ReqDate_sort { get; set; }
+    }
+
+    public class LoanDetails
+    {
+        public string ENO { get; set; }
+        public string LTYPE { get; set; }
+        public string PAID { get; set; }
+        public string RECOVERED { get; set; }
+        public string REMAINING { get; set; }
+
+
+    }
+
+    public class EmpleaveBalance
+    {
+        public string LeaveBalance { get; set; }
+    }
+
+    public class TopBoxes
+    {
+        public string PENDINGREQUEST { get; set; }
+        public string APPROVEDREQ { get; set; }
+        public string REJECTEDREQ { get; set; }
+        public string LateMin { get; set; }
+        public string EarlyExitMin { get; set; }
+    }
+
+    public class DatValue
+    {
+        public string TYPE { get; set; }
+        public string Day { get; set; }
+        public string Value { get; set; }
+    }
+
+    public class RectangleGraph
+    {
+        public string OneTo5 { get; set; }
+        public string SixTo10 { get; set; }
+        public string ElevenTo15 { get; set; }
+        public string SixteenTo20 { get; set; }
+        public string TwentyOneTo25 { get; set; }
+    }
+
+    public class RightSection
+    {
+        public string TYPE { get; set; }
+        public string PENDINGREQUEST { get; set; }
+        public string TOTALREQ { get; set; }
+        public string perc { get; set; }
+    }
+
+    public class TypeHOurGraph
+    {
+        public string Type { get; set; }
+        public string Hours { get; set; }
+    }
+
+    public class LeaveHistoryTable
+    {
+        public string LeaveType { get; set; }
+        public string FromDate { get; set; }
+        public string ReturnToWork { get; set; }
+        public string LeaveReqDays { get; set; }
+    }
+
+    public class AllInOne
+    {
+
+        public List<TopBoxes> listTopBoxes { get; set; }
+        public List<DatValue> listGraph1 { get; set; }
+        public List<DatValue> listGraph2 { get; set; }
+        public List<RectangleGraph> listRectGraph { get; set; }
+        public List<RightSection> listRightSec { get; set; }
+        public List<TypeHOurGraph> listTypeHOurGraph1 { get; set; }
+        public List<TypeHOurGraph> listTypeHOurGraph2 { get; set; }
+        public List<LeaveHistoryTable> listLeaveHis { get; set; }
+        public List<AllRequestHist> listRequestHist { get; set; }
+
+    }
+
     public class AssnAcc
     {
         public string ID { get; set; }
@@ -659,7 +1006,7 @@ public partial class SSHR_Profile : System.Web.UI.Page
         public string PassWord { get; set; }
 
         public string TransProvided { get; set; }
-       
+
 
 
     }

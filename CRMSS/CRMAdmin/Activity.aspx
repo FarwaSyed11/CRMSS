@@ -66,7 +66,7 @@
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody class="tbody-compactivity">
+                                <tbody class="tbody-oppupdate">
                                 </tbody>
                             </table>
                         </div>

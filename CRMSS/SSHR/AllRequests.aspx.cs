@@ -479,7 +479,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     StageClass = dt.Rows[i]["StageClass"].ToString(),
                     Depart = dt.Rows[i]["DEPARTMENT"].ToString(),
                     EMP_NO = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
-                    Depart = dt.Rows[i]["DEPARTMENT"].ToString(),
+                    //Depart = dt.Rows[i]["DEPARTMENT"].ToString(),
                     ExitDate_sort = dt.Rows[i]["ExitDate_sort"].ToString(),
                     ReqDate_sort = dt.Rows[i]["ReqDate_sort"].ToString(),
                 });
@@ -527,8 +527,8 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     RequestDate = dt.Rows[i]["ReqDate"].ToString(),
                     Stage = dt.Rows[i]["Stage"].ToString(),
                     StageClass = dt.Rows[i]["StageClass"].ToString(),
-                    EMP_NO = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
-                    Depart = dt.Rows[i]["DEPARTMENT"].ToString(),
+                    //EMP_NO = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
+                    //Depart = dt.Rows[i]["DEPARTMENT"].ToString(),
                     ReqDate_sort = dt.Rows[i]["ReqDate_sort"].ToString(),
                 });
             }

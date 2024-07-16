@@ -226,7 +226,7 @@ var options = {
     }
     ],
     chart: {
-        height: 230,
+        height: 300,
         type: 'line',
         zoom: {
             enabled: false
@@ -262,11 +262,17 @@ var options = {
         data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
     },
     {
-        data: [53, 32, 33, 52, 13, 43, 32]
-    }, 
+        data: [53, 32, 76, 52, 53, 43, 32]
+    },
+    {
+        data: [32, 33, 53, 43, 91, 33, 130]
+    },
+    {
+        data: [3, 32, 33, 5, 13, 30, 43, 32, 93,]
+    },
     ],
     chart: {
-        height: 230,
+        height: 300,
         type: 'line',
         zoom: {
             enabled: false
@@ -302,10 +308,10 @@ var options = {
     },
     {
         data: [53, 32, 33, 52, 13, 43, 32]
-    }, 
+    },
     ],
     chart: {
-        height: 230,
+        height: 300,
         type: 'line',
         zoom: {
             enabled: false
@@ -600,7 +606,7 @@ var options2 = {
             }
             else if (value < 111) {
                 return '#50CB29'
-            } 
+            }
         },
     ],
     plotOptions: {
@@ -848,7 +854,7 @@ var options = {
             lines: {
                 show: false
             }
-        },  
+        },
     },
     plotOptions: {
         bar: {
@@ -910,7 +916,7 @@ var options = {
         y: {
             title: {
                 formatter: function (val, seriesName) {
-                    return val+ ' %'
+                    return val + ' %'
                 }
             }
         },
@@ -926,14 +932,15 @@ chart.render();
 
 var options = {
     chart: {
-        height: 160,
+        height: 120,
         type: "radialBar",
         sparkline: {
             enabled: true
-        }
+        },
+        parentHeightOffset: 0,
     },
 
-    series: [20],
+    series: [35],
     colors: [
         function ({ value, seriesIndex, w }) {
             if (value < 30) {
@@ -947,11 +954,14 @@ var options = {
             }
         },
     ],
+    grid: {
+        padding: { left: -10, right: -10, top: -20, bottom: -10 },
+    },
     plotOptions: {
         radialBar: {
             hollow: {
-                margin: 15,
-                size: "50%",
+                margin: 10,
+                size: "40%",
                 background: "#E0E0E0"
             },
             track: {
@@ -969,7 +979,7 @@ var options = {
                 },
                 value: {
                     color: "#555",
-                    fontSize: "15px",
+                    fontSize: "13px",
                     show: true,
                     offsetY: 5
                 }
@@ -988,14 +998,15 @@ chart.render();
 
 var options = {
     chart: {
-        height: 160,
+        height: 120,
         type: "radialBar",
         sparkline: {
             enabled: true
-        }
+        },
+        parentHeightOffset: 0,
     },
 
-    series: [20],
+    series: [60],
     colors: [
         function ({ value, seriesIndex, w }) {
             if (value < 30) {
@@ -1009,11 +1020,14 @@ var options = {
             }
         },
     ],
+    grid: {
+        padding: { left: -10, right: -10, top: -20, bottom: -10 },
+    },
     plotOptions: {
         radialBar: {
             hollow: {
-                margin: 15,
-                size: "50%",
+                margin: 10,
+                size: "40%",
                 background: "#E0E0E0"
             },
             track: {
@@ -1050,14 +1064,17 @@ chart.render();
 
 var options = {
     chart: {
-        height: 160,
+        height: 110,
         type: "radialBar",
         sparkline: {
             enabled: true
-        }
+        },
+        parentHeightOffset: 0,
     },
-
-    series: [20],
+    grid: {
+        padding: { left: -10, right: -10, top: -20, bottom: -10 },
+    },
+    series: [75],
     colors: [
         function ({ value, seriesIndex, w }) {
             if (value < 30) {
@@ -1074,8 +1091,8 @@ var options = {
     plotOptions: {
         radialBar: {
             hollow: {
-                margin: 15,
-                size: "50%",
+                margin: 10,
+                size: "40%",
                 background: "#E0E0E0"
             },
             track: {
@@ -1112,13 +1129,16 @@ chart.render();
 
 var options = {
     chart: {
-        height: 160,
+        height: 110,
         type: "radialBar",
         sparkline: {
             enabled: true
-        }
+        },
+        parentHeightOffset: 0,
     },
-
+    grid: {
+        padding: { left: -10, right: -10, top: -20, bottom: -10 },
+    },
     series: [20],
     colors: [
         function ({ value, seriesIndex, w }) {
@@ -1136,8 +1156,8 @@ var options = {
     plotOptions: {
         radialBar: {
             hollow: {
-                margin: 15,
-                size: "50%",
+                margin: 10,
+                size: "40%",
                 background: "#E0E0E0"
             },
             track: {

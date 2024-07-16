@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="Profile.aspx.cs" Inherits="SSHR_Profile" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="Profile.aspx.cs" Inherits="SSHR_Profile" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
@@ -6,7 +6,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="../Dashboard/assets/vendor/libs/apex-charts/apexcharts.js"></script>   
     <style>
         .col-form-label {
             padding-top: calc(0.4375rem + 1px);
@@ -67,7 +68,7 @@
                     <div class="col-md-3">
 
                         <!-- Profile Image -->
-                        <div class="card card-primary card-outline crd-left">
+                        <div class="card card-primary card-outline crd-left" style="height: 790px !important;">
                             <div class="card-body box-profile">
                                 
                                 <div class="" style="display: inline-flex;">
@@ -366,8 +367,12 @@
                                 <ul class="nav nav-tabs" role="tablist"">
                                     
                                     <li class="nav-item">
-                                        <button type="button" class="nav-link active jobdesc" role="tab" data-bs-toggle="tab" data-bs-target="#tab-JobDesc" aria-controls="tab-JobDesc" aria-selected="false">Job Description</button>
-                                        <span class="btneditjobdesc" id="btnEditJobPurpose" style="visibility:visible">Edit <img src="Images/profile/edit.svg" /></span>
+                                        <button type="button" class="nav-link active show more" role="tab" data-bs-toggle="tab" data-bs-target="#tab-Summary" aria-controls="tab-Summary" aria-selected="false">Summary</button>
+                                   
+                                    </li>
+                                    <li class="nav-item">
+                                        <button type="button" class="nav-link jobdesc" role="tab" data-bs-toggle="tab" data-bs-target="#tab-JobDesc" aria-controls="tab-JobDesc" aria-selected="false">Job Description</button>
+                                        <span class="btneditjobdesc" id="btnEditJobPurpose" style="visibility:hidden">Edit <img src="Images/profile/edit.svg" /></span>
                                     </li>
                                     <li class="nav-item">
                                         <button type="button" class="nav-link salaryinfo" role="tab" data-bs-toggle="tab" data-bs-target="#tab-SalaryInfo" aria-controls="tab-SalaryInfo" aria-selected="false">Salary Info</button>
@@ -386,7 +391,7 @@
                             <div class="card-body" style="">
                                 <div class="tab-content">
                                     
-                                    <div class="tab-pane fade show active " id="tab-JobDesc" role="tabpanel">
+                                    <div class="tab-pane" id="tab-JobDesc" role="tabpanel">
                                         <div class="modal-body jobdesc-body">
                                             
                                             <div>
@@ -1051,9 +1056,139 @@
                                                     </table>
                                                 </div>
                                             </div>
-            
-       
-        
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="tab-pane fade show active " id="tab-Summary" role="tabpanel">
+                                        <div class="">
+                                            <div class="row mt-3" style="">
+                                                <div class="col-12 topstatusrow" style="">
+                                                    <div class="topstatuscard">
+                                                        
+                                                        <img src="Images/card-icons/1.svg" />
+                                                        <div class="headdiv" style="">Leave Balance</div>
+                                                        <div class="valuediv" id="leavebal">-- </div>
+                                                    </div>
+
+                                                    <div class="topstatuscard" style="">
+                                                        <img src="Images/card-icons/2.svg" />
+                                                        <div class="headdiv" style="">Outstanding Loan</div>
+                                                        <div class="valuediv" style="" id="totLoanBal">-- </div>
+                                                    </div>
+
+                                                    <div class="topstatuscard" style="">
+                                                        <div>
+                                                            <div class="text-danger" style="font-size: 10px;position: absolute;right: 15px;top: 10px;">This Month</div>
+                                                        </div>
+                                                        
+                                                        <div class="d-flex flex-column" style="align-items: center;">
+                                                            <img src="Images/card-icons/6.svg" />
+                                                            <div class="headdiv"  style="">Total Minutes Of Late </div>
+                                                            <div class="valuediv" id="minuteOflate" style="">-- </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div class="topstatuscard" style="">
+                                                        <div>
+                                                            <div class="text-danger" style="font-size: 10px;position: absolute;right: 15px;top: 10px;">This Month</div>
+                                                        </div>
+                                                        <div class="d-flex flex-column" style="align-items: center;">
+                                                            <img src="Images/card-icons/7.svg" />
+                                                            <div class="headdiv" style="">Total Minutes Of Exit Pass </div>
+                                                            <div class="valuediv"  id="earlyExitMin" style="">-- </div>
+
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div class="topstatuscard" style="">
+                                                        <img src="Images/card-icons/3.svg" />
+                                                        <div class="headdiv"  style="">Total Pending Request</div>
+                                                        <div class="valuediv" id="totelPendingRequest" style="">-- </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mt-3">
+                                                <div class="col-4">
+                                                    <div class="card border rounded shadow-none" style="height: 390px;">
+                                                        <div class="card-body">
+                                                            <h6 class="mb-3" style="">Leave History</h6>
+
+                                                            <div class="table">
+                                                                <table class="table project-table table-LeaveRequest">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Leave Type</th>
+                                                                            <th>Leave Date</th>
+                                                                            <th>Rejoin Date</th>
+                                                                            <th>Days</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="tbody-leaveHistory">
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="card border rounded shadow-none" style="height: 390px; overflow:hidden;">
+                                                        <div class="card-body">
+                                                            <h6 class="mb-3" style="">Request History</h6>
+
+                                                            <div class="table">
+                                                                <table class="table project-table table-RequestHistory">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th style="width:25%">Request Type</th>
+                                                                            <th style="width:25%">Sub Type</th>
+                                                                            <th style="width:25%">Status</th>
+                                                                            <th style="width:25%">Date</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="tbody-RequestHistory">
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+
+                                                        </div>
+    
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="card border rounded shadow-none">
+                                                                <div class="card-body">
+                                                                    <h6 class="mb-3" style="">Current Loan</h6>
+
+                                                                    <div id="LoanDetailschart"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="card border rounded shadow-none">
+                                                                <div class="card-body">
+                                                                    <h6 class="mb-3" style="">No. of Late Attendance</h6>
+                                                                    
+                                                                    <div id="LatePiechart"></div>
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="card border rounded shadow-none">
+                                                                <div class="card-body">
+                                                                    <h6 class="mb-3" style="">Total Hours Exit Pass</h6>
+                                                                    
+                                                                    <div id="ExitPiechart"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
