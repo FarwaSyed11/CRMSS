@@ -26,6 +26,12 @@ var ReqOrderNumber = 0;
 
 $(document).ready(function () {
 
+    flatpickr(jQuery("#txtEstDate"), {
+        defaultDate: "today",
+        enableTime: true,
+        noCalendar: false,
+    });
+
     $('.ajax-loader').removeClass('hidden');
 
     setTimeout(function () {
@@ -2217,20 +2223,20 @@ function EstCustomerCheck() {
 
         $('#txtPrjContactPerson').hover(function () {
 
-            $('.div-win').width('9%');
-            $('.div-budge').width('9%');
+            $('.div-win').width('8%');
+            $('.div-budge').width('8%');
             $('.div-New').css('display', 'block');
 
         }, function () {
-            $('.div-win').width('11%');
-            $('.div-budge').width('11%');
+            $('.div-win').width('10%');
+            $('.div-budge').width('10%');
             $('.div-New').css('display', 'none');
         });
     }
     else {
         $('#txtPrjContactPerson').hover(function () {
-            $('.div-win').width('11%');
-            $('.div-budge').width('11%');
+            $('.div-win').width('10%');
+            $('.div-budge').width('10%');
             $('.div-New').css('display', 'none');
         });
     }
@@ -2295,7 +2301,7 @@ function LoadEstimationCompanyProduct() {
                                  </div>
 
                                  <div style="width: 70%;">
-                                     <input class="form-control" type="text" id="txtEP-`+ i + `" value="" style="display:none;border-bottom: solid;border-color: #ffc1a3;" placeholder="Remarks"/>
+                                     <input class="form-control" type="text" id="txtEP-`+ i + `" value="" style="display:none;" placeholder="Remarks"/>
                                  </div>
 
 
