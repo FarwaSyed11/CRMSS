@@ -116,8 +116,16 @@ $(document).ready(function () {
         $("#nav-Structure-tab").removeClass('show');
         $("#nav-TOC-tab").removeClass('active');
         $("#nav-TOC-tab").removeClass('show');
-        $("#nav-Summary-tab").removeClass('active');
-        $("#nav-Summary-tab").removeClass('show');
+
+        $("#nav-Details").addClass('show');
+        $("#nav-Details").addClass('active');
+
+        $("#nav-Structure").removeClass('active');
+        $("#nav-Structure").removeClass('show');
+        $("#nav-TOC").removeClass('active');
+        $("#nav-TOC").removeClass('show');
+
+
     });
     $("#nav-Structure-tab").on('click', function () {
         $('#progress-bar li.active:first').addClass('active');
@@ -128,12 +136,21 @@ $(document).ready(function () {
         $("#nav-Structure-tab").addClass('active');
         $("#nav-Structure-tab").addClass('show');
 
-        $("#nav-Details--tab").removeClass('active');
+        $("#nav-Details-tab").removeClass('active');
         $("#nav-Details-tab").removeClass('show');
         $("#nav-TOC-tab").removeClass('active');
         $("#nav-TOC-tab").removeClass('show');
-        $("#nav-Summary-tab").removeClass('active');
-        $("#nav-Summary-tab").removeClass('show');
+
+        $("#nav-Structure").addClass('show');
+        $("#nav-Structure").addClass('active');
+
+        $("#nav-Details").removeClass('active');
+        $("#nav-Details").removeClass('show');
+        $("#nav-TOC").removeClass('active');
+        $("#nav-TOC").removeClass('show');
+
+        getAllFloorTypes();
+        generateHTMLForFlrTypes();
     });
     $("#nav-TOC-tab").on('click', function () {
         $('#progress-bar li.active:first').addClass('active');
@@ -150,30 +167,45 @@ $(document).ready(function () {
         $("#nav-Structure-tab").removeClass('show');
         $("#nav-Details-tab").removeClass('active');
         $("#nav-Details-tab").removeClass('show');
-        $("#nav-Summary-tab").removeClass('active');
-        $("#nav-Summary-tab").removeClass('show');
 
+        $("#nav-TOC").addClass('show');
+        $("#nav-TOC").addClass('active');
+
+        $("#nav-Details").removeClass('active');
+        $("#nav-Details").removeClass('show');
+        $("#nav-Structure").removeClass('active');
+        $("#nav-Structure").removeClass('show');
     });
-    $("#nav-Summary-tab").on('click', function () {
-        $('#progress-bar li.active:first').addClass('active');
-        $('.nav-link li.active:first').addClass('active');
-        $('#progress-bar li.active:nth-child(2)').addClass('active');
-        $('.nav-link li.active:nth-child(2)').addClass('active');
-        $('#progress-bar li.active:nth-child(3)').addClass('active');
-        $('.nav-link li.active:nth-child(3)').addClass('active');
-        $('#progress-bar li.active:nth-child(4)').addClass('active');
-        $('.nav-link li.active:nth-child(4)').addClass('active');
+    //$("#nav-Summary-tab").on('click', function () {
+    //    $('#progress-bar li.active:first').addClass('active');
+    //    $('.nav-link li.active:first').addClass('active');
+    //    $('#progress-bar li.active:nth-child(2)').addClass('active');
+    //    $('.nav-link li.active:nth-child(2)').addClass('active');
+    //    $('#progress-bar li.active:nth-child(3)').addClass('active');
+    //    $('.nav-link li.active:nth-child(3)').addClass('active');
+    //    $('#progress-bar li.active:nth-child(4)').addClass('active');
+    //    $('.nav-link li.active:nth-child(4)').addClass('active');
 
-        $("#nav-Summary-tab").addClass('active');
-        $("#nav-Summary-tab").addClass('show');
+    //    $("#nav-Summary-tab").addClass('active');
+    //    $("#nav-Summary-tab").addClass('show');
 
-        $("#nav-Structure-tab").removeClass('active');
-        $("#nav-Structure-tab").removeClass('show');
-        $("#nav-TOC-tab").removeClass('active');
-        $("#nav-TOC-tab").removeClass('show');
-        $("#nav-Details-tab").removeClass('active');
-        $("#nav-Details-tab").removeClass('show');
-    });
+    //    $("#nav-Structure-tab").removeClass('active');
+    //    $("#nav-Structure-tab").removeClass('show');
+    //    $("#nav-TOC-tab").removeClass('active');
+    //    $("#nav-TOC-tab").removeClass('show');
+    //    $("#nav-Details-tab").removeClass('active');
+    //    $("#nav-Details-tab").removeClass('show');
+
+    //    $("#nav-Summary").addClass('show');
+    //    $("#nav-Summary").addClass('active');
+
+    //    $("#nav-Details").removeClass('active');
+    //    $("#nav-Details").removeClass('show');
+    //    $("#nav-Structure").removeClass('active');
+    //    $("#nav-Structure").removeClass('show');
+    //    $("#nav-TOC").removeClass('show');
+    //    $("#nav-TOC").removeClass('active');
+    //});
 
     //const progressBar = document.querySelectorAll(".progress-bar")[0];
     //const StatusBar = document.querySelectorAll(".status-bar")[0];
@@ -246,9 +278,6 @@ $('#ddlExpiredDaysSManager').on('change', function () {
     inititateManagerDatepicker()
 });
 
-$('.btnAddStructure').on('click', function () {
-    $("#ModalAddStructure").modal('show');
-});
 
 function inititateSalesmanDatepicker() {
 
@@ -508,12 +537,14 @@ $('#btn-add-req-grid').on('click', function () {
 
 })
 
-
+$("#ddlFilterStatus").on('change', function () {
+    getAllRequests();
+})
 function getAllRequests() {
 
     $.ajax({
         url: "EMSItemList.aspx/GetAllReqs",
-        data: JSON.stringify({ 'UserId': currUserId }),
+        data: JSON.stringify({ 'UserId': currUserId, 'Status': $("#ddlFilterStatus option:selected").val() }),
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -532,8 +563,8 @@ function getAllRequests() {
                     <td> `+ item.CreatedDate + `</td>
                     <td> `+ item.Status + `</td>
                     <td> `+ item.CreatedDate + `</td>
-                    <td> `+ item.CreatorName + `</td>`
-
+                    <td> `+ item.CreatorName + `</td>
+                    <td> `+ item.EstimationStatus + `</td>`
                 htm += `<td class="riskActions" style="text-align:right;">`
                 htm += `<span style="margin-left: 4%;"><i class="bx bxs-info-circle fa-icon-hover ibtn-estireq-details" title="Details Estimation Request" data-optno="` + item.OptNo + `" data-reqid="` + item.ReqId + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>`
                 htm += `</td>`
@@ -682,6 +713,33 @@ function initiateRRFDT() {
     });
 
 }
+function ChangeRequestStatus(st) {
+
+    var res = listAllReqs.filter(s => s.ReqId == selReqId);
+
+    $.ajax({
+        url: "EMSItemList.aspx/UpdateReqStatus",
+        data: JSON.stringify({
+            'ReqId': selReqId,
+            'Status': st,
+            'EstimatorEmpNo': res[0].EstimatorEmpNo
+        }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            let msg = 'Status <b>' + st +'</b> Successfully'
+            toastr.success(msg, '');
+            getAllRequests()
+            $('#addReqModal').modal('hide');
+            //getAllProjects();
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
 
 $('.tbody-esti-req').on('click', '.ibtn-fcastquart-edit,.ibtn-estireq-details', function () {
 
@@ -691,7 +749,40 @@ $('.tbody-esti-req').on('click', '.ibtn-fcastquart-edit,.ibtn-estireq-details', 
     
     var res = listAllReqs.filter(s => s.ReqId == selReqId);
 
+    ResetRequestModal();
     selectedReq(res);
+    ViewStructure();
+
+
+    if (res[0].EstimationStatus.toUpperCase() == "PENDING FOR APPROVAL" && myroleList.includes('14213')) { //For Estimation Head
+        $(".btn-req-complete-grid").addClass('hidden');
+        $(".btn-approve-req").removeClass('hidden');
+        $(".btn-rej-req").removeClass('hidden');
+
+        $(".hide-control-bos").removeClass('hidden');
+    }
+    else if ((res[0].EstimationStatus.toUpperCase() == "UNDER ESTIMATION" || res[0].EstimationStatus.toUpperCase() == "REJECTED") && myroleList.includes('14214')) { //Estimator
+        $(".btn-req-complete-grid").removeClass('hidden');
+        $(".btn-approve-req").addClass('hidden');
+        $(".btn-rej-req").addClass('hidden');
+
+        $(".hide-control-bos").removeClass('hidden');
+    }
+    else if (res[0].EstimationStatus.toUpperCase() == "RELEASED") {
+        $(".btn-approve-req").addClass('hidden');
+        $(".btn-rej-req").addClass('hidden');
+        $(".btn-req-complete-grid").addClass('hidden');
+
+        $(".hide-control-bos").addClass('hidden');        
+    }
+    else {
+        $(".btn-approve-req").addClass('hidden');
+        $(".btn-rej-req").addClass('hidden');
+    }
+
+
+
+
     if (selAction == "Edit ForecastQuarter") {
         $('.btnSubmit').removeClass('hidden')
         $('#dtFromDate').val(res[0].FromDate.split(" ")[0])
@@ -711,18 +802,20 @@ $('.tbody-esti-req').on('click', '.ibtn-fcastquart-edit,.ibtn-estireq-details', 
     else if (selAction == "Details Estimation Request") {
 
         bindValueForLabels(res);
+        /*GetEstimationNo(selReqId);*/
         $('#addReqModal').modal('show');
         $('.ajax-loader').removeClass('hidden');
         setTimeout(function () {
             //loadForecastRequests(res[0].Company);
             $(".ajax-loader").addClass('hidden');
         }, 200);
+        
     }
 
 });
 
 function bindValueForLabels(data) {
-
+    
     $('#txtEstRef').html(data[0].RefNo);
     $('#txtRevision').html(data[0].RevNo)
     $('#txtContrAbbr').html(data[0].ContABBR)
@@ -740,15 +833,59 @@ function bindValueForLabels(data) {
     $('#txtPrjWinningPerc').html(data[0].WinPerc)
     $('#txtPrjBudget').html(data[0].Budget)
     $('#txtPrjURL').html(data[0].URL)
-    $('#ddlEstimationTeamOrg').val(data[0].EstimationOrg)
+    $('#ddlEstimationTeamOrg').html(data[0].EstimationOrg)
     $('#txtSalesman').html(data[0].Salesman)
     $('#txtMarketing').html(data[0].Marketing)
 
     $("input[name=Stage][value='"+ data[0].Stage + "']").attr('Checked', true)
     $("input[name=Supply][value='"+ data[0].Scope + "']").attr('Checked', true)
     $("input[name=Quotation][value='" + data[0].QuotationType + "']").attr('Checked', true)
+}
+function bindValueForLabelsinSummary(data) {
+
+    //$('#SummarytxtEstRef').html(data[0].RefNo);
+    $('#SummarytxtRevision').html(data[0].RevNo)
+    $('#SummarytxtContrAbbr').html(data[0].ContABBR)
+    $('#SummarytxtEstYear').html(data[0].Year)
+    $('#SummarytxtOppRef').html(data[0].OptNo)
+    $('#SummarytxtProjRef').html(data[0].ProjectNumber)
+    $('#SummarytxtPrjName').html(data[0].ProjectName)
+    $('#SummarytxtPrjLocation').html(data[0].Location)
+    $('#SummarytxtPrjClient').html(data[0].Client)
+    $('#SummarytxtPrjConsultant').html(data[0].Consultant)
+    $('#SummarytxtPrjMainContr').html(data[0].MainContractor)
+    $('#SummarytxtPrjMEPContr').html(data[0].MEPContractor)
+    $('#SummarytxtPrjContactPerson').html(data[0].ContactID)
+    $('#SummarytxtPrjWinningPerc').html(data[0].WinPerc)
+    $('#SummarytxtPrjBudget').html(data[0].Budget)
+    $('#SummarytxtPrjURL').html(data[0].URL)
+    $('#SummaryddlEstimationTeamOrg').html(data[0].EstimationOrg)
+    $('#SummarytxtSalesman').html(data[0].Salesman)
+    $('#SummarytxtMarketing').html(data[0].Marketing)
+
+    $("input[name=SummaryStage][value='" + data[0].Stage + "']").attr('Checked', true)
+    $("input[name=SummarySupply][value='" + data[0].Scope + "']").attr('Checked', true)
+    $("input[name=SummaryQuotation][value='" + data[0].QuotationType + "']").attr('Checked', true)
 
 
+}
+function GetEstimationNo(selReqId) {
+    $.ajax({
+        url: "EMSItemList.aspx/GetEstimationNo",
+        type: "POST",
+        data: JSON.stringify({ "ReqId": selReqId, "EmpNo": EmpNo }),
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+
+            $("#txtESTNumber").html(result.d[0].ESTNumber)
+
+        },
+        error: function (errormessage) {
+
+        }
+    });
 }
 
 
@@ -1352,26 +1489,14 @@ function ResetModal(modId) {
 
 }
 
-function AddDays(dt, nod) {
-    let finalDate = new Date(new Date(dt).setDate(new Date(dt).getDate() + (nod == "" ? 0 : parseInt(nod))));
-    return finalDate.getFullYear() + '-' + ((finalDate.getMonth() + 1) < 10 ? ("0" + (finalDate.getMonth() + 1)) : (finalDate.getMonth() + 1)) + '-' + finalDate.getDate();
-}
-function removeCommaFromLast(sValue) {
-    return sValue.substr(0, sValue.length - 1);
-}
-function nFormatter(num) {
+function ResetRequestModal() {
 
-    if (num >= 1000000000000) {
-        return (num / 1000000000000).toFixed(1).replace(/\.0$/, '') + 'T';
-    }
-    else if (num >= 1000000000) {
-        return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
-    }
-    else if (num >= 1000000) {
-        return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
-    }
-    else if (num >= 1000) {
-        return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
-    }
-    return num;
+    let modalid = "#addReqModal";
+
+    $('#addReqModal li').removeClass('active');
+    $('#addReqModal li:eq(0)').addClass('active');
+
+    $('#addReqModal .tab-content .tab-pane').removeClass('active show')
+    $('#addReqModal .tab-content .tab-pane:eq(0)').addClass('active show')
+
 }

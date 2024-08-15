@@ -1,7 +1,7 @@
 ﻿var objDatatableCustomer = [], objDatatableConsulatnt=[];
 var AccountId = '';
 var objDatatableOPT = [];
-var objDatatableAttachment = [], objDatatableApprovalList=[];
+var objDatatableAttachment = [], objDatatableApprovalList = [], objDatatable = [], objDatatableGeneralComments = [];
 var OptId = '';
 var PrimaryCat = '-1';
 var SubCategory = '-1';
@@ -21,17 +21,21 @@ var isDisable = '';
 var OwnerIdOpt = 0;
 var MarketingID = 0;
 var ReqRoleID = 0;
+var Contractor = '';
+
 
 var ReqOrderNumber = 0;
 
+var EstTeam = '';
+var Estimator = '';
+var ProductID = '';
+
+var day = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"];
+var monthsbyName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
 $(document).ready(function () {
 
-    flatpickr(jQuery("#txtEstDate"), {
-        defaultDate: "today",
-        enableTime: true,
-        noCalendar: false,
-    });
-
+   
     $('.ajax-loader').removeClass('hidden');
 
     setTimeout(function () {
@@ -48,19 +52,6 @@ $(document).ready(function () {
         htmdrop += `<option value="RECEIVED">UNDER ESTIMATION</option>`;
         htmdrop += `<option value="COMPLETED">COMPLETED</option>`;
         htmdrop += `<option value="REJECTED" >REJECTED</option>`;
-    }
-    else if (myroleList.includes("2085")) {
-        $("#btnNewAddReq").addClass('hidden');
-        htmdrop += `<option value="PENDING" >PENDING</option>`;
-        htmdrop += `<option value="COMPLETED" >COMPLETED</option>`;
-
-    }
-
-    else if (myroleList.includes("13199")) {
-        $("#btnNewAddReq").addClass('hidden');
-        htmdrop += `<option value="UNDER ESTIMATION" >UNDER ESTIMATION</option>`;
-        htmdrop += `<option value="COMPLETED" >COMPLETED</option>`;
-
     }
     else {
         $("#btnNewAddReq").addClass('hidden');
@@ -133,12 +124,50 @@ $('#btnNewAddReq').on('click', function () {
         $('.New-Add').css('display', 'block');
        
     }
-
-    if (type == 'ENGINEERING') {
-        $('.New-Add').css('display', 'none');
-    }
 });
 
+
+$('.btnAssign').on('click', function () {
+    var LineIDs = '';
+    $('.tbody-Product-list tr').each(function (key, item) {
+        LineIDs = LineIDs + ',' + item.children[0].textContent;
+    })
+
+
+
+    $.ajax({
+        url: "ERMMaster.aspx/UpdateEH",
+        data: JSON.stringify({
+            "UserId": currUserId, "EHEmpno": $("#ddlEstimationHead").val(), "ReqID": RequestId,
+            "LineIDs": LineIDs, "Action": "APPROVED",        }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+
+            toastr.success(" Successfully Updated");
+
+            GetTableDetails();
+            FillAllDetails();
+          
+                EstCustomerCheck();
+                RequestedProductDetails();
+                RequestAccess();
+                $('#EstimationDetailModal').modal('show');
+           
+
+        },
+        //complete: function () {
+        //    $('.ajax-loader').hide();
+        //},
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+    
+});
 
 function GetTableDetails(Loader) {
 
@@ -170,14 +199,11 @@ function GetTableDetails(Loader) {
                   <td style="text-align:center;">`+ item.OPTNumber + `</td>
                   <td style="text-align:center;">`+ item.ProjectNumber + `</td>
                    <td style="text-align:center;">`+ item.ProjectName + `</td>
-                  <td style="text-align:center;">`+ item.EstimationDate + `</td>
                    <td style="text-align:center;">`+ item.CreatedBy + `</td>
                     <td style="text-align:center;">`+ item.CreatedDate + `</td>
-                    <td style="text-align:center;"> <a style="margin-left: 4%;" class="image-change">
-                    <img src="images/icons8-view-48 (1).png" title="View" class="fa-icon-hover ibtn-Request-Details" style="cursor: pointer; width: 34px;" />
+                    <td style="text-align:center;vertical-align:middle;"><a style="margin-left: 4%;" class="image-change">
+                    <img src="images/icon-View.png" title="View" class="fa-icon-hover ibtn-Request-Details" style="cursor: pointer; width: 24px;" />
                     </a></td>`;
-
-
 
 
                 htm += `</tr>`;
@@ -221,10 +247,6 @@ $('.tbody-ERMRequest').on('click','.ibtn-Request-Details', function () {
         $('#EstimationDetailModal').modal('show');
     }
 
-    if (type == 'ENGINEERING') {
-        EngCustomerCheck();
-        $('#EngineeringDetailModal').modal('show');
-    }
   
 
 });
@@ -248,6 +270,10 @@ function RequestAccess() {
                 $("#btnNewAddProduct").css("display", "block");
                 $('.Estimation-TeamLeader').css("display", "none");
                 $('.Assign-Attachment').css("display", "none");
+                $('#ddlEstimationHead').css("display", "none");
+                $('.btnAssign').css("display", "none");
+                $('.btnMoreReq').css("display", "none");
+
                 /* $(".btn-close-proj-modal").css("margin-left", "0%");*/
 
             }
@@ -260,33 +286,32 @@ function RequestAccess() {
                 $("#btnNewAddProduct").css("display", "none");
                 $('.Estimation-TeamLeader').css("display", "none");
                 $('.Assign-Attachment').css("display", "none");
-                /*  $(".btn-close-proj-modal").css("margin-left", "77%");*/
-            }
-            else if (result.d == "ASSIGNED") {
-                $(".btnSubmitRequest").css("display", "none");
-                $(".btnApprove").css("display", "none");
-                $(".btnReject").css("display", "none");
-                $(".btnReceived").css("display", "");
-                $(".btnCompleted").css("display", "none");
-                $("#btnNewAddProduct").css("display", "none");
-                TeamLeader();
-                $('.Estimation-TeamLeader').css("display", "");
-                $('.Assign-Attachment').css("display", "none");
+                $('.btnAssign').css("display", "none");
+                $('.btnMoreReq').css("display", "none");
 
-              
+                $('#ddlEstimationHead').css("display", "none");
                 /*  $(".btn-close-proj-modal").css("margin-left", "77%");*/
             }
-            else if (result.d == "UNDER ESTIMATION") {
+            else if (result.d == "ASSIGN") {
                 $(".btnSubmitRequest").css("display", "none");
                 $(".btnApprove").css("display", "none");
                 $(".btnReject").css("display", "none");
                 $(".btnReceived").css("display", "none");
-                $(".btnCompleted").css("display", "");
+                $(".btnCompleted").css("display", "none");
                 $("#btnNewAddProduct").css("display", "none");
                 $('.Estimation-TeamLeader').css("display", "none");
-                $('.Assign-Attachment').css("display", "");
+                $('.Assign-Attachment').css("display", "none");
+                $('.btnAssign').css("display", "");
+                $('.btnMoreReq').css("display", "");
+                GetEstTeamLeader();
+                $('#ddlEstimationHead').removeAttr('disabled');
+                $('#ddlEstimationHead').css("display", "");
+                
                 /*  $(".btn-close-proj-modal").css("margin-left", "77%");*/
             }
+            
+
+           
             else {
                 $(".btnSubmitRequest").css("display", "none");
                 $(".btnApprove").css("display", "none");
@@ -298,6 +323,12 @@ function RequestAccess() {
                 $("#btnNewAddProduct").css("display", "none");
                 $('.Estimation-TeamLeader').css("display", "none");
                 $('.Assign-Attachment').css("display", "none");
+                $('.btnAssign').css("display", "none");
+                $('.btnMoreReq').css("display", "none");
+                $('#ddlEstimationHead').css("display", "none");
+
+
+
             }
            
         },
@@ -306,6 +337,113 @@ function RequestAccess() {
             alert(errormessage.responseText);
         }
     });
+
+}
+
+function GetEstTeamLeader() {
+
+    $.ajax({
+        url: "ERMMaster.aspx/GetEstTeamLeader",
+        data: JSON.stringify({ "UserId": currUserId}),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '';
+
+
+            $.each(result.d, function (key, item) {
+
+                htm += `<option value="` + item.ddlValue + `" > ` + item.ddlValue + `-` + item.ddlText + `</option>`;
+
+            });
+
+            $('#ddlEstimationHead').html(htm);
+            /*  City = $('#ddlEngCity option:selected').val().trim();*/
+
+        },
+        //complete: function () {
+        //    $('.ajax-loader').hide();
+        //},
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+
+
+}
+
+function GetEstTeamLeaderForProduct(DropdownName,Product) {
+
+    $.ajax({
+        url: "ERMMaster.aspx/GetEstTeamLeaderBasedOnProduct",
+        data: JSON.stringify({ "UserId": currUserId, "Product": Product }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '';
+
+
+            $.each(result.d, function (key, item) {
+
+                htm += `<option value="` + item.ddlValue + `" > ` + item.ddlValue + `-` + item.ddlText + `</option>`;
+
+            });
+
+            $('#'+DropdownName+'').html(htm);
+            /*  City = $('#ddlEngCity option:selected').val().trim();*/
+
+        },
+        //complete: function () {
+        //    $('.ajax-loader').hide();
+        //},
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+
+
+}
+
+function GetEstimatorForProduct(DropdownName, Product,ManagerEmpNo) {
+
+    $.ajax({
+        url: "ERMMaster.aspx/GetEstimators",
+        data: JSON.stringify({ "ManagerEmpno": ManagerEmpNo, "Product": Product }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '';
+
+            if (result.d.length > 0) {
+                htm +=`<option value="-1" option: selected> -- Select -- </option>`
+            }
+            $.each(result.d, function (key, item) {
+
+                htm += `<option value="` + item.ddlValue + `" > ` + item.ddlValue + `-` + item.ddlText + `</option>`;
+
+            });
+
+            $('#' + DropdownName + '').html(htm);
+            /*  City = $('#ddlEngCity option:selected').val().trim();*/
+
+        },
+        //complete: function () {
+        //    $('.ajax-loader').hide();
+        //},
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+
 
 }
 
@@ -351,9 +489,6 @@ function GetConsultantDetails() {
 
             var htm = '';
             var ProjectDetails = result.d;
-
-
-
             $.each(ProjectDetails, function (key, item) {
                 htm += `<tr>        
                
@@ -543,8 +678,9 @@ $('.tbody-Customer-details').on('click', 'tr', function () {
 
     AccountId = this.children[0].textContent;
     $("#txtSalesman").val(this.children[3].textContent);
-    
+  
     OwnerIdOpt = this.children[2].textContent;
+    Contractor = this.children[1].textContent;
     MarketingID = 0;
     ContactId = 0;
     GetOPTDetails();
@@ -565,13 +701,22 @@ $('#btnAddOpp').on('click', function () {
     $(".btnCompleted").css("display", "none");
     $('.Estimation-TeamLeader').css("display", "none");
     $('.Assign-Attachment').css("display", "none");
+
+    $('#ddlEstimationHead').css("display", "none");
+    $('.btnAssign').css("display", "none"); 
+    $('.btnMoreReq').css("display", "none"); 
+
     $('#txtEstYear').val(new Date().getFullYear());
+    $('#txtPrjMEPContr').val(Contractor);
+    
     OptNo = '';
     RequestId = 0;
     MarketingID = 0;
     GetRefNo();
     EstCustomerCheck();
     LoadEstimationTeamOrg();
+    $('#ModalConsultant').modal('hide');
+    $('#ModalOpportuniryDetails').modal('hide');
     $('#EstimationDetailModal').modal('show');
 
 });
@@ -627,13 +772,13 @@ $('#btnSaveAction').on('click', function () {
     }
     else {
 
-        if (((myroleList.includes("2066") && (ReqOrderNumber == 1 || ReqOrderNumber == 5)) || ReqOrderNumber == 0) && $('#hfdAction').val()!="REJECTED")  {
+        if ((((myroleList.includes("2066") || (myroleList.includes("3087") )) && $('#hfdAction').val()!="REJECTED")))  {
 
             if (MarketingID == 0) {
                 toastr.error("Please select the Consultant");
                 return;
             }
-            else if (ReqOrderNumber == 5 && $("#txtOppRef").val() == "") {
+            else if (ReqOrderNumber == 2 && $("#txtOppRef").val() == "") {
 
                 toastr.error("Please Enter the opportunity");
                 return;
@@ -644,8 +789,12 @@ $('#btnSaveAction').on('click', function () {
 
             }
         }
+        else if ($('#hfdAction').val()=="REJECTED")
+        {
+            UpdateTheStatus(RequestId, $('#hfdAction').val(), $('#txtActionComments').val());
+        }
 
-        UpdateTheStatus(RequestId, $('#hfdAction').val(), $('#txtActionComments').val());
+      
         GetApprovalStatusList();
         RequestAccess();
         GetTableDetails('Please wait...');
@@ -785,7 +934,11 @@ $('.tbody-Opportunity-details').on('click', 'tr', function () {
     ClearDet();
     GetRefNo();
     $('#btnSubmitOptDet').css('display', 'block');
-    $('.Estim-taable-data').css('display', 'none');
+        $('.Estim-taable-data').css('display', 'none');
+        $('#ddlEstimationHead').css("display", "none");
+        $('.btnAssign').css("display", "none");
+        $('.btnMoreReq').css("display", "none"); 
+
         EstimationAndEngineeringOpp();
         EstCustomerCheck();
         $(".btnSubmitRequest").css("display", "none");
@@ -801,23 +954,11 @@ $('.tbody-Opportunity-details').on('click', 'tr', function () {
         // $(".btn-close-proj-modal").css("margin-left", "0%");
         LoadEstimationTeamOrg();
         RequestId = 0;
-
+        $('#ModalOpportuniryDetails').modal('hide');
+        $('#ModalCustomerDetails').modal('hide');
     $('#EstimationDetailModal').modal('show');
     }
 
-    if (type == 'ENGINEERING') {
-
-        OptId = this.children[0].textContent;
-        OptNo = this.children[1].textContent;
-        ClearDet();
-        GetRefNo();
-        EstimationAndEngineeringOpp();
-        LoadCityForEng();
-        $('#btnSaveEngineerDet').css('display', 'block');
-        $('.Eng-table-data').css('display', 'none');
-        EngCustomerCheck();
-        $('#EngineeringDetailModal').modal('show');
-    }
 });
 
 function EstimationAndEngineeringOpp() {
@@ -838,6 +979,7 @@ function EstimationAndEngineeringOpp() {
 
                 $('#txtPrjName').val(result.d[0].Name);
                 $('#txtPrjLocation').val(result.d[0].Locationurl);
+                $('#txtPlotNumber').val(result.d[0].PlotNo);
                 $('#txtPrjClient').val(result.d[0].Client);
                 $('#txtPrjConsultant').val(result.d[0].MEPConsultant);
                 $('#txtPrjMainContr').val(result.d[0].MainContractor);
@@ -850,6 +992,7 @@ function EstimationAndEngineeringOpp() {
                 if ($('#txtOppRef') != '') {
 
                     $('#txtPrjName').attr('disabled', 'disabled');
+                    $('#txtPlotNumber').attr('disabled', 'disabled');
                     $('#txtPrjLocation').attr('disabled', 'disabled');
                     $('#txtPrjClient').attr('disabled', 'disabled');
                     $('#txtPrjConsultant').attr('disabled', 'disabled');
@@ -860,6 +1003,7 @@ function EstimationAndEngineeringOpp() {
                 else {
                     $('#txtPrjName').removeAttr('disabled');
                     $('#txtPrjLocation').removeAttr('disabled');
+                    $('#txtPlotNumber').removeAttr('disabled');
                     $('#txtPrjClient').removeAttr('disabled');
                     $('#txtPrjConsultant').removeAttr('disabled');
                     $('#txtPrjMainContr').removeAttr('disabled');
@@ -879,31 +1023,7 @@ function EstimationAndEngineeringOpp() {
 
             }
 
-            else if (type == 'ENGINEERING') {
-
-                $('#txtEngOppRef').val(result.d[0].OpportunityNumber);
-                $('#txtEngProjRef').val(result.d[0].ProjectNumber);
-
-                $('#txtEngPrjName').val(result.d[0].Name);
-                $('#txtEngPrjLocation').val(result.d[0].Locationurl);
-                $('#txtEngPrjClient').val(result.d[0].Client);
-                $('#txtEngPrjConsultant').val(result.d[0].MEPConsultant);
-                $('#txtEngPrjMainContr').val(result.d[0].MainContractor);
-                $('#txtEngPrjMEPContr').val(result.d[0].MEPContractor);
-                $('#txtEngStage').val(result.d[0].SalesStageName);
-                /* document.getElementById("year").innerHTML = new Date().getFullYear();*/
-                $('#txtEngYear').val(new Date().getFullYear());
-
-
-
-                $('#txtEngPrjName').attr('disabled', 'disabled');
-                $('#txtEngPrjLocation').attr('disabled', 'disabled');
-                $('#txtEngPrjClient').attr('disabled', 'disabled');
-                $('#txtEngPrjConsultant').attr('disabled', 'disabled');
-                $('#txtEngPrjMainContr').attr('disabled', 'disabled');
-                $('#txtEngPrjMEPContr').attr('disabled', 'disabled');
-                $('#txtEngStage').attr('disabled', 'disabled');
-            }
+         
             
         },
         //complete: function () {
@@ -928,6 +1048,7 @@ function ClearDet() {
 
     $('#txtPrjName').val('');
     $('#txtPrjLocation').val('');
+        $('#txtPlotNumber').val('');
     $('#txtPrjClient').val('');
     $('#txtPrjConsultant').val('');
     $('#txtPrjMainContr').val('');
@@ -935,8 +1056,8 @@ function ClearDet() {
     $('#txtEstYear').val('');
     $('#txtPrjContactPerson').val(''); 
     $('#txtPrjURL').val('');
-    $('#txtPrjWinningPerc').val('');
-    $('#txtPrjBudget').val('');
+    $('#txtPrjWinningPerc').val('0');
+    $('#txtPrjBudget').val('0');
     $('#txtEngQt').val('');
     $('#txtEngStage').val('');
 
@@ -944,21 +1065,21 @@ function ClearDet() {
 
     $('#txtPrjName').removeAttr('disabled');
     $('#txtPrjLocation').removeAttr('disabled');
+       $('#txtPlotNumber').removeAttr('disabled');
     $('#txtPrjClient').removeAttr('disabled');
     $('#txtPrjConsultant').removeAttr('disabled');
     $('#txtPrjMainContr').removeAttr('disabled');
     $('#txtPrjMEPContr').removeAttr('disabled');
     $('#txtContrAbbr').removeAttr('disabled');
-    $('#txtEstDate').removeAttr('disabled');
     $('#txtPrjContactPerson').removeAttr('disabled');
     $('#txtPrjWinningPerc').removeAttr('disabled');
     $('#txtPrjBudget').removeAttr('disabled');
         $('#txtPrjURL').removeAttr('disabled');
 
 
-        $('#rdStgTender').removeAttr("disabled");
-        $('#rdSp').removeAttr("disabled");
-        $('#rdSpInstall').removeAttr("disabled");
+        $('#EstimationDetailModal').find('input[name=Stage]').removeAttr('disabled');
+        $('#EstimationDetailModal').find('input[name=Supply]').removeAttr('disabled');
+        $('#EstimationDetailModal').find('input[name=Quotation]').removeAttr('disabled');
 
     $('#rdStgTender').prop('checked', false);
     $('#rdStgJOH').prop('checked', false);
@@ -973,55 +1094,7 @@ function ClearDet() {
 
     }
 
-    else if (type == 'ENGINEERING') {
-        $('#txtEngRef').val('');
-        $('#txtEngision').val('');
-        $('#txtEngContrAbbr').val('');
-        $('#txtEngYear').val('');
-        $('#txtEngOppRef').val('');
-        $('#txtEngProjRef').val('');
-        $('#txtEngQt').val('');
-
-        $('#txtEngPrjName').val('');
-        $('#txtEngPrjLocation').val('');
-        $('#txtEngPrjClient').val('');
-        $('#txtEngPrjConsultant').val('');
-        $('#txtEngPrjMainContr').val('');
-        $('#txtEngPrjMEPContr').val('');
-        $('#txtEngPrjContactPerson').val('');
-        $('#txtEngStage').val('');
-        $('#ddlEngCity').val('');
-
-        $('#txtEngContrAbbr').removeAttr('disabled');
-        $('#txtEngQt').removeAttr('disabled');
-
-        $('#txtEngPrjName').removeAttr('disabled');
-        $('#txtEngPrjLocation').removeAttr('disabled');
-        $('#txtEngPrjClient').removeAttr('disabled');
-        $('#txtEngPrjConsultant').removeAttr('disabled');
-        $('#txtEngPrjMainContr').removeAttr('disabled');
-        $('#txtEngPrjMEPContr').removeAttr('disabled');
-        $('#txtEngPrjContactPerson').removeAttr('disabled');
-        $('#txtEstDate').removeAttr('disabled');
-        $('#txtPrjContactPerson').removeAttr('disabled');
-        $('#txtEngStage').removeAttr('disabled');
-        $('#ddlEngCity').removeAttr('disabled');
-
-
-        $('#chCalculation').attr('disabled', false);
-        $('#chOandM').attr('disabled', false);
-        $('#chSubmittal').attr('disabled', false);
-        $('#chPreQualification').attr('disabled', false);
-        $('#chSpcRequirments').attr('disabled', false);
-
-        $('#chCalculation').prop('checked', false);
-        $('#chOandM').prop('checked', false);
-        $('#chSubmittal').prop('checked', false);
-        $('#chPreQualification').prop('checked', false);
-        $('#chSpcRequirments').prop('checked', false);
-
-        
-    }
+   
 
 }
 
@@ -1260,7 +1333,7 @@ $('#btnNewAttacment').on('click', function () {
 
 $('#btnUpload1').on('click', function () {
     if ($('#colFileUpload').val().trim() != "" && $('#txtAttachmentComment').val().trim() != "") {
-        ERMMultiFileUpload();
+        ERMFileUpload();
     } else {
         toastr.error('Required All Fields. ', '');
     }
@@ -1269,12 +1342,12 @@ $('#btnUpload1').on('click', function () {
 
 function getERMFileName() {
 
-    $('#lblERMFile').val($('#fu-upload-ERMReq')[0].files[0].name);
+    $('#lblERMFile').val($('#colFileUpload')[0].files[0].name);
 }
 
 function ERMMultiFileUpload() {
 
-    var Type = 'Multiple';
+    
 
 
     var formData = new FormData();
@@ -1288,7 +1361,7 @@ function ERMMultiFileUpload() {
 
 
     //var qrystringLocal = 'https://crmss.naffco.com/CRMSS/Services/SSHRFileUploadHandler.ashx?fufor=leaveattach&ApplicationId=' + ApplicationId;    // For Development
-    var qrystringLocal = 'Service/ERMFileUpload.ashx?ReqID=' + RequestId + '&RefNo=' + $('#txtEstRef').val() + '&UserId=' + currUserId + '&Comments=' + $('#txtAttachmentComment').val() + '&Type=' + Type;    // For Development
+    var qrystringLocal = '../ERM/Services/ERMFileUploader.ashx?ReqID=' + RequestId + '&UserId=' + currUserId + '&Comments=' + $('#txtAttachmentComment').val();    // For Development
 
     let sURL = 'TestFoCalendar.aspx/Upload';
 
@@ -1322,12 +1395,12 @@ function ERMMultiFileUpload() {
 
 function ERMFileUpload() {
 
-    var Type = 'AssignToAttachment';
+   
 
 
     var formData = new FormData();
     var formData = new FormData();
-    var fileUpload = $('#fu-upload-ERMReq').get(0);
+    var fileUpload = $('#colFileUpload').get(0);
     var files = fileUpload.files;
     for (var i = 0; i < files.length; i++) {
         console.log(files[i].name);
@@ -1336,7 +1409,7 @@ function ERMFileUpload() {
 
 
     //var qrystringLocal = 'https://crmss.naffco.com/CRMSS/Services/SSHRFileUploadHandler.ashx?fufor=leaveattach&ApplicationId=' + ApplicationId;    // For Development
-    var qrystringLocal = 'Service/ERMFileUpload.ashx?ReqID=' + RequestId + '&RefNo=' + $('#txtEstRef').val() + '&UserId=' + currUserId + '&Type=' +Type;    // For Development
+    var qrystringLocal = '../erm/ServiceS/ERMFileUploadER.ashx?ReqID=' + RequestId + '&UserId=' + currUserId + '&Comments='+ $('#txtAttachmentComment').val();    // For Development
 
     let sURL = 'TestFoCalendar.aspx/Upload';
 
@@ -1352,6 +1425,7 @@ function ERMFileUpload() {
 
                 toastr.success("Updated Successfully");
                 GetAttachmentDet();
+                $('#ModalReqAttachment').modal('hide');
 
             }
         },
@@ -1372,7 +1446,7 @@ function GetAttachmentDet() {
 
     $.ajax({
         url: "ERMMaster.aspx/AttachmentDet",
-        data: JSON.stringify({ "UserId": currUserId, "RefNo": $('#txtEstRef').val(), "RefId": RequestId, }),
+        data: JSON.stringify({ "UserId": currUserId, "RefId": RequestId, }),
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -1396,7 +1470,7 @@ function GetAttachmentDet() {
                    <td style="text-align:center;display:none">`+ item.URL + `</td>
                    <td style="text-align:center;">
                    <a href="`+ item.URL + `" download="` + item.FileName + `" type="button" class="AttatchmentDownload" title="Download" >
-                   <img src="images/icons8-download-48.png" title="Download" class="fa-icon-hover ibtn-Request-Details" style="cursor: pointer; width: 34px;" />
+                   <img src="images/icons8-download-48.png" title="Download" class="fa-icon-hover ibtn-Download-Details" style="cursor: pointer; width: 34px;" />
                 </a></td>`;
 
 
@@ -1550,7 +1624,7 @@ txtPrjConsultant
 
 $('#txtPrjConsultant').on('click', function () {
 
-    if ((myroleList.includes("2066") && ReqOrderNumber == 1) || ReqOrderNumber == 0) {
+    if ((myroleList.includes("2066") || myroleList.includes("3087")) ) {
         GetConsultantDetails();
         $('#ModalConsultant').modal('show');
     }
@@ -1561,12 +1635,15 @@ function UpdateOptDetails() {
         url: "ERMMaster.aspx/UpdateOptdetails",
         data: JSON.stringify({
             "RequestId":RequestId,
-            "UserId": currUserId, "RefNo": $('#txtEstRef').val(), "RevNo": $('#txtRevision').val(), "ContrAbbr": $('#txtContrAbbr').val(), "Year": $('#txtEstYear').val(), "OppRef": $('#txtOppRef').val(), "ProjRef": $('#txtProjRef').val(), "EstDate": $('#txtEstDate').val(), "Type": type,
+            "UserId": currUserId, "RefNo": $('#txtEstRef').val(), "RevNo": $('#txtRevision').val(), "ContrAbbr": $('#txtContrAbbr').val(), "Year": $('#txtEstYear').val(), "OppRef": $('#txtOppRef').val(), "ProjRef": $('#txtProjRef').val(),  "Type": type,
             "ProjName": $('#txtPrjName').val(), "Location": $('#txtPrjLocation').val(), "Client": $('#txtPrjClient').val(), "Consultant": $('#txtPrjConsultant').val(), "MainContr": $('#txtPrjMainContr').val(), "MEPContr": $('#txtPrjMEPContr').val(), "URL": $('#txtPrjURL').val(),
             "WinningPerc": $('#txtPrjWinningPerc').val(), "Budget": $('#txtPrjBudget').val(), "Stage": $('#EstimationDetailModal').find('input[name=Stage]:checked').val().trim(), "Scope": $('#EstimationDetailModal').find('input[name=Supply]:checked').val(), "Quotation": $('#EstimationDetailModal').find('input[name=Quotation]:checked').val(), "ContactId": ContactId
-             ,"Owner":OwnerIdOpt
+             ,"SalesmanID":OwnerIdOpt
             , "EstimationOrgID": $('#ddlEstimationTeamOrg').val()
-            , "MarketingID": MarketingID,
+            , "MarketingID": MarketingID
+            , "Salesman": $("#txtSalesman").val()
+            , "Marketing": $("#txtMarketing").val()
+            , "PlotNo": $("#txtPlotNumber").val()
         }),
         type: "POST",
         contentType: "application/json;charset=utf-8",
@@ -1576,15 +1653,24 @@ function UpdateOptDetails() {
 
             if (result.d == 0) {
 
-                GetRefNo();
                 $('#btnSubmitOptDet').trigger('click');
 
             }
+            else if (result.d == "-1") {
+
+                toastr.error('Please check Oppportunity Status and Stage');
+
+            }
             else {
-            toastr.success('Updated Successfully');
+                toastr.success('Updated Successfully');
                 RequestId = result.d;
+                if (!myroleList.includes("2084")) {
+                    UpdateTheStatus(RequestId, $('#hfdAction').val(), $('#txtActionComments').val());
+                
+                }
                 RequestedProductDetails();
                 GetAttachmentDet();
+                GetGeneralComments();
                 GetApprovalStatusList();
               
 
@@ -1858,10 +1944,10 @@ function FillAllDetails() {
                 $('#txtEstYear').val(result.d[0].YEAR);
                 $('#txtOppRef').val(result.d[0].OPTNumber);
                 $('#txtProjRef').val(result.d[0].ProjectNumber);
-                $('#txtEstDate').val(result.d[0].EstimationDate);
 
                 $('#txtPrjName').val(result.d[0].ProjectName);
                 $('#txtPrjLocation').val(result.d[0].Location);
+                $('#txtPlotNumber').val(result.d[0].PlotNumber);
                 $('#txtPrjClient').val(result.d[0].Client);
                 $('#txtPrjConsultant').val(result.d[0].Consultant);
                 $('#txtPrjMainContr').val(result.d[0].MainContractor);
@@ -1916,43 +2002,22 @@ function FillAllDetails() {
                 $('#btnSubmitOptDet').css('display', 'none');
                 $('.Estim-taable-data').css('display', 'block');
                 GetAttachmentDet();
+                GetGeneralComments();
                 GetApprovalStatusList();
 
-                if ((myroleList.includes("2066") && ReqOrderNumber == 1) || ReqOrderNumber == 0) {
-
-                    $('#txtPrjName').removeAttr('disabled');
-                    $('#txtPrjLocation').removeAttr('disabled');
-                    $('#txtPrjClient').removeAttr('disabled');
-                    $('#txtPrjConsultant').removeAttr('disabled');
-                    $('#txtPrjMainContr').removeAttr('disabled');
-                    $('#txtPrjMEPContr').removeAttr('disabled');
-                    $('#txtContrAbbr').removeAttr('disabled');
-                    $('#txtEstDate').removeAttr('disabled');
-                    $('#txtPrjContactPerson').removeAttr('disabled');
-                    $('#txtPrjWinningPerc').removeAttr('disabled');
-                    $('#txtPrjBudget').removeAttr('disabled');
-                    $('#txtPrjURL').removeAttr('disabled');
-                    $('#txtOppRef').removeAttr('disabled');
-
-                    $('#rdStgTender').removeAttr("disabled");
-                    $('#rdSp').removeAttr("disabled");
-                    $('#rdSpInstall').removeAttr("disabled");
-
-                    $('#ddlEstimationTeamOrg').removeAttr("disabled");
 
 
-
-                }
-                else if ((myroleList.includes("2066") && ReqOrderNumber == 5)) {
+                
+                if ((myroleList.includes("2066") && ReqOrderNumber == 2)) {
 
                     $('#txtPrjName').attr("disabled", 'disabled');
                     $('#txtPrjLocation').attr("disabled", 'disabled');
+                    $('#txtPlotNumber').attr("disabled", 'disabled');
                     $('#txtPrjClient').attr("disabled", 'disabled');
                     $('#txtPrjConsultant').attr("disabled", 'disabled');
                     $('#txtPrjMainContr').attr("disabled", 'disabled');
                     $('#txtPrjMEPContr').attr("disabled", 'disabled');
                     $('#txtContrAbbr').attr("disabled", 'disabled');
-                    $('#txtEstDate').attr("disabled", 'disabled');
                     $('#txtPrjContactPerson').attr("disabled", 'disabled');
                     $('#txtPrjWinningPerc').attr("disabled", 'disabled');
                     $('#txtPrjBudget').attr("disabled", 'disabled');
@@ -1964,21 +2029,53 @@ function FillAllDetails() {
 
                     $('#txtOppRef').removeAttr("disabled");
 
-                    $('#rdStgTender').attr("disabled", 'disabled');
-                    $('#rdSp').attr("disabled", 'disabled');
-                    $('#rdSpInstall').attr("disabled", 'disabled');
+                    
+                    $('#EstimationDetailModal').find('input[name=Stage]').attr('disabled', 'disabled');
+                    $('#EstimationDetailModal').find('input[name=Supply]').attr('disabled', 'disabled');
+                    $('#EstimationDetailModal').find('input[name=Quotation]').attr('disabled', 'disabled');
+                }
+               else  if ((myroleList.includes("3087") && ReqOrderNumber == 1 )) {
+
+                    $('#txtPrjName').attr("disabled", 'disabled');
+                    $('#txtPrjLocation').attr("disabled", 'disabled');
+                    $('#txtPlotNumber').attr("disabled", 'disabled');
+                    $('#txtPrjClient').attr("disabled", 'disabled');
+                    $('#txtPrjConsultant').attr("disabled", 'disabled');
+                    $('#txtPrjMainContr').attr("disabled", 'disabled');
+                    $('#txtPrjMEPContr').attr("disabled", 'disabled');
+                    $('#txtContrAbbr').attr("disabled", 'disabled');
+                    $('#txtPrjContactPerson').attr("disabled", 'disabled');
+                    $('#txtPrjWinningPerc').attr("disabled", 'disabled');
+                    $('#txtPrjBudget').attr("disabled", 'disabled');
+                    $('#txtPrjURL').attr("disabled", 'disabled');
+                    $('#txtOppRef').attr("disabled", 'disabled');
+
+                    $('#ddlEstimationTeamOrg').attr("disabled", 'disabled');
+
+                    if(MarketingID==0)
+                    {
+                        $('#txtPrjConsultant').removeAttr("disabled");
+                    }
+                    
+                    $('#txtOppRef').attr("disabled", 'disabled');
+
+
+                    $('#EstimationDetailModal').find('input[name=Stage]').removeAttr('disabled');
+                    $('#EstimationDetailModal').find('input[name=Supply]').removeAttr('disabled');
+                    $('#EstimationDetailModal').find('input[name=Quotation]').removeAttr('disabled');
+
                 }
 
                 else {
 
                     $('#txtPrjName').attr("disabled", 'disabled');
                     $('#txtPrjLocation').attr("disabled", 'disabled');
+                    $('#txtPlotNumber').attr("disabled", 'disabled');
                     $('#txtPrjClient').attr("disabled", 'disabled');
                     $('#txtPrjConsultant').attr("disabled", 'disabled');
                     $('#txtPrjMainContr').attr("disabled", 'disabled');
                     $('#txtPrjMEPContr').attr("disabled", 'disabled');
                     $('#txtContrAbbr').attr("disabled", 'disabled');
-                    $('#txtEstDate').attr("disabled", 'disabled');
                     $('#txtPrjContactPerson').attr("disabled", 'disabled');
                     $('#txtPrjWinningPerc').attr("disabled", 'disabled');
                     $('#txtPrjBudget').attr("disabled", 'disabled');
@@ -1990,9 +2087,10 @@ function FillAllDetails() {
 
                     $('#txtOppRef').attr("disabled", 'disabled');
 
-                    $('#rdStgTender').attr("disabled", 'disabled');
-                    $('#rdSp').attr("disabled", 'disabled');
-                    $('#rdSpInstall').attr("disabled", 'disabled');
+
+                    $('#EstimationDetailModal').find('input[name=Stage]').attr('disabled', 'disabled');
+                    $('#EstimationDetailModal').find('input[name=Supply]').attr('disabled', 'disabled');
+                    $('#EstimationDetailModal').find('input[name=Quotation]').attr('disabled', 'disabled');
 
 
 
@@ -2001,71 +2099,7 @@ function FillAllDetails() {
             }
 
 
-            else if (type == 'ENGINEERING') {
-
-                LoadCityForEng();
-                $('#txtEngRef').val(result.d[0].RefNo);
-                $('#txtEngision').val(result.d[0].RevNo);
-                $('#txtEngContrAbbr').val(result.d[0].ContABBR);
-                $('#txtEngYear').val(result.d[0].YEAR);
-                $('#txtEngOppRef').val(result.d[0].OPTNumber);
-                $('#txtEngProjRef').val(result.d[0].ProjectNumber);
-                $('#txtEngQt').val(result.d[0].QtnRefNumber);
-
-                $('#txtEngPrjName').val(result.d[0].ProjectName);
-                $('#txtEngPrjLocation').val(result.d[0].Location);
-                $('#txtEngPrjClient').val(result.d[0].Client);
-                $('#txtEngPrjConsultant').val(result.d[0].Consultant);
-                $('#txtEngPrjMainContr').val(result.d[0].MainContractor);
-                $('#txtEngPrjMEPContr').val(result.d[0].MEPContractor);
-                $('#txtEngPrjContactPerson').val(result.d[0].ContactName);
-                $('#txtEngStage').val(result.d[0].Stage);
-                $('#ddlEngCity').val(result.d[0].City);
-
-                $('#txtEngContrAbbr').attr('disabled', 'disabled');
-                $('#txtEngQt').attr('disabled', 'disabled');
-
-                $('#txtEngPrjName').attr('disabled', 'disabled');
-                $('#txtEngPrjLocation').attr('disabled', 'disabled');
-                $('#txtEngPrjClient').attr('disabled', 'disabled');
-                $('#txtEngPrjConsultant').attr('disabled', 'disabled');
-                $('#txtEngPrjMainContr').attr('disabled', 'disabled');
-                $('#txtEngPrjMEPContr').attr('disabled', 'disabled');
-                $('#txtEngPrjContactPerson').attr('disabled', 'disabled');
-                $('#txtEstDate').attr('disabled', 'disabled');
-                $('#txtPrjContactPerson').attr('disabled', 'disabled');
-                $('#txtEngStage').attr('disabled', 'disabled');
-                $('#ddlEngCity').attr('disabled', 'disabled');
-
-               
-                //$('#txtPrjBudget').attr('disabled', 'disabled');
-                //$('#txtPrjURL').attr('disabled', 'disabled');
-
-                if (result.d[0].Calculation == 'True') {
-                    $('#chCalculation').prop('checked', true);
-                } 
-                if (result.d[0].OandM == 'True') {
-                    $('#chOandM').prop('checked', true);
-                } 
-                if (result.d[0].Submittal == 'True') {
-                    $('#chSubmittal').prop('checked', true);
-                } 
-                if (result.d[0].PreQualification == 'True') {
-                    $('#chPreQualification').prop('checked', true);
-                } 
-                if (result.d[0].SpecialRequirements == 'True') {
-                    $('#chSpcRequirments').prop('checked', true);
-                } 
-
-                $('#chCalculation').attr('disabled', true);
-                $('#chOandM').attr('disabled', true);
-                $('#chSubmittal').attr('disabled', true);
-                $('#chPreQualification').attr('disabled', true);
-                $('#chSpcRequirments').attr('disabled', true);
-
-                $('#btnSaveEngineerDet').css('display', 'none');
-                $('.Eng-table-data').css('display', 'block');
-            }
+            
 
         },
         //complete: function () {
@@ -2080,107 +2114,18 @@ function FillAllDetails() {
 
 $('#txtOppRef').on('change', function () {
 
-    if ((myroleList.includes("2066") && ReqOrderNumber == 1) || ReqOrderNumber == 0) {
+    if ((myroleList.includes("2066") && ReqOrderNumber == 2) ) {
         OptNo = $('#txtOppRef').val();
         EstimationAndEngineeringOpp();
     }
 
-    else if ((myroleList.includes("2066") && ReqOrderNumber == 5)) {
-        OptNo = $('#txtOppRef').val();
-        EstimationAndEngineeringOpp();
-    }
+   
 });
 
 
 
 
-$('#txtEngPrjContactPerson').on('click', function () {
 
-    ContactVal = 1;
-    ContactDet();
-    $('#ModalContact').modal('show');
-});
-
-
-function LoadCityForEng() {
-
-    $.ajax({
-        url: "ERMMaster.aspx/GetCityForEng",
-        data: JSON.stringify({ "CrmUserId": CrmUserId, "UserId": currUserId, }),
-        type: "POST",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {
-            var htm = '';
-            if (result.d.length > 1) { htm = '<option value="-1"> --- All --- </option>'; }
-
-
-            $.each(result.d, function (key, item) {
-
-                htm += `<option value="` + item.ddlValue + `" > ` + item.ddlText + `</option>`;
-
-            });
-
-            $('#ddlEngCity').html(htm);
-          /*  City = $('#ddlEngCity option:selected').val().trim();*/
-
-        },
-        //complete: function () {
-        //    $('.ajax-loader').hide();
-        //},
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
-
-}
-
-
-function UpdateEngineeringOptDetails() {
-
-
-    $.ajax({
-        url: "ERMMaster.aspx/UpdateEngOptdetails",
-        data: JSON.stringify({
-            "UserId": currUserId, "RefNo": $('#txtEngRef').val(), "RevNo": $('#txtEngision').val(), "ContrAbbr": $('#txtEngContrAbbr').val(), "Year": $('#txtEngYear').val(), "OppRef": $('#txtEngOppRef').val(), "ProjRef": $('#txtEngProjRef').val(), "QTNo": $('#txtEngQt').val(), "Type": type,
-            "ProjName": $('#txtEngPrjName').val(), "Location": $('#txtEngPrjLocation').val(), "Client": $('#txtEngPrjClient').val(), "Consultant": $('#txtEngPrjConsultant').val(), "MainContr": $('#txtEngPrjMainContr').val(), "MEPContr": $('#txtEngPrjMEPContr').val(), "City": $('#ddlEngCity option:selected').val(),
-            "Stage": $('#txtEngStage').val(), "ContactId": ContactId, "Calculation": $('#chCalculation').is(':checked'), "OandM": $('#chOandM').is(':checked'), "Submittal": $('#chSubmittal').is(':checked'), "PreQualification": $('#chPreQualification').is(':checked'), "SpcRequirements": $('#chSpcRequirments').is(':checked'),
-        }),
-        type: "POST",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {
-
-            if (result.d == 1) {
-
-                GetRefNo();
-                $('#btnSaveEngineerDet').trigger('click');
-
-            }
-            else {
-            toastr.success('Updated Successfully');
-            RequestId = result.d;
-            $('#btnSaveEngineerDet').css('display', 'none');
-                $('.Eng-table-data').css('display', 'block');
-            }
-        },
-        //complete: function () {
-        //    $('.ajax-loader').hide();
-        //},
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }   
-    });
-
-}
-
-$('#btnSaveEngineerDet').on('click', function () {
-
-    UpdateEngineeringOptDetails();
-
-});
 
 function loadAllOwners() {
     $.ajax({
@@ -2342,7 +2287,7 @@ function ShowRemarks(i) {
 function RequestedProductDetails() {
     $.ajax({
         url: "ERMMaster.aspx/GetProductDetails",
-        data: JSON.stringify({ "ReqID": RequestId}),
+        data: JSON.stringify({ "ReqID": RequestId, "UserID": currUserId }),
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -2353,18 +2298,70 @@ function RequestedProductDetails() {
             $('.tbody-Product-list td').length > 0 ? objDatatableProductList.destroy() : '';
 
             $.each(result.d, function (key, item) {
+
+                var drpName = 'ddl-' + item.LineID;
+                var ddlEstimator = 'ddlEstimator-' + item.LineID;
+
                 htm += `<tr style="text-align: center;">
-                            <td class="hidden">`+ item.ERMReqID + `</td>
-                            <td> `+ item.ERMProduct + `</td>
-                                      <td>`+ item.Remarks + `</td>
-                                      <td></td>
-                                  </tr> `;
+                            <td class="hidden">`+ item.LineID + `</td>
+                            <td>`+ item.ERMProduct + `</td>
+                                      <td>`+ item.Remarks + `</td>`;
+                                  
+
+                                      if (item.EstimationTeam == EmpNo.toUpperCase() && item.Estimator=='') {
+                                          htm += ` <td> <select class="form-select" id=` + drpName + ` onchange=EstTeamChange(` + item.LineID + `,"` + item.EstimationTeam +`")></select > </td> `
+                                           }
+                                      else {
+                                          htm += ` <td> <select class="form-select" id=` + drpName + ` disabled ></select > </td>`
+                                           }
+
+                                          htm += `<td class="hidden">`+ item.EstimationTeam + `</td>`
+                                      if (item.EstimationTeam == EmpNo.toUpperCase()) {
+                                          htm += ` <td> <select class="form-select" id=` + ddlEstimator + `></select> </td>`
+                                           }
+                                      else {
+                                           htm += ` <td> <select class="form-select" id=` + ddlEstimator + ` disabled></select> </td>`
+                                            }
+                                     
+                                      htm += `  <td class="hidden">`+ item.Estimator + `</td>
+                                      <td><span class="`+ item.StatusClass + `" style="font-size: 13px !important;">` +item.Status+`</span></td>`;
+                                      if (myroleList.includes("14213")) {
+                                          htm +=`
+                                      <td>
+                                       <img src="images/icon-Update.png" title="Save" class="fa-icon-hover Update-Product-Details" style="cursor: pointer; width: 24px;" />&nbsp;
+                                          </td>`;
+                                      }
+                                      else{
+                                          htm +=`
+                                          <td>`;
+                                      }
+
+                                      htm +=`</tr> `;
+
+             //   GetEstTeamLeaderForProduct(drpName, item.ERMProduct);
             });
 
             $('.tbody-Product-list').html(htm);
 
+           
+
 
             initiateDataTableRequestedproductList();
+
+            $('.tbody-Product-list tr').each(function (key, item) {
+                let LineID = item.children[0].textContent.trim();
+                let ddlname = "ddl-" + LineID;
+                let ddlEstimator = "ddlEstimator-" + LineID;
+                let EstimationHead = item.children[4].textContent.trim();
+                let Estimator = item.children[6].textContent.trim();
+                GetEstTeamLeaderForProduct(ddlname, item.children[1].textContent.trim());
+                GetEstimatorForProduct(ddlEstimator, item.children[1].textContent.trim(), EstimationHead);
+                $("#" + ddlname + "").val(EstimationHead);
+                if (Estimator != "") {
+                    $("#" + ddlEstimator + "").val(Estimator);
+                }
+
+            });
 
         },
         //complete: function () {
@@ -2374,6 +2371,64 @@ function RequestedProductDetails() {
             alert(errormessage.responseText);
         }
     });
+
+}
+function EstTeamChange(prdid,esthead) {
+
+    if ($('#ddl-' + prdid).val() == EmpNo.toUpperCase()) {
+
+        $('#ddlEstimator-' + prdid).prop('disabled', false);
+    }
+    else {
+        $('#ddlEstimator-' + prdid).prop('disabled', true);
+    }
+
+}
+
+$('.tbody-Product-list').on('click','.Update-Product-Details', function () {
+
+    ProductID =this.parentNode.parentNode.children[0].textContent;
+    EstTeam = $('#' + this.parentNode.parentNode.children[3].children[0].id).val();
+    Estimator = $('#' + this.parentNode.parentNode.children[5].children[0].id).val();
+    if (Estimator == '-1' && EstTeam == EmpNo.toUpperCase()) {
+        toastr.error('Please Select Estimator..', '');
+    }
+    else {
+        if (EstTeam != EmpNo.toUpperCase()) {
+            Estimator = '';
+        }
+        AddEstimator();
+    }
+});
+
+function AddEstimator() {
+        $.ajax({
+            url: "ERMMaster.aspx/SetEstimator",
+            data: JSON.stringify({ "UserID": currUserId, "ProductID": ProductID, "EstHead": EstTeam, "Estimator": Estimator,"RequestId":RequestId,}),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            async: false,
+
+            success: function (result) {
+                
+                toastr.success('Updated Successfully..', '');
+                RequestedProductDetails();
+                $('.ajax-loader').removeClass('hidden');
+                setTimeout(function () {
+                    GetTableDetails('Please wait..');
+
+                    $(".ajax-loader").addClass('hidden');
+                }, 500);
+            },
+            //complete: function () {
+            //    $('.ajax-loader').hide();
+            //},
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+
 
 }
 function SaveEstimationProduct(ReqNumber, Product, Remarks, status, OwnerIdOpt) {
@@ -2390,18 +2445,63 @@ function SaveEstimationProduct(ReqNumber, Product, Remarks, status, OwnerIdOpt) 
             $('.tbody-Product-list td').length > 0 ? objDatatableProductList.destroy() : '';
            
             $.each(result.d, function (key, item) {
+
+                var drpName = 'ddl-' + item.LineID;
+                var ddlEstimator = 'ddlEstimator-' + item.LineID;
+
                 htm += `<tr style="text-align: center;">
-                            <td class="hidden">`+ item.ERMReqID+`</td>
-                            <td> `+ item.ERMProduct +`</td>
-                                      <td>`+ item.Remarks +`</td>
-                                      <td></td>
+                            <td class="hidden">`+ item.LineID + `</td>
+                            <td>`+ item.ERMProduct + `</td>
+                                      <td>`+ item.Remarks + `</td>`;
+
+
+                if (item.EstimationTeam == EmpNo.toUpperCase() && item.Estimator == '') {
+                    htm += ` <td> <select class="form-select" id=` + drpName + ` onchange=EstTeamChange(` + item.LineID + `,"` + item.EstimationTeam + `")></select > </td> `
+                }
+                else {
+                    htm += ` <td> <select class="form-select" id=` + drpName + ` disabled ></select > </td>`
+                }
+
+                htm += `<td class="hidden">` + item.EstimationTeam + `</td>`
+                if (item.EstimationTeam == EmpNo.toUpperCase()) {
+                    htm += ` <td> <select class="form-select" id=` + ddlEstimator + `></select> </td>`
+                }
+                else {
+                    htm += ` <td> <select class="form-select" id=` + ddlEstimator + ` disabled></select> </td>`
+                }
+
+                htm += `  <td class="hidden">` + item.Estimator + `</td>
+                                      <td><span class="`+ item.StatusClass + `" style="font-size: 13px !important;">` + item.Status + `</span></td>
+                                      <td>
+                                     
+                                      </td>
+
                                   </tr> `;
+
+                //   GetEstTeamLeaderForProduct(drpName, item.ERMProduct);
             });
 
             $('.tbody-Product-list').html(htm);
          
 
             initiateDataTableRequestedproductList();
+
+
+
+            $('.tbody-Product-list tr').each(function (key, item) {
+                let LineID = item.children[0].textContent.trim();
+                let ddlname = "ddl-" + LineID;
+                let ddlEstimator = "ddlEstimator-" + LineID;
+                let EstimationHead = item.children[4].textContent.trim();
+                let Estimator = item.children[6].textContent.trim();
+                GetEstTeamLeaderForProduct(ddlname, item.children[1].textContent.trim());
+                GetEstimatorForProduct(ddlEstimator, item.children[1].textContent.trim(), EstimationHead);
+                $("#" + ddlname + "").val(EstimationHead);
+                if (Estimator != "") {
+                    $("#" + ddlEstimator + "").val(Estimator);
+                }
+
+            });
 
         },
         //complete: function () {
@@ -2411,7 +2511,6 @@ function SaveEstimationProduct(ReqNumber, Product, Remarks, status, OwnerIdOpt) 
             alert(errormessage.responseText);
         }
     });
-
 
 
 
@@ -2464,7 +2563,7 @@ $(".btnSaveProduct").on('click', function () {
         if (cbox.checked) {
 
             if ($("#" + textboxID).val() != "") {
-                SaveEstimationProduct($("#txtEstRef").val(), $("#" + ChkboxID).val(), $("#" + textboxID).val(),0);
+                SaveEstimationProduct($("#txtEstRef").val(), $("#" + ChkboxID).val(), $("#" + textboxID).val(), 0);
             }
 
         }
@@ -2512,12 +2611,12 @@ function EstimationReqControlsValidation(status,type) {
 
         $('#txtPrjName').attr('disabled', 'disabled');
         $('#txtPrjLocation').attr('disabled', 'disabled');
+        $('#txtPlotNumber').attr('disabled', 'disabled');
         $('#txtPrjClient').attr('disabled', 'disabled');
         $('#txtPrjConsultant').attr('disabled', 'disabled');
         $('#txtPrjMainContr').attr('disabled', 'disabled');
         $('#txtPrjMEPContr').attr('disabled', 'disabled');
         $('#txtContrAbbr').attr('disabled', 'disabled');
-        $('#txtEstDate').attr('disabled', 'disabled');
         $('#txtPrjContactPerson').attr('disabled', 'disabled');
         $('#txtPrjWinningPerc').attr('disabled', 'disabled');
         $('#txtPrjBudget').attr('disabled', 'disabled');
@@ -2531,13 +2630,14 @@ function EstimationReqControlsValidation(status,type) {
     else {
         $('#txtPrjName').removeAttr('disabled');
         $('#txtPrjLocation').removeAttr('disabled');
+        $('#txtPlotNumber').removeAttr('disabled');
+
         $('#txtPrjClient').removeAttr('disabled');
         $('#txtPrjConsultant').removeAttr('disabled');
         $('#txtPrjMainContr').removeAttr('disabled');
         $('#txtPrjMEPContr').removeAttr('disabled');
 
         $('#txtContrAbbr').removeAttr('disabled');
-        $('#txtEstDate').removeAttr('disabled');
         $('#txtPrjContactPerson').removeAttr('disabled');
         $('#txtPrjWinningPerc').removeAttr('disabled');
         $('#txtPrjBudget').removeAttr('disabled');
@@ -2613,3 +2713,245 @@ function ClearAttachment() {
     $('#txtAttachmentComment').val('');
     $('#colFileUpload').val('');
 }
+
+
+function GetGeneralComments() {
+
+    $.ajax({
+        url: "ERMMaster.aspx/GetComments",
+        data: JSON.stringify({ "RefId": RequestId, }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            $('.tbody-Comments-list tr').length > 0 ? objDatatableGeneralComments.destroy() : '';
+            //clearmodal();
+
+            var htm = '';
+
+            $.each(result.d, function (key, item) {
+                htm += `<tr>        
+               
+
+                
+                  <td style="text-align:center;">`+ item.SlNo + `</td>
+                  <td style="text-align:center;">`+ item.Comments + `</td>
+                  <td style="text-align:center;">`+ item.UpdatedBy + `</td>
+                  <td style="text-align:center;">`+ datedayformat(item.UpdatedDate) + `</td>`;
+                 
+               
+                htm += `</tr>`;
+                /*    <i class="fa-solid fa-eye"></i>*/
+
+            });
+            $('.tbody-Comments-list').html(htm);
+
+            initiateDataTableGeneralComments();
+        },
+        //complete: function () {
+        //    $('.ajax-loader').hide();
+        //},
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+
+function initiateDataTableGeneralComments() {
+    objDatatableGeneralComments = [];
+    objDatatableGeneralComments = $('.Comments-list-table').DataTable({
+        dom: 'lBfrtip',
+        buttons: {
+            buttons: []
+        },
+        "columnDefs": [
+
+            { "orderable": false, "targets": [] },
+            { "orderable": true, "targets": [] }
+        ],
+        /* order: [[7, 'DESC']]*/
+    });
+}
+
+
+$('#btnAddNewComments').on('click', function () {
+
+    $('#txtComments').val('');
+    MailInfo();
+    LoadCCEmail();
+    LoadEmailTo();
+    $('#modalNewComments').modal('show');
+
+});
+
+function LoadEmailTo() {
+
+    $.ajax({
+        url: "ERMMaster.aspx/setEmailInformation",
+        data: JSON.stringify({ "UserID": currUserId, }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '';
+
+            $.each(result.d, function (key, item) {
+
+
+                htm += key == 0 ? `<option value="` + item.ddlValue + `" selected> ` + item.ddlValue + ` | ` + item.ddlText + `</option>` : '<option value="' + item.ddlValue + '">' + item.ddlValue + ` | ` + item.ddlText + '</option>';
+
+
+
+            });
+
+            $('#ddlEmailTo').html(htm);
+
+            $('#ddlEmailTo').multipleSelect({
+                onClick: function (view) {
+
+                },
+                onCheckAll: function () {
+
+                },
+                onUncheckAll: function () {
+                    $('.ms-parent').css('box-shadow', 'rgb(255 0 0) 0px 0.5px 3.5px');
+
+                }
+            });
+
+
+        },
+
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+
+function getEmailToFromDDL() {
+    var Emailto = '';
+    for (var i = 0; i < $('#ddlEmailTo').val().length; i++) {
+        Emailto += $('#ddlEmailTo').val()[i] + ',';
+    }
+    return Emailto.substring(0, Emailto.lastIndexOf(","));
+}
+
+
+function LoadCCEmail() {
+
+    $.ajax({
+        url: "ERMMaster.aspx/setEmailInformation",
+        data: JSON.stringify({ "UserID": currUserId, }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '';
+
+            $.each(result.d, function (key, item) {
+
+
+                htm += key == 0 ? `<option value="` + item.ddlValue + `" selected> ` + item.ddlValue + ` | ` + item.ddlText + `</option>` : '<option value="' + item.ddlValue + '">' + item.ddlValue + ` | ` + item.ddlText + '</option>';
+
+
+
+            });
+
+            $('#ddlCCEmail').html(htm);
+
+            $('#ddlCCEmail').multipleSelect({
+                onClick: function (view) {
+
+                },
+                onCheckAll: function () {
+
+                },
+                onUncheckAll: function () {
+                    $('.ms-parent').css('box-shadow', 'rgb(255 0 0) 0px 0.5px 3.5px');
+
+                }
+            });
+
+
+        },
+
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+
+function getCCEmailFromDDL() {
+    var CCEmail = '';
+    for (var i = 0; i < $('#ddlCCEmail').val().length; i++) {
+        CCEmail += $('#ddlCCEmail').val()[i] + ',';
+    }
+    return CCEmail.substring(0, CCEmail.lastIndexOf(","));
+}
+
+
+function MailInfo() {
+
+    if ($('#cbRaisedMail').is(':checked') == true) {
+        $('.mail-to-drp').css('display', '');
+        $('.mail-cc-drp').css('display', '');
+    }
+    else {
+        $('.mail-to-drp').css('display', 'none');
+        $('.mail-cc-drp').css('display', 'none');
+    }
+}
+
+function AddComments() {
+    $.ajax({
+        url: "ERMMaster.aspx/AddGeneralComments",
+        data: JSON.stringify({ "UserID": currUserId, "RefId": RequestId, "Comment": $('#txtComments').val(), "IsNotified": $('#cbRaisedMail').is(':checked'), "MailTo": getEmailToFromDDL(), "CCMail": getCCEmailFromDDL(), }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+
+            toastr.success(" Successfully Updated");
+            GetGeneralComments();
+            $('#modalNewComments').modal('hide');
+        },
+        //complete: function () {
+        //    $('.ajax-loader').hide();
+        //},
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+
+}
+
+$('#btnSubmitComments').on('click', function () {
+
+    AddComments();
+});
+
+function datedayformat(dt) {
+    if (dt != null && dt != '') {
+        return (new Date(dt).getDate() + '-' + monthsbyName[new Date(dt).getMonth()] + '-' + new Date(dt).getFullYear() + ', ' + day[new Date(dt).getDay()]);
+    }
+    else {
+        return '-';
+    }
+}
+
+$('.btnMoreReq').on('click', function () {
+
+    $('#txtComments').val('');
+    MailInfo();
+    LoadCCEmail();
+    LoadEmailTo();
+    $('#modalNewComments').modal('show');
+});

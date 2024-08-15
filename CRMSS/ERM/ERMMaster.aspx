@@ -10,19 +10,16 @@
     <link href="../KPI/Flatpickr/css/_flatpickr.css" rel="stylesheet" />
 
     <style type="text/css">
-        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+       
+    .centerforall {
+        text-align: -webkit-center;
+        text-align: -moz-center;
+    }
+        /*.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
             color: #bf242c !important;
             border-bottom: 4px solid #bf242c !important;
         }
 
-        .nav-tabs .nav-item .nav-link:not(.active) {
-            background-color: white;
-        }
-
-        .nav-tabs .nav-item .nav-link:focus {
-            color: #000000;
-            border-bottom: 4px solid black;
-        }
 
         .nav-tabs .nav-item .nav-link:not(.active) {
             background-color: white;
@@ -32,6 +29,15 @@
             color: #000000;
             border-bottom: 4px solid black;
         }
+
+        .nav-tabs .nav-item .nav-link:not(.active) {
+            background-color: white;
+        }
+
+        .nav-tabs .nav-item .nav-link:focus {
+            color: #000000;
+            border-bottom: 4px solid black;
+        }*/
 
         .kpi-user-list-table th {
             background-color: #a92828;
@@ -112,7 +118,18 @@
             border-top-left-radius: 0.3rem;
             border-top-right-radius: 0.3rem;
         }
-
+        .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1050;
+    display: none;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto !important;
+    outline: 0;
+}
 
         #DataTables_Table_0_paginate .current {
             color: white !important;
@@ -326,33 +343,32 @@
         }
 
 
-        input[type="radio"] {
-            -webkit-appearance: none;
-            width: 25px;
-            height: 25px;
-            border: 1px solid #b70000;
-            border-radius: 50%;
-            margin-right: 15px;
-            background-color: transparent;
-            position: relative;
-            top: 8px;
-        }
+               input[type="radio"] {
+	appearance: none;
+	-webkit-appearance: none;
+	width: 20px;
+	height: 20px;
+	border: 1px solid #ff8318;
+	border-radius: 50%;
+	margin-right: 10px;
+	background-color: transparent;
+	position: relative;
+	top: 6px;
+}
 
-            input[type="radio"]:checked::before {
-                content: "";
-                display: block;
-                width: 25px;
-                height: 25px;
-                background-color: #b70000;
-                border-radius: 50%;
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                animation: linear 1s;
-                animation-delay: 1.5s;
-            }
-
+      input[type="radio"]:checked::before {
+	content: "";
+	display: block;
+	width: 12px;
+	height: 12px;
+	background-color: #ca8489;
+	border-radius: 50%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	animation: appear 0.8s;
+}
 
         .form-check-input:checked, .form-check-input[type=checkbox]:indeterminate {
             background-color: #ff7835 !important;
@@ -377,11 +393,11 @@
             opacity: 1.5;
         }
 
-        .tbody-ERMRequest .ibtn-Request-Details:hover {
+       /* .tbody-ERMRequest .ibtn-Request-Details:hover {
             content: url("images/output-onlinegiftools.gif");
-        }
+        }*/
 
-        .tbody-Attachment-list .ibtn-Request-Details:hover {
+        .tbody-Attachment-list .ibtn-Download-Details:hover {
             content: url("images/gif-download.gif");
         }
 
@@ -451,7 +467,6 @@
                                 <th>Opportunity Number</th>
                                 <th>Project Number</th>
                                 <th>Name</th>
-                                <th>Estimation Date</th>
                                 <th>Created By</th>
                                 <th>Created Date</th>
                                 <th>View</th>
@@ -635,13 +650,14 @@
                                     <input type="text" id="txtProjRef" value="" class="form-control" disabled />
                                 </div>
                             </div>
-
                             <div style="width: 14%;">
-                                <label for="html5-number-input" class="  label-custom">Estimation Date</label>
-                                <div class="flatpickr">
-                                    <input id="txtEstDate" value="" class="form-control" style="" type="text" placeholder="Select Date.." />
+                                <label for="html5-number-input" class="  label-custom">Plot Number</label>
+                                <div class="">
+                                    <input type="text" id="txtPlotNumber" value="" class="form-control" />
                                 </div>
                             </div>
+
+                          
                         </div>
 
                         <div class="row mt-4" style="">
@@ -711,14 +727,14 @@
                             <div style="width: 10.5%;" class="div-win">
                                 <label for="html5-number-input" class="  label-custom">Winning % </label>
                                 <div class="">
-                                    <input type="number" id="txtPrjWinningPerc" value="" class="form-control" style="" />
+                                    <input type="number" id="txtPrjWinningPerc" value="0" class="form-control" style="" min="0" />
                                 </div>
                             </div>
 
                             <div style="width: 10.5%;" class="div-budge">
                                 <label for="html5-number-input" class="  label-custom">Budget </label>
                                 <div class="">
-                                    <input type="number" id="txtPrjBudget" value="" class="form-control" style="" />
+                                    <input type="number" id="txtPrjBudget" value="0" class="form-control" style="" min="0" />
                                 </div>
                             </div>
                         </div>
@@ -806,13 +822,26 @@
                                 </div>
                             </div>
                             <div class="row justify-content-center">
-                                <div class="d-flex rounded shadow-sm col-1 p-3 m-2 text-center">
+                                <div class="d-flex rounded  col-1 p-3 m-2 text-center">
                                     
                                     <img src="images/icons8-submi-progress.png" id="btnSubmitOptDet" title="Submit" class="fa-icon-hover submit-button" style="cursor: pointer; width: 50px;" />
                                 </div>
                             </div>
 
                             <div style="width: 100%;">
+                                  <div style="float:right">
+                              <button type="button" class="btn btn-success btnMoreReq me-3" style="float: right; margin-left: 5px;"><i class="bx bxs-check-circle"></i>Ask More Info</button>
+                          </div>
+                                                          <div style="float:right">
+                            <button type="button" class="btn btn-success btnAssign me-3" style="float: right; margin-left: 5px;"><i class="bx bxs-check-circle"></i>Assign</button>
+                        </div>
+                              
+                                                         <div style="float:right">
+                                                            <select id="ddlEstimationHead" value="" class="form-control" style="float: right; margin-left: 5px;min-width:200px"></select>
+
+                                                        </div>
+                                
+                                  
 
                                 <div>
                                     <button type="button" class="btn btn-success btnSubmitRequest me-3" style="float: right; margin-left: 5px;"><i class="bx bxs-save"></i>Submit</button>
@@ -823,9 +852,7 @@
                                 <div>
                                     <button type="button" class="btn btn-danger btnReject me-3" style="float: right;"><i class="bx bxs-x-circle"></i>Reject</button>
                                 </div>
-                                <div>
-                                    <button type="button" class="btn btn-success btnReceived me-3" style="float: right; margin-left: 5px;"><i class="bx bxs-check-circle"></i>Assigned</button>
-                                </div>
+
                                 <div>
                                     <button type="button" class="btn btn-danger btnCompleted me-3" style="float: right;"><i class="bx bxs-x-circle"></i>Completed</button>
                                 </div>
@@ -837,9 +864,9 @@
 
 
                     <div style="margin-top: 1.5%;" class="Estim-taable-data">
+                        <nav id="nav-tab">
+                            <ul class="nav nav-pills" id="Estimation-Det-modal-ul" role="tablist">
 
-                        <div class="nav-align-top">
-                            <ul class="nav nav-tabs" id="Estimation-Det-modal-ul" role="tablist">
                                 <li class="nav-item">
                                     <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-Product" aria-controls="navs-top-Product" aria-selected="true">Product</button>
                                 </li>
@@ -848,6 +875,9 @@
                                 </li>
                                 <li class="nav-item">
                                     <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-Approval" aria-controls="navs-top-Approval" aria-selected="false">Approval Status</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-Comments" aria-controls="navs-top-Comments" aria-selected="false">Comments</button>
                                 </li>
                             </ul>
                             <div class="tab-content">
@@ -873,6 +903,11 @@
                                                     <td class="hidden">ReqID</td>
                                                     <th>Product</th>
                                                     <th>Remarks</th>
+                                                    <th>Estimation Team</th>
+                                                    <td class="hidden">EH</td>
+                                                    <th>Estimator</th>
+                                                    <td class="hidden">ES</td>
+                                                    <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
@@ -891,7 +926,7 @@
                                     <div>
                                         <a href="#" id="btnNewAttacment" class="btn btn-primary pull-right"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Attachment</a>
                                     </div>
-                                    <div style="padding-top: 2%">
+                                    <div style="padding-top: 3%;">
 
 
                                         <table class="table Attachment-list-table" style="width: 100%;">
@@ -903,7 +938,6 @@
                                                     <th>Comments</th>
                                                     <th style="display: none;">Comments</th>
                                                     <th>Action</th>
-
 
                                                 </tr>
                                             </thead>
@@ -941,9 +975,38 @@
                                 </div>
 
 
+                                <div class="tab-pane fade" id="navs-top-Comments" role="tabpanel">
+                                    <div>
+                                        <a href="#" id="btnAddNewComments" class="btn btn-primary pull-right"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Comments</a>
+                                    </div>
+
+                                    <div style="padding-top: 3%;">
+
+
+                                        <table class="table Comments-list-table" style="width: 100%;">
+                                            <%--<caption class="ms-4">List of Projects</caption>--%>
+                                            <thead>
+                                                <tr style="text-align: center;">
+
+                                                    <th>SlNo.</th>
+                                                    <th>Commment</th>
+                                                    <th>UpdatedBy</th>
+                                                    <th>Updated Date</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody class="tbody-Comments-list" style="text-align: center;">
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+
+
 
                             </div>
-                        </div>
+                        </nav>
+                    </div>
 
 
 
@@ -1086,7 +1149,7 @@
                                     <label for="html5-number-input" class="  label-custom">Owner <span style="color: red;">*</span></label>
                                     <div>
                                         <%--<input type="text" id="txtActionOwner" class="form-control"/>--%>
-                                        <select id="txtActionOwner" class="form-control" style="te"></select>
+                                        <select id="txtActionOwner" class="form-control"></select>
 
                                     </div>
                                 </div>
@@ -1291,341 +1354,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="EngineeringDetailModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-xxl" role="document" style="max-width: 95%;">
-            <div class="modal-content" <%-- style="background: antiquewhite;"--%>>
-                <div class="modal-header">
-                    <h4 class="modal-title" id="EngineeringDet">ENGINEERING DETAILS</h4>
-                    <button type="button" class="btn-close btn-close-proj-modal" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div id="Engineering-details-rectangle-div" style="background: #e14f0c17; padding: 17px; border-radius: 12px; border: 1px solid #f9bfa8; box-shadow: 0px 0px 13px -7px #d84d1a;">
-
-                        <div class="row">
-                            <div style="width: 14%;">
-                                <label for="html5-number-input" class="  label-custom">Est Ref. </label>
-                                <div class="">
-
-                                    <input type="text" id="txtEngRef" value="" class="form-control" disabled />
-                                </div>
-                            </div>
-
-                            <div style="width: 14%;">
-                                <label for="html5-number-input" class="  label-custom">Revision </label>
-                                <div class="">
-
-                                    <input type="text" id="txtEngision" value="" class="form-control" disabled />
-                                </div>
-                            </div>
-
-                            <div style="width: 14%;">
-                                <label for="html5-number-input" class="  label-custom">Contr ABBR </label>
-                                <div class="">
-
-
-                                    <input type="text" id="txtEngContrAbbr" value="" class="form-control" style="" />
-
-                                </div>
-                            </div>
-
-                            <div style="width: 14%;">
-                                <label for="html5-number-input" class="  label-custom">Year</label>
-                                <div class="">
-
-                                    <input type="text" id="txtEngYear" value="" class="form-control" disabled />
-                                </div>
-                            </div>
-
-                            <div style="width: 14%;">
-                                <label for="html5-number-input" class="  label-custom">OPP Ref</label>
-                                <div class="">
-
-                                    <input type="text" id="txtEngOppRef" value="" class="form-control" disabled />
-                                </div>
-                            </div>
-
-                            <div style="width: 14%;">
-                                <label for="html5-number-input" class="  label-custom">Proj Ref</label>
-                                <div class="">
-
-                                    <input type="text" id="txtEngProjRef" value="" class="form-control" disabled />
-                                </div>
-                            </div>
-
-                            <div style="width: 14%;">
-                                <label for="html5-number-input" class="  label-custom">QTN Ref</label>
-                                <div class="">
-
-                                    <input type="text" id="txtEngQt" value="" class="form-control" style="" />
-                                </div>
-                            </div>
-
-
-
-                        </div>
-                        <div class="row" style="margin-top: 1.5%;">
-                            <h5 class="prpmdl-hed" id="lblEngDetails" style="">Details</h5>
-                        </div>
-
-                        <div class="row" style="margin-top: 1%;">
-
-
-                            <div style="width: 25%;">
-                                <label for="html5-number-input" class="  label-custom">Project Name </label>
-                                <div class="">
-
-                                    <input type="text" id="txtEngPrjName" value="" class="form-control" style="" />
-                                </div>
-                            </div>
-
-                            <div style="width: 25%;">
-                                <label for="html5-number-input" class="  label-custom">Location </label>
-                                <div class="">
-
-                                    <input type="text" id="txtEngPrjLocation" value="" class="form-control" style="" />
-                                </div>
-                            </div>
-
-                            <div style="width: 25%;">
-                                <label for="html5-number-input" class="  label-custom">Client </label>
-                                <div class="">
-
-
-                                    <input type="text" id="txtEngPrjClient" value="" class="form-control" style="" />
-
-                                </div>
-                            </div>
-
-                            <div style="width: 25%;">
-                                <label for="html5-number-input" class="  label-custom">Consultant</label>
-                                <div class="">
-
-                                    <input type="text" id="txtEngPrjConsultant" value="" class="form-control" style="" />
-                                </div>
-                            </div>
-
-
-
-
-
-                        </div>
-
-                        <div class="row" style="margin-top: 1%;">
-
-                            <div style="width: 25%;">
-                                <label for="html5-number-input" class="  label-custom">Main Contractor </label>
-                                <div class="">
-
-                                    <input type="text" id="txtEngPrjMainContr" value="" class="form-control" style="" />
-                                </div>
-                            </div>
-
-                            <div style="width: 25%;">
-                                <label for="html5-number-input" class="  label-custom">MEP Contractor </label>
-                                <div class="">
-
-                                    <input type="text" id="txtEngPrjMEPContr" value="" class="form-control" style="" />
-                                </div>
-                            </div>
-
-                            <div style="width: 25%;">
-                                <label for="html5-number-input" class="  label-custom">Contact Person With Phone </label>
-                                <div class="">
-
-
-                                    <input type="text" id="txtEngPrjContactPerson" value="" class="form-control" style="" placeholder="-----Click to select Customer-----" />
-
-                                </div>
-                            </div>
-
-
-                            <div style="width: 3%; display: none;" class="div-EngNew">
-                                <label for="html5-number-input" class="  label-custom"></label>
-                                <div class="">
-
-                                    <img src="images/gif-user.gif" title="Add New" id="btnAddNewMasterAccount" class="fa-icon-hover" style="cursor: pointer; width: 36px; padding-top: 11px;" />
-
-
-                                </div>
-                            </div>
-
-
-
-                            <div style="width: 25%;" class="div-stage">
-                                <label for="html5-number-input" class="  label-custom">Stage </label>
-                                <div class="">
-
-
-                                    <input type="text" id="txtEngStage" value="" class="form-control" style="" />
-
-                                </div>
-                            </div>
-                            <%-- <div style="width:12.5%;">
-                            <label for="html5-number-input" class="  label-custom">Winning% </label>
-                   <div class="">
-                    
-                                
-                       <input type="number" id="txtEngPrjWinningPerc" value="" class="form-control" style="border-bottom: solid;border-color: #ffc1a3;" />
-                            
-                   </div>
-            </div>
-
-                    <div style="width:12.5%;">
-                            <label for="html5-number-input" class="  label-custom">Budget </label>
-                   <div class="">
-                    
-                                
-                       <input type="number" id="txtEngPrjBudget" value="" class="form-control" style="border-bottom: solid;border-color: #ffc1a3;" />
-                            
-                   </div>
-            </div>--%>
-                        </div>
-
-                        <div class="row" style="margin-top: 1%;">
-
-                            <div style="width: 25%;">
-                                <label for="html5-number-input" class="  label-custom">City </label>
-                                <div class="">
-
-                                    <select id="ddlEngCity" value="" class="form-control" style="">
-                                    </select>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="row" style="margin-top: 1%;">
-
-                            <div id="ChecBox-details-rectangle-div" style="background: #cbcbcba8; padding: 17px; border-radius: 12px; border: 1px solid #cbcbcba8; box-shadow: 0px 0px 13px -7px #cbcbcba8; width: 23%; margin-left: 11px;">
-
-                                <div class="row" style="margin-top: 1.5%;">
-                                    <h5 class="prpmdl-hed" id="lblEngReqFor" style="">REQUEST FOR</h5>
-                                </div>
-
-                                <div class="row">
-
-                                    <div class="form-check form-check-success">
-                                        <input class="form-check-input" type="checkbox" value="CALCULATION" id="chCalculation" />
-                                        <label class="form-check-label" for="chCalculation">Calculation</label>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-
-                                    <div class="form-check form-check-success">
-                                        <input class="form-check-input" type="checkbox" value="O AND M" id="chOandM" />
-                                        <label class="form-check-label" for="chOandM">O & M</label>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-
-                                    <div class="form-check form-check-success">
-                                        <input class="form-check-input" type="checkbox" value="SUBMITTAL" id="chSubmittal" />
-                                        <label class="form-check-label" for="chSubmittal">Submittal</label>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-
-                                    <div class="form-check form-check-success">
-                                        <input class="form-check-input" type="checkbox" value="PRE QUALIFICATION" id="chPreQualification" />
-                                        <label class="form-check-label" for="chPreQualification">Pre Qualification</label>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-
-                                    <div class="form-check form-check-success">
-                                        <input class="form-check-input" type="checkbox" value="SPECIAL REQUIREMENTS" id="chSpcRequirments" />
-                                        <label class="form-check-label" for="chSpcRequirments">Special Requirements</label>
-                                    </div>
-                                </div>
-
-
-                            </div>
-                        </div>
-                        <div class="row" style="margin-top: 1%;">
-                            <div class="col-12">
-                                <%--  <a href="#" id="btnSaveEngineerDet" class="btn btn-primary pull-right" style="width:8%;">Save</a>--%>
-                                <img src="images/icons8-submi-progress.png" id="btnSaveEngineerDet" title="Submit" class="fa-icon-hover submit-button" style="cursor: pointer; width: 84px; float: right;" />
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div style="margin-top: 1.5%;" class="Eng-table-data">
-
-                        <div class="nav-align-top">
-                            <ul class="nav nav-tabs" id="Engineering-Det-modal-ul" role="tablist">
-                                <li class="nav-item">
-                                    <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-EngProduct" aria-controls="navs-top-EngProduct" aria-selected="true">Product</button>
-                                </li>
-
-
-
-                            </ul>
-                            <div class="tab-content">
-
-                                <%--  <div class="tab-pane fade show active" id="navs-top-Dashboard" role="tabpanel" style="margin-top: -1%;">--%>
-
-                                <%--<div> 
-                             <a href="#" class="btn btn-primary pull-right btn-add-mstone-grid"> <i class="fa fa-plus" aria-hidden="true"></i>&nbsp; Add Milestone</a>
-                         </div>
-                         
-                              
-                </div>
-
-                  <%--2nd--%>
-
-
-
-                                <div class="tab-pane fade show active" id="navs-top-EngProduct" role="tabpanel">
-                                    <div>
-                                        <a href="#" id="btnNewAddEngProduct" class="btn btn-primary pull-right"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Add New</a>
-                                    </div>
-                                    <div style="padding-top: 2%">
-
-                                        <table class="table EngProduct-list-table" style="width: 100%;">
-                                            <%--<caption class="ms-4">List of Projects</caption>--%>
-                                            <thead>
-                                                <tr style="text-align: center;">
-
-                                                    <th>Product</th>
-                                                    <th>Remarks</th>
-                                                    <th>Action</th>
-
-
-                                                </tr>
-                                            </thead>
-                                            <tbody class="tbody-EngProduct-list" style="text-align: center;">
-                                            </tbody>
-                                        </table>
-
-                                    </div>
-                                </div>
-
-                                <%--3rd--%>
-                            </div>
-                        </div>
-
-
-
-
-                    </div>
-
-
-
-
-
-                    <%--Grid--%>
-                </div>
-                <%--  <div class="modal-footer">
-                 <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
-                 <button type="button" class="btn btn-primary">Save changes</button>
-               </div>--%>
-            </div>
-        </div>
-    </div>
+   
 
     <div class="modal fade" id="ModalContact" tabindex="-2" aria-hidden="true" style="background-color: #13131466" data-bs-backdrop="static">
         <div class="modal-dialog modal-xl" role="document">
@@ -1814,6 +1543,78 @@
     </div>
 
 
+    <div class="modal fade" id="modalNewComments" style="background: rgb(177 171 171 / 36%); zoom: 80%;" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document" style="width: 22%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Comments</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="padding-top: 1px;">
+                        <div>
+
+                            <div>
+                                <textarea class="form-control" id="txtComments" rows="5" placeholder="Enter Your Comments"></textarea>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding-top: 3%;">
+                        <div class="col-5">
+                            <div class="row">
+                                <div style="width: 13%">
+                                    <div class="checkbox-wrapper-26" style="float: left;">
+                                        <input type="checkbox" id="cbRaisedMail" onclick="MailInfo()" />
+                                        <label for="cbRaisedMail"><span class="tick_mark"></span></label>
+                                    </div>
+                                </div>
+                                <div style="width: 70%">
+                                    <label style="font-size: 17px;">Raised Mail</label>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row mail-to-drp" style="padding-top: 1%;">
+                        <div>
+                            <div class="col-6">
+                                <label for="html5-number-input" class="  label-custom">Mail To </label>
+                                <div class="">
+                                    <select id="ddlEmailTo" style="z-index: 99 !important;" class="form-select color-dropdown" multiple>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mail-cc-drp" style="padding-top: 3%;">
+                        <div>
+                            <div class="col-6">
+                                <label for="html5-number-input" class="  label-custom">CC Mail </label>
+                                <div class="">
+                                    <select id="ddlCCEmail" style="z-index: 99 !important;" class="form-select color-dropdown" multiple>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding-top: 4%;">
+                        <div class="centerforall">
+                            <button id="btnSubmitComments" type="button" class="btn-danger" style="background-color: #EC1A25; font-size: 17px; width: 70%;">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <script type="text/javascript">
         var currUserId = '';
         var EmpNo = '';
@@ -1853,12 +1654,18 @@
 
     <!-- Page JS/CSS file -->
     <script src="Scripts/ERMMaster.js?v=5"></script>
-    <link href="css/quotation.css" rel="stylesheet" />
+   <%-- <link href="css/quotation.css" rel="stylesheet" />--%>
+    <link href="Css/EMSStyle.css" rel="stylesheet" />
 
     <!-- Select/Multiselect Dropdown JS/CSS file -->
-    <link href="../Calendar/dist/select2.css" rel="stylesheet" />
-    <script src="../Calendar/dist/select2.js"></script>
-    <%--<script src="script/multiple-select.js"></script>
-    <link href="../SiteSurvey/Assets/Css/multiple-select.css" rel="stylesheet" />--%>
+  <%--  <link href="../Calendar/dist/select2.css" rel="stylesheet" />
+    <script src="../Calendar/dist/select2.js"></script>--%>
+    <script src="script/multiple-select.js"></script>
+    <link href="../SiteSurvey/Assets/Css/multiple-select.css" rel="stylesheet" />
+
+      <script src="Assets/Js/multiple-select.js"></script>
+      <link href="../sitesurvey/Assets/Css/multiple-select.css" rel="stylesheet" />
+
+
 </asp:Content>
 

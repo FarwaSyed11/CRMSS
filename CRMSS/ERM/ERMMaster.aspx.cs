@@ -15,7 +15,20 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        Session["ApplicationId"] = 1;
+        if (!String.IsNullOrEmpty(Convert.ToString(Session["UserId"])))
+        {
+            if (!Page.IsPostBack)
+            {
+                Session["ApplicationId"] = 19;
+                Common.SaveAppUserActivityHistory("1", "/ERM/ERMMaster.aspx", "Estimation Request", (Session["empno"] == null ? "null" : Session["empno"].ToString()), 0);
+              
+            }
+
+        }
+        else
+        {
+            Response.Redirect("../Security/Login.aspx", false);
+        }
     }
 
 
@@ -32,9 +45,6 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         ArrayList pa = new ArrayList();
         ArrayList pv = new ArrayList();
 
-        //Int32 UserId = Convert.ToInt32(Session["UserId"].ToString());
-
-
 
         pa.Add("@oper");
         pv.Add("0");
@@ -43,7 +53,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         pv.Add(UserId);
 
 
-        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
         List<CustomerDetails> listProjDet = new List<CustomerDetails>();
 
@@ -91,7 +101,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
         pa.Add("@RefId");
         pv.Add(RequestNumber);
-        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
         if (ds.Tables[0].Rows.Count > 0)
             return ds.Tables[0].Rows[0][0].ToString();
         else
@@ -143,7 +153,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
             }
 
 
-            DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+            DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
             return true;
         }
         catch (Exception s)
@@ -184,7 +194,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         pv.Add(Convert.ToInt64(OwnerId));
 
 
-        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
         List<OpportunityDet> listProjDet = new List<OpportunityDet>();
 
@@ -246,7 +256,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         pa.Add("@OptNo");
         pv.Add(OptNo);
 
-        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
         List<OpportunityDet> listProjDet = new List<OpportunityDet>();
 
@@ -272,6 +282,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
             ind.ProjectNumber = dt.Rows[i]["ProjectNumber"].ToString();
             ind.SalesStageName = dt.Rows[i]["SalesStageName"].ToString();
             ind.MarketingId = dt.Rows[i]["MarketingId"].ToString();
+            ind.PlotNo = dt.Rows[i]["PlotNo"].ToString();
 
             listProjDet.Add(ind);
         }
@@ -296,7 +307,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         pv.Add("3");
 
 
-        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
         List<DropDownValues> drpval = new List<DropDownValues>();
         dt = ds.Tables[0];
@@ -333,7 +344,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         pv.Add(PrimaryCat);
 
 
-        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
         List<DropDownValues> drpval = new List<DropDownValues>();
         dt = ds.Tables[0];
@@ -367,7 +378,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         pv.Add("4");
 
 
-        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
         List<DropDownValues> drpval = new List<DropDownValues>();
         dt = ds.Tables[0];
@@ -404,7 +415,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         pv.Add(Country);
 
 
-        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
         List<DropDownValues> drpval = new List<DropDownValues>();
         dt = ds.Tables[0];
@@ -476,7 +487,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
 
 
-        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
       
     }
@@ -484,7 +495,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static List<Attachment> AttachmentDet(string UserId, string RefNo,string RefId)
+    public static List<Attachment> AttachmentDet(string UserId,string RefId)
     {
 
         //string UpdatedBy
@@ -508,16 +519,9 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         pa.Add("@RefId");
         pv.Add(Convert.ToInt64(RefId));
 
-        pa.Add("@RefNo");
-        pv.Add(RefNo);
+       
 
-
-
-
-
-
-
-        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
         List<Attachment> listProjDet = new List<Attachment>();
 
@@ -571,7 +575,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
 
 
-        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
         return ds.Tables[0].Rows[0][0].ToString()+","+ ds.Tables[0].Rows[0][1].ToString();
 
@@ -580,8 +584,8 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static string UpdateOptdetails(string RequestId, string UserId,string RefNo,string RevNo,string ContrAbbr,string Year,string OppRef,string ProjRef,string EstDate,string ProjName,string Location,string Client,string Consultant,string MainContr,string MEPContr,string ContactId,string URL
-                                        , string WinningPerc,string Budget,string Stage,string Scope,string Quotation,string Type, string Owner, string EstimationOrgID, string MarketingID)
+    public static string UpdateOptdetails(string RequestId, string UserId,string RefNo,string RevNo,string ContrAbbr,string Year,string OppRef,string ProjRef,string ProjName,string Location,string Client,string Consultant,string MainContr,string MEPContr,string ContactId,string URL
+                                        , string WinningPerc,string Budget,string Stage,string Scope,string Quotation,string Type, string SalesmanID, string EstimationOrgID, string MarketingID, string Salesman, string Marketing, string PlotNo)
     {
 
         DBHandler DBH = new DBHandler();
@@ -615,8 +619,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         pa.Add("@ProjNo");
         pv.Add(ProjRef);
 
-        pa.Add("@Estdate");
-        pv.Add(EstDate);
+
 
         pa.Add("@OptName");
         pv.Add(ProjName);
@@ -661,7 +664,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         pv.Add(Type);
 
         pa.Add("@OwnerId");
-        pv.Add(Owner);
+        pv.Add(SalesmanID);
 
         pa.Add("@RefId");
         pv.Add(RequestId);
@@ -673,7 +676,18 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         pv.Add(MarketingID);
 
 
-        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+        pa.Add("@Salesman");
+        pv.Add(Salesman);
+
+
+        pa.Add("@Marketing");
+        pv.Add(Marketing);
+
+        pa.Add("@PlotNo");
+        pv.Add(PlotNo);
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
 
         return ds.Tables[0].Rows[0][0].ToString();
@@ -711,7 +725,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
 
 
-        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
         List<ContactDet> listProjDet = new List<ContactDet>();
 
@@ -794,7 +808,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
 
 
-        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
 
         return ds.Tables[0].Rows[0][0].ToString();
@@ -817,7 +831,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
         pa.Add("@OwnerId");
         pv.Add(OwnelID);
-        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
         List<DropDownValues> drpval = new List<DropDownValues>();
         dt = ds.Tables[0];
@@ -854,7 +868,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
 
         pa.Add("@oper");
-        pv.Add(15);
+        pv.Add(0);
 
         pa.Add("@userId");
         pv.Add(UserId);
@@ -865,16 +879,11 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         pa.Add("@Status");
         pv.Add(Status);
 
-        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+        DBH.CreateDatasetERM_Data(ds, "sp_GetEstimationRequestDetails", true, pa, pv);
 
         List<TableDetails> listProjDet = new List<TableDetails>();
 
         dt = ds.Tables[0];
-
-
-
-
-
 
         for (int i = 0; i < dt.Rows.Count; i++)
         {
@@ -886,16 +895,10 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
             ind.OPTNumber = dt.Rows[i]["OPTNumber"].ToString();
             ind.ProjectNumber = dt.Rows[i]["ProjectNumber"].ToString();
             ind.ProjectName = dt.Rows[i]["ProjectName"].ToString();
-            ind.EstimationDate = dt.Rows[i]["EstimationDate"].ToString();
             ind.CreatedBy = dt.Rows[i]["CreatedBy"].ToString();
             ind.CreatedDate = dt.Rows[i]["CreatedDate"].ToString();
             ind.ID = dt.Rows[i]["ID"].ToString(); 
             ind.RoleID = dt.Rows[i]["RoleID"].ToString(); 
-
-
-
-
-
 
             listProjDet.Add(ind);
         }
@@ -933,7 +936,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         pv.Add(RequestId);
 
 
-        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
         List<TableDetails> listProjDet = new List<TableDetails>();
 
@@ -954,7 +957,6 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
             ind.OPTNumber = dt.Rows[i]["OPTNumber"].ToString();
             ind.ProjectNumber = dt.Rows[i]["ProjectNumber"].ToString();
             ind.ProjectName = dt.Rows[i]["ProjectName"].ToString();
-            ind.EstimationDate = dt.Rows[i]["EstimationDate"].ToString();
             ind.CreatedBy = dt.Rows[i]["CreatedBy"].ToString();
             ind.CreatedDate = dt.Rows[i]["CreatedDate"].ToString();
             ind.ID = dt.Rows[i]["ID"].ToString();
@@ -971,22 +973,17 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
             ind.QuotationType = dt.Rows[i]["QuotationType"].ToString();
             ind.WinPerc = dt.Rows[i]["WinPerc"].ToString();
             ind.Budget = dt.Rows[i]["Budget"].ToString();
-            ind.DocumentLink = dt.Rows[i]["DocumentLink"].ToString();
+            ind.DocumentLink = dt.Rows[i]["URL"].ToString();
             ind.ContactName = dt.Rows[i]["ContactName"].ToString();
 
-            ind.QtnRefNumber = dt.Rows[i]["QtnRefNumber"].ToString();
-            ind.Calculation = dt.Rows[i]["Calculation"].ToString();
-            ind.OandM = dt.Rows[i]["OandM"].ToString();
-            ind.Submittal = dt.Rows[i]["Submittal"].ToString();
-            ind.PreQualification = dt.Rows[i]["PreQualification"].ToString();
-            ind.SpecialRequirements = dt.Rows[i]["SpecialRequirements"].ToString();
-            ind.City = dt.Rows[i]["City"].ToString();
+        
             ind.ReqorderNumber = dt.Rows[i]["OrderStatus"].ToString();
-            ind.OwnerID = dt.Rows[i]["OwnerID"].ToString();
+            ind.OwnerID = dt.Rows[i]["SalesmanID"].ToString();
             ind.MarketingID = dt.Rows[i]["MarketingID"].ToString();
             ind.EstimationOrg = dt.Rows[i]["EstimationOrg"].ToString();
             ind.Salesman = dt.Rows[i]["Salesman"].ToString();
             ind.Marketing = dt.Rows[i]["Marketing"].ToString();
+            ind.PlotNumber = dt.Rows[i]["PlotNumber"].ToString();
 
 
 
@@ -1027,7 +1024,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         pv.Add(UserId);
 
 
-        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
         List<DropDownValues> drpval = new List<DropDownValues>();
         dt = ds.Tables[0];
@@ -1047,101 +1044,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
     }
 
 
-    [WebMethod]
-    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static string UpdateEngOptdetails(string UserId, string RefNo, string RevNo, string ContrAbbr, string Year, string OppRef, string ProjRef, string QTNo, string ProjName, string Location, string Client, string Consultant, string MainContr, string MEPContr, string ContactId
-                                       , string Calculation, string OandM, string Stage, string Submittal, string PreQualification,string SpcRequirements,string Type,string City)
-    {
 
-        DBHandler DBH = new DBHandler();
-        DataSet ds = new DataSet();
-        DataTable dt = new DataTable();
-        ArrayList pa = new ArrayList();
-        ArrayList pv = new ArrayList();
-
-        pa.Add("@oper");
-        pv.Add("18");
-
-        pa.Add("@userId");
-        pv.Add(UserId);
-
-
-        pa.Add("@RefNo");
-        pv.Add(RefNo);
-
-        pa.Add("@RevNo");
-        pv.Add(RevNo);
-
-        pa.Add("@ContrAbbr");
-        pv.Add(ContrAbbr);
-
-        pa.Add("@Year");
-        pv.Add(Year);
-
-        pa.Add("@OptNo");
-        pv.Add(OppRef);
-
-        pa.Add("@ProjNo");
-        pv.Add(ProjRef);
-
-        pa.Add("@QtnRef");
-        pv.Add(QTNo);
-
-        pa.Add("@OptName");
-        pv.Add(ProjName);
-
-        pa.Add("@Location");
-        pv.Add(Location);
-
-        pa.Add("@Client");
-        pv.Add(Client);
-
-        pa.Add("@Consultant");
-        pv.Add(Consultant);
-
-        pa.Add("@MainContr");
-        pv.Add(MainContr);
-
-        pa.Add("@MEPContr");
-        pv.Add(MEPContr);
-
-        pa.Add("@accountId");
-        pv.Add(ContactId);
-
-        pa.Add("@Calculation");
-        pv.Add(Calculation);
-
-        pa.Add("@OandM");
-        pv.Add(OandM);
-
-        pa.Add("@Stage");
-        pv.Add(Stage);
-
-        pa.Add("@Submittal");
-        pv.Add(Submittal);
-
-        pa.Add("@PreQual");
-        pv.Add(PreQualification);
-
-        pa.Add("@SpcRequirements");
-        pv.Add(SpcRequirements); 
-
-        pa.Add("@Type");
-        pv.Add(Type);
-
-        pa.Add("@City");
-        pv.Add(City);
-
-
-
-
-
-
-        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
-
-
-        return ds.Tables[0].Rows[0][0].ToString();
-    }
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
@@ -1160,7 +1063,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         pa.Add("@userid");
         pv.Add(UserId);
 
-        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
         List<EmpListDDL> oEmpList = new List<EmpListDDL>();
 
@@ -1201,10 +1104,10 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         pa.Add("@oper");
         pv.Add("20");
 
-        //pa.Add("@OwnerId");
-        //pv.Add(Convert.ToInt64(OwnerId));
+        pa.Add("@OwnerId");
+        pv.Add(Convert.ToInt64(OwnerId));
 
-        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
         dt = ds.Tables[0];
 
         List<string> ProduList = new List<string>();
@@ -1256,7 +1159,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
 
 
-        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
         dt = ds.Tables[0];
 
         List<RequestedProducts> ProduList = new List<RequestedProducts>();
@@ -1264,10 +1167,15 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         {
             ProduList.Add(new RequestedProducts()
             {
-                ERMReqID = dt.Rows[i]["ERMReqID"].ToString(),
-                ERMNumber = dt.Rows[i]["ERMNumber"].ToString(),
+                ERMReqID = dt.Rows[i]["ReqID"].ToString(),
+                LineID = dt.Rows[i]["ID"].ToString(),
+                ERMNumber = dt.Rows[i]["Number"].ToString(),
                 Remarks = dt.Rows[i]["Remarks"].ToString(),
-                ERMProduct = dt.Rows[i]["ERMProduct"].ToString(),
+                ERMProduct = dt.Rows[i]["Product"].ToString(),
+                EstimationTeam = dt.Rows[i]["EH_EmpNo"].ToString(),
+                Estimator = dt.Rows[i]["Estimator_EmpNo"].ToString(),
+                Status = "DRAFT",
+                StatusClass = "",
             });
         }
 
@@ -1277,7 +1185,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
     }
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static List<RequestedProducts> GetProductDetails(string ReqID)
+    public static List<RequestedProducts> GetProductDetails(string ReqID, string UserID)
     {
 
         DBHandler DBH = new DBHandler();
@@ -1296,10 +1204,13 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         pa.Add("@RefId");
         pv.Add(ReqID);
 
+        pa.Add("@userId");
+        pv.Add(UserID);
 
 
 
-        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
         dt = ds.Tables[0];
 
         List<RequestedProducts> ProduList = new List<RequestedProducts>();
@@ -1307,10 +1218,16 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         {
             ProduList.Add(new RequestedProducts()
             {
-                ERMReqID = dt.Rows[i]["ERMReqID"].ToString(),
-                ERMNumber = dt.Rows[i]["ERMNumber"].ToString(),
+                ERMReqID = dt.Rows[i]["ReqID"].ToString(),
+                LineID = dt.Rows[i]["ID"].ToString(),
+                ERMNumber = dt.Rows[i]["Number"].ToString(),
                 Remarks = dt.Rows[i]["Remarks"].ToString(),
-                ERMProduct = dt.Rows[i]["ERMProduct"].ToString(),
+                ERMProduct = dt.Rows[i]["Product"].ToString(),
+                EstimationTeam = dt.Rows[i]["EH_EmpNo"].ToString(),
+                Estimator = dt.Rows[i]["Estimator_EmpNo"].ToString(),
+                Status = dt.Rows[i]["EstStatus"].ToString(),
+                StatusClass = dt.Rows[i]["StatusClass"].ToString(),
+
             });
         }
 
@@ -1346,7 +1263,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
 
 
-            DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+            DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
             return true;
         }
@@ -1380,16 +1297,11 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         pv.Add(Convert.ToInt64(RefId));
 
 
-        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
         List<ApprovaStatuslList> appList = new List<ApprovaStatuslList>();
 
         dt = ds.Tables[0];
-
-
-
-
-
 
         for (int i = 0; i < dt.Rows.Count; i++)
         {
@@ -1424,7 +1336,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
 
 
-        DBH.CreateDatasetERM_Data(ds, "sp_ERMMaster", true, pa, pv);
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
         List<DropDownValues> drpval = new List<DropDownValues>();
         dt = ds.Tables[0];
@@ -1442,6 +1354,324 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         return drpval;
         //string a = userId;
     }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<DropDownValues> GetEstTeamLeader(string UserId)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add("0");
+
+        pa.Add("@userID");
+        pv.Add(UserId);
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_FillControls", true, pa, pv);
+
+        List<DropDownValues> drpval = new List<DropDownValues>();
+        dt = ds.Tables[0];
+
+
+
+        for (int i = 0; i < dt.Rows.Count; i++)
+        {
+            drpval.Add(new DropDownValues()
+            {
+                ddlValue = dt.Rows[i]["ManagerEmpNo"].ToString(),
+                ddlText = dt.Rows[i]["ManagerName"].ToString()
+            });
+        }
+        return drpval;
+        //string a = userId;
+    }
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static Boolean UpdateEH(string UserId,string EHEmpno,string ReqID,string LineIDs,string Action)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add("0");
+
+        pa.Add("@UserID");
+        pv.Add(UserId);
+
+        pa.Add("@EH_Empno");
+        pv.Add(EHEmpno);
+
+        pa.Add("@LineIDs");
+        pv.Add(LineIDs);
+
+        pa.Add("@Action");
+        pv.Add(Action);
+
+
+        pa.Add("@ReqID");
+        pv.Add(ReqID);
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_EstimationRequestActions", true, pa, pv);
+
+        return true;
+        //string a = userId;
+    }
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<DropDownValues> GetEstTeamLeaderBasedOnProduct(string UserId, string Product)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add("3");
+
+        pa.Add("@userID");
+        pv.Add(UserId);
+
+        pa.Add("@SystemName");
+        pv.Add(Product);
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_FillControls", true, pa, pv);
+
+        List<DropDownValues> drpval = new List<DropDownValues>();
+        dt = ds.Tables[0];
+
+
+
+        for (int i = 0; i < dt.Rows.Count; i++)
+        {
+            drpval.Add(new DropDownValues()
+            {
+                ddlValue = dt.Rows[i]["EmpNo"].ToString(),
+                ddlText = dt.Rows[i]["EmpName"].ToString()
+            });
+        }
+        return drpval;
+        //string a = userId;
+    }
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<DropDownValues> GetEstimators(string ManagerEmpno, string Product)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add("4");
+
+        pa.Add("@EmpNo");
+        pv.Add(ManagerEmpno);
+
+        pa.Add("@SystemName");
+        pv.Add(Product);
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_FillControls", true, pa, pv);
+
+        List<DropDownValues> drpval = new List<DropDownValues>();
+        dt = ds.Tables[0];
+
+
+
+        for (int i = 0; i < dt.Rows.Count; i++)
+        {
+            drpval.Add(new DropDownValues()
+            {
+                ddlValue = dt.Rows[i]["EmpNo"].ToString(),
+                ddlText = dt.Rows[i]["EmpName"].ToString()
+            });
+        }
+        return drpval;
+        //string a = userId;
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static void SetEstimator(string UserID, string ProductID, string Estimator, string EstHead, string RequestId)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@Oper");
+        pv.Add("1");
+
+        pa.Add("@UserID");
+        pv.Add(UserID);
+
+        pa.Add("@LineID");
+        pv.Add(ProductID);
+        if(Estimator!="")
+        { 
+        pa.Add("@Estimator");
+        pv.Add(Estimator);
+        }
+
+        pa.Add("@EH_EmpNo");
+        pv.Add(EstHead);
+
+        pa.Add("@ReqID");
+        pv.Add(RequestId);
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_EstimationRequestActions", true, pa, pv);
+
+
+    }
+
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<CommentDet> GetComments(string RefId)
+    {
+
+        //string UpdatedBy
+        DBHandler DBH = new DBHandler();
+
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        //Int32 UserId = Convert.ToInt32(Session["UserId"].ToString());
+
+
+
+        pa.Add("@Oper");
+        pv.Add(31);
+
+        pa.Add("@RefId");
+        pv.Add(Convert.ToInt64(RefId));
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
+
+        List<CommentDet> appList = new List<CommentDet>();
+
+        dt = ds.Tables[0];
+
+        for (int i = 0; i < dt.Rows.Count; i++)
+        {
+            appList.Add(new CommentDet()
+            {
+                SlNo = dt.Rows[i]["SlNo"].ToString(),
+                Comments = dt.Rows[i]["Comments"].ToString(),
+                UpdatedBy = dt.Rows[i]["UpdatedBy"].ToString(),
+                UpdatedDate = dt.Rows[i]["UpdatedDate"].ToString(),
+               
+            });
+        }
+
+        return appList;
+
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<DropDownValues> setEmailInformation(string UserID)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add("32");
+
+        pa.Add("@userId");
+        pv.Add(UserID);
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
+
+        List<DropDownValues> drpval = new List<DropDownValues>();
+        dt = ds.Tables[0];
+
+
+
+        for (int i = 0; i < dt.Rows.Count; i++)
+        {
+            drpval.Add(new DropDownValues()
+            {
+                ddlValue = dt.Rows[i]["EmpNo"].ToString(),
+                ddlText = dt.Rows[i]["EmpName"].ToString()
+            });
+        }
+        return drpval;
+        //string a = userId;
+    }
+
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static void AddGeneralComments(string UserID, string RefId, string Comment, string IsNotified,string MailTo,string CCMail)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@Oper");
+        pv.Add("33");
+
+        pa.Add("@UserID");
+        pv.Add(UserID);
+
+        pa.Add("@RefId");
+        pv.Add(RefId);
+
+        pa.Add("@Comments");
+        pv.Add(Comment);
+
+        pa.Add("@IsNotified");
+        pv.Add(IsNotified);
+
+
+
+        if (IsNotified == "True")
+        {
+            pa.Add("@MailTo");
+            pv.Add(MailTo);
+
+            pa.Add("@CCMAil");
+            pv.Add(CCMail);
+        }
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
+
+
+    }
+
+
     public class ApprovaStatuslList
     {
         public string Role { get; set; }
@@ -1453,13 +1683,29 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
 
     }
+
+    public class CommentDet
+    {
+        public string SlNo { get; set; }
+        public string Comments { get; set; }
+        public string UpdatedBy { get; set; }
+        public string UpdatedDate { get; set; }
+      
+
+    }
     public class RequestedProducts
     {
         public string ERMReqID { get; set; }
+        public string LineID { get; set; }
         public string ERMNumber { get; set; }
         public string ERMProduct { get; set; }
         public string Remarks { get; set; }
-     
+        public string EstimationTeam { get; set; }
+        public string Estimator { get; set; }
+
+        public string Status { get; set; }
+        public string StatusClass { get; set; }
+
 
     }
 
@@ -1527,6 +1773,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         public string Client { get; set; }
         public string MainContractor { get; set; }
         public string ProjectNumber { get; set; }
+        public string PlotNo { get; set; }
 
 
     }
@@ -1541,7 +1788,6 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         public string OPTNumber { get; set; }
         public string ProjectNumber { get; set; }
         public string ProjectName { get; set; }
-        public string EstimationDate { get; set; }
         public string CreatedBy { get; set; }
         public string CreatedDate { get; set; }
         public string ID { get; set; }
@@ -1576,6 +1822,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         public string EstimationOrg { get; set; }
         public string Salesman { get; set; }
         public string Marketing { get; set; }
+        public string PlotNumber { get; set; }
 
 
     }
