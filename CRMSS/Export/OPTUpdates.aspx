@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="OPTUpdates.aspx.cs" Inherits="Export_OPTUpdates" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="OPTUpdates.aspx.cs" Inherits="Export_OPTUpdates" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">

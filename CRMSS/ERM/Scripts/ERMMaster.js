@@ -22,7 +22,7 @@ var OwnerIdOpt = 0;
 var MarketingID = 0;
 var ReqRoleID = 0;
 var Contractor = '';
-
+var objDatatableWorkLoad = [];
 
 var ReqOrderNumber = 0;
 
@@ -46,6 +46,7 @@ $(document).ready(function () {
     var htmdrop = '';
     if (myroleList.includes("2084")) {
         $("#btnNewAddReq").removeClass('hidden');
+        
         htmdrop += `<option value="PENDING" >DRAFT</option>`;
         htmdrop += `<option value="SUBMIT" >SUBMIT</option>`;
         htmdrop += `<option value="APPROVED">APPROVED</option>`;
@@ -58,6 +59,9 @@ $(document).ready(function () {
         htmdrop += `<option value="PENDING" >PENDING</option>`;
         htmdrop += `<option value="APPROVED">APPROVED</option>`;
         htmdrop += `<option value="REJECTED" >REJECTED</option>`;
+    }
+    if (myrole == '14213' || myroleList.includes("2084")) {
+        $("#showWorkLoad").removeClass('hidden');
     }
     $('#ddlRequestStatus').html(htmdrop);
     GetTableDetails('Please wait...');
@@ -984,6 +988,8 @@ function EstimationAndEngineeringOpp() {
                 $('#txtPrjConsultant').val(result.d[0].MEPConsultant);
                 $('#txtPrjMainContr').val(result.d[0].MainContractor);
                 $('#txtPrjMEPContr').val(result.d[0].MEPContractor);
+                $('#txtSalesman').val(result.d[0].Owner);
+                $('#txtMarketing').val(result.d[0].Marketing);
                 MarketingID = result.d[0].MarketingId;
                 /* document.getElementById("year").innerHTML = new Date().getFullYear();*/
                 $('#txtEstYear').val(new Date().getFullYear());
@@ -1581,7 +1587,7 @@ function GetRefNo() {
 
     $.ajax({
         url: "ERMMaster.aspx/GetRefNumb",
-        data: JSON.stringify({ "OptNo": OptNo, "Type": type, }),
+        data: JSON.stringify({ "OptNo": OptNo, "Type": type,"SalesmanID":OwnerIdOpt }),
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -2295,7 +2301,7 @@ function RequestedProductDetails() {
 
         success: function (result) {
             var htm = '';
-            $('.tbody-Product-list td').length > 0 ? objDatatableProductList.destroy() : '';
+            //$('.tbody-Product-list td').length > 0 ? objDatatableProductList.destroy() : '';
 
             $.each(result.d, function (key, item) {
 
@@ -2315,25 +2321,34 @@ function RequestedProductDetails() {
                                           htm += ` <td> <select class="form-select" id=` + drpName + ` disabled ></select > </td>`
                                            }
 
-                                          htm += `<td class="hidden">`+ item.EstimationTeam + `</td>`
-                                      if (item.EstimationTeam == EmpNo.toUpperCase()) {
+                                      htm += `<td class="hidden">` + item.EstimationTeam + `</td>`
+                                      if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status=='Pending For Estimation Head Approval'){
                                           htm += ` <td> <select class="form-select" id=` + ddlEstimator + `></select> </td>`
                                            }
                                       else {
                                            htm += ` <td> <select class="form-select" id=` + ddlEstimator + ` disabled></select> </td>`
                                             }
                                      
-                                      htm += `  <td class="hidden">`+ item.Estimator + `</td>
-                                      <td><span class="`+ item.StatusClass + `" style="font-size: 13px !important;">` +item.Status+`</span></td>`;
+                                      htm += `  <td class="hidden">` + item.Estimator + `</td>`
+                                      if (item.EstimationTeam == EmpNo.toUpperCase() && item.Estimator=='') {
+                                          htm += `<td> <input type="date" name="ESTDueDate" class="form-control"/> </td>`
+                                           }
+                                      else {
+                                          htm += `<td>` + item.DueDate + `</td>`
+                                           }
+                                      
+                                      htm += `<td><span class="`+ item.StatusClass + `" style="font-size: 13px !important;">` + item.Status + `</span></td>`
+                                      
                                       if (myroleList.includes("14213")) {
                                           htm +=`
                                       <td>
                                        <img src="images/icon-Update.png" title="Save" class="fa-icon-hover Update-Product-Details" style="cursor: pointer; width: 24px;" />&nbsp;
+                                        
                                           </td>`;
                                       }
                                       else{
                                           htm +=`
-                                          <td>`;
+                                          <td></td>`;
                                       }
 
                                       htm +=`</tr> `;
@@ -2404,7 +2419,7 @@ $('.tbody-Product-list').on('click','.Update-Product-Details', function () {
 function AddEstimator() {
         $.ajax({
             url: "ERMMaster.aspx/SetEstimator",
-            data: JSON.stringify({ "UserID": currUserId, "ProductID": ProductID, "EstHead": EstTeam, "Estimator": Estimator,"RequestId":RequestId,}),
+            data: JSON.stringify({ "UserID": currUserId, "ProductID": ProductID, "EstHead": EstTeam, "Estimator": Estimator, "RequestId": RequestId, "DueDate": $("input[type=date][name=ESTDueDate]").val()}),
             type: "POST",
             contentType: "application/json;charset=utf-8",
             dataType: "json",
@@ -2473,7 +2488,7 @@ function SaveEstimationProduct(ReqNumber, Product, Remarks, status, OwnerIdOpt) 
                 htm += `  <td class="hidden">` + item.Estimator + `</td>
                                       <td><span class="`+ item.StatusClass + `" style="font-size: 13px !important;">` + item.Status + `</span></td>
                                       <td>
-                                     
+                                       
                                       </td>
 
                                   </tr> `;
@@ -2955,3 +2970,72 @@ $('.btnMoreReq').on('click', function () {
     LoadEmailTo();
     $('#modalNewComments').modal('show');
 });
+
+
+
+$('#showWorkLoad').on('click', function () {
+    $('#modalWorkLoad').modal('show');
+    ShowWorkLoad();
+});
+
+function ShowWorkLoad() {
+    $.ajax({
+        url: "ERMMaster.aspx/GetTaskSummary",
+        data: JSON.stringify({"EmpNo": EmpNo }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            $('.tbody-WL-details tr').length > 0 ? objDatatableWorkLoad.destroy() : '';
+
+            var htm = '';
+            var ColorCode = "";
+            $.each(result.d, function (key, item) {
+
+                // color code 
+
+                if (item.CompletionPerc >= 75) {
+                    ColorCode = "green";
+                } else if (item.CompletionPerc >= 50) {
+                    ColorCode = "orange";
+                } else {
+                    ColorCode = "red";
+                }
+
+                htm += `<tr>
+                  <td style="text-align:center;">`+ item.EmpNo + `</td>
+                  <td style="text-align:center;">`+ item.DueDate + `</td>
+                  <td style="text-align:center;">`+ item.Assigned + `</td>
+                  <td style="text-align:center;">`+ item.Pending + `</td>`
+
+
+                htm += `</tr>`;
+
+            });
+            $('.tbody-WL-details').html(htm);
+
+            initiateDTworkLoad();
+            $('#ModalTaskDetails').modal('show');
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+function initiateDTworkLoad() {
+    objDatatable = [];
+    objDatatableWorkLoad = $('.table-WL-Details').DataTable({
+        dom: 'lBfrtip',
+        buttons: {
+            buttons: []
+        },
+        "columnDefs": [
+
+            { "orderable": false, "targets": [] },
+            { "orderable": true, "targets": [] }
+        ],
+        /* order: [[7, 'DESC']]*/
+    });
+}

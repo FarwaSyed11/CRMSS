@@ -752,7 +752,7 @@ $('.tbody-esti-req').on('click', '.ibtn-fcastquart-edit,.ibtn-estireq-details', 
     ResetRequestModal();
     selectedReq(res);
     ViewStructure();
-
+    RequestedProductDetails(selReqId);
 
     if (res[0].EstimationStatus.toUpperCase() == "PENDING FOR APPROVAL" && myroleList.includes('14213')) { //For Estimation Head
         $(".btn-req-complete-grid").addClass('hidden');
@@ -1498,5 +1498,193 @@ function ResetRequestModal() {
 
     $('#addReqModal .tab-content .tab-pane').removeClass('active show')
     $('#addReqModal .tab-content .tab-pane:eq(0)').addClass('active show')
+
+}
+
+function RequestedProductDetails(selReqId) {
+    $.ajax({
+        url: "EMSItemList.aspx/GetProductDetails",
+        data: JSON.stringify({ "ReqID": selReqId, "UserID": currUserId }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+
+        success: function (result) {
+            var htm = '';
+            //$('.tbody-Product-list td').length > 0 ? objDatatableProductList.destroy() : '';
+
+            $.each(result.d, function (key, item) {
+
+                var drpName = 'ddl-' + item.LineID;
+                var ddlEstimator = 'ddlEstimator-' + item.LineID;
+
+                htm += `<tr style="text-align: center;">
+                            <td class="hidden">`+ item.LineID + `</td>
+                            <td>`+ item.ERMProduct + `</td>
+                                      <td>`+ item.Remarks + `</td>`;
+
+
+                if (item.EstimationTeam == EmpNo.toUpperCase() && item.Estimator == '') {
+                    htm += ` <td> <select class="form-select" id=` + drpName + ` onchange=EstTeamChange(` + item.LineID + `,"` + item.EstimationTeam + `")></select > </td> `
+                }
+                else {
+                    htm += ` <td> <select class="form-select" id=` + drpName + ` disabled ></select > </td>`
+                }
+
+                htm += `<td class="hidden">` + item.EstimationTeam + `</td>`
+                if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status == 'Pending For Estimation Head Approval') {
+                    htm += ` <td> <select class="form-select" id=` + ddlEstimator + `></select> </td>`
+                }
+                else {
+                    htm += ` <td> <select class="form-select" id=` + ddlEstimator + ` disabled></select> </td>`
+                }
+
+                htm += `  <td class="hidden">` + item.Estimator + `</td>`
+                if (item.EstimationTeam == EmpNo.toUpperCase() && item.Estimator == '') {
+                    htm += `<td> <input type="date" name="ESTDueDate" class="form-control"/> </td>`
+                }
+                else {
+                    htm += `<td>` + item.DueDate + `</td>`
+                }
+
+                htm += `<td><span class="` + item.StatusClass + `" style="font-size: 13px !important;">` + item.Status + `</span></td>`
+
+                //if (myroleList.includes("14213")) {
+                //    htm += `
+                //                      <td>
+                //                       <img src="images/icon-Update.png" title="Save" class="fa-icon-hover Update-Product-Details" style="cursor: pointer; width: 24px;" />&nbsp;
+                                        
+                //                          </td>`;
+                //}
+                //else {
+                //    htm += `
+                //                          <td></td>`;
+                //}
+
+                htm += `</tr> `;
+
+                //   GetEstTeamLeaderForProduct(drpName, item.ERMProduct);
+            });
+
+            $('.tbody-Product-list').html(htm);
+
+
+
+
+            initiateDataTableRequestedproductList();
+
+            $('.tbody-Product-list tr').each(function (key, item) {
+                let LineID = item.children[0].textContent.trim();
+                let ddlname = "ddl-" + LineID;
+                let ddlEstimator = "ddlEstimator-" + LineID;
+                let EstimationHead = item.children[4].textContent.trim();
+                let Estimator = item.children[6].textContent.trim();
+                GetEstTeamLeaderForProduct(ddlname, item.children[1].textContent.trim());
+                GetEstimatorForProduct(ddlEstimator, item.children[1].textContent.trim(), EstimationHead);
+                $("#" + ddlname + "").val(EstimationHead);
+                if (Estimator != "") {
+                    $("#" + ddlEstimator + "").val(Estimator);
+                }
+
+            });
+
+        },
+        //complete: function () {
+        //    $('.ajax-loader').hide();
+        //},
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+
+function initiateDataTableRequestedproductList() {
+    objDatatableProductList = [];
+    objDatatableProductList = $('.Product-list-table').DataTable({
+        dom: 'lBfrtip',
+        buttons: {
+            buttons: []
+        },
+        "bLengthChange": false, //thought this line could hide the LengthMenu
+        "bInfo": false,
+        aLengthMenu: [
+            [-1], ["ALL"]
+        ],
+        "ordering": false,
+        "bPaginate": false,
+    });
+}
+
+function GetEstTeamLeaderForProduct(DropdownName, Product) {
+
+    $.ajax({
+        url: "EMSItemList.aspx/GetEstTeamLeaderBasedOnProduct",
+        data: JSON.stringify({ "UserId": currUserId, "Product": Product }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '';
+
+
+            $.each(result.d, function (key, item) {
+
+                htm += `<option value="` + item.ddlValue + `" > ` + item.ddlValue + `-` + item.ddlText + `</option>`;
+
+            });
+
+            $('#' + DropdownName + '').html(htm);
+            /*  City = $('#ddlEngCity option:selected').val().trim();*/
+
+        },
+        //complete: function () {
+        //    $('.ajax-loader').hide();
+        //},
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+
+
+}
+
+function GetEstimatorForProduct(DropdownName, Product, ManagerEmpNo) {
+
+    $.ajax({
+        url: "EMSItemList.aspx/GetEstimators",
+        data: JSON.stringify({ "ManagerEmpno": ManagerEmpNo, "Product": Product }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '';
+
+            if (result.d.length > 0) {
+                htm += `<option value="-1" option: selected> -- Select -- </option>`
+            }
+            $.each(result.d, function (key, item) {
+
+                htm += `<option value="` + item.ddlValue + `" > ` + item.ddlValue + `-` + item.ddlText + `</option>`;
+
+            });
+
+            $('#' + DropdownName + '').html(htm);
+            /*  City = $('#ddlEngCity option:selected').val().trim();*/
+
+        },
+        //complete: function () {
+        //    $('.ajax-loader').hide();
+        //},
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+
 
 }

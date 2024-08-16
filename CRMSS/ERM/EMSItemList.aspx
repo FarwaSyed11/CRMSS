@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="EMSItemList.aspx.cs" Inherits="Sales_EMSItemList" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="EMSItemList.aspx.cs" Inherits="Sales_EMSItemList" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
@@ -471,7 +471,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
     <div class="card" style="margin-top: 1%; width: 97%; left: 1.5%;">
-
+        <div class="card-body"></div>
         <div style="">
             <h5 style="">Estimation List</h5>
         </div>
@@ -891,8 +891,31 @@
                                                             <input type="radio" id="rdQtSmart" name="Quotation" value="SMART QTNG" style="margin-left: 5%" disabled>SMART QTNG
                                                             <input type="radio" id="rdQtAndSp" name="Quotation" value="AS PER DRAWING AND SPECIFICATION" style="margin-left: 5%" disabled>AS PER DRAWING & SPECIFICATION
  
-                                                            <%-- <a href="#" id="btnSubmitOptDet" class="btn btn-primary" style="float:right;">Submit</a>--%>
+                                                            
                                                         </div>
+                                                    </div>
+
+                                                    <div style="padding-top: 2%">
+
+                                                        <table class="table Product-list-table" style="width: 100%;">
+                                                            <%--<caption class="ms-4">List of Projects</caption>--%>
+                                                            <thead>
+                                                                <tr style="text-align: center;">
+                                                                    <td class="hidden">ReqID</td>
+                                                                    <th>Product</th>
+                                                                    <th>Remarks</th>
+                                                                    <th>Estimation Team</th>
+                                                                    <td class="hidden">EH</td>
+                                                                    <th>Estimator</th>
+                                                                    <td class="hidden">ES</td>
+                                                                    <th>Due Date</th>
+                                                                    <th>Status</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody class="tbody-Product-list" style="text-align: center;">
+                                                            </tbody>
+                                                        </table>
+
                                                     </div>
 
                                                     <%--<button type="button" class="btn btn-primary btnAddUpdateReq">Start</button>--%>

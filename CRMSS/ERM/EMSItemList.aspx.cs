@@ -1460,6 +1460,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         ArrayList pv = new ArrayList();
 
         List<Summary> oListSummary = new List<Summary>();
+        List<Summary> oListAlternate = new List<Summary>();
 
         pa.Add("@oper");
         pv.Add(2);
@@ -1488,6 +1489,17 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
                     TOTInstallation = dt.Rows[i]["Total Installation Price"].ToString(),
                     Engineering = dt.Rows[i]["Engineering"].ToString(),
                     TestingnCommissioning = dt.Rows[i]["TestnCommision"].ToString(),
+                    AlternateFromItem = dt.Rows[i]["AltItem"].ToString(),
+                    IsOptional= dt.Rows[i]["IsOptional"].ToString()
+                });
+            }
+
+            for (int i = 0; i < ds.Tables[1].Rows.Count; i++)
+            {
+                oListAlternate.Add(new Summary()
+                {
+                    Desc = ds.Tables[1].Rows[i]["ItemDesc"].ToString(),
+                    ItemCode = ds.Tables[1].Rows[i]["ItemCode"].ToString()                    
                 });
             }
         }
@@ -1495,6 +1507,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         return new AllInOneReports()
         {
             listItemSummary = oListSummary,
+            listAlternateItems = oListAlternate
         };
     }
 
@@ -1560,7 +1573,200 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
     //End Summeary Report
 
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<RequestedProducts> GetProductDetails(string ReqID, string UserID)
+    {
 
+        DBHandler DBH = new DBHandler();
+
+        DataSet ds = new DataSet();
+
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+
+
+        pa.Add("@oper");
+        pv.Add("22");
+
+        pa.Add("@RefId");
+        pv.Add(ReqID);
+
+        pa.Add("@userId");
+        pv.Add(UserID);
+
+
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
+        dt = ds.Tables[0];
+
+        List<RequestedProducts> ProduList = new List<RequestedProducts>();
+        for (int i = 0; i < dt.Rows.Count; i++)
+        {
+            ProduList.Add(new RequestedProducts()
+            {
+                ERMReqID = dt.Rows[i]["ReqID"].ToString(),
+                LineID = dt.Rows[i]["ID"].ToString(),
+                ERMNumber = dt.Rows[i]["Number"].ToString(),
+                Remarks = dt.Rows[i]["Remarks"].ToString(),
+                ERMProduct = dt.Rows[i]["Product"].ToString(),
+                EstimationTeam = dt.Rows[i]["EH_EmpNo"].ToString(),
+                Estimator = dt.Rows[i]["Estimator_EmpNo"].ToString(),
+                Status = dt.Rows[i]["EstStatus"].ToString(),
+                StatusClass = dt.Rows[i]["StatusClass"].ToString(),
+                DueDate = dt.Rows[i]["DueDate"].ToString()
+
+            });
+        }
+
+        return ProduList;
+
+
+    }
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<DropDownValues> GetEstimators(string ManagerEmpno, string Product)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add("4");
+
+        pa.Add("@EmpNo");
+        pv.Add(ManagerEmpno);
+
+        pa.Add("@SystemName");
+        pv.Add(Product);
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_FillControls", true, pa, pv);
+
+        List<DropDownValues> drpval = new List<DropDownValues>();
+        dt = ds.Tables[0];
+
+
+
+        for (int i = 0; i < dt.Rows.Count; i++)
+        {
+            drpval.Add(new DropDownValues()
+            {
+                ddlValue = dt.Rows[i]["EmpNo"].ToString(),
+                ddlText = dt.Rows[i]["EmpName"].ToString()
+            });
+        }
+        return drpval;
+        //string a = userId;
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static void SetEstimator(string UserID, string ProductID, string Estimator, string EstHead, string RequestId, string DueDate)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@Oper");
+        pv.Add("1");
+
+        pa.Add("@UserID");
+        pv.Add(UserID);
+
+        pa.Add("@LineID");
+        pv.Add(ProductID);
+        if (Estimator != "")
+        {
+            pa.Add("@Estimator");
+            pv.Add(Estimator);
+        }
+
+        pa.Add("@EH_EmpNo");
+        pv.Add(EstHead);
+
+        pa.Add("@ReqID");
+        pv.Add(RequestId);
+
+        pa.Add("@DueDate");
+        pv.Add(DueDate);
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_EstimationRequestActions", true, pa, pv);
+
+
+    }
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<DropDownValues> GetEstTeamLeaderBasedOnProduct(string UserId, string Product)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add("3");
+
+        pa.Add("@userID");
+        pv.Add(UserId);
+
+        pa.Add("@SystemName");
+        pv.Add(Product);
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_FillControls", true, pa, pv);
+
+        List<DropDownValues> drpval = new List<DropDownValues>();
+        dt = ds.Tables[0];
+
+
+
+        for (int i = 0; i < dt.Rows.Count; i++)
+        {
+            drpval.Add(new DropDownValues()
+            {
+                ddlValue = dt.Rows[i]["EmpNo"].ToString(),
+                ddlText = dt.Rows[i]["EmpName"].ToString()
+            });
+        }
+        return drpval;
+        //string a = userId;
+    }
+    public class DropDownValues
+    {
+        public string ddlValue { get; set; }
+        public string ddlText { get; set; }
+
+
+    }
+    public class RequestedProducts
+    {
+        public string ERMReqID { get; set; }
+        public string LineID { get; set; }
+        public string ERMNumber { get; set; }
+        public string ERMProduct { get; set; }
+        public string Remarks { get; set; }
+        public string EstimationTeam { get; set; }
+        public string Estimator { get; set; }
+
+        public string Status { get; set; }
+        public string StatusClass { get; set; }
+        public string DueDate { get; set; }
+
+
+    }
 
 
     //Models
@@ -1568,6 +1774,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
     {
         public List<Summary> listSummary { get; set; }
         public List<Summary> listItemSummary { get; set; }
+        public List<Summary> listAlternateItems { get; set; }
     }
 
     public class Summary
@@ -1597,6 +1804,8 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         public string TOTInstallation { get; set; }
         public string PipeFittingsUP { get; set; }
         public string TOTPipeFittings { get; set; }
+        public string IsOptional { get; set; }
+        public string AlternateFromItem { get; set; }
 
     }
 

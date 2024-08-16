@@ -1,14 +1,30 @@
-﻿using System;
+﻿
+
+using Newtonsoft.Json;
+using Org.BouncyCastle.Asn1.Ocsp;
+using Org.BouncyCastle.Ocsp;
+using System;
+using System.Activities.Expressions;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
+using System.Web.Query.Dynamic;
+using System.Web.Script.Services;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Security.Principal;
+//using static Export_Opportunity;
 
 public partial class Export_Opportunity : System.Web.UI.Page
 {
@@ -18,11 +34,10 @@ public partial class Export_Opportunity : System.Web.UI.Page
         {
             if (!Page.IsPostBack)
             {
-
+                Page.Title = "E-Connect - Opportunity";
                 hfdSummaryRowCount.Value = "50";
                 BindCompany();
                 BindOwner();
-
                 BindCountry();
 
 
@@ -33,15 +48,11 @@ public partial class Export_Opportunity : System.Web.UI.Page
                 ViewState["SortExp"] = "ASC";
                 if (!string.IsNullOrEmpty(Convert.ToString(Request.QueryString["Data"])))
                 {
-
                     string parametervalue = Request.QueryString["Data"];
-
                     string query = Decrypt(HttpUtility.UrlDecode(Request.QueryString["Data"]));
 
                     FillDetails(query);
                 }
-
-
 
 
                 dvdAdvancedSearch.Visible = false;
@@ -56,6 +67,209 @@ public partial class Export_Opportunity : System.Web.UI.Page
         }
     }
 
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<popupdata> GetOthersOptUpdates(string Opt, string OptId)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable s = new DataTable();
+        DataTable sm = new DataTable();
+        DataTable mo = new DataTable();
+        DataTable ad = new DataTable();
+        DataTable ah = new DataTable();
+        DataTable reqLostData = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add("9");
+
+        pa.Add("@OptNumber");
+        pv.Add(Opt);
+
+        pa.Add("@OptId");
+        pv.Add(OptId);
+
+
+        DBH.CreateDatasetCRMEBSDATA(ds, "SP_ExportAdminCRMOPT", true, pa, pv);
+
+        List<MoreInfor> moreinfo = new List<MoreInfor>();
+        List<Updates> SAUpdates = new List<Updates>();
+        List<Updates> SManUpdates = new List<Updates>();
+        List<ADHistory> AdminHistory = new List<ADHistory>();
+        List<Updates> adminremarks = new List<Updates>();
+        List<RequestLostDetails> requestlostdetails = new List<RequestLostDetails>();
+        //List<Quotation> quotation = new List<Quotation>();
+
+        List<popupdata> popupdata = new List<popupdata>();
+
+        mo = ds.Tables[0];
+        s = ds.Tables[1];
+        sm = ds.Tables[2];
+        ad = ds.Tables[3];
+        ah = ds.Tables[4];       
+        reqLostData = ds.Tables[5];
+
+
+        for (int i = 0; i < mo.Rows.Count; i++)
+        {
+            moreinfo.Add(new MoreInfor()
+            {
+
+                CreatedBy = mo.Rows[i]["CreatedBy"].ToString(),
+                CreatedDate = mo.Rows[i]["CreatedDate"].ToString(),
+                Stage = mo.Rows[i]["Stage"].ToString(),
+                LastUpdatedBy = mo.Rows[i]["LastUpdatedBy"].ToString(),
+                LastUpdatedDate = mo.Rows[i]["LastUpdatedDate"].ToString(),
+
+            });
+        }
+        for (int i = 0; i < s.Rows.Count; i++)
+        {
+            SAUpdates.Add(new Updates()
+            {
+
+                Overview = s.Rows[i]["Overview"].ToString(),
+                Remarks = s.Rows[i]["Remarks"].ToString(),
+                WinPerc = s.Rows[i]["WinPerc"].ToString(),
+                UpdatedBy = s.Rows[i]["UpdatedBy"].ToString(),
+                UpdatedDate = s.Rows[i]["UpdatedDate"].ToString(),
+            });
+        }
+        for (int i = 0; i < sm.Rows.Count; i++)
+        {
+            SManUpdates.Add(new Updates()
+            {
+
+                Overview = sm.Rows[i]["Overview"].ToString(),
+                Remarks = sm.Rows[i]["Remarks"].ToString(),
+                WinPerc = sm.Rows[i]["WinPerc"].ToString(),
+                UpdatedBy = sm.Rows[i]["UpdatedBy"].ToString(),
+                UpdatedDate = sm.Rows[i]["UpdatedDate"].ToString(),
+            });
+        }
+        for (int i = 0; i < ad.Rows.Count; i++)
+        {
+            AdminHistory.Add(new ADHistory()
+            {
+                Name = ad.Rows[i]["Name"].ToString(),
+                Salesman = ad.Rows[i]["Salesman"].ToString(),
+                Stage = ad.Rows[i]["Stage"].ToString(),
+            //    Status = ad.Rows[i]["Status"].ToString(),
+                LastUpdatedBy = ad.Rows[i]["LastUpdatedBy"].ToString(),
+                lastUpdatedDate = ad.Rows[i]["lastUpdatedDate"].ToString(),
+
+
+            });
+        }
+        for (int i = 0; i < ah.Rows.Count; i++)
+        {
+            adminremarks.Add(new Updates()
+            {
+                AdminRemarks = ah.Rows[i]["AdminRemarks"].ToString(),
+                UpdatedBy = ah.Rows[i]["UpdatedBy"].ToString(),
+                UpdatedDate = ah.Rows[i]["UpdatedDate"].ToString(),
+                FileURL = ah.Rows[i]["FileURL"].ToString(),
+            });
+        }
+
+        for (int i = 0; i < reqLostData.Rows.Count; i++)
+        {
+            requestlostdetails.Add(new RequestLostDetails()
+            {
+                OwnerType = reqLostData.Rows[i]["OwnerType"].ToString(),
+                UpdatedBy = reqLostData.Rows[i]["UpdatedBy"].ToString(),
+                LostReason = reqLostData.Rows[i]["LostReason"].ToString(),
+                LostDate = reqLostData.Rows[i]["LostDate"].ToString(),
+                Competitor = reqLostData.Rows[i]["Competitor"].ToString(),
+                CompetitorPrice = reqLostData.Rows[i]["CompetitorPrice"].ToString(),
+                UpdatedDate = reqLostData.Rows[i]["UpdatedDate"].ToString(),
+                Remarks = reqLostData.Rows[i]["Remarks"].ToString(),
+
+
+            });
+        }
+
+        popupdata.Add(new popupdata()
+        {
+            //PTOverView = ptoverview,
+            SAUpdates = SAUpdates,
+            SManUpdates = SManUpdates,
+            MoreInfo = moreinfo,
+            AdminHistory = AdminHistory,
+            Adminremarks = adminremarks,
+            LostOPTRequests = requestlostdetails,
+           
+        });
+
+
+
+
+        return popupdata;
+        //string a = userId;
+    }
+    public class popupdata
+    {
+        public List<Updates> SAUpdates { get; set; }
+        public List<Updates> SManUpdates { get; set; }
+        public List<MoreInfor> MoreInfo { get; set; }
+        public List<ADHistory> AdminHistory { get; set; }
+        public List<Updates> Adminremarks { get; set; }
+        public List<RequestLostDetails> LostOPTRequests { get; set; }
+
+    }
+    public class Updates
+    {
+
+        public string Overview { get; set; }
+        public string Remarks { get; set; }
+        public string WinPerc { get; set; }
+        public string UpdatedBy { get; set; }
+        public string UpdatedDate { get; set; }
+        public string AdminRemarks { get; set; }
+        public string FileURL { get; set; } 
+
+    }
+
+    public class RequestLostDetails
+    {
+        public string OwnerType { get; set; }
+        public string UpdatedBy { get; set; }
+        public string LostReason { get; set; }
+        public string LostDate { get; set; }
+        public string Competitor { get; set; }
+        public string CompetitorPrice { get; set; }
+        public string UpdatedDate { get; set; }
+        public string Remarks { get; set; }
+
+    }
+    public class MoreInfor
+    {
+  
+        public string CreatedBy { get; set; }
+        public string CreatedDate { get; set; }
+        public string Stage { get; set; }
+        public string LastUpdatedBy { get; set; }
+        public string LastUpdatedDate { get; set; }
+
+      
+
+
+    }
+    public class ADHistory
+    {
+        public string Name { get; set; }
+        public string Salesman { get; set; }
+        public string Stage { get; set; }
+      //  public string Status { get; set; }
+        public string LastUpdatedBy { get; set; }
+        public string lastUpdatedDate { get; set; }
+      
+     
+    }
+   
     private string Decrypt(string cipherText)
     {
         string EncryptionKey = "MAKV2SPBNI99212";
@@ -109,6 +323,7 @@ public partial class Export_Opportunity : System.Web.UI.Page
         { }
 
     }
+
     public void BindOwner()
     {
         try
@@ -187,7 +402,6 @@ public partial class Export_Opportunity : System.Web.UI.Page
         catch (Exception s)
         { }
     }
-
 
     protected void lbkAdvanceButton_Click(object sender, EventArgs e)
     {
@@ -278,14 +492,12 @@ public partial class Export_Opportunity : System.Web.UI.Page
         checkForddlSelct();
     }
 
-
     protected void btnManagerClose_Click(object sender, EventArgs e)
     {
         pnlManager.Visible = false;
         BindOwner();
         checkForddlSelct();
     }
-
 
     protected void btnStatusClose_Click(object sender, EventArgs e)
     {
@@ -600,6 +812,7 @@ public partial class Export_Opportunity : System.Web.UI.Page
             DBH.CreateDatasetCRMEBSDATA(ds, "SP_ExportAdminCRMOPT", true, pa, pv);
 
 
+
             if (ds.Tables[0].Rows.Count > 0)
             {
 
@@ -642,6 +855,7 @@ public partial class Export_Opportunity : System.Web.UI.Page
                 ddlStageEdit.SelectedValue = ds.Tables[0].Rows[0]["Stage"].ToString().ToUpper();
                 ddlStatusEdit.SelectedValue = ds.Tables[0].Rows[0]["Status"].ToString();
 
+               
                 try
                 {
 
@@ -653,9 +867,24 @@ public partial class Export_Opportunity : System.Web.UI.Page
                 catch (Exception s)
                 { }
 
+                lbAddrevLine.Visible = true;
+                lbRevenueLostHistory.Visible = true;
+
+                gdvRevUpdate.Visible = true;
+                gdvQuotationUpdate.Visible = false;
+                gdvSOUpdate.Visible = false;
+
 
                 pnlDetailView.Visible = true;
                 pnlSummaryView.Visible = false;
+
+                aRevenue.Attributes["class"] = "active";
+                aQuotation.Attributes["class"] = "";
+                aSalesOrder.Attributes["class"] = "";
+
+                btnRevenue.ForeColor = System.Drawing.Color.White;
+                btnQuotation.ForeColor = System.Drawing.Color.Black;
+                btnSalesOrder.ForeColor = System.Drawing.Color.Black;
 
                 if (ds.Tables[1].Rows.Count > 0)
                 {
@@ -676,24 +905,383 @@ public partial class Export_Opportunity : System.Web.UI.Page
         catch (Exception s)
         { }
     }
+
     protected void ddlOrganization_SelectedIndexChanged(object sender, EventArgs e)
     {
         BindOwner();
     }
 
+    public void BindRelated()
+    {
 
+        int Userid = Convert.ToInt32(Session["UserId"]);
+        DBHandler DBH = new DBHandler();
+        DataTable dt = new DataTable();
+        DataSet ds = new DataSet();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(10);
+
+        pa.Add("@userId");
+        pv.Add(Userid);
+
+        pa.Add("@optNumber");
+        pv.Add(txtOPTNumberEdit.Text.Trim());
+
+        DBH.CreateDatasetCRMEBSDATA(ds, "SP_ExportAdminCRMOPT", true, pa, pv);
+
+        gdvQuotationUpdate.DataSource = ds.Tables[0];
+        gdvQuotationUpdate.DataBind();
+
+        //gdvSOUpdate.DataSource = ds.Tables[0];
+        gdvSOUpdate.DataBind();
+    }
+
+    protected void btnRevenue_Click(object sender, EventArgs e)
+    {
+
+        lbAddrevLine.Visible = true;
+        lbRevenueLostHistory.Visible = true;
+       
+        gdvRevUpdate.Visible = true;
+        gdvQuotationUpdate.Visible = false;
+        gdvSOUpdate.Visible = false;
+
+        aRevenue.Attributes["class"] = "active";
+        aQuotation.Attributes["class"] = "";
+        aSalesOrder.Attributes["class"] = "";
+       
+
+        btnRevenue.ForeColor = System.Drawing.Color.White;
+        btnQuotation.ForeColor = System.Drawing.Color.Black;
+        btnSalesOrder.ForeColor = System.Drawing.Color.Black;
+        
+
+
+    }
+
+    protected void btnQuotation_Click(object sender, EventArgs e)
+    {
+
+        lbAddrevLine.Visible = false;
+        gdvRevUpdate.Visible = false;
+        gdvQuotationUpdate.Visible = true;
+        gdvSOUpdate.Visible = false;
+
+        aRevenue.Attributes["class"] = "";
+        aQuotation.Attributes["class"] = "active";
+        aSalesOrder.Attributes["class"] = "";
+      
+        btnRevenue.ForeColor = System.Drawing.Color.Black;
+        btnQuotation.ForeColor = System.Drawing.Color.White;
+        btnSalesOrder.ForeColor = System.Drawing.Color.Black;
+
+        setQuotation();
+        BindRelated();
+    }
+
+    public void setQuotation()
+    {
+        hfdRelated.Value = "2";
+        hfdDivideValue.Value = "4";
+        gdvQuotationUpdate.Columns[0].Visible = false;
+        gdvQuotationUpdate.Columns[1].Visible = true;
+        gdvQuotationUpdate.Columns[2].Visible = true;
+        gdvQuotationUpdate.Columns[3].Visible = true;
+        gdvQuotationUpdate.Columns[4].Visible = true;
+        gdvQuotationUpdate.Columns[5].Visible = true;
+     
+
+        gdvQuotationUpdate.Columns[1].HeaderText = "Quotation Id";
+        gdvQuotationUpdate.Columns[2].HeaderText = "Quotation Number";
+        gdvQuotationUpdate.Columns[3].HeaderText = "Quotation Date";
+        gdvQuotationUpdate.Columns[4].HeaderText = "Quotation Project Location";
+        gdvQuotationUpdate.Columns[5].HeaderText = "Quotation Type";
+
+    }
+
+    public void setQuotationDetails()
+    {
+
+    }
+
+    protected void gdvQuotationUpdate_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+
+            if (e.CommandName == "View")
+            {
+
+                string _SONumb = (e.CommandArgument).ToString();
+
+                int UserId = Convert.ToInt32(Session["UserId"]);
+                DBHandler DBH = new DBHandler();
+                DataTable dt = new DataTable();
+                DataSet ds = new DataSet();
+                ArrayList pa = new ArrayList();
+                ArrayList pv = new ArrayList();
+
+                pa.Add("@oper");
+                pv.Add(10);
+
+                pa.Add("@userId");
+                pv.Add(UserId);
+
+                pa.Add("@optNo");
+                pv.Add(hfdOptNo.Value);
+
+                if (hfdDivideValue.Value == "3")
+                {
+                    pa.Add("@salesOrder");
+                    pv.Add(_SONumb);
+                }
+                else
+                {
+                    pa.Add("@quotationNo");
+                    pv.Add(_SONumb);
+                }
+
+                DBH.CreateDatasetCRMEBSDATA(ds, "SP_ExportAdminCRMOPT", true, pa, pv);
+
+                if(hfdDivideValue.Value =="3")
+                {
+                    setSalesOrderDetails();
+                }
+                else
+                {
+                    setQuotationDetails();
+                }
+
+                gdvRelatedDetails.DataSource = ds.Tables[0];
+                gdvRelatedDetails.DataBind();
+
+
+
+            }
+
+            else if (e.CommandName == "del")
+            {
+
+                string _ContId = (e.CommandArgument).ToString();
+
+                int UserId = Convert.ToInt32(Session["UserId"]);
+                DBHandler DBH = new DBHandler();
+                DataTable dt = new DataTable();
+                DataSet ds = new DataSet();
+                ArrayList pa = new ArrayList();
+                ArrayList pv = new ArrayList();
+
+                pa.Add("@oper");
+                pv.Add(12);
+
+                pa.Add("@userId");
+                pv.Add(UserId);
+
+                pa.Add("@ContactId ");
+                pv.Add(Convert.ToInt64(_ContId));
+
+                DBH.CreateDatasetCRMEBSDATA(ds, "sp_OpportunityRelated", true, pa, pv);
+
+                BindRelated();
+
+            }
+
+            else if (e.CommandName == "Track")
+            {
+
+                if (!String.IsNullOrEmpty(e.CommandArgument.ToString()))
+                {
+
+                    string query = HttpUtility.UrlEncode(Encrypt(e.CommandArgument.ToString()));
+                    Response.Redirect("../CRMAdmin/Accounts.aspx?Data=" + query, false);
+
+                }
+
+            }
+
+
+
+        }
+        catch (Exception s) { }
+    }
+
+    protected void btnSalesOrder_Click(object sender, EventArgs e)
+    {
+
+        lbAddrevLine.Visible = false;
+        lbRevenueLostHistory.Visible = false;
+
+        gdvRevUpdate.Visible = false;
+        gdvQuotationUpdate.Visible = false;
+        gdvSOUpdate.Visible = true;
+
+        aRevenue.Attributes["class"] = "";
+        aQuotation.Attributes["class"] = "";
+        aSalesOrder.Attributes["class"] = "active";
+
+
+        btnRevenue.ForeColor = System.Drawing.Color.Black;
+        btnQuotation.ForeColor = System.Drawing.Color.Black;
+        btnSalesOrder.ForeColor = System.Drawing.Color.White;
+
+        setSalesOrder();
+        BindRelated();
+
+    }
+
+    public void setSalesOrder()
+    {
+        hfdRelated.Value = "1";
+        hfdDivideValue.Value = "3";
+        gdvSOUpdate.Columns[0].Visible = false;
+        gdvSOUpdate.Columns[1].Visible = true;
+        gdvSOUpdate.Columns[2].Visible = true;
+        gdvSOUpdate.Columns[3].Visible = true;
+        gdvSOUpdate.Columns[4].Visible = true;
+        gdvSOUpdate.Columns[5].Visible = true;
+
+        gdvSOUpdate.Columns[1].HeaderText = "SalesOrder Id";
+        gdvSOUpdate.Columns[2].HeaderText = "Order Number";
+        gdvSOUpdate.Columns[3].HeaderText = "Header Remarks";
+        gdvSOUpdate.Columns[4].HeaderText = "Booked Date";
+        gdvSOUpdate.Columns[5].HeaderText = "SalesOrder Value";
+
+
+
+    }
+
+    protected void gdvSOUpdate_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+        try
+        {
+
+            if (e.CommandName == "View")
+            {
+
+                string _SONumb = (e.CommandArgument).ToString();
+
+                int UserId = Convert.ToInt32(Session["UserId"]);
+                DBHandler DBH = new DBHandler();
+                DataTable dt = new DataTable();
+                DataSet ds = new DataSet();
+                ArrayList pa = new ArrayList();
+                ArrayList pv = new ArrayList();
+
+                pa.Add("@oper");
+                pv.Add(10);
+
+                pa.Add("@userId");
+                pv.Add(UserId);
+
+                pa.Add("@optNo");
+                pv.Add(hfdOptNo.Value);
+
+                if (hfdDivideValue.Value == "3")
+                {
+                    pa.Add("@salesOrder");
+                    pv.Add(_SONumb);
+                }
+                else
+                {
+                    pa.Add("@quotationNo");
+                    pv.Add(_SONumb);
+                }
+
+                DBH.CreateDatasetCRMEBSDATA(ds, "SP_ExportAdminCRMOPT", true, pa, pv);
+
+                if (hfdDivideValue.Value == "3")
+                {
+                    setSalesOrderDetails();
+                }
+                else
+                {
+                    setQuotationDetails();
+                }
+
+                gdvRelatedDetails.DataSource = ds.Tables[0];
+                gdvRelatedDetails.DataBind();
+
+
+            }
+
+            else if (e.CommandName == "del")
+            {
+
+                string _ContId = (e.CommandArgument).ToString();
+
+                int UserId = Convert.ToInt32(Session["UserId"]);
+                DBHandler DBH = new DBHandler();
+                DataTable dt = new DataTable();
+                DataSet ds = new DataSet();
+                ArrayList pa = new ArrayList();
+                ArrayList pv = new ArrayList();
+
+                pa.Add("@oper");
+                pv.Add(12);
+
+                pa.Add("@userId");
+                pv.Add(UserId);
+
+                pa.Add("@ContactId ");
+                pv.Add(Convert.ToInt64(_ContId));
+
+                DBH.CreateDatasetCRMEBSDATA(ds, "sp_OpportunityRelated", true, pa, pv);
+
+                BindRelated();
+
+            }
+
+            else if (e.CommandName == "Track")
+            {
+
+                if (!String.IsNullOrEmpty(e.CommandArgument.ToString()))
+                {
+
+                    string query = HttpUtility.UrlEncode(Encrypt(e.CommandArgument.ToString()));
+                    Response.Redirect("../CRMAdmin/Accounts.aspx?Data=" + query, false);
+
+                }
+
+            }
+
+
+
+        }
+        catch (Exception s) { }
+    }
+    public void setSalesOrderDetails()
+    {      
+
+    }
+
+    protected void lbAddrevLine_Click(object sender, EventArgs e)
+    {
+        hfdOper.Value = "REVITEM";
+        gdvSearchDetails.Columns[1].HeaderText = "PRODUCT";
+        gdvSearchDetails.Columns[2].HeaderText = "TYPE";
+        gdvSearchDetails.Columns[3].Visible = false;
+        gdvSearchDetails.Columns[1].Visible = true;
+        gdvSearchDetails.Columns[2].Visible = true;
+        mpSearch.Show();
+        txtSearchDeatils.Text = "";
+        gdvSearchDetails.DataSource = null;
+        gdvSearchDetails.DataBind();
+    }
+
+    protected void lbRevenueLostHistory_Click(object sender, EventArgs e)
+    {
+        ScriptManager.RegisterStartupScript(this, this.GetType(), "RevenueRequestDet", "RevenueRequestDet('" + txtOPTNumberEdit.Text + "');", true);
+        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "none",
+        "<script>$('#mpShowRevenueLost').modal('show');</script>", false);
+    }
     protected void lbkAddNew_Click(object sender, EventArgs e)
     {
 
         mpAddNewOPT.Show();
     }
-
-
-
-
-
-
-
 
     protected void lbSearchDetails_Click(object sender, EventArgs e)
     {
@@ -853,7 +1441,7 @@ public partial class Export_Opportunity : System.Web.UI.Page
 
             DBH.CreateDatasetCRMEBSDATA(ds, "SP_ExportAdminCRMOPT", true, pa, pv);
 
-            gdvRevUpdate.DataSource = ds.Tables[0];
+            gdvRevUpdate.DataSource = ds.Tables[1];
             gdvRevUpdate.DataBind();
 
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "none",
@@ -886,12 +1474,13 @@ public partial class Export_Opportunity : System.Web.UI.Page
             ddlRevenueStatus.DataTextField = "REVSTATUS";
             ddlRevenueStatus.DataValueField = "REVSTATUS";
             ddlRevenueStatus.DataBind();
-
+           
 
 
 
             string subStage = (e.Row.FindControl("lblSubStage") as Label).Text;
             string revStatus = (e.Row.FindControl("lblRevenueStatus") as Label).Text;
+           
 
             ddlSubStage.Items.FindByValue(subStage).Selected = true;
             ddlRevenueStatus.Items.FindByValue(revStatus).Selected = true;
@@ -975,7 +1564,6 @@ public partial class Export_Opportunity : System.Web.UI.Page
         catch (Exception s)
         { }
     }
-
    
     protected void lbSearchManagerEdit_Click(object sender, EventArgs e)
     {
@@ -990,12 +1578,6 @@ public partial class Export_Opportunity : System.Web.UI.Page
         gdvSearchDetails.DataSource = null;
         gdvSearchDetails.DataBind();
     }
-
-
-
-
-
-   
 
     protected void btnLoadMoreSummary_Click(object sender, EventArgs e)
     {
@@ -1019,13 +1601,13 @@ public partial class Export_Opportunity : System.Web.UI.Page
             }
         }
     }
-  
-  
-    
 
     protected void btnMore_Click(object sender, EventArgs e)
     {
+        ScriptManager.RegisterStartupScript(this, this.GetType(), "othersOPPUpdates", "othersOPPUpdates('" + txtOPTNumberEdit.Text + "','" + hfdOPTID.Value + "')", true);
 
+        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "none",
+         "<script>$('#mpOPPShowhistory').modal('show');</script>", false);
     }
 
     protected void btnStartConv_Click(object sender, EventArgs e)
@@ -1038,13 +1620,6 @@ public partial class Export_Opportunity : System.Web.UI.Page
         pnlSummaryView.Visible = true;
         pnlDetailView.Visible = false;
     }
-
-   
-
-
-
-
-
 
     protected void lblSaveNewOPT_Click(object sender, EventArgs e)
     {
@@ -1178,7 +1753,6 @@ public partial class Export_Opportunity : System.Web.UI.Page
         return true;
     }
 
-
     protected void gdvOPtDetails_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         try
@@ -1295,13 +1869,9 @@ public partial class Export_Opportunity : System.Web.UI.Page
 
         DBH.CreateDatasetCRMEBSDATA(ds, "sp_CRMMediaInfo", true, pa, pv);
 
-        gdvMediInfo.DataSource = ds;
+        //gdvMediInfo.DataSource = ds;
         gdvMediInfo.DataBind();
     }
-
-
-
-
 
     public void SaveMediaInfo(string _refNumber, string _mediName, string _mediaReference, string _mediaURL, string _moreInfo)
     {
@@ -1438,12 +2008,6 @@ public partial class Export_Opportunity : System.Web.UI.Page
 
     }
 
-
-
-
-
-
-
     protected void lbSearchManager_Click(object sender, EventArgs e)
     {
         hfdOper.Value = "EXPORTOWNER";
@@ -1485,9 +2049,6 @@ public partial class Export_Opportunity : System.Web.UI.Page
         gdvSearchDetails.DataSource = null;
         gdvSearchDetails.DataBind();
     }
-
-
-
 
     protected void lbAssistantOwnerEditSearch_Click(object sender, EventArgs e)
     {
@@ -1723,7 +2284,7 @@ public partial class Export_Opportunity : System.Web.UI.Page
             gdvHistory.Columns[4].Visible = true;
 
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "none",
-         "<script>$('#mpShowhistory').modal('show');</script>", false);
+           "<script>$('#mpShowhistory').modal('show');</script>", false);
         }
        // else if (e.CommandName == "Others")
        // {
@@ -1748,7 +2309,6 @@ public partial class Export_Opportunity : System.Web.UI.Page
        // }
     }
 
-
     protected void gdvRevUpdate_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
        
@@ -1761,6 +2321,17 @@ public partial class Export_Opportunity : System.Web.UI.Page
         HiddenField hfdRevenueRowId = gdvRevUpdate.Rows[e.RowIndex].FindControl("hfdRevenueRowId") as HiddenField;
         HiddenField hfdOpportunityNumber = gdvRevUpdate.Rows[e.RowIndex].FindControl("hfdOpportunityNumber") as HiddenField;
 
+        TextBox txtSONumber = gdvRevUpdate.Rows[e.RowIndex].FindControl("txtSONumber") as TextBox;
+        TextBox txtSODate = gdvRevUpdate.Rows[e.RowIndex].FindControl("txtSODate") as TextBox;
+
+        hfdRevRemarks.Value = txtRemarks.Text;
+        hfdRevStatus.Value = ddlRevenueStatus.SelectedValue;
+        hfdRevSubstage.Value = ddlSubStage.SelectedValue;
+        hfdRevVale.Value = lblValue.Text;
+        hfdSoNo.Value = txtSONumber.Text;
+        hfdSoDate.Value = txtSODate.Text;
+        hfdQNo.Value = txtQuotationNumber.Text;
+        hfdQDate.Value = txtQuotationDate.Text;
 
         try
         {
@@ -1798,6 +2369,17 @@ public partial class Export_Opportunity : System.Web.UI.Page
                 pa.Add("@QuotationDate");
                 pv.Add(txtQuotationDate.Text.Trim());
             }
+            if (!String.IsNullOrEmpty(txtSONumber.Text))
+            {
+                pa.Add("@SONumber");
+                pv.Add(txtSONumber.Text.Trim());
+            }
+            if (!String.IsNullOrEmpty(txtSODate.Text))
+            {
+                pa.Add("@SODate");
+                pv.Add(txtSODate.Text.Trim());
+            }
+
 
             pa.Add("@AdminRemarks");
             pv.Add(txtRemarks.Text.Trim());
@@ -1829,5 +2411,68 @@ public partial class Export_Opportunity : System.Web.UI.Page
     protected void gdvRevUpdate_RowEditing(object sender, GridViewEditEventArgs e)
     {
         gdvRevUpdate.EditIndex = e.NewEditIndex;
+        gdvRevUpdate.EditIndex = e.NewEditIndex;
+        if (ViewState["revenueData"] != null)
+        {
+            gdvRevUpdate.DataSource = (DataTable)ViewState["revenueData"];
+            gdvRevUpdate.DataBind();
+        }
     }
+
+    public bool RevUpdateValidation()
+    {
+        if ((hfdRevStatus.Value == "NO_SALE" || hfdRevStatus.Value == "LOST") && hfdRevRemarks.Value == "")
+        {
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "none",
+                  "<script>  toastr.error('Plese Enter Remarks', 'error'); document.getElementById(\"toast-container\").className = \"toast-top-right\";</script>", false);
+            return false;
+        }
+
+        else if (hfdRevStatus.Value == "WON" && Convert.ToDouble(hfdRevVale.Value) <= 0)
+        {
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "none",
+                  "<script>  toastr.error('Plese Enter Valid Value', 'error'); document.getElementById(\"toast-container\").className = \"toast-top-right\";</script>", false);
+            return false;
+        }
+
+        else if (hfdRevStatus.Value == "WON" && hfdSoNo.Value == "" && hfdSoDate.Value == "")
+        {
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "none",
+                  "<script>  toastr.error('Please Enter the Sales Order details', 'error'); document.getElementById(\"toast-container\").className = \"toast-top-right\";</script>", false);
+            return false;
+        }
+
+        else if (hfdRevStatus.Value == "WON" && Convert.ToDouble(hfdRevVale.Value) <= 0)
+        {
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "none",
+                  "<script>  toastr.error('Plese Enter Valid Value', 'error'); document.getElementById(\"toast-container\").className = \"toast-top-right\";</script>", false);
+            return false;
+        }
+
+        else if ((hfdRevSubstage.Value == "LPO" || hfdRevSubstage.Value == "LOI" || hfdRevSubstage.Value == "Contract" || hfdRevSubstage.Value == "Quoted" || hfdRevSubstage.Value == "Hot") && Convert.ToDouble(hfdRevVale.Value) <= 0)
+        {
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "none",
+                 "<script>  toastr.error('Plese Enter Valid Value', 'error'); document.getElementById(\"toast-container\").className = \"toast-top-right\";</script>", false);
+            return false;
+        }
+
+        else if (hfdRevSubstage.Value == "Quoted" && hfdQNo.Value == "" && hfdQDate.Value == "")
+        {
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "none",
+                 "<script>  toastr.error('Plese Enter the Quotation details', 'error'); document.getElementById(\"toast-container\").className = \"toast-top-right\";</script>", false);
+            return false;
+        }
+
+        else if ((hfdRevSubstage.Value == "Estimation" || hfdRevSubstage.Value == "Not Quoted") && Convert.ToDouble(hfdRevVale.Value) != 0)
+        {
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "none",
+                "<script>  toastr.error('The Value should Not be There', 'error'); document.getElementById(\"toast-container\").className = \"toast-top-right\";</script>", false);
+            return false;
+        }
+
+        return true;
+    }
+
+
 }
+

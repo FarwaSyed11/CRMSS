@@ -283,6 +283,8 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
             ind.SalesStageName = dt.Rows[i]["SalesStageName"].ToString();
             ind.MarketingId = dt.Rows[i]["MarketingId"].ToString();
             ind.PlotNo = dt.Rows[i]["PlotNo"].ToString();
+            ind.Owner = dt.Rows[i]["Salesman"].ToString();
+            ind.Marketing = dt.Rows[i]["Marketing"].ToString();
 
             listProjDet.Add(ind);
         }
@@ -553,7 +555,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static string GetRefNumb(string OptNo,string Type)
+    public static string GetRefNumb(string OptNo,string Type, string SalesmanID)
     {
 
         DBHandler DBH = new DBHandler();
@@ -571,7 +573,8 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         pa.Add("@Type");
         pv.Add(Type);
 
-
+        pa.Add("@OwnerId");
+        pv.Add(SalesmanID);
 
 
 
@@ -1227,6 +1230,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
                 Estimator = dt.Rows[i]["Estimator_EmpNo"].ToString(),
                 Status = dt.Rows[i]["EstStatus"].ToString(),
                 StatusClass = dt.Rows[i]["StatusClass"].ToString(),
+                DueDate = dt.Rows[i]["DueDate"].ToString()
 
             });
         }
@@ -1508,7 +1512,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static void SetEstimator(string UserID, string ProductID, string Estimator, string EstHead, string RequestId)
+    public static void SetEstimator(string UserID, string ProductID, string Estimator, string EstHead, string RequestId,string DueDate)
     {
 
         DBHandler DBH = new DBHandler();
@@ -1535,7 +1539,10 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         pv.Add(EstHead);
 
         pa.Add("@ReqID");
-        pv.Add(RequestId);
+        pv.Add(RequestId); 
+        
+        pa.Add("@DueDate");
+        pv.Add(DueDate);
 
 
         DBH.CreateDatasetERM_Data(ds, "sp_EstimationRequestActions", true, pa, pv);
@@ -1671,7 +1678,65 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
     }
 
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<TaskSummary> GetTaskSummary(string EmpNo)
+    {
 
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@Oper");
+        pv.Add(0);
+
+        pa.Add("@EmpNo");
+        pv.Add(EmpNo);
+        
+        //pa.Add("@RoleID");
+        //pv.Add(RoleID);
+
+        DBH.CreateDatasetERM_Data(ds, "sp_Performance", true, pa, pv);
+
+        List<TaskSummary> TaskSummary = new List<TaskSummary>();
+
+        dt = ds.Tables[0];
+
+
+        for (int i = 0; i < dt.Rows.Count; i++)
+        {
+            TaskSummary.Add(new TaskSummary()
+            {
+                EmpNo = dt.Rows[i]["EmpNo"].ToString(),
+                DueDate = dt.Rows[i]["DueDate"].ToString(),
+                Assigned = dt.Rows[i]["Assigned"].ToString(),
+                Pending = dt.Rows[i]["Pending"].ToString(),
+            });
+        }
+
+        return TaskSummary;
+
+
+
+    }
+
+    public class TaskSummary
+    {
+        public string EmpName { get; set; }
+        public string Assigned { get; set; }
+        public string DueDate { get; set; }
+        public string Product { get; set; }
+        public string CreatedDate { get; set; }
+        public string EmpNo { get; set; }
+        public string Pending { get; set; }
+
+
+
+
+    }
     public class ApprovaStatuslList
     {
         public string Role { get; set; }
@@ -1705,6 +1770,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
         public string Status { get; set; }
         public string StatusClass { get; set; }
+        public string DueDate { get; set; }
 
 
     }

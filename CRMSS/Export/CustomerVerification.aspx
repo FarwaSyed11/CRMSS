@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="CustomerVerification.aspx.cs" Inherits="Export_CustomerVerification" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="CustomerVerification.aspx.cs" Inherits="Export_CustomerVerification" %>
 
 
 

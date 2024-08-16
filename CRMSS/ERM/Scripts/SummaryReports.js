@@ -3,6 +3,7 @@
 var listSummaryReports = [];
 var listItemViseReports = [];
 var AllItemCategory = [];
+var listAlternateItems = [];
 function summaryThead() {
 
     var summaryTheadd = ``;
@@ -104,6 +105,7 @@ function ItemviseReports() {
         success: function (result) {
             listItemViseReports = [];
             listItemViseReports = result.d.listItemSummary;
+            listAlternateItems = result.d.listAlternateItems;
 
             var distSystems = listItemViseReports.map(ss => ss.Name).filter((value, index, self) => self.indexOf(value) === index);
             var htmLi = '';
@@ -221,8 +223,10 @@ function strItemDeets(item) {
         var res = listItemViseReports.filter(x => x.Category == AllItemCategory[i] && x.Name == item);
 
         htm += `<tbody><tr><td><b>` + (i + 1) + `. ` + res[0].Category + `</b></td></tr>`
+        let isOpt = '';
         $.each(res, function (k, sysItem) {
-            
+            isOpt = sysItem.IsOptional == 'True' ? '<span>(Optional)</span>' : '';
+
             if ($.trim(sysItem) == "" || $.trim(sysItem) == "null" || $.trim(sysItem) == null || $.trim(sysItem) == undefined) {
                 $.trim(sysItem) = `-`;
             }
@@ -233,14 +237,14 @@ function strItemDeets(item) {
                                 <path d="m17.524 17.524l-2.722 2.723a2.567 2.567 0 0 1-3.634 0L4.13 13.209A3.852 3.852 0 0 1 3 10.487V5.568A2.568 2.568 0 0 1 5.568 3h4.919c1.021 0 2 .407 2.722 1.13l7.038 7.038a2.567 2.567 0 0 1 0 3.634z" />
                                 <path d="M9.126 11.694a2.568 2.568 0 1 0 0-5.137a2.568 2.568 0 0 0 0 5.137m3.326 4.392l3.634-3.634" />
                             </g>
-                        </svg></span>
+                        </svg></span> `+ isOpt + ` <div>` + getAlternateItemsDetReport(1, sysItem.AlternateFromItem, listAlternateItems) +`</div>
                     </td>
-                    <td>`+ sysItem.Desc + `</td>
-                    <td>`+ parseInt(sysItem.Quantity) + `</td>
-                    <td class="text-center">`+ numberWithCommas(parseInt(sysItem.PipeFittingsUP)) + `</td>
-                    <td class="text-center">`+ numberWithCommas(parseInt(sysItem.TOTPipeFittings)) + `</td>
-                    <td class="text-center">`+ numberWithCommas(parseInt(sysItem.Installation)) + `</td>
-                    <td class="text-center">`+ numberWithCommas(parseInt(sysItem.TOTInstallation)) + `</td>
+                    <td>`+ sysItem.Desc + `. <div style="margin-top: 12px;">` + getAlternateItemsDetReport(2, sysItem.AlternateFromItem, listAlternateItems) +`</div></td>
+                    <td>`+ parseInt(sysItem.Quantity) +`</td>
+                    <td class="text-center">`+  numberWithCommas(parseInt(sysItem.PipeFittingsUP)) + `</td>
+                    <td class="text-center">`+  numberWithCommas(parseInt(sysItem.TOTPipeFittings)) + `</td>
+                    <td class="text-center">`+  numberWithCommas(parseInt(sysItem.Installation))   + `</td>
+                    <td class="text-center">`+  numberWithCommas(parseInt(sysItem.TOTInstallation)) + `</td>
                     <td class="text-center">`+ numberWithCommas((parseInt(sysItem.TOTInstallation) + parseInt(sysItem.TOTPipeFittings))) + `</td></tr>
                     `
             totpf = (parseInt(sysItem.TOTPipeFittings) == undefined ? 0 : parseInt(sysItem.TOTPipeFittings)) + parseInt(totpf);
@@ -257,6 +261,31 @@ function strItemDeets(item) {
     return htm;
   
 }
+
+function getAlternateItemsDetReport(col, itmcode, listAlternateItems) {
+    var htm = '';
+
+    if (listAlternateItems.length > 0) {
+        var res = listAlternateItems.filter(s => s.ItemCode == itmcode)
+        if (res.length > 0) {
+            if (col == 1) {
+                htm = `<span class="badge badge-alternate fs-6 mt-1">` + res[0].ItemCode + ` <svg class="" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
+                                         <g fill="none" stroke="#a92828" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                                             <path d="m17.524 17.524l-2.722 2.723a2.567 2.567 0 0 1-3.634 0L4.13 13.209A3.852 3.852 0 0 1 3 10.487V5.568A2.568 2.568 0 0 1 5.568 3h4.919c1.021 0 2 .407 2.722 1.13l7.038 7.038a2.567 2.567 0 0 1 0 3.634z" />
+                                             <path d="M9.126 11.694a2.568 2.568 0 1 0 0-5.137a2.568 2.568 0 0 0 0 5.137m3.326 4.392l3.634-3.634" />
+                                         </g>
+                                     </svg> </span> <span> (Alternate)</span>`
+            }
+            else if (col == 2) {
+                htm = `<span>` + res[0].Desc + `</span>`
+            }
+        }
+
+    }
+
+    return htm;
+}
+
 function summaryHTMLfooter(Engineering, TestnComm, allTOT) {
     htmTfooter = `<tr><table><div class="float-right w-50" style="font-size:14px">
                         <div class=""><label class="border w-50 m-0 p-3">Engineering</label> <label class="border w-50 p-3 m-0 float-right">`+ numberWithCommas(Engineering) + ` </label></div>

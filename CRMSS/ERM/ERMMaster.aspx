@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="ERMMaster.aspx.cs" Inherits="ERM_ERMMaster" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="ERMMaster.aspx.cs" Inherits="ERM_ERMMaster" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -10,11 +10,10 @@
     <link href="../KPI/Flatpickr/css/_flatpickr.css" rel="stylesheet" />
 
     <style type="text/css">
-       
-    .centerforall {
-        text-align: -webkit-center;
-        text-align: -moz-center;
-    }
+        .centerforall {
+            text-align: -webkit-center;
+            text-align: -moz-center;
+        }
         /*.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
             color: #bf242c !important;
             border-bottom: 4px solid #bf242c !important;
@@ -118,18 +117,19 @@
             border-top-left-radius: 0.3rem;
             border-top-right-radius: 0.3rem;
         }
+
         .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 1050;
-    display: none;
-    width: 100%;
-    height: 100%;
-    overflow-x: hidden;
-    overflow-y: auto !important;
-    outline: 0;
-}
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1050;
+            display: none;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto !important;
+            outline: 0;
+        }
 
         #DataTables_Table_0_paginate .current {
             color: white !important;
@@ -343,32 +343,32 @@
         }
 
 
-               input[type="radio"] {
-	appearance: none;
-	-webkit-appearance: none;
-	width: 20px;
-	height: 20px;
-	border: 1px solid #ff8318;
-	border-radius: 50%;
-	margin-right: 10px;
-	background-color: transparent;
-	position: relative;
-	top: 6px;
-}
+        input[type="radio"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 1px solid #ff8318;
+            border-radius: 50%;
+            margin-right: 10px;
+            background-color: transparent;
+            position: relative;
+            top: 6px;
+        }
 
-      input[type="radio"]:checked::before {
-	content: "";
-	display: block;
-	width: 12px;
-	height: 12px;
-	background-color: #ca8489;
-	border-radius: 50%;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	animation: appear 0.8s;
-}
+            input[type="radio"]:checked::before {
+                content: "";
+                display: block;
+                width: 12px;
+                height: 12px;
+                background-color: #ca8489;
+                border-radius: 50%;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                animation: appear 0.8s;
+            }
 
         .form-check-input:checked, .form-check-input[type=checkbox]:indeterminate {
             background-color: #ff7835 !important;
@@ -393,7 +393,7 @@
             opacity: 1.5;
         }
 
-       /* .tbody-ERMRequest .ibtn-Request-Details:hover {
+        /* .tbody-ERMRequest .ibtn-Request-Details:hover {
             content: url("images/output-onlinegiftools.gif");
         }*/
 
@@ -657,7 +657,7 @@
                                 </div>
                             </div>
 
-                          
+
                         </div>
 
                         <div class="row mt-4" style="">
@@ -823,25 +823,25 @@
                             </div>
                             <div class="row justify-content-center">
                                 <div class="d-flex rounded  col-1 p-3 m-2 text-center">
-                                    
+
                                     <img src="images/icons8-submi-progress.png" id="btnSubmitOptDet" title="Submit" class="fa-icon-hover submit-button" style="cursor: pointer; width: 50px;" />
                                 </div>
                             </div>
 
                             <div style="width: 100%;">
-                                  <div style="float:right">
-                              <button type="button" class="btn btn-success btnMoreReq me-3" style="float: right; margin-left: 5px;"><i class="bx bxs-check-circle"></i>Ask More Info</button>
-                          </div>
-                                                          <div style="float:right">
-                            <button type="button" class="btn btn-success btnAssign me-3" style="float: right; margin-left: 5px;"><i class="bx bxs-check-circle"></i>Assign</button>
-                        </div>
-                              
-                                                         <div style="float:right">
-                                                            <select id="ddlEstimationHead" value="" class="form-control" style="float: right; margin-left: 5px;min-width:200px"></select>
+                                <div style="float: right">
+                                    <button type="button" class="btn btn-success btnMoreReq me-3" style="float: right; margin-left: 5px;"><i class="bx bxs-check-circle"></i>Ask More Info</button>
+                                </div>
+                                <div style="float: right">
+                                    <button type="button" class="btn btn-success btnAssign me-3" style="float: right; margin-left: 5px;"><i class="bx bxs-check-circle"></i>Assign</button>
+                                </div>
 
-                                                        </div>
-                                
-                                  
+                                <div style="float: right">
+                                    <select id="ddlEstimationHead" value="" class="form-control" style="float: right; margin-left: 5px; min-width: 200px"></select>
+
+                                </div>
+
+
 
                                 <div>
                                     <button type="button" class="btn btn-success btnSubmitRequest me-3" style="float: right; margin-left: 5px;"><i class="bx bxs-save"></i>Submit</button>
@@ -894,6 +894,13 @@
                                     <div>
                                         <a href="#" id="btnNewAddProduct" class="btn btn-primary pull-right"><i class="fa fa-plus me-2" aria-hidden="true"></i>Add New</a>
                                     </div>
+                                    <div>
+                                        <a href="#" id="showWorkLoad" class="btn btn-primary pull-right">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24" class="fa-icon-hover me-2">
+                                                <path fill="#fff" d="m19.65 20.35l.7-.7l-1.85-1.85V15h-1v3.2zM10 6h4V4h-4zm8 17q-2.075 0-3.537-1.463T13 18t1.463-3.537T18 13t3.538 1.463T23 18t-1.463 3.538T18 23M4 21q-.825 0-1.412-.587T2 19V8q0-.825.588-1.412T4 6h4V4q0-.825.588-1.412T10 2h4q.825 0 1.413.588T16 4v2h4q.825 0 1.413.588T22 8v4.275q-.875-.625-1.9-.95T18 11q-2.9 0-4.95 2.05T11 18q0 .775.163 1.538T11.675 21z" />
+                                            </svg>Team Work Load
+                                        </a>
+                                    </div>
                                     <div style="padding-top: 2%">
 
                                         <table class="table Product-list-table" style="width: 100%;">
@@ -907,6 +914,7 @@
                                                     <td class="hidden">EH</td>
                                                     <th>Estimator</th>
                                                     <td class="hidden">ES</td>
+                                                    <th>Due Date</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -1011,16 +1019,16 @@
 
 
 
-                    </div>
-
-
                 </div>
-                <%--  <div class="modal-footer">
+
+
+            </div>
+            <%--  <div class="modal-footer">
                  <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
                  <button type="button" class="btn btn-primary">Save changes</button>
                </div>--%>
-            </div>
         </div>
+    </div>
     </div>
 
     <div class="modal fade" id="ModalProductAdd" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
@@ -1354,7 +1362,7 @@
         </div>
     </div>
 
-   
+
 
     <div class="modal fade" id="ModalContact" tabindex="-2" aria-hidden="true" style="background-color: #13131466" data-bs-backdrop="static">
         <div class="modal-dialog modal-xl" role="document">
@@ -1613,12 +1621,41 @@
         </div>
     </div>
 
+    <%-- modal task information details --%>
 
+    <div class="modal fade" id="modalWorkLoad" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document" style="max-width: 95%;">
+            <div class="modal-content" <%-- style="background: antiquewhite;"--%>>
+                <div class="modal-header">
+                    <h5 class="modal-title">Team Work Load</h5>
+                    <button type="button" class="btn-close btn-close-proj-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div style="margin-top: 3%;">
+                        <div class="table-responsive" style="margin-top: 1%; width: 100%;">
+                            <table class="table table-WL-Details tableHeading" style="width: 100%;">
+                                <thead>
+                                    <tr style="text-align: center;">
+                                        <th>Emp No</th>
+                                        <th>Due Date</th>
+                                        <th>Assigned</th>
+                                        <th>Pending</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="tbody-WL-details" style="text-align: center;">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
     <script type="text/javascript">
         var currUserId = '';
         var EmpNo = '';
-        var myrole = '';
         var myrole = '';
         var overAllPerfo = 0;
         $(document).ready(function () {
@@ -1653,18 +1690,18 @@
     <script src="../FacilityManagement/Datatable/js/buttons.print.min.js"></script>
 
     <!-- Page JS/CSS file -->
-    <script src="Scripts/ERMMaster.js?v=5"></script>
-   <%-- <link href="css/quotation.css" rel="stylesheet" />--%>
+    <script src="Scripts/ERMMaster.js?v=6"></script>
+    <%-- <link href="css/quotation.css" rel="stylesheet" />--%>
     <link href="Css/EMSStyle.css" rel="stylesheet" />
 
     <!-- Select/Multiselect Dropdown JS/CSS file -->
-  <%--  <link href="../Calendar/dist/select2.css" rel="stylesheet" />
+    <%--  <link href="../Calendar/dist/select2.css" rel="stylesheet" />
     <script src="../Calendar/dist/select2.js"></script>--%>
     <script src="script/multiple-select.js"></script>
     <link href="../SiteSurvey/Assets/Css/multiple-select.css" rel="stylesheet" />
 
-      <script src="Assets/Js/multiple-select.js"></script>
-      <link href="../sitesurvey/Assets/Css/multiple-select.css" rel="stylesheet" />
+    <script src="Assets/Js/multiple-select.js"></script>
+    <link href="../sitesurvey/Assets/Css/multiple-select.css" rel="stylesheet" />
 
 
 </asp:Content>
