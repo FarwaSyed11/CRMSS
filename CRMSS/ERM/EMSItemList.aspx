@@ -11,6 +11,11 @@
     <link rel="stylesheet" href="../Template/assets/vendor/libs/richtexteditor/richtext.css" />
 
     <style type="text/css">
+        .badge-optional {
+            color: #fff;
+            background-color: #d17952a6;
+        }
+
         .dt-buttons {
             float: right !important;
             margin-right: 20px !important;
@@ -156,6 +161,7 @@
         .rrf-table .Head-tr {
             background: repeating-linear-gradient( 180deg, #bf1010, #000000 100px) !important;
         }
+
         .rrf-table th {
             text-align: center;
             color: white !important;
@@ -211,7 +217,7 @@
         .sub-tabl-bg {
             background-color: #faa46d96 !important;
         }
-        
+
         .nav-tabs .nav-link.active {
             font-size: 15px !important;
             color: #9d0000a3 !important;
@@ -334,7 +340,7 @@
             <div class="card-body" style="margin-top: -1%;">
                 <div class="row mb-3">
                     <div class="d-flex col-md-3 ">
-                       <%-- <div class="">
+                        <%-- <div class="">
                             <label for="html5-number-input" class="col-form-label label-custom">Estimation Status</label>
                         </div>--%>
                         <div class="input-group">

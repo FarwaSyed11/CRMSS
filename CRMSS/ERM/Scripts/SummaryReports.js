@@ -137,6 +137,7 @@ function ItemviseReports() {
                                                     <th class="align-middle">Item Code</th>
                                                     <th class="align-middle">Description</th>
                                                     <th class="align-middle">Qty</th>
+                                                    <th class="align-middle">Spare</th>
                                                     <th class="text-center">Pipes & Fittings Unit Price</th>
                                                     <th class="text-center">Total Pipes & Fittings</th>
                                                     <th class="text-center">Installation Unit Price</th>
@@ -168,6 +169,7 @@ function ItemviseReports() {
                                                     <th class="align-middle">Item Code</th>
                                                     <th class="align-middle">Description</th>
                                                     <th class="align-middle">Qty</th>
+                                                    <th class="align-middle">Spare</th>
                                                     <th class="text-center">Pipes & Fittings Unit Price</th>
                                                     <th class="text-center">Total Pipes & Fittings</th>
                                                     <th class="text-center">Installation Unit Price</th>
@@ -224,15 +226,17 @@ function strItemDeets(item) {
 
         htm += `<tbody><tr><td><b>` + (i + 1) + `. ` + res[0].Category + `</b></td></tr>`
         let isOpt = '';
+        let optcls = '';
         $.each(res, function (k, sysItem) {
             isOpt = sysItem.IsOptional == 'True' ? '<span>(Optional)</span>' : '';
+            optcls = sysItem.Isoptional == 'True' ? 'badge badge-optional' : 'badge badge-dark';
 
             if ($.trim(sysItem) == "" || $.trim(sysItem) == "null" || $.trim(sysItem) == null || $.trim(sysItem) == undefined) {
                 $.trim(sysItem) = `-`;
             }
             htm += `<tr>
                     <td></td>
-                    <td> <span class="badge badge-dark fs-6">`+ sysItem.ItemCode + ` <svg class="" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
+                    <td> <span class="` + optcls + ` fs-6">`+ sysItem.ItemCode + ` <svg class="" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
                             <g fill="none" stroke="#a92828" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
                                 <path d="m17.524 17.524l-2.722 2.723a2.567 2.567 0 0 1-3.634 0L4.13 13.209A3.852 3.852 0 0 1 3 10.487V5.568A2.568 2.568 0 0 1 5.568 3h4.919c1.021 0 2 .407 2.722 1.13l7.038 7.038a2.567 2.567 0 0 1 0 3.634z" />
                                 <path d="M9.126 11.694a2.568 2.568 0 1 0 0-5.137a2.568 2.568 0 0 0 0 5.137m3.326 4.392l3.634-3.634" />
@@ -240,7 +244,9 @@ function strItemDeets(item) {
                         </svg></span> `+ isOpt + ` <div>` + getAlternateItemsDetReport(1, sysItem.AlternateFromItem, listAlternateItems) +`</div>
                     </td>
                     <td>`+ sysItem.Desc + `. <div style="margin-top: 12px;">` + getAlternateItemsDetReport(2, sysItem.AlternateFromItem, listAlternateItems) +`</div></td>
+                    
                     <td>`+ parseInt(sysItem.Quantity) +`</td>
+                    <td>`+ parseInt(sysItem.Spare) +`</td>
                     <td class="text-center">`+  numberWithCommas(parseInt(sysItem.PipeFittingsUP)) + `</td>
                     <td class="text-center">`+  numberWithCommas(parseInt(sysItem.TOTPipeFittings)) + `</td>
                     <td class="text-center">`+  numberWithCommas(parseInt(sysItem.Installation))   + `</td>

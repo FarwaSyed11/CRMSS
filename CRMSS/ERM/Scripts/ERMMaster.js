@@ -2374,7 +2374,7 @@ function RequestedProductDetails() {
                 let EstimationHead = item.children[4].textContent.trim();
                 let Estimator = item.children[6].textContent.trim();
                 GetEstTeamLeaderForProduct(ddlname, item.children[1].textContent.trim());
-                GetEstimatorForProduct(ddlEstimator, item.children[1].textContent.trim(), EstimationHead);
+                GetEstimatorForProduct(ddlEstimator, item.children[6].textContent.trim(), EstimationHead);
                 $("#" + ddlname + "").val(EstimationHead);
                 if (Estimator != "") {
                     $("#" + ddlEstimator + "").val(Estimator);

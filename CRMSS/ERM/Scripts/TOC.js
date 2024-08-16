@@ -631,8 +631,8 @@ function getSystemsNItems() {
                                                             <table class="table project-table" style="width: 100%;">
                                                                 <thead style="position: sticky; top: -3px;">
                                                                     <tr class="Head-tr">                                                                        
-                                                                        <th>Item Code</th>
-                                                                        <th>Item Desc</th>
+                                                                        <th style="width:240px">Item Code</th>
+                                                                        <th style="width: 889px;">Item Desc</th>
                                                                         <th>Quantity</th>`
                     if (res[0].Category == "PIPES") {
                         htm += `<th>Pipe Unit Price</th>
@@ -648,23 +648,24 @@ function getSystemsNItems() {
                     let isOpt = '';
                     $.each(res, function (k,CatItem) {
                         isOpt = CatItem.Isoptional == 'True' ? '<span>(Optional)</span>' : '';
+                        let optcls = CatItem.Isoptional == 'True' ? 'badge badge-optional' : 'badge badge-dark';
+                        htm += `<tr>` 
 
-                        htm += `<tr>                                                                                        
-                                  <td> <span class="badge badge-dark fs-6">`+ CatItem.ItemCode +` <svg class="" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
+                        htm += `<td> <span class="` + optcls + ` fs-6">` + CatItem.ItemCode +` <svg class="" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
                                          <g fill="none" stroke="#a92828" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
                                              <path d="m17.524 17.524l-2.722 2.723a2.567 2.567 0 0 1-3.634 0L4.13 13.209A3.852 3.852 0 0 1 3 10.487V5.568A2.568 2.568 0 0 1 5.568 3h4.919c1.021 0 2 .407 2.722 1.13l7.038 7.038a2.567 2.567 0 0 1 0 3.634z" />
                                              <path d="M9.126 11.694a2.568 2.568 0 1 0 0-5.137a2.568 2.568 0 0 0 0 5.137m3.326 4.392l3.634-3.634" />
                                          </g>
                                      </svg></span> `+ isOpt + `<div>` + getAlternateItemsDet(1, CatItem.AlternateFromItem, listAlternateItems) +`</div></td>                
                                   <td> `+ CatItem.ItemDesc + `. <div style="margin-top: 22px;">` + getAlternateItemsDet(2, CatItem.AlternateFromItem, listAlternateItems) +`</div></td>                                                                      
-                                  <td> `+ CatItem.Quantity + `<div style="margin-top: 22px;"> ` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.Quantity : "") +`</div></td>`
+                                  <td> `+ numberWithCommas(parseInt(CatItem.Quantity)) + `<div style="margin-top: 22px;"> ` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.Quantity : "") +`</div></td>`
                         if (res[0].Category == "PIPES") {
-                            htm += `<td> ` + CatItem.PipeUnitPrice + `<div style="margin-top: 22px;"> ` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.PipeUnitPrice : "") +`</div></td>
-                                    <td> `+ CatItem.FittingsPerc + `<div style="margin-top: 22px;">` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.FittingsPerc : "") +`</div></td > 
-                                    <td> `+ CatItem.InstallUnitPrice + `<div style="margin-top: 22px;">` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.InstallUnitPrice : "") +`</div></td>`                                    
+                            htm += `<td> ` + numberWithCommas(parseInt(CatItem.PipeUnitPrice)) + `<div style="margin-top: 22px;"> ` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.PipeUnitPrice : "") +`</div></td>
+                                    <td> `+ numberWithCommas(parseInt(CatItem.FittingsPerc)) + `<div style="margin-top: 22px;">` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.FittingsPerc : "") +`</div></td > 
+                                    <td> `+ numberWithCommas(parseInt(CatItem.InstallUnitPrice)) + `<div style="margin-top: 22px;">` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.InstallUnitPrice : "") +`</div></td>`                                    
                         } 
 
-                        htm += `<td> ` + CatItem.SpareQuantity + `<div style="margin-top: 22px;"> ` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.SpareQuantity : "") +`</div></td>`
+                        htm += `<td> ` + numberWithCommas(parseInt(CatItem.SpareQuantity)) + `<div style="margin-top: 22px;"> ` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.SpareQuantity : "") +`</div></td>`
                         if (selReqObj[0].EstimationStatus.toUpperCase() != "RELEASED") {
                             htm += `<td> <a class="ibtn-addfloor-into-items" title="Add Floors" data-estiid="` + CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `"> <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 24 24" onclick="openAddFloorModal(` + CatItem.EstiLineId + `,` + CatItem.ItemCode + `,'` + CatItem.Category + `')">
                                               <path fill="#a92828" d="M12 9v2h2v2h-2v2h2v2h-2v2h4v-4h4V9zm6 4h-2v-2h2z" opacity="0.3" />
@@ -1162,6 +1163,7 @@ function AddEngrnCommision(pSysName) {
         success: function (result) {
             toastr.success("Updated successfully", '');
             $("#engrNTestCommisoinModal").modal('hide');
+            getSystemsNItems();
         },
         error: function (errormessage) {
             alert(errormessage.responseText);

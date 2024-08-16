@@ -1535,7 +1535,8 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
                     Engineering = dt.Rows[i]["Engineering"].ToString(),
                     TestingnCommissioning = dt.Rows[i]["TestnCommision"].ToString(),
                     AlternateFromItem = dt.Rows[i]["AltItem"].ToString(),
-                    IsOptional= dt.Rows[i]["IsOptional"].ToString()
+                    IsOptional= dt.Rows[i]["IsOptional"].ToString(),
+                    Spare = dt.Rows[i]["Spare"].ToString(),
                 });
             }
 
@@ -1857,6 +1858,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         public string TOTPipeFittings { get; set; }
         public string IsOptional { get; set; }
         public string AlternateFromItem { get; set; }
+        public string Spare { get; set; }
 
     }
 
