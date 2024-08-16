@@ -471,7 +471,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
     <div class="card" style="margin-top: 1%; width: 97%; left: 1.5%;">
-        <div class="card-body"></div>
+
         <div style="">
             <h5 style="">Estimation List</h5>
         </div>
@@ -485,8 +485,9 @@
             <div class="col-md-2">
                 <select id="ddlFilterStatus" class="form-select color-dropdown">
                     <option value="-1">All</option>
-                    <option value="PENDING FOR APPROVAL" selected>Pending For Approval</option>
-                    <option value="UNDER ESTIMATION">Under Estimation</option>
+                   
+                    <option value="UNDER ESTIMATION" selected>Under Estimation</option>
+                     <option value="PENDING FOR APPROVAL" >Pending For Approval</option>
                     <%--<option value="ESTIMATED" >Completed</option>--%>
                     <option value="RELEASED">Released</option>
                     <option value="REJECTED">Rejected</option>
@@ -545,6 +546,31 @@
                     </div>
 
                     <h5 class="modal-title" id="addReqModalLabel">Create Estimation</h5>
+                    <div style="display: flex;justify-content: flex-end;width: 45%;">
+    <button type="button" class="btn btn-success btn-approve-req mr-2" onclick="ChangeRequestStatus('RELEASED')">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="1.5rem" height="1.5rem" viewBox="0 0 300 300">
+                                                            <g fill="#f8f8f8" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+                                                                <g transform="scale(5.12,5.12)">
+                                                                    <path d="M25,2c-12.683,0 -23,10.317 -23,23c0,12.683 10.317,23 23,23c12.683,0 23,-10.317 23,-23c0,-4.56 -1.33972,-8.81067 -3.63672,-12.38867l-1.36914,1.61719c1.895,3.154 3.00586,6.83148 3.00586,10.77148c0,11.579 -9.421,21 -21,21c-11.579,0 -21,-9.421 -21,-21c0,-11.579 9.421,-21 21,-21c5.443,0 10.39391,2.09977 14.12891,5.50977l1.30859,-1.54492c-4.085,-3.705 -9.5025,-5.96484 -15.4375,-5.96484zM43.23633,7.75391l-19.32227,22.80078l-8.13281,-7.58594l-1.36328,1.46289l9.66602,9.01563l20.67969,-24.40039z"></path>
+                                                                </g>
+                                                            </g>
+                                                        </svg>
+                                                        Release</button>
+
+                                                    <button type="button" class="btn btn-danger btn-rej-req mr-2" onclick="ChangeRequestStatus('REJECTED')">
+                                                        <i class="bx bx-x" style="font-size: 1.5rem;"></i>
+                                                        Reject</button>
+                                                         <span style="border: 1px solid #cbcbcb; margin-right: 7px;"></span>
+
+<button type="button" class="btn btn-primary btn-submit-req-final ml-2">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="1.5rem" height="1.5rem" viewBox="0 0 300 300">
+                                                            <g fill="#f8f8f8" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+                                                                <g transform="scale(5.12,5.12)">
+                                                                    <path d="M25,2c-12.683,0 -23,10.317 -23,23c0,12.683 10.317,23 23,23c12.683,0 23,-10.317 23,-23c0,-4.56 -1.33972,-8.81067 -3.63672,-12.38867l-1.36914,1.61719c1.895,3.154 3.00586,6.83148 3.00586,10.77148c0,11.579 -9.421,21 -21,21c-11.579,0 -21,-9.421 -21,-21c0,-11.579 9.421,-21 21,-21c5.443,0 10.39391,2.09977 14.12891,5.50977l1.30859,-1.54492c-4.085,-3.705 -9.5025,-5.96484 -15.4375,-5.96484zM43.23633,7.75391l-19.32227,22.80078l-8.13281,-7.58594l-1.36328,1.46289l9.66602,9.01563l20.67969,-24.40039z"></path>
+                                                                </g>
+                                                            </g>
+                                                        </svg>Submit</button></div>
+
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -891,11 +917,11 @@
                                                             <input type="radio" id="rdQtSmart" name="Quotation" value="SMART QTNG" style="margin-left: 5%" disabled>SMART QTNG
                                                             <input type="radio" id="rdQtAndSp" name="Quotation" value="AS PER DRAWING AND SPECIFICATION" style="margin-left: 5%" disabled>AS PER DRAWING & SPECIFICATION
  
-                                                            
+                                                            <%-- <a href="#" id="btnSubmitOptDet" class="btn btn-primary" style="float:right;">Submit</a>--%>
                                                         </div>
                                                     </div>
 
-                                                    <div style="padding-top: 2%">
+                                                        <div style="padding-top: 2%">
 
                                                         <table class="table Product-list-table" style="width: 100%;">
                                                             <%--<caption class="ms-4">List of Projects</caption>--%>
@@ -917,7 +943,6 @@
                                                         </table>
 
                                                     </div>
-
                                                     <%--<button type="button" class="btn btn-primary btnAddUpdateReq">Start</button>--%>
                                                 </div>
                                             </div>
@@ -997,16 +1022,10 @@
                                                 </div>
                                                 <div class="">
                                                     <button type="button" class="btn btn-primary btn-req-complete-grid">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="1.5rem" height="1.5rem" viewBox="0 0 300 300">
-                                                            <g fill="#f8f8f8" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
-                                                                <g transform="scale(5.12,5.12)">
-                                                                    <path d="M25,2c-12.683,0 -23,10.317 -23,23c0,12.683 10.317,23 23,23c12.683,0 23,-10.317 23,-23c0,-4.56 -1.33972,-8.81067 -3.63672,-12.38867l-1.36914,1.61719c1.895,3.154 3.00586,6.83148 3.00586,10.77148c0,11.579 -9.421,21 -21,21c-11.579,0 -21,-9.421 -21,-21c0,-11.579 9.421,-21 21,-21c5.443,0 10.39391,2.09977 14.12891,5.50977l1.30859,-1.54492c-4.085,-3.705 -9.5025,-5.96484 -15.4375,-5.96484zM43.23633,7.75391l-19.32227,22.80078l-8.13281,-7.58594l-1.36328,1.46289l9.66602,9.01563l20.67969,-24.40039z"></path>
-                                                                </g>
-                                                            </g>
-                                                        </svg>
-                                                        Complete Request</button>
+                                                        <i class='bx bx-notepad' ></i>
+                                                        Technical Notes</button>
 
-                                                    <button type="button" class="btn btn-success btn-approve-req" onclick='ChangeRequestStatus("RELEASED")'>
+                                                 <%--   <button type="button" class="btn btn-success btn-approve-req" onclick='ChangeRequestStatus("RELEASED")'>
                                                         <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="1.5rem" height="1.5rem" viewBox="0 0 300 300">
                                                             <g fill="#f8f8f8" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
                                                                 <g transform="scale(5.12,5.12)">
@@ -1014,12 +1033,12 @@
                                                                 </g>
                                                             </g>
                                                         </svg>
-                                                        Release</button>
+                                                 <%--       Release</button>--
 
                                                     <button type="button" class="btn btn-danger btn-rej-req" onclick='ChangeRequestStatus("REJECTED")'>
                                                         <i class='bx bx-x' style="font-size: 1.5rem;"></i>
-                                                        Reject</button>
-                                                    <span style="border: 1px solid #cbcbcb; margin-right: 7px;"></span>
+                                                        Reject</button>--%>
+                                                    <%--<span style="border: 1px solid #cbcbcb; margin-right: 7px;"></span>--%>
 
                                                     <button type="button" class="btn btn-primary btn-generate-summary">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
@@ -1339,7 +1358,7 @@
                             <input class="form-control" type="text" placeholder="Enter Item Code" style="background-color: white;" id="txtItemCode">
                         </div>
                         <div class="col-md-1">
-                            <a href="#" class="btn" id="btnItemFilterTOC" style="margin-top: 30px;">Search</a>
+                            <a href="#" class="btn btn-primary" id="btnItemFilterTOC" style="margin-top: 30px;">Search</a>
                         </div>
                         <div class="col-md-3" style="display: flex; justify-content: flex-end">
                             <a href="#" class="btn btn-primary" id="btnAddItemFromOracle-grid" style="margin-top: 30px;"><i class="fa fa-plus" aria-hidden="true"></i>Add From Oracle</a>
@@ -1538,7 +1557,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btnAddTechRemarks">Save & Complete </button>
+                    <button type="button" class="btn btn-primary btnAddTechRemarks">Save Notes </button>
                 </div>
             </div>
         </div>
@@ -1884,11 +1903,11 @@
     </script>
 
     <!-- Page JS/CSS file -->
-    <script src="Scripts/common.js?v=1.1"></script>
-    <script src="Scripts/ems-item-list.js?v=1.1"></script>
-    <script src="Scripts/Structure.js?v=1.1"></script>
-    <script src="Scripts/TOC.js?v=1.1"></script>
-    <script src="Scripts/SummaryReports.js?v=1.1"></script>
+    <script src="Scripts/common.js?v=2.2"></script>
+    <script src="Scripts/ems-item-list.js?v=2.2"></script>
+    <script src="Scripts/Structure.js?v=2.2"></script>
+    <script src="Scripts/TOC.js?v=2.2"></script>
+    <script src="Scripts/SummaryReports.js?v=2.2"></script>
 
     <link href="css/RecruitmentCss.css?v=1.1" rel="stylesheet" />
 

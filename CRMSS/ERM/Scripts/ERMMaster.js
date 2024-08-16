@@ -60,8 +60,12 @@ $(document).ready(function () {
         htmdrop += `<option value="APPROVED">APPROVED</option>`;
         htmdrop += `<option value="REJECTED" >REJECTED</option>`;
     }
-    if (myrole == '14213' || myroleList.includes("2084")) {
+    if (myroleList.includes("14213") ) {
         $("#showWorkLoad").removeClass('hidden');
+    }
+    else 
+    {
+        $("#showWorkLoad").addClass('hidden');
     }
     $('#ddlRequestStatus').html(htmdrop);
     GetTableDetails('Please wait...');
@@ -2301,7 +2305,7 @@ function RequestedProductDetails() {
 
         success: function (result) {
             var htm = '';
-            //$('.tbody-Product-list td').length > 0 ? objDatatableProductList.destroy() : '';
+            $('.tbody-Product-list td').length > 0 ? objDatatableProductList.destroy() : '';
 
             $.each(result.d, function (key, item) {
 
@@ -2339,7 +2343,7 @@ function RequestedProductDetails() {
                                       
                                       htm += `<td><span class="`+ item.StatusClass + `" style="font-size: 13px !important;">` + item.Status + `</span></td>`
                                       
-                                      if (myroleList.includes("14213")) {
+                                      if (myroleList.includes("14213") && item.Status=='Pending For Estimation Head Approval') {
                                           htm +=`
                                       <td>
                                        <img src="images/icon-Update.png" title="Save" class="fa-icon-hover Update-Product-Details" style="cursor: pointer; width: 24px;" />&nbsp;
@@ -2383,7 +2387,7 @@ function RequestedProductDetails() {
         //    $('.ajax-loader').hide();
         //},
         error: function (errormessage) {
-            alert(errormessage.responseText);
+           // alert(errormessage.responseText);
         }
     });
 
@@ -2486,6 +2490,9 @@ function SaveEstimationProduct(ReqNumber, Product, Remarks, status, OwnerIdOpt) 
                 }
 
                 htm += `  <td class="hidden">` + item.Estimator + `</td>
+
+                            <td></td>
+             
                                       <td><span class="`+ item.StatusClass + `" style="font-size: 13px !important;">` + item.Status + `</span></td>
                                       <td>
                                        

@@ -483,7 +483,9 @@ function getTechNotesTemplate() {
         url: "EMSItemList.aspx/GetTechTemplate",
         type: "POST",
         data: JSON.stringify({
-            "UserId": currUserId
+            "UserId": currUserId,
+            "ReqId": selReqId,
+            "EmpNo": EmpNo
         }),
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -531,10 +533,9 @@ $(".btnAddTechRemarks").on('click', function () {
                 "TechRemarks": $("#taTechRemarks").val()
             }),
             contentType: "application/json;charset=utf-8",
-            dataType: "json",
-            async: false,
+            dataType: "json",            
             success: function (result) {
-                toastr.success("Request Completed Successfully.")
+                toastr.success("Technical Notes Updated Successfully.")
                 $("#ReqTechRemarksModal").modal('hide');
             },
             error: function (errormessage) {
@@ -543,6 +544,36 @@ $(".btnAddTechRemarks").on('click', function () {
         });
     }
 })
+
+
+$(".btn-submit-req-final").on('click', function () {
+
+    //if ($("#taTechRemarks").val().trim() == "") {
+    //    toastr.error("Please input the Technical remarks", '');
+    //}
+    //else {
+        $.ajax({
+            url: "EMSItemList.aspx/SubmitRequestFinal",
+            type: "POST",
+            data: JSON.stringify({
+                "EmpNo": EmpNo,
+                "ReqId": selReqId
+            }),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                toastr.success("Request Submitted Successfully.")
+                getAllRequests();
+                $("#addReqModal").modal('hide');
+            },
+            error: function (errormessage) {
+                ////alert(errormessage.responseText);
+            }
+        });
+    //}
+})
+
 
 
 function getSystemsNItems() {
@@ -593,7 +624,7 @@ function getSystemsNItems() {
 
 
                 for (var i = 0; i < AllCategoryForSys.length; i++) {
-                    var res = listSystemsItems.filter(x => x.Category == AllCategoryForSys[i]);
+                    var res = listSystemsItems.filter(x => x.Category == AllCategoryForSys[i]).filter(x=>x.System==item.SysName);
 
                     htm += `<div class="category my-2" style="font-size: 12px">` + (i + 1) + `. ` + res[0].Category + `</div>`
                     htm += ` <div class="table mt-2" style="overflow-y: auto; max-height: 800px;">

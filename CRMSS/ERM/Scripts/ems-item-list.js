@@ -755,14 +755,17 @@ $('.tbody-esti-req').on('click', '.ibtn-fcastquart-edit,.ibtn-estireq-details', 
     RequestedProductDetails(selReqId);
 
     if (res[0].EstimationStatus.toUpperCase() == "PENDING FOR APPROVAL" && myroleList.includes('14213')) { //For Estimation Head
-        $(".btn-req-complete-grid").addClass('hidden');
+        //$(".btn-req-complete-grid").addClass('hidden');
+        $(".btn-submit-req-final").addClass('hidden');
         $(".btn-approve-req").removeClass('hidden');
         $(".btn-rej-req").removeClass('hidden');
+        $(".btnAddTechRemarks").removeClass('hidden');
 
         $(".hide-control-bos").removeClass('hidden');
     }
     else if ((res[0].EstimationStatus.toUpperCase() == "UNDER ESTIMATION" || res[0].EstimationStatus.toUpperCase() == "REJECTED") && myroleList.includes('14214')) { //Estimator
-        $(".btn-req-complete-grid").removeClass('hidden');
+        $(".btn-submit-req-final").removeClass('hidden');
+        $(".btnAddTechRemarks").removeClass('hidden');
         $(".btn-approve-req").addClass('hidden');
         $(".btn-rej-req").addClass('hidden');
 
@@ -772,12 +775,17 @@ $('.tbody-esti-req').on('click', '.ibtn-fcastquart-edit,.ibtn-estireq-details', 
         $(".btn-approve-req").addClass('hidden');
         $(".btn-rej-req").addClass('hidden');
         $(".btn-req-complete-grid").addClass('hidden');
+        $(".btnAddTechRemarks").addClass('hidden');
 
         $(".hide-control-bos").addClass('hidden');        
     }
     else {
         $(".btn-approve-req").addClass('hidden');
         $(".btn-rej-req").addClass('hidden');
+
+        if ((res[0].EstimationStatus.toUpperCase() == "PENDING FOR APPROVAL") && myroleList.includes('14214')) {
+            $(".btn-submit-req-final").addClass('hidden');
+        }
     }
 
 
@@ -802,7 +810,7 @@ $('.tbody-esti-req').on('click', '.ibtn-fcastquart-edit,.ibtn-estireq-details', 
     else if (selAction == "Details Estimation Request") {
 
         bindValueForLabels(res);
-        /*GetEstimationNo(selReqId);*/
+        GetEstimationNo(selReqId);
         $('#addReqModal').modal('show');
         $('.ajax-loader').removeClass('hidden');
         setTimeout(function () {
@@ -1501,6 +1509,10 @@ function ResetRequestModal() {
 
 }
 
+
+
+//uhusihtfuishgf
+
 function RequestedProductDetails(selReqId) {
     $.ajax({
         url: "EMSItemList.aspx/GetProductDetails",
@@ -1512,7 +1524,7 @@ function RequestedProductDetails(selReqId) {
 
         success: function (result) {
             var htm = '';
-            //$('.tbody-Product-list td').length > 0 ? objDatatableProductList.destroy() : '';
+            $('.tbody-Product-list td').length > 0 ? objDatatableProductList.destroy() : '';
 
             $.each(result.d, function (key, item) {
 
@@ -1554,7 +1566,7 @@ function RequestedProductDetails(selReqId) {
                 //    htm += `
                 //                      <td>
                 //                       <img src="images/icon-Update.png" title="Save" class="fa-icon-hover Update-Product-Details" style="cursor: pointer; width: 24px;" />&nbsp;
-                                        
+
                 //                          </td>`;
                 //}
                 //else {
@@ -1594,7 +1606,7 @@ function RequestedProductDetails(selReqId) {
         //    $('.ajax-loader').hide();
         //},
         error: function (errormessage) {
-            alert(errormessage.responseText);
+           // alert(errormessage.responseText);
         }
     });
 

@@ -1230,7 +1230,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
                 Estimator = dt.Rows[i]["Estimator_EmpNo"].ToString(),
                 Status = dt.Rows[i]["EstStatus"].ToString(),
                 StatusClass = dt.Rows[i]["StatusClass"].ToString(),
-                DueDate = dt.Rows[i]["DueDate"].ToString()
+                DueDate = dt.Rows[i]["DueOn"].ToString()
 
             });
         }

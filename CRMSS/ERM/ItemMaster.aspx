@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="ItemMaster.aspx.cs" Inherits="ERM_ItemMaster" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="ItemMaster.aspx.cs" Inherits="ERM_ItemMaster" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 

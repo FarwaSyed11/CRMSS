@@ -13,7 +13,20 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!String.IsNullOrEmpty(Convert.ToString(Session["UserId"])))
+        {
+            if (!Page.IsPostBack)
+            {
+                Session["ApplicationId"] = 19;
+                Common.SaveAppUserActivityHistory("1", "/ERM/EMSItemList.aspx", "Estimation ", (Session["empno"] == null ? "null" : Session["empno"].ToString()), 0);
 
+            }
+
+        }
+        else
+        {
+            Response.Redirect("../Security/Login.aspx", false);
+        }
     }
 
 
@@ -1293,6 +1306,32 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static void SubmitRequestFinal(string EmpNo, string ReqId)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        List<DDL> oListSystem = new List<DDL>();
+
+        pa.Add("@oper");
+        pv.Add(66);
+
+        pa.Add("@EmpNo");
+        pv.Add(EmpNo);
+
+        pa.Add("@ReqId");
+        pv.Add(ReqId);        
+
+        DBH.CreateDatasetERM_Data(ds, "SP_TOC", true, pa, pv);
+
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
     public static List<ItemIntoFloors> GetItemsWhichHaveQTY(string EstiLineId)
     {
 
@@ -1514,7 +1553,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static List<TechnicalNotes> GetTechTemplate(string UserId)
+    public static List<TechnicalNotes> GetTechTemplate(string UserId, string EmpNo, string ReqId)
     {
 
         DBHandler DBH = new DBHandler();
@@ -1530,6 +1569,12 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
         pa.Add("@UserId");
         pv.Add(UserId);
+
+        pa.Add("@EmpNo");
+        pv.Add(EmpNo);
+
+        pa.Add("@ReqId");
+        pv.Add(ReqId);
 
         DBH.CreateDatasetERM_Data(ds, "SP_TOC", true, pa, pv);
 
@@ -1573,6 +1618,8 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
     //End Summeary Report
 
+
+
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
     public static List<RequestedProducts> GetProductDetails(string ReqID, string UserID)
@@ -1598,8 +1645,6 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         pv.Add(UserID);
 
 
-
-
         DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
         dt = ds.Tables[0];
 
@@ -1617,7 +1662,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
                 Estimator = dt.Rows[i]["Estimator_EmpNo"].ToString(),
                 Status = dt.Rows[i]["EstStatus"].ToString(),
                 StatusClass = dt.Rows[i]["StatusClass"].ToString(),
-                DueDate = dt.Rows[i]["DueDate"].ToString()
+                DueDate = dt.Rows[i]["DueOn"].ToString()
 
             });
         }
