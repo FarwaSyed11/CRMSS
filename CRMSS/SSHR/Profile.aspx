@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="Profile.aspx.cs" Inherits="SSHR_Profile" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="Profile.aspx.cs" Inherits="SSHR_Profile" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
@@ -376,7 +376,7 @@
                                     </li>
                                     <li class="nav-item">
                                         <button type="button" class="nav-link salaryinfo" role="tab" data-bs-toggle="tab" data-bs-target="#tab-SalaryInfo" aria-controls="tab-SalaryInfo" aria-selected="false">Salary Info</button>
-                                        <span class="btneditjobdesc" id="btnViewSalarySlip" style="visibility:hidden">View Salary Slip <img src="Images/profile/view.svg" /></span>
+                                        <span class="btneditjobdesc" id="btnViewSalarySlip" style="visibility:hidden;display:none" >View Salary Slip <img src="Images/profile/view.svg" /></span>
                                     </li>
 
                                     <li class="nav-item">
@@ -1632,7 +1632,7 @@
     <%--<script src ="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>--%>
      <script src="../FireDuctWork/Scripts/jspdf.min.js"></script>
     <script src="../FireDuctWork/Scripts/html2pdf.bundle.min.js"></script>
-    <script src="Scripts/Profile.js?v=4"></script>
+    <script src="Scripts/Profile.js?v=2.1"></script>
     
 
     <link href="../FacilityManagement/Datatable/css/jquery.dataTables.min.css" rel="stylesheet" />

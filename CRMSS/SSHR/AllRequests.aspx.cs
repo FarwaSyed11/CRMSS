@@ -321,10 +321,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     REASON = dt.Rows[i]["REASON"].ToString(),
                     Stage = dt.Rows[i]["Stage"].ToString(),
                     StageClass = dt.Rows[i]["StageClass"].ToString(),
-                    EMP_NO = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
-                    Depart = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    FromDate_Sort = dt.Rows[i]["FROM_DATE_SORT"].ToString(),
-                    ToDate_Sort = dt.Rows[i]["TO_DATE_SORT"].ToString(),
+
 
                 });
             }
@@ -347,11 +344,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     RequestDate = dt.Rows[i]["ReqDate"].ToString(),
                     StageClass = dt.Rows[i]["StageClass"].ToString(),
                     Stage = dt.Rows[i]["Stage"].ToString(),
-                    EMP_NO = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
-                    Depart = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    Expected_Date_Of_Return_sort = dt.Rows[i]["Expected_Date_Of_Return_sort"].ToString(),
-                    ReqDate_sort = dt.Rows[i]["ReqDate_sort"].ToString(),
-                    Travelling_Date_sort = dt.Rows[i]["Travelling_Date_sort"].ToString(),
+
 
                 });
             }
@@ -374,9 +367,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     StageClass = dt.Rows[i]["StageClass"].ToString(),
                     Stage = dt.Rows[i]["Stage"].ToString(),
                     RequestDate = dt.Rows[i]["ReqDate"].ToString(),
-                    EMP_NO = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
-                    Depart = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    ReqDate_sort = dt.Rows[i]["ReqDate_sort"].ToString(),
+
 
                 });
             }
@@ -399,9 +390,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     RequestDate = dt.Rows[i]["ReqDate"].ToString(),
                     Stage = dt.Rows[i]["Stage"].ToString(),
                     StageClass = dt.Rows[i]["StageClass"].ToString(),
-                    EMP_NO = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
-                    Depart = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    ReqDate_sort = dt.Rows[i]["ReqDate_sort"].ToString(),
+
 
                 });
             }
@@ -426,10 +415,6 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     RequestDate = dt.Rows[i]["ReqDate"].ToString(),
                     Stage = dt.Rows[i]["Stage"].ToString(),
                     StageClass = dt.Rows[i]["StageClass"].ToString(),
-                    EMP_NO = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
-                    Depart = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    ReqDate_sort = dt.Rows[i]["ReqDate_sort"].ToString(),
-                    DateStart_sort = dt.Rows[i]["DateStart_sort"].ToString(),
                 });
             }
         }
@@ -451,10 +436,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     RequestDate = dt.Rows[i]["ReqDate"].ToString(),
                     Stage = dt.Rows[i]["Stage"].ToString(),
                     StageClass = dt.Rows[i]["StageClass"].ToString(),
-                    EMP_NO = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
-                    Depart = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    LateDate_sort = dt.Rows[i]["LateDate_sort"].ToString(),
-                    ReqDate_sort = dt.Rows[i]["ReqDate_sort"].ToString(),
+
 
                 });
             }
@@ -477,11 +459,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     RequestDate = dt.Rows[i]["ReqDate"].ToString(),
                     Stage = dt.Rows[i]["Stage"].ToString(),
                     StageClass = dt.Rows[i]["StageClass"].ToString(),
-                    Depart = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    EMP_NO = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
-                    //Depart = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    ExitDate_sort = dt.Rows[i]["ExitDate_sort"].ToString(),
-                    ReqDate_sort = dt.Rows[i]["ReqDate_sort"].ToString(),
+
                 });
             }
         }
@@ -502,10 +480,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     StageClass = dt.Rows[i]["StageClass"].ToString(),
                     LastEncashDate = dt.Rows[i]["LastTicketEncashDate"].ToString(),
                     NoofTicketRequired = dt.Rows[i]["NoofTicketRequired"].ToString(),
-                    EMP_NO = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
-                    Depart = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    LastTicketEncashDate_sort = dt.Rows[i]["LastTicketEncashDate_sort"].ToString(),
-                    ReqDate_sort = dt.Rows[i]["ReqDate_sort"].ToString(),
+
                 });
             }
         }
@@ -527,9 +502,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
                     RequestDate = dt.Rows[i]["ReqDate"].ToString(),
                     Stage = dt.Rows[i]["Stage"].ToString(),
                     StageClass = dt.Rows[i]["StageClass"].ToString(),
-                    //EMP_NO = dt.Rows[i]["EMPLOYEE_NUMBER"].ToString(),
-                    //Depart = dt.Rows[i]["DEPARTMENT"].ToString(),
-                    ReqDate_sort = dt.Rows[i]["ReqDate_sort"].ToString(),
+
                 });
             }
         }
@@ -1217,7 +1190,7 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static List<DDLResponse> GetMiscRequestType()
+    public static List<DDLResponse> GetMiscRequestType(string EmpNo)
     {
 
         DBHandler DBH = new DBHandler();
@@ -1234,6 +1207,9 @@ public partial class SSHR_AllRequests : System.Web.UI.Page
 
         pa.Add("@DropdownName");
         pv.Add("ddlMiscReqType");
+
+        pa.Add("@EmpNo");
+        pv.Add(EmpNo);
 
         DBH.CreateDataset_SSHR(ds, "sp_AllRequests", true, pa, pv);
 

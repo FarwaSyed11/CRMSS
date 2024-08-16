@@ -131,7 +131,7 @@ function ItemviseReports() {
                                                        
                                     <div class="table">
                                         <table class="table project-table w-100 table-responsive" style="height: 540px;overflow-x: hidden;">
-                                            <thead style="position: sticky; top: 0;">
+                                            <thead style="z-index:10;position: sticky; top: 0;">
                                                 <tr>
                                                     <th style="width: 230px !important;" class="align-middle">Category</th>
                                                     <th class="align-middle">Item Code</th>
@@ -162,7 +162,7 @@ function ItemviseReports() {
                                                        
                                     <div class="table">
                                         <table class="table project-table w-100 table-responsive" style="height: 540px;overflow-x: hidden;">
-                                            <thead style="position: sticky; top: 0;">
+                                            <thead style="z-index:10;position: sticky; top: 0;">
                                                 <tr>
                                                     <th style="width: 230px !important;" class="align-middle">Category</th>
                                                     <th class="align-middle">Item Code</th>

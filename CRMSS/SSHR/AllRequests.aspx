@@ -1395,8 +1395,8 @@
 
     </script>
 
-    <script src="Scripts/AllRequests.js?v=13"></script>
-    <link href="Css/allrequest.css?v=1.31" rel="stylesheet" />
+    <script src="Scripts/AllRequests.js?v=4.7"></script>
+    <link href="Css/allrequest.css?v=2.31" rel="stylesheet" />
 
     <script src="../KPI/Flatpickr/js/flatpickr.js"></script>
     <link href="../KPI/Flatpickr/css/_flatpickr.css" rel="stylesheet" />

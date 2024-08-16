@@ -678,7 +678,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static List<DDL> GetAllSystems()
+    public static List<DDL> GetAllSystems(string UserId, string ReqId)
     {
 
         DBHandler DBH = new DBHandler();
@@ -691,6 +691,12 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
         pa.Add("@oper");
         pv.Add(1);
+
+        pa.Add("@userID");
+        pv.Add(UserId);
+
+        pa.Add("@ReqID");
+        pv.Add(ReqId);
 
         DBH.CreateDatasetERM_Data(ds, "sp_FillControls", true, pa, pv);
 

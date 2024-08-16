@@ -1682,8 +1682,6 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
     public static List<TaskSummary> GetTaskSummary(string EmpNo)
     {
-
-
         DBHandler DBH = new DBHandler();
         DataSet ds = new DataSet();
         DataTable dt = new DataTable();
@@ -1705,7 +1703,6 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
         dt = ds.Tables[0];
 
-
         for (int i = 0; i < dt.Rows.Count; i++)
         {
             TaskSummary.Add(new TaskSummary()
@@ -1714,13 +1711,11 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
                 DueDate = dt.Rows[i]["DueDate"].ToString(),
                 Assigned = dt.Rows[i]["Assigned"].ToString(),
                 Pending = dt.Rows[i]["Pending"].ToString(),
+                EmpName = dt.Rows[i]["EmpName"].ToString(),
             });
         }
 
         return TaskSummary;
-
-
-
     }
 
     public class TaskSummary

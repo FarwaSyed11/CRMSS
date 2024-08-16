@@ -11,6 +11,11 @@
     <link rel="stylesheet" href="../Template/assets/vendor/libs/richtexteditor/richtext.css" />
 
     <style type="text/css">
+        .dt-buttons {
+            float: right !important;
+            margin-right: 20px !important;
+        }
+
         .nav .nav-link:hover, .nav .nav-link:focus {
             color: #9d0000a3 !important;
         }
@@ -82,7 +87,7 @@
                 text-align: left;
                 border-bottom: none !important;
                 text-transform: capitalize;
-                background: rgb(228 235 241 / 50%) !important;
+                background: rgb(246 246 246) !important;
                 padding: 12px !important;
             }
 
@@ -121,6 +126,7 @@
             padding: 0;
             font-weight: 400 !important;
             font-size: 14px;
+            height: auto;
         }
 
         .txtCustomClass {
@@ -150,9 +156,6 @@
         .rrf-table .Head-tr {
             background: repeating-linear-gradient( 180deg, #bf1010, #000000 100px) !important;
         }
-        /*  .Item-table-details .Head-tr{
-             background: repeating-linear-gradient( 180deg, #bf1010, #000000 100px) !important;
-        }*/
         .rrf-table th {
             text-align: center;
             color: white !important;
@@ -208,25 +211,7 @@
         .sub-tabl-bg {
             background-color: #faa46d96 !important;
         }
-        /*.select2-dropdown > .select2-results > #select2-ddlFilterAssignedToMeTask-results{
-      background-color: white;
-    border: 1px solid #e44c1666;
-    border-radius: 4px;
-    box-sizing: border-box;
-    display: block;
-    position: absolute;
-    /* left: -100000px; 
-    /*width: 100%;
-    z-index: 1051;
-    width: 436.211px !important;
-    margin: -26px 0px 0px -26px;
-  }
-          .select2-container--default .select2-selection--multiple .select2-selection__choice__display {
-    cursor: default;
-    padding-left: 12px !important;
-    padding-right: 5px;
-    color: #ffffff !important;
-}*/
+        
         .nav-tabs .nav-link.active {
             font-size: 15px !important;
             color: #9d0000a3 !important;
@@ -333,136 +318,6 @@
             color: #fff;
             background-color: #d17952;
         }
-
-        /*.progress-container {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            margin: 50px auto;
-            position: relative;
-            margin-bottom: 100px;
-        }
-
-        .progress-bar {
-            width: 99%;
-            height: 5px;
-            background-color: grey;
-            position: absolute;
-            top: 50%;
-            left: 0;
-            
-        }
-
-        .status-bar {
-            width: 100%;
-            height: 5px;
-            background-color: transparent;
-            position: absolute;
-            top: 50%;
-            left: 0;
-           
-        }
-
-        .circle {
-            width: 50px;
-            height: 50px;
-            background-color: white;
-            border-radius: 50%;
-            position: relative;
-        }
-
-            .circle span {
-                position: absolute;
-                top: 150%;
-                left: 9%;
-                color: #141d0d;
-            }
-
-            .circle i {
-                position: absolute;
-                top: 35%;
-                left: 35%;
-                display: none;
-            }
-
-            .circle.active i {
-                display: block;
-            }
-
-        .active {
-            display: block;
-            background-color: #43880f;
-        }
-
-        .animate {
-            animation: fill 0.5s ease-in-out 0.4s forwards;
-        }
-
-        .buttons {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .button {
-            color: white;
-            width: 100px;
-            padding: 10px 20px;
-            margin: 20px auto;
-            border-radius: 3px;
-            background-color: #43880f;
-            border: none;
-        }
-
-        .next {
-            color: white;
-        }
-
-        .submit {
-            display: none;
-        }
-
-        button:disabled {
-            cursor: not-allowed;
-            background-color: gray;
-        }
-
-        .message {
-            width: 500px;
-            height: 300px;
-            border-radius: 5px;
-            border: 2px solid;
-            gap: 10px;
-            display: block;
-            text-align: center;
-            padding: 100px 5px;
-            display: none;
-        }
-
-            .message i {
-                margin-bottom: 50px;
-                font-size: 25px;
-                padding: 20px 20px;
-                background-color: rgb(230, 111, 196);
-                border-radius: 50%;
-                animation: fillIcon 0.8s ease alternate;
-            }
-
-        @keyframes fill {
-            100% {
-                box-shadow: inset 0px 0px 0px 30px #43880f;
-            }
-        }
-
-        @keyframes fillIcon {
-            0% {
-                transform: scale(1);
-            }
-
-            100% {
-                transform: scale(1.2);
-            }
-        }*/
     </style>
 
 </asp:Content>
@@ -471,54 +326,55 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
 
     <div class="card" style="margin-top: 1%; width: 97%; left: 1.5%;">
-
-        <div style="">
-            <h5 style="">Estimation List</h5>
-        </div>
-
-        <div class="row" style="/*display: flex; justify-content: flex-end; margin-top: -25px; */">
-
-            <div class="col-md-1">
-                <label><i class="bx bx-search-alt-2" style="margin-top: -7px; font-size: 26px; color: #7fa3ff;"></i></label>
-                <label for="html5-number-input" class="col-form-label label-custom">Estimator Status</label>
+        <div class="card-body" style="">
+            <div style="">
+                <h3 class="mb-3">Estimation List</h3>
             </div>
-            <div class="col-md-2">
-                <select id="ddlFilterStatus" class="form-select color-dropdown">
-                    <option value="-1">All</option>
-                   
-                    <option value="UNDER ESTIMATION" selected>Under Estimation</option>
-                     <option value="PENDING FOR APPROVAL" >Pending For Approval</option>
-                    <%--<option value="ESTIMATED" >Completed</option>--%>
-                    <option value="RELEASED">Released</option>
-                    <option value="REJECTED">Rejected</option>
-                </select>
+
+            <div class="card-body" style="margin-top: -1%;">
+                <div class="row mb-3">
+                    <div class="d-flex col-md-3 ">
+                       <%-- <div class="">
+                            <label for="html5-number-input" class="col-form-label label-custom">Estimation Status</label>
+                        </div>--%>
+                        <div class="input-group">
+                            <%--<label class="input-group-text"><i class="bx bx-search-alt-2" style="font-size: 26px; color: #bc3f3f;"></i></label>--%>
+                            <label class="input-group-text">Status</label>
+                            <select id="ddlFilterStatus" class="form-select color-dropdown">
+                                <option value="-1">All</option>
+
+                                <option value="UNDER ESTIMATION" selected>Under Estimation</option>
+                                <option value="PENDING FOR APPROVAL">Pending For Approval</option>
+                                <%--<option value="ESTIMATED" >Completed</option>--%>
+                                <option value="RELEASED">Released</option>
+                                <option value="REJECTED">Rejected</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <table class="mt-1 table esti-req-table" style="width: 100%;">
+
+                        <thead>
+                            <tr class="Head-tr">
+                                <%--<th>Id</th>--%>
+                                <th>OPT No.</th>
+                                <th>Request No.</th>
+                                <th>Request Date</th>
+                                <th>Status</th>
+                                <th>Created Date</th>
+                                <th>Created By</th>
+                                <th>Estimation Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="tbody-esti-req">
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <%--<div class="col-md-1"> <input type="button" id="btnSearchTask" value="Search" class="btn btn-primary d-block" style="font-size:small"> </div>--%>
-        </div>
 
-
-        <div class="card-body" style="margin-top: 0%;">
-            <div>
-                <table class="mt-1 table esti-req-table" style="width: 100%;">
-
-                    <thead>
-                        <tr class="Head-tr">
-                            <%--<th>Id</th>--%>
-                            <th>OPT No.</th>
-                            <th>Request No.</th>
-                            <th>Request Date</th>
-                            <th>Status</th>
-                            <th>Created Date</th>
-                            <th>Created By</th>
-                            <th>Estimation Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-
-                    <tbody class="tbody-esti-req">
-                    </tbody>
-                </table>
-            </div>
         </div>
     </div>
 
@@ -527,8 +383,8 @@
     <%--MODAL WORK STARTS--%>
 
     <div class="modal fade" id="addReqModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="min-width: 98%; height: 90%;">
-            <div class="modal-content" style="height: 100%;">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="min-width: 98%;">
+            <div class="modal-content">
                 <div class="modal-header">
 
                     <div class="d-flex " style="width: 43%;">
@@ -546,30 +402,31 @@
                     </div>
 
                     <h5 class="modal-title" id="addReqModalLabel">Create Estimation</h5>
-                    <div style="display: flex;justify-content: flex-end;width: 45%;">
-    <button type="button" class="btn btn-success btn-approve-req mr-2" onclick="ChangeRequestStatus('RELEASED')">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="1.5rem" height="1.5rem" viewBox="0 0 300 300">
-                                                            <g fill="#f8f8f8" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
-                                                                <g transform="scale(5.12,5.12)">
-                                                                    <path d="M25,2c-12.683,0 -23,10.317 -23,23c0,12.683 10.317,23 23,23c12.683,0 23,-10.317 23,-23c0,-4.56 -1.33972,-8.81067 -3.63672,-12.38867l-1.36914,1.61719c1.895,3.154 3.00586,6.83148 3.00586,10.77148c0,11.579 -9.421,21 -21,21c-11.579,0 -21,-9.421 -21,-21c0,-11.579 9.421,-21 21,-21c5.443,0 10.39391,2.09977 14.12891,5.50977l1.30859,-1.54492c-4.085,-3.705 -9.5025,-5.96484 -15.4375,-5.96484zM43.23633,7.75391l-19.32227,22.80078l-8.13281,-7.58594l-1.36328,1.46289l9.66602,9.01563l20.67969,-24.40039z"></path>
-                                                                </g>
-                                                            </g>
-                                                        </svg>
-                                                        Release</button>
+                    <div style="display: flex; justify-content: flex-end; width: 45%;">
+                        <button type="button" class="btn btn-success btn-approve-req mr-2" onclick="ChangeRequestStatus('RELEASED')">
+                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="1.5rem" height="1.5rem" viewBox="0 0 300 300">
+                                <g fill="#f8f8f8" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+                                    <g transform="scale(5.12,5.12)">
+                                        <path d="M25,2c-12.683,0 -23,10.317 -23,23c0,12.683 10.317,23 23,23c12.683,0 23,-10.317 23,-23c0,-4.56 -1.33972,-8.81067 -3.63672,-12.38867l-1.36914,1.61719c1.895,3.154 3.00586,6.83148 3.00586,10.77148c0,11.579 -9.421,21 -21,21c-11.579,0 -21,-9.421 -21,-21c0,-11.579 9.421,-21 21,-21c5.443,0 10.39391,2.09977 14.12891,5.50977l1.30859,-1.54492c-4.085,-3.705 -9.5025,-5.96484 -15.4375,-5.96484zM43.23633,7.75391l-19.32227,22.80078l-8.13281,-7.58594l-1.36328,1.46289l9.66602,9.01563l20.67969,-24.40039z"></path>
+                                    </g>
+                                </g>
+                            </svg>
+                            Release</button>
 
-                                                    <button type="button" class="btn btn-danger btn-rej-req mr-2" onclick="ChangeRequestStatus('REJECTED')">
-                                                        <i class="bx bx-x" style="font-size: 1.5rem;"></i>
-                                                        Reject</button>
-                                                         <span style="border: 1px solid #cbcbcb; margin-right: 7px;"></span>
+                        <button type="button" class="btn btn-danger btn-rej-req mr-2" onclick="ChangeRequestStatus('REJECTED')">
+                            <i class="bx bx-x" style="font-size: 1.5rem;"></i>
+                            Reject</button>
+                        <span style="border: 1px solid #cbcbcb; margin-right: 7px;"></span>
 
-<button type="button" class="btn btn-primary btn-submit-req-final ml-2">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="1.5rem" height="1.5rem" viewBox="0 0 300 300">
-                                                            <g fill="#f8f8f8" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
-                                                                <g transform="scale(5.12,5.12)">
-                                                                    <path d="M25,2c-12.683,0 -23,10.317 -23,23c0,12.683 10.317,23 23,23c12.683,0 23,-10.317 23,-23c0,-4.56 -1.33972,-8.81067 -3.63672,-12.38867l-1.36914,1.61719c1.895,3.154 3.00586,6.83148 3.00586,10.77148c0,11.579 -9.421,21 -21,21c-11.579,0 -21,-9.421 -21,-21c0,-11.579 9.421,-21 21,-21c5.443,0 10.39391,2.09977 14.12891,5.50977l1.30859,-1.54492c-4.085,-3.705 -9.5025,-5.96484 -15.4375,-5.96484zM43.23633,7.75391l-19.32227,22.80078l-8.13281,-7.58594l-1.36328,1.46289l9.66602,9.01563l20.67969,-24.40039z"></path>
-                                                                </g>
-                                                            </g>
-                                                        </svg>Submit</button></div>
+                        <button type="button" class="btn btn-primary btn-submit-req-final ml-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="1.5rem" height="1.5rem" viewBox="0 0 300 300">
+                                <g fill="#f8f8f8" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+                                    <g transform="scale(5.12,5.12)">
+                                        <path d="M25,2c-12.683,0 -23,10.317 -23,23c0,12.683 10.317,23 23,23c12.683,0 23,-10.317 23,-23c0,-4.56 -1.33972,-8.81067 -3.63672,-12.38867l-1.36914,1.61719c1.895,3.154 3.00586,6.83148 3.00586,10.77148c0,11.579 -9.421,21 -21,21c-11.579,0 -21,-9.421 -21,-21c0,-11.579 9.421,-21 21,-21c5.443,0 10.39391,2.09977 14.12891,5.50977l1.30859,-1.54492c-4.085,-3.705 -9.5025,-5.96484 -15.4375,-5.96484zM43.23633,7.75391l-19.32227,22.80078l-8.13281,-7.58594l-1.36328,1.46289l9.66602,9.01563l20.67969,-24.40039z"></path>
+                                    </g>
+                                </g>
+                            </svg>Submit</button>
+                    </div>
 
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -591,7 +448,7 @@
                                         </ul>
                                     </div>
 
-                                    <div class="col-12" style="max-height: 700px; overflow-y: auto;">
+                                    <div class="col-12" style="height: 600px; overflow-y: auto;">
                                         <div class="tab-content" id="nav-tabContent">
                                             <div class="tab-pane fade show active" id="nav-Details" role="tabpanel" aria-labelledby="nav-home-tab">
                                                 <div id="Estimation-details-rectangle-divS" style="">
@@ -921,7 +778,7 @@
                                                         </div>
                                                     </div>
 
-                                                        <div style="padding-top: 2%">
+                                                    <div style="padding-top: 2%">
 
                                                         <table class="table Product-list-table" style="width: 100%;">
                                                             <%--<caption class="ms-4">List of Projects</caption>--%>
@@ -1022,10 +879,10 @@
                                                 </div>
                                                 <div class="">
                                                     <button type="button" class="btn btn-primary btn-req-complete-grid">
-                                                        <i class='bx bx-notepad' ></i>
+                                                        <i class='bx bx-notepad'></i>
                                                         Technical Notes</button>
 
-                                                 <%--   <button type="button" class="btn btn-success btn-approve-req" onclick='ChangeRequestStatus("RELEASED")'>
+                                                    <%--   <button type="button" class="btn btn-success btn-approve-req" onclick='ChangeRequestStatus("RELEASED")'>
                                                         <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="1.5rem" height="1.5rem" viewBox="0 0 300 300">
                                                             <g fill="#f8f8f8" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
                                                                 <g transform="scale(5.12,5.12)">
@@ -1165,7 +1022,7 @@
                         </div>
                         <div class="col-6">
                             <label>Total No. of Floors</label>
-                            <input class="form-control" type="number" id="stcCount" placeholder="enter total floors...">
+                            <input class="form-control" type="number" id="stcCount" placeholder="enter total floors..." min="0">
                         </div>
                         <div class="col-12 mb-3">
                             <label>Structure Description</label>
@@ -1504,7 +1361,7 @@
 
                         <div class="col-md-2">
                             <label>Quantity</label>
-                            <input class="form-control" type="number" id="txtQuantityTOC" placeholder="enter quantity">
+                            <input class="form-control" type="number" id="txtQuantityTOC" placeholder="enter quantity" min="0">
                         </div>
                         <%--  <div class="col-md-2 adv-filter ">
                             <label>Is Typical</label>
@@ -1645,11 +1502,11 @@
                     <div class="row">
                         <div class="col-md-4">
                             <label>Engineering</label>
-                            <input class="form-control" type="number" id="txtEngineering">
+                            <input class="form-control" type="number" id="txtEngineering" min="0">
                         </div>
                         <div class="col-md-4">
                             <label>Test and Commsioning</label>
-                            <input class="form-control" type="number" id="txtTestnCommision">
+                            <input class="form-control" type="number" id="txtTestnCommision" min="0">
                         </div>
                     </div>
 
@@ -1905,7 +1762,7 @@
     <!-- Page JS/CSS file -->
     <script src="Scripts/common.js?v=2.2"></script>
     <script src="Scripts/ems-item-list.js?v=2.2"></script>
-    <script src="Scripts/Structure.js?v=2.2"></script>
+    <script src="Scripts/Structure.js?v=3.3"></script>
     <script src="Scripts/TOC.js?v=2.2"></script>
     <script src="Scripts/SummaryReports.js?v=2.2"></script>
 

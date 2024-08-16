@@ -601,7 +601,7 @@ function getSystemsNItems() {
             $.each(listSystems, function (key, item) {
                 if (key == 0) { // for first record only
                     htm += `<div class="col-md-12 mt-3">`;
-                    htm += `<div style="background: #fcfafa; text-align: center; border: 1px solid #b70000; color: black; border-radius: 20px 20px 3px 3px; font-weight: 600; padding: 15px 0px 15px 0px;">` + item.SysName 
+                    htm += `<div style="z-index:10;position: sticky;top: 1px;background: #fcfafa; text-align: center; border: 1px solid #b70000; color: black; border-radius: 20px 20px 3px 3px; font-weight: 600; padding: 15px 0px 15px 0px;">` + item.SysName 
                     if (selReqObj[0].EstimationStatus.toUpperCase() != "RELEASED") {
                         htm += `<span style="float: right;margin-right: 35px;cursor:pointer;"><i class='bx bxs-dollar-circle' onclick='openEngrNTestCommisionModal("` + item.SysName + `")'></i> </span>`
                     }                    
@@ -612,7 +612,7 @@ function getSystemsNItems() {
 
                 if (firstSysName != item.SysName) {
                     htm += `<div class="col-md-12 mt-3">`;
-                    htm += `<div style="background: #fcfafa; text-align: center; border: 1px solid #b70000; color: black; border-radius: 20px 20px 3px 3px; font-weight: 600; padding: 15px 0px 15px 0px;">` + item.SysName
+                    htm += `<div style="z-index:10;position: sticky;top: 1px;background: #fcfafa; text-align: center; border: 1px solid #b70000; color: black; border-radius: 20px 20px 3px 3px; font-weight: 600; padding: 15px 0px 15px 0px;">` + item.SysName
                     if (selReqObj[0].EstimationStatus.toUpperCase() != "RELEASED") {
                         htm += `<span style="float: right;margin-right: 35px;cursor:pointer;"><i class='bx bxs-dollar-circle' onclick='openEngrNTestCommisionModal("` + item.SysName + `")'></i> </span>`
                     }                    
@@ -627,7 +627,7 @@ function getSystemsNItems() {
                     var res = listSystemsItems.filter(x => x.Category == AllCategoryForSys[i]).filter(x=>x.System==item.SysName);
 
                     htm += `<div class="category my-2" style="font-size: 12px">` + (i + 1) + `. ` + res[0].Category + `</div>`
-                    htm += ` <div class="table mt-2" style="overflow-y: auto; max-height: 800px;">
+                    htm += ` <div class="table mt-2" style="overflow-y: auto;">
                                                             <table class="table project-table" style="width: 100%;">
                                                                 <thead style="position: sticky; top: -3px;">
                                                                     <tr class="Head-tr">                                                                        
@@ -758,7 +758,7 @@ function getAllSystem(forwhom) {
     $.ajax({
         url: "EMSItemList.aspx/GetAllSystems",
         type: "POST",
-        //data: JSON.stringify({ "userId": currUserId.val() }),
+        data: JSON.stringify({ "UserId": currUserId, "ReqId": selReqId }),
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         async: false,
@@ -861,13 +861,13 @@ function getItemsForSysCategory() {
                     <td> `+ item.Category + `</td>`
 
                 if ($("#ddlCategory option:selected").val() == "PIPES") {
-                    htm += `<td> <input class="form-control" name="txtpipeunitprice" type="number" id="floorItemQty-` + key + `" placeholder="enter unit price"> </td>
-                            <td> <input class="form-control" name="txtfittingsperc" type="number" id="floorItemQty-`+ key + `" placeholder="enter fitting %"> </td>
-                            <td> <input class="form-control" name="txtinstallunitprice" type="number" id="floorItemQty-`+ key + `" placeholder="enter installation unit price"> </td>`
+                    htm += `<td> <input class="form-control" name="txtpipeunitprice" type="number" id="floorItemQty-` + key + `" placeholder="enter unit price" min="0"> </td>
+                            <td> <input class="form-control" name="txtfittingsperc" type="number" id="floorItemQty-`+ key + `" placeholder="enter fitting %" min="0"> </td>
+                            <td> <input class="form-control" name="txtinstallunitprice" type="number" id="floorItemQty-`+ key + `" placeholder="enter installation unit price" min="0"> </td>`
                 } else {
-                    htm += `<td> <input class="form-control" name="txtinstallunitprice" type="number" id="floorItemQty-`+ key + `" value="0" placeholder="enter installation unit price"> </td>`
+                    htm += `<td> <input class="form-control" name="txtinstallunitprice" type="number" id="floorItemQty-` + key + `" value="0" placeholder="enter installation unit price" min="0"> </td>`
                 }
-                htm += `<td> <input class="form-control" name="txt_item_into_cat_qty" type="number" id="ItemQty-` + key + `" placeholder="enter quantity"> </td>`
+                htm += `<td> <input class="form-control" name="txt_item_into_cat_qty" type="number" id="ItemQty-` + key + `" placeholder="enter quantity" min="0"> </td>`
                 htm += `<td> <select id="ddlAlternateItem-` + key + `" class="form-select color-dropdown">` + optDDL + ` </select> </td>`
                 //htm +=`<td> <a href="#" class="btn" style="background-color: #f8f9fa; border-color: #ddd; color: #444;" id="t" style="margin-top: 30px;">Select Item</a> </td>`
 

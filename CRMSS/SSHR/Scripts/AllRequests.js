@@ -1391,6 +1391,7 @@ function getAllTEReqDetails() {
         dataType: "json",
         async: false,
         success: function (result) {
+           
             //GetTikEncashRefNo();
             $('#lblStatus').html(result.d[0].Status);
             $('#lblAppID').html(result.d[0].ReqID);
@@ -4129,8 +4130,13 @@ $('.ActionButtons').on('click', '#btnSubmit', function () {
     }
 
     else if (Type == 3) {
-
-        AddMiscDetReqDetails();
+        if ($("#ddlMiscReqType option:selected").text() == "No Objection Certificate For Personal Purpose" && $("#txtCountryToApplyVisa").val() == '') {
+            toastr.error("Please fill Country to apply visa")
+        }
+        else {
+            AddMiscDetReqDetails();
+        }
+        
 
     }
 
@@ -5223,7 +5229,7 @@ function loadMiscRequestType() {
 
     $.ajax({
         url: "AllRequests.aspx/GetMiscRequestType",
-        //data: JSON.stringify({ 'data': objAddSurvey }),
+        data: JSON.stringify({ 'EmpNo': EmpNo }),
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -5248,7 +5254,7 @@ function loadMiscRequestType() {
 
 function miscReqTypeFormate() {
 
-    if ($('#ddlMiscReqType').val() == '10005') {
+    if ($('#ddlMiscReqType option:selected').text() == 'Salary Certificate(No Bank)') {
 
         $('.MiscReason-Area').css('display', '');
         $('.OtherRemarks-Area').css('display', 'none');
@@ -5262,7 +5268,7 @@ function miscReqTypeFormate() {
 
     }
 
-    else if ($('#ddlMiscReqType').val() == '10006') {
+    else if ($('#ddlMiscReqType option:selected').text() == 'Experience Certificate') {
 
         $('.MiscReason-Area').css('display', '');
         $('.OtherRemarks-Area').css('display', 'none');
@@ -5276,7 +5282,7 @@ function miscReqTypeFormate() {
 
     }
 
-    else if ($('#ddlMiscReqType').val() == '10007') {
+    else if ($('#ddlMiscReqType option:selected').text() == 'Employment Certificate') {
 
         $('.MiscReason-Area').css('display', '');
         $('.OtherRemarks-Area').css('display', 'none');
@@ -5290,7 +5296,7 @@ function miscReqTypeFormate() {
 
     }
 
-    else if ($('#ddlMiscReqType').val() == '10008') {
+    else if ($('#ddlMiscReqType option:selected').text() == 'JAFZA Certificate') {
 
         $('.MiscReason-Area').css('display', 'none');
         $('.OtherRemarks-Area').css('display', 'none');
@@ -5304,7 +5310,7 @@ function miscReqTypeFormate() {
         loadMiscReason();
     }
 
-    else if ($('#ddlMiscReqType').val() == '10009') {
+    else if ($('#ddlMiscReqType').text() == 'No Objection Certificate For Business') {
 
         $('.MiscReason-Area').css('display', '');
         $('.OtherRemarks-Area').css('display', 'none');
@@ -5318,7 +5324,7 @@ function miscReqTypeFormate() {
 
     }
 
-    else if ($('#ddlMiscReqType').val() == '10010') {
+    else if ($('#ddlMiscReqType option:selected').text() == 'No Objection Certificate For Personal Purpose') {
 
         $('.MiscReason-Area').css('display', '');
         $('.OtherRemarks-Area').css('display', 'none');
@@ -5332,7 +5338,7 @@ function miscReqTypeFormate() {
 
     }
 
-    if ($('#ddlMiscReqType').val() == '10011') {
+    else if ($('#ddlMiscReqType option:selected').text() == 'Other Request') {
 
         $('.MiscReason-Area').css('display', '');
         $('.OtherRemarks-Area').css('display', 'none');
@@ -5346,7 +5352,7 @@ function miscReqTypeFormate() {
 
     }
 
-    if ($('#ddlMiscReqType').val() == '10012') {
+    else if ($('#ddlMiscReqType option:selected').val() == '10012') {
 
         $('.MiscReason-Area').css('display', '');
         $('.OtherRemarks-Area').css('display', 'none');
@@ -5398,7 +5404,7 @@ function loadMiscReason() {
 
 $('#empLeaveModal').on('change', '#ddlMiscReason', function () {
 
-    if ($('#ddlMiscReason').val() == 'Others-Please Specify On The Remarks') {
+    if ($('#ddlMiscReason option:selected').val() == 'Others-Please Specify On The Remarks') {
 
         $('.OtherRemarks-Area').css('display', '');
     }

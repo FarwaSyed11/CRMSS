@@ -1494,7 +1494,7 @@
                  $(".modal-body-wrapper").append(modalBody1); 
                  $('#empLeaveModal').css('background-color','white');
                  $('.unprint-content-div').removeClass('hidden');
-
+                 $(".Leave-Req").css("color","#000");
                  $('#layout-navbar').removeClass('hidden');
              });
          </script>
@@ -1513,7 +1513,7 @@
         });
 
     </script>
-    <script src="Scripts/OtherRequests.js?v=11"></script>
+    <script src="Scripts/OtherRequests.js?v=12"></script>
     <link href="Css/allrequest.css" rel="stylesheet" />
 
     <script src="../KPI/Flatpickr/js/flatpickr.js"></script>

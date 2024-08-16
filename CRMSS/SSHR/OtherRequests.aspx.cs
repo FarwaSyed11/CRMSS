@@ -831,7 +831,7 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static List<DDLResponse> GetMiscRequestType()
+    public static List<DDLResponse> GetMiscRequestType(string EmpNo)
     {
 
         DBHandler DBH = new DBHandler();
@@ -848,6 +848,10 @@ public partial class SSHR_OtherRequests : System.Web.UI.Page
 
         pa.Add("@DropdownName");
         pv.Add("ddlMiscReqType");
+
+        pa.Add("@EmpNo");
+        pv.Add(EmpNo);
+
 
         DBH.CreateDataset_SSHR(ds, "sp_AllRequests", true, pa, pv);
 

@@ -66,7 +66,7 @@ public partial class SSHR_Services_RedirectToLogin : System.Web.UI.Page
 
                 //Response.Redirect("~/Masters/Econnect.aspx", false);
 
-                Response.Redirect("../../Econnect.aspx", false);
+                Response.Redirect("../../Masters/Econnect.aspx", false);
 
                 //lblError.Text = "Invalid User Name Or Password Or Inactive User!";
 

@@ -2315,47 +2315,47 @@ function RequestedProductDetails() {
                 htm += `<tr style="text-align: center;">
                             <td class="hidden">`+ item.LineID + `</td>
                             <td>`+ item.ERMProduct + `</td>
-                                      <td>`+ item.Remarks + `</td>`;
+                            <td>`+ item.Remarks + `</td>`;
                                   
 
-                                      if (item.EstimationTeam == EmpNo.toUpperCase() && item.Estimator=='') {
-                                          htm += ` <td> <select class="form-select" id=` + drpName + ` onchange=EstTeamChange(` + item.LineID + `,"` + item.EstimationTeam +`")></select > </td> `
-                                           }
-                                      else {
-                                          htm += ` <td> <select class="form-select" id=` + drpName + ` disabled ></select > </td>`
-                                           }
+                            if (item.EstimationTeam == EmpNo.toUpperCase() && item.Estimator=='') {
+                                htm += ` <td> <select class="form-select" id=` + drpName + ` onchange=EstTeamChange(` + item.LineID + `,"` + item.EstimationTeam +`")></select > </td> `
+                                }
+                            else {
+                                htm += ` <td> <select class="form-select" id=` + drpName + ` disabled ></select > </td>`
+                                }
 
-                                      htm += `<td class="hidden">` + item.EstimationTeam + `</td>`
-                                      if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status=='Pending For Estimation Head Approval'){
-                                          htm += ` <td> <select class="form-select" id=` + ddlEstimator + `></select> </td>`
-                                           }
-                                      else {
-                                           htm += ` <td> <select class="form-select" id=` + ddlEstimator + ` disabled></select> </td>`
-                                            }
+                            htm += `<td class="hidden">` + item.EstimationTeam + `</td>`
+                            if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status=='Pending For Estimation Head Approval'){
+                                htm += ` <td> <select class="form-select" id=` + ddlEstimator + `></select> </td>`
+                                }
+                            else {
+                                htm += ` <td> <select class="form-select" id=` + ddlEstimator + ` disabled></select> </td>`
+                                }
                                      
-                                      htm += `  <td class="hidden">` + item.Estimator + `</td>`
-                                      if (item.EstimationTeam == EmpNo.toUpperCase() && item.Estimator=='') {
-                                          htm += `<td> <input type="date" name="ESTDueDate" class="form-control"/> </td>`
-                                           }
-                                      else {
-                                          htm += `<td>` + item.DueDate + `</td>`
-                                           }
+                            htm += `  <td class="hidden">` + item.Estimator + `</td>`
+                            if (item.EstimationTeam == EmpNo.toUpperCase() && item.Estimator=='') {
+                                htm += `<td> <input type="date" name="ESTDueDate" class="form-control"/> </td>`
+                                }
+                            else {
+                                htm += `<td>` + item.DueDate + `</td>`
+                                }
                                       
-                                      htm += `<td><span class="`+ item.StatusClass + `" style="font-size: 13px !important;">` + item.Status + `</span></td>`
+                            htm += `<td><span class="`+ item.StatusClass + `" style="font-size: 13px !important;">` + item.Status + `</span></td>`
                                       
-                                      if (myroleList.includes("14213") && item.Status=='Pending For Estimation Head Approval') {
-                                          htm +=`
-                                      <td>
-                                       <img src="images/icon-Update.png" title="Save" class="fa-icon-hover Update-Product-Details" style="cursor: pointer; width: 24px;" />&nbsp;
+                            if (myroleList.includes("14213") && item.Status=='Pending For Estimation Head Approval') {
+                                htm +=`
+                            <td>
+                            <img src="images/icon-Update.png" title="Save" class="fa-icon-hover Update-Product-Details" style="cursor: pointer; width: 24px;" />&nbsp;
                                         
-                                          </td>`;
-                                      }
-                                      else{
-                                          htm +=`
-                                          <td></td>`;
-                                      }
+                                </td>`;
+                            }
+                            else{
+                                htm +=`
+                                <td></td>`;
+                            }
 
-                                      htm +=`</tr> `;
+                            htm +=`</tr> `;
 
              //   GetEstTeamLeaderForProduct(drpName, item.ERMProduct);
             });
@@ -3011,7 +3011,7 @@ function ShowWorkLoad() {
                 }
 
                 htm += `<tr>
-                  <td style="text-align:center;">`+ item.EmpNo + `</td>
+                  <td style="text-align:center;"><b>`+ item.EmpNo+`</b> - ` + item.EmpName+`</td>
                   <td style="text-align:center;">`+ item.DueDate + `</td>
                   <td style="text-align:center;">`+ item.Assigned + `</td>
                   <td style="text-align:center;">`+ item.Pending + `</td>`
