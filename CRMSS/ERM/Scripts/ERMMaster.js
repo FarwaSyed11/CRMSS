@@ -2374,7 +2374,7 @@ function RequestedProductDetails() {
                 let EstimationHead = item.children[4].textContent.trim();
                 let Estimator = item.children[6].textContent.trim();
                 GetEstTeamLeaderForProduct(ddlname, item.children[1].textContent.trim());
-                GetEstimatorForProduct(ddlEstimator, item.children[6].textContent.trim(), EstimationHead);
+                GetEstimatorForProduct(ddlEstimator, item.children[1].textContent.trim(), EstimationHead);
                 $("#" + ddlname + "").val(EstimationHead);
                 if (Estimator != "") {
                     $("#" + ddlEstimator + "").val(Estimator);
@@ -3011,7 +3011,7 @@ function ShowWorkLoad() {
                 }
 
                 htm += `<tr>
-                  <td style="text-align:center;"><b>`+ item.EmpNo+`</b> - ` + item.EmpName+`</td>
+                  <td style=""><span style="padding: 6px !important;background: #ff9f9f;font-size: 16px;font-weight: bold;color: white;">`+ item.EmpNo+`</span> - ` + item.EmpName+`</td>
                   <td style="text-align:center;">`+ item.DueDate + `</td>
                   <td style="text-align:center;">`+ item.Assigned + `</td>
                   <td style="text-align:center;">`+ item.Pending + `</td>`

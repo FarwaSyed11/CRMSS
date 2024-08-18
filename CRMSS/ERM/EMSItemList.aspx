@@ -1769,7 +1769,7 @@
     <script src="Scripts/common.js?v=2.2"></script>
     <script src="Scripts/ems-item-list.js?v=2.2"></script>
     <script src="Scripts/Structure.js?v=3.3"></script>
-    <script src="Scripts/TOC.js?v=2.2"></script>
+    <script src="Scripts/TOC.js?v=3"></script>
     <script src="Scripts/SummaryReports.js?v=2.2"></script>
 
     <link href="css/RecruitmentCss.css?v=1.1" rel="stylesheet" />

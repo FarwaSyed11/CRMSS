@@ -772,10 +772,12 @@ $('.tbody-esti-req').on('click', '.ibtn-fcastquart-edit,.ibtn-estireq-details', 
         $(".hide-control-bos").removeClass('hidden');
     }
     else if (res[0].EstimationStatus.toUpperCase() == "RELEASED") {
+        $(".btn-req-complete-grid").removeClass('hidden');
+
         $(".btn-approve-req").addClass('hidden');
-        $(".btn-rej-req").addClass('hidden');
-        $(".btn-req-complete-grid").addClass('hidden');
+        $(".btn-rej-req").addClass('hidden');        
         $(".btnAddTechRemarks").addClass('hidden');
+        $(".btn-submit-req-final").addClass('hidden');      
 
         $(".hide-control-bos").addClass('hidden');        
     }

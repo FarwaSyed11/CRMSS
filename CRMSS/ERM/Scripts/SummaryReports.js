@@ -217,7 +217,7 @@ $('._goBack').on('click', function () {
 function strItemDeets(item) {
     var totpf = 0, totins = 0;
     var htm = '';
-    var htmTfooter = '';
+    var Installation = 0;
     var Engineering = 0;
     var TestnComm = 0;
     for (var i = 0; i < AllItemCategory.length; i++) {
@@ -256,14 +256,15 @@ function strItemDeets(item) {
             totpf = (parseInt(sysItem.TOTPipeFittings) == undefined ? 0 : parseInt(sysItem.TOTPipeFittings)) + parseInt(totpf);
             totins = (parseInt(sysItem.TOTInstallation) == undefined ? 0 : parseInt(sysItem.TOTInstallation)) + parseInt(totins);
             Engineering = parseInt(sysItem.Engineering);
+            Installation = (parseInt(sysItem.TOTInstallation) == undefined ? 0 : parseInt(sysItem.TOTInstallation)) + parseInt(Installation)
             TestnComm = parseInt(sysItem.TestingnCommissioning);  
             
         });
-        allTOT = totpf + totins;
+        allTOT = totpf + totins + Engineering + TestnComm;
         
         //allTOT = totpf + totins;
     }
-    htm += `` + summaryHTMLfooter(Engineering, TestnComm, allTOT) + ``
+    htm += `` + summaryHTMLfooter(Engineering, TestnComm, allTOT, Installation) + ``
     return htm;
   
 }
@@ -292,10 +293,11 @@ function getAlternateItemsDetReport(col, itmcode, listAlternateItems) {
     return htm;
 }
 
-function summaryHTMLfooter(Engineering, TestnComm, allTOT) {
+function summaryHTMLfooter(Engineering, TestnComm, allTOT, Installation) {
     htmTfooter = `<tr><table><div class="float-right w-50" style="font-size:14px">
                         <div class=""><label class="border w-50 m-0 p-3">Engineering</label> <label class="border w-50 p-3 m-0 float-right">`+ numberWithCommas(Engineering) + ` </label></div>
                         <div class=""><label class="border w-50 m-0 p-3"> Test and Commission </label> <label class="border m-0 w-50 p-3 float-right">`+ numberWithCommas(TestnComm) + `</label></div>
+                        <div class=""><label class="border w-50 m-0 p-3"> Installation  </label> <label class="border m-0 w-50 p-3 float-right">`+ numberWithCommas(Installation) + `</label></div>
                         <div class=""><label class="border w-50 m-0 p-3">Total</label> <label class="border w-50 p-3 m-0 float-right">` + numberWithCommas(allTOT) + `</label></div>
                       </div>
                   </table></tr>

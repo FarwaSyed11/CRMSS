@@ -1693,7 +1693,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
         pa.Add("@EmpNo");
         pv.Add(EmpNo);
-        
+
         //pa.Add("@RoleID");
         //pv.Add(RoleID);
 
@@ -1727,11 +1727,8 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         public string CreatedDate { get; set; }
         public string EmpNo { get; set; }
         public string Pending { get; set; }
-
-
-
-
     }
+
     public class ApprovaStatuslList
     {
         public string Role { get; set; }
@@ -1740,8 +1737,6 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         public string UpdatedOn { get; set; }
         public string Statusclass { get; set; }
         public string comments { get; set; }
-
-
     }
 
     public class CommentDet

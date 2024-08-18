@@ -1201,7 +1201,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static AllInOneSystemItems GetSystemsNItems(string ReqId)
+    public static AllInOneSystemItems GetSystemsNItems(string ReqId,string UserID)
     {
 
         DBHandler DBH = new DBHandler();
@@ -1219,6 +1219,9 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
         pa.Add("@ReqID");
         pv.Add(ReqId);
+
+ 	pa.Add("@UserId");
+        pv.Add(UserID);
 
         DBH.CreateDatasetERM_Data(ds, "SP_TOC", true, pa, pv);
 

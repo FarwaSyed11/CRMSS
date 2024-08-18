@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="ERMMaster.aspx.cs" Inherits="ERM_ERMMaster" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="ERMMaster.aspx.cs" Inherits="ERM_ERMMaster" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -1074,7 +1074,7 @@
         <div class="modal-dialog modal-xl" role="document" style="max-width: 95%;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="ModalCustomerAdd">Add New Csutomer</h5>
+                    <h5 class="modal-title" id="ModalCustomerAdd">Add New Customer</h5>
                     <button type="button" class="btn-close btn-close-proj-modal" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" style="font-size: 0.85rem;">
@@ -1624,7 +1624,7 @@
     <%-- modal task information details --%>
 
     <div class="modal fade" id="modalWorkLoad" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-md" role="document" style="max-width: 95%;">
+        <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content" <%-- style="background: antiquewhite;"--%>>
                 <div class="modal-header">
                     <h5 class="modal-title">Team Work Load</h5>
@@ -1642,7 +1642,7 @@
                                         <th>Pending</th>
                                     </tr>
                                 </thead>
-                                <tbody class="tbody-WL-details" style="text-align: center;">
+                                <tbody class="tbody-WL-details" style="">
                                 </tbody>
                             </table>
                         </div>

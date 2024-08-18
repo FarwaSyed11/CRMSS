@@ -184,11 +184,11 @@ function generateHTMLForStruct(){
 
         htm += `<div class="accordion-item">
                             <div class="card">`
-        if (res[0].EstimationStatus.toUpperCase() != "RELEASED") {
-            htm += `<div class="col-12">
-                        <button type="button" class="btn btn-primary btnAddTypical float-right" style="width: 124px;font-size: 12px;" onclick="openTypicalModal(` + selRequest[0].ReqId + `,` + item.StructureID + `)">Add Typical Floors</button>
-                    </div>`
-        }
+        //if (res[0].EstimationStatus.toUpperCase() != "RELEASED") {
+        //    htm += `<div class="col-12">
+        //                <button type="button" class="btn btn-primary btnAddTypical float-right" style="width: 124px;font-size: 12px;" onclick="openTypicalModal(` + selRequest[0].ReqId + `,` + item.StructureID + `)">Add Typical Floors</button>
+        //            </div>`
+        //}
         htm +=`<h2 class="card-header" id="heading`+ item.prjNumber + `-` + item.StructureID + `">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse` + item.StructureID + `" aria-expanded="false" aria-controls="collapse` + item.StructureID + `" style="color: #000000;text-transform: capitalize;">` + (key + 1) + `.  ` + item.StructureName + `<span class="position-absolute" style="right: 80px;"> Total Floors:  ` + item.TotalNumberOfFloor + `</span>`
         if (res[0].EstimationStatus.toUpperCase() != "RELEASED") {
@@ -583,10 +583,10 @@ function generateHTMLForFlrTypes() {
                                         </label>
                                     </div>
                                     <div class="col-4 mb-2">
-                                        <input class="form-control" name="txtForFloorsTypes" type="number"  placeholder="enter floors..." disabled>
+                                        <input class="form-control" name="txtForFloorsTypes" type="number" min="0"  placeholder="enter floors..." disabled>
                                     </div>
                                     <div class="col-3 mb-2">
-                                        <input class="form-control" name="txtForFloorsTypes" type="number" placeholder="order #..." disabled>
+                                        <input class="form-control" name="txtForFloorsTypes" type="number" min="0" placeholder="order #..." disabled>
                                     </div>
                                 </div>`
     });

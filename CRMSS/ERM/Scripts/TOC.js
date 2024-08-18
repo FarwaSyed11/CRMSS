@@ -581,7 +581,7 @@ function getSystemsNItems() {
     $.ajax({
         url: "EMSItemList.aspx/GetSystemsNItems",
         type: "POST",
-        data: JSON.stringify({ "ReqId": selReqId }),
+        data: JSON.stringify({ "ReqId": selReqId,"UserID": currUserId }),
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         async: false,
