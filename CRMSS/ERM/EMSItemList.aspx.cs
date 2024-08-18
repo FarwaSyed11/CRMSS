@@ -1415,6 +1415,46 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<SystemEngnTest> GetEngnTest(string SystemName, string ReqId)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        List<SystemEngnTest> oListEngnComm = new List<SystemEngnTest>();
+
+        pa.Add("@oper");
+        pv.Add(13);
+
+        pa.Add("@SysName");
+        pv.Add(SystemName);
+
+        pa.Add("@ReqId");
+        pv.Add(ReqId);
+
+        DBH.CreateDatasetERM_Data(ds, "SP_TOC", true, pa, pv);
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                oListEngnComm.Add(new SystemEngnTest()
+                {
+                    Engineering = dt.Rows[i]["Engineering"].ToString(),
+                    TestnComm = dt.Rows[i]["TestnCommision"].ToString(),
+                });
+            }
+        }
+        return oListEngnComm;
+
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
     //public static string AddUpdateReq(List<Inventory> data, string OptNo, string ReqNo, string ReqDate)
     public static void UpdateReqStatus(string ReqId, string Status, string EstimatorEmpNo)
     {
@@ -1958,6 +1998,14 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
     public class ItemIntoFloorsPara
     {
         public List<ItemIntoFloors> listFloors { get; set; }
+    }    
+    public class SystemEngnTest {
+        public string Engineering { get; set; }
+        public string TestnComm { get; set; }
+    }
+    public class listEngnTestnCommission
+    {
+        public List<SystemEngnTest> listEngnTestnComm { get; set; }
     }
 
 

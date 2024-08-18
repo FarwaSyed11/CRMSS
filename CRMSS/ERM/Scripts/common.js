@@ -32,3 +32,7 @@ function numberWithCommas(number) {
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");
 }
+function fixedtwo(num) {
+    var new_num = parseFloat(num).toFixed(2);
+    return new_num
+}

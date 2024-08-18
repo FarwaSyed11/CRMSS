@@ -73,10 +73,10 @@ function SummaryReports() {
                 htm += `<tbody class="summary-tbody"><tr>
                 <td>`+ item.Name + `</td>
                 <td>`+ item.Equipment + `</td>
-                <td>`+ numberWithCommas(parseInt(item.PipeFittings)) + `</td>
-                <td>`+ numberWithCommas(parseInt(item.Installation)) + `</td>
-                <td>`+ numberWithCommas(parseInt(item.Engineering)) + `</td>
-                <td>`+ numberWithCommas(parseInt(item.TestingnCommissioning)) + `</td>
+                <td>`+ numberWithCommas(fixedtwo(item.PipeFittings)) + `</td>
+                <td>`+ numberWithCommas(fixedtwo(item.Installation)) + `</td>
+                <td>`+ numberWithCommas(fixedtwo(item.Engineering)) + `</td>
+                <td>`+ numberWithCommas(fixedtwo(item.TestingnCommissioning)) + `</td>
                 <td>`+ item.OverHead + `</td>
                 <td>`+ item.Total + `</td>`
                 htm += `</tr><tbody>`
@@ -247,11 +247,11 @@ function strItemDeets(item) {
                     
                     <td>`+ parseInt(sysItem.Quantity) +`</td>
                     <td>`+ parseInt(sysItem.Spare) +`</td>
-                    <td class="text-center">`+  numberWithCommas(parseInt(sysItem.PipeFittingsUP)) + `</td>
-                    <td class="text-center">`+  numberWithCommas(parseInt(sysItem.TOTPipeFittings)) + `</td>
-                    <td class="text-center">`+  numberWithCommas(parseInt(sysItem.Installation))   + `</td>
-                    <td class="text-center">`+  numberWithCommas(parseInt(sysItem.TOTInstallation)) + `</td>
-                    <td class="text-center">`+ numberWithCommas((parseInt(sysItem.TOTInstallation) + parseInt(sysItem.TOTPipeFittings))) + `</td></tr>
+                    <td class="text-center">`+ numberWithCommas(fixedtwo(sysItem.PipeFittingsUP)) + `</td>
+                    <td class="text-center">`+ numberWithCommas(fixedtwo(sysItem.TOTPipeFittings)) + `</td>
+                    <td class="text-center">`+ numberWithCommas(fixedtwo(sysItem.Installation))   + `</td>
+                    <td class="text-center">`+ numberWithCommas(fixedtwo(sysItem.TOTInstallation)) + `</td>
+                    <td class="text-center">`+ numberWithCommas(fixedtwo((sysItem.TOTInstallation) + (sysItem.TOTPipeFittings))) + `</td></tr>
                     `
             totpf = (parseInt(sysItem.TOTPipeFittings) == undefined ? 0 : parseInt(sysItem.TOTPipeFittings)) + parseInt(totpf);
             totins = (parseInt(sysItem.TOTInstallation) == undefined ? 0 : parseInt(sysItem.TOTInstallation)) + parseInt(totins);
@@ -295,14 +295,13 @@ function getAlternateItemsDetReport(col, itmcode, listAlternateItems) {
 
 function summaryHTMLfooter(Engineering, TestnComm, allTOT, Installation) {
     htmTfooter = `<tr><table><div class="float-right w-50" style="font-size:14px">
-                        <div class=""><label class="border w-50 m-0 p-3">Engineering</label> <label class="border w-50 p-3 m-0 float-right">`+ numberWithCommas(Engineering) + ` </label></div>
-                        <div class=""><label class="border w-50 m-0 p-3"> Test and Commission </label> <label class="border m-0 w-50 p-3 float-right">`+ numberWithCommas(TestnComm) + `</label></div>
-                        <div class=""><label class="border w-50 m-0 p-3"> Installation  </label> <label class="border m-0 w-50 p-3 float-right">`+ numberWithCommas(Installation) + `</label></div>
-                        <div class=""><label class="border w-50 m-0 p-3">Total</label> <label class="border w-50 p-3 m-0 float-right">` + numberWithCommas(allTOT) + `</label></div>
+                        <div class=""><label class="border w-50 m-0 p-3">Engineering</label> <label class="border w-50 p-3 m-0 float-right">`+ numberWithCommas(fixedtwo(Engineering)) + ` </label></div>
+                        <div class=""><label class="border w-50 m-0 p-3"> Test and Commission </label> <label class="border m-0 w-50 p-3 float-right">`+ numberWithCommas(fixedtwo(TestnComm)) + `</label></div>
+                        <div class=""><label class="border w-50 m-0 p-3"> Installation  </label> <label class="border m-0 w-50 p-3 float-right">`+ numberWithCommas(fixedtwo(Installation)) + `</label></div>
+                        <div class=""><label class="border w-50 m-0 p-3">Total</label> <label class="border w-50 p-3 m-0 float-right">` + numberWithCommas(fixedtwo(allTOT)) + `</label></div>
                       </div>
                   </table></tr>
                  `
     //$('#summaryFooter').html(htmTfooter);
     return htmTfooter;
 }
-
