@@ -12,6 +12,12 @@ var listStructureBasic = [], listReqStructFloors = [];
 var FloorTypesArr = [];
 var checkFlrCount = 0;
 
+var selOldRequestId = 0, selOldStructId = 0;
+var listStructureBasicCopy = [];
+var listReqStructFloorsCopy = [];
+var listAllReqscopy = [];
+var oper = 0;
+
 $(document).ready(function () {
 
 });
@@ -159,6 +165,7 @@ function ViewStructure() {
         url: "EMSItemList.aspx/ViewStructure",
         data: JSON.stringify({
             "RequestID": selRequest[0].ReqId,
+            "UserId": currUserId
         }),
         type: "POST",
         contentType: "application/json;charset=utf-8",
@@ -523,6 +530,9 @@ function OtherFloorType() {
     $("#txtFlrTypeAlias").val('');
     $("#AddFloorTypeModal").modal('show');
 }
+$("#txtFlrTypeName").on('keyup', function () {
+    $("#txtFlrTypeAlias").val($("#txtFlrTypeName").val())
+})
 function AddMoreFloorType() {
     if ($("#txtFlrTypeName").val().trim() == "" && $("#txtFlrTypeAlias").val().trim() == "") {
         toastr.error("Please input Floor Name and Floor Alias")
@@ -532,7 +542,8 @@ function AddMoreFloorType() {
             url: "EMSItemList.aspx/AddFloorType",
             data: JSON.stringify({
                 "FloorTypeName": $("#txtFlrTypeName").val().trim(),
-                "FloorTypeAlias": $("#txtFlrTypeAlias").val().trim()
+                "FloorTypeAlias": $("#txtFlrTypeAlias").val().trim(),
+                "ReqId": selReqId
             }),
             type: "POST",
             contentType: "application/json;charset=utf-8",
@@ -560,6 +571,10 @@ function getAllFloorTypes() {
     $.ajax({
         url: "EMSItemList.aspx/GetAllFloorTypes",
         type: "POST",
+        data: JSON.stringify({
+            "UserId": currUserId,
+            "ReqId": selReqId
+        }),
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         async: false,
@@ -612,6 +627,73 @@ $("#mainFloorTypes").on('click','input[name=cb-floors-type]', function () {
 
 })
 
+
+$('.btn-imp-temp-grid').on('click', function () {
+    getAllTemplates();
+    $("#ImportTemptListModal").modal('show');
+});
+
+function getAllTemplates() {
+       
+        $.ajax({
+            url: "EMSItemList.aspx/GetAllTemplates",
+            data: JSON.stringify({
+                "ReqId": selReqId
+            }),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                var htm = '';
+                $.each(result.d, function (key,item) {
+                    htm += '<option value="' + item.Value + '"> ' + item.Text +' </option>'; 
+                })
+                $("#ddlImpTempList").html(htm);
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    
+}
+
+$(".btnImprtTemp").on('click', function () {
+
+    importTemplatesIntoReq();
+})
+
+function importTemplatesIntoReq() {
+
+    $.ajax({
+        url: "EMSItemList.aspx/ImportTemplate",
+        data: JSON.stringify({
+            "ReqId": selReqId,
+            "UserId": currUserId,
+            "ProjNo": $("#txtProjRef").html(),
+            "TempId": $("#ddlImpTempList option:selected").val()
+
+        }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            if (result.d.ErrorType == "error") {
+                toastr.error(result.d.MsgText, '');
+            } else {
+                toastr.success(result.d.MsgText, '');
+                $("#ImportTemptListModal").modal('hide');
+                ViewStructure();
+                generateHTMLForStruct();
+            }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
 
 function validateTaskControls() {
     var isValid = true
@@ -677,3 +759,225 @@ function resetStructureControls() {
     $("#mainFloorTypes .mainFloorSub input[type=number][name=txtForFloorsTypes]").val('');
     $("#mainFloorTypes .mainFloorSub input[type=number][name=txtForFloorsTypes]").css('box-shadow', '').css('border-color', 'lightgrey');
 }
+
+
+//---------------------COPY STRUCTURE-------------------<starts>---//
+
+function ViewCopiedStructure() {
+
+    $.ajax({
+        url: "EMSItemList.aspx/ViewCopiedStructure",
+        data: JSON.stringify({
+            "StructureId": copiedStructID
+            //"RequestID": selRequest[0].ReqId,
+            //"UserId": currUserId
+        }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            listStructureBasicCopy = result.d.listReqMaster;
+            listReqStructFloorsCopy = result.d.listReqStructFloors;
+            selOldRequestId = listStructureBasicCopy[0].ReqID;
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
+function getAllExistingStructures() {
+
+    $.ajax({
+        url: "EMSItemList.aspx/getAllExistingStructures",
+        type: "POST",
+        data: JSON.stringify({ "UserId": currUserId }),
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '<option value="-1" >Select from existing Structures</option>';
+
+            $.each(result.d, function (key, item) {
+
+                htm += '<option value="' + item.Value + '" >' + item.Text + ' </option>'
+            });
+
+            $('#ddlCopyStructure').html(htm);
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+$("#ddlCopyStructure").on('change', function () {
+    copiedStructID = $('#ddlCopyStructure option:selected').val();
+    ViewCopiedStructure(copiedStructID);
+    generateHTMLForStructCopy();
+    $(".btnAddTypical").css('display', 'none');
+    $(".struct-edit").css('display', 'none');
+})
+$(".btnAddExising").on('click', function () {
+    $("#addReqModal").modal('hide');
+    $("#modalCopyExisting").modal('show');
+    getAllExistingStructures();
+})
+
+$("._goBack").on('click', function () {
+    $("#addReqModal").modal('show');
+    $("#modalCopyExisting").modal('hide');
+})
+$("#btnConfirm").on('click', function () {
+    $("#modalConfirm").modal('show');
+})
+
+$("#btnConfirm").on('click', function () {
+    $("#modalConfirm").modal('show');
+})
+
+$("input[type=radio][name=AddExisting]").on('change', function () {
+
+    oper = $("input[type=radio][name=AddExisting]:checked").val()
+})
+
+$(".btnCopyEstimation").on('click', function () {
+    $("#modalConfirm").modal('hide');
+    $("#modalCopyExisting").modal('hide');
+    $("#addReqModal").modal('show');
+
+    AddCopiedEst(oper);
+    ViewStructure();
+    generateHTMLForStruct();
+    getSystemsNItems();
+
+
+})
+
+function AddCopiedEst(oper) {
+    $.ajax({
+        url: "EMSItemList.aspx/AddCopiedEst",
+        type: "POST",
+        data: JSON.stringify({ "UserId": currUserId, "NewRequestId": selReqId, "OldReqId": selOldRequestId, "oper": oper/*"OldStrctId": copiedStructID */ }),
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            toastr.success('Structure and TOC Copied(without items) successfully.', '');
+            selStructId = result.d;
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
+function AddCopiedEstWithQty() {
+    $.ajax({
+        url: "EMSItemList.aspx/AddCopiedEstQty",
+        type: "POST",
+        data: JSON.stringify({/* "UserId": currUserId,*/ "NewRequestId": selReqId, "OldReqId": selOldRequestId }),
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            toastr.success('Structure and TOC Copied(with items) successfully.', '');
+            selStructId = result.d;
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
+
+function generateHTMLForStructCopy() {
+    var htm = '';
+    //  $('.tbody-Structure td').length > 0 ? objdatatableStructure.destroy() : '';
+    var res = listAllReqs.filter(s => s.ReqId == selReqId);
+
+    $.each(listStructureBasicCopy, function (key, item) {
+
+
+        htm += `<div class="accordion-item">
+                            <div class="card">`
+        htm += `<h2 class="card-header" id="heading` + item.prjNumber + `-` + item.StructureID + `">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse` + item.StructureID + `" aria-expanded="false" aria-controls="collapse` + item.StructureID + `" style="color: #000000;text-transform: capitalize;">` + (key + 1) + `.  ` + item.StructureName + `<span class="position-absolute" style="right: 80px;"> Total Floors:  ` + item.TotalNumberOfFloor + `</span>`
+        if (res[0].EstimationStatus.toUpperCase() != "RELEASED") {
+            htm += `<span class="position-absolute" style="right: 214px;"> <i class="bx bx-edit-alt struct-edit" style="color:#1eb0d0;font-size: 1.9rem;" onclick="openModalEditStruct(` + item.StructureID + `)"></i></span>`
+        }
+        htm += `</button> </h2>`
+
+        htm += `<div id="collapse` + item.StructureID + `" class="accordion-collapse collapse show" aria-labelledby="heading` + item.prjNumber + `-` + item.StructureID + `" data-bs-parent="#accordionStructure">
+                                    <div class="card-body">
+                                    
+                                        <div class="row">`
+        if (res[0].EstimationStatus.toUpperCase() != "RELEASED") {
+            htm += `<div class="col-12">
+                        <button type="button" class="btn btn-primary btnAddTypical float-right" style="width: 124px;font-size: 12px;" onclick="openTypicalModal(` + selRequest[0].ReqId + `,` + item.StructureID + `)">Add Typical Floors</button>
+                    </div>`
+        }
+
+
+        htm += `<div class="col-1">
+                    <div class="table">
+                        <table class="table project-table table-Structure">
+                            <tbody>
+                                <tr>
+                                    <td class="fw-bold"> Floor Name</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold"> Floor Type</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold"> Typical</td>
+                                </tr>
+                                <tr>
+                                    <td class="fw-bold"> Typical Of</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-11">
+                    <div class="table" style="overflow-x: scroll;">
+                        <table class="table project-table d-flex">
+                        `+ ViewStructureDeetsCopy(item.StructureID) + `
+                        </table>
+                                                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>                        
+    </div>`
+
+        // htm += `</tr>`;
+    });
+    $('#accordionStructureView').html(htm);
+}
+
+function ViewStructureDeetsCopy(strctid) {
+    var htm = '';
+    var res = listReqStructFloorsCopy.filter(xx => xx.StructureID == strctid);
+
+    $.each(res, function (key, item) {
+
+        htm += `
+                <tbody class="text-nowrap" style="width:100px;float: left; margin-right:0px">
+                    <tr style="width:100px;"><td class="fw-bold" style="width:100px;">`+ item.Name + `</th></tr>
+                    <tr style="width:100px;"><td style="width:100px;"> `+ item.Type + `</td></tr>
+                    <tr style="width:100px;"><td style="width:100px;"> `+ (item.IsTypical == '' ? '-' : "<i class='bx bx-check' style='color: #38b316;'></i>") + `</td></tr>
+                    <tr style="width:100px;"><td style="width:100px;"> `+ (item.TypicalOf == '' ? '-' : item.TypicalOf) + `</td></tr>
+                </tbody>`
+
+        htm += `</tr>`;
+    });
+    return htm;
+}
+
+//---------------------COPY STRUCTURE-------------------<ends>---//

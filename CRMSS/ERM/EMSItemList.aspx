@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="EMSItemList.aspx.cs" Inherits="Sales_EMSItemList" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="EMSItemList.aspx.cs" Inherits="Sales_EMSItemList" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
@@ -11,6 +11,28 @@
     <link rel="stylesheet" href="../Template/assets/vendor/libs/richtexteditor/richtext.css" />
 
     <style type="text/css">
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+            /* Handle on hover */
+            ::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+
+        ::-webkit-scrollbar {
+            height: 8px; /* height of horizontal scrollbar ← You're missing this */
+            width: 4px; /* width of vertical scrollbar */
+            border: 1px solid #d5d5d5;
+        }
+
         .badge-optional {
             color: #fff;
             background-color: #d17952a6;
@@ -434,7 +456,7 @@
                             </svg>Submit</button>
                     </div>
 
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-mainreq-modal" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -454,12 +476,15 @@
                                         </ul>
                                     </div>
 
-                                    <div class="col-12" style="height: 600px; overflow-y: auto;">
+                                    <div class="col-12">
+                                        <%--style="height: 600px; overflow-y: auto;"--%>
                                         <div class="tab-content" id="nav-tabContent">
                                             <div class="tab-pane fade show active" id="nav-Details" role="tabpanel" aria-labelledby="nav-home-tab">
+                                                <button class="btn btn-primary float-right" onclick="javascript:printDiv('Estimation-details-rectangle-divS')">Print</button>
                                                 <div id="Estimation-details-rectangle-divS" style="">
                                                     <div class="row mt-4 mb-4" style="">
-                                                        <h5 class="fw-bold prpmdl-hed border-bottom" id="" style="">Details</h5>
+                                                        <h5 class="fw-bold prpmdl-hed border-bottom" id="H3" style="">Details</h5>
+
                                                     </div>
                                                     <div class="row ">
                                                         <div class="d-flex" style="width: 25%;">
@@ -780,7 +805,7 @@
                                                             <input type="radio" id="rdQtSmart" name="Quotation" value="SMART QTNG" style="margin-left: 5%" disabled>SMART QTNG
                                                             <input type="radio" id="rdQtAndSp" name="Quotation" value="AS PER DRAWING AND SPECIFICATION" style="margin-left: 5%" disabled>AS PER DRAWING & SPECIFICATION
  
-                                                            <%-- <a href="#" id="btnSubmitOptDet" class="btn btn-primary" style="float:right;">Submit</a>--%>
+            <%-- <a href="#" id="btnSubmitOptDet" class="btn btn-primary" style="float:right;">Submit</a>--%>
                                                         </div>
                                                     </div>
 
@@ -810,14 +835,31 @@
                                                 </div>
                                             </div>
                                             <div class="tab-pane fade" id="nav-Structure" role="tabpanel" aria-labelledby="nav-Structure-tab">
+                                                <%--<div class="row"><span>Import Template</span>  <span><i class='bx bx-upload btn-imp-temp-grid' style="cursor:pointer;"></i></span> </div>--%>
+
+
+
                                                 <div class="row mt-4 mb-4" style="">
                                                     <h5 class="fw-bold prpmdl-hed border-bottom" id="" style="">Structure</h5>
+                                                    <div class="col-12 mb-3">
+                                                        <button type="button" class="btn btn-primary btnAddExising float-left hide-control-bos me-2" style="">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
+                                                                <path fill="white" d="M15 16H9a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2m-6-6h1a1 1 0 0 0 0-2H9a1 1 0 0 0 0 2m6 2H9a1 1 0 0 0 0 2h6a1 1 0 0 0 0-2m4.71 3.29a1 1 0 0 0-.33-.21a.92.92 0 0 0-.76 0a1 1 0 0 0-.33.21a1.2 1.2 0 0 0-.21.33a1 1 0 0 0 .21 1.09A1 1 0 0 0 19 17a1 1 0 0 0 .38-.08a1.2 1.2 0 0 0 .33-.21a1 1 0 0 0 .21-1.09a1.2 1.2 0 0 0-.21-.33M20 8.94a1.3 1.3 0 0 0-.06-.27v-.09a1 1 0 0 0-.19-.28l-6-6a1 1 0 0 0-.28-.19a.3.3 0 0 0-.09 0a.9.9 0 0 0-.33-.11H7a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h8a1 1 0 0 0 0-2H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5v3a3 3 0 0 0 3 3h3v2a1 1 0 0 0 2 0zM15 8a1 1 0 0 1-1-1V5.41L16.59 8Zm4 10a1 1 0 0 0-1 1v2a1 1 0 0 0 2 0v-2a1 1 0 0 0-1-1" />
+                                                            </svg>
+                                                            Copy from Estimation
+                                                        </button>
+                                                        <button type="button" class="btn btn-primary btn-imp-temp-grid float-left" style="">
+                                                            <i class='bx bx-upload' style="cursor: pointer;"></i>
+                                                            Import Template
+                                                        </button>
+                                                        <button type="button" class="btn btn-primary btnAddStructure float-right hide-control-bos" style="">Add New Structure</button>
+                                                    </div>
                                                 </div>
-                                                <div id="div-structure">
+                                                <div id="div-structure" style="height: 600px; overflow-y: auto; overflow-x: hidden;">
                                                     <div class="row">
-                                                        <div class="col-12 mb-3">
+                                                        <%--  <div class="col-12 mb-3">
                                                             <button type="button" class="btn btn-primary btnAddStructure float-right hide-control-bos" style="">Add New Structure</button>
-                                                        </div>
+                                                        </div>--%>
                                                         <div class="col-12">
                                                             <div class="accordion" id="accordionStructure">
                                                                 <%--          <div class="accordion-item">
@@ -883,6 +925,8 @@
                                                 <div class="row mt-4 mb-4" style="">
                                                     <h5 class="fw-bold prpmdl-hed border-bottom" id="" style="">TOC</h5>
                                                 </div>
+
+
                                                 <div class="">
                                                     <button type="button" class="btn btn-primary btn-req-complete-grid">
                                                         <i class='bx bx-notepad'></i>
@@ -913,10 +957,43 @@
                                                             <path fill="#fff" d="M11 11H9v1h2v2h1v-2h2v-1h-2V9h-1zM7.758 9a4.5 4.5 0 1 1-.502 4H6v-1h1.027a4.55 4.55 0 0 1 .23-2H6V9zM2 4V3h2v1zm4 0V3h8v1zm0 3V6h8v1zM2 7V6h2v1zm0 3V9h2v1zm0 3v-1h2v1z" />
                                                         </svg>
                                                         Add Item(s)</button>
+                                                    <button type="button" class="btn btn-primary btn-add-firepump float-right me-2">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
+                                                            <g fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" color="white">
+                                                                <path d="M2 17.5h6m0 3H2m14-3h6m0 3h-6M13.5 12h-3v4h3z" />
+                                                                <path d="M17 7A5 5 0 1 1 7 7a5 5 0 0 1 10 0m-5 0l1.5-1.5M14 16h-4c-.943 0-1.414 0-1.707.293S8 17.057 8 18v2c0 .943 0 1.414.293 1.707S9.057 22 10 22h4c.943 0 1.414 0 1.707-.293S16 20.943 16 20v-2c0-.943 0-1.414-.293-1.707S14.943 16 14 16" />
+                                                            </g>
+                                                        </svg>
+                                                        Add Fire Pump
+                                                    </button>
                                                 </div>
 
-                                                <div class="row system-div-parent">
-                                                    <%--  <div class="col-md-12 mt-3">
+
+
+                                                <div class="nav-align-top" id="TOCTabsOfAddingDivParent">
+
+                                                    <ul class="nav nav-tabs" role="tablist" style="display: flex; justify-content: center;">
+                                                        <li class="nav-item">
+                                                            <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-toc-by-item" aria-controls="navs-toc-by-item" aria-selected="true">TOC by Item</button>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-toc-by-floor" aria-controls="navs-toc-by-floor" aria-selected="false">TOC by Floor</button>
+                                                        </li>
+                                                    </ul>
+
+                                                    <div class="row ddl-struct-filter-div mb-1 hidden">
+                                                        <div class="col-md-1">
+                                                            <label class="float-right">Structure</label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <select id="ddlStructNameTOCFilter" class="form-select color-dropdown"></select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="tab-content" style="height: 600px; overflow-y: auto; overflow-x: hidden;">
+                                                        <div class="tab-pane fade show active" id="navs-toc-by-item" role="tabpanel">
+                                                            <div class="row system-div-parent">
+                                                                <%--  <div class="col-md-12 mt-3">
                                                         <div style="background: #fcfafa; text-align: center; border: 1px solid #b70000; color: black; border-radius: 20px 20px 3px 3px; font-weight: 600; padding: 15px 0px 15px 0px;">SPRINKLER SYSTEM</div>
                                                         <div class="category my-2" style="font-size: 12px"><b>1. SPRINKLER HEAD</b> </div>
 
@@ -978,7 +1055,22 @@
                                                             </table>
                                                         </div>
                                                     </div>--%>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="tab-pane fade" id="navs-toc-by-floor" role="tabpanel">
+
+                                                            <div class="row system-div-parent-for-byfloor">
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+
                                                 </div>
+
+
 
                                             </div>
 
@@ -1163,7 +1255,11 @@
                         </div>
                     </div>
 
-
+                    <div class="row float-end mb-3 mt-3">
+                        <div class="col-md-1">
+                            <button type="button" class="btn btn-primary btnUpdateTypicalFloors">Save </button>
+                        </div>
+                    </div>
 
                     <div class="table mt-5 temp-sel-typifloor-table-div" style="overflow-y: auto; max-height: 800px;">
                         <table class="table temp-sel-typifloor-table" style="width: 100%;">
@@ -1188,10 +1284,10 @@
                     </div>
 
                 </div>
-                <div class="modal-footer">
+                <%--  <div class="modal-footer">
                     <button type="button" class="btn btn-primary btnUpdateTypicalFloors">Save </button>
-                    <%--<button type="button" class="btn btn-primary btnSubmit hidden">Publish</button>--%>
-                </div>
+                   
+                </div>--%>
             </div>
         </div>
     </div>
@@ -1321,7 +1417,7 @@
                         </div>
                         <div class="col mb-6">
                             <label for="nameBackdrop" class="form-label">Floor Type Alias</label>
-                            <input type="text" id="txtFlrTypeAlias" class="form-control" placeholder="eg: FLR">
+                            <input type="text" id="txtFlrTypeAlias" class="form-control" disabled>
                         </div>
                     </div>
 
@@ -1343,6 +1439,9 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="tagFloorIntoItemsLabel">Floor</h5>
+                    <div style="display: flex; justify-content: end; width: 91%;">
+                        <button type="button" class="btn btn-primary btnAddFloorsIntoItem">Save </button>
+                    </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" style="zoom: 85%;">
@@ -1386,6 +1485,8 @@
                                     <th>Item Code</th>
                                     <th>Floor Name</th>
                                     <th>Quantity</th>
+                                    <th>Structure</th>
+                                    <th>Action</th>
 
                                 </tr>
                             </thead>
@@ -1394,10 +1495,9 @@
                         </table>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btnAddFloorsIntoItem">Save </button>
-                    <%--<button type="button" class="btn btn-primary btnSubmit hidden">Publish</button>--%>
-                </div>
+                <%--   <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btnAddFloorsIntoItem">Save </button>                    
+                </div>--%>
             </div>
         </div>
     </div>
@@ -1534,196 +1634,229 @@
             <div class="modal-content" style="zoom: 110%;">
                 <div class="modal-header">
                     <h5 class="modal-title" id="H1">Summary Reports</h5>
+                    <div class="" style="width: 85%;">
+                        <button class="btn btn-primary print float-right">Print</button>
+                    </div>
                     <button type="button" class="btn-close _goBack" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <section>
+                    <div class="content">
+                        <div class="modal-body-wrapper" style="height: 62vh;">
+                            <div class="modal-body pagebreak" id="modalSummary2">
+                                <div id="Estimation-details-rectangle-div" style="">
 
-                    <div id="Estimation-details-rectangle-div" style="">
+                                    <div class="row border">
+                                        <div class="py-1 border-bottom border-right" style="width: 10%;">
+                                            <label for="html5-number-input" class="  label-custom">Request ID:</label>
+                                            <label id="SummarytxtEstRef" value="" class="noborderbg">EMS.0004</label>
+                                        </div>
 
-                        <div class="row border">
-                            <div class="py-1 border-bottom border-right" style="width: 10%;">
-                                <label for="html5-number-input" class="  label-custom">Request ID:</label>
-                                <label id="SummarytxtEstRef" value="" class="noborderbg">EMS.0004</label>
-                            </div>
+                                        <div class="py-1 border-bottom border-right" style="width: 27%;">
+                                            <span for="html5-number-input" class="  label-custom">Project Name: </span>
+                                            <span id="SummarytxtPrjName" value="" class="noborderbg" style="">Prop Commercial/ Residential Building G+7+R at Warsan Fourth 624 on Plot # IC3-58-03, Dubai</span>
+                                        </div>
 
-                            <div class="py-1 border-bottom border-right" style="width: 27%;">
-                                <span for="html5-number-input" class="  label-custom">Project Name: </span>
-                                <span id="SummarytxtPrjName" value="" class="noborderbg" style="">Prop Commercial/ Residential Building G+7+R at Warsan Fourth 624 on Plot # IC3-58-03, Dubai</span>
-                            </div>
+                                        <div class="py-1 border-bottom border-right" style="width: 12%;">
+                                            <label for="html5-number-input" class="  label-custom">Project Ref#:</label>
+                                            <label id="SummarytxtProjRef" value="" class="noborderbg">1006240212</label>
+                                        </div>
 
-                            <div class="py-1 border-bottom border-right" style="width: 12%;">
-                                <label for="html5-number-input" class="  label-custom">Project Ref#:</label>
-                                <label id="SummarytxtProjRef" value="" class="noborderbg">1006240212</label>
-                            </div>
-
-                            <div class="py-1 border-bottom border-right" style="width: 13%;">
-                                <label for="html5-number-input" class="  label-custom">Opportunity Ref#:</label>
-                                <label id="SummarytxtOppRef" value="" class="noborderbg">1024060210</label>
-                            </div>
-
-
-                            <div class="py-1 border-bottom border-right" style="width: 6%;">
-                                <label for="html5-number-input" class="  label-custom">Revision: </label>
-                                <label id="SummarytxtRevision" value="" class="noborderbg">1</label>
-                            </div>
-
-                            <div class="py-1 border-bottom border-right" style="width: 6%;">
-                                <label for="html5-number-input" class="  label-custom">Year:</label>
-                                <label id="SummarytxtEstYear" value="" class="noborderbg">2024</label>
-                            </div>
-                            <div class="py-1 border-bottom border-right" style="width: 13%;">
-                                <label for="html5-number-input" class="  label-custom">MEP Contractor: </label>
-                                <label id="SummarytxtPrjMEPContr" value="" class="noborderbg" style="">Grans Contlc</label>
-                            </div>
-                            <div class="py-1 border-bottom" style="width: 13%;">
-                                <label for="html5-number-input" class="  label-custom">Consultant:</label>
-                                <label id="SummarytxtPrjConsultant" value="" class="noborderbg" style="">Adnan Saffarini</label>
-                            </div>
-                            <div class="py-1 border-bottom border-right" style="width: 14%;">
-                                <label for="html5-number-input" class="  label-custom">Contr ABBR: </label>
-                                <label id="SummarytxtContrAbbr" value="" class="noborderbg" style=""></label>
-                            </div>
-
-                            <div class="py-1 border-bottom border-right" style="width: 15%;">
-                                <label for="html5-number-input" class="  label-custom">Main Contractor: </label>
-                                <label id="SummarytxtPrjMainContr" value="" class="noborderbg" style=""></label>
-                            </div>
+                                        <div class="py-1 border-bottom border-right" style="width: 13%;">
+                                            <label for="html5-number-input" class="  label-custom">Opportunity Ref#:</label>
+                                            <label id="SummarytxtOppRef" value="" class="noborderbg">1024060210</label>
+                                        </div>
 
 
+                                        <div class="py-1 border-bottom border-right" style="width: 6%;">
+                                            <label for="html5-number-input" class="  label-custom">Revision: </label>
+                                            <label id="SummarytxtRevision" value="" class="noborderbg">1</label>
+                                        </div>
+
+                                        <div class="py-1 border-bottom border-right" style="width: 6%;">
+                                            <label for="html5-number-input" class="  label-custom">Year:</label>
+                                            <label id="SummarytxtEstYear" value="" class="noborderbg">2024</label>
+                                        </div>
+                                        <div class="py-1 border-bottom border-right" style="width: 13%;">
+                                            <label for="html5-number-input" class="  label-custom">MEP Contractor: </label>
+                                            <label id="SummarytxtPrjMEPContr" value="" class="noborderbg" style="">Grans Contlc</label>
+                                        </div>
+                                        <div class="py-1 border-bottom" style="width: 13%;">
+                                            <label for="html5-number-input" class="  label-custom">Consultant:</label>
+                                            <label id="SummarytxtPrjConsultant" value="" class="noborderbg" style="">Adnan Saffarini</label>
+                                        </div>
+                                        <div class="py-1 border-bottom border-right" style="width: 14%;">
+                                            <label for="html5-number-input" class="  label-custom">Contr ABBR: </label>
+                                            <label id="SummarytxtContrAbbr" value="" class="noborderbg" style=""></label>
+                                        </div>
+
+                                        <div class="py-1 border-bottom border-right" style="width: 15%;">
+                                            <label for="html5-number-input" class="  label-custom">Main Contractor: </label>
+                                            <label id="SummarytxtPrjMainContr" value="" class="noborderbg" style=""></label>
+                                        </div>
 
 
-                            <div class="py-1 border-bottom border-right" style="width: 20%;">
-                                <label for="html5-number-input" class="  label-custom">Client: </label>
-                                <label id="SummarytxtPrjClient" value="" class="noborderbg" style=""></label>
-                            </div>
 
-                            <div class="py-1 border-bottom border-right" style="width: 12%;">
-                                <label for="html5-number-input" class="  label-custom">Location: </label>
-                                <label id="SummarytxtPrjLocation" value="" class="noborderbg" style=""></label>
-                            </div>
 
-                            <div class="py-1 border-bottom border-right" style="width: 13%;">
-                                <label for="html5-number-input" class="  label-custom">Contact Person: </label>
-                                <label id="SummarytxtPrjContactPerson" value="" class="noborderbg" style="" placeholder="-----Click to select Customer-----">19048</label>
-                            </div>
+                                        <div class="py-1 border-bottom border-right" style="width: 20%;">
+                                            <label for="html5-number-input" class="  label-custom">Client: </label>
+                                            <label id="SummarytxtPrjClient" value="" class="noborderbg" style=""></label>
+                                        </div>
 
-                            <div class="py-1 border-bottom border-right div-win" style="width: 7%;">
-                                <label for="html5-number-input" class="  label-custom">Winning %: </label>
-                                <label id="SummarytxtPrjWinningPerc" value="" class="noborderbg" style="">0</label>
-                            </div>
+                                        <div class="py-1 border-bottom border-right" style="width: 12%;">
+                                            <label for="html5-number-input" class="  label-custom">Location: </label>
+                                            <label id="SummarytxtPrjLocation" value="" class="noborderbg" style=""></label>
+                                        </div>
 
-                            <div class="py-1 border-bottom  border-right div-budge" style="width: 7%;">
-                                <label for="html5-number-input" class="  label-custom">Budget: </label>
-                                <label id="SummarytxtPrjBudget" value="" class="noborderbg" style="">0</label>
-                            </div>
-                            <div class="py-1 border-bottom" style="width: 12%;">
-                                <label for="html5-number-input" class="  label-custom">URL: </label>
-                                <label id="SummarytxtPrjURL" value="" class="noborderbg" style=""></label>
-                            </div>
+                                        <div class="py-1 border-bottom border-right" style="width: 13%;">
+                                            <label for="html5-number-input" class="  label-custom">Contact Person: </label>
+                                            <label id="SummarytxtPrjContactPerson" value="" class="noborderbg" style="" placeholder="-----Click to select Customer-----">19048</label>
+                                        </div>
 
-                            <div class="py-1 border-right " style="width: 20%;">
-                                <label for="html5-number-input" class="  label-custom">Estimation Team Org: </label>
-                                <label id="SummaryddlEstimationTeamOrg" class="noborderbg">Local Sales</label>
-                            </div>
+                                        <div class="py-1 border-bottom border-right div-win" style="width: 7%;">
+                                            <label for="html5-number-input" class="  label-custom">Winning %: </label>
+                                            <label id="SummarytxtPrjWinningPerc" value="" class="noborderbg" style="">0</label>
+                                        </div>
 
-                            <div class="py-1 border-right" style="width: 21%;">
-                                <label for="html5-number-input" class="  label-custom">Salesman:</label>
-                                <label id="SummarytxtSalesman" value="" class="noborderbg" style="">Altaf M A Mannan Ahmed</label>
-                            </div>
+                                        <div class="py-1 border-bottom  border-right div-budge" style="width: 7%;">
+                                            <label for="html5-number-input" class="  label-custom">Budget: </label>
+                                            <label id="SummarytxtPrjBudget" value="" class="noborderbg" style="">0</label>
+                                        </div>
+                                        <div class="py-1 border-bottom" style="width: 12%;">
+                                            <label for="html5-number-input" class="  label-custom">URL: </label>
+                                            <label id="SummarytxtPrjURL" value="" class="noborderbg" style=""></label>
+                                        </div>
 
-                            <div class="py-1 border-right" style="width: 20%;">
-                                <label for="html5-number-input" class="  label-custom">Marketing:</label>
-                                <label id="SummarytxtMarketing" value="" class="noborderbg" style="">Mohammad Attaya</label>
-                            </div>
-                        </div>
+                                        <div class="py-1 border-right " style="width: 20%;">
+                                            <label for="html5-number-input" class="  label-custom">Estimation Team Org: </label>
+                                            <label id="SummaryddlEstimationTeamOrg" class="noborderbg">Local Sales</label>
+                                        </div>
 
-                        <div class="row m1-2 fs-6 mb-4 border" style="">
-                            <div class="col-md-3 px-3 pb-2 border-right">
-                                <b>Stage :
-                                </b>
-                                <input type="radio" id="Radio1" name="SummaryStage" value="TENDER" style="margin-left: 5%" disabled="" class="fs-6" checked="Checked">TENDER 
-                            <input type="radio" id="Radio2" name="SummaryStage" value="J.O.H" style="margin-left: 5%" disabled="">JOH
-                            </div>
-                            <div class="col-md-4 border-right">
-                                <b>Scope :
-                                </b>
-                                <input type="radio" id="Radio3" name="SummarySupply" value="SUPPLY" style="margin-left: 5%" disabled="">SUPPLY
-                            <input type="radio" id="Radio4" name="SummarySupply" value="SUPPLY AND INSTALLATION" style="margin-left: 5%" disabled="" checked="Checked">SUPPLY &amp; INSTALLATION
-                            </div>
-                            <div class="col-md-5">
-                                <b>Quotation :
-                                </b>
-                                <input type="radio" id="Radio5" name="SummaryQuotation" value="SMART QTNG" style="margin-left: 5%" disabled="">SMART QTNG
-                            <input type="radio" id="Radio6" name="SummaryQuotation" value="AS PER DRAWING AND SPECIFICATION" style="margin-left: 5%" disabled="" checked="Checked">AS PER DRAWING &amp; SPECIFICATION
+                                        <div class="py-1 border-right" style="width: 21%;">
+                                            <label for="html5-number-input" class="  label-custom">Salesman:</label>
+                                            <label id="SummarytxtSalesman" value="" class="noborderbg" style="">Altaf M A Mannan Ahmed</label>
+                                        </div>
+
+                                        <div class="py-1 border-right" style="width: 20%;">
+                                            <label for="html5-number-input" class="  label-custom">Marketing:</label>
+                                            <label id="SummarytxtMarketing" value="" class="noborderbg" style="">Mohammad Attaya</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row m1-2 fs-6 mb-4 border" style="">
+                                        <div class="col-md-3 px-3 pb-2 border-right">
+                                            <b>Stage :
+                                            </b>
+                                            <input type="radio" id="Radio1" name="SummaryStage" value="TENDER" style="margin-left: 5%" disabled="" class="fs-6" checked="Checked">TENDER 
+    <input type="radio" id="Radio2" name="SummaryStage" value="J.O.H" style="margin-left: 5%" disabled="">JOH
+                                        </div>
+                                        <div class="col-md-4 border-right">
+                                            <b>Scope :
+                                            </b>
+                                            <input type="radio" id="Radio3" name="SummarySupply" value="SUPPLY" style="margin-left: 5%" disabled="">SUPPLY
+    <input type="radio" id="Radio4" name="SummarySupply" value="SUPPLY AND INSTALLATION" style="margin-left: 5%" disabled="" checked="Checked">SUPPLY &amp; INSTALLATION
+                                        </div>
+                                        <div class="col-md-5">
+                                            <b>Quotation :
+                                            </b>
+                                            <input type="radio" id="Radio5" name="SummaryQuotation" value="SMART QTNG" style="margin-left: 5%" disabled="">SMART QTNG
+    <input type="radio" id="Radio6" name="SummaryQuotation" value="AS PER DRAWING AND SPECIFICATION" style="margin-left: 5%" disabled="" checked="Checked">AS PER DRAWING &amp; SPECIFICATION
  
-        
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <nav class="nav-tab border-bottom">
+                                    <ul class="nav nav-pills" id="pills-tab-repots" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link active show" id="pill-summary-report-tab" data-bs-toggle="pill" data-bs-target="#summary-report-tab" type="button" role="tab" aria-controls="summary-report-tab" aria-selected="true">System Summary</button>
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <button class="nav-link" id="pill-sprinkler-tab" data-bs-toggle="pill" data-bs-target="#sprinkler-tab" type="button" role="tab" aria-controls="sprinkler-tab" aria-selected="false">Product Summary</button>
+                                        </li>
+
+                                    </ul>
+                                </nav>
+                                <div class="tab-content" id="pills-repocontent">
+                                    <div class="tab-pane fade show active" id="summary-report-tab" role="tabpanel" aria-labelledby="pill-summary-report-tab">
+
+                                        <div class="table">
+                                            <table class="table project-table summary-table">
+                                                <thead style="position: sticky; top: 0;">
+                                                    <tr>
+                                                        <th>System</th>
+                                                        <th>Equipments</th>
+                                                        <th>Consumables Pipes & Fittings</th>
+                                                        <th>Installation Labor Charge</th>
+                                                        <th>Engineering</th>
+                                                        <th>Testing & Commssioning</th>
+                                                        <th>Over Head 15%</th>
+                                                        <th>Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="summary-tbody">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="sprinkler-tab" role="tabpanel" aria-labelledby="pill-sprinkler-tab">
+
+                                        <div class=" table">
+                                            <table class="table project-table">
+                                                <thead style="position: sticky; top: 0;">
+                                                    <tr>
+                                                        <th style="width: 200px !important;" class="align-middle">Category</th>
+                                                        <th class="align-middle">Item Code</th>
+                                                        <th class="align-middle">Description</th>
+                                                        <th class="align-middle">Qty</th>
+                                                        <th class="text-center">Pipes & Fittings Unit Price</th>
+                                                        <th class="text-center">Total Pipes & Fittings</th>
+                                                        <th class="text-center">Installation Unit Price</th>
+                                                        <th class="text-center">Total Installation</th>
+                                                        <th class="align-middle text-center">Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="itemsummary-tbody">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <nav class="nav-tab border-bottom">
-                        <ul class="nav nav-pills" id="pills-tab-repots" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link active show" id="pill-summary-report-tab" data-bs-toggle="pill" data-bs-target="#summary-report-tab" type="button" role="tab" aria-controls="summary-report-tab" aria-selected="true">System Summary</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pill-sprinkler-tab" data-bs-toggle="pill" data-bs-target="#sprinkler-tab" type="button" role="tab" aria-controls="sprinkler-tab" aria-selected="false">Product Summary</button>
-                            </li>
-
-                        </ul>
-                    </nav>
-                    <div class="tab-content" id="pills-repocontent">
-                        <div class="tab-pane fade show active" id="summary-report-tab" role="tabpanel" aria-labelledby="pill-summary-report-tab">
-
-                            <div class="table">
-                                <table class="table project-table summary-table">
-                                    <thead style="position: sticky; top: 0;">
-                                        <tr>
-                                            <th>System</th>
-                                            <th>Equipments</th>
-                                            <th>Consumables Pipes & Fittings</th>
-                                            <th>Installation Labor Charge</th>
-                                            <th>Engineering</th>
-                                            <th>Testing & Commssioning</th>
-                                            <th>Over Head 15%</th>
-                                            <th>Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="summary-tbody">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="sprinkler-tab" role="tabpanel" aria-labelledby="pill-sprinkler-tab">
-
-                            <div class=" table">
-                                <table class="table project-table">
-                                    <thead style="position: sticky; top: 0;">
-                                        <tr>
-                                            <th style="width: 200px !important;" class="align-middle">Category</th>
-                                            <th class="align-middle">Item Code</th>
-                                            <th class="align-middle">Description</th>
-                                            <th class="align-middle">Qty</th>
-                                            <th class="text-center">Pipes & Fittings Unit Price</th>
-                                            <th class="text-center">Total Pipes & Fittings</th>
-                                            <th class="text-center">Installation Unit Price</th>
-                                            <th class="text-center">Total Installation</th>
-                                            <th class="align-middle text-center">Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="itemsummary-tbody">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
+                </section>
             </div>
         </div>
     </div>
 
+
+
+    <!-- IMPORT TEMPLATE Modal -->
+
+    <div class="modal fade" id="ImportTemptListModal" tabindex="-1" aria-hidden="true" style="background: #adacaca3;">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="lblFarig">Import Template</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="zoom: 90%;">
+                    <div class="row">
+                        <label>Please select any Template</label>
+                        <div>
+                            <select id="ddlImpTempList" class="form-select color-dropdown"></select>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btnImprtTemp">Import </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <%--DELETE CONFIMATION MODAL FOR ITEM in TOC --%>
     <div class="modal fade" id="delItemTOCModal" style="background-color: #00000070;" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -1749,6 +1882,210 @@
 
 
 
+    <%--Add from exiting structures --%>
+    <div class="modal fade" id="modalCopyExisting" style="background-color: #00000070;" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 80%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="H2">Copy Existing Estimation</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="pt-2 pb-4">
+                            <h5>Select any existing structure from the list:</h5>
+                        </div>
+                        <select id="ddlCopyStructure" class="form-select color-dropdown">
+                            <option value="-1">Select from existing Structure </option>
+                        </select>
+                        <div class="py-3">
+                            <input type="radio" name="AddExisting" value="0" checked>Add Without Item Qty
+                            <input type="radio" name="AddExisting" value="1" style="margin-left: 14%">Add With Item Qty
+                        </div>
+                        <div class="col-12">
+                            <div class="accordion" id="accordionStructureView">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div style="">
+                        <button type="button" class="btn btn-secondary _goBack" data-bs-dismiss="modal">No, Go back to Create Estimation</button>
+                        <button type="button" class="btn btn-primary" id="btnConfirm">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%--CONFIMATION MODAL FOR COPYING ESTIMATION--%>
+    <div class="modal fade" id="modalConfirm" style="background-color: #00000070;" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-body" style="text-align: center;">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="3rem" height="3rem" viewBox="0 0 24 24">
+                            <path fill="none" stroke="#f1be04" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9h8m-8 4h6m.5 5.5L12 21l-3-3H6a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v4.5M19 22v.01M19 19a2.003 2.003 0 0 0 .914-3.782a1.98 1.98 0 0 0-2.414.483" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3>Are you sure you want to copy this to your estmiation?</h3>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div style="margin-right: 165px;">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">NO</button>
+                        <button type="button" class="btn btn-primary btnCopyEstimation">YES</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%--ADD Fire Pump Requests from TOC--%>
+    <div class="modal fade" id="modalAddFirepumpReq" tabindex="-1" style="background: #a9a9a996;" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="H4">Add Fire Pumps</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="zoom: 85%;">
+                    <table class="table table-added-firepumpreqs" style="width: 100%;">
+                        <thead style="position: sticky; top: -3px;">
+                            <tr class="">
+                                <th style="width: 52px !important">No.</th>
+                                <th style="width: 52px !important">Area (Floor Desc)</th>
+                                <th style="width: 52px !important">Description</th>
+                                <th style="width: 52px !important">QTY</th>
+                                <th style="width: 52px !important">Type of Pump</th>
+                                <th style="width: 52px !important; text-align: center;">More Details</th>
+                            </tr>
+                        </thead>
+                        <tbody class="tbody-added-firepumpreqs">
+                        </tbody>
+                    </table>
+                    <a href="#" class="btn btn-primary" id="btnAddFirePumpItem" style="margin-top: 30px;">Add New</a>
+                    <a href="#" class="btn btn-success" id="btnSaveFirePumpItem" style="margin-top: 30px; display: none">Save</a>
+
+                    <div class="pumpLine">
+                        <%--<div class="row mx-3 py-3">
+                           <div class="form-check col-3">
+                               <input class="form-check-input" type="checkbox" value="" id="" name="isAttached">
+                               <label class="form-check-label" for="">
+                                   Specifications Attached
+                               </label>
+                           </div>
+                           <div class="form-check col-2">
+                               <input class="form-check-input" type="checkbox" value="" id="" name="isListofMake">
+                               <label class="form-check-label" for="">
+                                   List of Make
+                               </label>
+                           </div>
+                           <div class="form-check col-3">
+                               <input class="form-check-input" type="checkbox" value="" id="" name="isPumpSched">
+                               <label class="form-check-label" for="">
+                                   Pump Schedule
+                               </label>
+                           </div>
+                       </div>
+                       <div class="row mt-1">
+
+                           <table class="table table-fpreq" style="width: 100%;">
+                               <thead style="position: sticky; top: -3px;">
+                                   <tr class="">
+                                       <th style="width: 52px !important">No.</th>
+                                       <th style="width: 52px !important">Area (Floor Desc)</th>
+                                       <th style="width: 52px !important">Description</th>
+                                       <th style="width: 52px !important">QTY</th>
+                                       <th style="width: 52px !important">Type of Pump</th>
+                                   </tr>
+                               </thead>
+
+                               <tbody class="tbody-fpreq">
+                                   <tr>
+                                       <td>1</td>
+                                       <td>
+                                           <input type="text" id="" name="area" class="form-control mx-2" placeholder="basement" /></td>
+                                       <td>
+                                           <input type="text" id="" name="desc" class="form-control mx-2" placeholder="basement pump description" /></td>
+                                       <td>
+                                           <input type="number" id="" name="qty" class="form-control mx-2" placeholder="2" /></td>
+                                       <td>
+                                           <input type="text" id="" name="TypeofPump" class="form-control mx-2" placeholder="Horizontal Split"></td>
+                                   </tr>
+                                   <tr>
+                                       <td colspan="5">
+                                           <table class="">
+                                               <thead>
+                                                   <tr class="">
+                                                       <th style="width: 230px !important">Pump Set</th>
+                                                       <th style="width: 290px !important">Capacity</th>
+                                                       <th style="width: 100px !important">Bars</th>
+                                                       <th style="width: 100px !important">QTY</th>
+                                                   </tr>
+                                               </thead>
+                                               <tbody>
+                                                   <tr class="">
+                                                       <td>Electrical Pump Set</td>
+                                                       <td class="position-relative" style="">
+                                                           <input type="number" id="" name="capacity1" class="form-control mx-2" /><label class="static-value">@GPM</label></td>
+                                                       <td class="position-relative" style="">
+                                                           <input type="number" id="" name="bars1" class="form-control mx-2"><label class="static-value">Bars</label></td>
+                                                       <td class="position-relative" style="">
+                                                           <input type="number" id="" name="qty1" class="form-control mx-2"><label class="static-value">Set</label></td>
+                                                   </tr>
+                                                   <tr class="">
+                                                       <td>Diesel Pump Set</td>
+                                                       <td class="position-relative">
+                                                           <input type="number" id="" name="capacity2" class="form-control mx-2"><label class="static-value">@GPM</label></td>
+                                                       <td class="position-relative">
+                                                           <input type="number" id="" name="bars3" class="form-control mx-2"><label class="static-value">Bars</label></td>
+                                                       <td class="position-relative">
+                                                           <input type="number" id="" name="qty2" class="form-control  mx-2"><label class="static-value">Set</label></td>
+                                                   </tr>
+                                                   <tr class="">
+                                                       <td>Jockey Pump Set</td>
+                                                       <td class="position-relative">
+                                                           <input type="number" id="" name="capacity3" class="form-control mx-2"><label class="static-value">@GPM</label></td>
+                                                       <td class="position-relative">
+                                                           <input type="number" id="" name="bars3" class="form-control mx-2"><label class="static-value">Bars</label></td>
+                                                       <td class="position-relative">
+                                                           <input type="number" id="" name="qty3" class="form-control mx-2"><label class="static-value">Set</label></td>
+                                                   </tr>
+                                               </tbody>
+                                           </table>
+                                       </td>
+                                   </tr>
+                               </tbody>
+                           </table>
+                       </div>--%>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%--View Fire Pump Requests Details--%>
+    <div class="modal fade" id="modalViewFirepumpReqDeets" tabindex="-1" style="background: #a9a9a996;" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="H5">View Request Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="zoom: 85%;">
+
+                    <div class="pumpLineView p-3 m-1 border rounded">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
     <script type="text/javascript">
         var currUserId = '';
@@ -1767,10 +2104,11 @@
 
     <!-- Page JS/CSS file -->
     <script src="Scripts/common.js?v=2.2"></script>
-    <script src="Scripts/ems-item-list.js?v=2.2"></script>
+    <script src="Scripts/ems-item-list.js?v=5.5"></script>
     <script src="Scripts/Structure.js?v=3.3"></script>
-    <script src="Scripts/TOC.js?v=3"></script>
+    <script src="Scripts/TOC.js?v=3.7"></script>
     <script src="Scripts/SummaryReports.js?v=2.2"></script>
+    <script src="Scripts/FirePump.js?v=1.1"></script>
 
     <link href="css/RecruitmentCss.css?v=1.1" rel="stylesheet" />
 

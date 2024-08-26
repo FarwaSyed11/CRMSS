@@ -215,6 +215,25 @@
             border-bottom: 1px solid #96a2ab45 !important;
         }
 
+        .Approval-list-table th {
+            text-align: center;
+            color: black !important;
+            background-color: white;
+        }
+
+        .Comments-list-table th {
+            text-align: center;
+            color: black !important;
+            background-color: white;
+        }
+        
+          .Attachment-list-table th {
+            text-align: center;
+            color: black !important;
+            background-color: white;
+        }
+        
+
 
         .Product-list-table th {
             text-align: center;
@@ -236,21 +255,13 @@
             border-bottom: 1px solid #96a2ab45 !important;
         }
 
-        .Attachment-list-table th {
-            text-align: center;
-            color: white !important;
-            background-color: #d54832;
-        }
+      
 
         .Attachment-list-table td {
             border-bottom: 1px solid #96a2ab45 !important;
         }
 
-        .Approval-list-table th {
-            text-align: center;
-            color: white !important;
-            background-color: #d54832;
-        }
+       
 
         .Approval-list-table td {
             border-bottom: 1px solid #96a2ab45 !important;
@@ -438,6 +449,19 @@
                                 </label>
                                 <select id="ddlRequestStatus" class="form-select color-dropdown"></select>
                             </div>
+                             <div class="input-group me-4">
+                               <div class="input-group">
+                                <label class="input-group-text" for="">
+                                    <asp:Label ID="Label2" Text="Stage" runat="server" />
+                                </label>
+                                <select id="ddlStageFilter" class="form-select color-dropdown">
+                                     <option value="-1">ALL</option>
+                                    <option value="J.O.H">J.O.H</option>
+                                     <option value="Tender">TENDER</option>
+                                </select>
+                            </div>
+                                 </div>
+                          
                         </div>
                         <div class="col-6">
                             <a href="#" id="btnNewAddReq" class="btn btn-primary" style="float: right;"><i class="fa fa-plus me-2" aria-hidden="true"></i>Add New</a>
@@ -462,11 +486,17 @@
                                 <th style="display: none">Role ID</th>
                                 <th>EST. Ref</th>
                                 <th>Revision</th>
-                                <th>Contr ABBR</th>
-                                <th>year</th>
+
                                 <th>Opportunity Number</th>
                                 <th>Project Number</th>
                                 <th>Name</th>
+                                <th>Consultant</th>
+                                <th>Marketing</th>
+                                <th>MEPContractor</th>
+                                <th>Salesman</th>
+                                <th>Stage</th>
+                                <th>Scope</th>
+                                <th>QuotationType</th>
                                 <th>Created By</th>
                                 <th>Created Date</th>
                                 <th>View</th>
@@ -770,25 +800,26 @@
                             </div>
                         </div>
 
-                        <div class="row mt-3">
-                            <div class="col-md-4 px-3">
+                        <div class="row mt-4">
+                            <div class="col-md-3 px-3">
                                 <b>Stage :
                                 </b>
-                                <input type="radio" id="rdStgTender" name="Stage" value="TENDER" style="margin-left: 5%">TENDER 
-                             <input type="radio" id="rdStgJOH" name="Stage" value="J.O.H" style="margin-left: 5%">JOH
+                                <input type="radio" id="rdStgTender" name="Stage" value="TENDER" style="margin-left: 5%" />TENDER 
+                             <input type="radio" id="rdStgJOH" name="Stage" value="J.O.H" style="margin-left: 5%" />JOH
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <b>Scope :
                                 </b>
-                                <input type="radio" id="rdSp" name="Supply" value="SUPPLY" style="margin-left: 5%">SUPPLY
-                             <input type="radio" id="rdSpInstall" name="Supply" value="SUPPLY AND INSTALLATION" style="margin-left: 5%">SUPPLY & INSTALLATION
+                                <input type="radio" id="rdSp" name="Supply" value="SUPPLY" style="margin-left: 5%" />SUPPLY
+                             <input type="radio" id="rdSpInstall" name="Supply" value="SUPPLY AND INSTALLATION" style="margin-left: 5%" />SUPPLY & INSTALLATION
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <b>Quotation :
                                 </b>
-                                <input type="radio" id="rdQtSmart" name="Quotation" value="SMART QTNG" style="margin-left: 5%">SMART QTNG
+                                <input type="radio" id="rdQtSmart" name="Quotation" value="SMART QTNG" style="margin-left: 5%" />SMART QTNG
                      
-                             <input type="radio" id="rdQtAndSp" name="Quotation" value="AS PER DRAWING AND SPECIFICATION" style="margin-left: 5%">AS PER DRAWING & SPECIFICATION
+                             <input type="radio" id="rdQtAndSp" name="Quotation" value="AS PER DRAWING AND SPECIFICATION" style="margin-left: 5%" />AS PER DRAWING & SPECIFICATION
+                                 <input type="radio" id="rdqtMR" name="Quotation" value="AS PER MINIMUM REQUIREMENT" style="margin-left: 5%" />AS PER MINIMUM REQUIREMENT
                          
                            <%-- <a href="#" id="btnSubmitOptDet" class="btn btn-primary" style="float:right;">Submit</a>--%>
                             </div>
@@ -915,6 +946,8 @@
                                                     <th>Estimator</th>
                                                     <td class="hidden">ES</td>
                                                     <th>Due Date</th>
+                                                     <th>Priority</th>
+                                                     <th>Hours</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -1251,7 +1284,7 @@
 
                                 <div class="col-12 pull-left upload-Attatchment" style="display: block">
                                     <div class="input-group mb-3" style="position: relative; top: 10px;">
-                                        <input class="form-control" type="file" id="colFileUpload" accept=".pdf,.png,.jpeg" multiple>
+                                        <input class="form-control" type="file" id="colFileUpload" accept=".*" multiple>
                                         <label class="input-group-text File-Upload-Multi" for="colFileUpload"><i class="fa fa-upload " title="Download File" style="color: #d33a3a; cursor: pointer; font-size: x-large;"></i></label>
 
                                         <div style="margin-left: 9px;">
@@ -1496,7 +1529,7 @@
                                     </div>
                                 </div>
 
-                                <div style="width: 33.33%;">
+<%--                                <div style="width: 33.33%;">
                                     <label for="html5-number-input" class="  label-custom">Country </label>
                                     <div class="">
 
@@ -1504,7 +1537,7 @@
                                         <select id="ddlCountry" value="" class="form-control" style="border-bottom: solid; border-color: #e7e7e7;">
                                         </select>
                                     </div>
-                                </div>
+                                </div>--%>
                             </div>
 
                             <div class="row" style="margin-top: 1%;">
@@ -1512,7 +1545,7 @@
 
 
 
-                                <div style="width: 33.33%;">
+                               <%-- <div style="width: 33.33%;">
                                     <label for="html5-number-input" class="  label-custom">City </label>
                                     <div class="">
 
@@ -1520,7 +1553,7 @@
                                         <select id="ddlCity" value="" class="form-control" style="border-bottom: solid; border-color: #e7e7e7;">
                                         </select>
                                     </div>
-                                </div>
+                                </div>--%>
 
                                 <div style="width: 33.33%;">
                                     <label for="html5-number-input" class="  label-custom">Nationality </label>
@@ -1690,7 +1723,7 @@
     <script src="../FacilityManagement/Datatable/js/buttons.print.min.js"></script>
 
     <!-- Page JS/CSS file -->
-    <script src="Scripts/ERMMaster.js?v=6"></script>
+    <script src="Scripts/ERMMaster.js?v=14"></script>
     <%-- <link href="css/quotation.css" rel="stylesheet" />--%>
     <link href="Css/EMSStyle.css" rel="stylesheet" />
 

@@ -742,7 +742,7 @@ function ChangeRequestStatus(st) {
 }
 
 $('.tbody-esti-req').on('click', '.ibtn-fcastquart-edit,.ibtn-estireq-details', function () {
-
+    $('.system-div-parent-for-byfloor').html('')
     let selAction = $(this)[0].title.trim();
     selReqId = $(this).data('reqid');
     let selOptNo = $(this).data('optno');

@@ -456,7 +456,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static msg AddFloorType(string FloorTypeName, string FloorTypeAlias)
+    public static msg AddFloorType(string FloorTypeName, string FloorTypeAlias, string ReqId)
     {
 
         DBHandler DBH = new DBHandler();
@@ -473,13 +473,91 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
         pa.Add("@FloorTypeAlias");
         pv.Add(FloorTypeAlias);
-        
+
+        pa.Add("@ReqID");
+        pv.Add(ReqId);
+
         DBH.CreateDatasetERM_Data(ds, "SP_EMS_Project_Structure", true, pa, pv);
 
         return new msg()
         {
             MsgText = ds.Tables[0].Rows[0]["Msg"].ToString(),
             ErrorType = ds.Tables[0].Rows[0]["ErrorType"].ToString(),           
+        };
+    }
+
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<DDL> GetAllTemplates(string ReqId)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        List<DDL> olistFlrTypes = new List<DDL>();
+
+        pa.Add("@oper");
+        pv.Add(11);
+
+        pa.Add("@ReqID");
+        pv.Add(ReqId);
+
+        DBH.CreateDatasetERM_Data(ds, "SP_EMS_Project_Structure", true, pa, pv);
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+            //tb_EMS_Project_Structure
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                olistFlrTypes.Add(new DDL()
+                {
+                    Text = dt.Rows[i]["TmptCode"].ToString(),
+                    Value = dt.Rows[i]["TmptID"].ToString()
+
+                });
+            }
+        }
+
+        return olistFlrTypes;
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static msg ImportTemplate(string UserId, string ReqId, string ProjNo, string TempId)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@Oper");
+        pv.Add(12);
+
+        pa.Add("@ReqID");
+        pv.Add(ReqId);
+
+        pa.Add("@UserId");
+        pv.Add(UserId);
+
+        pa.Add("@prjNumber");
+        pv.Add(ProjNo);
+
+        pa.Add("@TempId");
+        pv.Add(TempId);
+
+        DBH.CreateDatasetERM_Data(ds, "SP_EMS_Project_Structure", true, pa, pv);
+
+        return new msg()
+        {
+            MsgText = ds.Tables[0].Rows[0]["Msg"].ToString(),
+            ErrorType = ds.Tables[0].Rows[0]["ErrorType"].ToString(),
         };
     }
 
@@ -537,7 +615,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static AllInOneStruct ViewStructure(int RequestID)
+    public static AllInOneStruct ViewStructure(int RequestID, string UserId)
     {
 
         DBHandler DBH = new DBHandler();
@@ -554,6 +632,9 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
         pa.Add("@ReqID");
         pv.Add(RequestID);
+
+        pa.Add("@UserId");
+        pv.Add(UserId);
 
         DBH.CreateDatasetERM_Data(ds, "SP_EMS_Project_Structure", true, pa, pv);
 
@@ -609,7 +690,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static List<DDL> GetAllFloorTypes()
+    public static List<DDL> GetAllFloorTypes(string UserId, string ReqId)
     {
 
         DBHandler DBH = new DBHandler();
@@ -622,6 +703,12 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
         pa.Add("@oper");
         pv.Add(8);
+
+        pa.Add("@UserId");
+        pv.Add(UserId);
+
+        pa.Add("@ReqId");
+        pv.Add(ReqId);
 
         DBH.CreateDatasetERM_Data(ds, "SP_EMS_Project_Structure", true, pa, pv);
 
@@ -757,7 +844,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static List<ProductMasterModel> GetItemsForSysCategory(string SysName, string Category, string ItemCode)
+    public static List<ProductMasterModel> GetItemsForSysCategory(string SysName, string Category, string ItemCode, string ReqId)
     {
 
         DBHandler DBH = new DBHandler();
@@ -780,6 +867,9 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
         pa.Add("@ItemCode");
         pv.Add(ItemCode);
+
+        pa.Add("@ReqId");
+        pv.Add(ReqId);
 
         DBH.CreateDatasetERM_Data(ds, "SP_TOC", true, pa, pv);
 
@@ -1283,6 +1373,190 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
     }
 
 
+    //[WebMethod]
+    //[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    //public static AllInOneSystemItems GetAllSystemsNItems(string ReqId, string UserID)
+    //{
+
+    //    DBHandler DBH = new DBHandler();
+    //    DataSet ds = new DataSet();
+    //    DataTable dt = new DataTable();
+    //    ArrayList pa = new ArrayList();
+    //    ArrayList pv = new ArrayList();
+
+    //    List<SystemModel> oListSys = new List<SystemModel>();
+    //    List<SystemItemsModel> oListSysItems = new List<SystemItemsModel>();
+    //    List<SystemItemsModel> oListAlternateItems = new List<SystemItemsModel>();
+
+    //    pa.Add("@oper");
+    //    pv.Add(15);
+
+    //    pa.Add("@ReqID");
+    //    pv.Add(ReqId);
+
+    //    pa.Add("@UserId");
+    //    pv.Add(UserID);
+
+    //    DBH.CreateDatasetERM_Data(ds, "SP_TOC", true, pa, pv);
+
+
+    //    if (ds.Tables.Count > 0)
+    //    {
+    //        dt = ds.Tables[0];
+    //        //tb_EMS_Project_Structure
+    //        for (int i = 0; i < dt.Rows.Count; i++)
+    //        {
+    //            oListSys.Add(new SystemModel()
+    //            {
+    //                SysName = dt.Rows[i]["SystemName"].ToString()
+    //            });
+    //        }
+
+    //        //tb_EMS_Project_Structure_Details
+    //        for (int i = 0; i < ds.Tables[1].Rows.Count; i++)
+    //        {
+    //            oListSysItems.Add(new SystemItemsModel()
+    //            {
+    //                ItemId = ds.Tables[1].Rows[i]["ItemID"].ToString(),
+    //                EstiLineId = ds.Tables[1].Rows[i]["EstimationLineID"].ToString(),
+    //                Category = ds.Tables[1].Rows[i]["Category"].ToString(),
+    //                ItemDesc = ds.Tables[1].Rows[i]["ItemDesc"].ToString(),
+    //                ItemCode = ds.Tables[1].Rows[i]["ItemCode"].ToString(),
+    //                System = ds.Tables[1].Rows[i]["SystemName"].ToString(),
+    //                SpareQuantity = ds.Tables[1].Rows[i]["SpareQuantity"].ToString(),
+    //                Quantity = ds.Tables[1].Rows[i]["Quantity"].ToString(),
+    //                Value = ds.Tables[1].Rows[i]["Value"].ToString(),
+    //                ReqId = ds.Tables[1].Rows[i]["MainReqID"].ToString(),
+    //                Estimator = ds.Tables[1].Rows[i]["Estimator"].ToString(),
+    //                PipeUnitPrice = ds.Tables[1].Rows[i]["PipeUnitPrice"].ToString(),
+    //                FittingsPerc = ds.Tables[1].Rows[i]["FittingPerc"].ToString(),
+    //                InstallUnitPrice = ds.Tables[1].Rows[i]["IntallationUnitPrice"].ToString(),
+    //                CreatedDate = ds.Tables[1].Rows[i]["CreatedDate"].ToString(),
+    //                TestnCommision = ds.Tables[1].Rows[i]["TestnCommision"].ToString(),
+    //                Isoptional = ds.Tables[1].Rows[i]["IsOptional"].ToString(),
+    //                AlternateFromItem = ds.Tables[1].Rows[i]["AlternateFromItem"].ToString()
+    //            });
+    //        }
+
+    //        for (int i = 0; i < ds.Tables[2].Rows.Count; i++)
+    //        {
+    //            oListAlternateItems.Add(new SystemItemsModel()
+    //            {
+    //                ItemDesc = ds.Tables[2].Rows[i]["ItemDesc"].ToString(),
+    //                ItemCode = ds.Tables[2].Rows[i]["ItemCode"].ToString()
+
+    //            });
+    //        }
+    //    }
+
+    //    return new AllInOneSystemItems()
+    //    {
+    //        listSystems = oListSys,
+    //        listItems = oListSysItems,
+    //        listAlternateItems = oListAlternateItems
+    //    };
+    //}
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static AllInOneSystemItems GetAllSystemsNItems(string ReqId, string UserID, string StructId)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        List<SystemModel> oListSys = new List<SystemModel>();
+        List<SystemItemsModel> oListSysItems = new List<SystemItemsModel>();
+        List<SystemItemsModel> oListAlternateItems = new List<SystemItemsModel>();
+
+        pa.Add("@oper");
+        pv.Add(15);
+
+        pa.Add("@ReqID");
+        pv.Add(ReqId);
+
+        pa.Add("@UserId");
+        pv.Add(UserID);
+
+        pa.Add("@StructId");
+        pv.Add(StructId);
+
+        DBH.CreateDatasetERM_Data(ds, "SP_TOC", true, pa, pv);
+
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+
+            string colName = "";            
+            //foreach (DataColumn column in ds.Tables[3].Columns)
+            //{  colName.Add(column.ColumnName + ","); }
+
+            for (int i = 8; i < dt.Columns.Count; i++)
+            {
+                colName += dt.Columns[i].ColumnName.ToString() + ",";
+            }
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                SystemItemsModel obj = new SystemItemsModel();
+                obj.System = dt.Rows[i]["SystemName"].ToString();
+                obj.Category = dt.Rows[i]["Category"].ToString();
+                obj.ItemDesc = dt.Rows[i]["ItemDesc"].ToString();
+                obj.ItemCode = dt.Rows[i]["ItemCode"].ToString();
+                obj.ItemId = dt.Rows[i]["ItemID"].ToString();
+                obj.EstiLineId = dt.Rows[i]["EstimationLineID"].ToString();
+                obj.StructureId = dt.Rows[i]["StructureID"].ToString();
+                obj.StructureDesc = dt.Rows[i]["StructureDesc"].ToString();
+                obj.FloorsNameString = colName;
+                obj.Isoptional = "False";
+                for (int j = 0; j < colName.Split(',').Count()-1; j++)
+                {
+                    obj.Quantity += String.IsNullOrWhiteSpace(dt.Rows[i][colName.Split(',')[j]].ToString()) ? ("0" + ",") : (dt.Rows[i][colName.Split(',')[j]].ToString() + ",");
+                }
+                oListSysItems.Add(obj);
+            }
+
+            //for (int i = 0; i < dt.Rows.Count; i++)
+            //{
+            //    oListSysItems.Add(new SystemItemsModel()
+            //    {
+            //        System = dt.Rows[i]["SystemName"].ToString(),
+            //        Category = dt.Rows[i]["Category"].ToString(),
+            //        ItemDesc = dt.Rows[i]["ItemDesc"].ToString(),
+            //        ItemCode = dt.Rows[i]["ItemCode"].ToString(),
+            //        ItemId = dt.Rows[i]["ItemID"].ToString(),
+            //        EstiLineId = dt.Rows[i]["EstimationLineID"].ToString(),
+            //        StructureId = dt.Rows[i]["StructureID"].ToString(),
+            //        StructureDesc = dt.Rows[i]["StructureDesc"].ToString(),
+            //        Quantity = dt.Rows[i]["QTY"].ToString(),
+            //        FloorsNameString = colName
+            //    });
+            //}
+
+            //for (int i = 0; i < ds.Tables[2].Rows.Count; i++)
+            //{
+            //    oListAlternateItems.Add(new SystemItemsModel()
+            //    {
+            //        ItemDesc = ds.Tables[2].Rows[i]["ItemDesc"].ToString(),
+            //        ItemCode = ds.Tables[2].Rows[i]["ItemCode"].ToString()
+
+            //    });
+            //}
+        }         
+
+        return new AllInOneSystemItems()
+        {
+            listSystems = oListSys,
+            listItems = oListSysItems,
+            listAlternateItems = oListAlternateItems
+        };
+       
+    }
+
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
@@ -1312,6 +1586,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         DBH.CreateDatasetERM_Data(ds, "SP_TOC", true, pa, pv);
 
     }
+
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
@@ -1373,7 +1648,8 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
                     FloorName = dt.Rows[i]["FloorName"].ToString(),
                     Quantity = dt.Rows[i]["QTY"].ToString(),
                     CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
-                    CreatedDate = dt.Rows[i]["CreatedDate"].ToString()
+                    CreatedDate = dt.Rows[i]["CreatedDate"].ToString(),
+                    StructName = dt.Rows[i]["StructureName"].ToString()
                 });
             }
         }
@@ -1412,7 +1688,6 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         DBH.CreateDatasetERM_Data(ds, "SP_TOC", true, pa, pv);
                 
     }
-
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
     public static List<SystemEngnTest> GetEngnTest(string SystemName, string ReqId)
@@ -1452,7 +1727,6 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         return oListEngnComm;
 
     }
-
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
     //public static string AddUpdateReq(List<Inventory> data, string OptNo, string ReqNo, string ReqDate)
@@ -1483,6 +1757,88 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
     }
 
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static void UpdateQtyOnLineLevel(string QtyLineLevelId, string Qty)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(14);
+
+        pa.Add("@QtyLineId");
+        pv.Add(QtyLineLevelId);
+
+        pa.Add("@Quantity");
+        pv.Add(Qty);
+
+        DBH.CreateDatasetERM_Data(ds, "SP_TOC", true, pa, pv);
+
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static void DeleteQtyOnLineLevel(string QtyLineLevelId, string Qty)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(144);
+
+        pa.Add("@QtyLineId");
+        pv.Add(QtyLineLevelId);
+
+        pa.Add("@Quantity");
+        pv.Add(Qty);
+
+        DBH.CreateDatasetERM_Data(ds, "SP_TOC", true, pa, pv);
+
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static void AddUpdateQtyTOCByFloor(string EstiLineId, string StructId, string FlrName, string ReqId, string Quantity)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(16);
+
+        pa.Add("@EstimationItemId");
+        pv.Add(EstiLineId);
+
+        pa.Add("@StructId");
+        pv.Add(StructId);
+
+        pa.Add("@FloorName");
+        pv.Add(FlrName);
+
+        pa.Add("@ReqId");
+        pv.Add(ReqId);
+
+        pa.Add("@Quantity");
+        pv.Add(Quantity);
+
+        DBH.CreateDatasetERM_Data(ds, "SP_TOC", true, pa, pv);
+
+    }
+
     //END TOC
 
 
@@ -1491,7 +1847,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static AllInOneReports Reports(string RequstId)
+    public static AllInOneReports Reports(string RequstId, string UserId)
     {
 
         DBHandler DBH = new DBHandler();
@@ -1507,6 +1863,9 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
         pa.Add("@RequestId");
         pv.Add(RequstId);
+
+        pa.Add("@userId");
+        pv.Add(UserId);
 
         DBH.CreateDatasetERM_Data(ds, "sp_Reports", true, pa, pv);
 
@@ -1538,7 +1897,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static AllInOneReports ItemviseReports(string RequstId)
+    public static AllInOneReports ItemviseReports(string RequstId, string UserId)
     {
 
         DBHandler DBH = new DBHandler();
@@ -1555,6 +1914,9 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
         pa.Add("@RequestId");
         pv.Add(RequstId);
+
+        pa.Add("@userId");
+        pv.Add(UserId);
 
         DBH.CreateDatasetERM_Data(ds, "sp_Reports", true, pa, pv);
 
@@ -1839,6 +2201,367 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         return drpval;
         //string a = userId;
     }
+
+
+
+    //Copy Estimation Code STARTS
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static void AddCopiedEst(string UserId, string NewRequestId, string OldReqId, string oper)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@UserID");
+        pv.Add(UserId);
+
+        pa.Add("@NewRequestID");
+        pv.Add(NewRequestId);
+
+        pa.Add("@OldRequestID");
+        pv.Add(OldReqId);
+
+        //pa.Add("@StructureID");
+        //pv.Add(OldStrctId);
+
+        if (oper == "1")
+        {
+            pa.Add("@Oper");
+            pv.Add(oper);
+        }
+
+        DBH.CreateDatasetERM_Data(ds, "SP_CopyEMSRequest", true, pa, pv);
+
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<DDL> getAllExistingStructures(string UserId)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        List<DDL> oListExistingStruct = new List<DDL>();
+
+        pa.Add("@oper");
+        pv.Add(5);
+
+        pa.Add("@userID");
+        pv.Add(UserId);
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_FillControls", true, pa, pv);
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                oListExistingStruct.Add(new DDL()
+                {
+                    Text = dt.Rows[i]["Text"].ToString(),
+                    Value = dt.Rows[i]["Value"].ToString()
+                });
+            }
+        }
+        return oListExistingStruct;
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static AllInOneStruct ViewCopiedStructure(string StructureId)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        List<structure> oListReq = new List<structure>();
+        List<structure> oListStructFloors = new List<structure>();
+
+        pa.Add("@oper");
+        pv.Add(10);
+
+        //pa.Add("@ReqID");
+        //pv.Add(RequestID);
+
+        pa.Add("@StructureID");
+        pv.Add(StructureId);
+
+        DBH.CreateDatasetERM_Data(ds, "SP_EMS_Project_Structure", true, pa, pv);
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+            //tb_EMS_Project_Structure
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                oListReq.Add(new structure()
+                {
+                    StructureID = dt.Rows[i]["StructureID"].ToString(),
+                    EstimatorID = dt.Rows[i]["EstimatorID"].ToString(),
+                    prjNumber = dt.Rows[i]["ProjectNumber"].ToString(),
+                    StructureName = dt.Rows[i]["StructureName"].ToString(),
+                    StructureDesc = dt.Rows[i]["StructureDesc"].ToString(),
+                    TotalNumberOfFloor = dt.Rows[i]["TotalNumberOfFloor"].ToString(),
+                    ReqID = dt.Rows[i]["RequestID"].ToString()
+
+                });
+            }
+
+            //tb_EMS_Project_Structure_Details
+            for (int i = 0; i < ds.Tables[1].Rows.Count; i++)
+            {
+                oListStructFloors.Add(new structure()
+                {
+                    StructFloorDetId = ds.Tables[1].Rows[i]["ID"].ToString(),
+                    //EstimatorID = ds.Tables[1].Rows[i]["EstimatorID"].ToString(),
+                    prjNumber = ds.Tables[1].Rows[i]["ProjectNumber"].ToString(),
+                    Name = ds.Tables[1].Rows[i]["FloorName"].ToString(),
+                    NoOfFloors = ds.Tables[1].Rows[i]["FloorNumber"].ToString(),
+                    Desc = ds.Tables[1].Rows[i]["Description"].ToString(),
+                    Type = ds.Tables[1].Rows[i]["Type"].ToString(),
+                    IsTypical = ds.Tables[1].Rows[i]["IsTypical"].ToString(),
+                    TypicalOf = ds.Tables[1].Rows[i]["TypicalOf"].ToString(),
+                    ReqID = ds.Tables[1].Rows[i]["RequestID"].ToString(),
+                    StructureID = ds.Tables[1].Rows[i]["StructureID"].ToString(),
+                    OrderNo = ds.Tables[1].Rows[i]["OrderNumber"].ToString()
+                });
+            }
+        }
+
+        return new AllInOneStruct()
+        {
+            listReqMaster = oListReq,
+            listReqStructFloors = oListStructFloors
+        };
+
+
+    }
+
+    //Copy Estimation Code ENDS
+
+    //Fire Pump Requests STARTS
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<ItemDetails> ViewFirePumpReq(string UserId, string RequstId)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(9);
+
+        pa.Add("@userId");
+        pv.Add(UserId);
+
+        pa.Add("@EstimationID");
+        pv.Add(RequstId);
+
+        DBH.CreateDatasetERM_Data(ds, "sp_PumbRequests", true, pa, pv);
+
+        List<ItemDetails> drpval = new List<ItemDetails>();
+        dt = ds.Tables[0];
+
+        for (int i = 0; i < dt.Rows.Count; i++)
+        {
+            drpval.Add(new ItemDetails()
+            {
+                SlNO = dt.Rows[i]["SlNO"].ToString(),
+                ItemID = dt.Rows[i]["ItemID"].ToString(),
+                Area = dt.Rows[i]["Area"].ToString(),
+                Description = dt.Rows[i]["Description"].ToString(),
+                QTY = dt.Rows[i]["QTY"].ToString(),
+                TypeOfPump = dt.Rows[i]["TypeOfPump"].ToString(),
+            });
+        }
+        return drpval;
+        //string a = userId;
+    }
+
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<ItemDetails> ViewFirePumpReqDetails(string PumpReqId)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(10);
+
+        pa.Add("@ItemID");
+        pv.Add(PumpReqId);
+
+        DBH.CreateDatasetERM_Data(ds, "sp_PumbRequests", true, pa, pv);
+
+        List<ItemDetails> olistViewFPdetails = new List<ItemDetails>();
+        dt = ds.Tables[0];
+
+        for (int i = 0; i < dt.Rows.Count; i++)
+        {
+            olistViewFPdetails.Add(new ItemDetails()
+            {
+                ECapacity = dt.Rows[i]["EP_Capacity"].ToString(),
+                DCapacity = dt.Rows[i]["DP_Capacity"].ToString(),
+                JCapacity = dt.Rows[i]["JP_Capacity"].ToString(),
+                EBars = dt.Rows[i]["EP_Bars"].ToString(),
+                DBars = dt.Rows[i]["DP_Bars"].ToString(),
+                JBars = dt.Rows[i]["JP_Bars"].ToString(),
+                EQTY = dt.Rows[i]["EP_QTY"].ToString(),
+                DQTY = dt.Rows[i]["DP_QTY"].ToString(),
+                JQTY = dt.Rows[i]["JP_QTY"].ToString(),
+                PumpSpecs = dt.Rows[i]["PumpSpecification"].ToString(),
+                ListofMake = dt.Rows[i]["ListOfMakes"].ToString(),
+                PumpSched = dt.Rows[i]["PumpShedule"].ToString(),
+            });
+        }
+        return olistViewFPdetails;
+        //string a = userId;
+
+
+    }
+
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static void InsertPumpMainReq(string UserId,
+        string RequstId,
+        string Description,
+        string Area,
+        string Quantity,
+        string ECapacity,
+        string DCapacity,
+        string JCapacity,
+        string EBars,
+        string DBars,
+        string JBars,
+        string EQTY,
+        string DQTY,
+        string JQTY,
+        string Direction,
+        string PumpSpecs,
+        string ListofMake,
+        string PumpSched
+        )
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(1);
+
+        pa.Add("@UserID");
+        pv.Add(UserId);
+
+        pa.Add("@EstimationID");
+        pv.Add(RequstId);
+
+        pa.Add("@Desc");
+        pv.Add(Description);
+
+        pa.Add("@Area");
+        pv.Add(Area);
+
+        pa.Add("@QTY");
+        pv.Add(Quantity);
+
+        pa.Add("@ECapacity");
+        pv.Add(ECapacity);
+
+        pa.Add("@DCapacity");
+        pv.Add(DCapacity);
+
+        pa.Add("@JCapacity");
+        pv.Add(JCapacity);
+
+        pa.Add("@EBars");
+        pv.Add(EBars);
+
+        pa.Add("@DBars");
+        pv.Add(DBars);
+
+        pa.Add("@JBars");
+        pv.Add(JBars);
+
+        pa.Add("@EQTY");
+        pv.Add(EQTY);
+
+        pa.Add("@DQTY");
+        pv.Add(DQTY);
+
+        pa.Add("@JQTY");
+        pv.Add(JQTY);
+
+        pa.Add("@TypeofPump");
+        pv.Add(Direction);
+
+        pa.Add("@PumpSpecification");
+        pv.Add(PumpSpecs);
+
+        pa.Add("@ListOfMakes");
+        pv.Add(ListofMake);
+
+        pa.Add("@PumpSchedule");
+        pv.Add(PumpSched);
+
+        DBH.CreateDatasetERM_Data(ds, "sp_PumbRequests", true, pa, pv);
+
+    }
+
+    public class ItemDetails
+    {
+
+        public string SlNO { get; set; }
+        public string ItemID { get; set; }
+        public string Area { get; set; }
+        public string Description { get; set; }
+        public string QTY { get; set; }
+        public string TypeOfPump { get; set; }
+
+        //details
+        public string ECapacity { get; set; }
+        public string DCapacity { get; set; }
+        public string JCapacity { get; set; }
+        public string EBars { get; set; }
+        public string DBars { get; set; }
+        public string JBars { get; set; }
+        public string EQTY { get; set; }
+        public string DQTY { get; set; }
+        public string JQTY { get; set; }
+        public string PumpSpecs { get; set; }
+        public string ListofMake { get; set; }
+        public string PumpSched { get; set; }
+
+
+    }
+
+    //Fire Pump Requests ENDS
+
     public class DropDownValues
     {
         public string ddlValue { get; set; }
@@ -1994,12 +2717,15 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
         public string SysName { get; set; }
         public string SysCategory { get; set; }
+        public string StructName { get; set; }
     }
     public class ItemIntoFloorsPara
     {
         public List<ItemIntoFloors> listFloors { get; set; }
-    }    
-    public class SystemEngnTest {
+    }
+
+    public class SystemEngnTest
+    {
         public string Engineering { get; set; }
         public string TestnComm { get; set; }
     }
@@ -2007,7 +2733,6 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
     {
         public List<SystemEngnTest> listEngnTestnComm { get; set; }
     }
-
 
     public class SystemModel{
 
@@ -2036,6 +2761,10 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         public string TestnCommision { get; set; }
         public string Isoptional { get; set; }
         public string AlternateFromItem { get; set; }
+
+        public string StructureId { get; set; }
+        public string StructureDesc { get; set; }
+        public string FloorsNameString { get; set; }
     }
     public class AllInOneSystemItems {
         public List<SystemModel> listSystems { get; set; }

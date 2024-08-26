@@ -29,6 +29,8 @@ var ReqOrderNumber = 0;
 var EstTeam = '';
 var Estimator = '';
 var ProductID = '';
+var Priority = '';
+var NoofHoursRequired = '';
 
 var day = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"];
 var monthsbyName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -65,13 +67,24 @@ $(document).ready(function () {
     }
     else 
     {
-        $("#showWorkLoad").addClass('hidden');
+        $("#showWorkLoad").addClass('hidden');  
     }
     $('#ddlRequestStatus').html(htmdrop);
     GetTableDetails('Please wait...');
 });
 
 $('#ddlRequestStatus').on('change', function () {
+    
+    setTimeout(function () {
+
+        GetTableDetails('Please wait...');
+        $(".ajax-loader").addClass('hidden');
+    }, 500);
+
+});
+
+
+$('#ddlStageFilter').on('change', function () {
     
     setTimeout(function () {
 
@@ -181,7 +194,7 @@ function GetTableDetails(Loader) {
 
     $.ajax({
         url: "ERMMaster.aspx/GetrequestDetails",
-        data: JSON.stringify({ "UserId": currUserId, "Type": type, "Status": $('#ddlRequestStatus').val(), }),
+        data: JSON.stringify({ "UserId": currUserId, "Type": type, "Status": $('#ddlRequestStatus').val(), "Stage": $('#ddlStageFilter').val() }),
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -202,11 +215,16 @@ function GetTableDetails(Loader) {
                   <td style="text-align:center;display:none;">` + item.RoleID + `</td>
                   <td style="text-align:center;">`+ item.RefNo + `</td>
                   <td style="text-align:center;">`+ item.RevNo + `</td>
-                  <td style="text-align:center;">`+ item.ContABBR + `</td>
-                  <td style="text-align:center;">`+ item.YEAR + `</td>
                   <td style="text-align:center;">`+ item.OPTNumber + `</td>
                   <td style="text-align:center;">`+ item.ProjectNumber + `</td>
                    <td style="text-align:center;">`+ item.ProjectName + `</td>
+                       <td style="text-align:center;">`+ item.Consultant + `</td>
+                           <td style="text-align:center;">`+ item.Marketing + `</td>
+                               <td style="text-align:center;">`+ item.MEPContractor + `</td>
+                                   <td style="text-align:center;">`+ item.Salesman + `</td>
+                                       <td style="text-align:center;">`+ item.Stage + `</td>
+                                           <td style="text-align:center;">`+ item.Scope + `</td>
+                                               <td style="text-align:center;">`+ item.QuotationType + `</td>
                    <td style="text-align:center;">`+ item.CreatedBy + `</td>
                     <td style="text-align:center;">`+ item.CreatedDate + `</td>
                     <td style="text-align:center;vertical-align:middle;"><a style="margin-left: 4%;" class="image-change">
@@ -460,7 +478,11 @@ function initiateDataTable() {
     objDatatable = $('.ERMRequest-list-table').DataTable({
         dom: 'lBfrtip',
         buttons: {
-            buttons: []
+            buttons: [
+                {
+                    extend: 'excel', text: '<i class="fa fa-file-excel-o" aria-hidden="true" style="font-size: x-large;" title="Export Excel"></i>', className: 'btn btn-secondary iconClassExcel '
+                }
+            ]
         },
         "columnDefs": [
 
@@ -1099,6 +1121,7 @@ function ClearDet() {
 
     $('#rdQtSmart').prop('checked', false);
     $('#rdQtAndSp').prop('checked', false);
+    $('#rdqtMR').prop('checked', false);
 
         $('#btnSubmitOptDet').css('display', 'block');
 
@@ -1462,15 +1485,17 @@ function GetAttachmentDet() {
         dataType: "json",
         async: false,
         success: function (result) {
-            $('.tbody-Attachment-list tr').length > 0 ? objDatatableAttachment.destroy() : '';
+       
             //clearmodal();
 
             var htm = '';
             var ProjectDetails = result.d;
-                
+            var urlService='';
 
 
             $.each(ProjectDetails, function (key, item) {
+
+                urlService = 'Services/DownloadFile.ashx?attachurl=' + item.URL;  // for production
                 htm += `<tr>        
                
 
@@ -1479,7 +1504,7 @@ function GetAttachmentDet() {
                   <td style="text-align:center;">`+ item.AttachComment + `</td>
                    <td style="text-align:center;display:none">`+ item.URL + `</td>
                    <td style="text-align:center;">
-                   <a href="`+ item.URL + `" download="` + item.FileName + `" type="button" class="AttatchmentDownload" title="Download" >
+                   <a href="`+ urlService + `" download="` + item.FileName + `" type="button" class="AttatchmentDownload" title="Download" >
                    <img src="images/icons8-download-48.png" title="Download" class="fa-icon-hover ibtn-Download-Details" style="cursor: pointer; width: 34px;" />
                 </a></td>`;
 
@@ -1491,7 +1516,7 @@ function GetAttachmentDet() {
             });
             $('.tbody-Attachment-list').html(htm);
 
-            initiateDataTableAttachment();
+          
         },
         //complete: function () {
         //    $('.ajax-loader').hide();
@@ -1514,7 +1539,7 @@ function GetApprovalStatusList() {
         dataType: "json",
         async: false,
         success: function (result) {
-            $('.tbody-Approval-list tr').length > 0 ? objDatatableApprovalList.destroy() : '';
+          
             //clearmodal();
 
             var htm = '';
@@ -1541,7 +1566,6 @@ function GetApprovalStatusList() {
             });
             $('.tbody-Approval-list').html(htm);
 
-            initiateDataTableApprovalList();
         },
         //complete: function () {
         //    $('.ajax-loader').hide();
@@ -1663,7 +1687,7 @@ function UpdateOptDetails() {
 
             if (result.d == 0) {
 
-                $('#btnSubmitOptDet').trigger('click');
+               // $('#btnSubmitOptDet').trigger('click');
 
             }
             else if (result.d == "-1") {
@@ -1806,7 +1830,7 @@ $('.tbody-Contact').on('click', 'tr', function () {
 
 $('#btnNewContact').on('click', function () {
 
-    LoadCountryContact();
+   // LoadCountryContact();
     $('#ModalNewContactMaster').modal('show');
 
 });
@@ -1846,12 +1870,12 @@ function LoadCountryContact() {
 
 }
 
-$('#ddlCountry').on('change', function () {
+//$('#ddlCountry').on('change', function () {
 
-    Country = $('#ddlCountry option:selected').val().trim();
-    LoadCityContact();
+//    Country = $('#ddlCountry option:selected').val().trim();
+//    LoadCityContact();
 
-});
+//});
 
 
 function LoadCityContact() {
@@ -1900,7 +1924,7 @@ function AddContact() {
     $.ajax({
         url: "ERMMaster.aspx/AddContactDet",
         data: JSON.stringify({
-            "UserId": currUserId, "AccountId": AccountId, "ContactName": $('#txtContactName').val(), "JobTitle": $('#txtJobTitle').val(), "Gender": $('#ddlGender option:selected').val(), "PhoneNumber": $('#txtPhoneNumber').val(), "Email": $('#txtEmail').val(), "Country": $('#ddlCountry option:selected').val(), "City": $('#ddlCity option:selected').val(),
+            "UserId": currUserId, "AccountId": AccountId, "ContactName": $('#txtContactName').val(), "JobTitle": $('#txtJobTitle').val(), "Gender": $('#ddlGender option:selected').val(), "PhoneNumber": $('#txtPhoneNumber').val(), "Email": $('#txtEmail').val(), 
             "Nationality": $('#txtNationality').val(),
          
         }),
@@ -1945,7 +1969,7 @@ function FillAllDetails() {
         success: function (result) {
 
             if (type == 'ESTIMATION') {
-
+                ClearDet();
 
 
                 $('#txtEstRef').val(result.d[0].RefNo);
@@ -1982,11 +2006,13 @@ function FillAllDetails() {
                 if ((result.d[0].Stage).toUpperCase() == 'TENDER') {
 
                     $('#rdStgTender').prop('checked', true);
+                    $('#rdStgJOH').prop('checked', false);
                 }
 
-                else if (result.d[0].Stage == 'J.O.H') {
+                else if (result.d[0].Stage.toUpperCase() == 'J.O.H') {
 
-                    $('#rdStgJOH').attr('checked', true);
+                    $('#rdStgJOH').prop('checked', true);
+                    $('#rdStgTender').prop('checked', false);
                 }
 
                 if ((result.d[0].Scope).toUpperCase() == 'SUPPLY') {
@@ -1996,7 +2022,7 @@ function FillAllDetails() {
 
                 else if (result.d[0].Scope == 'SUPPLY AND INSTALLATION') {
 
-                    $('#rdSpInstall').attr('checked', true);
+                    $('#rdSpInstall').prop('checked', true);
                 }
 
                 if ((result.d[0].QuotationType).toUpperCase() == 'SMART QTNG') {
@@ -2006,7 +2032,11 @@ function FillAllDetails() {
 
                 else if (result.d[0].QuotationType == 'AS PER DRAWING AND SPECIFICATION') {
 
-                    $('#rdQtAndSp').attr('checked', true);
+                    $('#rdQtAndSp').prop('checked', true);
+                }
+                else if (result.d[0].QuotationType == 'AS PER MINIMUM REQUIREMENT') {
+
+                    $('#rdqtMR').prop('checked', true);
                 }
 
                 $('#btnSubmitOptDet').css('display', 'none');
@@ -2074,38 +2104,44 @@ function FillAllDetails() {
                     $('#EstimationDetailModal').find('input[name=Supply]').removeAttr('disabled');
                     $('#EstimationDetailModal').find('input[name=Quotation]').removeAttr('disabled');
 
-                }
+               }
+               else if(ReqOrderNumber==0)
+               {
+                   $('#EstimationDetailModal').find('input[name=Stage]').removeAttr('disabled');
+                   $('#EstimationDetailModal').find('input[name=Supply]').removeAttr('disabled');
+                   $('#EstimationDetailModal').find('input[name=Quotation]').removeAttr('disabled');
+               }
 
-                else {
+               else {
 
-                    $('#txtPrjName').attr("disabled", 'disabled');
-                    $('#txtPrjLocation').attr("disabled", 'disabled');
-                    $('#txtPlotNumber').attr("disabled", 'disabled');
-                    $('#txtPrjClient').attr("disabled", 'disabled');
-                    $('#txtPrjConsultant').attr("disabled", 'disabled');
-                    $('#txtPrjMainContr').attr("disabled", 'disabled');
-                    $('#txtPrjMEPContr').attr("disabled", 'disabled');
-                    $('#txtContrAbbr').attr("disabled", 'disabled');
-                    $('#txtPrjContactPerson').attr("disabled", 'disabled');
-                    $('#txtPrjWinningPerc').attr("disabled", 'disabled');
-                    $('#txtPrjBudget').attr("disabled", 'disabled');
-                    $('#txtPrjURL').attr("disabled", 'disabled');
-                    $('#txtOppRef').attr("disabled", 'disabled');
+                   $('#txtPrjName').attr("disabled", 'disabled');
+                   $('#txtPrjLocation').attr("disabled", 'disabled');
+                   $('#txtPlotNumber').attr("disabled", 'disabled');
+                   $('#txtPrjClient').attr("disabled", 'disabled');
+                   $('#txtPrjConsultant').attr("disabled", 'disabled');
+                   $('#txtPrjMainContr').attr("disabled", 'disabled');
+                   $('#txtPrjMEPContr').attr("disabled", 'disabled');
+                   $('#txtContrAbbr').attr("disabled", 'disabled');
+                   $('#txtPrjContactPerson').attr("disabled", 'disabled');
+                   $('#txtPrjWinningPerc').attr("disabled", 'disabled');
+                   $('#txtPrjBudget').attr("disabled", 'disabled');
+                   $('#txtPrjURL').attr("disabled", 'disabled');
+                   $('#txtOppRef').attr("disabled", 'disabled');
 
-                    $('#ddlEstimationTeamOrg').attr("disabled", 'disabled');
-
-
-                    $('#txtOppRef').attr("disabled", 'disabled');
-
-
-                    $('#EstimationDetailModal').find('input[name=Stage]').attr('disabled', 'disabled');
-                    $('#EstimationDetailModal').find('input[name=Supply]').attr('disabled', 'disabled');
-                    $('#EstimationDetailModal').find('input[name=Quotation]').attr('disabled', 'disabled');
+                   $('#ddlEstimationTeamOrg').attr("disabled", 'disabled');
 
 
+                   $('#txtOppRef').attr("disabled", 'disabled');
 
 
-                }
+                   $('#EstimationDetailModal').find('input[name=Stage]').attr('disabled', 'disabled');
+                   $('#EstimationDetailModal').find('input[name=Supply]').attr('disabled', 'disabled');
+                   $('#EstimationDetailModal').find('input[name=Quotation]').attr('disabled', 'disabled');
+
+
+
+
+               }
             }
 
 
@@ -2311,6 +2347,8 @@ function RequestedProductDetails() {
 
                 var drpName = 'ddl-' + item.LineID;
                 var ddlEstimator = 'ddlEstimator-' + item.LineID;
+                var ddlPriority = 'ddlPriority-' + item.LineID;
+                var txtHours = 'txtHours-' + item.LineID;
 
                 htm += `<tr style="text-align: center;">
                             <td class="hidden">`+ item.LineID + `</td>
@@ -2322,26 +2360,52 @@ function RequestedProductDetails() {
                                 htm += ` <td> <select class="form-select" id=` + drpName + ` onchange=EstTeamChange(` + item.LineID + `,"` + item.EstimationTeam +`")></select > </td> `
                                 }
                             else {
-                                htm += ` <td> <select class="form-select" id=` + drpName + ` disabled ></select > </td>`
+                                htm += ` <td> <select class="form-select" id=` + drpName + ` disabled ></select > </td>`;
                                 }
 
                             htm += `<td class="hidden">` + item.EstimationTeam + `</td>`
                             if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status=='Pending For Estimation Head Approval'){
-                                htm += ` <td> <select class="form-select" id=` + ddlEstimator + `></select> </td>`
+                                htm += ` <td> <select class="form-select" id=` + ddlEstimator + `></select> </td>`;
                                 }
                             else {
-                                htm += ` <td> <select class="form-select" id=` + ddlEstimator + ` disabled></select> </td>`
+                                htm += ` <td> <select class="form-select" id=` + ddlEstimator + ` disabled></select> </td>`;
                                 }
                                      
-                            htm += `  <td class="hidden">` + item.Estimator + `</td>`
+                            htm += `  <td class="hidden">` + item.Estimator + `</td>`;
+
                             if (item.EstimationTeam == EmpNo.toUpperCase() && item.Estimator=='') {
-                                htm += `<td> <input type="date" name="ESTDueDate" class="form-control"/> </td>`
+                                htm += `<td> <input type="date" name="ESTDueDate" class="form-control"/> </td>`;
                                 }
                             else {
-                                htm += `<td>` + item.DueDate + `</td>`
+                                htm += `<td>` + item.DueDate + `</td>`;
                                 }
-                                      
-                            htm += `<td><span class="`+ item.StatusClass + `" style="font-size: 13px !important;">` + item.Status + `</span></td>`
+                                     
+                            if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status=='Pending For Estimation Head Approval'){
+                                htm += ` <td> <select class="form-select" id=` + ddlPriority + `>
+                                    <option value="-1">--SELECT---</option>
+                                     <option value="HEIGH">HEIGH</option>
+                                          <option value="MEDIUM">MEDIUM</option>
+                                              <option value="LOW">LOW</option>
+                                    </select> </td>`;
+                            }
+                            else {
+                                htm += `<td> <select class="form-select" id=` + ddlPriority + ` disabled>
+                                     <option value="-1">--SELECT---</option>
+                                     <option value="HEIGH">HEIGH</option>
+                                          <option value="MEDIUM">MEDIUM</option>
+                                              <option value="LOW" >LOW</option>
+                                    </select> </td>`;
+                            }
+
+                            if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status=='Pending For Estimation Head Approval'){
+                                htm += ` <td>  <input type="number"   class="form-control" id=` + txtHours + `  value="`+item.Hours+`"  /> </td>`;
+                            }
+                            else {
+                                htm += ` <td>  <input type="number"   class="form-control" id=` + txtHours + ` value="`+item.Hours+`"  disabled/> </td>`;
+                            }
+
+
+                            htm += `<td><span class="`+ item.StatusClass + `" style="font-size: 13px !important;">` + item.Status + `</span></td>`;
                                       
                             if (myroleList.includes("14213") && item.Status=='Pending For Estimation Head Approval') {
                                 htm +=`
@@ -2409,6 +2473,8 @@ $('.tbody-Product-list').on('click','.Update-Product-Details', function () {
     ProductID =this.parentNode.parentNode.children[0].textContent;
     EstTeam = $('#' + this.parentNode.parentNode.children[3].children[0].id).val();
     Estimator = $('#' + this.parentNode.parentNode.children[5].children[0].id).val();
+    Priority = $('#' + this.parentNode.parentNode.children[8].children[0].id).val();
+    NoofHoursRequired = $('#' + this.parentNode.parentNode.children[9].children[0].id).val();
     if (Estimator == '-1' && EstTeam == EmpNo.toUpperCase()) {
         toastr.error('Please Select Estimator..', '');
     }
@@ -2423,7 +2489,7 @@ $('.tbody-Product-list').on('click','.Update-Product-Details', function () {
 function AddEstimator() {
         $.ajax({
             url: "ERMMaster.aspx/SetEstimator",
-            data: JSON.stringify({ "UserID": currUserId, "ProductID": ProductID, "EstHead": EstTeam, "Estimator": Estimator, "RequestId": RequestId, "DueDate": $("input[type=date][name=ESTDueDate]").val()}),
+            data: JSON.stringify({ "UserID": currUserId, "ProductID": ProductID, "EstHead": EstTeam, "Estimator": Estimator, "RequestId": RequestId, "DueDate": $("input[type=date][name=ESTDueDate]").val(), "Priority": Priority, "Hours": NoofHoursRequired}),
             type: "POST",
             contentType: "application/json;charset=utf-8",
             dataType: "json",
@@ -2491,9 +2557,33 @@ function SaveEstimationProduct(ReqNumber, Product, Remarks, status, OwnerIdOpt) 
 
                 htm += `  <td class="hidden">` + item.Estimator + `</td>
 
-                            <td></td>
+                            <td></td>`;
+
+                if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status=='Pending For Estimation Head Approval'){
+                                htm += ` <td> <select class="form-select" id=` + ddlPriority + `>
+                                    <option value="-1">--SELECT---</option>
+                                     <option value="HEIGH">HEIGH</option>
+                                          <option value="MEDIUM">MEDIUM</option>
+                                              <option value="LOW">LOW</option>
+                                    </select> </td>`;
+                            }
+                            else {
+                                htm += `<td> <select class="form-select" id=` + ddlPriority + ` disabled>
+                                     <option value="-1" `+item.Priority.trim()=='-1'?'selected' : ''+`>--SELECT---</option>
+                                     <option value="HEIGH" `+item.Priority.trim()=='HIGH'?'selected' : ''+`>HEIGH</option>
+                                          <option value="MEDIUM" `+item.Priority.trim()=='MEDIUM'?'selected' : ''+`>MEDIUM</option>
+                                              <option value="LOW" `+item.Priority.trim()=='LOW'?'selected' : ''+`>LOW</option>
+                                    </select> </td>`;
+                            }
+
+                            if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status=='Pending For Estimation Head Approval'){
+                                htm += ` <td>  <input type="number"   class="form-control" id=` + txtHours + `  value="`+item.Hours+`"  /> </td>`;
+                            }
+                            else {
+                                htm += ` <td>  <input type="number"   class="form-control" id=` + txtHours + ` value="`+item.Hours+`"  disabled/> </td>`;
+                            }
              
-                                      <td><span class="`+ item.StatusClass + `" style="font-size: 13px !important;">` + item.Status + `</span></td>
+                            htm += `<td><span class="`+ item.StatusClass + `" style="font-size: 13px !important;">` + item.Status + `</span></td>
                                       <td>
                                        
                                       </td>
@@ -2747,7 +2837,7 @@ function GetGeneralComments() {
         dataType: "json",
         async: false,
         success: function (result) {
-            $('.tbody-Comments-list tr').length > 0 ? objDatatableGeneralComments.destroy() : '';
+          
             //clearmodal();
 
             var htm = '';
@@ -2769,7 +2859,7 @@ function GetGeneralComments() {
             });
             $('.tbody-Comments-list').html(htm);
 
-            initiateDataTableGeneralComments();
+          
         },
         //complete: function () {
         //    $('.ajax-loader').hide();

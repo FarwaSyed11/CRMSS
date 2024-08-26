@@ -60,7 +60,10 @@ function SummaryReports() {
     $.ajax({
         url: "EMSItemList.aspx/Reports",
         type: "POST",
-        data: JSON.stringify({ "RequstId": selReqId }),
+        data: JSON.stringify({
+            "RequstId": selReqId,
+            "UserId": currUserId
+        }),
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         async: false,
@@ -98,7 +101,10 @@ function ItemviseReports() {
     $.ajax({
         url: "EMSItemList.aspx/ItemviseReports",
         type: "POST",
-        data: JSON.stringify({ "RequstId": selReqId }),
+        data: JSON.stringify({
+            "RequstId": selReqId,
+            "UserId": currUserId
+        }),
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         async: false,
@@ -220,6 +226,7 @@ function strItemDeets(item) {
     var Installation = 0;
     var Engineering = 0;
     var TestnComm = 0;
+    var totConsumables = 0;
     for (var i = 0; i < AllItemCategory.length; i++) {
 
         var res = listItemViseReports.filter(x => x.Category == AllItemCategory[i] && x.Name == item);
@@ -253,18 +260,18 @@ function strItemDeets(item) {
                     <td class="text-center">`+ numberWithCommas(fixedtwo(sysItem.TOTInstallation)) + `</td>
                     <td class="text-center">`+ numberWithCommas(fixedtwo((sysItem.TOTInstallation) + (sysItem.TOTPipeFittings))) + `</td></tr>
                     `
-            totpf = (parseInt(sysItem.TOTPipeFittings) == undefined ? 0 : parseInt(sysItem.TOTPipeFittings)) + parseInt(totpf);
-            totins = (parseInt(sysItem.TOTInstallation) == undefined ? 0 : parseInt(sysItem.TOTInstallation)) + parseInt(totins);
-            Engineering = parseInt(sysItem.Engineering);
-            Installation = (parseInt(sysItem.TOTInstallation) == undefined ? 0 : parseInt(sysItem.TOTInstallation)) + parseInt(Installation)
-            TestnComm = parseInt(sysItem.TestingnCommissioning);  
+            totpf = (parseFloat(sysItem.TOTPipeFittings) == undefined ? 0 : parseFloat(sysItem.TOTPipeFittings)) + parseFloat(totpf);
+            totins = (parseFloat(sysItem.TOTInstallation) == undefined ? 0 : parseFloat(sysItem.TOTInstallation)) + parseFloat(totins);
+            Engineering = parseFloat(sysItem.Engineering);
+            Installation = (parseFloat(sysItem.TOTInstallation) == undefined ? 0 : parseFloat(sysItem.TOTInstallation)) + parseFloat(Installation);
+            TestnComm = parseFloat(sysItem.TestingnCommissioning);  
             
         });
         allTOT = totpf + totins + Engineering + TestnComm;
         
         //allTOT = totpf + totins;
     }
-    htm += `` + summaryHTMLfooter(Engineering, TestnComm, allTOT, Installation) + ``
+    htm += `` + summaryHTMLfooter(Engineering, TestnComm, allTOT, Installation, totpf) + ``
     return htm;
   
 }
@@ -293,11 +300,12 @@ function getAlternateItemsDetReport(col, itmcode, listAlternateItems) {
     return htm;
 }
 
-function summaryHTMLfooter(Engineering, TestnComm, allTOT, Installation) {
+function summaryHTMLfooter(Engineering, TestnComm, allTOT, Installation, totpf) {
     htmTfooter = `<tr><table><div class="float-right w-50" style="font-size:14px">
                         <div class=""><label class="border w-50 m-0 p-3">Engineering</label> <label class="border w-50 p-3 m-0 float-right">`+ numberWithCommas(fixedtwo(Engineering)) + ` </label></div>
                         <div class=""><label class="border w-50 m-0 p-3"> Test and Commission </label> <label class="border m-0 w-50 p-3 float-right">`+ numberWithCommas(fixedtwo(TestnComm)) + `</label></div>
-                        <div class=""><label class="border w-50 m-0 p-3"> Installation  </label> <label class="border m-0 w-50 p-3 float-right">`+ numberWithCommas(fixedtwo(Installation)) + `</label></div>
+                        <div class=""><label class="border w-50 m-0 p-3"> Total Installation  </label> <label class="border m-0 w-50 p-3 float-right">`+ numberWithCommas(fixedtwo(Installation)) + `</label></div>
+                        <div class=""><label class="border w-50 m-0 p-3">Total Consumables</label> <label class="border w-50 p-3 m-0 float-right">` + numberWithCommas(fixedtwo(totpf)) + `</label></div>
                         <div class=""><label class="border w-50 m-0 p-3">Total</label> <label class="border w-50 p-3 m-0 float-right">` + numberWithCommas(fixedtwo(allTOT)) + `</label></div>
                       </div>
                   </table></tr>
@@ -305,3 +313,20 @@ function summaryHTMLfooter(Engineering, TestnComm, allTOT, Installation) {
     //$('#summaryFooter').html(htmTfooter);
     return htmTfooter;
 }
+
+
+function printDiv(divID) {
+    $(".project-table").css('height', 'max-content');
+    var divElements = document.getElementById(divID).innerHTML;
+    var oldPage = document.body.innerHTML;
+    document.body.innerHTML =
+        "<html><head><title>Print</title></head><body>" +
+        divElements + "</body>";
+    window.print();
+    document.body.innerHTML = oldPage;
+
+    location.reload();
+    $('#addReqModal').modal('show');
+
+}
+

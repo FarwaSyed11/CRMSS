@@ -306,7 +306,7 @@
         </div>
         <div class="row" style="padding-left: 2%;">
             <div style="width: 25%;" class="pull-left">
-                <h4 style="color: #a92828; margin-top: 13px">Item Master</h4>
+                <h4 style="color: #a92828; margin-top: 13px">User Master</h4>
             </div>
             <div style="width: 74%" class="pull-left"></div>
 

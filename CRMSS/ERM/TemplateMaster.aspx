@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/EconnectNew.master" CodeFile="TemplateMaster.aspx.cs" Inherits="ERM_TemplateMaster" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Masters/EconnectNew.master" CodeFile="TemplateMaster.aspx.cs" Inherits="ERM_TemplateMaster" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -508,67 +508,6 @@
                                                 <span class="ms-5 me-5 fw-bold">Total Floors</span>
                                                 <span class="ms-2 fw-bold">Order No.</span>
                                                 <div class="row pt-2 mt-2 border-top" id="mainFloorTypes" style="max-height: 300px; overflow-y: auto;">
-
-
-                                                    <%--<div class="mainFloorSub d-flex">
-                                <div class="form-check col-5 ps-5 ">
-                                    <input class="form-check-input" name="cb-floors-type" type="checkbox" value="Base" id="flexCheckBasement">
-                                    <label class="form-check-label" for="flexCheckBasement">
-                                        Basement
-                                    </label>
-                                </div>
-                                <div class="col-4 mb-2">
-                                    <input class="form-control bsmntFloor" name="txtForFloorsTypes" type="number"  placeholder="enter floors..." disabled>
-                                </div>
-                                <div class="col-3 mb-2">
-                                    <input class="form-control bsmntFloor" name="txtForFloorsTypes" type="number" placeholder="order #..." disabled>
-                                </div>
-                            </div>
-
-                            <div class="mainFloorSub d-flex">
-                                <div class="form-check col-5 ps-5">
-                                    <input class="form-check-input" name="cb-floors-type" type="checkbox" value="Park" id="flexCheckParking">
-                                    <label class="form-check-label" for="flexCheckParking">
-                                        Parking
-                                    </label>
-                                </div>
-                                <div class="col-4 mb-2">
-                                    <input class="form-control parkFloor" name="txtForFloorsTypes" type="number" id="" placeholder="enter floors..." disabled>
-                                </div>
-                                <div class="col-3 mb-2">
-                                    <input class="form-control parkFloor" name="txtForFloorsTypes" type="number" id="" placeholder="order #..." disabled>
-                                </div>
-                            </div>
-
-
-                            <div class="mainFloorSub d-flex">
-                                <div class="form-check col-5 ps-5">
-                                    <input class="form-check-input" name="cb-floors-type" type="checkbox" value="FLR" id="flexCheckNormal">
-                                    <label class="form-check-label" for="flexCheckNormal">
-                                        Floor
-                                    </label>
-                                </div>
-                                <div class="col-4 mb-2">
-                                    <input class="form-control normalFloor" name="txtForFloorsTypes" type="number" id="" placeholder="enter floors..." disabled>
-                                </div>
-                                <div class="col-3 mb-2">
-                                    <input class="form-control normalFloor" name="txtForFloorsTypes" type="number" id="" placeholder="order #..." disabled>
-                                </div>
-                            </div>
-                            <div class="mainFloorSub d-flex">
-                                <div class="form-check col-5 ps-5">
-                                    <input class="form-check-input" name="cb-floors-type" type="checkbox" value="Roof" id="flexCheckTerrace">
-                                    <label class="form-check-label" for="flexCheckTerrace">
-                                        Roof
-                                    </label>
-                                </div>
-                                <div class="col-4 mb-2">
-                                    <input class="form-control terrFloor" name="txtForFloorsTypes" type="number" id="" placeholder="enter floors..." disabled>
-                                </div>
-                                <div class="col-3 mb-2">
-                                    <input class="form-control terrFloor" name="txtForFloorsTypes" type="number" id="" placeholder="order #..." disabled>
-                                </div>
-                            </div>--%>
                                                 </div>
 
 
@@ -638,47 +577,13 @@
                                         <button type="button" class="btn btn-primary btnUpdateTypicalFloors mt-3">Save </button>
                                     </div>
                                     <div class="slider-content__item">
-                                        <div class="row mt-1">
-                                            <div class="col-md-3">
-                                                <label>System</label>
-                                                <select id="ddlSystem" class="form-select color-dropdown"></select>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <label>Category</label>
-                                                <select id="ddlCategory" class="form-select color-dropdown"></select>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <label>Item Code</label>
-                                                <input class="form-control" type="text" placeholder="Enter Item Code" style="background-color: white;" id="txtItemCode">
-                                            </div>
-                                            <div class="col-md-1">
-                                                <a href="#" class="btn" id="btnItemFilterTOC" style="margin-top: 30px;">Search</a>
-                                            </div>
-                                            <div class="col-md-3" style="display: flex; justify-content: flex-end">
-                                                <a href="#" class="btn btn-primary" id="btnAddItemFromOracle-grid" style="margin-top: 30px;"><i class="fa fa-plus" aria-hidden="true"></i>Add From Oracle</a>
-                                            </div>
-                                        </div>
+                                        <button type="button" class="btn btn-primary btn-add-item-toc-grid float-right hide-control-bos">
+                                            <svg class="me-3" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 16 16">
+                                                <path fill="#fff" d="M11 11H9v1h2v2h1v-2h2v-1h-2V9h-1zM7.758 9a4.5 4.5 0 1 1-.502 4H6v-1h1.027a4.55 4.55 0 0 1 .23-2H6V9zM2 4V3h2v1zm4 0V3h8v1zm0 3V6h8v1zM2 7V6h2v1zm0 3V9h2v1zm0 3v-1h2v1z" />
+                                            </svg>Add Item(s)
+                                        </button>
+                                        <div class="row system-div-parent">
 
-                                        <div class="table mt-2" style="overflow-y: auto; max-height: 800px;">
-                                            <table class="table item-toc-table" style="width: 100%;">
-
-                                                <thead style="position: sticky; top: -3px;">
-                                                    <tr class="Head-tr">
-                                                        <th style="width: 52px !important">Select</th>
-                                                        <th>Item Code</th>
-                                                        <th>Item Desc</th>
-                                                        <th>System</th>
-                                                        <th>Category</th>
-                                                        <th class="col-for-pipe-category hidden">Pipe Unit Price</th>
-                                                        <th class="col-for-pipe-category hidden">Fittings %</th>
-                                                        <th class="col-for-pipe-category hidden">Installation Unit Price</th>
-                                                        <th>Spare QTY</th>
-                                                    </tr>
-                                                </thead>
-
-                                                <tbody class="tbody-items-toc">
-                                                </tbody>
-                                            </table>
                                         </div>
                                     </div>
                                 </div>
@@ -694,6 +599,198 @@
 
     </div>
 
+
+    <%--TOC WORK--%>
+    <%--Tag Floor With The Items in TOC--%>
+    <div class="modal fade" id="tagFloorIntoItems" tabindex="-1" aria-hidden="true" style="background: #adacaca3;">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tagFloorIntoItemsLabel">Floor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="zoom: 85%;">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Structure Name</label>
+                            <select id="ddlStructNameTOC" class="form-select color-dropdown"></select>
+                        </div>
+                        <div class="col-md-2">
+                            <label>Floor Type</label>
+                            <select id="ddlFloorTypeTOC" class="form-select color-dropdown"></select>
+                        </div>
+                        <div class="col-md-2 adv-filter ">
+                            <label>Floor No.</label>
+                            <select id="ddlFloorFromTOC" class="form-select color-dropdown"></select>
+                        </div>
+                        <div class="col-md-2">
+                            <%--<a href="#" class="btn" id="btnFloorFilterTOC" style="margin-top: 30px;">Search</a>--%>
+                        </div>
+
+                        <div class="col-md-1"></div>
+
+                        <div class="col-md-2">
+                            <label>Quantity</label>
+                            <input class="form-control" type="number" id="txtQuantityTOC" placeholder="enter quantity" min="0">
+                        </div>
+                        <%--  <div class="col-md-2 adv-filter ">
+                            <label>Is Typical</label>
+                            <div style="display: flex; justify-content: center;">
+                                <input class="form-check-input" type="checkbox" value="Base" id="cbIsTypical"></div>
+                        </div>--%>
+                        <%--    <div class="col-md-3 adv-filter ">
+                            <label>Master Floor</label>
+                            <select id="ddlFloorMaster" class="form-select color-dropdown"></select>
+                        </div>--%>
+                    </div>
+                    <div class="table mt-5" style="overflow-y: auto; max-height: 800px;">
+                        <table class="table floor-into-item-table" style="width: 100%;">
+                            <thead style="position: sticky; top: -3px;">
+                                <tr class="Head-tr">
+                                    <th>Item Code</th>
+                                    <th>Floor Name</th>
+                                    <th>Quantity</th>
+
+                                </tr>
+                            </thead>
+                            <tbody class="tbody-floor-into-item">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btnAddFloorsIntoItem">Save </button>
+                    <%--<button type="button" class="btn btn-primary btnSubmit hidden">Publish</button>--%>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <%--Tag Floor With The Items in TOC--%>
+    <div class="modal fade" id="ReqTechRemarksModal" tabindex="-1" aria-hidden="true" style="background: #adacaca3;">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ReqTechRemarksModalLabel">Technical Remarks</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="zoom: 85%; min-height: 670px;">
+                    <div class="row">
+                        <label for="html5-number-input" class="col-form-label label-custom">Technical Remarks Description <span style="color: red;">*</span></label>
+                        <div class="ritext-tech-remarks-div" style="min-height: 670px;">
+                            <%--<input class="form-control " type="text" placeholder="" value="" id="taTechRemarks">--%>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btnAddTechRemarks">Save Notes </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <%--ADD/UPDATE Items from Oracle--%>
+    <div class="modal fade" id="addUpdateItemsOracle" tabindex="-1" style="background: #a9a9a996;" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="lbladdUpdateItemsOracle">Add Item(s) from Oracle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="zoom: 85%;">
+
+                    <div class="row mt-1">
+                        <div class="col-md-9">
+                            <label>Search with <b>Item Code</b> or <b>Item Description</b> </label>
+                            <input class="form-control" type="text" placeholder="Enter Item Code" style="background-color: white;" id="txtItemCodeForOracle">
+                        </div>
+                        <div class="col-md-3">
+                            <a href="#" class="btn" id="btnOracleItemFilterTOC" style="margin-top: 30px;">Search</a>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 row">
+                        <div>
+                            <label>Select System & Category</label>
+                            <span style="color: #d54832">*</span>
+                        </div>
+                        <div class="col-md-3">
+                            <label>System</label>
+                            <select id="ddlSystemForOracle" class="form-select color-dropdown"></select>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Category</label>
+                            <select id="ddlCategoryForOracle" class="form-select color-dropdown"></select>
+                        </div>
+                    </div>
+
+
+                    <div class="table mt-2" style="overflow-y: auto; max-height: 800px;">
+                        <table class="table item-toc-table-fromoracle" style="width: 100%;">
+
+                            <thead style="position: sticky; top: -3px;">
+                                <tr class="Head-tr">
+                                    <th style="width: 52px !important">Select</th>
+                                    <th>Item Code</th>
+                                    <th>Item Desc</th>
+                                    <%--<th>System</th>
+                                    <th>Category</th>
+                                    <th class="col-for-pipe-category hidden">Pipe Unit Price</th>
+                                    <th class="col-for-pipe-category hidden">Fittings %</th>
+                                    <th class="col-for-pipe-category hidden">Installation Unit Price</th>
+                                    <th>Spare QTY</th>--%>
+                                </tr>
+                            </thead>
+
+                            <tbody class="tbody-items-toc-fromoracle">
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btnAddItemsFromOracleTOC">Select </button>
+                    <%--<button type="button" class="btn btn-primary btnSubmit hidden">Publish</button>--%>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <%-- Adding Engineering and TEstCommisioning in TOC --%>
+    <div class="modal fade" id="engrNTestCommisoinModal" tabindex="-1" aria-hidden="true" style="background: #adacaca3;">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="engrNTestCommisoinlabel">Update Engineering and Test Commisioning</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="zoom: 90%;">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Engineering</label>
+                            <input class="form-control" type="number" id="txtEngineering" min="0">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Test and Commsioning</label>
+                            <input class="form-control" type="number" id="txtTestnCommision" min="0">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btnAddEngrTestnCommision">Save </button>
+                    <%--<button type="button" class="btn btn-primary btnSubmit hidden">Publish</button>--%>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <%--TOC End--%>
     <script type="text/javascript">
         var currUserId = '';
         var EmpNo = '';

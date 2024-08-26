@@ -13,7 +13,20 @@ public partial class ERM_CustomerVerifivation : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (!String.IsNullOrEmpty(Convert.ToString(Session["UserId"])))
+        {
+            if (!Page.IsPostBack)
+            {
 
+                Common.SaveAppUserActivityHistory(Session["ApplicationId"].ToString(), "/ERM/CustomerVerifivation.aspx", "Customer verification", (Session["empno"] == null ? "null" : Session["empno"].ToString()), 0);
+
+            }
+
+        }
+        else
+        {
+            Response.Redirect("../Security/Login.aspx", false);
+        }
     }
 
     [WebMethod]

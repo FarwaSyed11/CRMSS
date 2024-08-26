@@ -759,7 +759,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static string AddContactDet(string UserId,string AccountId, string ContactName, string JobTitle, string Gender, string PhoneNumber, string Email, string Country, string City, string Nationality)
+    public static string AddContactDet(string UserId,string AccountId, string ContactName, string JobTitle, string Gender, string PhoneNumber, string Email, string Nationality)
                                       
     {
 
@@ -791,11 +791,11 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         pa.Add("@email");
         pv.Add(Email);
 
-        pa.Add("@Country");
-        pv.Add(Country);
+        //pa.Add("@Country");
+        //pv.Add(Country);
 
-        pa.Add("@city");
-        pv.Add(City);
+        //pa.Add("@city");
+        //pv.Add(City);
 
         pa.Add("@nationality");
         pv.Add(Nationality);
@@ -855,7 +855,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static List<TableDetails> GetrequestDetails(string UserId,string Type, string Status)
+    public static List<TableDetails> GetrequestDetails(string UserId, string Type, string Status, string Stage)
     {
 
         DBHandler DBH = new DBHandler();
@@ -882,6 +882,9 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         pa.Add("@Status");
         pv.Add(Status);
 
+        pa.Add("@Stage");
+        pv.Add(Stage);
+
         DBH.CreateDatasetERM_Data(ds, "sp_GetEstimationRequestDetails", true, pa, pv);
 
         List<TableDetails> listProjDet = new List<TableDetails>();
@@ -893,15 +896,22 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
             TableDetails ind = new TableDetails();
             ind.RefNo = dt.Rows[i]["RefNo"].ToString();
             ind.RevNo = dt.Rows[i]["RevNo"].ToString();
-            ind.ContABBR = dt.Rows[i]["ContABBR"].ToString();
-            ind.YEAR = dt.Rows[i]["YEAR"].ToString();
+           
             ind.OPTNumber = dt.Rows[i]["OPTNumber"].ToString();
             ind.ProjectNumber = dt.Rows[i]["ProjectNumber"].ToString();
             ind.ProjectName = dt.Rows[i]["ProjectName"].ToString();
             ind.CreatedBy = dt.Rows[i]["CreatedBy"].ToString();
             ind.CreatedDate = dt.Rows[i]["CreatedDate"].ToString();
             ind.ID = dt.Rows[i]["ID"].ToString(); 
-            ind.RoleID = dt.Rows[i]["RoleID"].ToString(); 
+            ind.RoleID = dt.Rows[i]["RoleID"].ToString();
+
+            ind.Consultant = dt.Rows[i]["Consultant"].ToString();
+            ind.Marketing = dt.Rows[i]["Marketing"].ToString();
+            ind.MEPContractor = dt.Rows[i]["MEPContractor"].ToString();
+            ind.Salesman = dt.Rows[i]["Salesman"].ToString();
+            ind.Scope = dt.Rows[i]["Scope"].ToString();
+            ind.QuotationType = dt.Rows[i]["QuotationType"].ToString();
+            ind.Stage = dt.Rows[i]["Stage"].ToString(); 
 
             listProjDet.Add(ind);
         }
@@ -1179,6 +1189,8 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
                 Estimator = dt.Rows[i]["Estimator_EmpNo"].ToString(),
                 Status = "DRAFT",
                 StatusClass = "",
+                Priority="-1",
+                Hours="0",
             });
         }
 
@@ -1230,7 +1242,9 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
                 Estimator = dt.Rows[i]["Estimator_EmpNo"].ToString(),
                 Status = dt.Rows[i]["EstStatus"].ToString(),
                 StatusClass = dt.Rows[i]["StatusClass"].ToString(),
-                DueDate = dt.Rows[i]["DueOn"].ToString()
+                DueDate = dt.Rows[i]["DueOn"].ToString(),
+                Priority = dt.Rows[i]["WorkPriority"].ToString(),
+                Hours = dt.Rows[i]["RequiredHours"].ToString(),
 
             });
         }
@@ -1512,7 +1526,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static void SetEstimator(string UserID, string ProductID, string Estimator, string EstHead, string RequestId,string DueDate)
+    public static void SetEstimator(string UserID, string ProductID, string Estimator, string EstHead, string RequestId, string DueDate, string Priority, string Hours)
     {
 
         DBHandler DBH = new DBHandler();
@@ -1543,6 +1557,12 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         
         pa.Add("@DueDate");
         pv.Add(DueDate);
+
+        pa.Add("@Priority");
+        pv.Add(Priority);
+
+        pa.Add("@Hours");
+        pv.Add(Hours);
 
 
         DBH.CreateDatasetERM_Data(ds, "sp_EstimationRequestActions", true, pa, pv);
@@ -1761,6 +1781,8 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         public string Status { get; set; }
         public string StatusClass { get; set; }
         public string DueDate { get; set; }
+        public string Priority { get; set; }
+        public string Hours { get; set; }
 
 
     }
