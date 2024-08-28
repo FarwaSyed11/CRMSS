@@ -911,7 +911,8 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
             ind.Salesman = dt.Rows[i]["Salesman"].ToString();
             ind.Scope = dt.Rows[i]["Scope"].ToString();
             ind.QuotationType = dt.Rows[i]["QuotationType"].ToString();
-            ind.Stage = dt.Rows[i]["Stage"].ToString(); 
+            ind.Stage = dt.Rows[i]["Stage"].ToString();
+            ind.PlotNumber = dt.Rows[i]["PlotNumber"].ToString(); 
 
             listProjDet.Add(ind);
         }

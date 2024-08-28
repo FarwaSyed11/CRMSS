@@ -237,7 +237,7 @@ function GetEMSRequestDetails() {
             var ProductList =result.d[0].EMSRequestProducts;
 
 
-
+            $(".div-btn-GenerateQuotation").css("display","");
             var htm='';
             $.each(ProductList, function (key, item) {
 
@@ -247,14 +247,19 @@ function GetEMSRequestDetails() {
                 <td style="text-align:center;">` + item.Remarks + `</td>
                 <td style="text-align:center;">` + item.EstimationTeam + `</td>
                 <td style="text-align:center;">` + item.EstimationNo + `</td>
+                       <td style="text-align:center;">` + item.EstimationStatus + `</td>
                 <td style="text-align:center;">` + item.QTStatus + `</td>
+                  
 
                 </tr>`;
 
-                
+                if(item.EstimationStatus=="UNDER ESTIMATION")
+                {
+                    $(".div-btn-GenerateQuotation").css("display","none");
+                }
             });
             $(".Quotation").css("display","none");
-            $(".div-btn-GenerateQuotation").css("display","");
+         
             $(".tbody-Product-list").html(htm);
             $("#btnItemDetails").prop("disabled", true);
             $("#btnReport").prop("disabled", true);
@@ -297,6 +302,9 @@ function GetQuotationDetails() {
             $('#txtSalesman').val(result.d[0].Salesman);
             $('#txtMarketing').val(result.d[0].Marketing);
             $('#txtTotalAmountview').val(result.d[0].TotalAmount);
+            $('#txtMargineForALLItem').val(result.d[0].OverAllMargin);
+            $('#txtDiscountForAllItem').val(result.d[0].OverAllDiscount);
+            $('#txtNetAmount').val(result.d[0].NetAmount);
 
             $("input[name=Stage][value='" + result.d[0].Stage + "']").attr('Checked', true);
             $("input[name=Supply][value='" + result.d[0].Scope + "']").attr('Checked', true);
@@ -313,6 +321,7 @@ function GetQuotationDetails() {
                 <td style="text-align:center;">` + item.Remarks + `</td>
                 <td style="text-align:center;">` + item.EstimationTeam + `</td>
                 <td style="text-align:center;">` + item.EstimationNo + `</td>
+                     <td style="text-align:center;">` + item.EstimationStatus + `</td>
                 <td style="text-align:center;">` + item.QTStatus + `</td>
 
                 </tr>`;
@@ -451,24 +460,27 @@ function loadQuotItemsDets(tabname) {
 
                                                 
                         $.each(AllCategoryForSys, function (key1, itm) {
-                            htm += `<tr class="hidden_row` + key + ` hidden"><td colspan="7">` + itm + `</td> </tr>`
+                            htm += `<tr class="hidden_row` + key + ` showrow hidden"><td colspan="7">` + itm + `</td> </tr>`
                             //if (key1==0) {
-                                htm += `<tr class="hidden_row` + key + ` hidden">
+                                htm += `<tr class="hidden_row` + key + ` showrow hidden">
                                         <td colspan="6">
                                         <table style="width:100%;">
-                                        <tr class="hidden_row` + key + ` sub-tabl-bg" style="text-align:center;"> <td>S.No</td> <td>Item Code</td> <td>Item Desc</td> <td>QTY</td> <td>Unit Price</td> <td>Total</td> <td>Action</td> </tr>`;
+                                        <tr class="hidden_row` + key + ` sub-tabl-bg" style="text-align:center;"> <td>S.No</td> <td>Item Code</td> <td>Item Desc</td> <td>QTY</td> <td>Unit Price</td> <td>Margine %</td> <td>Discount %</td>  <td>Unit Selling Price</td>   <td>Total</td> <td>Action</td> </tr>`;
                           //  }          
 
                                         var ress = listSystemsItems.filter(s => s.Category == itm).filter(s => s.System == item.SysName);
                             
                             $.each(ress, function (key11,catitem) {
-                                htm += `<tr style="text-align:center;" id="hidden_row` + key + ` accordian-info" class="hidden_row` + key + ` hidden">`
+                                htm += `<tr style="text-align:center;" id="hidden_row` + key + ` accordian-info" class="hidden_row` + key + ` showrow hidden">`
                                 htm += `<td>` + (key11 + 1) + `</td>
                                 <td>` + catitem.ItemCode + `</td>
                                 <td>`+ catitem.ItemDesc + `</td> 
                                 <td>`+ parseInt(catitem.Quantity).toLocaleString("en-US") + `</td> 
-                                <td><input class="form-control" type="number" value="`+ parseFloat(catitem.UnitPrice).toString() + `" id="txtUnitPrice-`+catitem.LineID+`"  onchange="UpdateTotalAmount('txtUnitPrice-`+catitem.LineID+`','`+catitem.LineID+`','txtTotalAmount-`+catitem.LineID+`','`+catitem.Quantity+`')" style="text-align:right" /></td> 
-                                  <td><input class="form-control" type="text" value="`+ parseFloat(catitem.TotalAmount).toLocaleString("en-US") + `" id="txtTotalAmount-`+catitem.LineID+`"  disabled style="text-align:right"/></td> 
+                                <td><input class="form-control" type="number" value="`+ parseFloat(catitem.UnitPrice).toString() + `" id="txtUnitPrice-`+catitem.LineID+`"  onchange="UpdateTotalAmount('`+catitem.LineID+`','`+catitem.Quantity+`')" style="text-align:right" /></td> 
+                                  <td><input class="form-control" type="text" value="`+ parseFloat(catitem.Margine).toLocaleString("en-US") + `" id="txtMargine-`+catitem.LineID+`"  onchange="UpdateTotalAmount('`+catitem.LineID+`','`+catitem.Quantity+`')"  style="text-align:right"/></td> 
+                                       <td><input class="form-control" type="text" value="`+ parseFloat(catitem.Discount).toLocaleString("en-US") + `" id="txtDiscount-`+catitem.LineID+`"  onchange="UpdateTotalAmount('`+catitem.LineID+`','`+catitem.Quantity+`')"  style="text-align:right"/></td> 
+                                            <td><input class="form-control" type="text" value="`+ parseFloat(catitem.UnitSellingPrice).toLocaleString("en-US") + `" id="txtUnitSellingPrice-`+catitem.LineID+`"  disabled style="text-align:right"/></td> 
+                                                 <td><input class="form-control" type="text" value="`+ parseFloat(catitem.TotalAmount).toLocaleString("en-US") + `" id="txtTotalAmount-`+catitem.LineID+`"  disabled style="text-align:right"/></td> 
                                     
                                 <td>`
                                 //if (selForecastQuartObj[0].Status == "PENDING SALESMEN") {
@@ -497,11 +509,18 @@ function loadQuotItemsDets(tabname) {
 
 }
 
-function UpdateTotalAmount(txtUnitprice,QuotationLineID,txtTotalAmount,Quantity)
+function UpdateTotalAmount(QuotationLineID,Quantity)
 {
     $.ajax({
         url: "Quotation.aspx/UpdateUnitprice",
-        data: JSON.stringify({ 'UserId': currUserId, 'QuotationLineID': QuotationLineID,"UnitPrice":$("#"+txtUnitprice+"").val() , 'QuotationID': selQuotationID}),
+        data: JSON.stringify({ 'UserId': currUserId
+                ,'QuotationLineID': QuotationLineID
+                ,'UnitPrice':$("#txtUnitPrice-"+QuotationLineID).val()  
+                ,'QuotationID': selQuotationID
+                ,'Margine': $("#txtMargine-"+QuotationLineID).val()
+                ,'Discount': $("#txtDiscount-"+QuotationLineID).val()
+        
+        }),
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -511,12 +530,22 @@ function UpdateTotalAmount(txtUnitprice,QuotationLineID,txtTotalAmount,Quantity)
             
                 toastr.success('UnitPrice Updated Successfully', '');
 
-                let UnitPrice=parseFloat($("#"+txtUnitprice+"").val());
-                let QTY=parseFloat(Quantity);
+                let UnitPrice=parseFloat($("#txtUnitPrice-"+QuotationLineID).val());
 
-                $("#"+txtTotalAmount+"").val(((UnitPrice*QTY).toLocaleString('en-US', { minimumFractionDigits: 2 })).toString());
+                let QTY=parseFloat(Quantity);
+                let Margine=parseFloat($("#txtMargine-"+QuotationLineID).val());
+                let Discount=parseFloat($("#txtDiscount-"+QuotationLineID).val());
+
+                let SellingUnitPrice=UnitPrice+(UnitPrice*Margine/100)-(UnitPrice*Discount/100);
+
+                $("#txtUnitSellingPrice-"+QuotationLineID).val(SellingUnitPrice.toLocaleString('en-US', { minimumFractionDigits: 2 }).toString());
+
+                $("#txtTotalAmount-"+QuotationLineID).val(((SellingUnitPrice*QTY).toLocaleString('en-US', { minimumFractionDigits: 2 })).toString());
             
-                $("#txtTotalAmountview").val(result.d);
+                $('#txtTotalAmountview').val(result.d[0].TotalAmount);
+                $('#txtMargineForALLItem').val(result.d[0].OverAllMargin);
+                $('#txtDiscountForAllItem').val(result.d[0].OverAllDiscount);
+                $('#txtNetAmount').val(result.d[0].NetAmount);
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -525,6 +554,41 @@ function UpdateTotalAmount(txtUnitprice,QuotationLineID,txtTotalAmount,Quantity)
 
 
 }
+
+
+function UpdateMargineAndDiscountOverAll()
+{
+    $.ajax({
+        url: "Quotation.aspx/UpdateMarginAndDiscountOverAll",
+        data: JSON.stringify({ 'UserId': currUserId  
+                ,'QuotationID': selQuotationID
+                ,'OverAllMargin': $("#txtMargineForALLItem").val()
+                ,'OverAllDiscount': $("#txtDiscountForAllItem").val()
+        
+        }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+        
+            loadQuotItemsDets();
+            toastr.success('UnitPrice Updated Successfully', '');
+            $('#txtTotalAmountview').val(result.d[0].TotalAmount);
+            $('#txtMargineForALLItem').val(result.d[0].OverAllMargin);
+            $('#txtDiscountForAllItem').val(result.d[0].OverAllDiscount);
+            $('#txtNetAmount').val(result.d[0].NetAmount);
+            $(".showrow").removeClass('hidden');
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+
+}
+
 
 
 const toDecimalMark = num => num.toLocaleString('en-US');
@@ -547,9 +611,69 @@ $('#btnLoadReport').on('click', function () {
     $(".ajax-loader").fadeOut(21000);
    
 
-  
+});
+
+$('.btn-MoreInfo').on('click', function () {
+
+
+    $.ajax({
+        url: "Quotation.aspx/GetQuotationMoreInfo",
+        data: JSON.stringify({ 'UserId': currUserId  
+                ,'QuotationID': selQuotationID
+        }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+
+            $('#txtMethodOfPayment').val(result.d[0].MothodOfPayment);
+            $('#txtValidity').val(result.d[0].Validity);
+            $('#txtMoreInfo').val(result.d[0].MoreInfo);
+          
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+    $('#MoreInfoModal').modal('show');
 
 });
+
+
+$('#btnSaveMoreInfo').on('click', function () {
+
+    $.ajax({
+        url: "Quotation.aspx/UpdateQuotationMoreInfo",
+        data: JSON.stringify({ 'UserId': currUserId  
+                ,'QuotationID': selQuotationID
+                ,'MothodOfPayment': $("#txtMethodOfPayment").val()
+                ,'Validity': $("#txtValidity").val()
+                ,'MoreInfo': $("#txtMoreInfo").val()
+        
+        }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+        
+            toastr.success('Updated Successfully', '');
+            $('#txtMethodOfPayment').val(result.d[0].MothodOfPayment);
+            $('#txtValidity').val(result.d[0].Validity);
+            $('#txtMoreInfo').val(result.d[0].MoreInfo);
+          
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+});
+
+
+
 $('#btnDownloadReport').on('click', function () {
 
     $('.ajax-loader').fadeIn(100);

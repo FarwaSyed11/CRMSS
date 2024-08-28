@@ -60,6 +60,7 @@
         </div>
     </div>
 
+  
 
 
     <div class="modal fade" id="NewQuotation" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
@@ -126,6 +127,20 @@
                                             <div class="">
                                                 <input type="text" id="txtDate" placeholder="Select Date" style="background: white;" class="form-control flatpickr-input active" readonly="readonly" onchange="UpdateQuotationDate()">
                                             </div>
+                                        </div>
+                                        <div class="col-2 Quotation">
+                                           <label for="html5-number-input" class="col-form-label label-custom">&nbsp</label>
+                                             <div class="div-btn-MoreInfo">
+                                            <button type="button" class="btn btn-success btn-MoreInfo mr-2" ">
+                                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="1.5rem" height="1.5rem" viewBox="0 0 300 300">
+                                                    <g fill="#f8f8f8" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
+                                                        <g transform="scale(5.12,5.12)">
+                                                            <path d="M25,2c-12.683,0 -23,10.317 -23,23c0,12.683 10.317,23 23,23c12.683,0 23,-10.317 23,-23c0,-4.56 -1.33972,-8.81067 -3.63672,-12.38867l-1.36914,1.61719c1.895,3.154 3.00586,6.83148 3.00586,10.77148c0,11.579 -9.421,21 -21,21c-11.579,0 -21,-9.421 -21,-21c0,-11.579 9.421,-21 21,-21c5.443,0 10.39391,2.09977 14.12891,5.50977l1.30859,-1.54492c-4.085,-3.705 -9.5025,-5.96484 -15.4375,-5.96484zM43.23633,7.75391l-19.32227,22.80078l-8.13281,-7.58594l-1.36328,1.46289l9.66602,9.01563l20.67969,-24.40039z"></path>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                                more Info</button>
+                                                 </div>
                                         </div>
                                         <div class="col-3 ">
                                              <label for="html5-number-input" class="col-form-label label-custom">&nbsp</label>
@@ -285,6 +300,7 @@
                                                         <th>Remarks</th>
                                                         <th>Estimation Team</th>
                                                         <th>Estimation Number</th>
+                                                        <th>Estimation Status</th>
                                                         <th>Status</th>
                                                     </tr>
                                                 </thead>
@@ -301,12 +317,30 @@
                             <div class="tab-pane fade" id="navs-left-align-profile">
                                
                                 <div class="row">
-                                     <div class="col-8">
-                                         </div>
-                                    <div class="col-4">
-                                        <label class="col-form-label label-custom" for="basic-default-name">Total Amount</label>
+                                     <div class="col-3">
+                                        <label class="col-form-label label-custom" for="basic-default-name">Total Amount </label>
                                         <div class="">
                                             <input type="text" id="txtTotalAmountview" class="form-control" value="0.000" disabled >
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <label class="col-form-label label-custom" for="basic-default-name">Margin %</label>
+                                        <div class="">
+                                            <input type="text" id="txtMargineForALLItem" class="form-control" value="0.0"  onchange="UpdateMargineAndDiscountOverAll()" />
+                                        </div>
+                                    </div>
+                                
+                                     <div class="col-3">
+                                        <label class="col-form-label label-custom" for="basic-default-name">Discount %</label>
+                                        <div class="">
+                                            <input type="text" id="txtDiscountForAllItem" class="form-control" value="0.0" onchange="UpdateMargineAndDiscountOverAll()" />
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="col-3">
+                                        <label class="col-form-label label-custom" for="basic-default-name">Net Amount</label>
+                                        <div class="">
+                                            <input type="text" id="txtNetAmount" class="form-control" value="0.000"  disabled>
                                         </div>
                                     </div>
 
@@ -332,10 +366,11 @@
 
 
                                 </div>
-
+                                
 
 
                            <div class="mt-4" style="font-size: 1.3rem;">System(s) List</div>
+                              
                                 <div class="" style="margin-top: 1%;">
                                     <table class="table table-bordered table-striped table-itemList" style="width: 100%">
 
@@ -395,9 +430,49 @@
 
     </div>
 
+       <div class="modal fade" id="MoreInfoModal" tabindex="-1" style="background: #a9a9a996;" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="H4">Add Fire Pumps</h5>
+                    <div style="width: 83%;">
+                        <a href="#" class="btn btn-primary float-right" id="btnSaveMoreInfo" style="">Save</a>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="zoom: 85%;">
+                   
+                     
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="html5-number-input" class="col-form-label label-custom">E. & O. E. METHOD OF PAYMENT</label>
+                            <div class="">
+                                <input class="form-control" type="text" value="" id="txtMethodOfPayment" />
+                            </div>
+                        </div>
+               
+                        <div class="col-6">
+                            <label class="col-form-label label-custom" for="basic-default-name">Delivery time validity of Offer</label>
+                            <div class="">
+                                 <input class="form-control" type="text" value="" id="txtValidity" />
+                            </div>
+                        </div>
+                        </div> 
+                        <div class="row">
+                        <div class="col-12">
+                            <label for="html5-number-input" class="col-form-label label-custom">More Info</label>
+                            <div class="">
+                                <textarea class="form-control"  id="txtMoreInfo" rows="10" cols="10" ></textarea>
 
+                            </div>
+                        </div>
+                       
+                    </div>
 
-
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <script type="text/javascript">

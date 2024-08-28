@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="EMSItemList.aspx.cs" Inherits="Sales_EMSItemList" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="EMSItemList.aspx.cs" Inherits="Sales_EMSItemList" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
@@ -346,6 +346,13 @@
             color: #fff;
             background-color: #d17952;
         }
+
+        .static-value {
+            position: absolute;
+            top: 18px;
+            right: 36px;
+            color: #505050;
+        }
     </style>
 
 </asp:Content>
@@ -361,11 +368,11 @@
 
             <div class="card-body" style="margin-top: -1%;">
                 <div class="row mb-3">
-                    <div class="d-flex col-md-3 ">
+                    <div class="col-md-2">
                         <%-- <div class="">
-                            <label for="html5-number-input" class="col-form-label label-custom">Estimation Status</label>
-                        </div>--%>
-                        <div class="input-group">
+                <label for="html5-number-input" class="col-form-label label-custom">Estimation Status</label>
+            </div>--%>
+                        <div class="input-group me-3">
                             <%--<label class="input-group-text"><i class="bx bx-search-alt-2" style="font-size: 26px; color: #bc3f3f;"></i></label>--%>
                             <label class="input-group-text">Status</label>
                             <select id="ddlFilterStatus" class="form-select color-dropdown">
@@ -379,21 +386,45 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col-md-2">
+                        <div class="input-group me-2">
+                            <div class="input-group">
+                                <label class="input-group-text" for="">
+                                    <span id="ContentPlaceHolder1_Label2">Stage</span>
+                                </label>
+                                <select id="ddlStageFilter" class="form-select color-dropdown">
+                                    <option value="-1">ALL</option>
+                                    <option value="J.O.H">J.O.H</option>
+                                    <option value="Tender">TENDER</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div>
                     <table class="mt-1 table esti-req-table" style="width: 100%;">
 
                         <thead>
                             <tr class="Head-tr">
-                                <%--<th>Id</th>--%>
-                                <th>OPT No.</th>
-                                <th>Request No.</th>
-                                <th>Request Date</th>
-                                <th>Status</th>
-                                <th>Created Date</th>
+
+                                <th style="display: none">ID</th>
+                                <th style="display: none">Role ID</th>
+                                <th>EST. Ref</th>
+                                <th>Revision</th>
+                                <th>Opportunity Number</th>
+                                <th>Project Number</th>
+                                <th>Name</th>
+                                <th>Plot Number</th>
+                                <th>Consultant</th>
+                                <th>Marketing</th>
+                                <th>MEPContractor</th>
+                                <th>Salesman</th>
+                                <th>Stage</th>
+                                <th>Scope</th>
+                                <th>QuotationType</th>
                                 <th>Created By</th>
-                                <th>Estimation Status</th>
-                                <th>Action</th>
+                                <th>Created Date</th>
+                                <th>View</th>
                             </tr>
                         </thead>
 
@@ -480,11 +511,10 @@
                                         <%--style="height: 600px; overflow-y: auto;"--%>
                                         <div class="tab-content" id="nav-tabContent">
                                             <div class="tab-pane fade show active" id="nav-Details" role="tabpanel" aria-labelledby="nav-home-tab">
-                                                <button class="btn btn-primary float-right" onclick="javascript:printDiv('Estimation-details-rectangle-divS')">Print</button>
+                                                <button class="btn btn-primary float-right" onclick="javascript:printDetails('Estimation-details-rectangle-divS')">Print</button>
                                                 <div id="Estimation-details-rectangle-divS" style="">
                                                     <div class="row mt-4 mb-4" style="">
-                                                        <h5 class="fw-bold prpmdl-hed border-bottom" id="H3" style="">Details</h5>
-
+                                                        <h5 class="fw-bold prpmdl-hed border-bottom" id="" style="">Details</h5>
                                                     </div>
                                                     <div class="row ">
                                                         <div class="d-flex" style="width: 25%;">
@@ -805,7 +835,7 @@
                                                             <input type="radio" id="rdQtSmart" name="Quotation" value="SMART QTNG" style="margin-left: 5%" disabled>SMART QTNG
                                                             <input type="radio" id="rdQtAndSp" name="Quotation" value="AS PER DRAWING AND SPECIFICATION" style="margin-left: 5%" disabled>AS PER DRAWING & SPECIFICATION
  
-            <%-- <a href="#" id="btnSubmitOptDet" class="btn btn-primary" style="float:right;">Submit</a>--%>
+                                                            <%-- <a href="#" id="btnSubmitOptDet" class="btn btn-primary" style="float:right;">Submit</a>--%>
                                                         </div>
                                                     </div>
 
@@ -837,10 +867,9 @@
                                             <div class="tab-pane fade" id="nav-Structure" role="tabpanel" aria-labelledby="nav-Structure-tab">
                                                 <%--<div class="row"><span>Import Template</span>  <span><i class='bx bx-upload btn-imp-temp-grid' style="cursor:pointer;"></i></span> </div>--%>
 
-
-
                                                 <div class="row mt-4 mb-4" style="">
                                                     <h5 class="fw-bold prpmdl-hed border-bottom" id="" style="">Structure</h5>
+
                                                     <div class="col-12 mb-3">
                                                         <button type="button" class="btn btn-primary btnAddExising float-left hide-control-bos me-2" style="">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
@@ -928,7 +957,7 @@
 
 
                                                 <div class="">
-                                                    <button type="button" class="btn btn-primary btn-req-complete-grid">
+                                                    <button type="button" class="btn btn-primary btn-req-complete-grid hidden">
                                                         <i class='bx bx-notepad'></i>
                                                         Technical Notes</button>
 
@@ -957,7 +986,8 @@
                                                             <path fill="#fff" d="M11 11H9v1h2v2h1v-2h2v-1h-2V9h-1zM7.758 9a4.5 4.5 0 1 1-.502 4H6v-1h1.027a4.55 4.55 0 0 1 .23-2H6V9zM2 4V3h2v1zm4 0V3h8v1zm0 3V6h8v1zM2 7V6h2v1zm0 3V9h2v1zm0 3v-1h2v1z" />
                                                         </svg>
                                                         Add Item(s)</button>
-                                                    <button type="button" class="btn btn-primary btn-add-firepump float-right me-2">
+
+                                                    <button type="button" class="btn btn-primary btn-add-firepump float-right me-2 hidden">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
                                                             <g fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" color="white">
                                                                 <path d="M2 17.5h6m0 3H2m14-3h6m0 3h-6M13.5 12h-3v4h3z" />
@@ -986,8 +1016,7 @@
                                                             <label class="float-right">Structure</label>
                                                         </div>
                                                         <div class="col-md-3">
-                                                            <select id="ddlStructNameTOCFilter" class="form-select color-dropdown"></select>
-                                                        </div>
+                                                            <select id="ddlStructNameTOCFilter" class="form-select color-dropdown"></select></div>
                                                     </div>
 
                                                     <div class="tab-content" style="height: 600px; overflow-y: auto; overflow-x: hidden;">
@@ -1131,7 +1160,8 @@
                             <label>Type of Floors</label><br />
                             <span class="ms-3 me-5 fw-bold">Floor Type</span>
                             <span class="ms-5 me-5 fw-bold">Total Floors</span>
-                            <span class="ms-2 fw-bold">Order No.</span>
+                            <span class="fw-bold" style="margin-left: -26px;">Order #</span>
+                            <span class="fw-bold" style="font-size: 14px; margin-left: 0.7rem;">Start From</span>
                             <div class="row pt-2 mt-2 border-top" id="mainFloorTypes" style="max-height: 300px; overflow-y: auto;">
 
 
@@ -1614,6 +1644,21 @@
                             <label>Test and Commsioning</label>
                             <input class="form-control" type="number" id="txtTestnCommision" min="0">
                         </div>
+                        <div class="col-md-4">
+                            <label>Man Hours</label>
+                            <input class="form-control" type="number" id="txtManHours" min="0">
+                        </div>
+                    </div>
+
+                    <div class="row field-for-firepump mt-4 hidden">
+                        <div class="col-md-4">
+                            <label>Installation Cost</label>
+                            <input class="form-control" type="number" id="txtInstallCost" min="0">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Material Cost</label>
+                            <input class="form-control" type="number" id="txtMaterialCost" min="0">
+                        </div>
                     </div>
 
                 </div>
@@ -1635,7 +1680,7 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="H1">Summary Reports</h5>
                     <div class="" style="width: 85%;">
-                        <button class="btn btn-primary print float-right">Print</button>
+                        <button class="btn btn-primary print float-right" onclick="printDiv('modalSummary2')">Print</button>
                     </div>
                     <button type="button" class="btn-close _goBack" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -1942,124 +1987,102 @@
         </div>
     </div>
 
+    <%--DELETE CONFIMATION MODAL STARUCTURE DELETE --%>
+    <div class="modal fade" id="delStructureModal" style="background-color: #00000070;" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-body" style="text-align: center;">
+                    <div><i class="bx bxs-x-circle fa-del-kpi" title="View More" style="cursor: pointer; padding-right: 10px; font-size: 80px; color: #e14b4b;"></i></div>
+                    <div>
+                        <h3>Are you sure?</h3>
+                    </div>
+                    <span class="">Do you want to delete the Structure? All Items in this Structure will be deleted and this process cannot be undone.</span>
+                </div>
+                <div class="modal-footer">
+                    <div style="margin-right: 165px;">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary btn-del-structure-yes" data-bs-dismiss="modal">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%-- Update Install Price, UNit price, Spare Items in TOC --%>
+    <div class="modal fade" id="viewMoreItemsInTOCbyFloor" tabindex="-1" aria-hidden="true" style="background: #adacaca3;">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="qqq">Update Items Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="zoom: 90%;">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Spare Quantity</label>
+                            <input class="form-control" type="number" id="txtSpareQty" min="0">
+                        </div>
+                        <div class="col-md-3">
+                            <label>Installation Unit Price</label>
+                            <input class="form-control" type="number" id="txtInstallUPrice" min="0">
+                        </div>
+                    </div>
+
+                    <div class="row mt-3 div-for-pipes-fields hidden">
+                        <div class="col-md-4">
+                            <label>Pipe Unit Price</label>
+                            <input class="form-control" type="number" id="txtPipeUPrice" min="0">
+                        </div>
+                        <div class="col-md-4">
+                            <label>Fitting %</label>
+                            <input class="form-control" type="number" id="txtFitPerc" min="0">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btnAddViewMoreFieldsData">Save </button>
+                    <%--<button type="button" class="btn btn-primary btnSubmit hidden">Publish</button>--%>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <%--ADD Fire Pump Requests from TOC--%>
     <div class="modal fade" id="modalAddFirepumpReq" tabindex="-1" style="background: #a9a9a996;" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
             <div class="modal-content ">
                 <div class="modal-header">
                     <h5 class="modal-title" id="H4">Add Fire Pumps</h5>
+			<div style="width: 83%;">
+                        <a href="#" class="btn btn-primary float-right" id="btnSubmit" style="">SUBMIT</a>
+                    </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" style="zoom: 85%;">
-                    <table class="table table-added-firepumpreqs" style="width: 100%;">
-                        <thead style="position: sticky; top: -3px;">
-                            <tr class="">
-                                <th style="width: 52px !important">No.</th>
-                                <th style="width: 52px !important">Area (Floor Desc)</th>
-                                <th style="width: 52px !important">Description</th>
-                                <th style="width: 52px !important">QTY</th>
-                                <th style="width: 52px !important">Type of Pump</th>
-                                <th style="width: 52px !important; text-align: center;">More Details</th>
-                            </tr>
-                        </thead>
-                        <tbody class="tbody-added-firepumpreqs">
-                        </tbody>
-                    </table>
-                    <a href="#" class="btn btn-primary" id="btnAddFirePumpItem" style="margin-top: 30px;">Add New</a>
-                    <a href="#" class="btn btn-success" id="btnSaveFirePumpItem" style="margin-top: 30px; display: none">Save</a>
-
+                    <a href="#" class="btn btn-primary my-2" id="btnAddFirePumpItem" style="">Add New</a>
+                    <a href="#" class="btn btn-success my-2" id="btnSaveFirePumpItem" style="display: none">Save</a>
+                    <a href="#" class="btn btn-secondary my-2" id="btnClose" style="display: none">Close</a>
                     <div class="pumpLine">
-                        <%--<div class="row mx-3 py-3">
-                           <div class="form-check col-3">
-                               <input class="form-check-input" type="checkbox" value="" id="" name="isAttached">
-                               <label class="form-check-label" for="">
-                                   Specifications Attached
-                               </label>
-                           </div>
-                           <div class="form-check col-2">
-                               <input class="form-check-input" type="checkbox" value="" id="" name="isListofMake">
-                               <label class="form-check-label" for="">
-                                   List of Make
-                               </label>
-                           </div>
-                           <div class="form-check col-3">
-                               <input class="form-check-input" type="checkbox" value="" id="" name="isPumpSched">
-                               <label class="form-check-label" for="">
-                                   Pump Schedule
-                               </label>
-                           </div>
-                       </div>
-                       <div class="row mt-1">
-
-                           <table class="table table-fpreq" style="width: 100%;">
-                               <thead style="position: sticky; top: -3px;">
-                                   <tr class="">
-                                       <th style="width: 52px !important">No.</th>
-                                       <th style="width: 52px !important">Area (Floor Desc)</th>
-                                       <th style="width: 52px !important">Description</th>
-                                       <th style="width: 52px !important">QTY</th>
-                                       <th style="width: 52px !important">Type of Pump</th>
-                                   </tr>
-                               </thead>
-
-                               <tbody class="tbody-fpreq">
-                                   <tr>
-                                       <td>1</td>
-                                       <td>
-                                           <input type="text" id="" name="area" class="form-control mx-2" placeholder="basement" /></td>
-                                       <td>
-                                           <input type="text" id="" name="desc" class="form-control mx-2" placeholder="basement pump description" /></td>
-                                       <td>
-                                           <input type="number" id="" name="qty" class="form-control mx-2" placeholder="2" /></td>
-                                       <td>
-                                           <input type="text" id="" name="TypeofPump" class="form-control mx-2" placeholder="Horizontal Split"></td>
-                                   </tr>
-                                   <tr>
-                                       <td colspan="5">
-                                           <table class="">
-                                               <thead>
-                                                   <tr class="">
-                                                       <th style="width: 230px !important">Pump Set</th>
-                                                       <th style="width: 290px !important">Capacity</th>
-                                                       <th style="width: 100px !important">Bars</th>
-                                                       <th style="width: 100px !important">QTY</th>
-                                                   </tr>
-                                               </thead>
-                                               <tbody>
-                                                   <tr class="">
-                                                       <td>Electrical Pump Set</td>
-                                                       <td class="position-relative" style="">
-                                                           <input type="number" id="" name="capacity1" class="form-control mx-2" /><label class="static-value">@GPM</label></td>
-                                                       <td class="position-relative" style="">
-                                                           <input type="number" id="" name="bars1" class="form-control mx-2"><label class="static-value">Bars</label></td>
-                                                       <td class="position-relative" style="">
-                                                           <input type="number" id="" name="qty1" class="form-control mx-2"><label class="static-value">Set</label></td>
-                                                   </tr>
-                                                   <tr class="">
-                                                       <td>Diesel Pump Set</td>
-                                                       <td class="position-relative">
-                                                           <input type="number" id="" name="capacity2" class="form-control mx-2"><label class="static-value">@GPM</label></td>
-                                                       <td class="position-relative">
-                                                           <input type="number" id="" name="bars3" class="form-control mx-2"><label class="static-value">Bars</label></td>
-                                                       <td class="position-relative">
-                                                           <input type="number" id="" name="qty2" class="form-control  mx-2"><label class="static-value">Set</label></td>
-                                                   </tr>
-                                                   <tr class="">
-                                                       <td>Jockey Pump Set</td>
-                                                       <td class="position-relative">
-                                                           <input type="number" id="" name="capacity3" class="form-control mx-2"><label class="static-value">@GPM</label></td>
-                                                       <td class="position-relative">
-                                                           <input type="number" id="" name="bars3" class="form-control mx-2"><label class="static-value">Bars</label></td>
-                                                       <td class="position-relative">
-                                                           <input type="number" id="" name="qty3" class="form-control mx-2"><label class="static-value">Set</label></td>
-                                                   </tr>
-                                               </tbody>
-                                           </table>
-                                       </td>
-                                   </tr>
-                               </tbody>
-                           </table>
-                       </div>--%>
+                    </div>
+                    <div class="border rounded p-3">
+                        <h6 class="mx-2">Added Fire Pumps</h6>
+                        <table class="table table-added-firepumpreqs project-table" style="width: 100%; text-align: center">
+                            <thead style="position: sticky; top: -3px;">
+                                <tr class="">
+                                    <th style="width: 52px !important">No.</th>
+                                    <th style="width: 52px !important">Area (Floor Desc)</th>
+                                    <th style="width: 52px !important">Description</th>
+                                    <th style="width: 52px !important">QTY</th>
+                                    <th style="width: 52px !important">Type of Pump</th>
+                                    <th style="width: 52px !important; text-align: center;">More Details</th>
+                                </tr>
+                            </thead>
+                            <tbody class="tbody-added-firepumpreqs">
+                            </tbody>
+                        </table>
                     </div>
 
                 </div>
@@ -2077,13 +2100,43 @@
                 </div>
                 <div class="modal-body" style="zoom: 85%;">
 
-                    <div class="pumpLineView p-3 m-1 border rounded">
+                    <div class="pumpLineView p-3 border rounded">
                     </div>
 
                 </div>
             </div>
         </div>
     </div>
+
+    <%--Copy System --%>
+    <div class="modal fade" id="modalCopySystem" style="background-color: #00000070;" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="">Copy System</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="pt-2 pb-4">
+                            <h6>Type a new name for Copied System:</h6>
+                        </div>
+                        <label>Copied System</label>
+                        <input id="txtCopySystem" class="form-control color-dropdown mb-3" disabled />
+                        <label>New name</label>
+                        <input id="txtSystemNewName" class="form-control color-dropdown" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div style="">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+                        <button type="button" class="btn btn-primary btnCopySystem">Copy System</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
 
 
@@ -2104,11 +2157,11 @@
 
     <!-- Page JS/CSS file -->
     <script src="Scripts/common.js?v=2.2"></script>
-    <script src="Scripts/ems-item-list.js?v=5.5"></script>
-    <script src="Scripts/Structure.js?v=3.3"></script>
-    <script src="Scripts/TOC.js?v=3.7"></script>
+    <script src="Scripts/ems-item-list.js?v=4.4"></script>
+    <script src="Scripts/Structure.js?v=4.4"></script>
+    <script src="Scripts/TOC.js?v=4.4"></script>
     <script src="Scripts/SummaryReports.js?v=2.2"></script>
-    <script src="Scripts/FirePump.js?v=1.1"></script>
+    <script src="Scripts/FirePumpOnTOC.js?v=4.4"></script>
 
     <link href="css/RecruitmentCss.css?v=1.1" rel="stylesheet" />
 

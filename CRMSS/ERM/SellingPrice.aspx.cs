@@ -54,7 +54,7 @@ public partial class ERM_InventoryMaster : System.Web.UI.Page
                 ItemCode = dt.Rows[i]["ItemCode"].ToString(),
                 ItemDesc = dt.Rows[i]["ItemDesc"].ToString(),
                 Price = dt.Rows[i]["SellingPrice"].ToString(),
-
+                Tender = dt.Rows[i]["Tender"].ToString(),
 
             });
         }
@@ -65,7 +65,7 @@ public partial class ERM_InventoryMaster : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static void setSellingPrice(string UserId,string ItemID,string Price)
+    public static void setSellingPrice(string UserId, string ItemID, string Price, string Tender)
     {
 
         DBHandler DBH = new DBHandler();
@@ -83,8 +83,17 @@ public partial class ERM_InventoryMaster : System.Web.UI.Page
         pa.Add("@ItemId");
         pv.Add(ItemID);
 
-        pa.Add("@Price");
-        pv.Add(Price);
+        if (Price != "0")
+        {
+            pa.Add("@Price");
+            pv.Add(Price);
+        }
+
+        if (Tender != "0")
+        {
+            pa.Add("@Tender");
+            pv.Add(Tender);
+        }
 
         DBH.CreateDatasetERM_Data(ds, "sp_ItemSellingPrice", true, pa, pv);
 
@@ -122,6 +131,7 @@ public partial class ERM_InventoryMaster : System.Web.UI.Page
             {
                 ItemCode = dt.Rows[i]["ItemCode"].ToString(),
                 Price = dt.Rows[i]["Price"].ToString(),
+                TenderPrice = dt.Rows[i]["TenderPrice"].ToString(),
                 UpdatedBy = dt.Rows[i]["UpdatedBy"].ToString(),
                 UpdatedDate = dt.Rows[i]["UpdatedDate"].ToString(),
                
@@ -224,6 +234,7 @@ public partial class ERM_InventoryMaster : System.Web.UI.Page
         public string ItemDesc { get; set; }
         public string Status { get; set; }
         public string Price { get; set; }
+        public string Tender { get; set; }
     }
 
     public class TableHistory
@@ -231,6 +242,7 @@ public partial class ERM_InventoryMaster : System.Web.UI.Page
         public string ItemCode { get; set; }
         public string Price { get; set; }
         public string UpdatedBy { get; set; }
+        public string TenderPrice { get; set; }
         public string UpdatedDate { get; set; }
        
     }

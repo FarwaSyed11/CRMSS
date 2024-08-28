@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/EconnectNew.master" CodeFile="FirePump.aspx.cs" Inherits="ERM_FirePump" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Masters/EconnectNew.master" CodeFile="FirePump.aspx.cs" Inherits="ERM_FirePump" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
@@ -63,6 +63,7 @@
                                 <th>Project Number</th>
                                 <th>Name</th>
                                 <th>Estimator</th>
+                                <th style="display:none;">Status</th>
                                 <th>Created Date</th>
                                 <th>View</th>
                             </tr>
@@ -207,6 +208,24 @@
                                 <input type="radio" id="Radio5" name="SummaryQuotation" value="SMART QTNG" style="margin-left: 5%" disabled="">SMART QTNG
                                 <input type="radio" id="Radio6" name="SummaryQuotation" value="AS PER DRAWING AND SPECIFICATION" style="margin-left: 5%" disabled="" checked="Checked">AS PER DRAWING &amp; SPECIFICATION
                             </div>
+                        </div>
+                        <div class="row div-assign" style="padding-top: 1px;">
+                            <div style="width:20%;">
+                                <select id="ddlAssignTo" style="color: black; height: 40px !important; font-size: inherit;"></select>
+                                 
+                            </div>
+                            <div style="width:8%;">
+                                <button id="btnAssignTo" type="button" class="btn btn-primary" style="float: right;">Assign</button>
+                            </div>
+
+                        </div>
+
+                        <div class="row div-Complete" style="padding-top: 1px;">
+                            
+                            <div style="width: 8%;">
+                                <button id="btnComplete" type="button" class="btn btn-primary">Complete</button>
+                            </div>
+
                         </div>
                     </div>
                     <%--Grid--%>
@@ -376,6 +395,10 @@
     <script src="Scripts/SummaryReports.js?v=6"></script>
     <link href="css/FirePump.js" rel="stylesheet" />
     <link href="Css/EMSStyle.css" rel="stylesheet" />
+
+    <link href="../Calendar/dist/select2.css" rel="stylesheet" />
+     <script src="../Calendar/dist/select2.js"></script>
+
 
     <!-- Select/Multiselect Dropdown JS/CSS file -->
     <%--  <link href="../Calendar/dist/select2.css" rel="stylesheet" />

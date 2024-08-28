@@ -4,6 +4,7 @@ var listSummaryReports = [];
 var listItemViseReports = [];
 var AllItemCategory = [];
 var listAlternateItems = [];
+var sysTotPipeFittings = 0, sysTotInstallation = 0, sysTotEngineering = 0, sysTotTestnComm = 0;
 function summaryThead() {
 
     var summaryTheadd = ``;
@@ -28,11 +29,10 @@ function summaryThead() {
                                         </table>
                                         <table>
                                             <div class="float-right w-50">
-                                                <div class="p-0"><label class="border w-50 m-0 p-3">Total Cost</label> <label class="border w-50 p-3 m-0 float-right"></label></div>
-                                                <div class="p-0"><label class="border w-50 m-0 p-3">Over Head (15%)</label> <label class="border w-50 p-3 m-0 float-right"></label></div>
-                                                <div class="p-0"><label class="border w-50 m-0 p-3">Profit Margin (       %)</label> <label class="border w-50 m-0 p-3 float-right"></label></div>
-                                                <div class="p-0"><label class="border w-50 m-0 p-3">(         %)  Discount</label> <label class="border w-50 m-0 p-3 float-right"></label></div>
-                                                <div class="p-0"><label class="border w-50 m-0 p-3">Net Amount</label> <label class="border w-50 p-3 m-0 float-right"></label></div>
+                                                <div class="p-0"><label class="border w-50 m-0 p-3">Total Consumables</label> <label class="border w-50 p-3 m-0 float-right">`+ numberWithCommas(fixedtwo(sysTotPipeFittings)) +`</label></div>
+                                                <div class="p-0"><label class="border w-50 m-0 p-3">Total Installation</label> <label class="border w-50 p-3 m-0 float-right">`+ numberWithCommas(fixedtwo(sysTotInstallation)) +`</label></div>
+                                                <div class="p-0"><label class="border w-50 m-0 p-3">Total Engineering</label> <label class="border w-50 m-0 p-3 float-right">`+ numberWithCommas(fixedtwo(sysTotEngineering)) +`</label></div>
+                                                <div class="p-0"><label class="border w-50 m-0 p-3">Total Testing & Commssioning</label> <label class="border w-50 m-0 p-3 float-right">`+ numberWithCommas(fixedtwo(sysTotTestnComm)) +`</label></div>
                                             </div>
                                         </table>
                                     </div>
@@ -80,14 +80,18 @@ function SummaryReports() {
                 <td>`+ numberWithCommas(fixedtwo(item.Installation)) + `</td>
                 <td>`+ numberWithCommas(fixedtwo(item.Engineering)) + `</td>
                 <td>`+ numberWithCommas(fixedtwo(item.TestingnCommissioning)) + `</td>
-                <td>`+ item.OverHead + `</td>
-                <td>`+ item.Total + `</td>`
+                <td></td>
+                <td>`+ numberWithCommas(fixedtwo(parseFloat(item.PipeFittings) + parseFloat(item.Installation) + parseFloat(item.Engineering) + parseFloat(item.TestingnCommissioning))) + `</td>`
                 htm += `</tr><tbody>`
-
+                sysTotPipeFittings += parseFloat(item.PipeFittings);
+                sysTotInstallation += parseFloat(item.Installation);
+                sysTotEngineering += parseFloat(item.Engineering);
+                sysTotTestnComm += parseFloat(item.TestingnCommissioning);
             });
+
             htm2return += htm;
         },
-        
+        // <td>`+ item.OverHead + `</td>
         error: function (errormessage) {
             ////alert(errormessage.responseText);
         }
@@ -130,10 +134,10 @@ function ItemviseReports() {
                 if (key == 0 && SysName == item) {//for first time only
                     htmLi +=`
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pill-` + stritem + `-tab" data-bs-toggle="pill" data-bs-target="#` + stritem + `-tab" type="button" role="tab" aria-controls="` + stritem + `-tab" aria-selected="false">` + item + `</button>
+                                <button class="nav-link" id="pillsumm-` + key + `-li" data-bs-toggle="pill" data-bs-target="#pillsumm-` + key + `-tab" type="button" role="tab" aria-controls="pillsumm-` + key + `-tab" aria-selected="false">` + item + `</button>
                             </li>`
                     htmTab += `
-                            <div class="tab-pane fade" id="` + stritem + `-tab" role="tabpanel" aria-labelledby="pill-` + stritem + `-tab">
+                            <div class="tab-pane fade" id="pillsumm-` + key + `-tab" role="tabpanel" aria-labelledby="pillsumm-` + key + `-tab">
                                                        
                                     <div class="table">
                                         <table class="table project-table w-100 table-responsive" style="height: 540px;overflow-x: hidden;">
@@ -162,10 +166,10 @@ function ItemviseReports() {
 
                     htmLi += `
                             <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="pill-` + stritem + `-tab" data-bs-toggle="pill" data-bs-target="#` + stritem + `-tab" type="button" role="tab" aria-controls="` + stritem + `-tab" aria-selected="false">` + item + `</button>
+                                <button class="nav-link" id="pillsumm-` + key + `-li" data-bs-toggle="pill" data-bs-target="#pillsumm-` + key + `-tab" type="button" role="tab" aria-controls="pillsumm-` + key + `-tab" aria-selected="false">` + item + `</button>
                             </li>`
                     htmTab +=  `
-                                <div class="tab-pane fade" id="` + stritem + `-tab" role="tabpanel" aria-labelledby="pill-` + stritem + `-tab">
+                                <div class="tab-pane fade" id="pillsumm-` + key + `-tab" role="tabpanel" aria-labelledby="pillsumm-` + key + `-tab">
                                                        
                                     <div class="table">
                                         <table class="table project-table w-100 table-responsive" style="height: 540px;overflow-x: hidden;">
@@ -226,7 +230,8 @@ function strItemDeets(item) {
     var Installation = 0;
     var Engineering = 0;
     var TestnComm = 0;
-    var totConsumables = 0;
+    var MaterialCost = 0;
+    var InstallationCost = 0;
     for (var i = 0; i < AllItemCategory.length; i++) {
 
         var res = listItemViseReports.filter(x => x.Category == AllItemCategory[i] && x.Name == item);
@@ -264,9 +269,17 @@ function strItemDeets(item) {
             totins = (parseFloat(sysItem.TOTInstallation) == undefined ? 0 : parseFloat(sysItem.TOTInstallation)) + parseFloat(totins);
             Engineering = parseFloat(sysItem.Engineering);
             Installation = (parseFloat(sysItem.TOTInstallation) == undefined ? 0 : parseFloat(sysItem.TOTInstallation)) + parseFloat(Installation);
-            TestnComm = parseFloat(sysItem.TestingnCommissioning);  
+            TestnComm = parseFloat(sysItem.TestingnCommissioning);
+            if (item == 'Additional Accessories for Fire Pump') {
+                MaterialCost = parseFloat(sysItem.MaterialCost) == undefined ? 0 : parseFloat(sysItem.MaterialCost);
+                InstallationCost = parseFloat(sysItem.InstallationCost) == undefined ? 0 : parseFloat(sysItem.InstallationCost);
+            }
             
         });
+        if (item == 'Additional Accessories for Fire Pump') {
+            totpf = totpf + MaterialCost;
+            Installation = totins + InstallationCost
+        }
         allTOT = totpf + totins + Engineering + TestnComm;
         
         //allTOT = totpf + totins;

@@ -96,6 +96,7 @@ $('.btnSaveItem').on('click', function () {
         bItem["FloorType"] = item.value;
         bItem["NoOfFloors"] = $(item).parent().parent().children().eq(1).children().val()
         bItem["OrderNo"] = $(item).parent().parent().children().eq(2).children().val()
+        bItem["StartFrom"] = $(item).parent().parent().children().eq(3).children().val()
 
         buildingFloorArr.push(bItem);
     });
@@ -200,6 +201,7 @@ function generateHTMLForStruct(){
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse` + item.StructureID + `" aria-expanded="false" aria-controls="collapse` + item.StructureID + `" style="color: #000000;text-transform: capitalize;">` + (key + 1) + `.  ` + item.StructureName + `<span class="position-absolute" style="right: 80px;"> Total Floors:  ` + item.TotalNumberOfFloor + `</span>`
         if (res[0].EstimationStatus.toUpperCase() != "RELEASED") {
             htm += `<span class="position-absolute" style="right: 214px;"> <i class="bx bx-edit-alt struct-edit" style="color:#1eb0d0;font-size: 1.9rem;" onclick="openModalEditStruct(` + item.StructureID + `)"></i></span>`
+            htm += `<span class="position-absolute" style="right: 249px;"> <i class="bx bxs-trash struct-edit" style="color:#d54832;font-size: 1.9rem;" onclick="openModalDeleteStruct(` + item.StructureID + `)"></i></span>`
         }
         htm += `</button> </h2>`
 
@@ -299,9 +301,11 @@ function openModalEditStruct(strid) {
             //$(objC).prop('disabled', false)
             $("#mainFloorTypes .mainFloorSub input[type=checkbox][value=" + res[0].Type + "]").parent().parent().children().eq(1).children().prop('disabled', false);
             $("#mainFloorTypes .mainFloorSub input[type=checkbox][value=" + res[0].Type + "]").parent().parent().children().eq(2).children().prop('disabled', false);
+            $("#mainFloorTypes .mainFloorSub input[type=checkbox][value=" + res[0].Type + "]").parent().parent().children().eq(3).children().prop('disabled', false);
 
             $("#mainFloorTypes .mainFloorSub input[type=checkbox][value=" + res[0].Type + "]").parent().parent().children().eq(1).children().val(res.length);
             $("#mainFloorTypes .mainFloorSub input[type=checkbox][value=" + res[0].Type + "]").parent().parent().children().eq(2).children().val(res[0].OrderNo);
+            $("#mainFloorTypes .mainFloorSub input[type=checkbox][value=" + res[0].Type + "]").parent().parent().children().eq(3).children().val(res[0].StartFrom);
             //$(objC).val(res.length);
             //$(objC).val(res[0].OrderNo);
         }
@@ -328,6 +332,35 @@ function openTypicalModal(reqid, structid) {
     $('#tagFloorTypicalLabel').html('Typical Floor - ' + listStructureBasic.filter(s => s.StructureID == selStructId)[0].StructureName);
 
 }
+
+function openModalDeleteStruct(strid) {
+    selStructId = strid;
+    $("#delStructureModal").modal('show');
+}
+
+$('.btn-del-structure-yes').on('click', function () {
+
+    $.ajax({
+        url: "EMSItemList.aspx/DeleteStructure",
+        data: JSON.stringify({
+            "StructureId": selStructId
+        }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            toastr.success("Structure Deleted Successfully", '')
+            $("#delStructureModal").modal('hide')
+            ViewStructure();
+            generateHTMLForStruct();
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+    
+})
+
 $('#cbIsTypical').on('click', function () {
     // $('#cbIsTypical').is(':checked') == true ? $('#ddlFloorMaster').prop('disabled', false) : $('#ddlFloorMaster').prop('disabled', true);
 
@@ -357,7 +390,8 @@ $('#ddlFloorType').on('change', function (a, b) {
 
     var htm = '';
     $.each(res, function (key, item) {
-        htm += '<option value="' + item.StructFloorDetId + '"> ' + (key + 1) + ' </option>'
+        let cnt = (item.StartFrom == "" || item.StartFrom == 1) ? (key + 1) : (parseInt(item.StartFrom) + key)
+        htm += '<option value="' + item.StructFloorDetId + '"> ' + cnt + ' </option>'
     });
     $('#ddlFloorFrom').html(htm);
     $('#ddlFloorTo').html(htm);
@@ -372,8 +406,10 @@ $('#ddlFloorFrom,#ddlFloorTo,#ddlFloorMaster').on('change', function (a, b) {
     let selFlrType = $('#ddlFloorType option:selected').val();
     var filteredRec = [];
 
-    let start = $('#ddlFloorFrom option:selected').text().trim() - 1;
-    let end = $('#ddlFloorTo option:selected').text().trim() - 1;
+    //let start = $('#ddlFloorFrom option:selected').text().trim() - parseInt($('#ddlFloorFrom option:selected').text().trim() - 1);
+    //let end = parseInt($('#ddlFloorTo option:selected').text().trim() - parseInt($('#ddlFloorFrom option:selected').text().trim()));
+    let start = $("#ddlFloorFrom  option:selected").index();
+    let end = $("#ddlFloorTo  option:selected").index();
     for (var i = start; i <= end; i++) {
         if ($('#ddlFloorFrom option:eq(' + i + ')').val() != $("#ddlFloorMaster option:selected").val()) {
             filteredRec.push(listReqStructFloors.filter(s => s.StructFloorDetId == $('#ddlFloorFrom option:eq(' + i + ')').val()));
@@ -597,11 +633,14 @@ function generateHTMLForFlrTypes() {
                                             `+ item.Text +`
                                         </label>
                                     </div>
-                                    <div class="col-4 mb-2">
+                                    <div class="col-3 mb-2">
                                         <input class="form-control" name="txtForFloorsTypes" type="number" min="0"  placeholder="enter floors..." disabled>
                                     </div>
-                                    <div class="col-3 mb-2">
+                                    <div class="col-2 mb-2">
                                         <input class="form-control" name="txtForFloorsTypes" type="number" min="0" placeholder="order #..." disabled>
+                                    </div>
+                                    <div class="col-2 mb-2">
+                                        <input class="form-control" name="txtForFloorsTypes" type="number" value="1" min="0" placeholder="Start From" disabled>
                                     </div>
                                 </div>`
     });
@@ -614,15 +653,19 @@ $("#mainFloorTypes").on('click','input[name=cb-floors-type]', function () {
     if ($(this).is(':checked')) {
         $(this).parent().parent().children().eq(1).children().prop('disabled', false)
         $(this).parent().parent().children().eq(2).children().prop('disabled', false)
+        $(this).parent().parent().children().eq(3).children().prop('disabled', false)
 
         $(this).parent().parent().children().eq(1).children().val('')
         $(this).parent().parent().children().eq(2).children().val('')
+        $(this).parent().parent().children().eq(3).children().val('')
     } else {
         $(this).parent().parent().children().eq(1).children().prop('disabled', true)
         $(this).parent().parent().children().eq(2).children().prop('disabled', true)
+        $(this).parent().parent().children().eq(3).children().prop('disabled', true)
 
         $(this).parent().parent().children().eq(1).children().val('')
         $(this).parent().parent().children().eq(2).children().val('')
+        $(this).parent().parent().children().eq(3).children().val('')
     }
 
 })
@@ -647,7 +690,7 @@ function getAllTemplates() {
             success: function (result) {
                 var htm = '';
                 $.each(result.d, function (key,item) {
-                    htm += '<option value="' + item.Value + '"> ' + item.Text +' </option>'; 
+                   htm += '<option value="' + item.Value + '">Name: ' + item.Name + ' - (Ref#' + item.Text + ') </option>'; 
                 })
                 $("#ddlImpTempList").html(htm);
             },
@@ -702,15 +745,18 @@ function validateTaskControls() {
     $('#mainFloorTypes input[name=cb-floors-type]').each(function (key, item) {
         let txtTotFloor = $(item).parent().parent().children().eq(1).children();
         let txtOrderNo = $(item).parent().parent().children().eq(2).children();
+        let txtStFrom = $(item).parent().parent().children().eq(3).children();
 
         txtTotFloor.css('box-shadow', '').css('border-color', 'lightgrey');
         txtOrderNo.css('box-shadow', '').css('border-color', 'lightgrey');
+        txtStFrom.css('box-shadow', '').css('border-color', 'lightgrey');
     });
 
     //checking validation on only checked floor types
     $('#mainFloorTypes input[name=cb-floors-type]:checked').each(function (key, item) {
         let txtTotFloor = $(item).parent().parent().children().eq(1).children();
         let txtOrderNo =  $(item).parent().parent().children().eq(2).children();
+        let txtStFrom =  $(item).parent().parent().children().eq(3).children();
 
         if (txtTotFloor.val().trim() == "") {
             isValid = false;
@@ -724,6 +770,13 @@ function validateTaskControls() {
             txtOrderNo.css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
         } else {
             txtOrderNo.css('box-shadow', '').css('border-color', 'lightgrey');
+        }
+
+        if (txtStFrom.val().trim() == "") {
+            isValid = false;
+            txtStFrom.css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
+        } else {
+            txtStFrom.css('box-shadow', '').css('border-color', 'lightgrey');
         }
     });
 

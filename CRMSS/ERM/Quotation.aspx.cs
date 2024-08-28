@@ -126,8 +126,9 @@ public partial class ERM_Quotation : System.Web.UI.Page
             ind.Remarks = dt1.Rows[i]["Remarks"].ToString();
             ind.EstimationTeam = dt1.Rows[i]["EstimationTeam"].ToString();
             ind.EstimationNo = dt1.Rows[i]["EstimationNo"].ToString();
+            ind.EstimationStatus = dt1.Rows[i]["EstimationStatus"].ToString();
             ind.QTStatus = dt1.Rows[i]["QTStatus"].ToString();
-
+            ind.EstimationStatus = dt1.Rows[i]["EstimationStatus"].ToString();
 
             ListEMSRequestProducts.Add(ind);
         }
@@ -199,6 +200,7 @@ public partial class ERM_Quotation : System.Web.UI.Page
         return ds.Tables[0].Rows[0][0].ToString();
     }
 
+
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
     public static AllInOneSystemItems GetSystemsNItems(string UserId,string QuotationID)
@@ -249,6 +251,9 @@ public partial class ERM_Quotation : System.Web.UI.Page
                     TotalAmount = ds.Tables[2].Rows[i]["TotalAmount"].ToString(),
                    
                     UnitPrice = ds.Tables[2].Rows[i]["UnitPrice"].ToString(),
+                    Margine = ds.Tables[2].Rows[i]["Margine"].ToString(),
+                    Discount = ds.Tables[2].Rows[i]["Discount"].ToString(),
+                    UnitSellingPrice = ds.Tables[2].Rows[i]["UnitSellingPrice"].ToString(),
 
                     Isoptional = ds.Tables[2].Rows[i]["IsOptional"].ToString(),
                     AlternateFromItem = ds.Tables[2].Rows[i]["AlternateFromItem"].ToString()
@@ -310,7 +315,7 @@ public partial class ERM_Quotation : System.Web.UI.Page
             ind.EstimationTeam = dt1.Rows[i]["EstimationTeam"].ToString();
             ind.EstimationNo = dt1.Rows[i]["EstimationNo"].ToString();
             ind.QTStatus = dt1.Rows[i]["QTStatus"].ToString();
-
+            ind.EstimationStatus = dt1.Rows[i]["EstimationStatus"].ToString();
 
             ListEMSRequestProducts.Add(ind);
         }
@@ -346,6 +351,9 @@ public partial class ERM_Quotation : System.Web.UI.Page
             ind.Marketing = dt.Rows[i]["Marketing"].ToString();
             ind.PlotNumber = dt.Rows[i]["PlotNumber"].ToString();
             ind.TotalAmount = dt.Rows[i]["TotalAmount"].ToString();
+            ind.OverAllMargin = dt.Rows[i]["OverAllMargin"].ToString();
+            ind.OverAllDiscount = dt.Rows[i]["OverAllDiscount"].ToString();
+            ind.NetAmount = dt.Rows[i]["NetAmount"].ToString();
             ind.EMSRequestProducts = ListEMSRequestProducts;
             lisQuotationHeader.Add(ind);
         }
@@ -355,7 +363,7 @@ public partial class ERM_Quotation : System.Web.UI.Page
     }
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static string UpdateUnitprice(string UserId, string QuotationLineID, string UnitPrice, string QuotationID)
+    public static List<QuotationValues> UpdateUnitprice(string UserId, string QuotationLineID, string UnitPrice, string QuotationID, string Margine, string Discount)
     {
         
             DBHandler DBH = new DBHandler();
@@ -379,13 +387,32 @@ public partial class ERM_Quotation : System.Web.UI.Page
             pa.Add("@UnitPrice");
             pv.Add(UnitPrice);
 
-
             pa.Add("@QuotationID");
             pv.Add(QuotationID);
 
+            pa.Add("@Margine");
+            pv.Add(Margine);
+
+            pa.Add("@Discount");
+            pv.Add(Discount);
+
             DBH.CreateDatasetERM_Data(ds, "Sp_Quotation", true, pa, pv);
 
-            return ds.Tables[0].Rows[0][0].ToString();
+            List<QuotationValues> ListQuotationValues = new List<QuotationValues>();
+
+            dt = ds.Tables[0];
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                QuotationValues ind = new QuotationValues();
+
+                ind.TotalAmount = dt.Rows[i]["TotalAmount"].ToString();
+                ind.OverAllMargin = dt.Rows[i]["OverAllMargin"].ToString();
+                ind.OverAllDiscount = dt.Rows[i]["OverAllDiscount"].ToString();
+                ind.NetAmount = dt.Rows[i]["NetAmount"].ToString();
+
+                ListQuotationValues.Add(ind);
+            }
+            return ListQuotationValues;
        
     }
 
@@ -466,7 +493,151 @@ public partial class ERM_Quotation : System.Web.UI.Page
         }
 
     }
-    
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<QuotationValues> UpdateMarginAndDiscountOverAll(string UserId, string QuotationID, string OverAllMargin, string OverAllDiscount)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+
+        pa.Add("@oper");
+        pv.Add(9);
+
+        pa.Add("@userId");
+        pv.Add(UserId);
+
+        pa.Add("@QuotationID");
+        pv.Add(QuotationID);
+
+        pa.Add("@OverAllMargin");
+        pv.Add(OverAllMargin);
+
+        pa.Add("@OverAllDiscount");
+        pv.Add(OverAllDiscount);
+
+        DBH.CreateDatasetERM_Data(ds, "Sp_Quotation", true, pa, pv);
+
+        List<QuotationValues> ListQuotationValues = new List<QuotationValues>();
+
+        dt = ds.Tables[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            QuotationValues ind = new QuotationValues();
+
+            ind.TotalAmount = dt.Rows[i]["TotalAmount"].ToString();
+            ind.OverAllMargin = dt.Rows[i]["OverAllMargin"].ToString();
+            ind.OverAllDiscount = dt.Rows[i]["OverAllDiscount"].ToString();
+            ind.NetAmount = dt.Rows[i]["NetAmount"].ToString();
+          
+            ListQuotationValues.Add(ind);
+        }
+        return ListQuotationValues;
+
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<QuotationMoreInfo> UpdateQuotationMoreInfo(string UserId, string QuotationID, string MothodOfPayment, string Validity, string MoreInfo)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+
+        pa.Add("@oper");
+        pv.Add(10);
+
+        pa.Add("@userId");
+        pv.Add(UserId);
+
+        pa.Add("@QuotationID");
+        pv.Add(QuotationID);
+
+        pa.Add("@MothodOfPayment");
+        pv.Add(MothodOfPayment);
+
+        pa.Add("@Validity");
+        pv.Add(Validity);
+
+        pa.Add("@MoreInfo");
+        pv.Add(MoreInfo);
+
+        DBH.CreateDatasetERM_Data(ds, "Sp_Quotation", true, pa, pv);
+
+        List<QuotationMoreInfo> ListQuotationMoreInfo = new List<QuotationMoreInfo>();
+
+        dt = ds.Tables[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            QuotationMoreInfo ind = new QuotationMoreInfo();
+
+            ind.MothodOfPayment = dt.Rows[i]["MothodOfPayment"].ToString();
+            ind.Validity = dt.Rows[i]["Validity"].ToString();
+            ind.MoreInfo = dt.Rows[i]["MoreInfo"].ToString();
+
+            ListQuotationMoreInfo.Add(ind);
+        }
+        return ListQuotationMoreInfo;
+
+    }
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<QuotationMoreInfo> GetQuotationMoreInfo(string UserId, string QuotationID)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+
+        pa.Add("@oper");
+        pv.Add(11);
+
+        pa.Add("@userId");
+        pv.Add(UserId);
+
+        pa.Add("@QuotationID");
+        pv.Add(QuotationID);
+
+      
+        DBH.CreateDatasetERM_Data(ds, "Sp_Quotation", true, pa, pv);
+
+        List<QuotationMoreInfo> ListQuotationMoreInfo = new List<QuotationMoreInfo>();
+
+        dt = ds.Tables[0];
+        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+        {
+            QuotationMoreInfo ind = new QuotationMoreInfo();
+
+            ind.MothodOfPayment = dt.Rows[i]["MothodOfPayment"].ToString();
+            ind.Validity = dt.Rows[i]["Validity"].ToString();
+            ind.MoreInfo = dt.Rows[i]["MoreInfo"].ToString();
+
+            ListQuotationMoreInfo.Add(ind);
+        }
+        return ListQuotationMoreInfo;
+
+    }
+
+    public class QuotationMoreInfo
+    {
+
+        public string MothodOfPayment { get; set; }
+        public string Validity { get; set; }
+        public string MoreInfo { get; set; }
+      
+
+    }
     //Model Classes
     public class TableDetails
     {
@@ -492,6 +663,9 @@ public partial class ERM_Quotation : System.Web.UI.Page
         public string QuotationDesc { get; set; }
         public string QuotationNo { get; set; }
         public string TotalAmount { get; set; }
+        public string OverAllMargin { get; set; }
+        public string OverAllDiscount { get; set; }
+        public string NetAmount { get; set; }
         
 
 
@@ -535,6 +709,16 @@ public partial class ERM_Quotation : System.Web.UI.Page
         public string EstimationNo { get; set; }
         public string DueDate { get; set; }
         public string QTStatus { get; set; }
+        public string EstimationStatus { get; set; }
+
+    }
+    public class QuotationValues
+    {
+
+        public string TotalAmount { get; set; }
+        public string OverAllMargin { get; set; }
+        public string OverAllDiscount { get; set; }
+        public string NetAmount { get; set; }
 
     }
 
@@ -557,6 +741,9 @@ public partial class ERM_Quotation : System.Web.UI.Page
         public string Quantity { get; set; }
         public string TotalAmount { get; set; }
         public string UnitPrice { get; set; }
+        public string Margine { get; set; }
+        public string Discount { get; set; }
+        public string UnitSellingPrice { get; set; }
 
       
         public string Isoptional { get; set; }

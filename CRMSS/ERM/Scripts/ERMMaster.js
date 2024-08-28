@@ -225,6 +225,7 @@ function GetTableDetails(Loader) {
                                        <td style="text-align:center;">`+ item.Stage + `</td>
                                            <td style="text-align:center;">`+ item.Scope + `</td>
                                                <td style="text-align:center;">`+ item.QuotationType + `</td>
+                                                    <td style="text-align:center;">`+ item.PlotNumber + `</td>
                    <td style="text-align:center;">`+ item.CreatedBy + `</td>
                     <td style="text-align:center;">`+ item.CreatedDate + `</td>
                     <td style="text-align:center;vertical-align:middle;"><a style="margin-left: 4%;" class="image-change">

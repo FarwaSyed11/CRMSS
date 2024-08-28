@@ -344,8 +344,10 @@
                             <th style="width: 14%;">Category</th>
                             <th style="width: 14%;">Item Code</th>
                             <th style="width: 8%;">Item Description</th>
-                            <th style="width: 10%;">Current Price</th>
-                            <th style="width: 10%;">Price</th>
+                            <th style="width: 10%;">Current Selling Price</th>
+                            <th style="width: 10%;">Selling Price</th>
+                            <th style="width: 10%;">Current Tender Price</th>
+                            <th style="width: 10%;">Tender Price</th>
                             <th style="width: 8%;">Action</th>
 
                         </tr>
@@ -410,7 +412,8 @@
                             <thead>
                                 <tr style="text-align: center;">
                                     <th>Item Code</th>
-                                    <th>Price</th>
+                                    <th>Selling Price</th>
+                                    <th>Tender Price</th>
                                     <th>UpdatedBy</th>
                                     <th>Updated Date</th>
 

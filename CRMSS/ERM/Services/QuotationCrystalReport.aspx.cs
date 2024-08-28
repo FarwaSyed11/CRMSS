@@ -59,7 +59,7 @@ public partial class ERM_Services_QuotationCrystalReport : System.Web.UI.Page
             rptDoc.SetDataSource(ds.Tables[0]);
 
             rptDoc.Subreports["LineDataNew.rpt"].SetDataSource(ds.Tables[0]);
-
+            rptDoc.Subreports["Moreinformation.rpt"].SetDataSource(ds.Tables[0]);
 
 
             CrystalReportViewer1.ReportSource = rptDoc;

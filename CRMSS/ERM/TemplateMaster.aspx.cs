@@ -161,6 +161,7 @@ public partial class ERM_TemplateMaster : System.Web.UI.Page
         };
     }
 
+
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
     public static List<DDL> GetAllFloorTypes()
@@ -175,9 +176,9 @@ public partial class ERM_TemplateMaster : System.Web.UI.Page
         List<DDL> olistFlrTypes = new List<DDL>();
 
         pa.Add("@oper");
-        pv.Add(8);
+        pv.Add(7);
 
-        DBH.CreateDatasetERM_Data(ds, "SP_EMS_Project_Structure", true, pa, pv);
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSTemplateMaster", true, pa, pv);
 
         if (ds.Tables.Count > 0)
         {
@@ -263,6 +264,9 @@ public partial class ERM_TemplateMaster : System.Web.UI.Page
             pa.Add("@orderNumber");
             pv.Add(item.OrderNo);
 
+            pa.Add("@StartFrom");
+            pv.Add(item.StartFrom);
+
             pa.Add("@TotalNumberofFloor");
             pv.Add(item.NoOfFloors);
 
@@ -328,7 +332,8 @@ public partial class ERM_TemplateMaster : System.Web.UI.Page
                     TypicalOf = ds.Tables[1].Rows[i]["TypicalOf"].ToString(),
                     TempID = ds.Tables[1].Rows[i]["TmptID"].ToString(),
                     StructureID = ds.Tables[1].Rows[i]["StructureID"].ToString(),
-                    OrderNo = ds.Tables[1].Rows[i]["OrderNumber"].ToString()
+                    OrderNo = ds.Tables[1].Rows[i]["OrderNumber"].ToString(),
+                    StartFrom = ds.Tables[1].Rows[i]["StartFrom"].ToString()
                 });
             }
         }
@@ -370,6 +375,7 @@ public partial class ERM_TemplateMaster : System.Web.UI.Page
         DBH.CreateDatasetERM_Data(ds, "sp_EMSTemplateMaster", true, pa, pv);
 
     }
+
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
@@ -928,6 +934,9 @@ public partial class ERM_TemplateMaster : System.Web.UI.Page
 
     }
 
+
+
+
     public class SystemEngnTest
     {
         public string Engineering { get; set; }
@@ -1007,6 +1016,7 @@ public partial class ERM_TemplateMaster : System.Web.UI.Page
         public string StructureName { get; set; }
         public string StructureDesc { get; set; }
         public string TotalNumberOfFloor { get; set; }
+        public string StartFrom { get; set; }
 
     }
 
@@ -1032,13 +1042,14 @@ public partial class ERM_TemplateMaster : System.Web.UI.Page
     {
         public string RefNo { get; set; }
         public string ID { get; set; }
-        
+
     }
     public class BuildingFloor
     {
         public string FloorType { get; set; }
         public string NoOfFloors { get; set; }
         public string OrderNo { get; set; }
+        public string StartFrom { get; set; }
     }
 
     public class BuildingFloorPara
@@ -1090,6 +1101,4 @@ public partial class ERM_TemplateMaster : System.Web.UI.Page
     {
         public List<ProductMasterModel> listItemsTOC { get; set; }
     }
-
-
 }

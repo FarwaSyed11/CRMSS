@@ -1,6 +1,8 @@
 ﻿
 var price = '';
 var ItemID = '';
+var Tender = '';
+var TenderPrice = '';
 var SellPrice = '';
 var day = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"];
 var monthsbyName = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -61,6 +63,8 @@ function GetAllItemDet(loader) {
                  <td style="text-align:center;">`+ item.ItemDesc + `</td>
                  <td style="text-align:center;">`+ item.Price + `</td>
                  <td><input type="text" class="form-control" id="txtSellingPrice-`+ key + `" placeholder="` + item.Price + `" aria-describedby="defaultFormControlHelp" /> </td>
+                 <td style="text-align:center;">`+ item.Tender + `</td>
+                   <td><input type="text" class="form-control" id="txtTenderPrice-`+ key + `" placeholder="` + item.Tender + `" aria-describedby="defaultFormControlHelp" /> </td>
                   <td style="text-align:center;">
                   <img src="Images/icon-Update.png" title="Update" class="fa-icon-hover Update-SellingPrice-Details" style="cursor: pointer; width: 22px;"/>&nbsp;
                    <img src="Images/icon-history.png" title="History" class="fa-icon-hover History-SellingPrice-Details" style="cursor: pointer; width: 22px;"/>&nbsp;
@@ -99,6 +103,8 @@ $('.tbody-SellingPrice').on('click','.Update-SellingPrice-Details', function () 
     ItemID = this.parentNode.parentNode.children[0].textContent;
     price = this.parentNode.parentNode.children[5].textContent;
     SellPrice = $('#' + this.parentNode.parentNode.children[6].children[0].id).val();
+    Tender = this.parentNode.parentNode.children[7].textContent;
+    TenderPrice = $('#' + this.parentNode.parentNode.children[8].children[0].id).val();
     if (SellPrice == '') {
         toastr.error('Please Enter the Price..', '');
     }
@@ -136,7 +142,7 @@ function UpdateSellingPrice() {
 
     $.ajax({
         url: "SellingPrice.aspx/setSellingPrice",
-        data: JSON.stringify({ "UserId": currUserId, "ItemID": ItemID, "Price": SellPrice, }),
+        data: JSON.stringify({ "UserId": currUserId, "ItemID": ItemID, "Price": SellPrice == '' ? 0 : SellPrice, "Tender": TenderPrice == '' ? 0 : TenderPrice, }),
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -183,6 +189,7 @@ function GetPriceHistory() {
 
                  <td style="text-align:center;">` + item.ItemCode + `</td>
                  <td style="text-align:center;">`+ item.Price + `</td>
+                  <td style="text-align:center;">`+ item.TenderPrice + `</td>
                  <td style="text-align:center;">`+ item.UpdatedBy + `</td>
                  <td style="text-align:center;">`+ datedayformat(item.UpdatedDate) + `</td> `;
                 

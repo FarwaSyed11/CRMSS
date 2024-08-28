@@ -30,6 +30,7 @@ var selSalesmanUserId = 0;
 var ItemsCodes = ''; var itemCodeArrForAdd = [];
 var finalDataParaForReq = [];
 var objDTRRF = [], objDTReqs = [];
+var ProductTeam = '';
 
 $(document).ready(function () {
 
@@ -538,13 +539,23 @@ $('#btn-add-req-grid').on('click', function () {
 })
 
 $("#ddlFilterStatus").on('change', function () {
-    getAllRequests();
+    setTimeout(function () {
+        getAllRequests('Please wait...');
+        $(".ajax-loader").addClass('hidden');
+    }, 500);
 })
+$("#ddlStageFilter").on('change', function () {
+    setTimeout(function () {
+        getAllRequests('Please wait...');
+        $(".ajax-loader").addClass('hidden');
+    }, 500);
+})
+
 function getAllRequests() {
 
     $.ajax({
         url: "EMSItemList.aspx/GetAllReqs",
-        data: JSON.stringify({ 'UserId': currUserId, 'Status': $("#ddlFilterStatus option:selected").val() }),
+        data: JSON.stringify({ 'UserId': currUserId, 'Status': $("#ddlFilterStatus option:selected").val(), 'Stage': $("#ddlStageFilter option:selected").val() }),
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -558,13 +569,23 @@ function getAllRequests() {
             $.each(listAllReqs, function (key, item) {
 
                 htm += `<tr> 
-                    <td> <span style="color:#1ca9ef;cursor:pointer;"> `+ item.OptNo + ` </span> </td>
-                    <td> `+ item.RefNo + `</td>                 
-                    <td> `+ item.CreatedDate + `</td>
-                    <td> `+ item.Status + `</td>
-                    <td> `+ item.CreatedDate + `</td>
-                    <td> `+ item.CreatorName + `</td>
-                    <td> `+ item.EstimationStatus + `</td>`
+                 <td style="text-align:center;display:none;">` + item.ID + `</td>
+                  <td style="text-align:center;display:none;">` + item.RoleID + `</td>
+                  <td style="text-align:center;">`+ item.RefNo + `</td>
+                  <td style="text-align:center;">`+ item.RevNo + `</td>
+                  <td style="text-align:center;">`+ item.OptNo + `</td>
+                  <td style="text-align:center;">`+ item.ProjectNumber + `</td>
+                  <td style="text-align:center;">`+ item.ProjectName + `</td>
+                  <td style="text-align:center;">`+ item.Plot + `</td>
+                  <td style="text-align:center;">`+ item.Consultant + `</td>
+                  <td style="text-align:center;">`+ item.Marketing + `</td>
+                  <td style="text-align:center;">`+ item.MEPContractor + `</td>
+                  <td style="text-align:center;">`+ item.Salesman + `</td>
+                  <td style="text-align:center;">`+ item.Stage + `</td>
+                  <td style="text-align:center;">`+ item.Scope + `</td>
+                  <td style="text-align:center;">`+ item.QuotationType + `</td>
+                  <td style="text-align:center;">`+ item.CreatedBy + `</td>
+                  <td style="text-align:center;">`+ item.CreatedDate + `</td>`
                 htm += `<td class="riskActions" style="text-align:right;">`
                 htm += `<span style="margin-left: 4%;"><i class="bx bxs-info-circle fa-icon-hover ibtn-estireq-details" title="Details Estimation Request" data-optno="` + item.OptNo + `" data-reqid="` + item.ReqId + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>`
                 htm += `</td>`
@@ -742,7 +763,7 @@ function ChangeRequestStatus(st) {
 }
 
 $('.tbody-esti-req').on('click', '.ibtn-fcastquart-edit,.ibtn-estireq-details', function () {
-    $('.system-div-parent-for-byfloor').html('')
+    $('.system-div-parent-for-byfloor').html(''); $(".ddl-struct-filter-div").addClass('hidden');
     let selAction = $(this)[0].title.trim();
     selReqId = $(this).data('reqid');
     let selOptNo = $(this).data('optno');
@@ -754,22 +775,32 @@ $('.tbody-esti-req').on('click', '.ibtn-fcastquart-edit,.ibtn-estireq-details', 
     ViewStructure();
     RequestedProductDetails(selReqId);
 
-    if (res[0].EstimationStatus.toUpperCase() == "PENDING FOR APPROVAL" && myroleList.includes('14213')) { //For Estimation Head
-        //$(".btn-req-complete-grid").addClass('hidden');
+    if (res[0].EstimationStatus.toUpperCase() == "PENDING FOR APPROVAL" && myroleList.includes('14213')) { //For Estimation Head       
         $(".btn-submit-req-final").addClass('hidden');
         $(".btn-approve-req").removeClass('hidden');
         $(".btn-rej-req").removeClass('hidden');
         $(".btnAddTechRemarks").removeClass('hidden');
 
         $(".hide-control-bos").removeClass('hidden');
+        $(".btn-req-complete-grid").removeClass('hidden');
+    }
+    if (res[0].EstimationStatus.toUpperCase() == "PENDING FOR APPROVAL" && myroleList.includes('14214')) { //For Estimator       
+        $(".btn-submit-req-final").addClass('hidden');
+        $(".btn-approve-req").addClass('hidden');
+        $(".btn-rej-req").addClass('hidden');
+        $(".btnAddTechRemarks").addClass('hidden');
+
+        $(".hide-control-bos").addClass('hidden');
+        $(".btn-req-complete-grid").removeClass('hidden');
     }
     else if ((res[0].EstimationStatus.toUpperCase() == "UNDER ESTIMATION" || res[0].EstimationStatus.toUpperCase() == "REJECTED") && myroleList.includes('14214')) { //Estimator
         $(".btn-submit-req-final").removeClass('hidden');
         $(".btnAddTechRemarks").removeClass('hidden');
         $(".btn-approve-req").addClass('hidden');
         $(".btn-rej-req").addClass('hidden');
+        $(".btn-req-complete-grid").addClass('hidden');
 
-        $(".hide-control-bos").removeClass('hidden');
+        $(".hide-control-bos").removeClass('hidden');        
     }
     else if (res[0].EstimationStatus.toUpperCase() == "RELEASED") {
         $(".btn-req-complete-grid").removeClass('hidden');
@@ -786,6 +817,11 @@ $('.tbody-esti-req').on('click', '.ibtn-fcastquart-edit,.ibtn-estireq-details', 
         $(".btn-rej-req").addClass('hidden');
 
         if ((res[0].EstimationStatus.toUpperCase() == "PENDING FOR APPROVAL") && myroleList.includes('14214')) {
+            $(".btn-submit-req-final").addClass('hidden');
+            $(".btn-req-complete-grid").removeClass('hidden');
+        }
+        else if ((res[0].EstimationStatus.toUpperCase() == "UNDER ESTIMATION") && myroleList.includes('14213')) //Esti Head
+        {
             $(".btn-submit-req-final").addClass('hidden');
         }
     }
@@ -1543,7 +1579,7 @@ function RequestedProductDetails(selReqId) {
                     htm += ` <td> <select class="form-select" id=` + drpName + ` onchange=EstTeamChange(` + item.LineID + `,"` + item.EstimationTeam + `")></select > </td> `
                 }
                 else {
-                    htm += ` <td> <select class="form-select" id=` + drpName + ` disabled ></select > </td>`
+                    htm += ` <td> <input class="form-control" id=` + drpName + ` disabled/></td>`
                 }
 
                 htm += `<td class="hidden">` + item.EstimationTeam + `</td>`
@@ -1551,7 +1587,7 @@ function RequestedProductDetails(selReqId) {
                     htm += ` <td> <select class="form-select" id=` + ddlEstimator + `></select> </td>`
                 }
                 else {
-                    htm += ` <td> <select class="form-select" id=` + ddlEstimator + ` disabled></select> </td>`
+                    htm += ` <td> <input class="form-control" id=` + ddlEstimator + ` disabled/> </td>`
                 }
 
                 htm += `  <td class="hidden">` + item.Estimator + `</td>`
@@ -1589,6 +1625,7 @@ function RequestedProductDetails(selReqId) {
             initiateDataTableRequestedproductList();
 
             $('.tbody-Product-list tr').each(function (key, item) {
+                ProductTeam = item.children[1].textContent.trim();
                 let LineID = item.children[0].textContent.trim();
                 let ddlname = "ddl-" + LineID;
                 let ddlEstimator = "ddlEstimator-" + LineID;
@@ -1678,9 +1715,6 @@ function GetEstimatorForProduct(DropdownName, Product, ManagerEmpNo) {
         success: function (result) {
             var htm = '';
 
-            if (result.d.length > 0) {
-                htm += `<option value="-1" option: selected> -- Select -- </option>`
-            }
             $.each(result.d, function (key, item) {
 
                 htm += `<option value="` + item.ddlValue + `" > ` + item.ddlValue + `-` + item.ddlText + `</option>`;
@@ -1699,6 +1733,29 @@ function GetEstimatorForProduct(DropdownName, Product, ManagerEmpNo) {
         }
     });
 
+}
 
+function SystemName() {
+    return ProductTeam;
+}
+function checkSystem() {
+    if (SystemName() == 'Fire Fighting') {
+        $('.btn-add-firepump').removeClass('hidden');
+    }
+}
+
+function printDetails(divID) {
+    $(".project-table").css('height', 'max-content');
+   // var divElements = document.getElementById(divID).innerText;
+    var divElements = document.getElementById(divID).innerHTML;
+    var oldPage = document.body.innerHTML;
+    document.body.innerHTML =
+        "<html><head><title>Print</title></head><body>" +
+        divElements + "</body>";
+    window.print();
+    document.body.innerHTML = oldPage;
+
+    location.reload();
+    $('#addReqModal').modal('show');
 
 }

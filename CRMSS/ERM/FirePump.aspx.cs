@@ -18,7 +18,7 @@ public partial class ERM_FirePump : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static List<Tabledetails> getAllRequests(string UserId)
+    public static List<Tabledetails> getAllRequests(string UserId, string Status)
     {
 
         DBHandler DBH = new DBHandler();
@@ -33,30 +33,36 @@ public partial class ERM_FirePump : System.Web.UI.Page
         pa.Add("@userId");
         pv.Add(UserId);
 
+        pa.Add("@Status");
+        pv.Add(Status);
+
         DBH.CreateDatasetERM_Data(ds, "sp_PumbRequests", true, pa, pv);
 
         List<Tabledetails> drpval = new List<Tabledetails>();
-        dt = ds.Tables[0];
-
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            drpval.Add(new Tabledetails()
-            {
-                ReqID = dt.Rows[i]["ReqID"].ToString(),
-                EstimationID = dt.Rows[i]["EstimationID"].ToString(),
-                Estimator = dt.Rows[i]["Estimator"].ToString(),
-                ProjectName = dt.Rows[i]["ProjectName"].ToString(),
-                RefNo = dt.Rows[i]["RefNo"].ToString(),
-                CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
-                CreatedDate = dt.Rows[i]["CreatedDate"].ToString(),
-                Status = dt.Rows[i]["Status"].ToString(),
-                RevNo = dt.Rows[i]["RevNo"].ToString(),
-                ContABBR = dt.Rows[i]["ContABBR"].ToString(),
-                Year = dt.Rows[i]["Year"].ToString(),
-                OPTNumber = dt.Rows[i]["OPTNumber"].ToString(),
-                ProjectNumber = dt.Rows[i]["ProjectNumber"].ToString(),
+            dt = ds.Tables[0];
 
-            });
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                drpval.Add(new Tabledetails()
+                {
+                    ReqID = dt.Rows[i]["ReqID"].ToString(),
+                    EstimationID = dt.Rows[i]["EstimationID"].ToString(),
+                    Estimator = dt.Rows[i]["Estimator"].ToString(),
+                    ProjectName = dt.Rows[i]["ProjectName"].ToString(),
+                    RefNo = dt.Rows[i]["RefNo"].ToString(),
+                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
+                    CreatedDate = dt.Rows[i]["CreatedDate"].ToString(),
+                    Status = dt.Rows[i]["Status"].ToString(),
+                    RevNo = dt.Rows[i]["RevNo"].ToString(),
+                    ContABBR = dt.Rows[i]["ContABBR"].ToString(),
+                    Year = dt.Rows[i]["Year"].ToString(),
+                    OPTNumber = dt.Rows[i]["OPTNumber"].ToString(),
+                    ProjectNumber = dt.Rows[i]["ProjectNumber"].ToString(),
+
+                });
+            }
         }
         return drpval;
         //string a = userId;
@@ -86,45 +92,50 @@ public partial class ERM_FirePump : System.Web.UI.Page
         DBH.CreateDatasetERM_Data(ds, "sp_PumbRequests", true, pa, pv);
 
         List<AllDetails> drpval = new List<AllDetails>();
-        dt = ds.Tables[0];
 
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            drpval.Add(new AllDetails()
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
+                drpval.Add(new AllDetails()
+                {
 
-                EstimationID = dt.Rows[i]["EstimationID"].ToString(),
-                Estimator = dt.Rows[i]["Estimator"].ToString(),
-                ProjectName = dt.Rows[i]["ProjectName"].ToString(),
-                RefNo = dt.Rows[i]["RefNo"].ToString(),
-                CreatedDate = dt.Rows[i]["CreatedDate"].ToString(),
-                RevNo = dt.Rows[i]["RevNo"].ToString(),
-                ContABBR = dt.Rows[i]["ContABBR"].ToString(),
-                Year = dt.Rows[i]["Year"].ToString(),
-                OPTNumber = dt.Rows[i]["OPTNumber"].ToString(),
-                ProjectNumber = dt.Rows[i]["ProjectNumber"].ToString(),
-                Location = dt.Rows[i]["Location"].ToString(),
-                Client = dt.Rows[i]["Client"].ToString(),
-                Consultant = dt.Rows[i]["Consultant"].ToString(),
-                MainContractor = dt.Rows[i]["MainContractor"].ToString(),
-                URL = dt.Rows[i]["URL"].ToString(),
-                MEPContractor = dt.Rows[i]["MEPContractor"].ToString(),
-                ContactID = dt.Rows[i]["ContactID"].ToString(),
-                Stage = dt.Rows[i]["Stage"].ToString(),
-                Scope = dt.Rows[i]["Scope"].ToString(),
-                QuotationType = dt.Rows[i]["QuotationType"].ToString(),
-                WinPerc = dt.Rows[i]["WinPerc"].ToString(),
-                Budget = dt.Rows[i]["Budget"].ToString(),
-                ContactName = dt.Rows[i]["ContactName"].ToString(),
-                salesmanid = dt.Rows[i]["salesmanid"].ToString(),
-                OrderStatus = dt.Rows[i]["OrderStatus"].ToString(),
-                MarketingID = dt.Rows[i]["MarketingID"].ToString(),
-                EstimationOrg = dt.Rows[i]["EstimationOrg"].ToString(),
-                Salesman = dt.Rows[i]["Salesman"].ToString(),
-                Marketing = dt.Rows[i]["Marketing"].ToString(),
+                    EstimationID = dt.Rows[i]["EstimationID"].ToString(),
+                    Estimator = dt.Rows[i]["Estimator"].ToString(),
+                    ProjectName = dt.Rows[i]["ProjectName"].ToString(),
+                    RefNo = dt.Rows[i]["RefNo"].ToString(),
+                    CreatedDate = dt.Rows[i]["CreatedDate"].ToString(),
+                    RevNo = dt.Rows[i]["RevNo"].ToString(),
+                    ContABBR = dt.Rows[i]["ContABBR"].ToString(),
+                    Year = dt.Rows[i]["Year"].ToString(),
+                    OPTNumber = dt.Rows[i]["OPTNumber"].ToString(),
+                    ProjectNumber = dt.Rows[i]["ProjectNumber"].ToString(),
+                    Location = dt.Rows[i]["Location"].ToString(),
+                    Client = dt.Rows[i]["Client"].ToString(),
+                    Consultant = dt.Rows[i]["Consultant"].ToString(),
+                    MainContractor = dt.Rows[i]["MainContractor"].ToString(),
+                    URL = dt.Rows[i]["URL"].ToString(),
+                    MEPContractor = dt.Rows[i]["MEPContractor"].ToString(),
+                    ContactID = dt.Rows[i]["ContactID"].ToString(),
+                    Stage = dt.Rows[i]["Stage"].ToString(),
+                    Scope = dt.Rows[i]["Scope"].ToString(),
+                    QuotationType = dt.Rows[i]["QuotationType"].ToString(),
+                    WinPerc = dt.Rows[i]["WinPerc"].ToString(),
+                    Budget = dt.Rows[i]["Budget"].ToString(),
+                    ContactName = dt.Rows[i]["ContactName"].ToString(),
+                    salesmanid = dt.Rows[i]["salesmanid"].ToString(),
+                    OrderStatus = dt.Rows[i]["OrderStatus"].ToString(),
+                    MarketingID = dt.Rows[i]["MarketingID"].ToString(),
+                    EstimationOrg = dt.Rows[i]["EstimationOrg"].ToString(),
+                    Salesman = dt.Rows[i]["Salesman"].ToString(),
+                    Marketing = dt.Rows[i]["Marketing"].ToString(),
 
-            });
+                });
+            }
         }
+        
         return drpval;
         //string a = userId;
     }
@@ -152,22 +163,28 @@ public partial class ERM_FirePump : System.Web.UI.Page
         DBH.CreateDatasetERM_Data(ds, "sp_PumbRequests", true, pa, pv);
 
         List<ItemDetails> drpval = new List<ItemDetails>();
-        dt = ds.Tables[0];
 
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            drpval.Add(new ItemDetails()
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
+                drpval.Add(new ItemDetails()
+                {
 
-                SlNO = dt.Rows[i]["SlNO"].ToString(),
-                ItemID = dt.Rows[i]["ItemID"].ToString(),
-                Area = dt.Rows[i]["Area"].ToString(),
-                Description = dt.Rows[i]["Description"].ToString(),
-                QTY = dt.Rows[i]["QTY"].ToString(),
+                    SlNO = dt.Rows[i]["SlNO"].ToString(),
+                    ItemID = dt.Rows[i]["ItemID"].ToString(),
+                    Area = dt.Rows[i]["Area"].ToString(),
+                    Description = dt.Rows[i]["Description"].ToString(),
+                    QTY = dt.Rows[i]["QTY"].ToString(),
 
 
-            });
+                });
+            }
         }
+
+       
         return drpval;
         //string a = userId;
     }
@@ -233,22 +250,28 @@ public partial class ERM_FirePump : System.Web.UI.Page
         DBH.CreateDatasetERM_Data(ds, "sp_PumbRequests", true, pa, pv);
 
         List<PumpDetails> drpval = new List<PumpDetails>();
-        dt = ds.Tables[0];
 
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            drpval.Add(new PumpDetails()
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
+                drpval.Add(new PumpDetails()
+                {
 
-                PumpName = dt.Rows[i]["PumpName"].ToString(),
-                capasity = dt.Rows[i]["capasity"].ToString(),
-                Bars = dt.Rows[i]["Bars"].ToString(),
-                QTY = dt.Rows[i]["QTY"].ToString(),
+                    PumpName = dt.Rows[i]["PumpName"].ToString(),
+                    capasity = dt.Rows[i]["capasity"].ToString(),
+                    Bars = dt.Rows[i]["Bars"].ToString(),
+                    QTY = dt.Rows[i]["QTY"].ToString(),
 
 
 
-            });
+                });
+            }
+        
         }
+       
         return drpval;
         //string a = userId;
     }
@@ -276,24 +299,131 @@ public partial class ERM_FirePump : System.Web.UI.Page
         DBH.CreateDatasetERM_Data(ds, "sp_PumbRequests", true, pa, pv);
 
         List<PumpDetails> drpval = new List<PumpDetails>();
-        dt = ds.Tables[0];
 
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            drpval.Add(new PumpDetails()
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
+                drpval.Add(new PumpDetails()
+                {
 
-                Name = dt.Rows[i]["PumpName"].ToString(),
-                Value = dt.Rows[i]["Value"].ToString(),
-                PumpQTY = dt.Rows[i]["PumpQTY"].ToString(),
-                MoreInformation = dt.Rows[i]["MoreInformation"].ToString(),
+                    Name = dt.Rows[i]["Name"].ToString(),
+                    Value = dt.Rows[i]["Value"].ToString(),
+                    PumpQTY = dt.Rows[i]["PumpQTY"].ToString(),
+                    MoreInformation = dt.Rows[i]["MoreInformation"].ToString(),
 
 
 
-            });
+                });
+            }
         }
+        
+        
         return drpval;
         //string a = userId;
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<EmpListDDL> GetAllestimator()
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(11);
+
+        DBH.CreateDatasetERM_Data(ds, "sp_PumbRequests", true, pa, pv);
+
+        List<EmpListDDL> oEmpList = new List<EmpListDDL>();
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                oEmpList.Add(new EmpListDDL()
+                {
+                    User_Id = dt.Rows[i]["User_Id"].ToString(),
+                    EmpNo = dt.Rows[i]["EmpNo"].ToString(),
+                    EmpName = dt.Rows[i]["UEmployeeName"].ToString(),
+
+                });
+            }
+        }
+
+        return oEmpList;
+        //string a = userId;
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static void setAssignTo(string UserId, string AssignedTo, string ReqID)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(12);
+
+        pa.Add("@userId");
+        pv.Add(UserId);
+
+        pa.Add("@AssignedTo");
+        pv.Add(AssignedTo);
+
+        pa.Add("@ReqID");
+        pv.Add(ReqID);
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_PumbRequests", true, pa, pv);
+
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static void setComplete(string UserId, string ReqID)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(13);
+
+        pa.Add("@userId");
+        pv.Add(UserId);
+
+
+        pa.Add("@ReqID");
+        pv.Add(ReqID);
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_PumbRequests", true, pa, pv);
+
+    }
+
+    public class EmpListDDL
+    {
+        public string User_Id { get; set; }
+        public string EmpNo { get; set; }
+        public string EmpName { get; set; }
+
+
     }
     public class Tabledetails
     {

@@ -394,6 +394,7 @@ $('.btnSaveItem').on('click', function () {
         bItem["FloorType"] = item.value;
         bItem["NoOfFloors"] = $(item).parent().parent().children().eq(1).children().val()
         bItem["OrderNo"] = $(item).parent().parent().children().eq(2).children().val()
+        bItem["StartFrom"] = $(item).parent().parent().children().eq(3).children().val()
 
         buildingFloorArr.push(bItem);
     });
@@ -443,6 +444,7 @@ function AddStructure() {
             generateHTMLForStruct();
             $(".btnSaveItem").addClass("disabled");
             _goNext();
+
             getAllSystem('');
             getCategoryBySystem($('#ddlSystem option:selected').val(), '');
             $('#btnItemFilterTOC').trigger('click');
@@ -565,7 +567,7 @@ function AddMoreFloorType() {
     }
     else {
         $.ajax({
-            url: "TemplateMaster.aspx/AddFloorType",
+            url: "EMSItemList.aspx/AddFloorType",
             data: JSON.stringify({
                 "FloorTypeName": $("#txtFlrTypeName").val().trim(),
                 "FloorTypeAlias": $("#txtFlrTypeAlias").val().trim()
@@ -624,6 +626,9 @@ function generateHTMLForFlrTypes() {
                     <div class="col-3 mb-2">
                         <input class="form-control" name="txtForFloorsTypes" type="number" placeholder="order #..." disabled>
                     </div>
+                    <div class="col-2 mb-2">
+                         <input class="form-control" name="txtForFloorsTypes" type="number" value="1" min="0" placeholder="Start From" disabled>
+                    </div>
                 </div>`
     });
 
@@ -673,7 +678,8 @@ $('#ddlFloorType').on('change', function (a, b) {
 
     var htm = '';
     $.each(res, function (key, item) {
-        htm += '<option value="' + item.StructFloorDetId + '"> ' + (key + 1) + ' </option>'
+        let cnt = (item.StartFrom == "" || item.StartFrom == 1) ? (key + 1) : (parseInt(item.StartFrom) + key)
+        htm += '<option value="' + item.StructFloorDetId + '"> ' + cnt + ' </option>'
     });
     $('#ddlFloorFrom').html(htm);
     $('#ddlFloorTo').html(htm);
@@ -682,6 +688,7 @@ $('#ddlFloorType').on('change', function (a, b) {
     $('#ddlFloorTo').val($('#ddlFloorTo option:eq(' + ($('#ddlFloorTo option').length - 1) + ')').val());
 
     $('#ddlFloorFrom').trigger('change');
+  
 });
 
 
@@ -689,8 +696,8 @@ $('#ddlFloorFrom,#ddlFloorTo,#ddlFloorMaster').on('change', function (a, b) {
     let selFlrType = $('#ddlFloorType option:selected').val();
     var filteredRec = [];
 
-    let start = $('#ddlFloorFrom option:selected').text().trim() - 1;
-    let end = $('#ddlFloorTo option:selected').text().trim() - 1;
+    let start = $("#ddlFloorFrom  option:selected").index();
+    let end = $("#ddlFloorTo  option:selected").index();
     for (var i = start; i <= end; i++) {
         if ($('#ddlFloorFrom option:eq(' + i + ')').val() != $("#ddlFloorMaster option:selected").val()) {
             filteredRec.push(listReqStructFloors.filter(s => s.StructFloorDetId == $('#ddlFloorFrom option:eq(' + i + ')').val()));
@@ -746,7 +753,6 @@ $('.btnUpdateTypicalFloors').on('click', function () {
         $(".temp-sel-typifloor-table-div").css('border', 'lightgrey');
     }
     _goNext();
-
 });
 function updateFloorsAsTypical(strctids, structidsforunselect) {
 
@@ -777,15 +783,19 @@ $("#mainFloorTypes").on('click', 'input[name=cb-floors-type]', function () {
     if ($(this).is(':checked')) {
         $(this).parent().parent().children().eq(1).children().prop('disabled', false)
         $(this).parent().parent().children().eq(2).children().prop('disabled', false)
+        $(this).parent().parent().children().eq(3).children().prop('disabled', false)
 
         $(this).parent().parent().children().eq(1).children().val('')
         $(this).parent().parent().children().eq(2).children().val('')
+        $(this).parent().parent().children().eq(3).children().val('')
     } else {
         $(this).parent().parent().children().eq(1).children().prop('disabled', true)
         $(this).parent().parent().children().eq(2).children().prop('disabled', true)
+        $(this).parent().parent().children().eq(3).children().prop('disabled', true)
 
         $(this).parent().parent().children().eq(1).children().val('')
         $(this).parent().parent().children().eq(2).children().val('')
+        $(this).parent().parent().children().eq(3).children().val('')
     }
 
 })
@@ -798,15 +808,18 @@ function validateTaskControls() {
     $('#mainFloorTypes input[name=cb-floors-type]').each(function (key, item) {
         let txtTotFloor = $(item).parent().parent().children().eq(1).children();
         let txtOrderNo = $(item).parent().parent().children().eq(2).children();
+        let txtStartFrom = $(item).parent().parent().children().eq(3).children();
 
         txtTotFloor.css('box-shadow', '').css('border-color', 'lightgrey');
         txtOrderNo.css('box-shadow', '').css('border-color', 'lightgrey');
+        txtStartFrom.css('box-shadow', '').css('border-color', 'lightgrey');
     });
 
     //checking validation on only checked floor types
     $('#mainFloorTypes input[name=cb-floors-type]:checked').each(function (key, item) {
         let txtTotFloor = $(item).parent().parent().children().eq(1).children();
         let txtOrderNo = $(item).parent().parent().children().eq(2).children();
+        let txtStartFrom = $(item).parent().parent().children().eq(3).children();
 
         if (txtTotFloor.val().trim() == "") {
             isValid = false;
@@ -820,6 +833,13 @@ function validateTaskControls() {
             txtOrderNo.css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
         } else {
             txtOrderNo.css('box-shadow', '').css('border-color', 'lightgrey');
+        }
+
+        if (txtStartFrom.val().trim() == "") {
+            isValid = false;
+            txtStartFrom.css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
+        } else {
+            txtStartFrom.css('box-shadow', '').css('border-color', 'lightgrey');
         }
     });
 
@@ -856,8 +876,9 @@ function resetStructureControls() {
     $("#mainFloorTypes .mainFloorSub input[type=number][name=txtForFloorsTypes]").css('box-shadow', '').css('border-color', 'lightgrey');
 }
 
-//TOC
 
+
+//TOC
 
 $('#ddlStructNameTOC').on('change', function () {
     loadFloorType();
@@ -1598,7 +1619,7 @@ function validateItemFromOracle() {
 function validateItemIntoCategoryQty() {
     var isValid = true;
 
-   
+
     if ($("#ddlCategory option:selected").val() == "PIPES") {
         $('.tbody-items-toc input[name=cbIsTypical]:checked').each(function (key, item) {
             let txtPipeUnit = $(item).parent().parent().parent().children().eq(6).children();

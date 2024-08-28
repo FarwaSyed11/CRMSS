@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Masters/EconnectNew.master" CodeFile="TemplateMaster.aspx.cs" Inherits="ERM_TemplateMaster" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/EconnectNew.master" CodeFile="TemplateMaster.aspx.cs" Inherits="ERM_TemplateMaster" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -508,6 +508,67 @@
                                                 <span class="ms-5 me-5 fw-bold">Total Floors</span>
                                                 <span class="ms-2 fw-bold">Order No.</span>
                                                 <div class="row pt-2 mt-2 border-top" id="mainFloorTypes" style="max-height: 300px; overflow-y: auto;">
+
+
+                                                    <%--<div class="mainFloorSub d-flex">
+                                <div class="form-check col-5 ps-5 ">
+                                    <input class="form-check-input" name="cb-floors-type" type="checkbox" value="Base" id="flexCheckBasement">
+                                    <label class="form-check-label" for="flexCheckBasement">
+                                        Basement
+                                    </label>
+                                </div>
+                                <div class="col-4 mb-2">
+                                    <input class="form-control bsmntFloor" name="txtForFloorsTypes" type="number"  placeholder="enter floors..." disabled>
+                                </div>
+                                <div class="col-3 mb-2">
+                                    <input class="form-control bsmntFloor" name="txtForFloorsTypes" type="number" placeholder="order #..." disabled>
+                                </div>
+                            </div>
+
+                            <div class="mainFloorSub d-flex">
+                                <div class="form-check col-5 ps-5">
+                                    <input class="form-check-input" name="cb-floors-type" type="checkbox" value="Park" id="flexCheckParking">
+                                    <label class="form-check-label" for="flexCheckParking">
+                                        Parking
+                                    </label>
+                                </div>
+                                <div class="col-4 mb-2">
+                                    <input class="form-control parkFloor" name="txtForFloorsTypes" type="number" id="" placeholder="enter floors..." disabled>
+                                </div>
+                                <div class="col-3 mb-2">
+                                    <input class="form-control parkFloor" name="txtForFloorsTypes" type="number" id="" placeholder="order #..." disabled>
+                                </div>
+                            </div>
+
+
+                            <div class="mainFloorSub d-flex">
+                                <div class="form-check col-5 ps-5">
+                                    <input class="form-check-input" name="cb-floors-type" type="checkbox" value="FLR" id="flexCheckNormal">
+                                    <label class="form-check-label" for="flexCheckNormal">
+                                        Floor
+                                    </label>
+                                </div>
+                                <div class="col-4 mb-2">
+                                    <input class="form-control normalFloor" name="txtForFloorsTypes" type="number" id="" placeholder="enter floors..." disabled>
+                                </div>
+                                <div class="col-3 mb-2">
+                                    <input class="form-control normalFloor" name="txtForFloorsTypes" type="number" id="" placeholder="order #..." disabled>
+                                </div>
+                            </div>
+                            <div class="mainFloorSub d-flex">
+                                <div class="form-check col-5 ps-5">
+                                    <input class="form-check-input" name="cb-floors-type" type="checkbox" value="Roof" id="flexCheckTerrace">
+                                    <label class="form-check-label" for="flexCheckTerrace">
+                                        Roof
+                                    </label>
+                                </div>
+                                <div class="col-4 mb-2">
+                                    <input class="form-control terrFloor" name="txtForFloorsTypes" type="number" id="" placeholder="enter floors..." disabled>
+                                </div>
+                                <div class="col-3 mb-2">
+                                    <input class="form-control terrFloor" name="txtForFloorsTypes" type="number" id="" placeholder="order #..." disabled>
+                                </div>
+                            </div>--%>
                                                 </div>
 
 
@@ -549,10 +610,10 @@
                                                 <select id="ddlFloorTo" class="form-select color-dropdown"></select>
                                             </div>
                                             <div class="col-md-2 adv-filter ">
-                                                <label>Is Typical</label>
+                                             <%--   <label>Is Typical</label>
                                                 <div style="display: flex; justify-content: center;">
                                                     <input class="form-check-input" type="checkbox" value="Base" id="cbIsTypical">
-                                                </div>
+                                                </div>--%>
                                             </div>
 
                                             <div class="col-md-3 adv-filter ">
@@ -576,7 +637,8 @@
                                         </div>
                                         <button type="button" class="btn btn-primary btnUpdateTypicalFloors mt-3">Save </button>
                                     </div>
-                                    <div class="slider-content__item">
+                                    
+                                     <div class="slider-content__item">
                                         <button type="button" class="btn btn-primary btn-add-item-toc-grid float-right hide-control-bos">
                                             <svg class="me-3" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 16 16">
                                                 <path fill="#fff" d="M11 11H9v1h2v2h1v-2h2v-1h-2V9h-1zM7.758 9a4.5 4.5 0 1 1-.502 4H6v-1h1.027a4.55 4.55 0 0 1 .23-2H6V9zM2 4V3h2v1zm4 0V3h8v1zm0 3V6h8v1zM2 7V6h2v1zm0 3V9h2v1zm0 3v-1h2v1z" />
@@ -586,6 +648,7 @@
 
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -600,7 +663,7 @@
     </div>
 
 
-    <%--TOC WORK--%>
+      <%--TOC WORK--%>
     <%--Tag Floor With The Items in TOC--%>
     <div class="modal fade" id="tagFloorIntoItems" tabindex="-1" aria-hidden="true" style="background: #adacaca3;">
         <div class="modal-dialog modal-lg" role="document">
@@ -791,6 +854,9 @@
 
 
     <%--TOC End--%>
+
+
+
     <script type="text/javascript">
         var currUserId = '';
         var EmpNo = '';

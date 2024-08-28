@@ -1,0 +1,457 @@
+﻿//START-------------------On TOC Side------------------//
+
+
+$(document).ready(function () {
+
+    
+
+});
+
+
+var selFpReqId = 0;
+var listAllFpReqs = 0;
+var isSpecAttached = 0;
+var isListofMake = 0;
+var isPumpSched = 0;
+var listPumpReqs = [];
+var objDatatableFPReq = [];
+var listPumpReqsView = [];
+var objDTViewReq = [];
+var PumpMainReqID = 0;
+function selectedReq(selFpReqId) {
+    selRequest = selFpReqId;
+}
+
+$('.btn-add-firepump').on('click', function () {
+    $('#modalAddFirepumpReq').modal('show');
+    if (myroleList.includes("14213")) {
+        $("#btnAddFirePumpItem").addClass("hidden");
+    }
+    //initiateDataTableFPRequests();
+    ViewRequests();
+})
+$('#btnSubmit').on('click', function () {
+    $('#btnAddFirePumpItem').addClass("hidden");
+    $('#btnSubmit').addClass("disabled");
+    $('#btnSubmit').text("Request Submitted");
+    Submitted();
+    toastr.success('This request is submitted to the FIRE PUMP TEAM, Successfully');
+})
+//$('.btnClose').on('click', function () {
+//    ViewRequests();
+//})
+
+$('#btnAddFirePumpItem').on('click', function () {
+    ViewRequests();
+    createPumpLineHTML();
+    $('#btnSaveFirePumpItem').css("display", "");
+    $('#btnClose').css("display", "");
+
+    $('#btnAddFirePumpItem').addClass("hidden");
+})
+$('#btnSaveFirePumpItem').on('click', function () {
+    newPumponLine();
+    //initiateDataTableFPRequests();
+    ViewRequests();
+})
+
+$('input[name=isAttached]').on('change', function () {
+    if ($("input[name=isAttached]").is(":checked") == true) {
+        isSpecAttached = 1
+    }
+    else {
+        isSpecAttached = 0;
+    }
+})
+$('input[name=isListofMake]').on('change', function () {
+    if ($("input[name=isListofMake]").is(":checked") == true) {
+        isListofMake = 1
+    }
+    else {
+        isListofMake = 0;
+    }
+})
+$('input[name=isPumpSched]').on('change', function () {
+    if ($("input[name=isPumpSched]").is(":checked") == true) {
+        isPumpSched = 1
+    }
+    else {
+        isPumpSched = 0;
+    }
+})
+
+function newPumponLine() {
+    $.ajax({
+        url: "EMSItemList.aspx/InsertPumpMainReq",
+        type: "POST",
+        data: JSON.stringify({
+            "RequstId": selReqId,
+            "UserId": currUserId,
+            "Description": $("input[name=desc]").val(),
+            "Area": $("input[name=area]").val(),
+            "Quantity": $("input[name=qty]").val(),
+            "ECapacity": $("input[name=capacity1]").val(),
+            "DCapacity": $("input[name=capacity2]").val(),
+            "JCapacity": $("input[name=capacity3]").val(),
+            "EBars": $("input[name=bars1]").val(),
+            "DBars": $("input[name=bars2]").val(),
+            "JBars": $("input[name=bars3]").val(),
+            "EQTY": $("input[name=qty1]").val(),
+            "DQTY": $("input[name=qty2]").val(),
+            "JQTY": $("input[name=qty3]").val(),
+            "Direction": $("input[name=TypeofPump]").val(),
+            "PumpSpecs": isSpecAttached,
+            "ListofMake": isListofMake,
+            "PumpSched": isPumpSched
+        }),
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            $('#btnAddFirePumpItem').removeClass("hidden");
+            $('#btnSaveFirePumpItem').css("display", "none");
+            $('#btnClose').css("display", "none");
+            $(".pumpLine").html('');
+            toastr.success("Pump Requested Successfully!");
+            ViewRequests();
+        },
+        error: function (errormessage) {
+        }
+    });
+}
+
+function Submitted() {
+
+    if ($(".tbody-added-firepumpreqs tr").length == 0) {
+        toastr.error('Please add item first','')
+    }
+    else {
+        PumpMainReqID = $(".tbody-added-firepumpreqs tr td:eq(0)").text().trim()
+        $.ajax({
+            url: "EMSItemList.aspx/ChangeStatusToSubmit",
+            type: "POST",
+            data: JSON.stringify({
+                "RequstId": PumpMainReqID,
+                "UserId": currUserId,
+            }),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (result) {
+
+            },
+            error: function (errormessage) {
+            }
+        });
+    }
+    
+}
+
+function ViewRequests() {
+    $.ajax({
+        url: "EMSItemList.aspx/ViewFirePumpReq",
+        type: "POST",
+        data: JSON.stringify({
+            "RequstId": selReqId,
+            /*"UserId": currUserId,*/
+        }),
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '';
+            listPumpReqs = result.d;
+
+            //$('.tbody-added-firepumpreqs tr').length > 0 ? objDTViewReq.destroy() : '';
+            if (listPumpReqs.length > 0) {
+                if (listPumpReqs[0].Status == "CREATED") {
+                    $('#btnSubmit').removeClass("disabled");
+                }
+                else {
+                    $('#btnSubmit').addClass("disabled");
+                    $('#btnSubmit').text("Request Submitted");
+                    $('#btnAddFirePumpItem').addClass("hidden");
+                }
+            } else {
+                $('#btnSubmit').addClass("disabled"); 
+                $('#btnSubmit').text("Submit");
+                $('#btnAddFirePumpItem').removeClass("hidden");
+            }
+           
+            $.each(listPumpReqs, function (key, item) {
+
+                htm += `<tr>  
+                 <td style="text-align:center;display:none;">` + item.ReqID + `</td>
+                  <td style="text-align:center;">`+ item.SlNO + `</td>
+                   <td style="text-align:center;display:none;">` + item.ItemID + `</td>
+                  <td style="text-align:center;">`+ item.Area + `</td>
+                  <td style="text-align:center;">`+ item.Description + `</td>
+                  <td style="text-align:center;">`+ item.QTY + `</td> 
+                  <td style="text-align:center;">`+ item.TypeOfPump + `</td> 
+                  <td style="text-align:center;">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="view-FP-details" width="2rem" height="2rem" viewBox="0 0 24 24" title="View More" style="cursor: pointer;">
+                        <g fill="none" stroke="#b22e35">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.009m3.996 0h.008m3.978 0H16" />
+                            <circle cx="12" cy="12" r="10" stroke-width="1.5" />
+                        </g>
+                  </svg>
+                  </td>`;
+
+                htm += `</tr>`;
+            });
+            $('.tbody-added-firepumpreqs').html(htm);
+            //initiateDataTableFPRequests();
+        },
+        error: function (errormessage) {
+        }
+    });
+}
+
+function initiateDataTableFPRequests() {
+    objDTViewReq = [];
+    objDTViewReq = $('.table-added-firepumpreqs').DataTable({
+        dom: 'lBfrtip',
+        buttons: {
+            buttons: []
+        },
+        "columnDefs": [
+
+            { "orderable": false, "targets": [] },
+            { "orderable": true, "targets": [] }
+        ],
+        /*   order: [[0, 'ASC']]*/
+    });
+}
+
+$('.table-added-firepumpreqs').on('click', '.view-FP-details', function () {
+    PumpMainReqID = this.parentNode.parentNode.children[0].textContent;
+    ItemID = this.parentNode.parentNode.children[2].textContent;
+    $('#modalViewFirepumpReqDeets').modal('show');
+    ViewFirePumpReqDetails();
+});
+
+
+function ViewFirePumpReqDetails() {
+    $.ajax({
+        url: "EMSItemList.aspx/ViewFirePumpReqDetails",
+        type: "POST",
+        data: JSON.stringify({
+            "PumpReqId": ItemID,
+        }),
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = ``;
+            listPumpReqsView = result.d;
+
+
+            htm += `<div class="row mx-3">`;
+
+            if (listPumpReqsView[0].PumpSpecs == "False") {
+                htm += `<div class="form-check col-4 ms-3 mb-4">
+                            <input class="form-check-input" type="checkbox" value=""  name="isAttached" style="pointer-events: none;">
+                            <label class="form-check-label" for="">
+                                Specifications Attached
+                            </label>
+                        </div>`;
+            }
+            else {
+                htm += `<div class="form-check col-4 ms-3 mb-4">
+                            <input class="form-check-input" type="checkbox" value=""  name="isAttached" checked style="pointer-events: none;">
+                            <label class="form-check-label" for="">
+                                Specifications Attached
+                            </label>
+                        </div>`
+            }
+
+            if (listPumpReqsView[0].ListofMake == "False") {
+                htm += `<div class="form-check col-3">
+                            <input class="form-check-input" type="checkbox" value=""  name="isListofMake" style="pointer-events: none;">
+                            <label class="form-check-label" for="">
+                                List of Make
+                            </label>
+                        </div>`;
+            }
+            else {
+                htm += `<div class="form-check col-3">
+                            <input class="form-check-input" type="checkbox" value=""  name="isListofMake" checked style="pointer-events: none;">
+                            <label class="form-check-label" for="">
+                                List of Make
+                            </label>
+                        </div>`
+            }
+
+            if (listPumpReqsView[0].PumpSched == "False") {
+                htm += `<div class="form-check col-3">
+                            <input class="form-check-input" type="checkbox" value=""  name="isPumpSched" style="pointer-events: none;">
+                            <label class="form-check-label" for="">
+                                Pump Schedule
+                            </label>
+                        </div>`;
+            }
+            else {
+                htm += `<div class="form-check col-3">
+                            <input class="form-check-input" type="checkbox" value=""  name="isPumpSched" checked style="pointer-events: none;">
+                            <label class="form-check-label" for="">
+                               Pump Schedule
+                            </label>
+                        </div></div>`
+            }
+
+
+
+            htm += `<div class="row mt-1" style="text-align: center;">
+
+                        <table class="">
+                            <thead>
+                                <tr class="">
+                                    <th style="width: 230px !important">Pump Set</th>
+                                    <th style="width: 290px !important">Capacity (GPM)</th>
+                                    <th style="width: 100px !important">Pressure (Bars)</th>
+                                    <th style="width: 100px !important">QTY</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="">
+                                    <td>Electrical Pump Set</td>
+                                    <td class="position-relative" style="">
+                                        <label class="">`+ listPumpReqsView[0].ECapacity + `</label></td>
+                                    <td class="position-relative" style="">
+                                        <label class="">`+ listPumpReqsView[0].EBars + `</label></td>
+                                    <td class="position-relative" style="">
+                                        <label class="">`+ listPumpReqsView[0].EQTY + `</label></td>
+                                </tr>
+                                <tr class="">
+                                    <td>Diesel Pump Set</td>
+                                    <td class="position-relative">
+                                        <label class="">`+ listPumpReqsView[0].DCapacity + `</label></td>
+                                    <td class="position-relative">
+                                        <label class="">`+ listPumpReqsView[0].DBars + `</label></td>
+                                    <td class="position-relative">
+                                        <label class="">`+ listPumpReqsView[0].DQTY + `</label></td>
+                                </tr>
+                                <tr class="">
+                                    <td>Jockey Pump Set</td>
+                                    <td class="position-relative">
+                                        <label class="">`+ listPumpReqsView[0].JCapacity + `</label></td>
+                                    <td class="position-relative">
+                                        <label class="">`+ listPumpReqsView[0].JBars + `</label></td>
+                                    <td class="position-relative">
+                                        <label class="">`+ listPumpReqsView[0].JQTY + `</label></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>`
+
+
+            $(".pumpLineView").html(htm)
+
+        },
+        error: function (errormessage) {
+        }
+    });
+}
+
+function createPumpLineHTML() {
+    var htm = '';
+    htm += ` <div class="row mx-3 py-3">
+                <div class="form-check col-3">
+                    <input class="form-check-input" type="checkbox" value=""  name="isAttached">
+                    <label class="form-check-label" for="">
+                        Specifications Attached
+                    </label>
+                </div>
+                <div class="form-check col-2">
+                    <input class="form-check-input" type="checkbox" value=""  name="isListofMake">
+                    <label class="form-check-label" for="">
+                        List of Make
+                    </label>
+                </div>
+                <div class="form-check col-3">
+                    <input class="form-check-input" type="checkbox" value=""  name="isPumpSched">
+                    <label class="form-check-label" for="">
+                        Pump Schedule
+                    </label>
+                </div>
+            </div>
+            <div class="row mt-1">
+
+                <table class="table table-fpreq project-table" style="width: 100%;">
+                    <thead style="position: sticky; top: -3px;">
+                        <tr class="">
+                            <th style="width: 52px !important">No.</th>
+                            <th style="width: 52px !important">Area (Floor Desc)</th>
+                            <th style="width: 52px !important">Description</th>
+                            <th style="width: 52px !important">QTY</th>
+                            <th style="width: 52px !important">Type of Pump</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="tbody-fpreq">
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <input type="text" name="area" class="form-control mx-2" placeholder="basement" /></td>
+                            <td>
+                                <input type="text"  name="desc" class="form-control mx-2" placeholder="basement pump description" /></td>
+                            <td>
+                                <input type="number"  name="qty" class="form-control mx-2" placeholder="2" /></td>
+                            <td>
+                                <input type="text"  name="TypeofPump" class="form-control mx-2" placeholder="Horizontal Split"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="5">
+                                <table class="">
+                                    <thead>
+                                        <tr class="">
+                                            <th style="width: 230px !important">Pump Set</th>
+                                            <th style="width: 290px !important">Capacity (GPM)</th>
+                                            <th style="width: 100px !important">Pressure (Bars)</th>
+                                            <th style="width: 100px !important">QTY</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="">
+                                            <td>Electrical Pump Set</td>
+                                            <td class="position-relative" style="">
+                                                <input type="number" value="0" name="capacity1" class="form-control mx-2" /></td>
+                                            <td class="position-relative" style="">
+                                                <input type="number" value="0"  name="bars1" class="form-control mx-2"></td>
+                                            <td class="position-relative" style="">
+                                                <input type="number" value="0" name="qty1" class="form-control mx-2"></td>
+                                        </tr>
+                                        <tr class="">
+                                            <td>Diesel Pump Set</td>
+                                            <td class="position-relative">
+                                                <input type="number" value="0" name="capacity2" class="form-control mx-2"></td>
+                                            <td class="position-relative">
+                                                <input type="number"  value="0" name="bars2" class="form-control mx-2"></td>
+                                            <td class="position-relative">
+                                                <input type="number"  value="0" name="qty2" class="form-control  mx-2"></td>
+                                        </tr>
+                                        <tr class="">
+                                            <td>Jockey Pump Set</td>
+                                            <td class="position-relative">
+                                                <input type="number"  value="0" name="capacity3" class="form-control mx-2"></td>
+                                            <td class="position-relative">
+                                                <input type="number"  value="0" name="bars3" class="form-control mx-2"></td>
+                                            <td class="position-relative">
+                                                <input type="number"  value="0" name="qty3" class="form-control mx-2"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>`;
+    $(".pumpLine").html(htm)
+
+}
+
+
+
+
+
+//END-------------------On TOC Side------------------//

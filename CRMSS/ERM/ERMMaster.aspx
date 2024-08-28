@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="ERMMaster.aspx.cs" Inherits="ERM_ERMMaster" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="ERMMaster.aspx.cs" Inherits="ERM_ERMMaster" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -485,20 +485,21 @@
                                 <th style="display: none">ID</th>
                                 <th style="display: none">Role ID</th>
                                 <th>EST. Ref</th>
-                                <th>Revision</th>
+                                <th>REV.</th>
 
-                                <th>Opportunity Number</th>
-                                <th>Project Number</th>
-                                <th>Name</th>
-                                <th>Consultant</th>
-                                <th>Marketing</th>
-                                <th>MEPContractor</th>
-                                <th>Salesman</th>
-                                <th>Stage</th>
-                                <th>Scope</th>
-                                <th>QuotationType</th>
-                                <th>Created By</th>
-                                <th>Created Date</th>
+                                <th>OPT #</th>
+                                <th>PRJ #</th>
+                                <th>NAME</th>
+                                <th>CONSULTANT</th>
+                                <th>MARKETING</th>
+                                <th>CUSTOMER</th>
+                                <th>SALESMAN</th>
+                                <th>STAGE</th>
+                                <th>SCOPE</th>
+                                <th>QTN TYPE</th>
+                                 <th>Plot Number</th>
+                                <th>CREATED BY</th>
+                                <th>CREATED ON</th>
                                 <th>View</th>
                             </tr>
 
@@ -1723,7 +1724,7 @@
     <script src="../FacilityManagement/Datatable/js/buttons.print.min.js"></script>
 
     <!-- Page JS/CSS file -->
-    <script src="Scripts/ERMMaster.js?v=14"></script>
+    <script src="Scripts/ERMMaster.js?v=15"></script>
     <%-- <link href="css/quotation.css" rel="stylesheet" />--%>
     <link href="Css/EMSStyle.css" rel="stylesheet" />
 

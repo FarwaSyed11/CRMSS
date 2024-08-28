@@ -554,6 +554,7 @@ function validateQty() {
 
 $(".btn-req-complete-grid").on('click', function () {
     $("#ReqTechRemarksModal").modal('show');
+    $(".btnAddTechRemarks").html('Save Notes');
     getTechNotesTemplate();
 })
 
@@ -591,6 +592,7 @@ function getTechNotesTemplate() {
 $("#progress-bar li").on('click', function () {
 
     var selTab = $(this).text().trim();
+    checkSystem();
     if (selTab == "Create TOC") {        
         getSystemsNItems();
         $(".ritext-tech-remarks-div").html('<input class="form-control " type="text" placeholder="" value="" id="taTechRemarks">');
@@ -600,38 +602,74 @@ $("#progress-bar li").on('click', function () {
 })
 $(".btnAddTechRemarks").on('click', function () {
 
-    if ($("#taTechRemarks").val().trim() == "") {
+    if ($("#taTechRemarks").val().trim() == "" || $("#taTechRemarks").val().trim().length < 20) {
         toastr.error("Please input the Technical remarks", '');
     }
     else {
-        $.ajax({
-            url: "EMSItemList.aspx/UpdateRequestAsCompleted",
-            type: "POST",
-            data: JSON.stringify({
-                "EmpNo": EmpNo,
-                "ReqId": selReqId,
-                "TechRemarks": $("#taTechRemarks").val()
-            }),
-            contentType: "application/json;charset=utf-8",
-            dataType: "json",            
-            success: function (result) {
-                toastr.success("Technical Notes Updated Successfully.")
-                $("#ReqTechRemarksModal").modal('hide');
-            },
-            error: function (errormessage) {
-                ////alert(errormessage.responseText);
-            }
-        });
+        if ($(this).text().trim() == "Save & Submit") { // from Estimator side
+            $.ajax({
+                url: "EMSItemList.aspx/SubmitRequestFinal",
+                type: "POST",
+                data: JSON.stringify({
+                    "EmpNo": EmpNo,
+                    "ReqId": selReqId
+                }),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    toastr.success("Request Submitted Successfully.")
+                    getAllRequests();
+                    $("#addReqModal").modal('hide');
+                },
+                error: function (errormessage) {
+                    ////alert(errormessage.responseText);
+                }
+            });
+        }
+        else {
+            $.ajax({
+                url: "EMSItemList.aspx/UpdateRequestAsCompleted",
+                type: "POST",
+                data: JSON.stringify({
+                    "EmpNo": EmpNo,
+                    "ReqId": selReqId,
+                    "TechRemarks": $("#taTechRemarks").val()
+                }),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    toastr.success("Technical Notes Updated Successfully.")
+                    $("#ReqTechRemarksModal").modal('hide');
+                },
+                error: function (errormessage) {
+                    ////alert(errormessage.responseText);
+                }
+            });
+        }
+        
     }
 })
 
 
 $(".btn-submit-req-final").on('click', function () {
 
-    //if ($("#taTechRemarks").val().trim() == "") {
-    //    toastr.error("Please input the Technical remarks", '');
-    //}
-    //else {
+    if (myroleList.includes('14214')) {
+
+        $(".ritext-tech-remarks-div").html('<input class="form-control " type="text" placeholder="" value="" id="taTechRemarks">');
+        initiateRichText();
+
+        $("#ReqTechRemarksModal").modal('show');
+        $(".btnAddTechRemarks").html('Save & Submit');
+
+
+        if ($("#taTechRemarks").val().trim() == "" && $("#taTechRemarks").val().trim().length > 20) {
+            toastr.error("Please input the Technical remarks", '');
+        }
+    }
+    else {
+        $(".btnAddTechRemarks").html('Save Notes');
+
         $.ajax({
             url: "EMSItemList.aspx/SubmitRequestFinal",
             type: "POST",
@@ -651,7 +689,7 @@ $(".btn-submit-req-final").on('click', function () {
                 ////alert(errormessage.responseText);
             }
         });
-    //}
+    }
 })
 
 
@@ -681,11 +719,15 @@ function getSystemsNItems() {
             $.each(listSystems, function (key, item) {
                 if (key == 0) { // for first record only
                     htm += `<div class="col-md-12 mt-3">`;
-                    htm += `<div style="z-index:10;position: sticky;top: -9px;background: #fcfafa; text-align: center; border: 1px solid #b70000; color: black; border-radius: 20px 20px 3px 3px; font-weight: 600; padding: 15px 0px 15px 0px;">` + item.SysName 
+                    htm += `<div style="z-index:10;position: sticky;top: -9px;background: #fcfafa; text-align: center; border: 1px solid #b70000; color: black; border-radius: 20px 20px 3px 3px; font-weight: 600; padding: 15px 0px 15px 0px;">
+                    <span class="float-left mx-3"><svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 1024 1024" onclick='openCopySystemModal("` + item.SysName + `")'>
+	                    <path fill="#b22e35" d="M768 832a128 128 0 0 1-128 128H192A128 128 0 0 1 64 832V384a128 128 0 0 1 128-128v64a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64z" />
+	                    <path fill="#b22e35" d="M384 128a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64zm0-64h448a128 128 0 0 1 128 128v448a128 128 0 0 1-128 128H384a128 128 0 0 1-128-128V192A128 128 0 0 1 384 64" />
+                    </svg></span>` + item.SysName
                     if (selReqObj[0].EstimationStatus.toUpperCase() != "RELEASED" && (selReqObj[0].Engineering != '' && selReqObj[0].TestnCommision != '')) {
-                        htm += `<span style="float: right;margin-right: 35px;cursor:pointer;" title="Engineering and Test and Commission Added">
+                        htm += `<span style="float: right;margin-right: 35px;cursor:pointer;" title="Add Engineering and Test and Commission">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 2048 2048" onclick='openEngrNTestCommisionModal("` + item.SysName + `")'>
-                                        <path fill="#4db700" d="M2048 384v1024h-128V839l-640 321v120H768v-120L128 839v697h1152v128H0V384h640V256q0-27 10-50t27-40t41-28t50-10h512q27 0 50 10t40 27t28 41t10 50v128zm-1280 0h512V256H768zm384 640H896v128h256zm768-327V512H128v185l640 319V896h512v120zm-128 839h256v128h-256v256h-128v-256h-256v-128h256v-256h128z" />
+                                        <path fill="#ffb400" d="M2048 384v1024h-128V839l-640 321v120H768v-120L128 839v697h1152v128H0V384h640V256q0-27 10-50t27-40t41-28t50-10h512q27 0 50 10t40 27t28 41t10 50v128zm-1280 0h512V256H768zm384 640H896v128h256zm768-327V512H128v185l640 319V896h512v120zm-128 839h256v128h-256v256h-128v-256h-256v-128h256v-256h128z" />
                                     </svg>
                                 </span>`
                     }
@@ -703,7 +745,11 @@ function getSystemsNItems() {
 
                 if (firstSysName != item.SysName) {
                     htm += `<div class="col-md-12 mt-3">`;
-                    htm += `<div style="z-index:10;position: sticky;top: -9px;background: #fcfafa; text-align: center; border: 1px solid #b70000; color: black; border-radius: 20px 20px 3px 3px; font-weight: 600; padding: 15px 0px 15px 0px;">` + item.SysName
+                    htm += `<div style="z-index:10;position: sticky;top: -9px;background: #fcfafa; text-align: center; border: 1px solid #b70000; color: black; border-radius: 20px 20px 3px 3px; font-weight: 600; padding: 15px 0px 15px 0px;">
+                    <span class="float-left mx-3"><svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 1024 1024" onclick='openCopySystemModal("` + item.SysName + `")'>
+	                    <path fill="#b22e35" d="M768 832a128 128 0 0 1-128 128H192A128 128 0 0 1 64 832V384a128 128 0 0 1 128-128v64a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64z" />
+	                    <path fill="#b22e35" d="M384 128a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64zm0-64h448a128 128 0 0 1 128 128v448a128 128 0 0 1-128 128H384a128 128 0 0 1-128-128V192A128 128 0 0 1 384 64" />
+                    </svg></span>` + item.SysName
                     if (selReqObj[0].EstimationStatus.toUpperCase() != "RELEASED" && (selReqObj[0].Engineering != '' && selReqObj[0].TestnCommision != '')) {
                         htm += `<span style="float: right;margin-right: 35px;cursor:pointer;" title="Engineering and Test and Commission Added">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 2048 2048" onclick='openEngrNTestCommisionModal("` + item.SysName + `")'>
@@ -736,14 +782,14 @@ function getSystemsNItems() {
                                                                         <th style="width:240px">Item Code</th>
                                                                         <th style="width: 889px;">Item Desc</th>
                                                                         <th>Quantity</th>`
-                    if (res[0].Category == "PIPES") {
-                        htm += `<th>Pipe Unit Price</th>
-                                <th>Fittings %</th>
-                                <th>Installation Unit Price</th>`
-                    } 
+                    //if (res[0].Category == "PIPES") {
+                    //    htm += `<th>Pipe Unit Price</th>
+                    //            <th>Fittings %</th>
+                    //            <th>Installation Unit Price</th>`
+                    //} 
 
-                    htm += `<th>Spare QTY</th>
-                                                                          <th>Action</th>
+                    //htm += `<th>Spare QTY</th>`
+                    htm +=`<th style="text-align: end;">Action</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody class=""> `;
@@ -761,22 +807,21 @@ function getSystemsNItems() {
                                      </svg></span> `+ isOpt + `<div>` + getAlternateItemsDet(1, CatItem.AlternateFromItem, listAlternateItems) + `</div></td>                
                                   <td> `+ CatItem.ItemDesc + `. <div style="margin-top: 22px;">` + getAlternateItemsDet(2, CatItem.AlternateFromItem, listAlternateItems) + `</div></td>                                                                      
                                   <td> `+ numberWithCommas(parseInt(CatItem.Quantity)) + `<div style="margin-top: 22px;"> ` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.Quantity : "") + `</div></td>`
-                        if (res[0].Category == "PIPES") {
-                            htm += `<td> ` + numberWithCommas(fixedtwo(CatItem.PipeUnitPrice)) + `<div style="margin-top: 22px;"> ` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.PipeUnitPrice : "") + `</div></td>
-                                    <td> `+ numberWithCommas(fixedtwo(CatItem.FittingsPerc)) + `<div style="margin-top: 22px;">` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.FittingsPerc : "") + `</div></td > 
-                                    <td> `+ numberWithCommas(fixedtwo(CatItem.InstallUnitPrice)) + `<div style="margin-top: 22px;">` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.InstallUnitPrice : "") + `</div></td>`
-                                    }
+                        //if (res[0].Category == "PIPES") {
+                        //    htm += `<td> ` + numberWithCommas(fixedtwo(CatItem.PipeUnitPrice)) + `<div style="margin-top: 22px;"> ` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.PipeUnitPrice : "") + `</div></td>
+                        //            <td> `+ numberWithCommas(fixedtwo(CatItem.FittingsPerc)) + `<div style="margin-top: 22px;">` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.FittingsPerc : "") + `</div></td > 
+                        //            <td> `+ numberWithCommas(fixedtwo(CatItem.InstallUnitPrice)) + `<div style="margin-top: 22px;">` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.InstallUnitPrice : "") + `</div></td>`
+                        //            }
 
-                        htm += `<td> ` + numberWithCommas(parseInt(CatItem.SpareQuantity)) + `<div style="margin-top: 22px;"> ` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.SpareQuantity : "") + `</div></td>`
+                        //htm += `<td> ` + numberWithCommas(parseInt(CatItem.SpareQuantity)) + `<div style="margin-top: 22px;"> ` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.SpareQuantity : "") + `</div></td>`
                         if (selReqObj[0].EstimationStatus.toUpperCase() != "RELEASED") {
-                            htm += `<td> <a class="ibtn-addfloor-into-items" title="Add Floors" data-estiid="` + CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `"> <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 24 24" onclick="openAddFloorModal(` + CatItem.EstiLineId + `,` + CatItem.ItemCode + `,'` + CatItem.Category + `')">
+                            htm += `<td style="text-align: end;"> <a class="ibtn-addfloor-into-items" title="Add Floors" data-estiid="` + CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `"> <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 24 24" onclick="openAddFloorModal(` + CatItem.EstiLineId + `,` + CatItem.ItemCode + `,'` + CatItem.Category + `')">
                                               <path fill="#a92828" d="M12 9v2h2v2h-2v2h2v2h-2v2h4v-4h4V9zm6 4h-2v-2h2z" opacity="0.3" />
                                               <path fill="#a92828" d="M12 7V3H2v18h14v-2h-4v-2h2v-2h-2v-2h2v-2h-2V9h8v6h2V7zM6 19H4v-2h2zm0-4H4v-2h2zm0-4H4V9h2zm0-4H4V5h2zm4 12H8v-2h2zm0-4H8v-2h2zm0-4H8V9h2zm0-4H8V5h2zm14 12v2h-2v2h-2v-2h-2v-2h2v-2h2v2zm-6-8h-2v2h2zm0 4h-2v2h2z" />
                                           </svg> </a>
                                         <span><i class="bx bxs-trash ibtn-delete-itemtoc" style="font-size: 1.6rem;color: #d64e4e;cursor:pointer;" title="Delete Item" data-estiid="`+ CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `"></i></span>
-              
-
-                                  </td>`
+                                        <span><i class="fa fa-eye ibtn-viewmore-itemtoc" style="font-size: 1.4rem;color: #d64e4e;cursor:pointer;" title="View More Item" data-estiid="`+ CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `" data-category="` + CatItem.Category + `"></i></span>
+                          </td>`
                         }
 
                         htm += `</tr>`
@@ -918,7 +963,12 @@ function TOCByFloorItemUpdate(estilineid, stid,flrname,qtyVal) {
         dataType: "json",
         async: false,
         success: function (result) {
-            toastr.success('Quantity saved successfully', '');            
+            toastr.success('Quantity saved successfully', '');    
+            //$('.ajax-loader').removeClass('hidden');
+            //setTimeout(function () {
+            //    getAllSystemsNItems();
+            //    $('.ajax-loader').addClass('hidden');
+            //}, 500);
         },
         error: function (errormessage) {
             ////alert(errormessage.responseText);
@@ -951,7 +1001,11 @@ function getAllSystemsNItems() {
             $.each(listSystems, function (key, item) {
                 if (key == 0) { // for first record only                    
                     htm += `<div class="col-md-12 mt-3">`;
-                    htm += `<div style="z-index:10;position: sticky;top: -9px;background: #fcfafa; text-align: center; border: 1px solid #b70000; color: black; border-radius: 20px 20px 3px 3px; font-weight: 600; padding: 15px 0px 15px 0px;">` + item
+                    htm += `<div style="z-index:10;position: sticky;top: -9px;background: #fcfafa; text-align: center; border: 1px solid #b70000; color: black; border-radius: 20px 20px 3px 3px; font-weight: 600; padding: 15px 0px 15px 0px;">
+                    <span class="float-left mx-3"><svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 1024 1024" onclick='openCopySystemModal("` + item + `")'>
+	                    <path fill="#b22e35" d="M768 832a128 128 0 0 1-128 128H192A128 128 0 0 1 64 832V384a128 128 0 0 1 128-128v64a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64z" />
+	                    <path fill="#b22e35" d="M384 128a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64zm0-64h448a128 128 0 0 1 128 128v448a128 128 0 0 1-128 128H384a128 128 0 0 1-128-128V192A128 128 0 0 1 384 64" />
+                    </svg></span>` + item
                     if (selReqObj[0].EstimationStatus.toUpperCase() != "RELEASED" && (selReqObj[0].Engineering != '' && selReqObj[0].TestnCommision != '')) {
                         htm += `<span style="float: right;margin-right: 35px;cursor:pointer;" title="Engineering and Test and Commission Added">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 2048 2048" onclick='openEngrNTestCommisionModal("` + item + `")'>
@@ -973,7 +1027,11 @@ function getAllSystemsNItems() {
 
                 if (firstSysName != item) {                    
                     htm += `<div class="col-md-12 mt-3">`;
-                    htm += `<div style="z-index:10;position: sticky;top: -9px;background: #fcfafa; text-align: center; border: 1px solid #b70000; color: black; border-radius: 20px 20px 3px 3px; font-weight: 600; padding: 15px 0px 15px 0px;">` + item
+                    htm += `<div style="z-index:10;position: sticky;top: -9px;background: #fcfafa; text-align: center; border: 1px solid #b70000; color: black; border-radius: 20px 20px 3px 3px; font-weight: 600; padding: 15px 0px 15px 0px;">
+                    <span class="float-left mx-3"><svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 1024 1024" onclick='openCopySystemModal("` + item + `")'>
+	                    <path fill="#b22e35" d="M768 832a128 128 0 0 1-128 128H192A128 128 0 0 1 64 832V384a128 128 0 0 1 128-128v64a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64z" />
+	                    <path fill="#b22e35" d="M384 128a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64zm0-64h448a128 128 0 0 1 128 128v448a128 128 0 0 1-128 128H384a128 128 0 0 1-128-128V192A128 128 0 0 1 384 64" />
+                    </svg></span>` + item
                     if (selReqObj[0].EstimationStatus.toUpperCase() != "RELEASED" && (selReqObj[0].Engineering != '' && selReqObj[0].TestnCommision != '')) {
                         htm += `<span style="float: right;margin-right: 35px;cursor:pointer;" title="Engineering and Test and Commission Added">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 2048 2048" onclick='openEngrNTestCommisionModal("` + item + `")'>
@@ -1005,20 +1063,19 @@ function getAllSystemsNItems() {
                     htm += ` <div class="table mt-2">
                                                             <table class="table project-table" style="width: 100%;">
                                                                 <thead style="position: sticky; top: -3px;">
-                                                                    <tr class="Head-tr">                
-                                                                        <th style="width:5%;">Action</th>
+                                                                    <tr class="Head-tr">     
                                                                         <th style="width:10%;">Item Code</th>
                                                                         <th style="width: 20%;">Item Desc</th>
                                                                         <th style="width: 5%;">Quantity</th>`
-                    if (res[0].Category == "PIPES") {
-                        htm += `<th style="width: 5%;">Pipe Unit Price</th>
-                                <th style="width: 5%;">Fittings %</th>
-                                <th style="width: 5%;">Installation Unit Price</th>`
-                    }
+                    //if (res[0].Category == "PIPES") {
+                    //    htm += `<th style="width: 5%;">Pipe Unit Price</th>
+                    //            <th style="width: 5%;">Fittings %</th>
+                    //            <th style="width: 5%;">Installation Unit Price</th>`
+                    //}
 
-                    htm += `<th style="width: 5%;">Spare QTY</th>
-                            <th style="width: `+ flrDivWdth+`;"> Floors </th>
-                            
+                    //htm += `<th style="width: 5%;">Spare QTY</th>`
+                            htm +=`<th style="width: `+ flrDivWdth+`;"> Floors </th>
+                            <th style="width:5%;">Action</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody class=""> `;
@@ -1026,13 +1083,7 @@ function getAllSystemsNItems() {
                     $.each(res, function (k, CatItem) {
                         isOpt = CatItem.Isoptional == 'True' ? '<span>(Optional)</span>' : '';
                         let optcls = CatItem.Isoptional == 'True' ? 'badge badge-optional' : 'badge badge-dark';
-                        htm += `<tr>`
-                        htm += `<td class="d-flex"> <a class="ibtn-addfloor-into-items" title="Add Floors" data-estiid="` + CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `"> <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 24 24" onclick="openAddFloorModal(` + CatItem.EstiLineId + `,` + CatItem.ItemCode + `,'` + CatItem.Category + `')">
-                                              <path fill="#a92828" d="M12 9v2h2v2h-2v2h2v2h-2v2h4v-4h4V9zm6 4h-2v-2h2z" opacity="0.3" />
-                                              <path fill="#a92828" d="M12 7V3H2v18h14v-2h-4v-2h2v-2h-2v-2h2v-2h-2V9h8v6h2V7zM6 19H4v-2h2zm0-4H4v-2h2zm0-4H4V9h2zm0-4H4V5h2zm4 12H8v-2h2zm0-4H8v-2h2zm0-4H8V9h2zm0-4H8V5h2zm14 12v2h-2v2h-2v-2h-2v-2h2v-2h2v2zm-6-8h-2v2h2zm0 4h-2v2h2z" />
-                                          </svg> </a>
-                                        <span><i class="bx bxs-trash ibtn-delete-itemtoc" style="font-size: 1.6rem;color: #d64e4e;cursor:pointer;" title="Delete Item" data-estiid="`+ CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `"></i></span>              
-                                   </td>`
+                        htm += `<tr>`                        
 
                         htm += `<td> <span class="` + optcls + ` fs-6">` + CatItem.ItemCode + ` <svg class="" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
                                          <g fill="none" stroke="#a92828" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
@@ -1040,17 +1091,24 @@ function getAllSystemsNItems() {
                                              <path d="M9.126 11.694a2.568 2.568 0 1 0 0-5.137a2.568 2.568 0 0 0 0 5.137m3.326 4.392l3.634-3.634" />
                                          </g>
                                      </svg></span> `+ isOpt + `<div>` + getAlternateItemsDet(1, CatItem.AlternateFromItem, listAlternateItems) + `</div></td>                
-                                  <td> <div style="max-height:75px;overflow-y:auto;overflow-x:auto;min-width:200px;">`+ CatItem.ItemDesc + `.</div> <div style="margin-top: 22px;">` + getAlternateItemsDet(2, CatItem.AlternateFromItem, listAlternateItems) + `</div></td>                                                                      
-                                  <td> `+ numberWithCommas(SumOfCommaSepVal(CatItem.Quantity)) + `<div style="margin-top: 22px;"> ` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? SumOfCommaSepVal(CatItem.Quantity) : "") + `</div></td>`
-                        if (res[0].Category == "PIPES") {
-                            htm += `<td> ` + numberWithCommas(fixedtwo(CatItem.PipeUnitPrice)) + `<div style="margin-top: 22px;"> ` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.PipeUnitPrice : "") + `</div></td>
-                                    <td> `+ numberWithCommas(fixedtwo(CatItem.FittingsPerc)) + `<div style="margin-top: 22px;">` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.FittingsPerc : "") + `</div></td > 
-                                    <td> `+ numberWithCommas(fixedtwo(CatItem.InstallUnitPrice)) + `<div style="margin-top: 22px;">` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.InstallUnitPrice : "") + `</div></td>`
-                        }
+                                  <td> <div style="max-height:75px;overflow-y:auto;overflow-x:auto;min-width:200px;">`+ CatItem.ItemDesc + `.</div> <div style="margin-top: 22px;">` + getAlternateItemsDet(2, CatItem.AlternateFromItem, listAlternateItems) + `</div></td>`                                                                      
+                        //          htm +=`<td> `+ numberWithCommas(SumOfCommaSepVal(CatItem.Quantity)) + `<div style="margin-top: 22px;"> ` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? SumOfCommaSepVal(CatItem.Quantity) : "") + `</div></td>`
+                        //if (res[0].Category == "PIPES") {
+                        //    htm += `<td> ` + numberWithCommas(fixedtwo(CatItem.PipeUnitPrice)) + `<div style="margin-top: 22px;"> ` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.PipeUnitPrice : "") + `</div></td>
+                        //            <td> `+ numberWithCommas(fixedtwo(CatItem.FittingsPerc)) + `<div style="margin-top: 22px;">` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.FittingsPerc : "") + `</div></td > 
+                        //            <td> `+ numberWithCommas(fixedtwo(CatItem.InstallUnitPrice)) + `<div style="margin-top: 22px;">` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.InstallUnitPrice : "") + `</div></td>`
+                        //}
 
-                        htm += `<td> ` + numberWithCommas(parseInt(CatItem.SpareQuantity)) + `<div style="margin-top: 22px;"> ` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.SpareQuantity : "") + `</div></td>`
+                        htm += `<td> ` + numberWithCommas((getTotalQty(CatItem.Quantity))) + `</td>`
                         htm += `<td>` + generateFloorsAginstItemsTOC(CatItem.EstiLineId, CatItem.FloorsNameString, CatItem.Quantity) + `</td>`;
 
+                        htm += `<td class="d-flex" style="border-bottom: 0px;"> <a class="ibtn-addfloor-into-items" title="Add Floors" data-estiid="` + CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `"> <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 24 24" onclick="openAddFloorModal(` + CatItem.EstiLineId + `,` + CatItem.ItemCode + `,'` + CatItem.Category + `')">
+                                              <path fill="#a92828" d="M12 9v2h2v2h-2v2h2v2h-2v2h4v-4h4V9zm6 4h-2v-2h2z" opacity="0.3" />
+                                              <path fill="#a92828" d="M12 7V3H2v18h14v-2h-4v-2h2v-2h-2v-2h2v-2h-2V9h8v6h2V7zM6 19H4v-2h2zm0-4H4v-2h2zm0-4H4V9h2zm0-4H4V5h2zm4 12H8v-2h2zm0-4H8v-2h2zm0-4H8V9h2zm0-4H8V5h2zm14 12v2h-2v2h-2v-2h-2v-2h2v-2h2v2zm-6-8h-2v2h2zm0 4h-2v2h2z" />
+                                          </svg> </a>
+                                        <span><i class="bx bxs-trash ibtn-delete-itemtoc" style="font-size: 1.6rem;color: #d64e4e;cursor:pointer;" title="Delete Item" data-estiid="`+ CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `" data-category="` + CatItem.Category + `"></i></span>              
+                                        <span><i class="fa fa-eye ibtn-viewmore-itemtoc" style="font-size: 1.5rem;color: #d64e4e;cursor:pointer;" title="View More Item" data-estiid="`+ CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `" data-category="` + CatItem.Category + `"></i></span>
+                                   </td>`
                         //if (selReqObj[0].EstimationStatus.toUpperCase() != "RELEASED") {
                             //htm += `<td> <a class="ibtn-addfloor-into-items" title="Add Floors" data-estiid="` + CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `"> <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 24 24" onclick="openAddFloorModal(` + CatItem.EstiLineId + `,` + CatItem.ItemCode + `,'` + CatItem.Category + `')">
                             //                  <path fill="#a92828" d="M12 9v2h2v2h-2v2h2v2h-2v2h4v-4h4V9zm6 4h-2v-2h2z" opacity="0.3" />
@@ -1082,6 +1140,13 @@ function getAllSystemsNItems() {
     });
 }
 
+function getTotalQty(paraQty) {
+    var finalVal = 0
+    $.each(removeCommaFromLast(paraQty).split(','), function (key, item) {
+        finalVal += parseInt(item)
+    })
+    return finalVal;
+}
 function SumOfCommaSepVal(paraVal) {
     var finalVal = 0;
     $.each(removeCommaFromLast(paraVal).split(','), function (k,item) {
@@ -1094,13 +1159,84 @@ $(".btn-close-mainreq-modal").on('click', function () {
     $('.system-div-parent-for-byfloor').html('')
 })
 
-$(".system-div-parent,.system-div-parent-for-byfloor").on('click', '.ibtn-delete-itemtoc', function (key, item) {
+$(".system-div-parent,.system-div-parent-for-byfloor").on('click', '.ibtn-delete-itemtoc,.ibtn-viewmore-itemtoc', function (key, item) {
     let itemcode = $(this).data('itemcode');
+    let selCategory = $(this).data('category');
+    var selAction = $(this)[0].title;
 
-    $('.cItemTOC').html('you want to delete the item <b> ' + itemcode +' </b> ?')
-    $(".btn-del-itemtoc-yes").data('estiid', $(this).data('estiid'))
-    $("#delItemTOCModal").modal('show');
+    $('.btnAddViewMoreFieldsData').data('estiid', $(this).data('estiid'))
+
+    if (selAction == "Delete Item") {
+        $('.cItemTOC').html('you want to delete the item <b> ' + itemcode + ' </b> ?')
+        $(".btn-del-itemtoc-yes").data('estiid', $(this).data('estiid'))
+        $("#delItemTOCModal").modal('show');
+    }
+    else if (selAction == "View More Item") {
+        $("#viewMoreItemsInTOCbyFloor").modal('show');
+        if (selCategory.toUpperCase() == "PIPES") { $(".div-for-pipes-fields").removeClass('hidden') }
+        else { $(".div-for-pipes-fields").addClass('hidden') }
+
+        GetViewMoreTocData($(this).data('estiid'))
+
+    }
+    
 })
+
+function GetViewMoreTocData(estid) {
+    $.ajax({
+        url: "EMSItemList.aspx/GetViewMoreTocData",
+        data: JSON.stringify({
+            'EstiId': estid
+        }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            //ListEngnComm = result.d;
+            $("#txtInstallUPrice").val(result.d[0].InstallationUnitPrice);
+            $("#txtPipeUPrice").val(result.d[0].PipeUnitPrice);
+            $("#txtSpareQty").val(result.d[0].SpareQuantity);
+            $("#txtFitPerc").val(result.d[0].FittingPerc);
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+$(".btnAddViewMoreFieldsData").on('click', function () {
+
+    addViewMoreFieldsData($(this).data('estiid'))
+})
+
+function addViewMoreFieldsData(estiid) {
+    $.ajax({
+        url: "EMSItemList.aspx/AddViewMoreItemsData",
+        data: JSON.stringify({
+            'ReqId': selReqId,
+            'EstiLineId': estiid,
+            'InstallUnitPrice': ($("#txtInstallUPrice").val().trim() == undefined || $("#txtInstallUPrice").val().trim() == "") ? 0 : $("#txtInstallUPrice").val().trim(),
+            'SpareQuantity': ($("#txtSpareQty").val().trim() == undefined || $("#txtSpareQty").val().trim() == "") ? 0 : $("#txtSpareQty").val().trim(),
+            'PipeUnitPrice': ($("#txtPipeUPrice").val().trim() == undefined || $("#txtPipeUPrice").val().trim() == "") ? 0 : $("#txtPipeUPrice").val().trim(),
+            'FittingPerc': ($("#txtFitPerc").val().trim() == undefined || $("#txtFitPerc").val().trim() == "") ? 0 : $("#txtFitPerc").val().trim()
+        }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            toastr.success("Updated successfully", '');
+            $("#engrNTestCommisoinModal").modal('hide');
+            getSystemsNItems();
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+
 $(".btn-del-itemtoc-yes").on('click', function (key, item) {
     let estilineid = $(this).data('estiid');
 
@@ -1513,6 +1649,11 @@ function addItemsTOC(paraItems) {
 function openEngrNTestCommisionModal(sysName) {
     $(".btnAddEngrTestnCommision").data("sysname", sysName)
     $("#txtEngineering,#txtTestnCommision").val(0);
+
+    if (sysName.toUpperCase() == "Additional Accessories for Fire Pump".toUpperCase()) { $(".field-for-firepump").removeClass('hidden') }
+    else { $(".field-for-firepump").addClass('hidden') }
+
+    $("#txtEngineering,#txtTestnCommision").val(0);
     $("#engrNTestCommisoinModal").modal('show');
     GetEngnTest(sysName);
 }
@@ -1528,7 +1669,10 @@ function AddEngrnCommision(pSysName) {
             'ReqId': selReqId,
             'SystemName': pSysName,
             'Engineering': $("#txtEngineering").val().trim(),
-            'TestnCommision': $("#txtTestnCommision").val().trim()
+            'TestnCommision': $("#txtTestnCommision").val().trim(),
+            'InstallCost': ($("#txtInstallCost").val().trim() == undefined || $("#txtInstallCost").val().trim() == "") ? 0 : $("#txtInstallCost").val().trim() ,
+            'MaterialCost': ($("#txtMaterialCost").val().trim() == undefined || $("#txtMaterialCost").val().trim() == "") ? 0 : $("#txtMaterialCost").val().trim(),
+            'ManHours': ($("#txtManHours").val().trim() == undefined || $("#txtManHours").val().trim() == "") ? 0 : $("#txtManHours").val().trim()
         }),
         type: "POST",
         contentType: "application/json;charset=utf-8",
@@ -1560,6 +1704,9 @@ function GetEngnTest(pSysName) {
             ListEngnComm = result.d;
             $("#txtEngineering").val(result.d[0].Engineering);
             $("#txtTestnCommision").val(result.d[0].TestnComm);
+            $("#txtInstallCost").val(result.d[0].InstallCost);
+            $("#txtMaterialCost").val(result.d[0].MaterialCost);
+            $("#txtManHours").val(result.d[0].ManHours);
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -1586,12 +1733,12 @@ function GetEngnTest(pSysName) {
 //            $.each(itemlistTOC, function (key, item) {
 //                let attr = "";//item[0].IsTypical == "True" ? "checked" : "";
 //                htm += `<tr>
-//                    <td> 
+//                    <td>
 //                        <div style="display: flex;justify-content: center;">
-//                            <input class="form-check-input position-relative" type="checkbox" name="cbIsTypical" value="`+ item.ItemId + `" id="cbTypical-` + item.ItemId + `" data-itemid=` + item.ItemId + ` ` + attr + ` /> 
+//                            <input class="form-check-input position-relative" type="checkbox" name="cbIsTypical" value="`+ item.ItemId + `" id="cbTypical-` + item.ItemId + `" data-itemid=` + item.ItemId + ` ` + attr + ` />
 //                        </div>
-//                    </td>                 
-//                    <td> `+ item.ItemCode + ` </td>                 
+//                    </td>
+//                    <td> `+ item.ItemCode + ` </td>
 //                    <td> `+ item.ItemDesc + `</td>
 //                    <td> `+ item.System + `</td>
 //                    <td> `+ item.Category + `</td>`
@@ -1606,4 +1753,41 @@ function GetEngnTest(pSysName) {
 //        }
 //    });
 //}
+
+function openCopySystemModal(Name) {
+    $(".btnCopySystem").data("sysname", Name)
+    $("#modalCopySystem").modal('show');
+    $("#txtCopySystem").val(Name);
+}
+
+$(".btnCopySystem").on('click', function () {
+
+    CopySystem($(this).data('sysname'))
+})
+
+function CopySystem(pSysName) {
+    $.ajax({
+        url: "EMSItemList.aspx/CopySystem",
+        data: JSON.stringify({
+            'UserId': currUserId,
+            'ReqId': selReqId,
+            'SystemName': pSysName,
+            'NewSystemName': $("#txtSystemNewName").val()
+        }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            toastr.success("System has been copied successfully!", '');
+            $("#modalCopySystem").modal('hide');
+            getSystemsNItems();
+            getAllSystemsNItems();
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
 
