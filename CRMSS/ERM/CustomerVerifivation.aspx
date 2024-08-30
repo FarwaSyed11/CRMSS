@@ -466,6 +466,8 @@
                                 <th>City</th>
                                 <th>Address</th>
                                 <th>Status</th>
+                                <th>Salesman</th>
+                                <th style="display:none;">Created By</th>
                                 <th>Created By</th>
                                 <th>Created Date</th>
                                 <th>Remarks</th>
@@ -640,6 +642,69 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="ConfirmationApprovePopup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: #19191973; padding-bottom: 15%;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-body" style="text-align: center;">
+                    <div class="Acc-Req"><i class="bx bx bx-check-circle fa-del-kpi" title="View More" style="cursor: pointer; padding-right: 10px; font-size: 80px; color: #e14b4b; color: #0dcb0d;"></i></div>
+                   
+                    <div>
+                        <h3>Are you sure?</h3>
+                    </div>
+                    <div class="Acc-Req">
+                        Do You Really Want To Approve this Request
+                    </div>
+                  
+                </div>
+                <div class="row">
+
+                    <label font-size="Medium" font-bold="true" style="margin-left: 3%">Comment</label>
+                    <input type="text" id="txtActionApproveReq" class="form-control" style="margin-left: 5%; width: 90%;" />
+
+                </div>
+                <div class="modal-footer">
+                    <div style="margin-right: 165px; padding-top: 18px;">
+                        <asp:LinkButton ID="btnNo" runat="server" class="btn btn-secondary" data-bs-dismiss="modal">NO</asp:LinkButton>
+                        <button type="button" id="btnApprove" class="btn btn-primary btn-delete-act">Approve</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="ConfirmrejectPopup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: #19191973;padding-bottom:15%;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-body" style="text-align: center;">
+
+                 <div class="Rej-Req"><i class="bx bx bx-x-circle fa-del-kpi" title="View More" style="cursor: pointer; padding-right: 10px; font-size: 80px; color: #e14b4b;color:red;"></i></div>
+                <div>
+                    <h3>Are you sure?</h3>
+                </div>
+             
+                <div class="Rej-Req">
+                  Do You Really Want To Reject this Request
+                    </div>
+            </div>
+            <div class="row">
+
+                <label Font-Size="Medium" Font-Bold="true" style="margin-left:3%">Comment</label>
+                 <input type="text" id="txtActionRejectReq" class="form-control" style="margin-left:5%; width:90%;"/>
+
+            </div>
+            <div class="modal-footer">
+                <div style="margin-right: 165px;padding-top:18px;">
+                    <asp:LinkButton ID="btnNoReject" runat="server" class="btn btn-secondary" data-bs-dismiss="modal">NO</asp:LinkButton>
+                    <button type="button" ID="btnReject" class="btn btn-primary btn-delete-act">YES</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
     <script type="text/javascript">

@@ -5,6 +5,9 @@ var listItemViseReports = [];
 var AllItemCategory = [];
 var listAlternateItems = [];
 var sysTotPipeFittings = 0, sysTotInstallation = 0, sysTotEngineering = 0, sysTotTestnComm = 0;
+var sysMaterial = 0;
+var sysInstall = 0;
+
 function summaryThead() {
 
     var summaryTheadd = ``;
@@ -24,15 +27,15 @@ function summaryThead() {
                                                 </tr>
                                             </thead>
                                             
-                                            `+ SummaryReports() +`
+                                            `+ SummaryReports() + `
                                             </tbody>
                                         </table>
                                         <table>
                                             <div class="float-right w-50">
-                                                <div class="p-0"><label class="border w-50 m-0 p-3">Total Consumables</label> <label class="border w-50 p-3 m-0 float-right">`+ numberWithCommas(fixedtwo(sysTotPipeFittings)) +`</label></div>
-                                                <div class="p-0"><label class="border w-50 m-0 p-3">Total Installation</label> <label class="border w-50 p-3 m-0 float-right">`+ numberWithCommas(fixedtwo(sysTotInstallation)) +`</label></div>
-                                                <div class="p-0"><label class="border w-50 m-0 p-3">Total Engineering</label> <label class="border w-50 m-0 p-3 float-right">`+ numberWithCommas(fixedtwo(sysTotEngineering)) +`</label></div>
-                                                <div class="p-0"><label class="border w-50 m-0 p-3">Total Testing & Commssioning</label> <label class="border w-50 m-0 p-3 float-right">`+ numberWithCommas(fixedtwo(sysTotTestnComm)) +`</label></div>
+                                                <div class="p-0"><label class="border w-50 m-0 p-3">Total Consumables</label> <label class="border w-50 p-3 m-0 float-right">`+ numberWithCommas(fixedtwo(sysTotPipeFittings)) + `</label></div>
+                                                <div class="p-0"><label class="border w-50 m-0 p-3">Total Installation</label> <label class="border w-50 p-3 m-0 float-right">`+ numberWithCommas(fixedtwo(sysTotInstallation)) + `</label></div>
+                                                <div class="p-0"><label class="border w-50 m-0 p-3">Total Engineering</label> <label class="border w-50 m-0 p-3 float-right">`+ numberWithCommas(fixedtwo(sysTotEngineering)) + `</label></div>
+                                                <div class="p-0"><label class="border w-50 m-0 p-3">Total Testing & Commssioning</label> <label class="border w-50 m-0 p-3 float-right">`+ numberWithCommas(fixedtwo(sysTotTestnComm)) + `</label></div>
                                             </div>
                                         </table>
                                     </div>
@@ -57,6 +60,12 @@ function selectedReq(selReqId) {
 
 function SummaryReports() {
     var htm2return = ``;
+    var sysPipenFittings = 0;
+    var sysInstallation = 0;
+    var sysEngineering = 0;
+    var sysTestnComm = 0;
+    var totMaterialCost = 0;
+    var totInstallationCost = 0;
     $.ajax({
         url: "EMSItemList.aspx/Reports",
         type: "POST",
@@ -71,25 +80,36 @@ function SummaryReports() {
             listSummaryReports = [];
             listSummaryReports = result.d.listSummary;
             var htm = '';
-            
+            sysTotPipeFittings = 0, sysTotInstallation = 0, sysTotEngineering = 0, sysTotTestnComm = 0;
+            sysMaterial = 0;
+            sysInstall = 0;
             $.each(listSummaryReports, function (key, item) {
                 htm += `<tbody class="summary-tbody"><tr>
                 <td>`+ item.Name + `</td>
-                <td>`+ item.Equipment + `</td>
-                <td>`+ numberWithCommas(fixedtwo(item.PipeFittings)) + `</td>
-                <td>`+ numberWithCommas(fixedtwo(item.Installation)) + `</td>
-                <td>`+ numberWithCommas(fixedtwo(item.Engineering)) + `</td>
+                <td>`+ item.Equipment + `</td>`
+
+                htm += `<td>` + numberWithCommas(fixedtwo(parseFloat(item.PipeFittings) + parseFloat(item.MaterialCost))) + `</td>`
+                htm += `<td>` + numberWithCommas(fixedtwo(parseFloat(item.Installation) + parseFloat(item.InstallationCost))) + `</td>`
+                htm += `<td>` + numberWithCommas(fixedtwo(item.Engineering)) + `</td>
                 <td>`+ numberWithCommas(fixedtwo(item.TestingnCommissioning)) + `</td>
-                <td></td>
-                <td>`+ numberWithCommas(fixedtwo(parseFloat(item.PipeFittings) + parseFloat(item.Installation) + parseFloat(item.Engineering) + parseFloat(item.TestingnCommissioning))) + `</td>`
+                <td></td>`
+
+                htm += `<td>` + numberWithCommas(fixedtwo(parseFloat(item.PipeFittings) + parseFloat(item.Installation) + parseFloat(item.Engineering) + parseFloat(item.TestingnCommissioning) + parseFloat(item.MaterialCost) + parseFloat(item.InstallationCost))) + `</td>`
+
+
                 htm += `</tr><tbody>`
                 sysTotPipeFittings += parseFloat(item.PipeFittings);
                 sysTotInstallation += parseFloat(item.Installation);
                 sysTotEngineering += parseFloat(item.Engineering);
                 sysTotTestnComm += parseFloat(item.TestingnCommissioning);
+                sysMaterial += parseFloat(item.MaterialCost);
+                sysInstall += parseFloat(item.InstallationCost);
             });
-
+            sysTotPipeFittings = sysTotPipeFittings + parseFloat(sysMaterial);
+            sysTotInstallation = sysTotInstallation + parseFloat(sysInstall);
+            //InstallationCost = parseFloat(sysItem.InstallationCost) == undefined ? 0 : parseFloat(sysItem.InstallationCost);
             htm2return += htm;
+            sysInstall = 0;
         },
         // <td>`+ item.OverHead + `</td>
         error: function (errormessage) {
@@ -132,7 +152,7 @@ function ItemviseReports() {
                 stritem = removeSpace(item);
                 AllItemCategory = listItemViseReports.filter(x => x.Name == item).map(ss => ss.Category).filter((value, index, self) => self.indexOf(value) === index);
                 if (key == 0 && SysName == item) {//for first time only
-                    htmLi +=`
+                    htmLi += `
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="pillsumm-` + key + `-li" data-bs-toggle="pill" data-bs-target="#pillsumm-` + key + `-tab" type="button" role="tab" aria-controls="pillsumm-` + key + `-tab" aria-selected="false">` + item + `</button>
                             </li>`
@@ -168,7 +188,7 @@ function ItemviseReports() {
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link" id="pillsumm-` + key + `-li" data-bs-toggle="pill" data-bs-target="#pillsumm-` + key + `-tab" type="button" role="tab" aria-controls="pillsumm-` + key + `-tab" aria-selected="false">` + item + `</button>
                             </li>`
-                    htmTab +=  `
+                    htmTab += `
                                 <div class="tab-pane fade" id="pillsumm-` + key + `-tab" role="tabpanel" aria-labelledby="pillsumm-` + key + `-tab">
                                                        
                                     <div class="table">
@@ -193,9 +213,9 @@ function ItemviseReports() {
                                 </div>`
                 }
 
-               
+
             });
-            
+
             $('#pills-repocontent').html(htmTab);
             $('#pills-tab-repots').html(htmLi);
         },
@@ -207,12 +227,12 @@ function ItemviseReports() {
 }
 
 $('#nav-Summary-tab').on('click', function () {
-  
-    
+
+
 });
 
 $('.btn-generate-summary').on('click', function () {
-    
+
     $("#modalSummary").modal("show");
     $("#addReqModal").modal("hide");
     ItemviseReports();
@@ -248,45 +268,48 @@ function strItemDeets(item) {
             }
             htm += `<tr>
                     <td></td>
-                    <td> <span class="` + optcls + ` fs-6">`+ sysItem.ItemCode + ` <svg class="" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
+                    <td> <span class="` + optcls + ` fs-6">` + sysItem.ItemCode + ` <svg class="" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
                             <g fill="none" stroke="#a92828" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
                                 <path d="m17.524 17.524l-2.722 2.723a2.567 2.567 0 0 1-3.634 0L4.13 13.209A3.852 3.852 0 0 1 3 10.487V5.568A2.568 2.568 0 0 1 5.568 3h4.919c1.021 0 2 .407 2.722 1.13l7.038 7.038a2.567 2.567 0 0 1 0 3.634z" />
                                 <path d="M9.126 11.694a2.568 2.568 0 1 0 0-5.137a2.568 2.568 0 0 0 0 5.137m3.326 4.392l3.634-3.634" />
                             </g>
-                        </svg></span> `+ isOpt + ` <div>` + getAlternateItemsDetReport(1, sysItem.AlternateFromItem, listAlternateItems) +`</div>
+                        </svg></span> `+ isOpt + ` <div>` + getAlternateItemsDetReport(1, sysItem.AlternateFromItem, listAlternateItems) + `</div>
                     </td>
-                    <td>`+ sysItem.Desc + `. <div style="margin-top: 12px;">` + getAlternateItemsDetReport(2, sysItem.AlternateFromItem, listAlternateItems) +`</div></td>
+                    <td>`+ sysItem.Desc + `. <div style="margin-top: 12px;">` + getAlternateItemsDetReport(2, sysItem.AlternateFromItem, listAlternateItems) + `</div></td>
                     
-                    <td>`+ parseInt(sysItem.Quantity) +`</td>
-                    <td>`+ parseInt(sysItem.Spare) +`</td>
+                    <td>`+ parseInt(sysItem.Quantity) + `</td>
+                    <td>`+ parseInt(sysItem.Spare) + `</td>
                     <td class="text-center">`+ numberWithCommas(fixedtwo(sysItem.PipeFittingsUP)) + `</td>
                     <td class="text-center">`+ numberWithCommas(fixedtwo(sysItem.TOTPipeFittings)) + `</td>
-                    <td class="text-center">`+ numberWithCommas(fixedtwo(sysItem.Installation))   + `</td>
+                    <td class="text-center">`+ numberWithCommas(fixedtwo(sysItem.Installation)) + `</td>
                     <td class="text-center">`+ numberWithCommas(fixedtwo(sysItem.TOTInstallation)) + `</td>
                     <td class="text-center">`+ numberWithCommas(fixedtwo((sysItem.TOTInstallation) + (sysItem.TOTPipeFittings))) + `</td></tr>
                     `
+            MaterialCost = parseFloat(sysItem.MaterialCost) == undefined ? 0 : parseFloat(sysItem.MaterialCost);
+            InstallationCost = parseFloat(sysItem.InstallationCost) == undefined ? 0 : parseFloat(sysItem.InstallationCost);
             totpf = (parseFloat(sysItem.TOTPipeFittings) == undefined ? 0 : parseFloat(sysItem.TOTPipeFittings)) + parseFloat(totpf);
             totins = (parseFloat(sysItem.TOTInstallation) == undefined ? 0 : parseFloat(sysItem.TOTInstallation)) + parseFloat(totins);
             Engineering = parseFloat(sysItem.Engineering);
             Installation = (parseFloat(sysItem.TOTInstallation) == undefined ? 0 : parseFloat(sysItem.TOTInstallation)) + parseFloat(Installation);
             TestnComm = parseFloat(sysItem.TestingnCommissioning);
-            if (item == 'Additional Accessories for Fire Pump') {
-                MaterialCost = parseFloat(sysItem.MaterialCost) == undefined ? 0 : parseFloat(sysItem.MaterialCost);
-                InstallationCost = parseFloat(sysItem.InstallationCost) == undefined ? 0 : parseFloat(sysItem.InstallationCost);
-            }
-            
+            //if (item == 'Additional Accessories for Fire Pump') {
+            //    MaterialCost = parseFloat(sysItem.MaterialCost) == undefined ? 0 : parseFloat(sysItem.MaterialCost);
+            //    InstallationCost = parseFloat(sysItem.InstallationCost) == undefined ? 0 : parseFloat(sysItem.InstallationCost);
+            //}
         });
-        if (item == 'Additional Accessories for Fire Pump') {
-            totpf = totpf + MaterialCost;
-            Installation = totins + InstallationCost
-        }
-        allTOT = totpf + totins + Engineering + TestnComm;
-        
+
         //allTOT = totpf + totins;
     }
+    //if (item == 'Additional Accessories for Fire Pump') {
+    //    totpf = totpf + MaterialCost;
+    //    Installation = totins + InstallationCost
+    //}
+    totpf = totpf + parseFloat(MaterialCost);
+    Installation = Installation + parseFloat(InstallationCost);
+    allTOT = totpf + Installation + Engineering + TestnComm;
     htm += `` + summaryHTMLfooter(Engineering, TestnComm, allTOT, Installation, totpf) + ``
     return htm;
-  
+
 }
 
 function getAlternateItemsDetReport(col, itmcode, listAlternateItems) {

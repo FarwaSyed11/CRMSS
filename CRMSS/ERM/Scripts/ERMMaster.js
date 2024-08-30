@@ -2397,7 +2397,7 @@ function RequestedProductDetails() {
                                               <option value="LOW" >LOW</option>
                                     </select> </td>`;
                             }
-
+                            htm += `  <td class="hidden">` + item.Priority + `</td>`;
                             if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status=='Pending For Estimation Head Approval'){
                                 htm += ` <td>  <input type="number"   class="form-control" id=` + txtHours + `  value="`+item.Hours+`"  /> </td>`;
                             }
@@ -2436,14 +2436,18 @@ function RequestedProductDetails() {
                 let LineID = item.children[0].textContent.trim();
                 let ddlname = "ddl-" + LineID;
                 let ddlEstimator = "ddlEstimator-" + LineID;
+                let ddlPriority = "ddlPriority-" + LineID;
                 let EstimationHead = item.children[4].textContent.trim();
                 let Estimator = item.children[6].textContent.trim();
+                let prty = item.children[9].textContent.trim();
                 GetEstTeamLeaderForProduct(ddlname, item.children[1].textContent.trim());
                 GetEstimatorForProduct(ddlEstimator, item.children[1].textContent.trim(), EstimationHead);
                 $("#" + ddlname + "").val(EstimationHead);
                 if (Estimator != "") {
                     $("#" + ddlEstimator + "").val(Estimator);
                 }
+
+                $("#" + ddlPriority + "").val(prty);
 
             });
 
@@ -2475,7 +2479,7 @@ $('.tbody-Product-list').on('click','.Update-Product-Details', function () {
     EstTeam = $('#' + this.parentNode.parentNode.children[3].children[0].id).val();
     Estimator = $('#' + this.parentNode.parentNode.children[5].children[0].id).val();
     Priority = $('#' + this.parentNode.parentNode.children[8].children[0].id).val();
-    NoofHoursRequired = $('#' + this.parentNode.parentNode.children[9].children[0].id).val();
+    NoofHoursRequired = $('#' + this.parentNode.parentNode.children[10].children[0].id).val();
     if (Estimator == '-1' && EstTeam == EmpNo.toUpperCase()) {
         toastr.error('Please Select Estimator..', '');
     }
@@ -2534,6 +2538,9 @@ function SaveEstimationProduct(ReqNumber, Product, Remarks, status, OwnerIdOpt) 
 
                 var drpName = 'ddl-' + item.LineID;
                 var ddlEstimator = 'ddlEstimator-' + item.LineID;
+                var ddlPriority = 'ddlPriority-' + item.LineID;
+                var txtHours = 'txtHours-' + item.LineID;
+
 
                 htm += `<tr style="text-align: center;">
                             <td class="hidden">`+ item.LineID + `</td>
@@ -2570,13 +2577,14 @@ function SaveEstimationProduct(ReqNumber, Product, Remarks, status, OwnerIdOpt) 
                             }
                             else {
                                 htm += `<td> <select class="form-select" id=` + ddlPriority + ` disabled>
-                                     <option value="-1" `+item.Priority.trim()=='-1'?'selected' : ''+`>--SELECT---</option>
-                                     <option value="HEIGH" `+item.Priority.trim()=='HIGH'?'selected' : ''+`>HEIGH</option>
-                                          <option value="MEDIUM" `+item.Priority.trim()=='MEDIUM'?'selected' : ''+`>MEDIUM</option>
-                                              <option value="LOW" `+item.Priority.trim()=='LOW'?'selected' : ''+`>LOW</option>
+                                      <option value="-1" selected>--SELECT---</option>
+                                     <option value="HEIGH">HEIGH</option>
+                                          <option value="MEDIUM">MEDIUM</option>
+                                              <option value="LOW" >LOW</option>
                                     </select> </td>`;
                             }
-
+                
+                            htm += `  <td class="hidden">` + item.Priority + `</td>`;
                             if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status=='Pending For Estimation Head Approval'){
                                 htm += ` <td>  <input type="number"   class="form-control" id=` + txtHours + `  value="`+item.Hours+`"  /> </td>`;
                             }

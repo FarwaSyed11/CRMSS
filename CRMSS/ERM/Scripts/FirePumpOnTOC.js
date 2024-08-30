@@ -1,4 +1,6 @@
-﻿//START-------------------On TOC Side------------------//
+﻿//---------
+//---------
+//START-------------------On TOC Side------------------//
 
 
 $(document).ready(function () {
@@ -17,18 +19,21 @@ var listPumpReqs = [];
 var objDatatableFPReq = [];
 var listPumpReqsView = [];
 var objDTViewReq = [];
-var PumpMainReqID = 0;
+var PumpMainReqID = 0, ItemID =0;
 function selectedReq(selFpReqId) {
     selRequest = selFpReqId;
 }
 
 $('.btn-add-firepump').on('click', function () {
     $('#modalAddFirepumpReq').modal('show');
+    
     if (myroleList.includes("14213")) {
         $("#btnAddFirePumpItem").addClass("hidden");
     }
     //initiateDataTableFPRequests();
     ViewRequests();
+    GetFPumpAttachDetails()
+    $('.tbody-added-firepumpreqs tr td:eq(0)').length == 0 ? $(".fpumpFilesDiv").addClass('hidden') : $(".fpumpFilesDiv").removeClass('hidden');
 })
 $('#btnSubmit').on('click', function () {
     $('#btnAddFirePumpItem').addClass("hidden");
@@ -100,9 +105,9 @@ function newPumponLine() {
             "DQTY": $("input[name=qty2]").val(),
             "JQTY": $("input[name=qty3]").val(),
             "Direction": $("input[name=TypeofPump]").val(),
-            "PumpSpecs": isSpecAttached,
-            "ListofMake": isListofMake,
-            "PumpSched": isPumpSched
+            "PumpSpecs": ($("input[name=isAttached]").is(":checked") ? 1 : 0) ,
+            "ListofMake": ($("input[name=isListofMake]").is(":checked") ? 1 : 0),
+            "PumpSched": ($("input[name=isPumpSched]").is(":checked") ? 1 : 0)
         }),
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -114,6 +119,7 @@ function newPumponLine() {
             $(".pumpLine").html('');
             toastr.success("Pump Requested Successfully!");
             ViewRequests();
+            $('.tbody-added-firepumpreqs tr td:eq(0)').length == 0 ? $(".fpumpFilesDiv").addClass('hidden') : $(".fpumpFilesDiv").removeClass('hidden')
         },
         error: function (errormessage) {
         }
@@ -195,6 +201,7 @@ function ViewRequests() {
                             <circle cx="12" cy="12" r="10" stroke-width="1.5" />
                         </g>
                   </svg>
+                    <span class="position-absolute ml-1"> <i class="bx bxs-trash struct-edit hide-control-bos" style="color:#d54832;font-size: 1.9rem;" onclick="openModDelDeleteFP(` + item.ItemID + `,`+item.ReqID+`)"></i></span>
                   </td>`;
 
                 htm += `</tr>`;
@@ -220,6 +227,37 @@ function initiateDataTableFPRequests() {
             { "orderable": true, "targets": [] }
         ],
         /*   order: [[0, 'ASC']]*/
+    });
+}
+
+function openModDelDeleteFP(itemidPk, pumpReqId) {
+    $("#deleteFPReqModal").modal('show');
+    $(".btn-del-fpump-yes").data('itemid', itemidPk);
+    $(".btn-del-fpump-yes").data('pumpreqid', pumpReqId);
+}
+$(".btn-del-fpump-yes").on('click', function () {
+
+    deletePumpRec($(this).data('itemid'), $(this).data('pumpreqid'))
+})
+
+function deletePumpRec(itmid, pumpreqid) {
+    $.ajax({
+        url: "EMSItemList.aspx/DeletePumpMainReq",
+        type: "POST",
+        data: JSON.stringify({
+            "PumpItemId": itmid,
+            "PumpReqId": pumpreqid,
+        }),
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            toastr.success('Pump deleted successfully','')
+            ViewRequests()
+            $('.tbody-added-firepumpreqs tr td:eq(0)').length == 0 ? $(".fpumpFilesDiv").addClass('hidden') : $(".fpumpFilesDiv").removeClass('hidden');
+        },
+        error: function (errormessage) {
+        }
     });
 }
 
@@ -450,6 +488,137 @@ function createPumpLineHTML() {
 
 }
 
+
+
+
+// Firepump File upload
+
+$('#btnAddAttachFPump-Grid').on('click', function () {
+
+    ClearAttachment();
+    $('#FPumpFileUploadModal').modal('show');
+
+});
+function ClearAttachment() {
+    $('#txtAttachmentComment').val('');
+    $('#FUFPumpAttach').val('');
+}
+
+$('#btnUploadFPump').on('click', function () {
+    if ($('#FUFPumpAttach')[0].files.length != 0 && $('#txtCommFpump').val().trim() != "") {
+        uploadTaskAttach();
+    } else {
+        toastr.error('Required All Fields. ', '');
+    }
+
+});
+
+
+function uploadTaskAttach() {
+
+    var formData = new FormData();
+    var fileUpload = $('#FUFPumpAttach').get(0);
+    var files = fileUpload.files;
+    for (var i = 0; i < files.length; i++) {
+        console.log(files[i].name);
+        formData.append(files[i].name, files[i]);
+    }
+    let comment = $("#txtCommFpump").val();
+    let aaa = 33;
+
+    var reqid = $('.tbody-added-firepumpreqs tr td:eq(0)').length == 0 ? 0 : $('.tbody-added-firepumpreqs tr td:eq(0)').text().trim()
+
+    var qrystringLocal = 'https://crmss.naffco.com/CRMSS/ERM/Services/FileUploadEMSReq.ashx?fufor=firepumpfromtoc&reqid=' + reqid + '&userid=' + currUserId + '&comment=' + comment;
+   // var qrystringLocal = '../ERM/Services/FileUploadEMSReq.ashx?fufor=firepumpfromtoc&reqid=' + $('.tbody-added-firepumpreqs tr td:eq(0)').text().trim() + '&userid=' + currUserId + '&comment=' + comment;    
+
+    let sURL = 'TestFoCalendar.aspx/Upload';
+
+    //var formData = new FormData();
+    //formData.append('file', $('#f_UploadImage')[0].files[0]);
+    $.ajax({
+        type: 'post',
+        url: qrystringLocal,
+        data: formData,
+        //xhr: function () {  // Custom XMLHttpRequest
+        //    var myXhr = $.ajaxSettings.xhr();
+        //    if (myXhr.upload) { // Check if upload property exists
+        //        //update progressbar percent complete
+        //        statustxt.html('0%');
+        //        // For handling the progress of the upload
+        //        myXhr.upload.addEventListener('progress', progressHandlingFunction, false);
+
+        //    }
+        //    return myXhr;
+        //},
+        success: function (status) {
+            if (status != 'error') {
+                var my_path = "MediaUploader/" + status;
+                toastr.success('File has been Uploaded Successfully. ', '');
+                GetFPumpAttachDetails();
+                $("#FPumpFileUploadModal").modal('hide');
+            }
+        },
+        processData: false,
+        contentType: false,
+        error: function () {
+            alert("Whoops something went wrong!");
+        }
+    });
+
+}
+
+
+function GetFPumpAttachDetails() {
+
+    var reqid = $('.tbody-added-firepumpreqs tr td:eq(0)').length == 0 ? 0 : $('.tbody-added-firepumpreqs tr td:eq(0)').text().trim()
+    $.ajax({
+        url: "EMSItemList.aspx/GetFPumpAttachDetails",
+        data: JSON.stringify({ "ReqId": reqid }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+
+            var htm = '';
+            var ProjectDetails = result.d;
+            var urlService = '';
+
+
+            $.each(ProjectDetails, function (key, item) {
+
+                urlService = 'Services/DownloadFile.ashx?attachurl=' + item.URL;  // for production
+                htm += `<tr>        
+               
+
+                  <td style="text-align:center;display:none;">`+ item.ID + `</td>
+                  <td style="text-align:center;">`+ item.FileName + `</td>
+                  <td style="text-align:center;">`+ item.AttachComment + `</td>
+                   <td style="text-align:center;display:none">`+ item.URL + `</td>
+                   <td style="text-align:center;">
+                   <a href="`+ urlService + `" download="` + item.FileName + `" type="button" class="AttatchmentDownload" title="Download" >
+                   <img src="images/icons8-download-48.png" title="Download" class="fa-icon-hover ibtn-Download-Details" style="cursor: pointer; width: 34px;" />
+                </a></td>`;
+
+
+
+                htm += `</tr>`;
+                /*    <i class="fa-solid fa-eye"></i>*/
+
+            });
+            $('.tbody-FPumpAttach-list').html(htm);
+
+
+        },
+        //complete: function () {
+        //    $('.ajax-loader').hide();
+        //},
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
 
 
 

@@ -80,6 +80,8 @@ public partial class ERM_CustomerVerifivation : System.Web.UI.Page
                 ind.SubCategory = dt.Rows[i]["SubCategory"].ToString();
                 ind.ID = dt.Rows[i]["RequestNumber"].ToString();
                 ind.OwnerId = dt.Rows[i]["OwnerId"].ToString();
+                ind.Salesman = dt.Rows[i]["Salesman"].ToString();
+                ind.RequestedBy = dt.Rows[i]["RequestedBy"].ToString();
 
                 listProjDet.Add(ind);
             }
@@ -91,7 +93,7 @@ public partial class ERM_CustomerVerifivation : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static Boolean RequestStatusUpdate( string Status, string UserId, string RequestNumber)
+    public static Boolean RequestStatusUpdate( string Status, string UserId, string RequestNumber,string Comments)
     {
         try
         {
@@ -114,6 +116,9 @@ public partial class ERM_CustomerVerifivation : System.Web.UI.Page
 
             pa.Add("@Status");
             pv.Add(Status);
+
+            pa.Add("@Remarks");
+            pv.Add(Comments);
 
             DBH.CreateDatasetERM_Data(ds, "sp_EMSCustomerVerification", true, pa, pv);
             return true;
@@ -142,6 +147,8 @@ public partial class ERM_CustomerVerifivation : System.Web.UI.Page
         public string OwnerId { get; set; }
         public string Remarks { get; set; }
         public string SubCategory { get; set; }
+        public string Salesman { get; set; }
+        public string RequestedBy { get; set; }
 
     }
 }

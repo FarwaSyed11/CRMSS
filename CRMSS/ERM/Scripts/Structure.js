@@ -159,6 +159,7 @@ function AddStructure() {
 $('#nav-Structure-tab').on('click', function () {
     ViewStructure();
     generateHTMLForStruct();
+    hideNShowControlsAccToStatus();
 });
 function ViewStructure() {
 
@@ -200,8 +201,8 @@ function generateHTMLForStruct(){
         htm +=`<h2 class="card-header" id="heading`+ item.prjNumber + `-` + item.StructureID + `">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse` + item.StructureID + `" aria-expanded="false" aria-controls="collapse` + item.StructureID + `" style="color: #000000;text-transform: capitalize;">` + (key + 1) + `.  ` + item.StructureName + `<span class="position-absolute" style="right: 80px;"> Total Floors:  ` + item.TotalNumberOfFloor + `</span>`
         if (res[0].EstimationStatus.toUpperCase() != "RELEASED") {
-            htm += `<span class="position-absolute" style="right: 214px;"> <i class="bx bx-edit-alt struct-edit" style="color:#1eb0d0;font-size: 1.9rem;" onclick="openModalEditStruct(` + item.StructureID + `)"></i></span>`
-            htm += `<span class="position-absolute" style="right: 249px;"> <i class="bx bxs-trash struct-edit" style="color:#d54832;font-size: 1.9rem;" onclick="openModalDeleteStruct(` + item.StructureID + `)"></i></span>`
+            htm += `<span class="position-absolute" style="right: 214px;"> <i class="bx bx-edit-alt struct-edit hide-control-bos" style="color:#1eb0d0;font-size: 1.9rem;" onclick="openModalEditStruct(` + item.StructureID + `)"></i></span>`
+            htm += `<span class="position-absolute" style="right: 249px;"> <i class="bx bxs-trash struct-edit hide-control-bos" style="color:#d54832;font-size: 1.9rem;" onclick="openModalDeleteStruct(` + item.StructureID + `)"></i></span>`
         }
         htm += `</button> </h2>`
 
@@ -211,7 +212,7 @@ function generateHTMLForStruct(){
                                         <div class="row">`
         if (res[0].EstimationStatus.toUpperCase() != "RELEASED") {
             htm += `<div class="col-12">
-                        <button type="button" class="btn btn-primary btnAddTypical float-right" style="width: 124px;font-size: 12px;" onclick="openTypicalModal(` + selRequest[0].ReqId + `,` + item.StructureID + `)">Add Typical Floors</button>
+                        <button type="button" class="btn btn-primary btnAddTypical float-right hide-control-bos" style="width: 124px;font-size: 12px;" onclick="openTypicalModal(` + selRequest[0].ReqId + `,` + item.StructureID + `)">Add Typical Floors</button>
                     </div>`
         }
                                             
@@ -388,9 +389,11 @@ $('#ddlFloorType').on('change', function (a, b) {
     let selFlrType = $('#ddlFloorType option:selected').val();
     var res = listReqStructFloors.filter(s => s.StructureID == selStructId && s.Type == selFlrType);
 
+   
+
     var htm = '';
     $.each(res, function (key, item) {
-        let cnt = (item.StartFrom == "" || item.StartFrom == 1) ? (key + 1) : (parseInt(item.StartFrom) + key)
+        let cnt = (item.StartFrom == "" || item.StartFrom == 1) ? (selFlrType.toUpperCase() == "BASE" ? (res.length - key) : (key + 1)) : (parseInt(item.StartFrom) + key)
         htm += '<option value="' + item.StructFloorDetId + '"> ' + cnt + ' </option>'
     });
     $('#ddlFloorFrom').html(htm);
@@ -690,7 +693,7 @@ function getAllTemplates() {
             success: function (result) {
                 var htm = '';
                 $.each(result.d, function (key,item) {
-                   htm += '<option value="' + item.Value + '">Name: ' + item.Name + ' - (Ref#' + item.Text + ') </option>'; 
+                    htm += '<option value="' + item.Value + '">Name: ' + item.Name + ' - (Ref#' + item.Text + ') </option>';
                 })
                 $("#ddlImpTempList").html(htm);
             },

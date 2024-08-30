@@ -4,6 +4,7 @@
  */
 var itemlistTOC = [], itemlistFromoracleTOC = [];
 var selItemIdTOC = 0, selCatNameTOC='';
+var objDTEMSProd = [];
 
 $(document).ready(function () {
 
@@ -47,6 +48,7 @@ function initiateRichText() {
             "Lucida Console",
             "Tahoma",
             "Times New Roman",
+
             "Verdana"
         ],
         fontColor: true,
@@ -227,7 +229,187 @@ $('.addFloorIntoItems').on('click', function () {
     $('#tagFloorIntoItems').modal('show')
 })
 
+$('.btn-add-additionalitems').on('click', function () {
+    getAllEMSProductsForDDL();
+    getAllEMSProductsByReqId();
+    $('#addiItemsInTOC').modal('show');
+    resetEMSProdControls()
+    hideNShowControlsAccToStatus()
+});
 
+$(".btnAddAddiItemsTOC").on('click', function () {
+    if (!validateEMSProdControls()) {
+        toastr.error('Please input the mandatory field(s)')
+    }
+    else {
+        $.ajax({
+            url: "EMSItemList.aspx/AddAdditionalItemInTOC",
+            type: "POST",
+            data: JSON.stringify({
+                "UserId": currUserId,
+                "Product": $("#ddlEMSProductAddi option:selected").val(),
+                "Price": $("#txtPrice").val(),
+                "IsOptional": ($("#cbAddiIsOptional").is(':checked') ? 1 : 0),
+                "Desc": $("#taAddiDesc").val(),
+                "AdditionalComm": $("#taAddiComments").val(),
+                "ReqId": selReqId
+            }),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (result) {
+
+                toastr.success('Additional Item Added Successfully');
+                getAllEMSProductsByReqId()
+                resetEMSProdControls()
+            },
+            error: function (errormessage) {
+                ////alert(errormessage.responseText);
+            }
+        });
+    }
+   
+
+})
+
+function resetEMSProdControls() {
+    $("#txtPrice").val('0')
+    $("#taAddiDesc,#taAddiComments").val('')
+    $("#cbAddiIsOptional").prop('checked', false)
+    $("#taAddiDesc,#taAddiComments,#txtPrice").css('box-shadow', '').css('border-color', 'lightgrey');
+}
+
+function getAllEMSProductsForDDL() {
+
+    $.ajax({
+        url: "EMSItemList.aspx/GetAllEMSProducts",
+        type: "POST",
+        data: JSON.stringify({ "UserId": currUserId }),
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '';
+
+            $.each(result.d, function (key, item) {
+                htm += '<option value="' + item.Value + '" >' + item.Text + ' </option>'
+            });
+                   
+            $('#ddlEMSProductAddi').html(htm); 
+
+            //compId = $('#selectTypeOpt option:selected').val();
+        },
+        error: function (errormessage) {
+            ////alert(errormessage.responseText);
+        }
+    });
+
+}
+
+function getAllEMSProductsByReqId() {
+
+    $.ajax({
+        url: "EMSItemList.aspx/GetAllEMSProductsByReqId",
+        type: "POST",
+        data: JSON.stringify({
+            "UserId": currUserId,
+            "ReqId": selReqId
+        }),
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '';
+            $('.tbody-addiitems-toc td').length > 0 ? objDTEMSProd.destroy() : '';
+            $.each(result.d, function (key, item) {
+                htm += `<tr>               
+                    <td> `+ item.EMSProd + ` </td>                 
+                    <td> `+ item.Price + `</td>
+                    <td> `+ (item.Optional == "False" ? '-' : '<i class="bx bx-check" style="color: #38b316;"></i>') +`</td>
+                    <td> `+ item.Desc + `</td>
+                    <td> `+ item.Comment + `</td>
+                    <td> `+ item.CreatedBy + `</td>
+                    <td> <span><i class="bx bxs-trash ibtn-delete-addiitemtoc hide-control-bos" style="font-size: 1.6rem;color: #d64e4e;cursor:pointer;" title="Delete Item" onclick="deleteAddiItem(` + item.ID + `)"></i></span></td>`
+
+                htm += `</tr>`;
+            });
+            $('.tbody-addiitems-toc').html(htm);
+            initiateEMSProdDT()
+        },
+        error: function (errormessage) {
+            ////alert(errormessage.responseText);
+        }
+    });
+
+}
+
+function initiateEMSProdDT() {
+    objDTEMSProd = [];
+    objDTEMSProd = $('.item-emsprod-table').DataTable({
+        dom: 'lBfrtip',
+        "bStateSave": true,
+        buttons: {
+            buttons: [
+                {
+                    extend: 'excel', text: '<i class="fa fa-file-excel-o" aria-hidden="true" style="font-size: x-large;" title="Export Excel"></i>', className: 'btn btn-secondary iconClassExcel '
+                }
+            ]
+        },
+
+        "columnDefs": [
+            { width: "120px", targets: [0] },
+            { orderable: false, targets: [] }
+        ],
+        //select: true,
+        //colReorder: true
+    });
+
+}
+
+function deleteAddiItem(additemid) {
+    $.ajax({
+        url: "EMSItemList.aspx/DeleteAddiItem",
+        type: "POST",
+        data: JSON.stringify({
+            "AddItemId": additemid
+        }),
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            toastr.success('Item Deleted Successfully', '')
+            getAllEMSProductsByReqId();
+        },
+        error: function (errormessage) {
+            ////alert(errormessage.responseText);
+        }
+    });
+}
+
+
+function validateEMSProdControls() {
+
+    var isValid = true;
+
+    if ($("#txtPrice").val().trim() == "") {
+        isValid = false;
+        $("#txtPrice").css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
+    } else {
+        $("#txtPrice").css('box-shadow', '').css('border-color', 'lightgrey');
+    }
+    if ($("#taAddiDesc").val().trim() == "") {
+        isValid = false;
+        $("#taAddiDesc").css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
+    } else {
+        $("#taAddiDesc").css('box-shadow', '').css('border-color', 'lightgrey');
+    }
+    if ($("#taAddiComments").val().trim() == "") {
+        isValid = false;
+        $("#taAddiComments").css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
+    } else {
+        $("#taAddiComments").css('box-shadow', '').css('border-color', 'lightgrey');
+    }
+    return isValid;
+}
 
 $('.btn-add-item-toc-grid').on('click', function () {
     getAllSystem('');
@@ -573,11 +755,11 @@ function getTechNotesTemplate() {
         success: function (result) {
             if (result.d.length > 0) {
                 $(".ritext-tech-remarks-div").html('<input class="form-control " type="text" placeholder="" value="" id="taTechRemarks">');
-                $("#taTechRemarks").val(result.d[0].TechNotesTemplate);
+                $(".ritext-tech-remarks-div #taTechRemarks").val(result.d[0].TechNotesTemplate);
                 initiateRichText();
             } else {
                 $(".ritext-tech-remarks-div").html('<input class="form-control " type="text" placeholder="" value="" id="taTechRemarks">');
-                $(".#taTechRemarks").val('<b> No Template Available </b>')
+               // $(".ritext-tech-remarks-div .#taTechRemarks").val('<b> No Template Available </b>')
                 initiateRichText();
             }
             
@@ -590,7 +772,6 @@ function getTechNotesTemplate() {
 
 
 $("#progress-bar li").on('click', function () {
-
     var selTab = $(this).text().trim();
     checkSystem();
     if (selTab == "Create TOC") {        
@@ -598,6 +779,7 @@ $("#progress-bar li").on('click', function () {
         $(".ritext-tech-remarks-div").html('<input class="form-control " type="text" placeholder="" value="" id="taTechRemarks">');
         initiateRichText();
         ResetModal("TOCTabsOfAddingDivParent")
+        hideNShowControlsAccToStatus()
     }
 })
 $(".btnAddTechRemarks").on('click', function () {
@@ -612,7 +794,8 @@ $(".btnAddTechRemarks").on('click', function () {
                 type: "POST",
                 data: JSON.stringify({
                     "EmpNo": EmpNo,
-                    "ReqId": selReqId
+                    "ReqId": selReqId,
+                    "TechNotes": $("#taTechRemarks").val()
                 }),
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
@@ -655,9 +838,9 @@ $(".btnAddTechRemarks").on('click', function () {
 $(".btn-submit-req-final").on('click', function () {
 
     if (myroleList.includes('14214')) {
-
-        $(".ritext-tech-remarks-div").html('<input class="form-control " type="text" placeholder="" value="" id="taTechRemarks">');
-        initiateRichText();
+        getTechNotesTemplate()
+        //$(".ritext-tech-remarks-div").html('<input class="form-control " type="text" placeholder="" value="" id="taTechRemarks">');
+        //initiateRichText();
 
         $("#ReqTechRemarksModal").modal('show');
         $(".btnAddTechRemarks").html('Save & Submit');
@@ -725,9 +908,9 @@ function getSystemsNItems() {
 	                    <path fill="#b22e35" d="M384 128a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64zm0-64h448a128 128 0 0 1 128 128v448a128 128 0 0 1-128 128H384a128 128 0 0 1-128-128V192A128 128 0 0 1 384 64" />
                     </svg></span>` + item.SysName
                     if (selReqObj[0].EstimationStatus.toUpperCase() != "RELEASED" && (selReqObj[0].Engineering != '' && selReqObj[0].TestnCommision != '')) {
-                        htm += `<span style="float: right;margin-right: 35px;cursor:pointer;" title="Add Engineering and Test and Commission">
+                        htm += `<span style="float: right;margin-right: 35px;cursor:pointer;" title="Engineering and Test and Commission Added">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 2048 2048" onclick='openEngrNTestCommisionModal("` + item.SysName + `")'>
-                                        <path fill="#ffb400" d="M2048 384v1024h-128V839l-640 321v120H768v-120L128 839v697h1152v128H0V384h640V256q0-27 10-50t27-40t41-28t50-10h512q27 0 50 10t40 27t28 41t10 50v128zm-1280 0h512V256H768zm384 640H896v128h256zm768-327V512H128v185l640 319V896h512v120zm-128 839h256v128h-256v256h-128v-256h-256v-128h256v-256h128z" />
+                                        <path fill="#4db700" d="M2048 384v1024h-128V839l-640 321v120H768v-120L128 839v697h1152v128H0V384h640V256q0-27 10-50t27-40t41-28t50-10h512q27 0 50 10t40 27t28 41t10 50v128zm-1280 0h512V256H768zm384 640H896v128h256zm768-327V512H128v185l640 319V896h512v120zm-128 839h256v128h-256v256h-128v-256h-256v-128h256v-256h128z" />
                                     </svg>
                                 </span>`
                     }
@@ -815,12 +998,12 @@ function getSystemsNItems() {
 
                         //htm += `<td> ` + numberWithCommas(parseInt(CatItem.SpareQuantity)) + `<div style="margin-top: 22px;"> ` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.SpareQuantity : "") + `</div></td>`
                         if (selReqObj[0].EstimationStatus.toUpperCase() != "RELEASED") {
-                            htm += `<td style="text-align: end;"> <a class="ibtn-addfloor-into-items" title="Add Floors" data-estiid="` + CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `"> <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 24 24" onclick="openAddFloorModal(` + CatItem.EstiLineId + `,` + CatItem.ItemCode + `,'` + CatItem.Category + `')">
+                            htm += `<td style="text-align: end;"> <a class="ibtn-addfloor-into-items hide-control-bos" title="Add Floors" data-estiid="` + CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `"> <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 24 24" onclick="openAddFloorModal(` + CatItem.EstiLineId + `,` + CatItem.ItemCode + `,'` + CatItem.Category + `')">
                                               <path fill="#a92828" d="M12 9v2h2v2h-2v2h2v2h-2v2h4v-4h4V9zm6 4h-2v-2h2z" opacity="0.3" />
                                               <path fill="#a92828" d="M12 7V3H2v18h14v-2h-4v-2h2v-2h-2v-2h2v-2h-2V9h8v6h2V7zM6 19H4v-2h2zm0-4H4v-2h2zm0-4H4V9h2zm0-4H4V5h2zm4 12H8v-2h2zm0-4H8v-2h2zm0-4H8V9h2zm0-4H8V5h2zm14 12v2h-2v2h-2v-2h-2v-2h2v-2h2v2zm-6-8h-2v2h2zm0 4h-2v2h2z" />
                                           </svg> </a>
-                                        <span><i class="bx bxs-trash ibtn-delete-itemtoc" style="font-size: 1.6rem;color: #d64e4e;cursor:pointer;" title="Delete Item" data-estiid="`+ CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `"></i></span>
-                                        <span><i class="fa fa-eye ibtn-viewmore-itemtoc" style="font-size: 1.4rem;color: #d64e4e;cursor:pointer;" title="View More Item" data-estiid="`+ CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `" data-category="` + CatItem.Category + `"></i></span>
+                                        <span><i class="bx bxs-trash ibtn-delete-itemtoc hide-control-bos" style="font-size: 1.6rem;color: #d64e4e;cursor:pointer;" title="Delete Item" data-estiid="`+ CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `"></i></span>
+                                        <span><i class="fa fa-eye ibtn-viewmore-itemtoc hide-control-bos" style="font-size: 1.4rem;color: #d64e4e;cursor:pointer;" title="View More Item" data-estiid="`+ CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `" data-category="` + CatItem.Category + `"></i></span>
                           </td>`
                         }
 
@@ -880,6 +1063,7 @@ $("#TOCTabsOfAddingDivParent li").on('click', function () {
         $('.system-div-parent-for-byfloor').html('')
         $(".ddl-struct-filter-div").addClass('hidden');
         getSystemsNItems();
+        hideNShowControlsAccToStatus()
     }
     else if (selTab == "TOC by Floor") {
         $(".ddl-struct-filter-div").removeClass('hidden');
@@ -887,7 +1071,8 @@ $("#TOCTabsOfAddingDivParent li").on('click', function () {
 
         $('.ajax-loader').removeClass('hidden');
         setTimeout(function () {
-            getAllSystemsNItems();   
+            getAllSystemsNItems(); 
+            hideNShowControlsAccToStatus()
             $('.ajax-loader').addClass('hidden');
         }, 500);
              
@@ -930,10 +1115,12 @@ function generateFloorsAginstItemsTOC(EstiLineId, flrColNames, colVal) {
     var htm = '<div class="d-flex" style="overflow-x:auto; max-width: calc(100vw - 690px);">';
     $.each(flrNameString.split(','), function (key, item) {
 
-        htm += `<div class="mr-1">
+        if (key != 0) {
+            htm += `<div class="mr-1">
                     <span style="width:80px"><label>`+ item + `</label></span>
-                    <span style="width:80px;display: flex;"><input class="form-control" name="txtqtyTOCbyFlr" type="text" value="`+ parseInt(colVal.split(',')[key]) + `" data-estid=` + EstiLineId + ` data-strid=` + $("#ddlStructNameTOCFilter option:selected").val() + ` data-flrname="` + item + `" placeholder="enter QTY" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></span>
+                    <span style="width:80px;display: flex;"><input class="form-control" name="txtqtyTOCbyFlr" id="txtTOCByFlr-`+ key + `" type="text" value="` + parseInt(colVal.split(',')[key]) + `" data-estid=` + EstiLineId + ` data-strid=` + $("#ddlStructNameTOCFilter option:selected").val() + ` data-flrname="` + item + `" placeholder="enter QTY" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></span>
                 </div>`;
+        }
         //htm += `<span style="width:100px"><input class="form-control" type="text" id="txtTOCbyFlr-` + key + `" placeholder="enter structure name..."></span>`;
         //htm += `<span style="width:100px"><input class="form-control" type="text" id="txtTOCbyFlr-` + key + `" placeholder="enter structure name..."></span>`;
     }); 
@@ -954,6 +1141,29 @@ $('.system-div-parent-for-byfloor').on('focusout','input[type=text][name=txtqtyT
 
 })
 
+$(".system-div-parent-for-byfloor").on('keydown','input[name=txtqtyTOCbyFlr]',function (e) {
+    if (e.which == 37) {//left
+        //alert("left pressed");
+        //return false;
+        var focusOnId = "#" + $(this)[0].id.split('-')[0] + "-" + (parseInt($(this)[0].id.split('-')[1]) - 1);
+        $(focusOnId).focus();
+    }
+    else if (e.which == 39) {//right
+        //alert("Right pressed");
+        //return false;
+        var focusOnId = "#" + $(this)[0].id.split('-')[0] + "-" + (parseInt($(this)[0].id.split('-')[1]) + 1);
+        $(focusOnId).focus();
+    }
+    else if (e.which == 38) {//Up
+        //alert("Up pressed");
+        //return false;
+    }
+    else if (e.which == 40) {//Down
+        //alert("Down pressed");
+        //return false;
+    }
+    
+});
 function TOCByFloorItemUpdate(estilineid, stid,flrname,qtyVal) {
     $.ajax({
         url: "EMSItemList.aspx/AddUpdateQtyTOCByFloor",
@@ -1083,7 +1293,7 @@ function getAllSystemsNItems() {
                     $.each(res, function (k, CatItem) {
                         isOpt = CatItem.Isoptional == 'True' ? '<span>(Optional)</span>' : '';
                         let optcls = CatItem.Isoptional == 'True' ? 'badge badge-optional' : 'badge badge-dark';
-                        htm += `<tr>`                        
+                        htm += `<tr class="TOCbyFlrTxt-">`                        
 
                         htm += `<td> <span class="` + optcls + ` fs-6">` + CatItem.ItemCode + ` <svg class="" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
                                          <g fill="none" stroke="#a92828" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
@@ -1099,15 +1309,15 @@ function getAllSystemsNItems() {
                         //            <td> `+ numberWithCommas(fixedtwo(CatItem.InstallUnitPrice)) + `<div style="margin-top: 22px;">` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.InstallUnitPrice : "") + `</div></td>`
                         //}
 
-                        htm += `<td> ` + numberWithCommas((getTotalQty(CatItem.Quantity))) + `</td>`
+                        htm += `<td> ` + numberWithCommas(CatItem.TotalQty) + `</td>`
                         htm += `<td>` + generateFloorsAginstItemsTOC(CatItem.EstiLineId, CatItem.FloorsNameString, CatItem.Quantity) + `</td>`;
 
-                        htm += `<td class="d-flex" style="border-bottom: 0px;"> <a class="ibtn-addfloor-into-items" title="Add Floors" data-estiid="` + CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `"> <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 24 24" onclick="openAddFloorModal(` + CatItem.EstiLineId + `,` + CatItem.ItemCode + `,'` + CatItem.Category + `')">
+                        htm += `<td class="d-flex" style="border-bottom: 0px;"> <a class="ibtn-addfloor-into-items hide-control-bos" title="Add Floors" data-estiid="` + CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `"> <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 24 24" onclick="openAddFloorModal(` + CatItem.EstiLineId + `,` + CatItem.ItemCode + `,'` + CatItem.Category + `')">
                                               <path fill="#a92828" d="M12 9v2h2v2h-2v2h2v2h-2v2h4v-4h4V9zm6 4h-2v-2h2z" opacity="0.3" />
                                               <path fill="#a92828" d="M12 7V3H2v18h14v-2h-4v-2h2v-2h-2v-2h2v-2h-2V9h8v6h2V7zM6 19H4v-2h2zm0-4H4v-2h2zm0-4H4V9h2zm0-4H4V5h2zm4 12H8v-2h2zm0-4H8v-2h2zm0-4H8V9h2zm0-4H8V5h2zm14 12v2h-2v2h-2v-2h-2v-2h2v-2h2v2zm-6-8h-2v2h2zm0 4h-2v2h2z" />
                                           </svg> </a>
-                                        <span><i class="bx bxs-trash ibtn-delete-itemtoc" style="font-size: 1.6rem;color: #d64e4e;cursor:pointer;" title="Delete Item" data-estiid="`+ CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `" data-category="` + CatItem.Category + `"></i></span>              
-                                        <span><i class="fa fa-eye ibtn-viewmore-itemtoc" style="font-size: 1.5rem;color: #d64e4e;cursor:pointer;" title="View More Item" data-estiid="`+ CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `" data-category="` + CatItem.Category + `"></i></span>
+                                        <span><i class="bx bxs-trash ibtn-delete-itemtoc hide-control-bos" style="font-size: 1.6rem;color: #d64e4e;cursor:pointer;" title="Delete Item" data-estiid="`+ CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `" data-category="` + CatItem.Category + `"></i></span>              
+                                        <span><i class="fa fa-eye ibtn-viewmore-itemtoc hide-control-bos" style="font-size: 1.5rem;color: #d64e4e;cursor:pointer;" title="View More Item" data-estiid="`+ CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `" data-category="` + CatItem.Category + `"></i></span>
                                    </td>`
                         //if (selReqObj[0].EstimationStatus.toUpperCase() != "RELEASED") {
                             //htm += `<td> <a class="ibtn-addfloor-into-items" title="Add Floors" data-estiid="` + CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `"> <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 24 24" onclick="openAddFloorModal(` + CatItem.EstiLineId + `,` + CatItem.ItemCode + `,'` + CatItem.Category + `')">
@@ -1279,6 +1489,7 @@ function getAllSystem(forwhom) {
             });
 
             if (forwhom == 'for oracle') { $('#ddlSystemForOracle').html(htm); }
+            if (forwhom == 'item without code') { $('#ddlSystemForWithoutItmCode').html(htm); }
             else { $('#ddlSystem').html(htm); } 
                         
             //compId = $('#selectTypeOpt option:selected').val();
@@ -1308,6 +1519,7 @@ function getCategoryBySystem(paraSysName, forwhom) {
             });
 
             if (forwhom == 'for oracle') { $('#ddlCategoryForOracle').html(htm);  }
+            if (forwhom == 'item without code') { $('#ddlCategoryForWithoutItmCode').html(htm);  }
             else { $('#ddlCategory').html(htm); } 
             
             //compId = $('#selectTypeOpt option:selected').val();
@@ -1650,8 +1862,8 @@ function openEngrNTestCommisionModal(sysName) {
     $(".btnAddEngrTestnCommision").data("sysname", sysName)
     $("#txtEngineering,#txtTestnCommision").val(0);
 
-    if (sysName.toUpperCase() == "Additional Accessories for Fire Pump".toUpperCase()) { $(".field-for-firepump").removeClass('hidden') }
-    else { $(".field-for-firepump").addClass('hidden') }
+    //if (sysName.toUpperCase() == "Additional Accessories for Fire Pump".toUpperCase()) { $(".field-for-firepump").removeClass('hidden') }
+    //else { $(".field-for-firepump").addClass('hidden') }
 
     $("#txtEngineering,#txtTestnCommision").val(0);
     $("#engrNTestCommisoinModal").modal('show');
@@ -1714,6 +1926,87 @@ function GetEngnTest(pSysName) {
     });
 
 }
+
+$('#ddlSystemForWithoutItmCode').on('change', function () {
+    getCategoryBySystem($('#ddlSystemForWithoutItmCode option:selected').val(), 'item without code');
+})
+$(".btn-item-withoutcode-grid").on('click', function () {
+
+    getAllSystem('item without code');
+    $('#ddlSystemForWithoutItmCode').val($('#ddlSystem option:selected').val())
+    getCategoryBySystem($('#ddlSystemForWithoutItmCode option:selected').val(), 'item without code');
+    $('#ddlCategoryForWithoutItmCode').val($('#ddlCategory option:selected').val())
+
+    getAllItemsWithoutCode();
+
+    $("#addItemWithoutItmCodeModal").modal('show');
+
+})
+
+$(".btnAddItemWithoutItmCode").on('click', function () {
+    //$("#addItemWithoutItmCodeModal").modal('show');
+    $.ajax({
+        url: "EMSItemList.aspx/AddItemsWithotCode",
+        data: JSON.stringify({
+            'ItemDesc': $("#taitemDescWhtItmCode").val(),
+            'UserId': currUserId,
+            'System':   $("#ddlSystemForWithoutItmCode option:selected").val(),
+            'Category': $("#ddlCategoryForWithoutItmCode option:selected").val(),
+            'ReqId': selReqId
+        }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            if (result.d.ErrorType == 'error') {
+                toastr.error(result.d.MsgText, '');
+            } else {
+                toastr.success(result.d.MsgText, '');
+                $('#addItemWithoutItmCodeModal').modal('hide');
+                //$('.btn-add-item-toc-grid').trigger('click');
+            }
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+})
+
+function getAllItemsWithoutCode() {
+    $.ajax({
+        url: "EMSItemList.aspx/GetItemsWithoutCode",
+        //data: JSON.stringify({
+        //    'ItemDesc': $("#taitemDescWhtItmCode").val(),
+        //    'UserId': currUserId,
+        //    'System': $("#ddlSystemForWithoutItmCode option:selected").val(),
+        //    'Category': $("#ddlCategoryForWithoutItmCode option:selected").val(),
+        //    'ReqId': selReqId
+        //}),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            var htm = '';
+            $.each(result.d, function (key, item) {
+                htm += `<tr>
+                    <td> `+ item.System + `</td>
+                    <td> `+ item.Category + `</td>
+                    <td> `+ item.ItemDesc + `</td>
+                    <td> `+ item.CreatedBy + `</td>`
+                htm += `</tr>`;
+            });
+            $('.tbody-items-toc-withoutitmcode').html(htm);
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+
+    });
+ }
 //function getAllSystemsNItemsByRequest() {
 
 //    $.ajax({

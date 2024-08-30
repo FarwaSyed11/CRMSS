@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Masters/EconnectNew.master" CodeFile="FirePump.aspx.cs" Inherits="ERM_FirePump" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/EconnectNew.master" CodeFile="FirePump.aspx.cs" Inherits="ERM_FirePump" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
@@ -9,6 +9,7 @@
     <!-- Flatpicker Datepicker JS/CSS file-->
     <script src="../KPI/Flatpickr/js/flatpickr.js"></script>
     <link href="../KPI/Flatpickr/css/_flatpickr.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../Template/assets/vendor/libs/richtexteditor/richtext.css" />
     <style>
         .centerforall {
             text-align: -webkit-center;
@@ -170,7 +171,7 @@
                             </div>
                             <div class="py-1 border-bottom" style="width: 12%;">
                                 <label for="html5-number-input" class="  label-custom">URL: </label>
-                                <label id="SummarytxtPrjURL" value="" class="noborderbg" style="">-</label>
+                                <label id="SummarytxtPrjURL" value="" class="noborderbg" style="width:100%;word-wrap: break-word;">-</label>
                             </div>
 
                             <div class="py-1 border-right " style="width: 20%;">
@@ -209,6 +210,38 @@
                                 <input type="radio" id="Radio6" name="SummaryQuotation" value="AS PER DRAWING AND SPECIFICATION" style="margin-left: 5%" disabled="" checked="Checked">AS PER DRAWING &amp; SPECIFICATION
                             </div>
                         </div>
+                        <div class="row m1-2 fs-6 mb-4 border" style="">
+
+                           <div class="col-md-3 px-3 pb-2 border-right">
+                                <div style="padding-left: 5%;">
+                                    <input class="form-check-input" type="checkbox" value="" name="isAttached" id="chSpecification" disabled>
+                                   
+                                        Specifications Attached
+                                    
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-4 border-right">
+                                <div style="padding-left: 5%;">
+                                    <input class="form-check-input" type="checkbox" value="" name="isListofMake" id="chListOfMake" disabled>
+                                    
+                                        List of Make
+                                    
+                                </div>
+                            </div>
+
+                            <div class="col-md-5">
+                                <div style="padding-left: 5%;">
+                                    <input class="form-check-input" type="checkbox" value="" name="isPumpSched" id="chPumpshedule" disabled>
+                                  
+                                        Pump Schedule
+                                  
+                                </div>
+
+                            </div>
+
+                        </div>
                         <div class="row div-assign" style="padding-top: 1px;">
                             <div style="width:20%;">
                                 <select id="ddlAssignTo" style="color: black; height: 40px !important; font-size: inherit;"></select>
@@ -227,27 +260,70 @@
                             </div>
 
                         </div>
+                         <button type="button" class="btn btn-primary btn-add-additionalitems float-right me-2">
+                                                        <i class="bx bx-plus"></i>Additional Item</button>
                     </div>
                     <%--Grid--%>
                     <div class="mt-5">
+                        <nav id="nav-tab">
+                            <ul class="nav nav-pills" id="Estimation-Det-modal-ul" role="tablist">
+
+                                <li class="nav-item">
+                                    <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-Item" aria-controls="navs-top-Item" aria-selected="true">Item List</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-Attachment" aria-controls="navs-top-Attachment" aria-selected="false">Attachment</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" id="navs-top-Item" role="tabpanel">
+                                    <table class="table table-FP-Requests table-hover" style="width: 100%;">
+                                        <thead>
+                                            <tr style="text-align: center;">
+                                                <th>No.</th>
+                                                <th style="display: none;">ItemID</th>
+                                                <th>Area</th>
+                                                <th>Description</th>
+                                                <th>QTY</th>
+                                                <th>Direction</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbody-FP-Requests" style="text-align: center;">
+                                        </tbody>
+                                    </table>
+                                </div>
 
 
-                        <div class="table-responsive" style="margin-top: 1%; width: 100%;">
-                            <table class="table table-FP-Requests table-hover" style="width: 100%;">
-                                <thead>
-                                    <tr style="text-align: center;">
-                                        <th>No.</th>
-                                        <th style="display: none;">ItemID</th>
-                                        <th>Area</th>
-                                        <th>Description</th>
-                                        <th>QTY</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="tbody-FP-Requests" style="text-align: center;">
-                                </tbody>
-                            </table>
-                        </div>
+                                <div class="tab-pane fade" id="navs-top-Attachment" role="tabpanel">
+
+                                    <div>
+                                        <a href="#" id="btnNewAttacment" class="btn btn-primary pull-right"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Attachment</a>
+                                    </div>
+                                    <div style="padding-top: 3%;">
+
+
+                                        <table class="table Attachment-list-table" style="width: 100%;">
+                                            <%--<caption class="ms-4">List of Projects</caption>--%>
+                                            <thead>
+                                                <tr style="text-align: center;">
+                                                    <th style="display: none;">Id</th>
+                                                    <th>Filename</th>
+                                                    <th>Comments</th>
+                                                    <th style="display: none;">Comments</th>
+                                                    <th>Action</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody class="tbody-Attachment-list" style="text-align: center;">
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </nav>
 
                     </div>
                 </div>
@@ -259,7 +335,7 @@
 
     <div class="modal fade" id="modalWorkLoad" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content" <%-- style="background: antiquewhite;"--%>>
+            <div class="modal-content"><%-- style="background: antiquewhite;"--%>>
                 <div class="modal-header">
                     <h5 class="modal-title">Team Work Load</h5>
                     <button type="button" class="btn-close btn-close-proj-modal" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -282,10 +358,77 @@
                         </div>
                     </div>
                 </div>
+                
+            </div>
+        </div>
+    </div>
+     <%--ADDITIONAL ITEMS IN TOC--%>
+    <%--ADD/UPDATE System & Items--%>
+    <div class="modal fade" id="addiItemsInTOC" tabindex="-1" style="background: #a9a9a996;" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="col-6">
+                        <h5 class="modal-title" id="lbladdiItemsInTOC">Add Additional Item(s)</h5>
+                    </div>
+                    <div class="d-flex justify-content-end" style="max-width: 48%; width: 48%;">
+                        <button type="button" class="btn btn-primary btnAddAddiItemsTOC"><i class='bx bxs-save'></i>Save Changes </button>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="zoom: 85%;">
+
+                    <div class="row mt-1">
+                      
+                       
+                        <div class="col-md-8">
+                            <label>Description</label>
+                            <textarea id="taAddiDesc" class="form-control"></textarea>
+                        </div>
+                        <div class="col-md-2">
+                            <label>Price</label>
+                            <input class="form-control" type="number" placeholder="Enter Price" style="background-color: white;" id="txtPrice">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="m-4">
+                                <input class="form-check-input position-relative" type="checkbox" name="cbAddiIsOptionalName" value="1" id="cbAddiIsOptional" />
+                                Is Optional</label>
+                        </div>
+
+                    </div>
+
+                     <div class="mt-1">
+                         <label>Additional Comments</label>
+                         <textarea id="taAddiComments" class="form-control"></textarea>
+                    </div>
+
+                    <div class="mt-3"><h5>Added EMS Product List</h5></div>
+                    <div class="table mt-2" style="overflow-y: auto; max-height: 800px;">
+                        <table class="table item-emsprod-table" style="width: 100%;">
+
+                            <thead style="position: sticky; top: -3px;">
+                                <tr class="Head-tr">
+                                    <th>EMS Product</th>
+                                    <th>Price</th>
+                                    <th>Optional</th>
+                                    <th>Desc</th>
+                                    <th>Additional Comment</th>
+                                    <th>Created By</th>
+                                     <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="tbody-addiitems-toc">
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
 
             </div>
         </div>
     </div>
+
 
 
     <div class="modal fade" id="modalNewPumpUpdate" style="background: rgb(177 171 171 / 36%); zoom: 80%;" tabindex="-1" aria-hidden="true">
@@ -339,6 +482,12 @@
                         </div>
 
                     </div>
+                    <div class="row" style="padding-top: 1px;">
+                        <div>
+                            <textarea class="form-control" id="txtPumpComments" rows="4" placeholder="Enter Comments"></textarea>
+                        </div>
+
+                    </div>
 
 
                     <div class="row" style="padding-top: 6%;">
@@ -347,6 +496,98 @@
                         </div>
                     </div>
 
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="ModalPumpAttachment" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document" style="max-width: 25%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalAddAttacment">ATTACHMENT</h5>
+                    <button type="button" class="btn-close btn-close-proj-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+
+
+                    <div style="margin-top: -1%;">
+                        <div style="background: #1d1b1b36; padding: 17px; border-radius: 12px; border: 1px solid #1d1b1b36; box-shadow: 0px 0px 13px -7px #1d1b1b36;">
+
+                            <div class="row">
+
+                                <div>
+                                    <h5 class="prpmdl-hed" style="">Attachment</h5>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div>
+
+                                    <div class="col mb-3 discriptionDiv">
+                                        <label for="nameBasic" class="  label-custom">Comments </label>
+                                        <textarea id="txtAttachmentComment" rows="3" class="form-control" style="border-bottom: solid; border-color: #b9b9b9; overflow-y: scroll;" placeholder="Enter the Commments"></textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row" style="margin-top: 1%;">
+
+                                <%--     <div>
+                                     <label for="html5-number-input" class="  label-custom">Type </label>
+                                     <div class="">
+
+                                        
+                                           <select id="dlAttachmentType" value="" style="width: 100%; background: #ffffff; border: 0px; color: #697a8d; border: none;border-bottom: solid;border-color: #ffc1a3;height:28px;" >
+                                            </select>
+                                     </div>
+                                 </div>--%>
+                            </div>
+                            <div class="row" style="margin-top: 2%;">
+
+                                <div class="col-12 pull-left upload-Attatchment" style="display: block">
+                                    <div class="input-group mb-3" style="position: relative; top: 10px;">
+                                        <input class="form-control" type="file" id="colFileUpload" accept=".*" multiple>
+                                        <label class="input-group-text File-Upload-Multi" for="colFileUpload"><i class="fa fa-upload " title="Download File" style="color: #d33a3a; cursor: pointer; font-size: x-large;"></i></label>
+
+                                        <div style="margin-left: 9px;">
+
+                                            <a href="#" id="btnUpload1" class=" btn btn-primary">Add Attachment </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <div class="modal fade" id="ReqTechRemarksModal" tabindex="-1" aria-hidden="true" style="background: #adacaca3;">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ReqTechRemarksModalLabel">Technical Remarks</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="zoom: 85%; min-height: 670px;">
+                    <div class="row">
+                        <label for="html5-number-input" class="col-form-label label-custom">Technical Remarks Description <span style="color: red;">*</span></label>
+                        <div class="ritext-tech-remarks-div" style="min-height: 670px;">
+                            <%--<input class="form-control " type="text" placeholder="" value="" id="taTechRemarks">--%>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btnAddTechRemarks">Save Notes </button>
                 </div>
             </div>
         </div>
@@ -391,7 +632,7 @@
 
     <!-- Page JS/CSS file -->
     <script src="Scripts/Structure.js?v=6"></script>
-    <script src="Scripts/FirePump.js?v=6"></script>
+    <script src="Scripts/FirePump.js?v=10"></script>
     <script src="Scripts/SummaryReports.js?v=6"></script>
     <link href="css/FirePump.js" rel="stylesheet" />
     <link href="Css/EMSStyle.css" rel="stylesheet" />
@@ -408,6 +649,8 @@
 
     <script src="Assets/Js/multiple-select.js"></script>
     <link href="../sitesurvey/Assets/Css/multiple-select.css" rel="stylesheet" />
+
+    <script src="../Template/assets/vendor/libs/richtexteditor/jquery.richtext.js"></script>
 
 
 </asp:Content>

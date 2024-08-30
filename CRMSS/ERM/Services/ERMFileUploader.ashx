@@ -46,7 +46,7 @@ public class ERMFileUploader : IHttpHandler {
                 //fileExtension = Path.GetExtension(fileName);
                 //file.SaveAs(System.IO.Path.Combine(HttpContext.Current.Server.MapPath("~/Images/KPI/KpiResponse"), fileName));
                 ContentType = file.ContentType;
-                pathAndFile = "\\\\zylab\\Econnect\\EMS_Docs\\SupportingDocuments";
+                pathAndFile = "\\\\zylab\\Econnect\\EMS_Docs\\SupportingDocuments\\";
                 fileNameURL=ReqID + " - " + file.FileName;
                 pathAndFile += ReqID + " - " + file.FileName;
                 file.SaveAs(pathAndFile);

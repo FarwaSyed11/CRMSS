@@ -131,6 +131,9 @@ public partial class ERM_FirePump : System.Web.UI.Page
                     EstimationOrg = dt.Rows[i]["EstimationOrg"].ToString(),
                     Salesman = dt.Rows[i]["Salesman"].ToString(),
                     Marketing = dt.Rows[i]["Marketing"].ToString(),
+                    PumpSpecification = dt.Rows[i]["PumpSpecification"].ToString(),
+                    ListOfMakes = dt.Rows[i]["ListOfMakes"].ToString(),
+                    PumpShedule = dt.Rows[i]["PumpShedule"].ToString(),
 
                 });
             }
@@ -178,7 +181,7 @@ public partial class ERM_FirePump : System.Web.UI.Page
                     Area = dt.Rows[i]["Area"].ToString(),
                     Description = dt.Rows[i]["Description"].ToString(),
                     QTY = dt.Rows[i]["QTY"].ToString(),
-
+                    TypeOfPump = dt.Rows[i]["TypeOfPump"].ToString(),
 
                 });
             }
@@ -192,7 +195,7 @@ public partial class ERM_FirePump : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static void setPumpDet(string UserId, string ItemID, string PumpName, string Value, string QTY, string MoreInfo)
+    public static void setPumpDet(string UserId, string ItemID, string PumpName, string Value, string QTY, string MoreInfo, string Comments)
     {
 
         DBHandler DBH = new DBHandler();
@@ -222,6 +225,8 @@ public partial class ERM_FirePump : System.Web.UI.Page
         pa.Add("@MoreInfo");
         pv.Add(MoreInfo);
 
+        pa.Add("@Comments");
+        pv.Add(Comments);
 
         DBH.CreateDatasetERM_Data(ds, "sp_PumbRequests", true, pa, pv);
 
@@ -313,6 +318,8 @@ public partial class ERM_FirePump : System.Web.UI.Page
                     Value = dt.Rows[i]["Value"].ToString(),
                     PumpQTY = dt.Rows[i]["PumpQTY"].ToString(),
                     MoreInformation = dt.Rows[i]["MoreInformation"].ToString(),
+                    Comments = dt.Rows[i]["Comments"].ToString(),
+                    
 
 
 
@@ -393,7 +400,7 @@ public partial class ERM_FirePump : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static void setComplete(string UserId, string ReqID)
+    public static string setComplete(string UserId, string ReqID, string TechNotes)
     {
 
         DBHandler DBH = new DBHandler();
@@ -412,10 +419,190 @@ public partial class ERM_FirePump : System.Web.UI.Page
         pa.Add("@ReqID");
         pv.Add(ReqID);
 
+        pa.Add("@TechNotes");
+        pv.Add(TechNotes);
+
 
         DBH.CreateDatasetERM_Data(ds, "sp_PumbRequests", true, pa, pv);
 
+        return ds.Tables[0].Rows[0][0].ToString();
+
     }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<Attachment> AttachmentDet(string UserId, string ReqID)
+    {
+
+        //string UpdatedBy
+        DBHandler DBH = new DBHandler();
+
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        //Int32 UserId = Convert.ToInt32(Session["UserId"].ToString());
+
+
+
+        pa.Add("@Oper");
+        pv.Add(16);
+
+        pa.Add("@userId");
+        pv.Add(UserId);
+
+        pa.Add("@ReqID");
+        pv.Add(Convert.ToInt64(ReqID));
+
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_PumbRequests", true, pa, pv);
+
+        List<Attachment> listProjDet = new List<Attachment>();
+
+        dt = ds.Tables[0];
+
+
+
+
+
+
+        for (int i = 0; i < dt.Rows.Count; i++)
+        {
+            Attachment ind = new Attachment();
+
+            ind.ID = dt.Rows[i]["ID"].ToString();
+            ind.FileName = dt.Rows[i]["FileName"].ToString();
+            ind.Comments = dt.Rows[i]["Comments"].ToString();
+            ind.URL = dt.Rows[i]["URL"].ToString();
+
+
+            listProjDet.Add(ind);
+        }
+
+
+        return listProjDet;
+
+    }
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<EMSProduct> GetAllEMSProductsByReqId(string UserId, string ReqId)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        List<EMSProduct> oListPro = new List<EMSProduct>();
+
+        pa.Add("@oper");
+        pv.Add(0);
+
+        pa.Add("@EMSRequestID");
+        pv.Add(ReqId);
+
+        DBH.CreateDatasetERM_Data(ds, "sp_EMS_AdditionalItemsFP", true, pa, pv);
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                oListPro.Add(new EMSProduct()
+                {
+                    ID = dt.Rows[i]["ID"].ToString(),
+                    ReqId = dt.Rows[i]["EMSRequestID"].ToString(),
+                    EMSProd = dt.Rows[i]["EMSProduct"].ToString(),
+                    Desc = dt.Rows[i]["Description"].ToString(),
+                    Price = dt.Rows[i]["Price"].ToString(),
+                    Optional = dt.Rows[i]["Isoptional"].ToString(),
+                    Comment = dt.Rows[i]["Comments"].ToString(),
+                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString()
+                });
+            }
+        }
+        return oListPro;
+
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static void AddAdditionalItemInTOC(string UserId, string Product, string Price, string IsOptional, string Desc, string AdditionalComm, string ReqId)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+
+        pa.Add("@oper");
+        pv.Add(1);
+
+        pa.Add("@UserID");
+        pv.Add(UserId);
+
+        pa.Add("@EMSRequestID");
+        pv.Add(ReqId);
+
+        pa.Add("@EMSProduct");
+        pv.Add(Product);
+
+        pa.Add("@Description");
+        pv.Add(Desc);
+
+        pa.Add("@Price");
+        pv.Add(Price);
+
+        pa.Add("@IsOptional");
+        pv.Add(IsOptional);
+
+        pa.Add("@Comments");
+        pv.Add(AdditionalComm);
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_EMS_AdditionalItemsFP", true, pa, pv);
+
+    }
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static void DeleteAddiItem(string AddItemId)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(2);
+
+        pa.Add("@ID");
+        pv.Add(AddItemId);
+
+        DBH.CreateDatasetERM_Data(ds, "sp_EMS_AdditionalItemsFP", true, pa, pv);
+
+    }
+
+    public class EMSProduct
+    {
+
+        public string ID { get; set; }
+        public string ReqId { get; set; }
+        public string EMSProd { get; set; }
+        public string Desc { get; set; }
+        public string Price { get; set; }
+        public string Optional { get; set; }
+        public string Comment { get; set; }
+        public string CreatedBy { get; set; }
+        public string CreatedDate { get; set; }
+    }
+
 
     public class EmpListDDL
     {
@@ -423,6 +610,16 @@ public partial class ERM_FirePump : System.Web.UI.Page
         public string EmpNo { get; set; }
         public string EmpName { get; set; }
 
+
+    }
+
+    public class Attachment
+    {
+
+        public string ID { get; set; }
+        public string FileName { get; set; }
+        public string Comments { get; set; }
+        public string URL { get; set; }
 
     }
     public class Tabledetails
@@ -482,6 +679,9 @@ public partial class ERM_FirePump : System.Web.UI.Page
         public string EstimationOrg { get; set; }
         public string MarketingID { get; set; }
         public string OrderStatus { get; set; }
+        public string PumpSpecification { get; set; }
+        public string ListOfMakes { get; set; }
+        public string PumpShedule { get; set; }
 
 
     }
@@ -494,6 +694,7 @@ public partial class ERM_FirePump : System.Web.UI.Page
         public string Area { get; set; }
         public string Description { get; set; }
         public string QTY { get; set; }
+        public string TypeOfPump { get; set; }
 
     }
 
@@ -509,7 +710,7 @@ public partial class ERM_FirePump : System.Web.UI.Page
         public string Value { get; set; }
         public string PumpQTY { get; set; }
         public string MoreInformation { get; set; }
-
+        public string Comments { get; set; }
 
     }
 }

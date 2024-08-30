@@ -1,5 +1,6 @@
 ﻿var RequestId = 0;
 var Status = "";
+var Comments = '';
 
 $(document).ready(function () {
 
@@ -50,13 +51,18 @@ function GetCustDetails() {
                    <td style="text-align:center;">`+ item.City + `</td>
                    <td style="text-align:center;">`+ item.Address + `</td>
                    <td style="text-align:center;">`+ item.Status + `</td>
-                   <td style="text-align:center;">`+ item.CreatedBy + `</td>
+                   <td style="text-align:center;">`+ item.Salesman + `</td>
+                   <td style="text-align:center;display:none;">`+ item.CreatedBy + `</td>
+                   <td style="text-align:center;">`+ item.RequestedBy + `</td>
                     <td style="text-align:center;">`+ item.CreatedDate + `</td>
                     <td style="text-align:center;">`+ item.Remarks + `</td>
-                    <td style="text-align:center;vertical-align:middle;"><a style="margin-left: 4%;" class="image-change">
-                    <img src="images/icon-Update.png" title="Approve" class="fa-icon-hover ibtn-Request-Approve" style="cursor: pointer; width: 24px;" />
+                    <td style="text-align:center;vertical-align:middle;"><a style="margin-left: 4%;" class="image-change">`
+                if ($('#ddlRequestStatus').val() == 'PENDING') {
+                    htm += ` <img src="images/icon-Update.png" title="Approve" class="fa-icon-hover ibtn-Request-Approve" style="cursor: pointer; width: 24px;" />
                     <img src="images/close.png" title="Reject" class="fa-icon-hover ibtn-Request-Reject" style="cursor: pointer; width: 24px;" />
-                    </a></td>`;
+                    </a >`
+                } 
+                htm += `</td >`;
                 htm += `</tr>`;
                 /*    <i class="fa-solid fa-eye"></i>*/
 
@@ -87,14 +93,20 @@ function initiateDataTable() {
     });
 }
 
+$('#ddlRequestStatus').on('change', function () {
+
+    GetCustDetails('Please wait...');
+
+});
 
 $('.ERMCust-tbody').on('click', '.ibtn-Request-Approve', function () {
 
     RequestId = this.parentNode.parentNode.parentNode.children[0].textContent;
     ReqRoleID = this.parentNode.parentNode.parentNode.children[1].textContent;
     Status = "APPROVED";
+    $('#txtActionApproveReq').val('');
     //FillAllDetails();
-    $('#mpActionComments').modal('show');
+    $('#ConfirmationApprovePopup').modal('show');
 });
 
 $('.ERMCust-tbody').on('click', '.ibtn-Request-Reject', function () {
@@ -102,26 +114,38 @@ $('.ERMCust-tbody').on('click', '.ibtn-Request-Reject', function () {
     RequestId = this.parentNode.parentNode.parentNode.children[0].textContent;
     ReqRoleID = this.parentNode.parentNode.parentNode.children[1].textContent;
     Status = "REJECTED";
+    $('#txtActionRejectReq').val('');
     //FillAllDetails();
-    $('#mpActionComments').modal('show');
+    $('#ConfirmrejectPopup').modal('show');
 });
 
 
-$('#btnSaveAction').on('click', function () {
+//$('#btnSaveAction').on('click', function () {
 
-    if ($('#txtActionComments').val() == "") {
-        toastr.error("Please add the comments");
-    }
-    else {
-        UpdateTheStatus(RequestId, Status);
-        GetCustDetails('Please wait...');
-        $('#mpActionComments').modal('hide');
-    }
+//    if ($('#txtActionComments').val() == "") {
+//        toastr.error("Please add the comments");
+//    }
+//    else {
+//        UpdateTheStatus(RequestId, Status);
+//        GetCustDetails('Please wait...');
+//        $('#mpActionComments').modal('hide');
+//    }
 
+//});
+
+$('#btnApprove').on('click', function () {
+
+    Comments = $('#txtActionApproveReq').val();
+    UpdateTheStatus();
+});
+$('#btnReject').on('click', function () {
+
+    Comments = $('#txtActionRejectReq').val();
+    UpdateTheStatus();
 });
 
 
-function UpdateTheStatus(RequestId, Status) {
+function UpdateTheStatus() {
 
     $.ajax({
         url: "CustomerVerifivation.aspx/RequestStatusUpdate",
@@ -129,6 +153,7 @@ function UpdateTheStatus(RequestId, Status) {
             "UserId": currUserId,
             "RequestNumber": RequestId,
             "Status": Status,
+            "Comments": Comments,
             // "comments": comments,
 
 
@@ -139,9 +164,16 @@ function UpdateTheStatus(RequestId, Status) {
         async: false,
         success: function (result) {
             var htm = '';
-            $(".ajax-loader").fadeOut(500);
+            GetCustDetails('Please wait...');
 
             toastr.success(Status + " Successfully");
+
+            if (Status == 'APPROVED') {
+                $('#ConfirmationApprovePopup').modal('hide');
+            }
+            else if (Status =='REJECTED') {
+                $('#ConfirmrejectPopup').modal('hide');
+            }
         },
         error: function (errormessage) {
             alert(errormessage.responseText);

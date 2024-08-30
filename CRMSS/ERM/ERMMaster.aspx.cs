@@ -57,22 +57,24 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
         List<CustomerDetails> listProjDet = new List<CustomerDetails>();
 
-        dt = ds.Tables[0];
 
-
-
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            CustomerDetails ind = new CustomerDetails();
-            ind.CRMAccountId = dt.Rows[i]["CRMAccountId"].ToString();
-            ind.AccountName = dt.Rows[i]["AccountName"].ToString();
-            ind.OwnerName = dt.Rows[i]["OwnerName"].ToString();
-            ind.Company = dt.Rows[i]["Company"].ToString();
-            ind.OwnerId = dt.Rows[i]["OwnerId"].ToString();
+            dt = ds.Tables[0];
 
-
-            listProjDet.Add(ind);
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                CustomerDetails ind = new CustomerDetails();
+                ind.CRMAccountId = dt.Rows[i]["CRMAccountId"].ToString();
+                ind.AccountName = dt.Rows[i]["AccountName"].ToString();
+                ind.OwnerName = dt.Rows[i]["OwnerName"].ToString();
+                ind.Company = dt.Rows[i]["Company"].ToString();
+                ind.OwnerId = dt.Rows[i]["OwnerId"].ToString();
+                
+                listProjDet.Add(ind);
+            }
         }
+        
 
 
         return listProjDet;
@@ -198,31 +200,31 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
         List<OpportunityDet> listProjDet = new List<OpportunityDet>();
 
-        dt = ds.Tables[0];
 
-
-
-
-
-
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            OpportunityDet ind = new OpportunityDet();
-            ind.OpportunityID = dt.Rows[i]["OpportunityID"].ToString();
-            ind.OpportunityNumber = dt.Rows[i]["OpportunityNumber"].ToString();
-            ind.Name = dt.Rows[i]["Name"].ToString();
-            ind.Owner = dt.Rows[i]["Owner"].ToString();
-            ind.MEPContractor = dt.Rows[i]["MEPContractor"].ToString();
-            ind.MEPConsultant = dt.Rows[i]["MEPConsultant"].ToString();
-            ind.SalesStageName = dt.Rows[i]["SalesStageName"].ToString();
-            ind.StatusCode = dt.Rows[i]["StatusCode"].ToString();
-            ind.Company = dt.Rows[i]["Company"].ToString();
-            ind.MarketingId = dt.Rows[i]["MarketingId"].ToString();
-            ind.Marketing = dt.Rows[i]["Marketing"].ToString();
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                OpportunityDet ind = new OpportunityDet();
+                ind.OpportunityID = dt.Rows[i]["OpportunityID"].ToString();
+                ind.OpportunityNumber = dt.Rows[i]["OpportunityNumber"].ToString();
+                ind.Name = dt.Rows[i]["Name"].ToString();
+                ind.Owner = dt.Rows[i]["Owner"].ToString();
+                ind.MEPContractor = dt.Rows[i]["MEPContractor"].ToString();
+                ind.MEPConsultant = dt.Rows[i]["MEPConsultant"].ToString();
+                ind.SalesStageName = dt.Rows[i]["SalesStageName"].ToString();
+                ind.StatusCode = dt.Rows[i]["StatusCode"].ToString();
+                ind.Company = dt.Rows[i]["Company"].ToString();
+                ind.MarketingId = dt.Rows[i]["MarketingId"].ToString();
+                ind.Marketing = dt.Rows[i]["Marketing"].ToString();
 
 
-            listProjDet.Add(ind);
+                listProjDet.Add(ind);
+            }
         }
+       
 
 
         return listProjDet;
@@ -260,34 +262,34 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
         List<OpportunityDet> listProjDet = new List<OpportunityDet>();
 
-        dt = ds.Tables[0];
 
-
-
-
-
-
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            OpportunityDet ind = new OpportunityDet();
-            
-            
-            ind.OpportunityNumber = dt.Rows[i]["OpportunityNumber"].ToString();
-            ind.Name = dt.Rows[i]["Name"].ToString();
-            ind.MEPContractor = dt.Rows[i]["MEPContractor"].ToString();
-            ind.MEPConsultant = dt.Rows[i]["MEPConsultant"].ToString();
-            ind.Locationurl = dt.Rows[i]["Locationurl"].ToString();
-            ind.Client = dt.Rows[i]["Client"].ToString();
-            ind.MainContractor = dt.Rows[i]["MainContractor"].ToString();
-            ind.ProjectNumber = dt.Rows[i]["ProjectNumber"].ToString();
-            ind.SalesStageName = dt.Rows[i]["SalesStageName"].ToString();
-            ind.MarketingId = dt.Rows[i]["MarketingId"].ToString();
-            ind.PlotNo = dt.Rows[i]["PlotNo"].ToString();
-            ind.Owner = dt.Rows[i]["Salesman"].ToString();
-            ind.Marketing = dt.Rows[i]["Marketing"].ToString();
+            dt = ds.Tables[0];
 
-            listProjDet.Add(ind);
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                OpportunityDet ind = new OpportunityDet();
+
+
+                ind.OpportunityNumber = dt.Rows[i]["OpportunityNumber"].ToString();
+                ind.Name = dt.Rows[i]["Name"].ToString();
+                ind.MEPContractor = dt.Rows[i]["MEPContractor"].ToString();
+                ind.MEPConsultant = dt.Rows[i]["MEPConsultant"].ToString();
+                ind.Locationurl = dt.Rows[i]["Locationurl"].ToString();
+                ind.Client = dt.Rows[i]["Client"].ToString();
+                ind.MainContractor = dt.Rows[i]["MainContractor"].ToString();
+                ind.ProjectNumber = dt.Rows[i]["ProjectNumber"].ToString();
+                ind.SalesStageName = dt.Rows[i]["SalesStageName"].ToString();
+                ind.MarketingId = dt.Rows[i]["MarketingId"].ToString();
+                ind.PlotNo = dt.Rows[i]["PlotNo"].ToString();
+                ind.Owner = dt.Rows[i]["Salesman"].ToString();
+                ind.Marketing = dt.Rows[i]["Marketing"].ToString();
+
+                listProjDet.Add(ind);
+            }
         }
+      
 
 
         return listProjDet;
@@ -312,18 +314,22 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
         List<DropDownValues> drpval = new List<DropDownValues>();
-        dt = ds.Tables[0];
 
 
-
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            drpval.Add(new DropDownValues()
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                ddlValue = dt.Rows[i]["PrimaryCategory"].ToString(),
-                ddlText = dt.Rows[i]["PrimaryCategory"].ToString()
-            });
+                drpval.Add(new DropDownValues()
+                {
+                    ddlValue = dt.Rows[i]["PrimaryCategory"].ToString(),
+                    ddlText = dt.Rows[i]["PrimaryCategory"].ToString()
+                });
+            }
         }
+        
         return drpval;
         //string a = userId;
     }
@@ -349,18 +355,21 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
         List<DropDownValues> drpval = new List<DropDownValues>();
-        dt = ds.Tables[0];
 
-
-
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            drpval.Add(new DropDownValues()
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                ddlValue = dt.Rows[i]["Subcategory"].ToString(),
-                ddlText = dt.Rows[i]["Subcategory"].ToString()
-            });
+                drpval.Add(new DropDownValues()
+                {
+                    ddlValue = dt.Rows[i]["Subcategory"].ToString(),
+                    ddlText = dt.Rows[i]["Subcategory"].ToString()
+                });
+            }
         }
+        
         return drpval;
         //string a = userId;
     }
@@ -383,18 +392,22 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
         List<DropDownValues> drpval = new List<DropDownValues>();
-        dt = ds.Tables[0];
 
 
-
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            drpval.Add(new DropDownValues()
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                ddlValue = dt.Rows[i]["Country"].ToString(),
-                ddlText = dt.Rows[i]["Country"].ToString()
-            });
+                drpval.Add(new DropDownValues()
+                {
+                    ddlValue = dt.Rows[i]["Country"].ToString(),
+                    ddlText = dt.Rows[i]["Country"].ToString()
+                });
+            }
         }
+        
         return drpval;
         //string a = userId;
     }
@@ -420,18 +433,23 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
         List<DropDownValues> drpval = new List<DropDownValues>();
-        dt = ds.Tables[0];
 
 
 
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            drpval.Add(new DropDownValues() 
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                ddlValue = dt.Rows[i]["City"].ToString(),
-                ddlText = dt.Rows[i]["City"].ToString()
-            });
+                drpval.Add(new DropDownValues()
+                {
+                    ddlValue = dt.Rows[i]["City"].ToString(),
+                    ddlText = dt.Rows[i]["City"].ToString()
+                });
+            }
         }
+        
         return drpval;
         //string a = userId;
     }
@@ -527,25 +545,25 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
         List<Attachment> listProjDet = new List<Attachment>();
 
-        dt = ds.Tables[0];
 
-
-
-
-
-
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            Attachment ind = new Attachment();
+            dt = ds.Tables[0];
 
-            ind.ID = dt.Rows[i]["ID"].ToString();
-            ind.FileName = dt.Rows[i]["FileName"].ToString();
-            ind.AttachComment = dt.Rows[i]["AttachComment"].ToString();
-            ind.URL = dt.Rows[i]["URL"].ToString();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                Attachment ind = new Attachment();
+
+                ind.ID = dt.Rows[i]["ID"].ToString();
+                ind.FileName = dt.Rows[i]["FileName"].ToString();
+                ind.AttachComment = dt.Rows[i]["AttachComment"].ToString();
+                ind.URL = dt.Rows[i]["URL"].ToString();
 
 
-            listProjDet.Add(ind);
+                listProjDet.Add(ind);
+            }
         }
+      
 
 
         return listProjDet;
@@ -732,26 +750,24 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
         List<ContactDet> listProjDet = new List<ContactDet>();
 
-        dt = ds.Tables[0];
 
-
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            ContactDet ind = new ContactDet();
-            ind.ContactId = dt.Rows[i]["ContactId"].ToString();
+            dt = ds.Tables[0];
 
-            ind.ContactName = dt.Rows[i]["ContactName"].ToString();
-            ind.PrimaryEmail = dt.Rows[i]["PrimaryEmail"].ToString();
-            ind.PrimaryPhone = dt.Rows[i]["PrimaryPhone"].ToString();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                ContactDet ind = new ContactDet();
+                ind.ContactId = dt.Rows[i]["ContactId"].ToString();
 
+                ind.ContactName = dt.Rows[i]["ContactName"].ToString();
+                ind.PrimaryEmail = dt.Rows[i]["PrimaryEmail"].ToString();
+                ind.PrimaryPhone = dt.Rows[i]["PrimaryPhone"].ToString();
 
-
-
-            listProjDet.Add(ind);
+                listProjDet.Add(ind);
+            }
         }
-
-
-
+        
         return listProjDet;
 
     }
@@ -802,14 +818,8 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
         pa.Add("@accountId");
         pv.Add(AccountId);
-
-
-
-
-
-
-
-
+    
+        
 
         DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
@@ -837,18 +847,21 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
         List<DropDownValues> drpval = new List<DropDownValues>();
-        dt = ds.Tables[0];
 
-
-
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            drpval.Add(new DropDownValues()
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                ddlValue = dt.Rows[i]["company"].ToString(),
-                ddlText = dt.Rows[i]["Displayname"].ToString()
-            });
+                drpval.Add(new DropDownValues()
+                {
+                    ddlValue = dt.Rows[i]["company"].ToString(),
+                    ddlText = dt.Rows[i]["Displayname"].ToString()
+                });
+            }
         }
+       
         return drpval;
         //string a = userId;
     }
@@ -889,33 +902,37 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
         List<TableDetails> listProjDet = new List<TableDetails>();
 
-        dt = ds.Tables[0];
-
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            TableDetails ind = new TableDetails();
-            ind.RefNo = dt.Rows[i]["RefNo"].ToString();
-            ind.RevNo = dt.Rows[i]["RevNo"].ToString();
-           
-            ind.OPTNumber = dt.Rows[i]["OPTNumber"].ToString();
-            ind.ProjectNumber = dt.Rows[i]["ProjectNumber"].ToString();
-            ind.ProjectName = dt.Rows[i]["ProjectName"].ToString();
-            ind.CreatedBy = dt.Rows[i]["CreatedBy"].ToString();
-            ind.CreatedDate = dt.Rows[i]["CreatedDate"].ToString();
-            ind.ID = dt.Rows[i]["ID"].ToString(); 
-            ind.RoleID = dt.Rows[i]["RoleID"].ToString();
+            dt = ds.Tables[0];
 
-            ind.Consultant = dt.Rows[i]["Consultant"].ToString();
-            ind.Marketing = dt.Rows[i]["Marketing"].ToString();
-            ind.MEPContractor = dt.Rows[i]["MEPContractor"].ToString();
-            ind.Salesman = dt.Rows[i]["Salesman"].ToString();
-            ind.Scope = dt.Rows[i]["Scope"].ToString();
-            ind.QuotationType = dt.Rows[i]["QuotationType"].ToString();
-            ind.Stage = dt.Rows[i]["Stage"].ToString();
-            ind.PlotNumber = dt.Rows[i]["PlotNumber"].ToString(); 
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                TableDetails ind = new TableDetails();
+                ind.RefNo = dt.Rows[i]["RefNo"].ToString();
+                ind.RevNo = dt.Rows[i]["RevNo"].ToString();
 
-            listProjDet.Add(ind);
+                ind.OPTNumber = dt.Rows[i]["OPTNumber"].ToString();
+                ind.ProjectNumber = dt.Rows[i]["ProjectNumber"].ToString();
+                ind.ProjectName = dt.Rows[i]["ProjectName"].ToString();
+                ind.CreatedBy = dt.Rows[i]["CreatedBy"].ToString();
+                ind.CreatedDate = dt.Rows[i]["CreatedDate"].ToString();
+                ind.ID = dt.Rows[i]["ID"].ToString();
+                ind.RoleID = dt.Rows[i]["RoleID"].ToString();
+
+                ind.Consultant = dt.Rows[i]["Consultant"].ToString();
+                ind.Marketing = dt.Rows[i]["Marketing"].ToString();
+                ind.MEPContractor = dt.Rows[i]["MEPContractor"].ToString();
+                ind.Salesman = dt.Rows[i]["Salesman"].ToString();
+                ind.Scope = dt.Rows[i]["Scope"].ToString();
+                ind.QuotationType = dt.Rows[i]["QuotationType"].ToString();
+                ind.Stage = dt.Rows[i]["Stage"].ToString();
+                ind.PlotNumber = dt.Rows[i]["PlotNumber"].ToString();
+
+                listProjDet.Add(ind);
+            }
         }
+        
 
 
         return listProjDet;
@@ -954,57 +971,52 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
         List<TableDetails> listProjDet = new List<TableDetails>();
 
-        dt = ds.Tables[0];
-
-
-
-
-
-
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            TableDetails ind = new TableDetails();
-            ind.RefNo = dt.Rows[i]["RefNo"].ToString();
-            ind.RevNo = dt.Rows[i]["RevNo"].ToString();
-            ind.ContABBR = dt.Rows[i]["ContABBR"].ToString();
-            ind.YEAR = dt.Rows[i]["YEAR"].ToString();
-            ind.OPTNumber = dt.Rows[i]["OPTNumber"].ToString();
-            ind.ProjectNumber = dt.Rows[i]["ProjectNumber"].ToString();
-            ind.ProjectName = dt.Rows[i]["ProjectName"].ToString();
-            ind.CreatedBy = dt.Rows[i]["CreatedBy"].ToString();
-            ind.CreatedDate = dt.Rows[i]["CreatedDate"].ToString();
-            ind.ID = dt.Rows[i]["ID"].ToString();
+            dt = ds.Tables[0];
 
-            ind.Location = dt.Rows[i]["Location"].ToString();
-            ind.Client = dt.Rows[i]["Client"].ToString();
-            ind.Consultant = dt.Rows[i]["Consultant"].ToString();
-            ind.MainContractor = dt.Rows[i]["MainContractor"].ToString();
-            ind.URL = dt.Rows[i]["URL"].ToString();
-            ind.MEPContractor = dt.Rows[i]["MEPContractor"].ToString();
-            ind.ContactID = dt.Rows[i]["ContactID"].ToString();
-            ind.Stage = dt.Rows[i]["Stage"].ToString();
-            ind.Scope = dt.Rows[i]["Scope"].ToString();
-            ind.QuotationType = dt.Rows[i]["QuotationType"].ToString();
-            ind.WinPerc = dt.Rows[i]["WinPerc"].ToString();
-            ind.Budget = dt.Rows[i]["Budget"].ToString();
-            ind.DocumentLink = dt.Rows[i]["URL"].ToString();
-            ind.ContactName = dt.Rows[i]["ContactName"].ToString();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                TableDetails ind = new TableDetails();
+                ind.RefNo = dt.Rows[i]["RefNo"].ToString();
+                ind.RevNo = dt.Rows[i]["RevNo"].ToString();
+                ind.ContABBR = dt.Rows[i]["ContABBR"].ToString();
+                ind.YEAR = dt.Rows[i]["YEAR"].ToString();
+                ind.OPTNumber = dt.Rows[i]["OPTNumber"].ToString();
+                ind.ProjectNumber = dt.Rows[i]["ProjectNumber"].ToString();
+                ind.ProjectName = dt.Rows[i]["ProjectName"].ToString();
+                ind.CreatedBy = dt.Rows[i]["CreatedBy"].ToString();
+                ind.CreatedDate = dt.Rows[i]["CreatedDate"].ToString();
+                ind.ID = dt.Rows[i]["ID"].ToString();
 
-        
-            ind.ReqorderNumber = dt.Rows[i]["OrderStatus"].ToString();
-            ind.OwnerID = dt.Rows[i]["SalesmanID"].ToString();
-            ind.MarketingID = dt.Rows[i]["MarketingID"].ToString();
-            ind.EstimationOrg = dt.Rows[i]["EstimationOrg"].ToString();
-            ind.Salesman = dt.Rows[i]["Salesman"].ToString();
-            ind.Marketing = dt.Rows[i]["Marketing"].ToString();
-            ind.PlotNumber = dt.Rows[i]["PlotNumber"].ToString();
+                ind.Location = dt.Rows[i]["Location"].ToString();
+                ind.Client = dt.Rows[i]["Client"].ToString();
+                ind.Consultant = dt.Rows[i]["Consultant"].ToString();
+                ind.MainContractor = dt.Rows[i]["MainContractor"].ToString();
+                ind.URL = dt.Rows[i]["URL"].ToString();
+                ind.MEPContractor = dt.Rows[i]["MEPContractor"].ToString();
+                ind.ContactID = dt.Rows[i]["ContactID"].ToString();
+                ind.Stage = dt.Rows[i]["Stage"].ToString();
+                ind.Scope = dt.Rows[i]["Scope"].ToString();
+                ind.QuotationType = dt.Rows[i]["QuotationType"].ToString();
+                ind.WinPerc = dt.Rows[i]["WinPerc"].ToString();
+                ind.Budget = dt.Rows[i]["Budget"].ToString();
+                ind.DocumentLink = dt.Rows[i]["URL"].ToString();
+                ind.ContactName = dt.Rows[i]["ContactName"].ToString();
 
 
-
-
-
-            listProjDet.Add(ind);
+                ind.ReqorderNumber = dt.Rows[i]["OrderStatus"].ToString();
+                ind.OwnerID = dt.Rows[i]["SalesmanID"].ToString();
+                ind.MarketingID = dt.Rows[i]["MarketingID"].ToString();
+                ind.EstimationOrg = dt.Rows[i]["EstimationOrg"].ToString();
+                ind.Salesman = dt.Rows[i]["Salesman"].ToString();
+                ind.Marketing = dt.Rows[i]["Marketing"].ToString();
+                ind.PlotNumber = dt.Rows[i]["PlotNumber"].ToString();
+                                                          
+                listProjDet.Add(ind);
+            }
         }
+        
 
 
         return listProjDet;
@@ -1041,18 +1053,21 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
         List<DropDownValues> drpval = new List<DropDownValues>();
-        dt = ds.Tables[0];
 
-
-
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            drpval.Add(new DropDownValues()
+            dt = ds.Tables[0];
+                       
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                ddlValue = dt.Rows[i]["City"].ToString(),
-                ddlText = dt.Rows[i]["City"].ToString()
-            });
+                drpval.Add(new DropDownValues()
+                {
+                    ddlValue = dt.Rows[i]["City"].ToString(),
+                    ddlText = dt.Rows[i]["City"].ToString()
+                });
+            }
         }
+        
         return drpval;
         //string a = userId;
     }
@@ -1112,7 +1127,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         ArrayList pv = new ArrayList();
 
         //Int32 UserId = Convert.ToInt32(Session["UserId"].ToString());
-
+        List<string> ProduList = new List<string>();
 
 
         pa.Add("@oper");
@@ -1122,17 +1137,18 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         pv.Add(Convert.ToInt64(OwnerId));
 
         DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
-        dt = ds.Tables[0];
 
-        List<string> ProduList = new List<string>();
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            ProduList.Add(ds.Tables[0].Rows[i][0].ToString());
+            dt = ds.Tables[0];
+            
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                ProduList.Add(ds.Tables[0].Rows[i][0].ToString());
+            }
         }
-
-        return ProduList;
-
-
+       
+        return ProduList;        
     }
 
     [WebMethod]
@@ -1148,7 +1164,8 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         ArrayList pa = new ArrayList();
         ArrayList pv = new ArrayList();
 
-       
+        List<RequestedProducts> ProduList = new List<RequestedProducts>();
+
 
         pa.Add("@oper");
         pv.Add("21");
@@ -1171,29 +1188,33 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         pa.Add("@DeleteProduct");
         pv.Add(status);
 
-
-
+        
         DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
-        dt = ds.Tables[0];
 
-        List<RequestedProducts> ProduList = new List<RequestedProducts>();
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            ProduList.Add(new RequestedProducts()
+            dt = ds.Tables[0];
+
+            
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                ERMReqID = dt.Rows[i]["ReqID"].ToString(),
-                LineID = dt.Rows[i]["ID"].ToString(),
-                ERMNumber = dt.Rows[i]["Number"].ToString(),
-                Remarks = dt.Rows[i]["Remarks"].ToString(),
-                ERMProduct = dt.Rows[i]["Product"].ToString(),
-                EstimationTeam = dt.Rows[i]["EH_EmpNo"].ToString(),
-                Estimator = dt.Rows[i]["Estimator_EmpNo"].ToString(),
-                Status = "DRAFT",
-                StatusClass = "",
-                Priority="-1",
-                Hours="0",
-            });
+                ProduList.Add(new RequestedProducts()
+                {
+                    ERMReqID = dt.Rows[i]["ReqID"].ToString(),
+                    LineID = dt.Rows[i]["ID"].ToString(),
+                    ERMNumber = dt.Rows[i]["Number"].ToString(),
+                    Remarks = dt.Rows[i]["Remarks"].ToString(),
+                    ERMProduct = dt.Rows[i]["Product"].ToString(),
+                    EstimationTeam = dt.Rows[i]["EH_EmpNo"].ToString(),
+                    Estimator = dt.Rows[i]["Estimator_EmpNo"].ToString(),
+                    Status = "DRAFT",
+                    StatusClass = "",
+                    Priority = "-1",
+                    Hours = "0",
+                });
+            }
         }
+       
 
         return ProduList;
 
@@ -1212,7 +1233,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         ArrayList pa = new ArrayList();
         ArrayList pv = new ArrayList();
 
-
+        List<RequestedProducts> ProduList = new List<RequestedProducts>();
 
         pa.Add("@oper");
         pv.Add("22");
@@ -1222,33 +1243,37 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
         pa.Add("@userId");
         pv.Add(UserID);
-
-
-
+               
 
         DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
-        dt = ds.Tables[0];
 
-        List<RequestedProducts> ProduList = new List<RequestedProducts>();
-        for (int i = 0; i < dt.Rows.Count; i++)
+
+        if (ds.Tables.Count > 0)
         {
-            ProduList.Add(new RequestedProducts()
-            {
-                ERMReqID = dt.Rows[i]["ReqID"].ToString(),
-                LineID = dt.Rows[i]["ID"].ToString(),
-                ERMNumber = dt.Rows[i]["Number"].ToString(),
-                Remarks = dt.Rows[i]["Remarks"].ToString(),
-                ERMProduct = dt.Rows[i]["Product"].ToString(),
-                EstimationTeam = dt.Rows[i]["EH_EmpNo"].ToString(),
-                Estimator = dt.Rows[i]["Estimator_EmpNo"].ToString(),
-                Status = dt.Rows[i]["EstStatus"].ToString(),
-                StatusClass = dt.Rows[i]["StatusClass"].ToString(),
-                DueDate = dt.Rows[i]["DueOn"].ToString(),
-                Priority = dt.Rows[i]["WorkPriority"].ToString(),
-                Hours = dt.Rows[i]["RequiredHours"].ToString(),
+            dt = ds.Tables[0];
 
-            });
+            
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                ProduList.Add(new RequestedProducts()
+                {
+                    ERMReqID = dt.Rows[i]["ReqID"].ToString(),
+                    LineID = dt.Rows[i]["ID"].ToString(),
+                    ERMNumber = dt.Rows[i]["Number"].ToString(),
+                    Remarks = dt.Rows[i]["Remarks"].ToString(),
+                    ERMProduct = dt.Rows[i]["Product"].ToString(),
+                    EstimationTeam = dt.Rows[i]["EH_EmpNo"].ToString(),
+                    Estimator = dt.Rows[i]["Estimator_EmpNo"].ToString(),
+                    Status = dt.Rows[i]["EstStatus"].ToString(),
+                    StatusClass = dt.Rows[i]["StatusClass"].ToString(),
+                    DueDate = dt.Rows[i]["DueOn"].ToString(),
+                    Priority = dt.Rows[i]["WorkPriority"].ToString(),
+                    Hours = dt.Rows[i]["RequiredHours"].ToString(),
+
+                });
+            }
         }
+        
 
         return ProduList;
 
@@ -1320,20 +1345,25 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
         List<ApprovaStatuslList> appList = new List<ApprovaStatuslList>();
 
-        dt = ds.Tables[0];
 
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            appList.Add(new ApprovaStatuslList()
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                Role = dt.Rows[i]["Role"].ToString(),
-                User = dt.Rows[i]["User"].ToString(),
-                Status = dt.Rows[i]["Status"].ToString(),
-                UpdatedOn = dt.Rows[i]["UpdatedOn"].ToString(),
-                Statusclass = dt.Rows[i]["Statusclass"].ToString(),
-                comments = dt.Rows[i]["comments"].ToString(),
-            });
+                appList.Add(new ApprovaStatuslList()
+                {
+                    Role = dt.Rows[i]["Role"].ToString(),
+                    User = dt.Rows[i]["User"].ToString(),
+                    Status = dt.Rows[i]["Status"].ToString(),
+                    UpdatedOn = dt.Rows[i]["UpdatedOn"].ToString(),
+                    Statusclass = dt.Rows[i]["Statusclass"].ToString(),
+                    comments = dt.Rows[i]["comments"].ToString(),
+                });
+            }
         }
+    
 
         return appList;
 
@@ -1358,18 +1388,23 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
         List<DropDownValues> drpval = new List<DropDownValues>();
-        dt = ds.Tables[0];
 
-
-
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            drpval.Add(new DropDownValues()
+            dt = ds.Tables[0];
+
+
+
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                ddlValue = dt.Rows[i]["User_Id"].ToString(),
-                ddlText = dt.Rows[i]["Name"].ToString()
-            });
+                drpval.Add(new DropDownValues()
+                {
+                    ddlValue = dt.Rows[i]["User_Id"].ToString(),
+                    ddlText = dt.Rows[i]["Name"].ToString()
+                });
+            }
         }
+       
         return drpval;
         //string a = userId;
     }
@@ -1395,18 +1430,24 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         DBH.CreateDatasetERM_Data(ds, "sp_FillControls", true, pa, pv);
 
         List<DropDownValues> drpval = new List<DropDownValues>();
-        dt = ds.Tables[0];
 
 
-
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            drpval.Add(new DropDownValues()
+            dt = ds.Tables[0];
+
+
+
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                ddlValue = dt.Rows[i]["ManagerEmpNo"].ToString(),
-                ddlText = dt.Rows[i]["ManagerName"].ToString()
-            });
+                drpval.Add(new DropDownValues()
+                {
+                    ddlValue = dt.Rows[i]["ManagerEmpNo"].ToString(),
+                    ddlText = dt.Rows[i]["ManagerName"].ToString()
+                });
+            }
         }
+        
         return drpval;
         //string a = userId;
     }
@@ -1470,18 +1511,24 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         DBH.CreateDatasetERM_Data(ds, "sp_FillControls", true, pa, pv);
 
         List<DropDownValues> drpval = new List<DropDownValues>();
-        dt = ds.Tables[0];
 
 
-
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            drpval.Add(new DropDownValues()
+            dt = ds.Tables[0];
+
+
+
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                ddlValue = dt.Rows[i]["EmpNo"].ToString(),
-                ddlText = dt.Rows[i]["EmpName"].ToString()
-            });
+                drpval.Add(new DropDownValues()
+                {
+                    ddlValue = dt.Rows[i]["EmpNo"].ToString(),
+                    ddlText = dt.Rows[i]["EmpName"].ToString()
+                });
+            }
         }
+        
         return drpval;
         //string a = userId;
     }
@@ -1509,18 +1556,24 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         DBH.CreateDatasetERM_Data(ds, "sp_FillControls", true, pa, pv);
 
         List<DropDownValues> drpval = new List<DropDownValues>();
-        dt = ds.Tables[0];
 
 
-
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            drpval.Add(new DropDownValues()
+            dt = ds.Tables[0];
+
+
+
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                ddlValue = dt.Rows[i]["EmpNo"].ToString(),
-                ddlText = dt.Rows[i]["EmpName"].ToString()
-            });
+                drpval.Add(new DropDownValues()
+                {
+                    ddlValue = dt.Rows[i]["EmpNo"].ToString(),
+                    ddlText = dt.Rows[i]["EmpName"].ToString()
+                });
+            }
         }
+        
         return drpval;
         //string a = userId;
     }
@@ -1600,19 +1653,24 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
         List<CommentDet> appList = new List<CommentDet>();
 
-        dt = ds.Tables[0];
 
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            appList.Add(new CommentDet()
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                SlNo = dt.Rows[i]["SlNo"].ToString(),
-                Comments = dt.Rows[i]["Comments"].ToString(),
-                UpdatedBy = dt.Rows[i]["UpdatedBy"].ToString(),
-                UpdatedDate = dt.Rows[i]["UpdatedDate"].ToString(),
-               
-            });
+                appList.Add(new CommentDet()
+                {
+                    SlNo = dt.Rows[i]["SlNo"].ToString(),
+                    Comments = dt.Rows[i]["Comments"].ToString(),
+                    UpdatedBy = dt.Rows[i]["UpdatedBy"].ToString(),
+                    UpdatedDate = dt.Rows[i]["UpdatedDate"].ToString(),
+
+                });
+            }
         }
+       
 
         return appList;
 
@@ -1639,18 +1697,24 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
 
         List<DropDownValues> drpval = new List<DropDownValues>();
-        dt = ds.Tables[0];
 
 
-
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            drpval.Add(new DropDownValues()
+            dt = ds.Tables[0];
+
+
+
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                ddlValue = dt.Rows[i]["EmpNo"].ToString(),
-                ddlText = dt.Rows[i]["EmpName"].ToString()
-            });
+                drpval.Add(new DropDownValues()
+                {
+                    ddlValue = dt.Rows[i]["EmpNo"].ToString(),
+                    ddlText = dt.Rows[i]["EmpName"].ToString()
+                });
+            }
         }
+        
         return drpval;
         //string a = userId;
     }
@@ -1722,19 +1786,24 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
         List<TaskSummary> TaskSummary = new List<TaskSummary>();
 
-        dt = ds.Tables[0];
 
-        for (int i = 0; i < dt.Rows.Count; i++)
+        if (ds.Tables.Count > 0)
         {
-            TaskSummary.Add(new TaskSummary()
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
             {
-                EmpNo = dt.Rows[i]["EmpNo"].ToString(),
-                DueDate = dt.Rows[i]["DueDate"].ToString(),
-                Assigned = dt.Rows[i]["Assigned"].ToString(),
-                Pending = dt.Rows[i]["Pending"].ToString(),
-                EmpName = dt.Rows[i]["EmpName"].ToString(),
-            });
+                TaskSummary.Add(new TaskSummary()
+                {
+                    EmpNo = dt.Rows[i]["EmpNo"].ToString(),
+                    DueDate = dt.Rows[i]["DueDate"].ToString(),
+                    Assigned = dt.Rows[i]["Assigned"].ToString(),
+                    Pending = dt.Rows[i]["Pending"].ToString(),
+                    EmpName = dt.Rows[i]["EmpName"].ToString(),
+                });
+            }
         }
+        
 
         return TaskSummary;
     }

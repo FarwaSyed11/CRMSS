@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="ERMMaster.aspx.cs" Inherits="ERM_ERMMaster" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="ERMMaster.aspx.cs" Inherits="ERM_ERMMaster" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -470,12 +470,6 @@
                 </div>
 
 
-                <div class="ajax-loader loader-bg-blur">
-                    <div class="custom-loader ">
-                        <span class="spinner-border kpi-loader-name" role="status" aria-hidden="true"></span>
-                        <h4>Loading Data...</h4>
-                    </div>
-                </div>
                 <div class="" style="margin-top: 1%;">
                     <table class="table ERMRequest-list-table">
 
@@ -948,6 +942,7 @@
                                                     <td class="hidden">ES</td>
                                                     <th>Due Date</th>
                                                      <th>Priority</th>
+                                                          <td class="hidden">Priority</td>
                                                      <th>Hours</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
@@ -1724,7 +1719,7 @@
     <script src="../FacilityManagement/Datatable/js/buttons.print.min.js"></script>
 
     <!-- Page JS/CSS file -->
-    <script src="Scripts/ERMMaster.js?v=15"></script>
+    <script src="Scripts/ERMMaster.js?v=17"></script>
     <%-- <link href="css/quotation.css" rel="stylesheet" />--%>
     <link href="Css/EMSStyle.css" rel="stylesheet" />
 

@@ -1,403 +1,5 @@
 ﻿
 
-//START-------------------On TOC Side------------------//
-
-
-var selFpReqId = 0;
-var listAllFpReqs = 0;
-var isSpecAttached = 0;
-var isListofMake = 0;
-var isPumpSched = 0;
-var listPumpReqs = [];
-var objDatatableFPReq = [];
-var listPumpReqsView = [];
-function selectedReq(selFpReqId) {
-    selRequest = selFpReqId;
-}
-
-$('.btn-add-firepump').on('click', function () {
-    ViewRequests();
-    $('#modalAddFirepumpReq').modal('show')
-})
-$('.btnClose').on('click', function () {
-    ViewRequests();
-    $(".pumpLine").html("");
-})
-
-$('#btnAddFirePumpItem').on('click', function () {
-    ViewRequests();
-    createPumpLineHTML();
-    $('#btnSaveFirePumpItem').css("display", "");
-    $('#btnClose').css("display", "");
-
-    $('#btnAddFirePumpItem').css("display", "none");
-})
-$('#btnSaveFirePumpItem').on('click', function () {
-    newPumponLine();
-    ViewRequests();
-})
-
-$('input[name=isAttached]').on('change', function () {
-    if ($("input[name=isAttached]").is(":checked") == true) {
-        isSpecAttached = 1
-    }
-    else {
-        isSpecAttached = 0;
-    }
-})
-$('input[name=isListofMake]').on('change', function () {
-    if ($("input[name=isListofMake]").is(":checked") == true) {
-        isListofMake = 1
-    }
-    else {
-        isListofMake = 0;
-    }
-})
-$('input[name=isPumpSched]').on('change', function () {
-    if ($("input[name=isPumpSched]").is(":checked") == true) {
-        isPumpSched = 1
-    }
-    else {
-        isPumpSched = 0;
-    }
-})
-
-function newPumponLine() {
-    $.ajax({
-        url: "EMSItemList.aspx/InsertPumpMainReq",
-        type: "POST",
-        data: JSON.stringify({
-            "RequstId": selReqId,
-            "UserId": currUserId,
-            "Description": $("input[name=desc]").val(),
-            "Area": $("input[name=area]").val(),
-            "Quantity": $("input[name=qty]").val(),
-            "ECapacity": $("input[name=capacity1]").val(),
-            "DCapacity": $("input[name=capacity2]").val(),
-            "JCapacity": $("input[name=capacity3]").val(),
-            "EBars": $("input[name=bars1]").val(),
-            "DBars": $("input[name=bars2]").val(),
-            "JBars": $("input[name=bars3]").val(),
-            "EQTY": $("input[name=qty1]").val(),
-            "DQTY": $("input[name=qty2]").val(),
-            "JQTY": $("input[name=qty3]").val(),
-            "Direction": $("input[name=TypeofPump]").val(),
-            "PumpSpecs": isSpecAttached,
-            "ListofMake": isListofMake,
-            "PumpSched": isPumpSched
-        }),
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {
-            $('#btnAddFirePumpItem').css("display", "");
-            $('#btnSaveFirePumpItem').css("display", "none");
-            $('#btnClose').css("display", "none");
-            $(".pumpLine").html('');
-            toastr.success("Pump Requested Successfully!");
-            ViewRequests();
-        },
-        error: function (errormessage) {
-        }
-    });
-}
-function ViewRequests() {
-    $.ajax({
-        url: "EMSItemList.aspx/ViewFirePumpReq",
-        type: "POST",
-        data: JSON.stringify({
-            "RequstId": selReqId,
-            "UserId": currUserId,
-        }),
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {
-            var htm = '';
-            listPumpReqs = result.d;
-
-            //$('.tbody-added-firepumpreqs tr').length > 0 ? objDatatableFPReq.destroy() : '';
-
-            $.each(listPumpReqs, function (key, item) {
-
-                htm += `<tr>  
-                 
-                  <td style="text-align:center;">`+ item.SlNO + `</td>
-                   <td style="text-align:center;display:none;">` + item.ItemID + `</td>
-                  <td style="text-align:center;">`+ item.Area + `</td>
-                  <td style="text-align:center;">`+ item.Description + `</td>
-                  <td style="text-align:center;">`+ item.QTY + `</td> 
-                  <td style="text-align:center;">`+ item.TypeOfPump + `</td> 
-                  <td style="text-align:center;">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="view-FP-details" width="2rem" height="2rem" viewBox="0 0 24 24" title="View More" style="cursor: pointer;">
-                        <g fill="none" stroke="#b22e35">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.009m3.996 0h.008m3.978 0H16" />
-                            <circle cx="12" cy="12" r="10" stroke-width="1.5" />
-                        </g>
-                  </svg>
-                  </td>`;
-
-                htm += `</tr>`;
-
-            });
-
-            $('.tbody-added-firepumpreqs').html(htm);
-            initiateDataTableItems();
-
-        },
-        error: function (errormessage) {
-        }
-    });
-}
-
-function initiateDataTableFPRequests() {
-    objDatatableFPReq = [];
-    objDatatableFPReq = $('.table-added-firepumpreqs').DataTable({
-        dom: 'lBfrtip',
-        buttons: {
-            buttons: []
-        },
-        "columnDefs": [
-
-            { "orderable": false, "targets": [] },
-            { "orderable": true, "targets": [] }
-        ],
-        /*   order: [[0, 'ASC']]*/
-    });
-}
-
-$('.table-added-firepumpreqs').on('click', '.view-FP-details', function () {
-
-    ItemID = this.parentNode.parentNode.children[1].textContent;
-    $('#modalViewFirepumpReqDeets').modal('show');
-    ViewFirePumpReqDetails();
-});
-
-
-function ViewFirePumpReqDetails() {
-    $.ajax({
-        url: "EMSItemList.aspx/ViewFirePumpReqDetails",
-        type: "POST",
-        data: JSON.stringify({
-            "PumpReqId": ItemID,
-        }),
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {
-            var htm = ``;
-            listPumpReqsView = result.d;
-
-
-            htm += `<div class="row mx-3">`;
-
-            if (listPumpReqsView[0].PumpSpecs == "False") {
-                htm += `<div class="form-check col-4 ms-3 mb-4">
-                            <input class="form-check-input" type="checkbox" value=""  name="isAttached" style="pointer-events: none;">
-                            <label class="form-check-label" for="">
-                                Specifications Attached
-                            </label>
-                        </div>`;
-                            }
-            else {
-                htm += `<div class="form-check col-4 ms-3 mb-4">
-                            <input class="form-check-input" type="checkbox" value=""  name="isAttached" checked style="pointer-events: none;">
-                            <label class="form-check-label" for="">
-                                Specifications Attached
-                            </label>
-                        </div>`
-                            }
-
-            if (listPumpReqsView[0].ListofMake == "False") {
-                htm += `<div class="form-check col-3">
-                            <input class="form-check-input" type="checkbox" value=""  name="isListofMake" style="pointer-events: none;">
-                            <label class="form-check-label" for="">
-                                List of Make
-                            </label>
-                        </div>`;
-                            }
-            else {
-                htm += `<div class="form-check col-3">
-                            <input class="form-check-input" type="checkbox" value=""  name="isListofMake" checked style="pointer-events: none;">
-                            <label class="form-check-label" for="">
-                                List of Make
-                            </label>
-                        </div>`
-                            }
-
-            if (listPumpReqsView[0].PumpSched == "False") {
-                htm += `<div class="form-check col-3">
-                            <input class="form-check-input" type="checkbox" value=""  name="isPumpSched" style="pointer-events: none;">
-                            <label class="form-check-label" for="">
-                                Pump Schedule
-                            </label>
-                        </div>`;
-                            }
-            else {
-                htm += `<div class="form-check col-3">
-                            <input class="form-check-input" type="checkbox" value=""  name="isPumpSched" checked style="pointer-events: none;">
-                            <label class="form-check-label" for="">
-                               Pump Schedule
-                            </label>
-                        </div></div>`
-            }
-
-
-
-            htm += `<div class="row mt-1" style="text-align: center;">
-
-                        <table class="">
-                            <thead>
-                                <tr class="">
-                                    <th style="width: 230px !important">Pump Set</th>
-                                    <th style="width: 290px !important">Capacity (GPM)</th>
-                                    <th style="width: 100px !important">Pressure (Bars)</th>
-                                    <th style="width: 100px !important">QTY</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="">
-                                    <td>Electrical Pump Set</td>
-                                    <td class="position-relative" style="">
-                                        <label class="">`+ listPumpReqsView[0].ECapacity +`</label></td>
-                                    <td class="position-relative" style="">
-                                        <label class="">`+ listPumpReqsView[0].EBars +`</label></td>
-                                    <td class="position-relative" style="">
-                                        <label class="">`+ listPumpReqsView[0].EQTY +`</label></td>
-                                </tr>
-                                <tr class="">
-                                    <td>Diesel Pump Set</td>
-                                    <td class="position-relative">
-                                        <label class="">`+ listPumpReqsView[0].DCapacity +`</label></td>
-                                    <td class="position-relative">
-                                        <label class="">`+ listPumpReqsView[0].DBars +`</label></td>
-                                    <td class="position-relative">
-                                        <label class="">`+ listPumpReqsView[0].DQTY +`</label></td>
-                                </tr>
-                                <tr class="">
-                                    <td>Jockey Pump Set</td>
-                                    <td class="position-relative">
-                                        <label class="">`+ listPumpReqsView[0].JCapacity +`</label></td>
-                                    <td class="position-relative">
-                                        <label class="">`+ listPumpReqsView[0].JBars +`</label></td>
-                                    <td class="position-relative">
-                                        <label class="">`+ listPumpReqsView[0].JQTY +`</label></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>`
-
-
-            $(".pumpLineView").html(htm)
-                        
-        },
-        error: function (errormessage) {
-        }
-    });
-}
-
-function createPumpLineHTML() {
-    var htm = '';
-    htm += ` <div class="row mx-3 py-3">
-                <div class="form-check col-3">
-                    <input class="form-check-input" type="checkbox" value=""  name="isAttached">
-                    <label class="form-check-label" for="">
-                        Specifications Attached
-                    </label>
-                </div>
-                <div class="form-check col-2">
-                    <input class="form-check-input" type="checkbox" value=""  name="isListofMake">
-                    <label class="form-check-label" for="">
-                        List of Make
-                    </label>
-                </div>
-                <div class="form-check col-3">
-                    <input class="form-check-input" type="checkbox" value=""  name="isPumpSched">
-                    <label class="form-check-label" for="">
-                        Pump Schedule
-                    </label>
-                </div>
-            </div>
-            <div class="row mt-1">
-
-                <table class="table table-fpreq project-table" style="width: 100%;">
-                    <thead style="position: sticky; top: -3px;">
-                        <tr class="">
-                            <th style="width: 52px !important">No.</th>
-                            <th style="width: 52px !important">Area (Floor Desc)</th>
-                            <th style="width: 52px !important">Description</th>
-                            <th style="width: 52px !important">QTY</th>
-                            <th style="width: 52px !important">Type of Pump</th>
-                        </tr>
-                    </thead>
-
-                    <tbody class="tbody-fpreq">
-                        <tr>
-                            <td>1</td>
-                            <td>
-                                <input type="text" name="area" class="form-control mx-2" placeholder="basement" /></td>
-                            <td>
-                                <input type="text"  name="desc" class="form-control mx-2" placeholder="basement pump description" /></td>
-                            <td>
-                                <input type="number"  name="qty" class="form-control mx-2" placeholder="2" /></td>
-                            <td>
-                                <input type="text"  name="TypeofPump" class="form-control mx-2" placeholder="Horizontal Split"></td>
-                        </tr>
-                        <tr>
-                            <td colspan="5">
-                                <table class="">
-                                    <thead>
-                                        <tr class="">
-                                            <th style="width: 230px !important">Pump Set</th>
-                                            <th style="width: 290px !important">Capacity (GPM)</th>
-                                            <th style="width: 100px !important">Pressure (Bars)</th>
-                                            <th style="width: 100px !important">QTY</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr class="">
-                                            <td>Electrical Pump Set</td>
-                                            <td class="position-relative" style="">
-                                                <input type="number"  name="capacity1" class="form-control mx-2" /></td>
-                                            <td class="position-relative" style="">
-                                                <input type="number"  name="bars1" class="form-control mx-2"></td>
-                                            <td class="position-relative" style="">
-                                                <input type="number"  name="qty1" class="form-control mx-2"></td>
-                                        </tr>
-                                        <tr class="">
-                                            <td>Diesel Pump Set</td>
-                                            <td class="position-relative">
-                                                <input type="number"  name="capacity2" class="form-control mx-2"></td>
-                                            <td class="position-relative">
-                                                <input type="number"  name="bars2" class="form-control mx-2"></td>
-                                            <td class="position-relative">
-                                                <input type="number"  name="qty2" class="form-control  mx-2"></td>
-                                        </tr>
-                                        <tr class="">
-                                            <td>Jockey Pump Set</td>
-                                            <td class="position-relative">
-                                                <input type="number"  name="capacity3" class="form-control mx-2"></td>
-                                            <td class="position-relative">
-                                                <input type="number"  name="bars3" class="form-control mx-2"></td>
-                                            <td class="position-relative">
-                                                <input type="number"  name="qty3" class="form-control mx-2"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>`;
-    $(".pumpLine").html(htm)
-
-                    }
-
-
-
-
-
-//END-------------------On TOC Side------------------//
 //-------
 //-------
 //-------
@@ -422,6 +24,172 @@ $(document).ready(function () {
         $(".ajax-loader").addClass('hidden');
     }, 500);
 });
+
+
+function initiateRichText() {
+    
+    var richTextObj = $('.ritext-tech-remarks-div #taTechRemarks').richText({
+        saveCallback: function (obj, a, b) {
+            var a = '';
+        },
+        // text formatting
+        bold: true,
+        italic: true,
+        underline: true,
+
+        // text alignment
+        leftAlign: true,
+        centerAlign: true,
+        rightAlign: true,
+        justify: true,
+
+        // lists
+        ol: true,
+        ul: true,
+
+        // title
+        heading: true,
+
+        // fonts
+        fonts: true,
+        fontList: ["Arial",
+            "Arial Black",
+            "Comic Sans MS",
+            "Courier New",
+            "Geneva",
+            "Georgia",
+            "Helvetica",
+            "Impact",
+            "Lucida Console",
+            "Tahoma",
+            "Times New Roman",
+
+            "Verdana"
+        ],
+        fontColor: true,
+        backgroundColor: true,
+        fontSize: true,
+
+        // uploads
+        imageUpload: false,
+        fileUpload: false,
+        videoEmbed: false,
+        // media
+        //<a href = "https://www.jqueryscript.net/tags.php?/video/" > video</a> Embed: true,
+
+        // link
+        urls: false,
+
+        // tables
+        table: true,
+
+        // code
+        removeStyles: true,
+        code: false,
+
+        // colors
+        colors: [],
+
+        // dropdowns
+        fileHTML: '',
+        imageHTML: '',
+
+        // translations
+        translations: {
+            'title': 'Title',
+            'white': 'White',
+            'black': 'Black',
+            'brown': 'Brown',
+            'beige': 'Beige',
+            'darkBlue': 'Dark Blue',
+            'blue': 'Blue',
+            'lightBlue': 'Light Blue',
+            'darkRed': 'Dark Red',
+            'red': 'Red',
+            'darkGreen': 'Dark Green',
+            'green': 'Green',
+            'purple': 'Purple',
+            'darkTurquois': 'Dark Turquois',
+            'turquois': 'Turquois',
+            'darkOrange': 'Dark Orange',
+            'orange': 'Orange',
+            'yellow': 'Yellow',
+            'imageURL': 'Image URL',
+            'fileURL': 'File URL',
+            'linkText': 'Link text',
+            'url': 'URL',
+            'size': 'Size',
+            'responsive': '<a href="https://www.jqueryscript.net/tags.php?/Responsive/">Responsive</a>',
+            'text': 'Text',
+            'openIn': 'Open in',
+            'sameTab': 'Same tab',
+            'newTab': 'New tab',
+            'align': 'Align',
+            'left': 'Left',
+            'justify': 'Justify',
+            'center': 'Center',
+            'right': 'Right',
+            'rows': 'Rows',
+            'columns': 'Columns',
+            'add': 'Add',
+            'pleaseEnterURL': 'Please enter an URL',
+            'videoURLnotSupported': 'Video URL not supported',
+            'pleaseSelectImage': 'Please select an image',
+            'pleaseSelectFile': 'Please select a file',
+            'bold': 'Bold',
+            'italic': 'Italic',
+            'underline': 'Underline',
+            'alignLeft': 'Align left',
+            'alignCenter': 'Align centered',
+            'alignRight': 'Align right',
+            'addOrderedList': 'Ordered list',
+            'addUnorderedList': 'Unordered list',
+            'addHeading': 'Heading/title',
+            'addFont': 'Font',
+            'addFontColor': 'Font color',
+            'addBackgroundColor': 'Background color',
+            'addFontSize': 'Font size',
+            'addImage': 'Add image',
+            'addVideo': 'Add video',
+            'addFile': 'Add file',
+            'addURL': 'Add URL',
+            'addTable': 'Add table',
+            'removeStyles': 'Remove styles',
+            'code': 'Show HTML code',
+            'undo': 'Undo',
+            'redo': 'Redo',
+            'save': 'Save',
+            'close': 'Close'
+        },
+
+        // privacy
+        youtubeCookies: false,
+
+        // preview
+        preview: false,
+
+        // placeholder
+        placeholder: '',
+
+        // dev settings
+        useSingleQuotes: false,
+        height: 620,
+        heightPercentage: 0,
+        adaptiveHeight: false,
+        id: "",
+        class: "",
+        useParagraph: false,
+        maxlength: 0,
+        maxlengthIncludeHTML: false,
+        callback: undefined,
+        useTabForNext: false,
+        save: false,
+        saveCallback: undefined,
+        saveOnBlur: 0,
+        undoRedo: true
+
+    });
+}
 
 $('#ddlRequestStatus').on('change', function () {
     $('.ajax-loader').removeClass('hidden');
@@ -509,6 +277,7 @@ $('.tbody-Firepump-list-table').on('click', '.View-Request-Details', function ()
     loadestimator();
     ApprovalBtn();
     AllItemdetails();
+    GetAttachmentDet();
     $('#modalFPDetails').modal('show');
 });
 function EstimationDetails() {
@@ -563,6 +332,27 @@ function EstimationDetails() {
                 $('#Radio6').prop('checked', true);
             }
 
+            if (result.d[0].PumpSpecification == 'True') {
+                $('#chSpecification').prop('checked', true);
+            }
+            else  {
+                $('#chSpecification').prop('checked', false);
+            }
+
+            if (result.d[0].ListOfMakes == 'True') {
+                $('#chListOfMake').prop('checked', true);
+            }
+            else {
+                $('#chListOfMake').prop('checked', false);
+            }
+
+            if (result.d[0].PumpShedule == 'True') {
+                $('#chPumpshedule').prop('checked', true);
+            }
+            else {
+                $('#chPumpshedule').prop('checked', false);
+            }
+
         },
         //complete: function () {
         //    $('.ajax-loader').hide();
@@ -590,7 +380,6 @@ function AllItemdetails() {
             var htm = '';
             var ProjectDetails = result.d;
             var htmen = '';
-            $('.tbody-FP-Requests tr').length > 0 ? objDatatableItems.destroy() : '';
             var selvalue = '';
             var htmDrop = '';
             PumpClass = '';
@@ -602,7 +391,8 @@ function AllItemdetails() {
                    <td style="text-align:center;display:none;">` + item.ItemID + `</td>
                   <td style="text-align:center;" class="pump-row" title="`+ item.ItemID + `">`+ item.Area + `</td>
                   <td style="text-align:center;" class="pump-row" title="`+ item.ItemID + `">`+ item.Description + `</td>
-                  <td style="text-align:center;" class="pump-row" title="`+ item.ItemID + `">`+ item.QTY + `</td> 
+                  <td style="text-align:center;" class="pump-row" title="`+ item.ItemID + `">` + item.QTY + `</td> 
+                  <td style="text-align:center;" class="pump-row" title="`+ item.ItemID + `">` + item.TypeOfPump + `</td> 
                   <td style="text-align:center;"x>
                   <img src="images/icon-View.png" title="View" class="fa-icon-hover View-Item-Details" style="cursor: pointer; width: 24px;" />&nbsp;
                 </td>`;
@@ -630,8 +420,7 @@ function AllItemdetails() {
             });
 
             $('.tbody-FP-Requests').html(htm);
-            initiateDataTableItems();
-
+           
         },
         //complete: function () {
         //    $('.ajax-loader').hide();
@@ -687,7 +476,7 @@ function AddPumpDetails() {
 
     $.ajax({
         url: "FirePump.aspx/setPumpDet",
-        data: JSON.stringify({ "UserId": currUserId, "ItemID": ItemID, "PumpName": $('#txtPumpName').val(), "Value": $('#txtPumpValue').val(), "QTY": $('#txtPumpQTY').val(), "MoreInfo": $('#txtPumpMoreInfo').val(), }),
+        data: JSON.stringify({ "UserId": currUserId, "ItemID": ItemID, "PumpName": $('#txtPumpName').val(), "Value": $('#txtPumpValue').val(), "QTY": $('#txtPumpQTY').val(), "MoreInfo": $('#txtPumpMoreInfo').val(),"Comments": $('#txtPumpComments').val(), }),
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -727,6 +516,7 @@ function PumpInfo() {
             $('#txtPumpValue').val(result.d[0].Value);
             $('#txtPumpQTY').val(result.d[0].PumpQTY);
             $('#txtPumpMoreInfo').val(result.d[0].MoreInformation);
+            $('#txtPumpComments').val(result.d[0].Comments);
 
         },
         //complete: function () {
@@ -879,23 +669,33 @@ function ApprovalBtn() {
         $('#btnAddPumpInfo').css('display', 'none');
         $('.div-assign').css('display', '');
         $('.div-Complete').css('display', 'none');
+        $('.btnAddAddiItemsTOC').css('display', 'none');
+        $('.ibtn-delete-addiitemtoc').css('display', 'none');
+     
+
     }
     else if (myroleList.includes("15218") && Status == 'ASSIGNED') {
         $('.div-assign').css('display', 'none');
         $('.div-Complete').css('display', '');
+        $('.btnAddAddiItemsTOC').css('display', '');
+        $('.ibtn-delete-addiitemtoc').css('display', '');
         $('#btnAddPumpInfo').css('display', '');
     }
     else {
         $('.div-assign').css('display', 'none');
         $('.div-Complete').css('display', 'none');
         $('#btnAddPumpInfo').css('display', 'none');
+        $('.btnAddAddiItemsTOC').css('display', 'none');
+        $('.ibtn-delete-addiitemtoc').css('display', 'none');
     }
 }
 
 
 $('#btnComplete').on('click', function () {
-
-    Complete();
+    $("#ReqTechRemarksModal").modal('show');
+    $(".ritext-tech-remarks-div").html('<input class="form-control " type="text" placeholder="" value="" id="taTechRemarks">');
+    initiateRichText();
+    //Complete();
 });
 
 function Complete() {
@@ -907,19 +707,342 @@ function Complete() {
         dataType: "json",
         success: function (result) {
 
-            toastr.success('Updated Successfully..', '');
-            $('.ajax-loader').removeClass('hidden');
-            setTimeout(function () {
-                AllRequests('Please Wait..');
-                $(".ajax-loader").addClass('hidden');
-            }, 500);
-            $('#modalFPDetails').modal('hide');
+            if (result.d == 0) {
+                toastr.error('Please fill the Item Details..', '');
+            }
+            else {
+                toastr.success('Updated Successfully..', '');
+                $('.ajax-loader').removeClass('hidden');
+                setTimeout(function () {
+                    AllRequests('Please Wait..');
+                    $(".ajax-loader").addClass('hidden');
+                }, 500);
+                $('#modalFPDetails').modal('hide');
+            }
 
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
         }
     });
+}
+
+function GetAttachmentDet() {
+
+    $.ajax({
+        url: "FirePump.aspx/AttachmentDet",
+        data: JSON.stringify({ "UserId": currUserId, "ReqID": ReqID, }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+
+            //clearmodal();
+
+            var htm = '';
+            var ProjectDetails = result.d;
+            var urlService = '';
+
+
+            $.each(ProjectDetails, function (key, item) {
+
+                urlService = 'Services/DownloadFile.ashx?attachurl=' + item.URL;  // for production
+                htm += `<tr>        
+               
+
+                  <td style="text-align:center;display:none;">`+ item.ID + `</td>
+                  <td style="text-align:center;">`+ item.FileName + `</td>
+                  <td style="text-align:center;">`+ item.Comments + `</td>
+                   <td style="text-align:center;display:none">`+ item.URL + `</td>
+                   <td style="text-align:center;">
+                   <a href="`+ urlService + `" download="` + item.FileName + `" type="button" class="AttatchmentDownload" title="Download" >
+                   <img src="images/icons8-download-48.png" title="Download" class="fa-icon-hover ibtn-Download-Details" style="cursor: pointer; width: 34px;" />
+                </a></td>`;
+
+
+
+                htm += `</tr>`;
+                /*    <i class="fa-solid fa-eye"></i>*/
+
+            });
+            $('.tbody-Attachment-list').html(htm);
+
+
+        },
+        //complete: function () {
+        //    $('.ajax-loader').hide();
+        //},
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+
+$('#btnNewAttacment').on('click', function () {
+
+    ClearAttachment();
+    $('#ModalPumpAttachment').modal('show');
+
+});
+
+function ClearAttachment() {
+    $('#txtAttachmentComment').val('');
+    $('#colFileUpload').val('');
+}
+
+$('#btnUpload1').on('click', function () {
+    if ($('#colFileUpload').val().trim() != "" && $('#txtAttachmentComment').val().trim() != "") {
+        ERMFileUpload();
+    } else {
+        toastr.error('Required All Fields. ', '');
+    }
+
+});
+
+
+function ERMFileUpload() {
+
+
+
+
+    var formData = new FormData();
+    var formData = new FormData();
+    var fileUpload = $('#colFileUpload').get(0);
+    var files = fileUpload.files;
+    for (var i = 0; i < files.length; i++) {
+        console.log(files[i].name);
+        formData.append(files[i].name, files[i]);
+    }
+
+
+    var qrystringLocal = 'https://crmss.naffco.com/CRMSS/ERM/Services/FirePumpUpload.ashx?ReqID=' + ReqID + '&UserId=' + currUserId + '&Comments=' + $('#txtAttachmentComment').val();    // For Development
+   /* var qrystringLocal = '../ERM/Services/FirePumpUpload.ashx?ReqID=' + ReqID + '&UserId=' + currUserId + '&Comments=' + $('#txtAttachmentComment').val();*/    // For Development
+
+    let sURL = 'TestFoCalendar.aspx/Upload';
+
+    //var formData = new FormData();
+    //formData.append('file', $('#f_UploadImage')[0].files[0]);
+    $.ajax({
+        type: 'post',
+        url: qrystringLocal,
+        data: formData,
+        async: false,
+        success: function (status) {
+            if (status != 'error') {
+
+                toastr.success("Updated Successfully");
+                GetAttachmentDet();
+                $('#ModalPumpAttachment').modal('hide');
+
+            }
+        },
+        processData: false,
+        contentType: false,
+        error: function (errormessage) {
+            console.log(errormessage.responseText);
+            alert("Whoops something went wrong!");
+
+        }
+    });
+
+}
+
+
+
+$(".btnAddTechRemarks").on('click', function () {
+
+    if ($("#taTechRemarks").val().trim() == "" || $("#taTechRemarks").val().trim().length < 20) {
+        toastr.error("Please input the Technical remarks", '');
+    }
+    else {
+       
+        $.ajax({
+            url: "FirePump.aspx/setComplete",
+            data: JSON.stringify({ "UserId": currUserId, "ReqID": ReqID,
+                "TechNotes": $("#taTechRemarks").val()
+            }),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+
+                if (result.d == 0) {
+                    toastr.error('Please fill the Item Details..', '');
+                }
+                else {
+                    toastr.success('Updated Successfully..', '');
+                    $('.ajax-loader').removeClass('hidden');
+                    setTimeout(function () {
+                        AllRequests('Please Wait..');
+                        $(".ajax-loader").addClass('hidden');
+                    }, 500);
+                    $('#modalFPDetails').modal('hide');
+                }
+
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+       
+        
+    }
+});
+
+
+
+
+$('.btn-add-additionalitems').on('click', function () {
+
+    getAllEMSProductsByReqId();
+    $('#addiItemsInTOC').modal('show');
+    resetEMSProdControls()
+});
+
+
+
+function getAllEMSProductsByReqId() {
+
+    $.ajax({
+        url: "FirePump.aspx/GetAllEMSProductsByReqId",
+        type: "POST",
+        data: JSON.stringify({
+            "UserId": currUserId,
+            "ReqId": ReqID
+        }),
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '';
+            $('.tbody-addiitems-toc td').length > 0 ? objDTEMSProd.destroy() : '';
+            $.each(result.d, function (key, item) {
+                htm += `<tr>               
+                    <td> `+ item.EMSProd + ` </td>                 
+                    <td> `+ item.Price + `</td>
+                    <td> `+ (item.Optional == "False" ? '-' : '<i class="bx bx-check" style="color: #38b316;"></i>') +`</td>
+                    <td> `+ item.Desc + `</td>
+                    <td> `+ item.Comment + `</td>
+                    <td> `+ item.CreatedBy + `</td>
+                      <td> <span><i class="bx bxs-trash ibtn-delete-addiitemtoc hide-control-bos" style="font-size: 1.6rem;color: #d64e4e;cursor:pointer;" title="Delete Item" onclick="deleteAddiItem(` + item.ID + `)"></i></span></td>`
+
+
+                htm += `</tr>`;
+            });
+            $('.tbody-addiitems-toc').html(htm);
+            initiateEMSProdDT()
+        },
+        error: function (errormessage) {
+            ////alert(errormessage.responseText);
+        }
+    });
+
+}
+function initiateEMSProdDT() {
+    objDTEMSProd = [];
+    objDTEMSProd = $('.item-emsprod-table').DataTable({
+        dom: 'lBfrtip',
+        "bStateSave": true,
+        buttons: {
+            buttons: []
+        },
+
+        "columnDefs": [
+            { width: "120px", targets: [0] },
+            { orderable: false, targets: [] }
+        ],
+        //select: true,
+        //colReorder: true
+    });
+
+}
+function deleteAddiItem(additemid) {
+    $.ajax({
+        url: "FirePump.aspx/DeleteAddiItem",
+        type: "POST",
+        data: JSON.stringify({
+            "AddItemId": additemid
+        }),
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            toastr.success('Item Deleted Successfully', '')
+            getAllEMSProductsByReqId();
+        },
+        error: function (errormessage) {
+            ////alert(errormessage.responseText);
+        }
+    });
+}
+
+
+function resetEMSProdControls() {
+    $("#txtPrice").val('0')
+    $("#taAddiDesc,#taAddiComments").val('')
+    $("#cbAddiIsOptional").prop('checked', false)
+    $("#taAddiDesc,#taAddiComments,#txtPrice").css('box-shadow', '').css('border-color', 'lightgrey');
+}
+
+$(".btnAddAddiItemsTOC").on('click', function () {
+    if (!validateEMSProdControls()) {
+        toastr.error('Please input the mandatory field(s)')
+    }
+    else {
+        $.ajax({
+            url: "FirePump.aspx/AddAdditionalItemInTOC",
+            type: "POST",
+            data: JSON.stringify({
+                "UserId": currUserId,
+                "Product": 'Fire Fighting',
+                "Price": $("#txtPrice").val(),
+                "IsOptional": ($("#cbAddiIsOptional").is(':checked') ? 1 : 0),
+                "Desc": $("#taAddiDesc").val(),
+                "AdditionalComm": $("#taAddiComments").val(),
+                "ReqId": ReqID
+            }),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (result) {
+
+                toastr.success('Additional Item Added Successfully');
+                getAllEMSProductsByReqId()
+               
+            },
+            error: function (errormessage) {
+                ////alert(errormessage.responseText);
+            }
+        });
+    }
+   
+
+})
+
+function validateEMSProdControls() {
+
+    var isValid = true;
+
+    if ($("#txtPrice").val().trim() == "") {
+        isValid = false;
+        $("#txtPrice").css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
+    } else {
+        $("#txtPrice").css('box-shadow', '').css('border-color', 'lightgrey');
+    }
+    if ($("#taAddiDesc").val().trim() == "") {
+        isValid = false;
+        $("#taAddiDesc").css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
+    } else {
+        $("#taAddiDesc").css('box-shadow', '').css('border-color', 'lightgrey');
+    }
+    if ($("#taAddiComments").val().trim() == "") {
+        isValid = false;
+        $("#taAddiComments").css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
+    } else {
+        $("#taAddiComments").css('box-shadow', '').css('border-color', 'lightgrey');
+    }
+    return isValid;
 }
 
 //END-------------------On Fire Pump Side------------------// 
