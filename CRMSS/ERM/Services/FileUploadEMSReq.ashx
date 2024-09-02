@@ -70,6 +70,8 @@ public class FileUploadEMSReq : IHttpHandler
         string UserId = HttpContext.Current.Request.QueryString["userid"];
         string Comment = HttpContext.Current.Request.QueryString["comment"];
         string ReqId = HttpContext.Current.Request.QueryString["reqid"];
+        string ProdType = HttpContext.Current.Request.QueryString["prodtype"];
+        string ProdStr = HttpContext.Current.Request.QueryString["prodstr"];
         //string CrDate = HttpContext.Current.Request.QueryString["crdate"];
 
         string pathAndFile = "";
@@ -106,6 +108,12 @@ public class FileUploadEMSReq : IHttpHandler
             pa.Add("@ReqId");
             pv.Add(ReqId);
 
+            pa.Add("@ProdType");
+            pv.Add(ProdType);
+
+            pa.Add("@ProdStr");
+            pv.Add(ProdStr);
+
             pa.Add("@URL");
             pv.Add(pathAndFile);
 
@@ -124,7 +132,7 @@ public class FileUploadEMSReq : IHttpHandler
 
     }
 
-         //FirePump
+    //FirePump
     public void UploadFPumpFiles(HttpContext context)
     {
         string UserId = HttpContext.Current.Request.QueryString["userid"];

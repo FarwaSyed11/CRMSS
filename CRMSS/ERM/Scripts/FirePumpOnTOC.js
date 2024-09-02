@@ -31,6 +31,10 @@ $('.btn-add-firepump').on('click', function () {
         $("#btnAddFirePumpItem").addClass("hidden");
     }
     //initiateDataTableFPRequests();
+    var htm = '';
+    $(".pumpLine").html(htm);
+    $('#btnSaveFirePumpItem').css("display", "none");
+    $('#btnClose').css("display", "none");
     ViewRequests();
     GetFPumpAttachDetails()
     $('.tbody-added-firepumpreqs tr td:eq(0)').length == 0 ? $(".fpumpFilesDiv").addClass('hidden') : $(".fpumpFilesDiv").removeClass('hidden');
@@ -42,9 +46,13 @@ $('#btnSubmit').on('click', function () {
     Submitted();
     toastr.success('This request is submitted to the FIRE PUMP TEAM, Successfully');
 })
-//$('.btnClose').on('click', function () {
-//    ViewRequests();
-//})
+$('#btnClose').on('click', function () {
+    var htm = '';
+    $(".pumpLine").html(htm);
+    $('#btnSaveFirePumpItem').css("display", "none");
+    $('#btnClose').css("display", "none");
+    ViewRequests();
+})
 
 $('#btnAddFirePumpItem').on('click', function () {
     ViewRequests();
@@ -107,7 +115,8 @@ function newPumponLine() {
             "Direction": $("input[name=TypeofPump]").val(),
             "PumpSpecs": ($("input[name=isAttached]").is(":checked") ? 1 : 0) ,
             "ListofMake": ($("input[name=isListofMake]").is(":checked") ? 1 : 0),
-            "PumpSched": ($("input[name=isPumpSched]").is(":checked") ? 1 : 0)
+            "PumpSched": ($("input[name=isPumpSched]").is(":checked") ? 1 : 0),
+            "PumpApproval": $('input[name=rdPumpApproval]:checked').val()
         }),
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -167,21 +176,25 @@ function ViewRequests() {
         success: function (result) {
             var htm = '';
             listPumpReqs = result.d;
-
+            $('#btnAddFirePumpItem').removeClass("hidden");
             //$('.tbody-added-firepumpreqs tr').length > 0 ? objDTViewReq.destroy() : '';
             if (listPumpReqs.length > 0) {
                 if (listPumpReqs[0].Status == "CREATED") {
                     $('#btnSubmit').removeClass("disabled");
+
+                    
                 }
                 else {
                     $('#btnSubmit').addClass("disabled");
                     $('#btnSubmit').text("Request Submitted");
                     $('#btnAddFirePumpItem').addClass("hidden");
+                    
                 }
             } else {
                 $('#btnSubmit').addClass("disabled"); 
                 $('#btnSubmit').text("Submit");
                 $('#btnAddFirePumpItem').removeClass("hidden");
+                
             }
            
             $.each(listPumpReqs, function (key, item) {
@@ -201,12 +214,29 @@ function ViewRequests() {
                             <circle cx="12" cy="12" r="10" stroke-width="1.5" />
                         </g>
                   </svg>
-                    <span class="position-absolute ml-1"> <i class="bx bxs-trash struct-edit hide-control-bos" style="color:#d54832;font-size: 1.9rem;" onclick="openModDelDeleteFP(` + item.ItemID + `,`+item.ReqID+`)"></i></span>
+                    <span class="position-absolute ml-1 deletePumpRequest"> <i class="bx bxs-trash struct-edit hide-control-bos" style="color:#d54832;font-size: 1.9rem;" onclick="openModDelDeleteFP(` + item.ItemID + `,`+item.ReqID+`)"></i></span>
                   </td>`;
 
                 htm += `</tr>`;
             });
             $('.tbody-added-firepumpreqs').html(htm);
+
+
+
+            if (listPumpReqs.length > 0) {
+                if (listPumpReqs[0].Status == "CREATED") {
+                    $('.deletePumpRequest').removeClass("disabled");
+                }
+                else {
+                  
+                    $('.deletePumpRequest').addClass("hidden");
+                    
+                }
+            } else {
+                $('.deletePumpRequest').removeClass("disabled");
+                
+            }
+
             //initiateDataTableFPRequests();
         },
         error: function (errormessage) {
@@ -282,9 +312,32 @@ function ViewFirePumpReqDetails() {
         success: function (result) {
             var htm = ``;
             listPumpReqsView = result.d;
+            htm += `<div class="row mx-3">`;
 
+            if (listPumpReqsView[0].PumpApproval == 'UL & FM APPROVED') {
+               
+                htm += `<div class="form-check col-12 ms-3 mb-4">
+                <b>PUMP APPROVAL :
+                    </b>
+                    <input type="radio" name="rdPumpApproval" value="UL & FM APPROVED" style="margin-left: 5%;pointer-events: none;" checked/>UL & FM APPROVED
+                     
+                 <input type="radio" name="rdPumpApproval" value="NON LISTED" style="margin-left: 5%;pointer-events: none;" />NON LISTED
+
+                 </div></div>`;
+            }
+            else {
+                htm += `<div class="form-check col-12 ms-3 mb-4">
+                <b>PUMP APPROVAL :
+                    </b>
+                    <input type="radio" name="rdPumpApproval" value="UL & FM APPROVED" style="margin-left: 5%;pointer-events: none;" />UL & FM APPROVED
+                     
+                 <input type="radio" name="rdPumpApproval" value="NON LISTED" style="margin-left: 5%;pointer-events: none;" checked/>NON LISTED
+                </div></div>`;
+            }
 
             htm += `<div class="row mx-3">`;
+
+    
 
             if (listPumpReqsView[0].PumpSpecs == "False") {
                 htm += `<div class="form-check col-4 ms-3 mb-4">
@@ -394,6 +447,16 @@ function ViewFirePumpReqDetails() {
 function createPumpLineHTML() {
     var htm = '';
     htm += ` <div class="row mx-3 py-3">
+                <div class="form-check">
+                      <b>PUMP APPROVAL :
+                                </b>
+                                <input type="radio" name="rdPumpApproval" value="UL & FM APPROVED" style="margin-left: 5%" />UL AND FM APPROVED
+                     
+                             <input type="radio" name="rdPumpApproval" value="NON LISTED" style="margin-left: 5%" />NON LISTED
+
+                </div>
+                           <br />
+                             <br />
                 <div class="form-check col-3">
                     <input class="form-check-input" type="checkbox" value=""  name="isAttached">
                     <label class="form-check-label" for="">

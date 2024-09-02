@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="EMSItemList.aspx.cs" Inherits="Sales_EMSItemList" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="EMSItemList.aspx.cs" Inherits="Sales_EMSItemList" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
@@ -154,6 +154,8 @@
             font-weight: 400 !important;
             font-size: 14px;
             height: auto;
+            text-wrap: pretty;
+            overflow-wrap: anywhere;
         }
 
         .txtCustomClass {
@@ -352,6 +354,12 @@
             top: 18px;
             right: 36px;
             color: #505050;
+        }
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__display {    
+            color: white !important;
+        }
+        .modal{           
+            overflow-y: auto !important;
         }
     </style>
 
@@ -848,6 +856,9 @@
                                                                 <li class="nav-item">
                                                                     <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-Attachment" aria-controls="navs-top-Attachment" aria-selected="false">Attachment</button>
                                                                 </li>
+                                                                <li class="nav-item">
+                                                                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-Comments" aria-controls="navs-top-Comments" aria-selected="false">Comments</button>
+                                                                </li>
                                                             </ul>
                                                             <div class="tab-content">
 
@@ -908,6 +919,8 @@
                                             <thead>
                                                 <tr style="text-align: center;">
                                                     <th style="display: none;">Id</th>
+                                                    <th>Product</th>
+                                                    <th>Product Type</th>
                                                     <th>Filename</th>
                                                     <th>Comments</th>
                                                     <th style="display: none;">Comments</th>
@@ -916,6 +929,34 @@
                                                 </tr>
                                             </thead>
                                             <tbody class="tbody-Attachment-list" style="text-align: center;">
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                          </div>
+                  <div class="tab-pane fade" id="navs-top-Comments" role="tabpanel">
+
+                                  <div>
+                                        <a href="#" id="btnAddNewComments" class="btn btn-primary pull-right"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Comments</a>
+                                    </div>
+
+                                    <div style="padding-top: 3%;">
+
+
+                                        <table class="table Comments-list-table" style="width: 100%;">
+                                            <%--<caption class="ms-4">List of Projects</caption>--%>
+                                            <thead>
+                                                <tr style="text-align: center;">
+
+                                                    <th>SlNo.</th>
+                                                    <th>Products</th>
+                                                    <th>Commment</th>
+                                                    <th>UpdatedBy</th>
+                                                    <th>Updated Date</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody class="tbody-Comments-list" style="text-align: center;">
                                             </tbody>
                                         </table>
                                     </div>
@@ -1732,8 +1773,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" style="zoom: 85%;">
-
-
+                                        
                     <div class="mt-3 row">
                         <div class="col-md-3">
                             <label>System</label>
@@ -2204,7 +2244,7 @@
     </div>
 
     <%--FILE UPLOAD FOR ESTIMATOR--%>
-    <div class="modal fade" id="ModalReqAttachment" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="ModalReqAttachment" data-bs-backdrop="static" tabindex="-1" aria-hidden="true" style="background: #bcbcbca1;">
         <div class="modal-dialog modal-lg" role="document" style="max-width: 25%;">
             <div class="modal-content">
                 <div class="modal-header">
@@ -2223,13 +2263,20 @@
                             </div>
 
                             <div class="row">
-                                <div>
+                                <label>Products</label>
+                                 <div><select id="ddlProdsInAttach" style="z-index: 99 !important;" class="form-select color-dropdown" multiple></select></div>
+                            </div>
+
+                             <div class="row">
+                                <label>Product Type</label>
+                                <div><input class="form-control" type="text" placeholder="Enter Product Type" style="background-color: white;" id="txtProdTypeInAttach" /></div>
+                            </div>
+
+                            <div class="row">                             
                                     <div class="col mb-3 discriptionDiv">
                                         <label for="nameBasic" class="  label-custom">Comments </label>
                                         <textarea id="txtAttachmentComment" rows="3" class="form-control" style="border-bottom: solid; border-color: #b9b9b9; overflow-y: scroll;" placeholder="Enter the Commments"></textarea>
-                                    </div>
-                                </div>
-
+                                    </div>                             
                             </div>
 
                             <div class="row" style="margin-top: 1%;">
@@ -2421,6 +2468,85 @@
         </div>
     </div>
 
+
+    <%--ADD COMMENT MODAL IN TOC--%>
+
+    <div class="modal fade" id="modalNewComments" style="background: rgb(177 171 171 / 36%); zoom: 80%;" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document" style="width: 22%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Comments</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="padding-top: 1px;">
+                        
+                        <div class="row">
+                         <div class="col-12">
+                                <label for="html5-number-input" class="  label-custom">Product </label>
+                                <div class="">
+                                    <select id="ddlEMSProdForVDComm" style="z-index: 99 !important;" class="form-select color-dropdown" multiple>
+                                    </select>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="row mt-4">
+                        <label for="html5-number-input" class="  label-custom">Comment </label>
+                        <textarea class="form-control" id="txtComments" rows="5" placeholder="Enter Your Comments"></textarea>
+                    </div>
+                      
+                    </div>
+
+                    <div class="row" style="padding-top: 3%;">
+                        <div class="col-5">
+                            <div class="row">
+                                <div style="width: 13%">
+                                    <div class="checkbox-wrapper-26" style="float: left;">
+                                        <input type="checkbox" id="cbRaisedMail" onclick="MailInfo()" />
+                                        <label for="cbRaisedMail"><span class="tick_mark"></span></label>
+                                    </div>
+                                </div>
+                                <div style="width: 70%">
+                                    <label style="font-size: 17px;">Raised Mail</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mail-to-drp" style="padding-top: 1%;">
+                        <div>
+                            <div class="col-9">
+                                <label for="html5-number-input" class="  label-custom">Mail To </label>
+                                <div class="">
+                                    <select id="ddlEmailTo" style="z-index: 99 !important;" class="form-select color-dropdown" multiple>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mail-cc-drp" style="padding-top: 3%;">
+                        <div>
+                            <div class="col-9">
+                                <label for="html5-number-input" class="  label-custom">CC Mail </label>
+                                <div class="">
+                                    <select id="ddlCCEmail" style="z-index: 99 !important;" class="form-select color-dropdown" multiple>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding-top: 4%;">
+                        <div class="centerforall">
+                            <button id="btnSubmitComments" type="button" class="btn-danger" style="background-color: #EC1A25; font-size: 17px; width: 70%;">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <%--Copy System --%>
     <div class="modal fade" id="modalCopySystem" style="background-color: #00000070;" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
         <div class="modal-dialog modal-md modal-dialog-centered">
@@ -2539,7 +2665,7 @@
 
     <!-- Page JS/CSS file -->
     <script src="Scripts/common.js?v=2.2"></script>
-    <script src="Scripts/ems-item-list.js?v=9.3"></script>
+    <script src="Scripts/ems-item-list.js?v=9.9"></script>
     <script src="Scripts/Structure.js?v=8.2"></script>
     <script src="Scripts/TOC.js?v=9.9"></script>
     <script src="Scripts/SummaryReports.js?v=8.2"></script>
@@ -2571,11 +2697,16 @@
     <script src="../FacilityManagement/Datatable/js/buttons.html5.min.js"></script>
     <script src="../FacilityManagement/Datatable/js/buttons.print.min.js"></script>
 
-    <!-- Select/Multiselect Dropdown JS/CSS file -->
+     
+    <%--MULTI SELECT FOR FILTER--%>
     <link href="../Calendar/dist/select2.css" rel="stylesheet" />
     <script src="../Calendar/dist/select2.js"></script>
     <%--<script src="script/multiple-select.js"></script>
         <link href="../SiteSurvey/Assets/Css/multiple-select.css" rel="stylesheet" />--%>
+      
+    <%--MULTI SELCT WITH SEARCH--%>
+    <link href="Css/select2.css" rel="stylesheet" />
+    <script src="Assets/Js/select2.js"></script>
 
     <link href="../TODONew/Asset/css/netliva_switch.css" rel="stylesheet" />
     <script src="../TODONew/Asset/js/netliva_switch.js"></script>

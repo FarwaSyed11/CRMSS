@@ -1938,42 +1938,49 @@ $(".btn-item-withoutcode-grid").on('click', function () {
     $('#ddlCategoryForWithoutItmCode').val($('#ddlCategory option:selected').val())
 
     getAllItemsWithoutCode();
-
+        
     $("#addItemWithoutItmCodeModal").modal('show');
 
 })
 
 $(".btnAddItemWithoutItmCode").on('click', function () {
     //$("#addItemWithoutItmCodeModal").modal('show');
-    $.ajax({
-        url: "EMSItemList.aspx/AddItemsWithotCode",
-        data: JSON.stringify({
-            'ItemDesc': $("#taitemDescWhtItmCode").val(),
-            'UserId': currUserId,
-            'System':   $("#ddlSystemForWithoutItmCode option:selected").val(),
-            'Category': $("#ddlCategoryForWithoutItmCode option:selected").val(),
-            'ReqId': selReqId
-        }),
-        type: "POST",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {
-            if (result.d.ErrorType == 'error') {
-                toastr.error(result.d.MsgText, '');
-            } else {
-                toastr.success(result.d.MsgText, '');
-                $('#addItemWithoutItmCodeModal').modal('hide');
-                //$('.btn-add-item-toc-grid').trigger('click');
-            }
+    //if (!validateWithotControls()) {
+        //toastr.error("Please input the mandatory field(s)")
+   // }
+   // else {
+        $.ajax({
+            url: "EMSItemList.aspx/AddItemsWithotCode",
+            data: JSON.stringify({
+                'ItemDesc': $("#taitemDescWhtItmCode").val(),
+                'UserId': currUserId,
+                'System': $("#ddlSystemForWithoutItmCode option:selected").val(),
+                'Category': $("#ddlCategoryForWithoutItmCode option:selected").val(),
+                'ReqId': selReqId
+            }),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                if (result.d.ErrorType == 'error') {
+                    toastr.error(result.d.MsgText, '');
+                } else {
+                    toastr.success(result.d.MsgText, '');
+                    $('#addItemWithoutItmCodeModal').modal('hide');
+                    //$('.btn-add-item-toc-grid').trigger('click');
+                }
 
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    //}
+    
 
 })
+
 
 function getAllItemsWithoutCode() {
     $.ajax({
@@ -2006,7 +2013,9 @@ function getAllItemsWithoutCode() {
         }
 
     });
- }
+}
+
+
 //function getAllSystemsNItemsByRequest() {
 
 //    $.ajax({

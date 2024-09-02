@@ -5,6 +5,7 @@ var listOpp = [], listRev = [], listForecastReq = [];
 var selForecastQuartId = 0, selForecastQuartTransId = 0, selOppId = 0, selRevId = 0, selReqId = 0;
 var filterDpIdsList = ['dtFromDate', 'dtToDate', 'dtReqdate']
 
+var day = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"];
 var monthsNameByNo = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 var quarterDateArr = [
     {
@@ -896,7 +897,7 @@ function bindValueForLabels(data) {
 }
 function bindValueForLabelsinSummary(data) {
 
-    //$('#SummarytxtEstRef').html(data[0].RefNo);
+    $('#SummarytxtEstRef').html(data[0].RefNo);
     $('#SummarytxtRevision').html(data[0].RevNo)
     $('#SummarytxtContrAbbr').html(data[0].ContABBR)
     $('#SummarytxtEstYear').html(data[0].Year)
@@ -1772,18 +1773,19 @@ function printDetails(divID) {
 
 $('#btnNewAttacment').on('click', function () {
 
-    ClearAttachment();
+    ClearEstiAttachment();
+    loadEMSProdsForAttach();
     $('#ModalReqAttachment').modal('show');
 
 });
-function ClearAttachment() {
-    $('#txtAttachmentComment').val('');
+function ClearEstiAttachment() {
+    $('#txtAttachmentComment,#txtProdTypeInAttach').val('');
     $('#FUEstimator').val('');
 }
 
 $('#btnUpload1').on('click', function () {
-    if ($('#FUEstimator')[0].files.length != 0 && $('#txtAttachmentComment').val().trim() != "") {
-        uploadTaskAttach();
+    if ($('#FUEstimator')[0].files.length != 0 && $('#txtAttachmentComment').val().trim() != "" && $('#txtProdTypeInAttach').val().trim() != "" && $("#ddlProdsInAttach option:selected").length != 0) {
+        uploadEstiAttach();
     } else {
         toastr.error('Required All Fields. ', '');
     }
@@ -1791,7 +1793,7 @@ $('#btnUpload1').on('click', function () {
 });
 
 
-function uploadTaskAttach() {
+function uploadEstiAttach() {
 
     var formData = new FormData();
     var fileUpload = $('#FUEstimator').get(0);
@@ -1801,10 +1803,12 @@ function uploadTaskAttach() {
         formData.append(files[i].name, files[i]);
     }
     let comment = $("#txtAttachmentComment").val();
+    let prodtype = $("#txtProdTypeInAttach").val();
+    let prodstr = getEMSProdsInAttch();
     let aaa = 33;
-    
-    var qrystringLocal = 'https://crmss.naffco.com/CRMSS/ERM/Services/FileUploadEMSReq.ashx?fufor=estimation&reqid=' + selReqId + '&userid=' + currUserId + '&comment=' + comment;    
-    //var qrystringLocal = '../ERM/Services/FileUploadEMSReq.ashx?fufor=estimation&reqid=' + selReqId + '&userid=' + currUserId + '&comment=' + comment;    
+
+    var qrystringLocal = 'https://crmss.naffco.com/CRMSS/ERM/Services/FileUploadEMSReq.ashx?fufor=estimation&reqid=' + selReqId + '&userid=' + currUserId + '&comment=' + comment + '&prodtype=' + prodtype + '&prodstr=' + prodstr;    
+   // var qrystringLocal = '../ERM/Services/FileUploadEMSReq.ashx?fufor=estimation&reqid=' + selReqId + '&userid=' + currUserId + '&comment=' + comment + '&prodtype=' + prodtype + '&prodstr=' + prodstr;    
 
     let sURL = 'TestFoCalendar.aspx/Upload';
 
@@ -1830,6 +1834,7 @@ function uploadTaskAttach() {
                 var my_path = "MediaUploader/" + status;
                 //  $("#myUploadedImg").attr("src", my_path);
                 toastr.success('File has been Uploaded Successfully. ', '');
+                $("#ModalReqAttachment").modal('hide')
                 GetAttachmentDet()
                 //loadAttachsOfChat();
                 //$('#lblFilesName').val('');
@@ -1870,6 +1875,8 @@ function GetAttachmentDet() {
                
 
                   <td style="text-align:center;display:none;">`+ item.ID + `</td>
+                  <td style="text-align:center;">`+ item.ProdStr + `</td>
+                  <td style="text-align:center;">`+ item.ProdType + `</td>
                   <td style="text-align:center;">`+ item.FileName + `</td>
                   <td style="text-align:center;">`+ item.AttachComment + `</td>
                    <td style="text-align:center;display:none">`+ item.URL + `</td>
@@ -1898,3 +1905,317 @@ function GetAttachmentDet() {
 
 }
 
+
+
+//COMMENT TAB WORK
+
+$('#btnAddNewComments').on('click', function () {
+
+    $('#txtComments').val('');
+    MailInfo();
+    LoadCCEmail();
+    LoadEmailTo();
+    loadEMSProdsForMultiDDL()
+    $('#modalNewComments').modal('show');
+
+});
+
+function MailInfo() {
+
+    if ($('#cbRaisedMail').is(':checked') == true) {
+        $('.mail-to-drp').css('display', '');
+        $('.mail-cc-drp').css('display', '');
+    }
+    else {
+        $('.mail-to-drp').css('display', 'none');
+        $('.mail-cc-drp').css('display', 'none');
+    }
+}
+
+function LoadEmailTo() {
+
+    $.ajax({
+        url: "ERMMaster.aspx/setEmailInformation",
+        data: JSON.stringify({ "UserID": currUserId, }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '';
+
+            $.each(result.d, function (key, item) {
+                htm += key == 0 ? `<option value="` + item.ddlValue + `" selected> ` + item.ddlValue + ` | ` + item.ddlText + `</option>` : '<option value="' + item.ddlValue + '">' + item.ddlValue + ` | ` + item.ddlText + '</option>';
+            });
+
+            $('#ddlEmailTo').html(htm);
+            $('#ddlEmailTo').select2({
+                //dropdownParent: $("#ModalBriefForm"),
+                multi: true,
+                width: '100%',
+                height: '173px'
+            }); 
+
+            //$('#ddlEmailTo').multipleSelect({
+            //    onClick: function (view) { },
+            //    onCheckAll: function () { },
+            //    onUncheckAll: function () {
+            //        $('.ms-parent').css('box-shadow', 'rgb(255 0 0) 0px 0.5px 3.5px');
+            //    }
+            //});
+        },
+
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
+function getEmailToFromDDL() {
+    var Emailto = '';
+    for (var i = 0; i < $('#ddlEmailTo').val().length; i++) {
+        Emailto += $('#ddlEmailTo').val()[i] + ',';
+    }
+    return Emailto.substring(0, Emailto.lastIndexOf(","));
+}
+
+function LoadCCEmail() {
+
+    $.ajax({
+        url: "ERMMaster.aspx/setEmailInformation",
+        data: JSON.stringify({ "UserID": currUserId, }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '';
+
+            $.each(result.d, function (key, item) {
+                htm += key == 0 ? `<option value="` + item.ddlValue + `" selected> ` + item.ddlValue + ` | ` + item.ddlText + `</option>` : '<option value="' + item.ddlValue + '">' + item.ddlValue + ` | ` + item.ddlText + '</option>';
+            });
+
+            $('#ddlCCEmail').html(htm);
+            $('#ddlCCEmail').select2({
+                //dropdownParent: $("#ModalBriefForm"),
+                multi: true,
+                width: '100%',
+                height: '173px'
+            }); 
+
+            //$('#ddlCCEmail').multipleSelect({
+            //    onClick: function (view) {  //    },
+            //    onCheckAll: function () {  //    },
+            //    onUncheckAll: function () {
+            //        $('.ms-parent').css('box-shadow', 'rgb(255 0 0) 0px 0.5px 3.5px');
+
+            //    }
+            //});
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
+function getCCEmailFromDDL() {
+    var CCEmail = '';
+    for (var i = 0; i < $('#ddlCCEmail').val().length; i++) {
+        CCEmail += $('#ddlCCEmail').val()[i] + ',';
+    }
+    return CCEmail.substring(0, CCEmail.lastIndexOf(","));
+}
+
+function AddComments() {
+    $.ajax({
+        url: "EMSItemList.aspx/AddGeneralComments",
+        data: JSON.stringify({
+            "UserID": currUserId,
+            "RefId": selReqId,
+            "Comment": $('#txtComments').val(),
+            "IsNotified": $('#cbRaisedMail').is(':checked'),
+            "MailTo": getEmailToFromDDL(),
+            "CCMail": getCCEmailFromDDL(),
+            "ProdsStr": getEMSProdsFromMultiDDL()
+        }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+
+            toastr.success(" Successfully Updated");
+            GetGeneralComments();
+            $('#modalNewComments').modal('hide');
+        },
+        //complete: function () {
+        //    $('.ajax-loader').hide();
+        //},
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });    
+}
+
+$('#btnSubmitComments').on('click', function () {
+    if (!(validateWithotControls())) {
+        toastr.error("Please input the mandatory field(s)")
+    } else {
+        AddComments();
+    }
+   
+});
+
+function validateWithotControls() {
+    var isValid = true;
+
+    if ($("#ddlEMSProdForVDComm option:selected").length == 0) {
+        isValid = false;
+        $('#select2-ddlEMSProdForVDComm-container').parent().css('box-shadow', '0px 0.5px 2.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
+    } else {
+        $('#select2-ddlEMSProdForVDComm-container').parent().css('border-color', 'lightgrey').css('box-shadow', '');
+    }
+
+    if ($("#txtComments").val().trim() == "") {
+        isValid = false;
+        $("#txtComments").css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
+    } else {
+        $("#txtComments").css('box-shadow', '').css('border-color', 'lightgrey');
+    }
+
+    return isValid;
+}
+
+function GetGeneralComments() {
+
+    $.ajax({
+        url: "ERMMaster.aspx/GetComments",
+        data: JSON.stringify({ "RefId": selReqId, }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+
+            //clearmodal();
+
+            var htm = '';
+
+            $.each(result.d, function (key, item) {
+                htm += `<tr>    
+                  <td style="text-align:center;">`+ item.SlNo + `</td>
+                  <td style="text-align:center;">`+ item.Products + `</td>
+                  <td style="text-align:center;">`+ item.Comments + `</td>
+                  <td style="text-align:center;">`+ item.UpdatedBy + `</td>
+                  <td style="text-align:center;">`+ datedayformat(item.UpdatedDate) + `</td>`;
+                htm += `</tr>`;
+                /*    <i class="fa-solid fa-eye"></i>*/
+            });
+            $('.tbody-Comments-list').html(htm);
+        },
+        //complete: function () {
+        //    $('.ajax-loader').hide();
+        //},
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
+$("#Estimation-Det .active").text()
+$("#Estimation-Det li button").on('click', function () {
+    var selTab = $(this).text().trim()
+
+    if (selTab == "Comments") {
+        GetGeneralComments();
+    }
+
+})
+function datedayformat(dt) {
+    if (dt != null && dt != '') {
+        return (new Date(dt).getDate() + '-' + monthsNameByNo[new Date(dt).getMonth()] + '-' + new Date(dt).getFullYear() + ', ' + day[new Date(dt).getDay()]);
+    }
+    else {
+        return '-';
+    }
+}
+
+
+//For MultiDropdown for Comments inTOC MODAL
+function loadEMSProdsForMultiDDL() {
+
+    $.ajax({
+        url: "EMSItemList.aspx/GetAllEMSProdsDDLByReqId",
+        type: "POST",
+        data: JSON.stringify({ "UserId": currUserId, "ReqId": selReqId }),
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '';
+
+            $.each(result.d, function (key, item) {
+                htm += '<option value="' + item.Value + '" >' + item.Text + ' </option>'
+            });
+
+            $('#ddlEMSProdForVDComm').html(htm);
+            $('#ddlEMSProdForVDComm').select2({
+                //dropdownParent: $("#ModalBriefForm"),
+                multi: true,
+                width: '100%',
+                height: '173px'
+            });
+        },
+        error: function (errormessage) {
+            ////alert(errormessage.responseText);
+        }
+    });
+}
+
+function getEMSProdsFromMultiDDL() {
+    var CCEmail = '';
+    for (var i = 0; i < $('#ddlEMSProdForVDComm').val().length; i++) {
+        CCEmail += $('#ddlEMSProdForVDComm').val()[i] + ',';
+    }
+    return CCEmail.substring(0, CCEmail.lastIndexOf(","));
+}
+
+
+//For MultiDropdown for Item Without Code
+function loadEMSProdsForAttach() {
+
+    $.ajax({
+        url: "EMSItemList.aspx/GetAllEMSProdsDDLByReqId",
+        type: "POST",
+        data: JSON.stringify({ "UserId": currUserId, "ReqId": selReqId }),
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '';
+
+            $.each(result.d, function (key, item) {
+                htm += '<option value="' + item.Value + '" >' + item.Text + ' </option>'
+            });
+
+            $('#ddlProdsInAttach').html(htm);
+            $('#ddlProdsInAttach').select2({
+                //dropdownParent: $("#ModalBriefForm"),
+                multi: true,
+                width: '100%',
+                height: '173px'
+            });
+        },
+        error: function (errormessage) {
+            ////alert(errormessage.responseText);
+        }
+    });
+}
+
+function getEMSProdsInAttch() {
+    var CCEmail = '';
+    for (var i = 0; i < $('#ddlProdsInAttach').val().length; i++) {
+        CCEmail += $('#ddlProdsInAttach').val()[i] + ',';
+    }
+    return CCEmail.substring(0, CCEmail.lastIndexOf(","));
+}

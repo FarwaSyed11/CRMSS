@@ -242,6 +242,17 @@
                             </div>
 
                         </div>
+                        <div class="row m1-2 fs-6 mb-4 border" style="">
+                            <div class="col-md-5 px-3 pb-2 border-right">
+                                <b>Pump Approval :
+                                </b>
+                                <input type="radio" id="rdUlFmApproved" name="nmPumpApproval" value="UL And FM Approved" style="margin-left: 5%" class="fs-6" checked="Checked" disabled>&nbsp;UL & FM Approved 
+                                     <input type="radio" id="rdNonListed" name="nmPumpApproval" value="Non Listed" style="margin-left: 5%" disabled>&nbsp;Non Listed
+                            </div>
+
+
+                        </div>
+
                         <div class="row div-assign" style="padding-top: 1px;">
                             <div style="width:20%;">
                                 <select id="ddlAssignTo" style="color: black; height: 40px !important; font-size: inherit;"></select>

@@ -134,7 +134,7 @@ public partial class ERM_FirePump : System.Web.UI.Page
                     PumpSpecification = dt.Rows[i]["PumpSpecification"].ToString(),
                     ListOfMakes = dt.Rows[i]["ListOfMakes"].ToString(),
                     PumpShedule = dt.Rows[i]["PumpShedule"].ToString(),
-
+                    PumpApproval = dt.Rows[i]["PumpApproval"].ToString(),
                 });
             }
         }
@@ -682,6 +682,9 @@ public partial class ERM_FirePump : System.Web.UI.Page
         public string PumpSpecification { get; set; }
         public string ListOfMakes { get; set; }
         public string PumpShedule { get; set; }
+        public string PumpApproval { get; set; }
+
+        
 
 
     }

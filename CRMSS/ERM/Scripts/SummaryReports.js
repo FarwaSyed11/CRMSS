@@ -7,6 +7,8 @@ var listAlternateItems = [];
 var sysTotPipeFittings = 0, sysTotInstallation = 0, sysTotEngineering = 0, sysTotTestnComm = 0;
 var sysMaterial = 0;
 var sysInstall = 0;
+var listSummaryAdditional = [];
+var htmforAdditional = '';
 
 function summaryThead() {
 
@@ -29,6 +31,20 @@ function summaryThead() {
                                             
                                             `+ SummaryReports() + `
                                             </tbody>
+                                        </table>
+                                        <h5 class="my-2">Additional Items</h5>
+                                        <table class="table project-table">
+                                            <thead style="position: sticky; top: 0;">
+                                                <tr>
+                                                    <th>Name/Description</th>
+                                                    <th>Price</th>
+                                                    <th>Comments</th>
+                                                    <th>Optional</th>
+                                                </tr>
+                                            </thead>
+
+                                            `+ AdditionalItems() + `
+    
                                         </table>
                                         <table>
                                             <div class="float-right w-50">
@@ -366,3 +382,39 @@ function printDiv(divID) {
 
 }
 
+
+function AdditionalItems() {
+    htmforAdditional = '';
+    $.ajax({
+        url: "EMSItemList.aspx/AdditionalItems",
+        type: "POST",
+        data: JSON.stringify({
+            "RequstId": selReqId,
+            "UserId": currUserId
+        }),
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            listSummaryAdditional = [];
+            listSummaryAdditional = result.d.listAdditionalItem;
+            
+            $.each(listSummaryAdditional, function (key, item) {
+                isOpt = item.IsOptional == 'True' ? '<span><b>Optional</b></span>' : '';
+                htmforAdditional += `<tbody class=""><tr>
+                <td>`+ item.Name + `</td>
+                <td>`+ numberWithCommas(fixedtwo(item.Price)) + `</td>
+                <td>`+ item.Comments + `</td>
+                <td>`+ isOpt + `</td>`
+
+                htmforAdditional += `</tr></tbody>`
+                });
+        },
+        // <td>`+ item.OverHead + `</td>
+        error: function (errormessage) {
+            ////alert(errormessage.responseText);
+        }
+
+    });
+    return htmforAdditional;
+}

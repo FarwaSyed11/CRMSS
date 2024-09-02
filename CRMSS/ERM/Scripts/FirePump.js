@@ -353,6 +353,13 @@ function EstimationDetails() {
                 $('#chPumpshedule').prop('checked', false);
             }
 
+            if (result.d[0].PumpApproval == 'UL & FM APPROVED') {
+                $('#rdUlFmApproved').prop('checked', true);
+            }
+            else if (result.d[0].PumpApproval == 'NON LISTED') {
+                $('#rdNonListed').prop('checked', true);
+            }
+
         },
         //complete: function () {
         //    $('.ajax-loader').hide();
@@ -603,7 +610,7 @@ function loadestimator() {
 
 function UserBase() {
     var htm = '';
-    if (myroleList.includes("15217") || myroleList.includes("8123") || myroleList.includes("14214")) {
+    if (myroleList.includes("15217") || myroleList.includes("8123") || myroleList.includes("14214")|| myroleList.includes("14213")) {
 
         htm += `<option style="font-style: normal;" value="SUBMITTED"> PENDING </option>
                 <option style = "font-style: normal;" value = "ASSIGNED">ASSIGNED</option>

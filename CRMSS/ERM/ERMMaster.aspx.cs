@@ -1666,7 +1666,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
                     Comments = dt.Rows[i]["Comments"].ToString(),
                     UpdatedBy = dt.Rows[i]["UpdatedBy"].ToString(),
                     UpdatedDate = dt.Rows[i]["UpdatedDate"].ToString(),
-
+                    Products = dt.Rows[i]["Products"].ToString(),
                 });
             }
         }
@@ -1835,7 +1835,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         public string Comments { get; set; }
         public string UpdatedBy { get; set; }
         public string UpdatedDate { get; set; }
-      
+        public string Products { get; set; }
 
     }
     public class RequestedProducts

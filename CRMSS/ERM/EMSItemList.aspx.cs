@@ -849,6 +849,92 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         return oListSystem;
     }
 
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<DDL> GetAllEMSProdsDDLByReqId(string UserId, string ReqId)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        List<DDL> oListSystem = new List<DDL>();
+
+        pa.Add("@oper");
+        pv.Add(4);
+
+        pa.Add("@UserID");
+        pv.Add(UserId);
+
+        pa.Add("@ReqId");
+        pv.Add(ReqId);
+
+        DBH.CreateDatasetERM_Data(ds, "sp_RequestItems", true, pa, pv);
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                oListSystem.Add(new DDL()
+                {
+                    Text = dt.Rows[i]["Product"].ToString(),
+                    Value = dt.Rows[i]["Product"].ToString()
+                });
+            }
+        }
+        return oListSystem;
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static void AddGeneralComments(string UserID, string RefId, string Comment, string IsNotified, string MailTo, string CCMail, string ProdsStr)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@Oper");
+        pv.Add("33");
+
+        pa.Add("@UserID");
+        pv.Add(UserID);
+
+        pa.Add("@RefId");
+        pv.Add(RefId);
+
+        pa.Add("@EMSProdStr");
+        pv.Add(ProdsStr);
+
+        pa.Add("@Comments");
+        pv.Add(Comment);
+
+        pa.Add("@IsNotified");
+        pv.Add(IsNotified);
+
+
+
+        if (IsNotified == "True")
+        {
+            pa.Add("@MailTo");
+            pv.Add(MailTo);
+
+            pa.Add("@CCMAil");
+            pv.Add(CCMail);
+        }
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
+
+
+    }
+
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
     public static void AddAdditionalItemInTOC(string UserId, string Product, string Price, string IsOptional, string Desc, string AdditionalComm,string ReqId)
@@ -2275,6 +2361,43 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static AllInOneReports AdditionalItems(string RequstId, string UserId)
+    {
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+        List<Summary> oListAdditionalItem = new List<Summary>();
+        pa.Add("@oper");
+        pv.Add(4);
+        pa.Add("@RequestId");
+        pv.Add(RequstId);
+        pa.Add("@userId");
+        pv.Add(UserId);
+        DBH.CreateDatasetERM_Data(ds, "sp_Reports", true, pa, pv);
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                oListAdditionalItem.Add(new Summary()
+                {
+                    Name = dt.Rows[i]["Description"].ToString(),
+                    Price = dt.Rows[i]["Price"].ToString(),
+                    Comments = dt.Rows[i]["Comments"].ToString(),
+                    IsOptional = dt.Rows[i]["Isoptional"].ToString(),
+                });
+            }
+        }
+        return new AllInOneReports()
+        {
+            listAdditionalItem = oListAdditionalItem,
+        };
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
     public static AllInOneReports ItemviseReports(string RequstId, string UserId)
     {
 
@@ -2443,6 +2566,8 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
                 ind.FileName = dt.Rows[i]["FileName"].ToString();
                 ind.AttachComment = dt.Rows[i]["AttachComment"].ToString();
                 ind.URL = dt.Rows[i]["URL"].ToString();
+                ind.ProdType = dt.Rows[i]["ProdType"].ToString();
+                ind.ProdStr = dt.Rows[i]["ProdStr"].ToString();
                 
                 listProjDet.Add(ind);
             }
@@ -2927,6 +3052,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
                 PumpSpecs = dt.Rows[i]["PumpSpecification"].ToString(),
                 ListofMake = dt.Rows[i]["ListOfMakes"].ToString(),
                 PumpSched = dt.Rows[i]["PumpShedule"].ToString(),
+                PumpApproval = dt.Rows[i]["PumpApproval"].ToString(),
             });
         }
         return olistViewFPdetails;
@@ -2955,7 +3081,8 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         string Direction,
         string PumpSpecs,
         string ListofMake,
-        string PumpSched
+        string PumpSched,
+        string PumpApproval
         )
     {
 
@@ -3021,6 +3148,9 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
         pa.Add("@PumpSchedule");
         pv.Add(PumpSched);
+
+        pa.Add("@PumpApproval");
+        pv.Add(PumpApproval);
 
         DBH.CreateDatasetERM_Data(ds, "sp_PumbRequests", true, pa, pv);
 
@@ -3107,6 +3237,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         public string PumpSpecs { get; set; }
         public string ListofMake { get; set; }
         public string PumpSched { get; set; }
+        public string PumpApproval { get; set; }
         public string Status { get; set; }
 
 
@@ -3146,6 +3277,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         public List<Summary> listSummary { get; set; }
         public List<Summary> listItemSummary { get; set; }
         public List<Summary> listAlternateItems { get; set; }
+        public List<Summary> listAdditionalItem { get; set; }
     }
 
     public class Summary
@@ -3180,6 +3312,8 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         public string Spare { get; set; }
         public string MaterialCost { get; set; }
         public string InstallationCost { get; set; }
+        public string Price { get; set; }
+        public string Comments { get; set; }
     }
 
     public class structure
@@ -3372,6 +3506,8 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         public string FileName { get; set; }
         public string AttachComment { get; set; }
         public string URL { get; set; }
+        public string ProdType { get; set; }
+        public string ProdStr { get; set; }
     }
 
     public class EMSProduct {
