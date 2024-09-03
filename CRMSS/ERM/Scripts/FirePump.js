@@ -27,7 +27,7 @@ $(document).ready(function () {
 
 
 function initiateRichText() {
-    
+
     var richTextObj = $('.ritext-tech-remarks-div #taTechRemarks').richText({
         saveCallback: function (obj, a, b) {
             var a = '';
@@ -335,7 +335,7 @@ function EstimationDetails() {
             if (result.d[0].PumpSpecification == 'True') {
                 $('#chSpecification').prop('checked', true);
             }
-            else  {
+            else {
                 $('#chSpecification').prop('checked', false);
             }
 
@@ -394,10 +394,10 @@ function AllItemdetails() {
 
                 htm += `<tr>  
                  
-                  <td style="text-align:center;" class="pump-row" title="`+ item.ItemID + `">`+ item.SlNO + `</td>
+                  <td style="text-align:center;" class="pump-row" title="`+ item.ItemID + `">` + item.SlNO + `</td>
                    <td style="text-align:center;display:none;">` + item.ItemID + `</td>
-                  <td style="text-align:center;" class="pump-row" title="`+ item.ItemID + `">`+ item.Area + `</td>
-                  <td style="text-align:center;" class="pump-row" title="`+ item.ItemID + `">`+ item.Description + `</td>
+                  <td style="text-align:center;" class="pump-row" title="`+ item.ItemID + `">` + item.Area + `</td>
+                  <td style="text-align:center;" class="pump-row" title="`+ item.ItemID + `">` + item.Description + `</td>
                   <td style="text-align:center;" class="pump-row" title="`+ item.ItemID + `">` + item.QTY + `</td> 
                   <td style="text-align:center;" class="pump-row" title="`+ item.ItemID + `">` + item.TypeOfPump + `</td> 
                   <td style="text-align:center;"x>
@@ -422,12 +422,12 @@ function AllItemdetails() {
                             </td>
 
                 </tr>`;
-                            
-                
+
+
             });
 
             $('.tbody-FP-Requests').html(htm);
-           
+
         },
         //complete: function () {
         //    $('.ajax-loader').hide();
@@ -445,7 +445,7 @@ $('.tbody-FP-Requests').on('click', '.pump-row', function () {
         }
     }
     PumpClass = 'hidden_row' + ItemID;
-    
+
     AllPumpdetails();
     if ($('.hidden_row' + ItemID + '').hasClass('hidden') == true) {
         $('.hidden_row' + ItemID + '').removeClass('hidden');
@@ -483,7 +483,7 @@ function AddPumpDetails() {
 
     $.ajax({
         url: "FirePump.aspx/setPumpDet",
-        data: JSON.stringify({ "UserId": currUserId, "ItemID": ItemID, "PumpName": $('#txtPumpName').val(), "Value": $('#txtPumpValue').val(), "QTY": $('#txtPumpQTY').val(), "MoreInfo": $('#txtPumpMoreInfo').val(),"Comments": $('#txtPumpComments').val(), }),
+        data: JSON.stringify({ "UserId": currUserId, "ItemID": ItemID, "PumpName": $('#txtPumpName').val(), "Value": $('#txtPumpValue').val(), "QTY": $('#txtPumpQTY').val(), "MoreInfo": $('#txtPumpMoreInfo').val(), "Comments": $('#txtPumpComments').val(), }),
         type: "POST",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
@@ -550,7 +550,7 @@ function AllPumpdetails() {
             var htm = '';
             var ProjectDetails = result.d;
             var htmen = '';
-           
+
             $.each(ProjectDetails, function (key, item) {
 
                 htm += `<tr>  
@@ -559,8 +559,8 @@ function AllPumpdetails() {
                   <td style="text-align:center;">`+ item.capasity + `</td>
                   <td style="text-align:center;">`+ item.Bars + `</td>
                   <td style="text-align:center;">`+ item.QTY + `</td>  `;
-          
-              
+
+
 
                 htm += `</tr>`;
 
@@ -568,7 +568,7 @@ function AllPumpdetails() {
             });
 
             $('.tbody-FP-PumpDet').html(htm);
-         
+
 
         },
         //complete: function () {
@@ -610,7 +610,7 @@ function loadestimator() {
 
 function UserBase() {
     var htm = '';
-    if (myroleList.includes("15217") || myroleList.includes("8123") || myroleList.includes("14214")|| myroleList.includes("14213")) {
+    if (myroleList.includes("15217") || myroleList.includes("8123") || myroleList.includes("14214") || myroleList.includes("14213")) {
 
         htm += `<option style="font-style: normal;" value="SUBMITTED"> PENDING </option>
                 <option style = "font-style: normal;" value = "ASSIGNED">ASSIGNED</option>
@@ -632,7 +632,7 @@ function UserBase() {
     else if (myroleList.includes("15218")) {
         $('#btnAddPumpInfo').css('display', '');
     }
-  
+
 }
 
 $('#btnAssignTo').on('click', function () {
@@ -671,14 +671,14 @@ function AssignedTo() {
 
 function ApprovalBtn() {
 
-    if ((myroleList.includes("15217") || myroleList.includes("8123"))&& Status == 'SUBMITTED') {
+    if ((myroleList.includes("15217")) && Status == 'SUBMITTED') {
 
         $('#btnAddPumpInfo').css('display', 'none');
         $('.div-assign').css('display', '');
         $('.div-Complete').css('display', 'none');
         $('.btnAddAddiItemsTOC').css('display', 'none');
         $('.ibtn-delete-addiitemtoc').css('display', 'none');
-     
+
 
     }
     else if (myroleList.includes("15218") && Status == 'ASSIGNED') {
@@ -825,7 +825,7 @@ function ERMFileUpload() {
 
 
     var qrystringLocal = 'https://crmss.naffco.com/CRMSS/ERM/Services/FirePumpUpload.ashx?ReqID=' + ReqID + '&UserId=' + currUserId + '&Comments=' + $('#txtAttachmentComment').val();    // For Development
-   /* var qrystringLocal = '../ERM/Services/FirePumpUpload.ashx?ReqID=' + ReqID + '&UserId=' + currUserId + '&Comments=' + $('#txtAttachmentComment').val();*/    // For Development
+    /* var qrystringLocal = '../ERM/Services/FirePumpUpload.ashx?ReqID=' + ReqID + '&UserId=' + currUserId + '&Comments=' + $('#txtAttachmentComment').val();*/    // For Development
 
     let sURL = 'TestFoCalendar.aspx/Upload';
 
@@ -864,10 +864,11 @@ $(".btnAddTechRemarks").on('click', function () {
         toastr.error("Please input the Technical remarks", '');
     }
     else {
-       
+
         $.ajax({
             url: "FirePump.aspx/setComplete",
-            data: JSON.stringify({ "UserId": currUserId, "ReqID": ReqID,
+            data: JSON.stringify({
+                "UserId": currUserId, "ReqID": ReqID,
                 "TechNotes": $("#taTechRemarks").val()
             }),
             type: "POST",
@@ -893,8 +894,8 @@ $(".btnAddTechRemarks").on('click', function () {
                 alert(errormessage.responseText);
             }
         });
-       
-        
+
+
     }
 });
 
@@ -902,7 +903,7 @@ $(".btnAddTechRemarks").on('click', function () {
 
 
 $('.btn-add-additionalitems').on('click', function () {
-
+    loadAllAddedPumps();
     getAllEMSProductsByReqId();
     $('#addiItemsInTOC').modal('show');
     resetEMSProdControls()
@@ -929,7 +930,7 @@ function getAllEMSProductsByReqId() {
                 htm += `<tr>               
                     <td> `+ item.EMSProd + ` </td>                 
                     <td> `+ item.Price + `</td>
-                    <td> `+ (item.Optional == "False" ? '-' : '<i class="bx bx-check" style="color: #38b316;"></i>') +`</td>
+                    <td> `+ (item.Optional == "False" ? '-' : '<i class="bx bx-check" style="color: #38b316;"></i>') + `</td>
                     <td> `+ item.Desc + `</td>
                     <td> `+ item.Comment + `</td>
                     <td> `+ item.CreatedBy + `</td>
@@ -1007,7 +1008,8 @@ $(".btnAddAddiItemsTOC").on('click', function () {
                 "IsOptional": ($("#cbAddiIsOptional").is(':checked') ? 1 : 0),
                 "Desc": $("#taAddiDesc").val(),
                 "AdditionalComm": $("#taAddiComments").val(),
-                "ReqId": ReqID
+                "ReqId": ReqID,
+                "Name": $("#ddlEMSFirePumps option:selected").text()
             }),
             contentType: "application/json;charset=utf-8",
             dataType: "json",
@@ -1016,14 +1018,14 @@ $(".btnAddAddiItemsTOC").on('click', function () {
 
                 toastr.success('Additional Item Added Successfully');
                 getAllEMSProductsByReqId()
-               
+
             },
             error: function (errormessage) {
                 ////alert(errormessage.responseText);
             }
         });
     }
-   
+
 
 })
 
@@ -1051,5 +1053,34 @@ function validateEMSProdControls() {
     }
     return isValid;
 }
+
+
+//$.fn.modal.Constructor.prototype.enforceFocus = function () { };
+function loadAllAddedPumps() {
+
+    $.ajax({
+        url: "EMSItemList.aspx/loadAllAddedPumps",
+        type: "POST",
+        data: JSON.stringify({ "id": ReqID }),
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var _allpumps = '';
+
+             _allpumps += '<option value = "-1" >-- All --</option>'
+            $.each(result.d, function (key, item) {
+                _allpumps += '<option value = "' + item.Value + '" > ' + item.Name + '</option> ';
+            });
+
+            $('#ddlEMSFirePumps').html(_allpumps);
+           
+        },
+        error: function (errormessage) {
+            ////alert(errormessage.responseText);
+        }
+    });
+}
+
 
 //END-------------------On Fire Pump Side------------------// 

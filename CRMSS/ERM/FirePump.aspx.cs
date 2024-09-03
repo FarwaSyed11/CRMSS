@@ -1,4 +1,5 @@
-﻿using System;
+﻿//using Microsoft.Office.Interop.Excel;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -530,7 +531,7 @@ public partial class ERM_FirePump : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static void AddAdditionalItemInTOC(string UserId, string Product, string Price, string IsOptional, string Desc, string AdditionalComm, string ReqId)
+    public static void AddAdditionalItemInTOC(string UserId, string Product, string Price, string IsOptional, string Desc, string AdditionalComm, string ReqId, string Name)
     {
 
         DBHandler DBH = new DBHandler();
@@ -563,6 +564,9 @@ public partial class ERM_FirePump : System.Web.UI.Page
 
         pa.Add("@Comments");
         pv.Add(AdditionalComm);
+
+        pa.Add("@FirePumpName");
+        pv.Add(Name);
 
 
         DBH.CreateDatasetERM_Data(ds, "sp_EMS_AdditionalItemsFP", true, pa, pv);

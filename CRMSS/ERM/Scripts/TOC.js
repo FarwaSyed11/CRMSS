@@ -18,6 +18,7 @@ function initiateRichText() {
             var a = '';
         },
         // text formatting
+        //toolbar: basic,
         bold: true,
         italic: true,
         underline: true,
@@ -2092,4 +2093,12 @@ function CopySystem(pSysName) {
     });
 
 }
+
+	//var editor1cfg = {}
+	//var editor1 = new RichTextEditor("#div_editor1", editor1cfg);
+
+	function downloadPDFDialog() {
+        richTextObj.getHTMLCode("#taTechRemarks")
+        richTextObj.execCommand("html2pdf");
+	}
 

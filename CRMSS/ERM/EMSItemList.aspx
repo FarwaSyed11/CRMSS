@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="EMSItemList.aspx.cs" Inherits="Sales_EMSItemList" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="EMSItemList.aspx.cs" Inherits="Sales_EMSItemList" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../Calendar/dist/adminlte.min.css">
-    <link rel="stylesheet" href="../Template/assets/vendor/libs/richtexteditor/richtext.css" />
+    <%--<link rel="stylesheet" href="../Template/assets/vendor/libs/richtexteditor/richtext.css" />--%>
 
     <style type="text/css">
         ::-webkit-scrollbar {
@@ -355,10 +355,12 @@
             right: 36px;
             color: #505050;
         }
-        .select2-container--default .select2-selection--multiple .select2-selection__choice__display {    
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__display {
             color: white !important;
         }
-        .modal{           
+
+        .modal {
             overflow-y: auto !important;
         }
     </style>
@@ -908,63 +910,63 @@
                                                                     </div>
                                                                 </div>
 
-                         <div class="tab-pane fade" id="navs-top-Attachment" role="tabpanel">
+                                                                <div class="tab-pane fade" id="navs-top-Attachment" role="tabpanel">
 
-                                    <div>
-                                        <a href="#" id="btnNewAttacment" class="btn btn-primary pull-right"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Attachment</a>
-                                    </div>
-                                    <div style="padding-top: 3%;">
-                                        <table class="table Attachment-list-table" style="width: 100%;">
-                                            <%--<caption class="ms-4">List of Projects</caption>--%>
-                                            <thead>
-                                                <tr style="text-align: center;">
-                                                    <th style="display: none;">Id</th>
-                                                    <th>Product</th>
-                                                    <th>Product Type</th>
-                                                    <th>Filename</th>
-                                                    <th>Comments</th>
-                                                    <th style="display: none;">Comments</th>
-                                                    <th>Action</th>
+                                                                    <div>
+                                                                        <a href="#" id="btnNewAttacment" class="btn btn-primary pull-right"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Attachment</a>
+                                                                    </div>
+                                                                    <div style="padding-top: 3%;">
+                                                                        <table class="table Attachment-list-table" style="width: 100%;">
+                                                                            <%--<caption class="ms-4">List of Projects</caption>--%>
+                                                                            <thead>
+                                                                                <tr style="text-align: center;">
+                                                                                    <th style="display: none;">Id</th>
+                                                                                    <th>Product</th>
+                                                                                    <th>Product Type</th>
+                                                                                    <th>Filename</th>
+                                                                                    <th>Comments</th>
+                                                                                    <th style="display: none;">Comments</th>
+                                                                                    <th>Action</th>
 
-                                                </tr>
-                                            </thead>
-                                            <tbody class="tbody-Attachment-list" style="text-align: center;">
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody class="tbody-Attachment-list" style="text-align: center;">
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
 
-                          </div>
-                  <div class="tab-pane fade" id="navs-top-Comments" role="tabpanel">
+                                                                </div>
+                                                                <div class="tab-pane fade" id="navs-top-Comments" role="tabpanel">
 
-                                  <div>
-                                        <a href="#" id="btnAddNewComments" class="btn btn-primary pull-right"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Comments</a>
-                                    </div>
+                                                                    <div>
+                                                                        <a href="#" id="btnAddNewComments" class="btn btn-primary pull-right"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Comments</a>
+                                                                    </div>
 
-                                    <div style="padding-top: 3%;">
+                                                                    <div style="padding-top: 3%;">
 
 
-                                        <table class="table Comments-list-table" style="width: 100%;">
-                                            <%--<caption class="ms-4">List of Projects</caption>--%>
-                                            <thead>
-                                                <tr style="text-align: center;">
+                                                                        <table class="table Comments-list-table" style="width: 100%;">
+                                                                            <%--<caption class="ms-4">List of Projects</caption>--%>
+                                                                            <thead>
+                                                                                <tr style="text-align: center;">
 
-                                                    <th>SlNo.</th>
-                                                    <th>Products</th>
-                                                    <th>Commment</th>
-                                                    <th>UpdatedBy</th>
-                                                    <th>Updated Date</th>
+                                                                                    <th>SlNo.</th>
+                                                                                    <th>Products</th>
+                                                                                    <th>Commment</th>
+                                                                                    <th>UpdatedBy</th>
+                                                                                    <th>Updated Date</th>
 
-                                                </tr>
-                                            </thead>
-                                            <tbody class="tbody-Comments-list" style="text-align: center;">
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody class="tbody-Comments-list" style="text-align: center;">
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
 
-                          </div>
-                      </div>
-                  </nav>
-              </div>
+                                                                </div>
+                                                            </div>
+                                                        </nav>
+                                                    </div>
 
                                                     <%--<div style="padding-top: 2%">
 
@@ -1124,7 +1126,7 @@
                                                         Add Fire Pump
                                                     </button>
                                                     <button type="button" class="btn btn-primary btn-add-additionalitems float-right me-2">
-                                                        <i class="bx bx-plus"></i>Additional Item</button>                                                                                                       
+                                                        <i class="bx bx-plus"></i>Additional Item</button>
                                                 </div>
 
 
@@ -1490,7 +1492,7 @@
                             <a href="#" class="btn btn-primary" id="btnItemFilterTOC" style="margin-top: 30px;">Search</a>
                         </div>
                         <div class="col-md-3" style="display: flex; justify-content: flex-end">
-                            <a href="#" class="btn btn-primary btn-item-withoutcode-grid me-2" style="margin-top: 30px;"> <i class="bx bx-plus"></i>Item Without Code</a>
+                            <a href="#" class="btn btn-primary btn-item-withoutcode-grid me-2" style="margin-top: 30px;"><i class="bx bx-plus"></i>Item Without Code</a>
                             <a href="#" class="btn btn-primary" id="btnAddItemFromOracle-grid" style="margin-top: 30px;"><i class="fa fa-plus" aria-hidden="true"></i>Add From Oracle</a>
                         </div>
 
@@ -1677,6 +1679,9 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="ReqTechRemarksModalLabel">Technical Remarks</h5>
+                    <button class="btn btn-sm btn-primary transition-3d-hover" onclick="downloadPDFDialog()">
+                        Download as PDF
+                    </button>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" style="zoom: 85%; min-height: 670px;">
@@ -1764,7 +1769,7 @@
     </div>
 
 
-     <%--ADD/UPDATE Items which doesn't have Itemcode--%>
+    <%--ADD/UPDATE Items which doesn't have Itemcode--%>
     <div class="modal fade" id="addItemWithoutItmCodeModal" tabindex="-1" style="background: #a9a9a996;" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
@@ -1773,7 +1778,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" style="zoom: 85%;">
-                                        
+
                     <div class="mt-3 row">
                         <div class="col-md-3">
                             <label>System</label>
@@ -1814,7 +1819,7 @@
                     </div>
 
                 </div>
-              <%--  <div class="modal-footer">
+                <%--  <div class="modal-footer">
                     <button type="button" class="btn btn-primary btnAddItemsFromOracleTOC">Select </button>
                 </div>--%>
             </div>
@@ -2120,7 +2125,7 @@
         </div>
     </div>
 
-  
+
     <%--Add from exiting structures --%>
     <div class="modal fade" id="modalCopyExisting" style="background-color: #00000070;" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
         <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 80%;">
@@ -2252,7 +2257,7 @@
                     <button type="button" class="btn-close btn-close-proj-modal" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                                       
+
                     <div style="margin-top: -1%;">
                         <div style="background: #1d1b1b36; padding: 17px; border-radius: 12px; border: 1px solid #1d1b1b36; box-shadow: 0px 0px 13px -7px #1d1b1b36;">
 
@@ -2264,23 +2269,26 @@
 
                             <div class="row">
                                 <label>Products</label>
-                                 <div><select id="ddlProdsInAttach" style="z-index: 99 !important;" class="form-select color-dropdown" multiple></select></div>
+                                <div>
+                                    <select id="ddlProdsInAttach" style="z-index: 99 !important;" class="form-select color-dropdown" multiple></select>
+                                </div>
                             </div>
 
-                             <div class="row">
+                            <div class="row">
                                 <label>Product Type</label>
-                                <div><input class="form-control" type="text" placeholder="Enter Product Type" style="background-color: white;" id="txtProdTypeInAttach" /></div>
+                                <div>
+                                    <input class="form-control" type="text" placeholder="Enter Product Type" style="background-color: white;" id="txtProdTypeInAttach" />
+                                </div>
                             </div>
 
-                            <div class="row">                             
-                                    <div class="col mb-3 discriptionDiv">
-                                        <label for="nameBasic" class="  label-custom">Comments </label>
-                                        <textarea id="txtAttachmentComment" rows="3" class="form-control" style="border-bottom: solid; border-color: #b9b9b9; overflow-y: scroll;" placeholder="Enter the Commments"></textarea>
-                                    </div>                             
+                            <div class="row">
+                                <div class="col mb-3 discriptionDiv">
+                                    <label for="nameBasic" class="  label-custom">Comments </label>
+                                    <textarea id="txtAttachmentComment" rows="3" class="form-control" style="border-bottom: solid; border-color: #b9b9b9; overflow-y: scroll;" placeholder="Enter the Commments"></textarea>
+                                </div>
                             </div>
 
                             <div class="row" style="margin-top: 1%;">
-
                             </div>
                             <div class="row" style="margin-top: 2%;">
 
@@ -2306,7 +2314,7 @@
     </div>
 
 
-    
+
 
 
 
@@ -2346,9 +2354,9 @@
                     </div>
 
 
-                       <div>
-                            <a href="#" id="btnAddAttachFPump-Grid" class="btn btn-primary pull-right m-3 fpumpFilesDiv"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Attachment</a>
-                        </div>
+                    <div>
+                        <a href="#" id="btnAddAttachFPump-Grid" class="btn btn-primary pull-right m-3 fpumpFilesDiv"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Attachment</a>
+                    </div>
                     <div style="padding-top: 3%;" class="fpumpFilesDiv">
                         <table class="table Attachment-list-table" style="width: 100%;">
                             <thead>
@@ -2382,7 +2390,7 @@
                     <button type="button" class="btn-close btn-close-proj-modal" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                                       
+
                     <div style="margin-top: -1%;">
                         <div style="background: #1d1b1b36; padding: 17px; border-radius: 12px; border: 1px solid #1d1b1b36; box-shadow: 0px 0px 13px -7px #1d1b1b36;">
 
@@ -2403,7 +2411,6 @@
                             </div>
 
                             <div class="row" style="margin-top: 1%;">
-
                             </div>
                             <div class="row" style="margin-top: 2%;">
 
@@ -2428,7 +2435,7 @@
         </div>
     </div>
 
-     <%--DELETE CONFIMATION MODAL FOR FIRE PUMP DELETE IN TOC --%>
+    <%--DELETE CONFIMATION MODAL FOR FIRE PUMP DELETE IN TOC --%>
     <div class="modal fade" id="deleteFPReqModal" style="background-color: #00000070;" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -2480,21 +2487,21 @@
                 </div>
                 <div class="modal-body">
                     <div class="row" style="padding-top: 1px;">
-                        
+
                         <div class="row">
-                         <div class="col-12">
+                            <div class="col-12">
                                 <label for="html5-number-input" class="  label-custom">Product </label>
                                 <div class="">
                                     <select id="ddlEMSProdForVDComm" style="z-index: 99 !important;" class="form-select color-dropdown" multiple>
                                     </select>
                                 </div>
                             </div>
-                    </div>
-                    <div class="row mt-4">
-                        <label for="html5-number-input" class="  label-custom">Comment </label>
-                        <textarea class="form-control" id="txtComments" rows="5" placeholder="Enter Your Comments"></textarea>
-                    </div>
-                      
+                        </div>
+                        <div class="row mt-4">
+                            <label for="html5-number-input" class="  label-custom">Comment </label>
+                            <textarea class="form-control" id="txtComments" rows="5" placeholder="Enter Your Comments"></textarea>
+                        </div>
+
                     </div>
 
                     <div class="row" style="padding-top: 3%;">
@@ -2601,11 +2608,11 @@
                             <label>Price</label>
                             <input class="form-control" type="number" placeholder="Enter Price" style="background-color: white;" id="txtPrice">
                         </div>
-                        <div class="col-md-4">                                
+                        <div class="col-md-4">
                             <label class="m-4">
                                 <input class="form-check-input position-relative" type="checkbox" name="cbAddiIsOptionalName" value="1" id="cbAddiIsOptional" />
-                                Is Optional</label>                            
-                        </div>    
+                                Is Optional</label>
+                        </div>
                     </div>
 
                     <div class="mt-1">
@@ -2613,12 +2620,14 @@
                         <textarea id="taAddiDesc" class="form-control"></textarea>
                     </div>
 
-                     <div class="mt-1">
-                         <label>Additional Comments</label>
-                         <textarea id="taAddiComments" class="form-control"></textarea>
+                    <div class="mt-1">
+                        <label>Additional Comments</label>
+                        <textarea id="taAddiComments" class="form-control"></textarea>
                     </div>
 
-                    <div class="mt-3"><h5>Added EMS Product List</h5></div>
+                    <div class="mt-3">
+                        <h5>Added EMS Product List</h5>
+                    </div>
                     <div class="table mt-2" style="overflow-y: auto; max-height: 800px;">
                         <table class="table item-emsprod-table" style="width: 100%;">
 
@@ -2697,13 +2706,12 @@
     <script src="../FacilityManagement/Datatable/js/buttons.html5.min.js"></script>
     <script src="../FacilityManagement/Datatable/js/buttons.print.min.js"></script>
 
-     
     <%--MULTI SELECT FOR FILTER--%>
     <link href="../Calendar/dist/select2.css" rel="stylesheet" />
     <script src="../Calendar/dist/select2.js"></script>
     <%--<script src="script/multiple-select.js"></script>
         <link href="../SiteSurvey/Assets/Css/multiple-select.css" rel="stylesheet" />--%>
-      
+
     <%--MULTI SELCT WITH SEARCH--%>
     <link href="Css/select2.css" rel="stylesheet" />
     <script src="Assets/Js/select2.js"></script>
@@ -2711,11 +2719,12 @@
     <link href="../TODONew/Asset/css/netliva_switch.css" rel="stylesheet" />
     <script src="../TODONew/Asset/js/netliva_switch.js"></script>
 
-    <script src="../Template/assets/vendor/libs/richtexteditor/jquery.richtext.js"></script>
+    <%--<script src="../Template/assets/vendor/libs/richtexteditor/jquery.richtext.js"></script>--%>
+    <link rel="stylesheet" href="Assets/richtexteditor/rte_theme_default.css" />
+    <script type="text/javascript" src="Assets/richtexteditor/rte.js"></script>
+    <script type="text/javascript" src='Assets/richtexteditor/plugins/all_plugins.js'></script>
+
     <script src="../Dashboard/assets/vendor/libs/apex-charts/apexcharts.js"></script>
-
-    <script src="../Template/assets/vendor/libs/richtexteditor/jquery.richtext.js"></script>
-
 </asp:Content>
 
 

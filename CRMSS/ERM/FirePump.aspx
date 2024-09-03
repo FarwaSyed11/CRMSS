@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/EconnectNew.master" CodeFile="FirePump.aspx.cs" Inherits="ERM_FirePump" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Masters/EconnectNew.master" CodeFile="FirePump.aspx.cs" Inherits="ERM_FirePump" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
@@ -64,7 +64,7 @@
                                 <th>Project Number</th>
                                 <th>Name</th>
                                 <th>Estimator</th>
-                                <th style="display:none;">Status</th>
+                                <th style="display: none;">Status</th>
                                 <th>Created Date</th>
                                 <th>View</th>
                             </tr>
@@ -171,7 +171,7 @@
                             </div>
                             <div class="py-1 border-bottom" style="width: 12%;">
                                 <label for="html5-number-input" class="  label-custom">URL: </label>
-                                <label id="SummarytxtPrjURL" value="" class="noborderbg" style="width:100%;word-wrap: break-word;">-</label>
+                                <label id="SummarytxtPrjURL" value="" class="noborderbg" style="width: 100%; word-wrap: break-word;">-</label>
                             </div>
 
                             <div class="py-1 border-right " style="width: 20%;">
@@ -212,11 +212,10 @@
                         </div>
                         <div class="row m1-2 fs-6 mb-4 border" style="">
 
-                           <div class="col-md-3 px-3 pb-2 border-right">
+                            <div class="col-md-3 px-3 pb-2 border-right">
                                 <div style="padding-left: 5%;">
                                     <input class="form-check-input" type="checkbox" value="" name="isAttached" id="chSpecification" disabled>
-                                   
-                                        Specifications Attached
+                                    Specifications Attached
                                     
                                 </div>
 
@@ -225,8 +224,7 @@
                             <div class="col-md-4 border-right">
                                 <div style="padding-left: 5%;">
                                     <input class="form-check-input" type="checkbox" value="" name="isListofMake" id="chListOfMake" disabled>
-                                    
-                                        List of Make
+                                    List of Make
                                     
                                 </div>
                             </div>
@@ -234,8 +232,7 @@
                             <div class="col-md-5">
                                 <div style="padding-left: 5%;">
                                     <input class="form-check-input" type="checkbox" value="" name="isPumpSched" id="chPumpshedule" disabled>
-                                  
-                                        Pump Schedule
+                                    Pump Schedule
                                   
                                 </div>
 
@@ -254,25 +251,25 @@
                         </div>
 
                         <div class="row div-assign" style="padding-top: 1px;">
-                            <div style="width:20%;">
+                            <div style="width: 20%;">
                                 <select id="ddlAssignTo" style="color: black; height: 40px !important; font-size: inherit;"></select>
-                                 
+
                             </div>
-                            <div style="width:8%;">
+                            <div style="width: 8%;">
                                 <button id="btnAssignTo" type="button" class="btn btn-primary" style="float: right;">Assign</button>
                             </div>
 
                         </div>
 
                         <div class="row div-Complete" style="padding-top: 1px;">
-                            
+
                             <div style="width: 8%;">
                                 <button id="btnComplete" type="button" class="btn btn-primary">Complete</button>
                             </div>
 
                         </div>
-                         <button type="button" class="btn btn-primary btn-add-additionalitems float-right me-2">
-                                                        <i class="bx bx-plus"></i>Additional Item</button>
+                        <button type="button" class="btn btn-primary btn-add-additionalitems float-right me-2">
+                            <i class="bx bx-plus"></i>Additional Item</button>
                     </div>
                     <%--Grid--%>
                     <div class="mt-5">
@@ -346,7 +343,8 @@
 
     <div class="modal fade" id="modalWorkLoad" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content"><%-- style="background: antiquewhite;"--%>>
+            <div class="modal-content">
+                <%-- style="background: antiquewhite;"--%>>
                 <div class="modal-header">
                     <h5 class="modal-title">Team Work Load</h5>
                     <button type="button" class="btn-close btn-close-proj-modal" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -369,11 +367,11 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
-     <%--ADDITIONAL ITEMS IN TOC--%>
+    <%--ADDITIONAL ITEMS IN TOC--%>
     <%--ADD/UPDATE System & Items--%>
     <div class="modal fade" id="addiItemsInTOC" tabindex="-1" style="background: #a9a9a996;" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
@@ -390,30 +388,32 @@
                 <div class="modal-body" style="zoom: 85%;">
 
                     <div class="row mt-1">
-                      
-                       
-                        <div class="col-md-8">
-                            <label>Description</label>
-                            <textarea id="taAddiDesc" class="form-control"></textarea>
+                        <div class="col-md-4 mb-3">
+                            <label>Fire Pumps</label>
+                            <select id="ddlEMSFirePumps" class="form-select color-dropdown"></select>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <label>Price</label>
                             <input class="form-control" type="number" placeholder="Enter Price" style="background-color: white;" id="txtPrice">
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <label class="m-4">
                                 <input class="form-check-input position-relative" type="checkbox" name="cbAddiIsOptionalName" value="1" id="cbAddiIsOptional" />
                                 Is Optional</label>
                         </div>
-
+                        <div class="col-md-6">
+                            <label>Description</label>
+                            <textarea id="taAddiDesc" class="form-control"></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Additional Comments</label>
+                            <textarea id="taAddiComments" class="form-control"></textarea>
+                        </div>
                     </div>
 
-                     <div class="mt-1">
-                         <label>Additional Comments</label>
-                         <textarea id="taAddiComments" class="form-control"></textarea>
+                    <div class="mt-3">
+                        <h5>Added EMS Product List</h5>
                     </div>
-
-                    <div class="mt-3"><h5>Added EMS Product List</h5></div>
                     <div class="table mt-2" style="overflow-y: auto; max-height: 800px;">
                         <table class="table item-emsprod-table" style="width: 100%;">
 
@@ -425,7 +425,7 @@
                                     <th>Desc</th>
                                     <th>Additional Comment</th>
                                     <th>Created By</th>
-                                     <th>Action</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
 
@@ -582,7 +582,7 @@
         </div>
     </div>
 
-        <div class="modal fade" id="ReqTechRemarksModal" tabindex="-1" aria-hidden="true" style="background: #adacaca3;">
+    <div class="modal fade" id="ReqTechRemarksModal" tabindex="-1" aria-hidden="true" style="background: #adacaca3;">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -647,19 +647,22 @@
     <script src="Scripts/SummaryReports.js?v=6"></script>
     <link href="css/FirePump.js" rel="stylesheet" />
     <link href="Css/EMSStyle.css" rel="stylesheet" />
+    <%--<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.js" integrity="sha512-H/RK9lhgLZE7IvypfHj5iUX0fnbaz5gA8y81NQ8F6azabccQuFAVeQdvOYDeAvAsl/WZTOGphkwhhlpCJi157A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>--%>
 
+    <%--<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>--%>
     <link href="../Calendar/dist/select2.css" rel="stylesheet" />
-     <script src="../Calendar/dist/select2.js"></script>
+    <script src="../Calendar/dist/select2.js"></script>
 
 
     <!-- Select/Multiselect Dropdown JS/CSS file -->
     <%--  <link href="../Calendar/dist/select2.css" rel="stylesheet" />
     <script src="../Calendar/dist/select2.js"></script>--%>
-    <script src="script/multiple-select.js"></script>
+    <%--<script src="script/multiple-select.js"></script>
     <link href="../SiteSurvey/Assets/Css/multiple-select.css" rel="stylesheet" />
 
     <script src="Assets/Js/multiple-select.js"></script>
-    <link href="../sitesurvey/Assets/Css/multiple-select.css" rel="stylesheet" />
+    <link href="../sitesurvey/Assets/Css/multiple-select.css" rel="stylesheet" />--%>
 
     <script src="../Template/assets/vendor/libs/richtexteditor/jquery.richtext.js"></script>
 

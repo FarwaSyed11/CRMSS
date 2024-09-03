@@ -937,8 +937,8 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static void AddAdditionalItemInTOC(string UserId, string Product, string Price, string IsOptional, string Desc, string AdditionalComm,string ReqId)
-    {      
+    public static void AddAdditionalItemInTOC(string UserId, string Product, string Price, string IsOptional, string Desc, string AdditionalComm, string ReqId)
+    {
 
         DBHandler DBH = new DBHandler();
         DataSet ds = new DataSet();
@@ -974,7 +974,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
 
         DBH.CreateDatasetERM_Data(ds, "sp_EMS_AdditionalItems", true, pa, pv);
-        
+
     }
 
     [WebMethod]
@@ -987,12 +987,12 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         DataTable dt = new DataTable();
         ArrayList pa = new ArrayList();
         ArrayList pv = new ArrayList();
-        
+
         List<EMSProduct> oListPro = new List<EMSProduct>();
 
         pa.Add("@oper");
         pv.Add(0);
-               
+
         pa.Add("@EMSRequestID");
         pv.Add(ReqId);
 
@@ -1004,7 +1004,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 oListPro.Add(new EMSProduct()
-                {             
+                {
                     ID = dt.Rows[i]["ID"].ToString(),
                     ReqId = dt.Rows[i]["EMSRequestID"].ToString(),
                     EMSProd = dt.Rows[i]["EMSProduct"].ToString(),
@@ -1030,7 +1030,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         DataTable dt = new DataTable();
         ArrayList pa = new ArrayList();
         ArrayList pv = new ArrayList();
-        
+
         pa.Add("@oper");
         pv.Add(4);
 
@@ -1376,44 +1376,44 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         ArrayList pa = new ArrayList();
         ArrayList pv = new ArrayList();
 
-      //  foreach (var item in data.listItemsTOC)
-       // {
-            //pa.Clear();
-            //pv.Clear();
+        //  foreach (var item in data.listItemsTOC)
+        // {
+        //pa.Clear();
+        //pv.Clear();
 
-            pa.Add("@Oper");
-            pv.Add(20);
+        pa.Add("@Oper");
+        pv.Add(20);
 
-            //pa.Add("@OracleItemId");
-            //pv.Add(0);
+        //pa.Add("@OracleItemId");
+        //pv.Add(0);
 
-            //pa.Add("@ItemCode");
-            //pv.Add(item.ItemCode);
+        //pa.Add("@ItemCode");
+        //pv.Add(item.ItemCode);
 
-            pa.Add("@ItemDesc");
-            pv.Add(ItemDesc);
+        pa.Add("@ItemDesc");
+        pv.Add(ItemDesc);
 
-            //pa.Add("@ReqId");
-            //pv.Add(ReqId);
+        //pa.Add("@ReqId");
+        //pv.Add(ReqId);
 
-            pa.Add("@SysName");
-            pv.Add(System);
+        pa.Add("@SysName");
+        pv.Add(System);
 
-            pa.Add("@SysCategory");
-            pv.Add(Category);
+        pa.Add("@SysCategory");
+        pv.Add(Category);
 
-            pa.Add("@CreatedBy");
-            pv.Add(UserId);
+        pa.Add("@CreatedBy");
+        pv.Add(UserId);
 
-            DBH.CreateDatasetERM_Data(ds, "SP_TOC", true, pa, pv);
+        DBH.CreateDatasetERM_Data(ds, "SP_TOC", true, pa, pv);
 
-            return new ResponseMsg
-            {
-                ErrorType = ds.Tables[0].Rows[0]["msgType"].ToString(),
-                MsgText = ds.Tables[0].Rows[0]["msg"].ToString()
-            };
+        return new ResponseMsg
+        {
+            ErrorType = ds.Tables[0].Rows[0]["msgType"].ToString(),
+            MsgText = ds.Tables[0].Rows[0]["msg"].ToString()
+        };
         //}
-      //  return new ResponseMsg();
+        //  return new ResponseMsg();
     }
 
 
@@ -2347,7 +2347,8 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
                     OverHead = dt.Rows[i]["Over Head 15%"].ToString(),
                     Total = dt.Rows[i]["Total Cost per System"].ToString(),
                     MaterialCost = dt.Rows[i]["MaterialCost"].ToString(),
-                    InstallationCost = dt.Rows[i]["InstallCost"].ToString()
+                    InstallationCost = dt.Rows[i]["InstallCost"].ToString(),
+                    IsOptional = dt.Rows[i]["IsOptional"].ToString(),
                 });
             }
         }
@@ -2549,7 +2550,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
         pa.Add("@ReqId");
         pv.Add(ReqId);
-        
+
         DBH.CreateDatasetERM_Data(ds, "sp_EstiAttach", true, pa, pv);
 
         List<Attachment> listProjDet = new List<Attachment>();
@@ -2568,11 +2569,11 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
                 ind.URL = dt.Rows[i]["URL"].ToString();
                 ind.ProdType = dt.Rows[i]["ProdType"].ToString();
                 ind.ProdStr = dt.Rows[i]["ProdStr"].ToString();
-                
+
                 listProjDet.Add(ind);
             }
         }
-               
+
         return listProjDet;
     }
 
@@ -3213,6 +3214,44 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
     }
     //Copy System Ends
 
+    //Fire Pump dropdown for Additional Item
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<DDL> loadAllAddedPumps(string id)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(6);
+
+        pa.Add("@PumpReqID");
+        pv.Add(id);
+
+        DBH.CreateDatasetERM_Data(ds, "sp_FillControls", true, pa, pv);
+
+        List<DDL> fpList = new List<DDL>();
+        dt = ds.Tables[0];
+
+
+
+        for (int i = 0; i < dt.Rows.Count; i++)
+        {
+            fpList.Add(new DDL()
+            {
+                Text = dt.Rows[i]["Area"].ToString(),
+                Name = dt.Rows[i]["Description"].ToString(),
+                Value = dt.Rows[i]["ItemID"].ToString()
+            });
+        }
+
+        return fpList;
+        //string a = userId;
+    }
 
     public class ItemDetails
     {
@@ -3510,8 +3549,9 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         public string ProdStr { get; set; }
     }
 
-    public class EMSProduct {
-     
+    public class EMSProduct
+    {
+
         public string ID { get; set; }
         public string ReqId { get; set; }
         public string EMSProd { get; set; }
