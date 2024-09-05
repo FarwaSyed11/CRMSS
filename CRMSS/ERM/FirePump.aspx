@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Masters/EconnectNew.master" CodeFile="FirePump.aspx.cs" Inherits="ERM_FirePump" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/EconnectNew.master" CodeFile="FirePump.aspx.cs" Inherits="ERM_FirePump" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">

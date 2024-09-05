@@ -100,7 +100,7 @@ function newPumponLine() {
         data: JSON.stringify({
             "RequstId": selReqId,
             "UserId": currUserId,
-            "Description": $("input[name=desc]").val(),
+            "Description": $(".pumpLine #ddlPumpTypeDesc option:selected").val(),//$("input[name=desc]").val(),
             "Area": $("input[name=area]").val(),
             "Quantity": $("input[name=qty]").val(),
             "ECapacity": $("input[name=capacity1]").val(),
@@ -446,6 +446,13 @@ function ViewFirePumpReqDetails() {
 
 function createPumpLineHTML() {
     var htm = '';
+ var SysNameList = listSystemsItems.filter(s => s.ReqId == selReqId && s.EMSProductOrderNo == 1).map(ss => ss.System).filter((value, index, self) => self.indexOf(value) === index);
+    var htmForDDL = SysNameList.length == 0 ? `<option value="-1"> No System Available </option>` :``;
+    $.each(SysNameList, function (key, sysname) {
+        htmForDDL += `<option value="` + sysname + `"> ` + sysname +` </option>`;
+    })
+
+    //<input type="text"  name="desc" class="form-control mx-2" placeholder="basement pump description" /></td>
     htm += ` <div class="row mx-3 py-3">
                 <div class="form-check">
                       <b>PUMP APPROVAL :
@@ -495,7 +502,7 @@ function createPumpLineHTML() {
                             <td>
                                 <input type="text" name="area" class="form-control mx-2" placeholder="basement" /></td>
                             <td>
-                                <input type="text"  name="desc" class="form-control mx-2" placeholder="basement pump description" /></td>
+                                <select id="ddlPumpTypeDesc" class="form-select color-dropdown">`+ htmForDDL +`</select></td>
                             <td>
                                 <input type="number"  name="qty" class="form-control mx-2" placeholder="2" /></td>
                             <td>

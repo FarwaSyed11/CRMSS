@@ -226,13 +226,13 @@
             color: black !important;
             background-color: white;
         }
-        
-          .Attachment-list-table th {
+
+        .Attachment-list-table th {
             text-align: center;
             color: black !important;
             background-color: white;
         }
-        
+
 
 
         .Product-list-table th {
@@ -255,13 +255,13 @@
             border-bottom: 1px solid #96a2ab45 !important;
         }
 
-      
+
 
         .Attachment-list-table td {
             border-bottom: 1px solid #96a2ab45 !important;
         }
 
-       
+
 
         .Approval-list-table td {
             border-bottom: 1px solid #96a2ab45 !important;
@@ -449,19 +449,19 @@
                                 </label>
                                 <select id="ddlRequestStatus" class="form-select color-dropdown"></select>
                             </div>
-                             <div class="input-group me-4">
-                               <div class="input-group">
-                                <label class="input-group-text" for="">
-                                    <asp:Label ID="Label2" Text="Stage" runat="server" />
-                                </label>
-                                <select id="ddlStageFilter" class="form-select color-dropdown">
-                                     <option value="-1">ALL</option>
-                                    <option value="J.O.H">J.O.H</option>
-                                     <option value="Tender">TENDER</option>
-                                </select>
+                            <div class="input-group me-4">
+                                <div class="input-group">
+                                    <label class="input-group-text" for="">
+                                        <asp:Label ID="Label2" Text="Stage" runat="server" />
+                                    </label>
+                                    <select id="ddlStageFilter" class="form-select color-dropdown">
+                                        <option value="-1">ALL</option>
+                                        <option value="J.O.H">J.O.H</option>
+                                        <option value="Tender">TENDER</option>
+                                    </select>
+                                </div>
                             </div>
-                                 </div>
-                          
+
                         </div>
                         <div class="col-6">
                             <a href="#" id="btnNewAddReq" class="btn btn-primary" style="float: right;"><i class="fa fa-plus me-2" aria-hidden="true"></i>Add New</a>
@@ -491,7 +491,7 @@
                                 <th>STAGE</th>
                                 <th>SCOPE</th>
                                 <th>QTN TYPE</th>
-                                 <th>Plot Number</th>
+                                <th>Plot Number</th>
                                 <th>CREATED BY</th>
                                 <th>CREATED ON</th>
                                 <th>View</th>
@@ -626,10 +626,22 @@
         <div class="modal-dialog modal-xxl" role="document" style="max-width: 85%;">
             <div class="modal-content" <%-- style="background: antiquewhite;"--%>>
                 <div class="modal-header">
-                    <h4 class="modal-title" id="EstimationDet">Estimation Details</h4>
+                    <div class="row w-100">
+                        <div class="col-6">
+                            <h4 class="modal-title" id="EstimationDet">Estimation Details</h4>
+                        </div>
+                        <div class="col-6">
+                            <button type="button" class="btn btn-primary btn-history ml-2 float-right">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="me-2" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
+                                    <path fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.266 16.06a8.92 8.92 0 0 0 3.915 3.978a8.7 8.7 0 0 0 5.471.832a8.8 8.8 0 0 0 4.887-2.64a9.07 9.07 0 0 0 2.388-5.079a9.14 9.14 0 0 0-1.044-5.53a8.9 8.9 0 0 0-4.069-3.815a8.7 8.7 0 0 0-5.5-.608c-1.85.401-3.366 1.313-4.62 2.755c-.151.16-.735.806-1.22 1.781M7.5 8l-3.609.72L3 5m9 4v4l3 2" />
+                                </svg>View Request History
+                            </button>
+                        </div>
+                    </div>
                     <button type="button" class="btn-close btn-close-proj-modal" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" style="font-size: 0.85rem">
+
 
                     <div id="Estimation-details-rectangle-div p-3" style="">
 
@@ -941,9 +953,9 @@
                                                     <th>Estimator</th>
                                                     <td class="hidden">ES</td>
                                                     <th>Due Date</th>
-                                                     <th>Priority</th>
-                                                          <td class="hidden">Priority</td>
-                                                     <th>Hours</th>
+                                                    <th>Priority</th>
+                                                    <td class="hidden">Priority</td>
+                                                    <th>Hours</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -1525,7 +1537,7 @@
                                     </div>
                                 </div>
 
-<%--                                <div style="width: 33.33%;">
+                                <%--                                <div style="width: 33.33%;">
                                     <label for="html5-number-input" class="  label-custom">Country </label>
                                     <div class="">
 
@@ -1541,7 +1553,7 @@
 
 
 
-                               <%-- <div style="width: 33.33%;">
+                                <%-- <div style="width: 33.33%;">
                                     <label for="html5-number-input" class="  label-custom">City </label>
                                     <div class="">
 
@@ -1682,6 +1694,49 @@
         </div>
     </div>
 
+   <%--View Request History Details--%>
+   <div class="modal fade" id="modalHistoryProjNo" tabindex="-1" style="background: #a9a9a996;" aria-hidden="true">
+       <div class="modal-dialog modal-xl" role="document">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <div class="col-6">
+                       <h5 class="modal-title" id="lbldetAccToProjNoModal">Request History</h5>
+                   </div>
+                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body" style="zoom: 85%;">
+
+                   <div class="mt-3">
+                       <h5>Details</h5>
+                   </div>
+                   <div class="table mt-2" style="overflow-y: auto; max-height: 800px;">
+                       <table class="table table-projhistory" style="width: 100%;">
+                           <thead style="position: sticky; top: -3px;">
+                               <tr class="Head-tr">
+                                   <th>Estimation #</th>
+                                   <th>Project</th>
+                                   <th>Opt #</th>
+                                   <th>Status</th>
+                                   <th>System</th>
+                                   <th>Remarks</th>
+                                   <th>Date Received</th>
+                                   <th>ELCEngr1</th>
+                                   <th>MechEngr1</th>
+                                   <th>Out date</th>
+                               </tr>
+                           </thead>
+                           <tbody class="tbody-projhistory">
+                           </tbody>
+                       </table>
+                   </div>
+
+               </div>
+
+           </div>
+       </div>
+   </div>
+
+
     <script type="text/javascript">
         var currUserId = '';
         var EmpNo = '';
@@ -1719,7 +1774,7 @@
     <script src="../FacilityManagement/Datatable/js/buttons.print.min.js"></script>
 
     <!-- Page JS/CSS file -->
-    <script src="Scripts/ERMMaster.js?v=17"></script>
+    <script src="Scripts/ERMMaster.js?v=1.1"></script>
     <%-- <link href="css/quotation.css" rel="stylesheet" />--%>
     <link href="Css/EMSStyle.css" rel="stylesheet" />
 

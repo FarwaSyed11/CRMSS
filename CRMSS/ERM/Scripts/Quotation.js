@@ -1,8 +1,12 @@
 ﻿
 var selReqId = 0;
 var selQuotationID = 0;
+var QtnStatus='';
+var AssignedTo='-1';
 
 $(document).ready(function () {
+
+    LoadStatus();
 
     flatpickr(jQuery("#txtDate"), {
         "disable": [function (date) {
@@ -25,6 +29,38 @@ $(document).ready(function () {
     }, 500);
 
 });
+
+function LoadStatus()
+{
+    var htmdrop='';
+    if (myroleList.includes("16217")) {
+      
+        htmdrop += `<option value="Pending" >Pending Request</option>`;
+        htmdrop += `<option value="SUBMIT" >Pending For Approval</option>`;
+        htmdrop += `<option value="ASSIGNED" >Assigned</option>`;
+        htmdrop += `<option value="RELEASED">Released</option>`;
+        htmdrop += `<option value="REJECTED">Rejected</option>`;
+        htmdrop += `<option value="DRAFT" >DRAFT</option>`;
+    
+    }
+    else if (myroleList.includes("16216")) {
+        htmdrop += `<option value="ASSIGNED" >Pending</option>`;
+        htmdrop += `<option value="SUBMIT" >Pending For Approval</option>`;
+        htmdrop += `<option value="RELEASED">Released</option>`;
+        htmdrop += `<option value="REJECTED">Rejected</option>`;
+    }
+    else 
+    {
+        htmdrop += `<option value="Pending" >Pending Request</option>`;
+        htmdrop += `<option value="SUBMIT" >Pending For Approval</option>`;
+        htmdrop += `<option value="ASSIGNED" >Assigned</option>`;
+        htmdrop += `<option value="RELEASED">Rejected</option>`;
+    
+    }
+
+    $('#ddlRequestStatus').html(htmdrop);
+}
+
 $('#ddlRequestStatus').on('change', function () {
     
     setTimeout(function () {
@@ -175,7 +211,7 @@ function initiateDataTable() {
 $('.tbody-main-table').on('click','.ibtn-Request-Details', function () {
 
 
-
+    
     var selAction = $(this)[0].title.trim();
     if ($('#ddlRequestStatus').val() == "Pending") {
 
@@ -197,7 +233,7 @@ $('.tbody-main-table').on('click','.ibtn-Request-Details', function () {
             $('#NewQuotation').modal('show');
         }
     }
-    
+    LoadQTTeamMember();
     
 });
 
@@ -281,7 +317,8 @@ function GetQuotationDetails() {
         dataType: "json",
         async: false,
         success: function (result) {
-
+            QtnStatus='';
+            AssignedTo='';
             $('#txtQTNNumber').val(result.d[0].QuotationNo);
             $('#txtDate').val(result.d[0].QuotationDate);
             $('#txtQuotationDesc').val(result.d[0].QuotationDesc);
@@ -305,6 +342,10 @@ function GetQuotationDetails() {
             $('#txtMargineForALLItem').val(result.d[0].OverAllMargin);
             $('#txtDiscountForAllItem').val(result.d[0].OverAllDiscount);
             $('#txtNetAmount').val(result.d[0].NetAmount);
+
+            QtnStatus=result.d[0].Status;
+            AssignedTo=result.d[0].AssignedTo;
+            $("#ddlAssignedQT option:selected").val(result.d[0].AssignedTo);
 
             $("input[name=Stage][value='" + result.d[0].Stage + "']").attr('Checked', true);
             $("input[name=Supply][value='" + result.d[0].Scope + "']").attr('Checked', true);
@@ -334,6 +375,46 @@ function GetQuotationDetails() {
             $(".tbody-Product-list").html(htm);
             $("#btnItemDetails").prop("disabled", false);
             $("#btnReport").prop("disabled", false);
+
+
+            $(".dvAssign").css("display","none");
+            $("#ddlAssignedQT").prop("disabled", true);
+            $(".btn-Submit").addClass('hidden');
+            $(".btn-Reject").addClass('hidden');
+            $(".btn-Release").addClass('hidden');
+            $(".qtnfiled").prop("disabled", false);
+            $(".qtnDiscountField").prop("disabled", true);
+
+            if(result.d[0].Status=='DRAFT')
+            {
+                $(".dvAssign").css("display","");
+                $("#ddlAssignedQT").prop("disabled", false);
+
+            }
+            else if(result.d[0].Status=="REJECTED" && AssignedTo==currUserId)
+            {
+                $(".btn-Submit").removeClass('hidden');
+            }
+            else if(result.d[0].Status=="ASSIGNED" && AssignedTo==currUserId)
+            {
+                $(".btn-Submit").removeClass('hidden');
+            }
+            else if(result.d[0].Status=="SUBMIT" && myroleList.includes("16217"))
+            {
+                $(".btn-Reject").removeClass('hidden');
+                $(".btn-Release").removeClass('hidden');
+                $(".qtnDiscountField").prop("disabled", false);
+            }
+            else if(result.d[0].Status=="ASSIGNED" && myroleList.includes("16217"))
+            {
+                $(".qtnfiled").prop("disabled", false);
+                $(".qtnDiscountField").prop("disabled", false);
+            }
+
+            else 
+            {
+                $(".qtnfiled").prop("disabled", true);
+            }
             
         },
         error: function (errormessage) {
@@ -362,9 +443,9 @@ function GenerateQuotation()
         success: function (result) {
             toastr.success('Quotation Generated Successfully', '');
             selQuotationID=result.d;
-
+           
             GetQuotationDetails();
-            
+            LoadQTTeamMember();
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -382,7 +463,9 @@ $('#NewQuotation ul li').on('click', function () {
         //loadHistoryForRRF();
     }
     else if (res == 'Item Details') {
+        
         loadQuotItemsDets();
+        CheckFields();
     }
     else if (res == 'Reports') {
         document.getElementById('myIframe').src="";
@@ -422,7 +505,7 @@ function loadQuotItemsDets(tabname) {
         dataType: "json",
         async: false,
         success: function (result) {
-
+            var htm='';
             var listSystems = result.d.listSystems;
             var listSystemsItems = result.d.listItems;
             //var listAlternateItems = result.d.listAlternateItems;
@@ -434,7 +517,7 @@ function loadQuotItemsDets(tabname) {
             //listOpp = result.d.listOpp;
             //listRev = result.d.listRev;
 
-            var htm = '<tr style="text-align:center;"><td colspan=6> No Data Available</td> </tr>';
+             htm = '<tr style="text-align:center;"><td colspan=6> No Data Available</td> </tr>';
 
             if (listSystemsItems.length != 0) {
                 htm = '';
@@ -444,7 +527,7 @@ function loadQuotItemsDets(tabname) {
                     if (AllCategoryForSys.length > 0) {
 
                         htm += `<tr onclick="showHideRow('hidden_row` + key + `','tbody-itemDetails');"> 
-                    <td style="text-align: left;">  <span><h5>`+(key+1)+`. `+ item.SysName + `</h6></span> </td>`                 
+                    <td style="text-align: left;cursor: pointer;">  <span><h5>`+(key+1)+`. `+ item.SysName + `</h6></span> </td>`                 
                     //<td> `+ item.OppName + `</td>
                     //<td> `+ item.Customer + ` </td>                          
                     //<td> `+ item.Consultant + ` </td>                          
@@ -465,22 +548,22 @@ function loadQuotItemsDets(tabname) {
                                 htm += `<tr class="hidden_row` + key + ` showrow hidden">
                                         <td colspan="6">
                                         <table style="width:100%;">
-                                        <tr class="hidden_row` + key + ` sub-tabl-bg" style="text-align:center;"> <td>S.No</td> <td>Item Code</td> <td>Item Desc</td> <td>QTY</td> <td>Unit Price</td> <td>Margine %</td> <td>Discount %</td>  <td>Unit Selling Price</td>   <td>Total</td> <td>Action</td> </tr>`;
+                                        <tr class="hidden_row` + key + ` sub-tabl-bg" style="text-align:center;"> <td>S.No</td> <td style="width:100px">Item Code</td> <td style="width: 750px;">Item Desc</td> <td>QTY</td> <td>Unit Price</td> <td>Margine %</td> <td>Discount %</td>  <td>Unit Selling Price</td>   <td>Total</td> </tr>`;
                           //  }          
 
                                         var ress = listSystemsItems.filter(s => s.Category == itm).filter(s => s.System == item.SysName);
                             
                             $.each(ress, function (key11,catitem) {
-                                htm += `<tr style="text-align:center;" id="hidden_row` + key + ` accordian-info" class="hidden_row` + key + ` showrow hidden">`
+                                htm += `<tr style="text-align:center;background: white;" id="hidden_row` + key + ` accordian-info" class="hidden_row` + key + ` showrow hidden">`
                                 htm += `<td>` + (key11 + 1) + `</td>
                                 <td>` + catitem.ItemCode + `</td>
                                 <td>`+ catitem.ItemDesc + `</td> 
                                 <td>`+ parseInt(catitem.Quantity).toLocaleString("en-US") + `</td> 
-                                <td><input class="form-control" type="number" value="`+ parseFloat(catitem.UnitPrice).toString() + `" id="txtUnitPrice-`+catitem.LineID+`"  onchange="UpdateTotalAmount('`+catitem.LineID+`','`+catitem.Quantity+`')" style="text-align:right" /></td> 
-                                  <td><input class="form-control" type="text" value="`+ parseFloat(catitem.Margine).toLocaleString("en-US") + `" id="txtMargine-`+catitem.LineID+`"  onchange="UpdateTotalAmount('`+catitem.LineID+`','`+catitem.Quantity+`')"  style="text-align:right"/></td> 
-                                       <td><input class="form-control" type="text" value="`+ parseFloat(catitem.Discount).toLocaleString("en-US") + `" id="txtDiscount-`+catitem.LineID+`"  onchange="UpdateTotalAmount('`+catitem.LineID+`','`+catitem.Quantity+`')"  style="text-align:right"/></td> 
-                                            <td><input class="form-control" type="text" value="`+ parseFloat(catitem.UnitSellingPrice).toLocaleString("en-US") + `" id="txtUnitSellingPrice-`+catitem.LineID+`"  disabled style="text-align:right"/></td> 
-                                                 <td><input class="form-control" type="text" value="`+ parseFloat(catitem.TotalAmount).toLocaleString("en-US") + `" id="txtTotalAmount-`+catitem.LineID+`"  disabled style="text-align:right"/></td> 
+                                <td><input class="form-control qtnfiled" type="number" value="`+ parseFloat(catitem.UnitPrice).toString() + `" id="txtUnitPrice-`+catitem.LineID+`"  onchange="UpdateTotalAmount('`+catitem.LineID+`','`+catitem.Quantity+`')" style="text-align:right" /></td> 
+                                <td><input class="form-control qtnfiled" type="text" value="`+ parseFloat(catitem.Margine).toLocaleString("en-US") + `" id="txtMargine-`+catitem.LineID+`"  onchange="UpdateTotalAmount('`+catitem.LineID+`','`+catitem.Quantity+`')"  style="text-align:right"/></td> 
+                                <td><input class="form-control qtnfiled qtnDiscountField" type="text" value="`+ parseFloat(catitem.Discount).toLocaleString("en-US") + `" id="txtDiscount-`+catitem.LineID+`"  onchange="UpdateTotalAmount('`+catitem.LineID+`','`+catitem.Quantity+`')"  style="text-align:right"/></td> 
+                                <td><input class="form-control" type="text" value="`+ parseFloat(catitem.UnitSellingPrice).toLocaleString("en-US") + `" id="txtUnitSellingPrice-`+catitem.LineID+`"  disabled style="text-align:right"/></td> 
+                                <td><input class="form-control" type="text" value="`+ parseFloat(catitem.TotalAmount).toLocaleString("en-US") + `" id="txtTotalAmount-`+catitem.LineID+`"  disabled style="text-align:right"/></td> 
                                     
                                 <td>`
                                 //if (selForecastQuartObj[0].Status == "PENDING SALESMEN") {
@@ -630,6 +713,8 @@ $('.btn-MoreInfo').on('click', function () {
             $('#txtMethodOfPayment').val(result.d[0].MothodOfPayment);
             $('#txtValidity').val(result.d[0].Validity);
             $('#txtMoreInfo').val(result.d[0].MoreInfo);
+
+            CheckFields();
           
         },
         error: function (errormessage) {
@@ -638,7 +723,7 @@ $('.btn-MoreInfo').on('click', function () {
     });
 
     $('#MoreInfoModal').modal('show');
-
+  
 });
 
 
@@ -738,3 +823,174 @@ function UpdateQuotationDesc()
         }
     });
 }
+
+
+
+$('#btnDownlodTechNote').on('click', function () {
+
+    $.ajax({
+        url: "Quotation.aspx/GetTechnicalNote",
+        data: JSON.stringify({ 'UserId': currUserId, 'QuotationID': selQuotationID}),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+        
+            window.open('Services/DownloadFile.ashx?attachurl=' + result.d); 
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+  
+
+});
+
+
+
+function LoadQTTeamMember() {
+
+    $.ajax({
+        url: "Quotation.aspx/LoadQTTeamMember",
+        data: JSON.stringify({ "ReqID": selReqId }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '';
+
+            $.each(result.d, function (key, item) {
+
+                htm += `<option value="` + item.ddlValue + `" > ` + item.ddlText + `</option>`;
+
+            });
+
+            $('#ddlAssignedQT').html(htm);
+            $('#ddlAssignedQT').val(AssignedTo);
+        },
+
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+
+
+
+
+function AssignedToTeam()
+{
+
+    $.ajax({
+        url: "Quotation.aspx/AssignedToTeam",
+        data: JSON.stringify({ 'UserId': currUserId, 'QuotationID': selQuotationID,'AssignedToEmpNo':$("#ddlAssignedQT").val()}),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+        
+            if(result.d)
+            {
+                toastr.success('Quotation Assigned Updated Successfully', '');
+            }
+            
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
+
+function ChangeStatus(str)
+{
+    $.ajax({
+        url: "Quotation.aspx/UpdateStatus",
+        data: JSON.stringify({ 'UserId': currUserId, 'QuotationID': selQuotationID,'Status':str}),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+        
+            if(result.d)
+            {
+                GetQuotationDetails();
+                toastr.success('Quotation '+str+'  Successfully', '');
+            }
+            
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+
+function CheckFields(){
+
+    $(".qtnfiled").prop("disabled", true);
+    $(".qtnDiscountField").prop("disabled", true);
+    $("#btnSaveMoreInfo").css("display","none");
+    if(QtnStatus=='DRAFT')
+    {
+        $(".qtnfiled").prop("disabled", false);
+        $(".qtnDiscountField").prop("disabled", true);
+        $("#btnSaveMoreInfo").css("display","");
+    }
+    else if(QtnStatus=="REJECTED" && AssignedTo==currUserId)
+    {
+        $(".qtnfiled").prop("disabled", false);
+        $(".qtnDiscountField").prop("disabled", true);
+        $("#btnSaveMoreInfo").css("display","");
+    }
+    else if(QtnStatus=="ASSIGNED" && AssignedTo==currUserId)
+    {
+        $(".qtnfiled").prop("disabled", false);
+        $(".qtnDiscountField").prop("disabled", true);
+        $("#btnSaveMoreInfo").css("display","");
+    }
+    else if(QtnStatus=="SUBMIT" && myroleList.includes("16217"))
+    {
+        $(".qtnfiled").prop("disabled", false);
+        $(".qtnDiscountField").prop("disabled", false);
+        $("#btnSaveMoreInfo").css("display","");
+
+    }
+    else if(QtnStatus=="ASSIGNED" && myroleList.includes("16217"))
+    {
+        $(".qtnfiled").prop("disabled", false);
+        $(".qtnDiscountField").prop("disabled", false);
+        $("#btnSaveMoreInfo").css("display","");
+    }
+    else 
+    {
+        $(".qtnfiled").prop("disabled", true);
+    
+    }
+
+}
+
+
+$('#btnDownloadBOQ').on('click', function () {
+
+    $('.ajax-loader').fadeIn(100);
+
+    setTimeout(function () {
+        document.getElementById('myIframe').src="../ERM/Services/QuotationCrystalReport.aspx?oper=2&id="+selQuotationID;
+       
+        //$(".ajax-loader").fadeOut(500);
+    }, 500);
+    
+    $(".ajax-loader").fadeOut(21000);
+   
+
+  
+
+});

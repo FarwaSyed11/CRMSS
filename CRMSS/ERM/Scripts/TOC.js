@@ -5,6 +5,7 @@
 var itemlistTOC = [], itemlistFromoracleTOC = [];
 var selItemIdTOC = 0, selCatNameTOC='';
 var objDTEMSProd = [];
+var listSystems = [], listSystemsItems = [];
 
 $(document).ready(function () {
 
@@ -18,7 +19,6 @@ function initiateRichText() {
             var a = '';
         },
         // text formatting
-        //toolbar: basic,
         bold: true,
         italic: true,
         underline: true,
@@ -891,8 +891,8 @@ function getSystemsNItems() {
             var htm = '';
             var htm1 = '';
 
-            var listSystems = result.d.listSystems;
-            var listSystemsItems = result.d.listItems;
+             	listSystems = result.d.listSystems;
+            	listSystemsItems = result.d.listItems;
             var listAlternateItems = result.d.listAlternateItems;
 
             var firstSysName = listSystems.length > 0 ? listSystems[0].SysName : '';                      
@@ -909,7 +909,7 @@ function getSystemsNItems() {
 	                    <path fill="#b22e35" d="M384 128a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64zm0-64h448a128 128 0 0 1 128 128v448a128 128 0 0 1-128 128H384a128 128 0 0 1-128-128V192A128 128 0 0 1 384 64" />
                     </svg></span>` + item.SysName
                     if (selReqObj[0].EstimationStatus.toUpperCase() != "RELEASED" && (selReqObj[0].Engineering != '' && selReqObj[0].TestnCommision != '')) {
-                        htm += `<span style="float: right;margin-right: 35px;cursor:pointer;" title="Engineering and Test and Commission Added">
+                        htm += `<span><i class="bx bx-edit-alt cursor-pointer" style="color: #55cee9;" onclick='openModalForEditSysName("` + item.SysName +`")'></i></span><span style="float: right;margin-right: 35px;cursor:pointer;" title="Engineering and Test and Commission Added">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 2048 2048" onclick='openEngrNTestCommisionModal("` + item.SysName + `")'>
                                         <path fill="#4db700" d="M2048 384v1024h-128V839l-640 321v120H768v-120L128 839v697h1152v128H0V384h640V256q0-27 10-50t27-40t41-28t50-10h512q27 0 50 10t40 27t28 41t10 50v128zm-1280 0h512V256H768zm384 640H896v128h256zm768-327V512H128v185l640 319V896h512v120zm-128 839h256v128h-256v256h-128v-256h-256v-128h256v-256h128z" />
                                     </svg>
@@ -935,7 +935,7 @@ function getSystemsNItems() {
 	                    <path fill="#b22e35" d="M384 128a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64zm0-64h448a128 128 0 0 1 128 128v448a128 128 0 0 1-128 128H384a128 128 0 0 1-128-128V192A128 128 0 0 1 384 64" />
                     </svg></span>` + item.SysName
                     if (selReqObj[0].EstimationStatus.toUpperCase() != "RELEASED" && (selReqObj[0].Engineering != '' && selReqObj[0].TestnCommision != '')) {
-                        htm += `<span style="float: right;margin-right: 35px;cursor:pointer;" title="Engineering and Test and Commission Added">
+                        htm += `<span><i class="bx bx-edit-alt cursor-pointer" style="color: #55cee9;" onclick='openModalForEditSysName("` + item.SysName +`")'></i></span><span style="float: right;margin-right: 35px;cursor:pointer;" title="Engineering and Test and Commission Added">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 2048 2048" onclick='openEngrNTestCommisionModal("` + item.SysName + `")'>
                                         <path fill="#4db700" d="M2048 384v1024h-128V839l-640 321v120H768v-120L128 839v697h1152v128H0V384h640V256q0-27 10-50t27-40t41-28t50-10h512q27 0 50 10t40 27t28 41t10 50v128zm-1280 0h512V256H768zm384 640H896v128h256zm768-327V512H128v185l640 319V896h512v120zm-128 839h256v128h-256v256h-128v-256h-256v-128h256v-256h128z" />
                                     </svg>
@@ -1056,6 +1056,39 @@ function getAlternateItemsDet(col, itmcode,listAlternateItems) {
     return htm;
 }
 
+
+function openModalForEditSysName(oldSysName) {
+    
+    $("#txtEditOldSysName").val(oldSysName)
+
+    $("#editSysNameModal").modal('show')
+}
+$(".btnEditSysName").on('click', function () {
+
+    $.ajax({
+        url: "EMSItemList.aspx/EditSystemName",
+        data: JSON.stringify({
+            'ReqId': selReqId,
+            'OldSysName': $("#txtEditOldSysName").val().trim(),
+            'NewSysName': $("#txtEditNewSysName").val().trim()
+        }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            toastr.success('System name updated successfully', '')
+            if ($("#TOCTabsOfAddingDivParent li").find('.active').text().trim() == "TOC by Item") {
+                getSystemsNItems();
+            } else {
+                getAllSystemsNItems();
+            }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+})
 
 $("#TOCTabsOfAddingDivParent li").on('click', function () {
 
@@ -1218,7 +1251,7 @@ function getAllSystemsNItems() {
 	                    <path fill="#b22e35" d="M384 128a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64zm0-64h448a128 128 0 0 1 128 128v448a128 128 0 0 1-128 128H384a128 128 0 0 1-128-128V192A128 128 0 0 1 384 64" />
                     </svg></span>` + item
                     if (selReqObj[0].EstimationStatus.toUpperCase() != "RELEASED" && (selReqObj[0].Engineering != '' && selReqObj[0].TestnCommision != '')) {
-                        htm += `<span style="float: right;margin-right: 35px;cursor:pointer;" title="Engineering and Test and Commission Added">
+                        htm += `<span><i class="bx bx-edit-alt cursor-pointer" style="color: #55cee9;" onclick='openModalForEditSysName("` + item +`")'></i></span><span style="float: right;margin-right: 35px;cursor:pointer;" title="Engineering and Test and Commission Added">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 2048 2048" onclick='openEngrNTestCommisionModal("` + item + `")'>
                                         <path fill="#4db700" d="M2048 384v1024h-128V839l-640 321v120H768v-120L128 839v697h1152v128H0V384h640V256q0-27 10-50t27-40t41-28t50-10h512q27 0 50 10t40 27t28 41t10 50v128zm-1280 0h512V256H768zm384 640H896v128h256zm768-327V512H128v185l640 319V896h512v120zm-128 839h256v128h-256v256h-128v-256h-256v-128h256v-256h128z" />
                                     </svg>
@@ -1244,7 +1277,7 @@ function getAllSystemsNItems() {
 	                    <path fill="#b22e35" d="M384 128a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64zm0-64h448a128 128 0 0 1 128 128v448a128 128 0 0 1-128 128H384a128 128 0 0 1-128-128V192A128 128 0 0 1 384 64" />
                     </svg></span>` + item
                     if (selReqObj[0].EstimationStatus.toUpperCase() != "RELEASED" && (selReqObj[0].Engineering != '' && selReqObj[0].TestnCommision != '')) {
-                        htm += `<span style="float: right;margin-right: 35px;cursor:pointer;" title="Engineering and Test and Commission Added">
+                        htm += `<span><i class="bx bx-edit-alt cursor-pointer" style="color: #55cee9;" onclick='openModalForEditSysName("` + item +`")'></i></span><span style="float: right;margin-right: 35px;cursor:pointer;" title="Engineering and Test and Commission Added">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 2048 2048" onclick='openEngrNTestCommisionModal("` + item + `")'>
                                         <path fill="#4db700" d="M2048 384v1024h-128V839l-640 321v120H768v-120L128 839v697h1152v128H0V384h640V256q0-27 10-50t27-40t41-28t50-10h512q27 0 50 10t40 27t28 41t10 50v128zm-1280 0h512V256H768zm384 640H896v128h256zm768-327V512H128v185l640 319V896h512v120zm-128 839h256v128h-256v256h-128v-256h-256v-128h256v-256h128z" />
                                     </svg>
@@ -2061,21 +2094,47 @@ function openCopySystemModal(Name) {
     $(".btnCopySystem").data("sysname", Name)
     $("#modalCopySystem").modal('show');
     $("#txtCopySystem").val(Name);
+    generateHTMLForCopySysItems(Name);
 }
 
 $(".btnCopySystem").on('click', function () {
 
-    CopySystem($(this).data('sysname'))
+    var selItemsArr = [];
+
+    $(".tbody-copyitems-toc input[name=cbSelectedItem]:checked").each(function () {
+
+        let subitem = {};
+        var res = listSystemsItems.filter(x => x.ItemId == $(this).data('itemid'));
+
+        subitem["ReqId"] = selReqId;
+        subitem["ItemId"] = res[0].ItemId;
+        //subitem["ItemCode"] = res[0].ItemCode;
+        subitem["ItemId"] = res[0].ItemId;
+        subitem["EstiLineId"] = res[0].EstiLineId;
+        subitem["System"] = res[0].System;
+        subitem["Category"] = res[0].Category;
+        subitem["CreatedBy"] = currUserId;
+        subitem["IsOptional"] = $("#cbOptionalForCopySys").is(':checked') ? 1 : 0;             
+
+        selItemsArr.push(subitem);
+
+    });
+
+    var finalSelItemPara = { 'listItemsTOC': selItemsArr };
+
+    //selItemsArr.length == 0 ? toastr.error("Please select any item(s)", '') : CopySystem(finalSelItemPara, $(this).data('sysname'));
+    CopySystem(finalSelItemPara, $(this).data('sysname'));
 })
 
-function CopySystem(pSysName) {
+function CopySystem(itemList, oldSysName) {
     $.ajax({
         url: "EMSItemList.aspx/CopySystem",
         data: JSON.stringify({
             'UserId': currUserId,
             'ReqId': selReqId,
-            'SystemName': pSysName,
-            'NewSystemName': $("#txtSystemNewName").val()
+            'SystemName': oldSysName,
+            'NewSystemName': $("#txtSystemNewName").val(),
+            "data": itemList
         }),
         type: "POST",
         contentType: "application/json;charset=utf-8",
@@ -2094,11 +2153,27 @@ function CopySystem(pSysName) {
 
 }
 
-	//var editor1cfg = {}
-	//var editor1 = new RichTextEditor("#div_editor1", editor1cfg);
+function generateHTMLForCopySysItems(sysName) {
+    
+    var htm = '';
+    var filteredItm = listSystemsItems.filter(x => x.System == sysName)
+    $.each(filteredItm, function (key, item) {     
 
-	function downloadPDFDialog() {
-        richTextObj.getHTMLCode("#taTechRemarks")
-        richTextObj.execCommand("html2pdf");
-	}
+        htm += `<tr>
+                    <td> 
+                        <div style="display: flex;justify-content: center;">
+                            <input class="form-check-input position-relative" type="checkbox" name="cbSelectedItem" value="`+ item.ItemId + `" id="cbTypical-` + item.ItemId + `" data-itemid=` + item.ItemId + ` checked="checked"/> 
+                        </div>
+                    </td>                    
+                    <td> `+ item.ItemCode + ` </td>                 
+                    <td> `+ item.ItemDesc + `</td>
+                    <td> `+ item.Category + `</td>`     
+
+        htm += `</tr>`;
+    });
+    $('.tbody-copyitems-toc').html(htm);
+
+}
+
+
 

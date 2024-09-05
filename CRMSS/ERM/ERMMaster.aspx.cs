@@ -1808,6 +1808,73 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         return TaskSummary;
     }
 
+    // View History
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<History> ViewHistory(string ProjNo, string OptNo)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        List<History> oList = new List<History>();
+
+        pa.Add("@oper");
+        pv.Add(5);
+
+        pa.Add("@OptNo");
+        pv.Add(OptNo);
+
+        pa.Add("@ProjNo");
+        pv.Add(ProjNo);
+
+        DBH.CreateDatasetERM_Data(ds, "sp_RequestItems", true, pa, pv);
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+            //tb_EMS_Project_Structure
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                oList.Add(new History()
+                {
+                    ID = dt.Rows[i]["ID"].ToString(),
+                    ProjNo = dt.Rows[i]["ProjNo"].ToString(),
+                    OptNo = dt.Rows[i]["OptNo"].ToString(),
+                    Status = dt.Rows[i]["Status"].ToString(),
+                    System = dt.Rows[i]["System"].ToString(),
+                    Remarks = dt.Rows[i]["Remarks"].ToString(),
+                    DateReceived = dt.Rows[i]["DateReceived"].ToString(),
+                    EstimationNo = dt.Rows[i]["EstimationNo"].ToString(),
+                    ELCEngr1 = dt.Rows[i]["ELCEngr1"].ToString(),
+                    MechEngr1 = dt.Rows[i]["MechEngr1"].ToString(),
+                    OutDate = dt.Rows[i]["OutDate"].ToString()
+                });
+            }
+        }
+
+        return oList;
+    }
+
+    public class History
+    {
+        public string ID { get; set; }
+        public string EstimationNo { get; set; }
+        public string OptNo { get; set; }
+        public string ProjNo { get; set; }
+        public string System { get; set; }
+        public string DateReceived { get; set; }
+        public string Status { get; set; }
+
+        public string MechEngr1 { get; set; }
+        public string ELCEngr1 { get; set; }
+        public string Remarks { get; set; }
+        public string OutDate { get; set; }
+    }
+
     public class TaskSummary
     {
         public string EmpName { get; set; }

@@ -354,6 +354,8 @@ public partial class ERM_Quotation : System.Web.UI.Page
             ind.OverAllMargin = dt.Rows[i]["OverAllMargin"].ToString();
             ind.OverAllDiscount = dt.Rows[i]["OverAllDiscount"].ToString();
             ind.NetAmount = dt.Rows[i]["NetAmount"].ToString();
+            ind.Status = dt.Rows[i]["Status"].ToString();
+            ind.AssignedTo = dt.Rows[i]["AssignedTo"].ToString();
             ind.EMSRequestProducts = ListEMSRequestProducts;
             lisQuotationHeader.Add(ind);
         }
@@ -482,6 +484,44 @@ public partial class ERM_Quotation : System.Web.UI.Page
 
             pa.Add("@QuotationDesc");
             pv.Add(QuotationDesc);
+
+            DBH.CreateDatasetERM_Data(ds, "Sp_Quotation", true, pa, pv);
+
+            return true;
+        }
+        catch (Exception s)
+        {
+            return false;
+        }
+
+    }
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static Boolean UpdateStatus(string UserId, string QuotationID, string Status)
+    {
+
+        try
+        {
+            DBHandler DBH = new DBHandler();
+
+            DataSet ds = new DataSet();
+
+            DataTable dt = new DataTable();
+            ArrayList pa = new ArrayList();
+            ArrayList pv = new ArrayList();
+
+
+            pa.Add("@oper");
+            pv.Add(14);
+
+            pa.Add("@userId");
+            pv.Add(UserId);
+
+            pa.Add("@QuotationID");
+            pv.Add(QuotationID);
+
+            pa.Add("@Status");
+            pv.Add(Status);
 
             DBH.CreateDatasetERM_Data(ds, "Sp_Quotation", true, pa, pv);
 
@@ -629,6 +669,115 @@ public partial class ERM_Quotation : System.Web.UI.Page
 
     }
 
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static string GetTechnicalNote(string UserId, string QuotationID)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+
+        pa.Add("@oper");
+        pv.Add(2);
+
+
+        pa.Add("@QuotationID");
+        pv.Add(QuotationID);
+
+
+        DBH.CreateDatasetERM_Data(ds, "Sp_Quotation", true, pa, pv);
+
+       
+        dt = ds.Tables[0];
+
+        return ds.Tables[0].Rows[0][0].ToString();
+
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+
+    public static List<DropDownValues> LoadQTTeamMember(string ReqID)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add("12");
+
+        pa.Add("@ReqID");
+        pv.Add(ReqID);
+
+        DBH.CreateDatasetERM_Data(ds, "Sp_Quotation", true, pa, pv);
+
+        List<DropDownValues> drpval = new List<DropDownValues>();
+        dt = ds.Tables[0];
+
+
+
+        for (int i = 0; i < dt.Rows.Count; i++)
+        {
+            drpval.Add(new DropDownValues()
+            {
+                ddlValue = dt.Rows[i]["UserID"].ToString(),
+                ddlText = dt.Rows[i]["EmpName"].ToString()
+            });
+        }
+        return drpval;
+
+    }
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static Boolean AssignedToTeam(string UserId, string QuotationID, string AssignedToEmpNo)
+    {
+
+
+        try
+        {
+            DBHandler DBH = new DBHandler();
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+            ArrayList pa = new ArrayList();
+            ArrayList pv = new ArrayList();
+
+
+            pa.Add("@oper");
+            pv.Add(13);
+
+
+            pa.Add("@QuotationID");
+            pv.Add(QuotationID);
+
+            pa.Add("@AssignedTO");
+            pv.Add(AssignedToEmpNo);
+
+
+            DBH.CreateDatasetERM_Data(ds, "Sp_Quotation", true, pa, pv);
+
+            return true;
+        }
+        catch (Exception s)
+        {
+            return false;
+        }
+    }
+
+    public class DropDownValues
+    {
+        public string ddlValue { get; set; }
+        public string ddlText { get; set; }
+
+    }
+
+
     public class QuotationMoreInfo
     {
 
@@ -666,6 +815,8 @@ public partial class ERM_Quotation : System.Web.UI.Page
         public string OverAllMargin { get; set; }
         public string OverAllDiscount { get; set; }
         public string NetAmount { get; set; }
+        public string Status { get; set; }
+        public string AssignedTo { get; set; }
         
 
 

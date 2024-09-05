@@ -744,7 +744,9 @@ function ChangeRequestStatus(st) {
         data: JSON.stringify({
             'ReqId': selReqId,
             'Status': st,
-            'EstimatorEmpNo': res[0].EstimatorEmpNo
+            'EstimatorEmpNo': res[0].EstimatorEmpNo,
+            'UserId': currUserId
+            
         }),
         type: "POST",
         contentType: "application/json;charset=utf-8",
@@ -770,12 +772,15 @@ $('.tbody-esti-req').on('click', '.ibtn-fcastquart-edit,.ibtn-estireq-details', 
     let selOptNo = $(this).data('optno');
     
     var res = listAllReqs.filter(s => s.ReqId == selReqId);
+    if (myroleList.includes('14213')) { $(".btn-history").removeClass('hidden') } else { $(".btn-history").addClass('hidden') }
 
     ResetRequestModal();
     selectedReq(res);
     ViewStructure();
     RequestedProductDetails(selReqId);
 
+    $("#navs-Products").addClass("show");
+    $("#navs-Products").addClass("active");
     hideNShowControlsAccToStatus();
     GetAttachmentDet();
 
@@ -798,7 +803,7 @@ $('.tbody-esti-req').on('click', '.ibtn-fcastquart-edit,.ibtn-estireq-details', 
     else if (selAction == "Details Estimation Request") {
 
         bindValueForLabels(res);
-        GetEstimationNo(selReqId);
+        //GetEstimationNo(selReqId);
         $('#addReqModal').modal('show');
         $('.ajax-loader').removeClass('hidden');
         setTimeout(function () {
@@ -869,7 +874,8 @@ function hideNShowControlsAccToStatus() {
     }
 }
 function bindValueForLabels(data) {
-    
+
+    $('#txtESTNumber').html(data[0].RefNo);
     $('#txtEstRef').html(data[0].RefNo);
     $('#txtRevision').html(data[0].RevNo)
     $('#txtContrAbbr').html(data[0].ContABBR)
@@ -1778,14 +1784,25 @@ $('#btnNewAttacment').on('click', function () {
     $('#ModalReqAttachment').modal('show');
 
 });
+$("#ddlEstiAttachTechnotesType").on('change', function () {
+    if ($("#ddlEstiAttachTechnotesType option:selected").val() == "Others") {
+        $('#txtEstiAttachTechnotesType').removeClass('hidden');
+    }
+    else {
+        $('#txtEstiAttachTechnotesType').addClass('hidden');
+    }
+})
+
 function ClearEstiAttachment() {
-    $('#txtAttachmentComment,#txtProdTypeInAttach').val('');
+    $('#txtAttachmentComment,#txtEstiAttachTechnotesType').val('');
+    $('#ddlEstiAttachTechnotesType').val('Technical Notes Merge');
+    $('#txtEstiAttachTechnotesType').addClass('hidden');
     $('#FUEstimator').val('');
 }
 
 $('#btnUpload1').on('click', function () {
-    if ($('#FUEstimator')[0].files.length != 0 && $('#txtAttachmentComment').val().trim() != "" && $('#txtProdTypeInAttach').val().trim() != "" && $("#ddlProdsInAttach option:selected").length != 0) {
-        uploadEstiAttach();
+    if ($('#FUEstimator')[0].files.length != 0 && $('#txtAttachmentComment').val().trim() != "" && $('#ddlEstiAttachTechnotesType option:selected').val().trim() != "" && $("#ddlProdsInAttach option:selected").length != 0) {
+        $("#ddlEstiAttachTechnotesType option:selected").val() == "Others" ? ($('#txtEstiAttachTechnotesType').val().trim() == "" ? toastr.error('Please input the required field(s)','') : uploadEstiAttach()) : uploadEstiAttach();
     } else {
         toastr.error('Required All Fields. ', '');
     }
@@ -1803,7 +1820,7 @@ function uploadEstiAttach() {
         formData.append(files[i].name, files[i]);
     }
     let comment = $("#txtAttachmentComment").val();
-    let prodtype = $("#txtProdTypeInAttach").val();
+    let prodtype = $("#ddlEstiAttachTechnotesType option:selected").val() == "Others" ? $('#txtEstiAttachTechnotesType').val().trim() : $("#ddlEstiAttachTechnotesType option:selected").val();
     let prodstr = getEMSProdsInAttch();
     let aaa = 33;
 
@@ -1904,6 +1921,47 @@ function GetAttachmentDet() {
     });
 
 }
+
+$(".btn-history").on('click', function () {
+    $("#modalHistoryProjNo").modal('show')
+    $.ajax({
+        url: "EMSItemList.aspx/ViewHistory",
+        data: JSON.stringify({
+            "ProjNo": $("#txtProjRef").html().trim() == "" ? 0 : $("#txtProjRef").html().trim(),
+            "OptNo": $("#txtOppRef").html().trim() == "" ? 0 : $("#txtOppRef").html().trim()
+        }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+
+            var htm = '';		
+            $.each(result.d, function (key, item) {
+
+                htm += `<tr>
+				  <td style="text-align:center;">`+ item.EstimationNo + `</td>
+                  <td style="text-align:center;">`+ item.ProjNo + `</td>
+                  <td style="text-align:center;">`+ item.OptNo + `</td>
+                  <td style="text-align:center;">`+ item.Status + `</td>
+                  <td style="text-align:center;">`+ item.System + `</td>
+                  <td style="text-align:center;">`+ item.Remarks + `</td>
+                  <td style="text-align:center;">`+ item.DateReceived + `</td>                 
+                  <td style="text-align:center;">`+ item.ELCEngr1 + `</td>
+                  <td style="text-align:center;">`+ item.MechEngr1 + `</td>
+                  <td style="text-align:center;">`+ item.OutDate + `</td>`;
+				
+                htm += `</tr>`;
+
+            });
+            $('.tbody-projhistory').html(htm);
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+})
 
 
 

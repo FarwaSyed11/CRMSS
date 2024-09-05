@@ -114,12 +114,14 @@ function SummaryReports() {
 
 
                 htm += `</tr><tbody>`
-                sysTotPipeFittings += parseFloat(item.PipeFittings);
-                sysTotInstallation += parseFloat(item.Installation);
-                sysTotEngineering += parseFloat(item.Engineering);
-                sysTotTestnComm += parseFloat(item.TestingnCommissioning);
-                sysMaterial += parseFloat(item.MaterialCost);
-                sysInstall += parseFloat(item.InstallationCost);
+                if(item.IsOptional == "False"){
+                    sysTotPipeFittings += parseFloat(item.PipeFittings);
+                    sysTotInstallation += parseFloat(item.Installation);
+                    sysTotEngineering += parseFloat(item.Engineering);
+                    sysTotTestnComm += parseFloat(item.TestingnCommissioning);
+                    sysMaterial += parseFloat(item.MaterialCost);
+                    sysInstall += parseFloat(item.InstallationCost);
+                }
             });
             sysTotPipeFittings = sysTotPipeFittings + parseFloat(sysMaterial);
             sysTotInstallation = sysTotInstallation + parseFloat(sysInstall);

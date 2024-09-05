@@ -56,6 +56,15 @@ $(document).ready(function () {
         htmdrop += `<option value="COMPLETED">COMPLETED</option>`;
         htmdrop += `<option value="REJECTED" >REJECTED</option>`;
     }
+    else if (myroleList.includes("2090") || myroleList.includes("2067") || myroleList.includes("2088")) {
+        $("#btnNewAddReq").removeClass('hidden');
+
+        htmdrop += `<option value="SUBMIT" >SUBMIT</option>`;
+        htmdrop += `<option value="APPROVED">APPROVED</option>`;
+        htmdrop += `<option value="RECEIVED">UNDER ESTIMATION</option>`;
+        htmdrop += `<option value="COMPLETED">COMPLETED</option>`;
+        htmdrop += `<option value="REJECTED" >REJECTED</option>`;
+    }
     else {
         $("#btnNewAddReq").addClass('hidden');
         htmdrop += `<option value="PENDING" >PENDING</option>`;
@@ -272,6 +281,7 @@ $('.tbody-ERMRequest').on('click','.ibtn-Request-Details', function () {
         RequestedProductDetails();
         RequestAccess();
         $('#EstimationDetailModal').modal('show');
+        if (myroleList.includes('14213')) { $(".btn-history").removeClass('hidden') } else { $(".btn-history").addClass('hidden') }
     }
 
   
@@ -805,7 +815,7 @@ $('#btnSaveAction').on('click', function () {
 
         if ((((myroleList.includes("2066") || (myroleList.includes("3087") )) && $('#hfdAction').val()!="REJECTED")))  {
 
-            if (MarketingID == 0) {
+            if (MarketingID == 0 && (myroleList.includes("3087"))) {
                 toastr.error("Please select the Consultant");
                 return;
             }
@@ -815,6 +825,8 @@ $('#btnSaveAction').on('click', function () {
                 return;
             }
             else {
+                if(MarketingID=="")
+                    MarketingID=0;
 
                 UpdateOptDetails();
 
@@ -3145,3 +3157,44 @@ function initiateDTworkLoad() {
         /* order: [[7, 'DESC']]*/
     });
 }
+
+$(".btn-history").on('click', function () {
+    $("#modalHistoryProjNo").modal('show')
+    $.ajax({
+        url: "ERMMaster.aspx/ViewHistory",
+        data: JSON.stringify({
+            "ProjNo": $("#txtProjRef").html().trim() == "" ? 0 : $("#txtProjRef").html().trim(),
+            "OptNo": $("#txtOppRef").html().trim() == "" ? 0 : $("#txtOppRef").html().trim()
+        }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+
+            var htm = '';
+            $.each(result.d, function (key, item) {
+
+                htm += `<tr>
+				  <td style="text-align:center;">`+ item.EstimationNo + `</td>
+                  <td style="text-align:center;">`+ item.ProjNo + `</td>
+                  <td style="text-align:center;">`+ item.OptNo + `</td>
+                  <td style="text-align:center;">`+ item.Status + `</td>
+                  <td style="text-align:center;">`+ item.System + `</td>
+                  <td style="text-align:center;">`+ item.Remarks + `</td>
+                  <td style="text-align:center;">`+ item.DateReceived + `</td>                 
+                  <td style="text-align:center;">`+ item.ELCEngr1 + `</td>
+                  <td style="text-align:center;">`+ item.MechEngr1 + `</td>
+                  <td style="text-align:center;">`+ item.OutDate + `</td>`;
+
+                htm += `</tr>`;
+
+            });
+            $('.tbody-projhistory').html(htm);
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+})

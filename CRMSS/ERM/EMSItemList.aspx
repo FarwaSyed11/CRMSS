@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="../Calendar/dist/adminlte.min.css">
-    <%--<link rel="stylesheet" href="../Template/assets/vendor/libs/richtexteditor/richtext.css" />--%>
+    <link rel="stylesheet" href="../Template/assets/vendor/libs/richtexteditor/richtext.css" />
 
     <style type="text/css">
         ::-webkit-scrollbar {
@@ -255,7 +255,6 @@
             padding-bottom: 10px;
             margin: 10px 0px 60px 0px;
             counter-reset: step;
-            width: 135%;
         }
 
             .progressbar li {
@@ -267,6 +266,7 @@
                 text-align: center;
                 text-transform: uppercase;
                 color: #7d7d7d;
+                width: 32% !important;
             }
 
                 .progressbar li:before {
@@ -515,6 +515,7 @@
                                             <%--<li><button class="nav-link" id="nav-TOC-tab" data-bs-toggle="tab" data-bs-target="#nav-TOC" type="button" role="tab" aria-controls="nav-TOC" aria-selected="false">Create TOC</button></li>
                                             <li><button class="nav-link" id="nav-Summary-tab" data-bs-toggle="tab" data-bs-target="#nav-Summary" type="button" role="tab" aria-controls="nav-Summary" aria-selected="false">Summary</button></li>--%>
                                         </ul>
+
                                     </div>
 
                                     <div class="col-12">
@@ -848,25 +849,33 @@
                                                             <%-- <a href="#" id="btnSubmitOptDet" class="btn btn-primary" style="float:right;">Submit</a>--%>
                                                         </div>
                                                     </div>
+                                                    <div class="row my-4">
+                                                        <div class="col-12">
+                                                            <button type="button" class="btn btn-primary btn-history ml-2 float-right">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="me-2" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
+                                                                    <path fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.266 16.06a8.92 8.92 0 0 0 3.915 3.978a8.7 8.7 0 0 0 5.471.832a8.8 8.8 0 0 0 4.887-2.64a9.07 9.07 0 0 0 2.388-5.079a9.14 9.14 0 0 0-1.044-5.53a8.9 8.9 0 0 0-4.069-3.815a8.7 8.7 0 0 0-5.5-.608c-1.85.401-3.366 1.313-4.62 2.755c-.151.16-.735.806-1.22 1.781M7.5 8l-3.609.72L3 5m9 4v4l3 2" />
+                                                                </svg>View Request History</button>
+                                                        </div>
 
-                                                    <div style="margin-top: 1.5%;" class="Estimation-data">
-                                                        <nav id="nav-tab">
-                                                            <ul class="nav nav-pills" id="Estimation-Det" role="tablist">
+                                                    </div>
+
+                                                    <div style="" class="Estimation-data">
+                                                        <nav class="navs" id="nav-tab-bottom">
+                                                            <ul class="nav nav-tabs nav-pills" id="Estimation-Det" role="tablist">
                                                                 <li class="nav-item">
-                                                                    <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-Products" aria-controls="navs-top-Products" aria-selected="true">Product</button>
+                                                                    <button type="button" id="navs-top-Products" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-Products" aria-controls="navs-Products" aria-selected="true" aria-disabled="false">Product</button>
                                                                 </li>
                                                                 <li class="nav-item">
-                                                                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-Attachment" aria-controls="navs-top-Attachment" aria-selected="false">Attachment</button>
+                                                                    <button type="button" id="navs-top-Attachment" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-Attachment" aria-controls="navs-Attachment" aria-selected="false" aria-disabled="true">Attachment</button>
                                                                 </li>
                                                                 <li class="nav-item">
-                                                                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-Comments" aria-controls="navs-top-Comments" aria-selected="false">Comments</button>
+                                                                    <button type="button" id="navs-top-Comments" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-Comments" aria-controls="navs-Comments" aria-selected="false" aria-disabled="true">Comments</button>
                                                                 </li>
                                                             </ul>
                                                             <div class="tab-content">
+                                                                <div class="tab-pane fade show active p-3" id="navs-Products" role="tabpanel" aria-labelledby="navs-top-Products">
 
-                                                                <div class="tab-pane fade show active" id="navs-top-Products" role="tabpanel">
-
-                                                                    <div style="padding-top: 2%">
+                                                                    <div style="">
 
                                                                         <table class="table Product-list-table" style="width: 100%;">
                                                                             <thead>
@@ -885,32 +894,9 @@
                                                                             <tbody class="tbody-Product-list" style="text-align: center;">
                                                                             </tbody>
                                                                         </table>
-
-
-                                                                        <%--<table class="table Product-list-table" style="width: 100%;">
-                        <thead>
-                            <tr style="text-align: center;">
-                                <td class="hidden">ReqID</td>
-                                <th>Product</th>
-                                <th>Remarks</th>
-                                <th>Estimation Team</th>
-                                <td class="hidden">EH</td>
-                                <th>Estimator</th>
-                                <td class="hidden">ES</td>
-                                <th>Due Date</th>
-                                <th>Priority</th>
-                                <th>Hours</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="tbody-Product-list" style="text-align: center;">
-                        </tbody>
-                    </table>--%>
                                                                     </div>
                                                                 </div>
-
-                                                                <div class="tab-pane fade" id="navs-top-Attachment" role="tabpanel">
+                                                                <div class="tab-pane fade p-3" id="navs-Attachment" role="tabpanel" aria-labelledby="navs-top-Attachment">
 
                                                                     <div>
                                                                         <a href="#" id="btnNewAttacment" class="btn btn-primary pull-right"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Attachment</a>
@@ -936,7 +922,7 @@
                                                                     </div>
 
                                                                 </div>
-                                                                <div class="tab-pane fade" id="navs-top-Comments" role="tabpanel">
+                                                                <div class="tab-pane fade p-3" id="navs-Comments" role="tabpanel" aria-labelledby="navs-top-Comments">
 
                                                                     <div>
                                                                         <a href="#" id="btnAddNewComments" class="btn btn-primary pull-right"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Comments</a>
@@ -967,30 +953,6 @@
                                                             </div>
                                                         </nav>
                                                     </div>
-
-                                                    <%--<div style="padding-top: 2%">
-
-                                                        <table class="table Product-list-table" style="width: 100%;">
-                                                            <%--<caption class="ms-4">List of Projects</caption>--%
-                                                            <thead>
-                                                                <tr style="text-align: center;">
-                                                                    <td class="hidden">ReqID</td>
-                                                                    <th>Product</th>
-                                                                    <th>Remarks</th>
-                                                                    <th>Estimation Team</th>
-                                                                    <td class="hidden">EH</td>
-                                                                    <th>Estimator</th>
-                                                                    <td class="hidden">ES</td>
-                                                                    <th>Due Date</th>
-                                                                    <th>Status</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody class="tbody-Product-list" style="text-align: center;">
-                                                            </tbody>
-                                                        </table>
-
-                                                    </div>--%>
-                                                    <%--<button type="button" class="btn btn-primary btnAddUpdateReq">Start</button>--%>
                                                 </div>
                                             </div>
                                             <div class="tab-pane fade" id="nav-Structure" role="tabpanel" aria-labelledby="nav-Structure-tab">
@@ -1679,9 +1641,6 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="ReqTechRemarksModalLabel">Technical Remarks</h5>
-                    <button class="btn btn-sm btn-primary transition-3d-hover" onclick="downloadPDFDialog()">
-                        Download as PDF
-                    </button>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" style="zoom: 85%; min-height: 670px;">
@@ -2259,7 +2218,7 @@
                 <div class="modal-body">
 
                     <div style="margin-top: -1%;">
-                        <div style="background: #1d1b1b36; padding: 17px; border-radius: 12px; border: 1px solid #1d1b1b36; box-shadow: 0px 0px 13px -7px #1d1b1b36;">
+                        <div style="background: #c0989836; padding: 17px; border-radius: 12px; border: 1px solid #c0989836; box-shadow: 0px 0px 13px -7px #c0989836;">
 
                             <div class="row">
                                 <div>
@@ -2275,15 +2234,19 @@
                             </div>
 
                             <div class="row">
-                                <label>Product Type</label>
+                                <label class="mt-3">File Type</label>
                                 <div>
-                                    <input class="form-control" type="text" placeholder="Enter Product Type" style="background-color: white;" id="txtProdTypeInAttach" />
+                                    <select id="ddlEstiAttachTechnotesType" class="form-select color-dropdown">
+                                        <option value="Technical Notes Merge">Technical Notes Merge</option>
+                                        <option value="Others">Others</option>
+                                    </select>
+                                    <input class="form-control mt-2 hidden" type="text" placeholder="Enter File Type" style="background-color: white;" id="txtEstiAttachTechnotesType" />
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col mb-3 discriptionDiv">
-                                    <label for="nameBasic" class="  label-custom">Comments </label>
+                                    <label for="nameBasic" class="label-custom mt-3">Comments </label>
                                     <textarea id="txtAttachmentComment" rows="3" class="form-control" style="border-bottom: solid; border-color: #b9b9b9; overflow-y: scroll;" placeholder="Enter the Commments"></textarea>
                                 </div>
                             </div>
@@ -2556,21 +2519,61 @@
 
     <%--Copy System --%>
     <div class="modal fade" id="modalCopySystem" style="background-color: #00000070;" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-        <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="">Copy System</h5>
+                    <h5 class="modal-title" id="H3">Copy System</h5>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="pt-2 pb-4">
                             <h6>Type a new name for Copied System:</h6>
                         </div>
-                        <label>Copied System</label>
-                        <input id="txtCopySystem" class="form-control color-dropdown mb-3" disabled />
-                        <label>New name</label>
-                        <input id="txtSystemNewName" class="form-control color-dropdown" />
+
+                        <div class="row">
+                            <label>Copied System</label>
+                            <input id="txtCopySystem" class="form-control color-dropdown mb-3" disabled />
+                        </div>
+
+                        <div class="row">
+                            <div class="col-8">
+                                <label>New name</label>
+                                <input id="txtSystemNewName" class="form-control color-dropdown" />
+                            </div>
+                            <div class="col-4">
+                                <div style="display: flex; justify-content: center; padding-top: 35px;">
+                                    <label>
+                                        <input class="form-check-input position-relative" type="checkbox" name="cbOptionalForCopySys" id="cbOptionalForCopySys" />
+                                        Is Optional
+                                   
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
+
+                    <div class="mt-4">
+                        <h5>System's Items List</h5>
+                    </div>
+                    <div class="table mt-3" style="overflow-y: auto; max-height: 600px;">
+                        <table class="table copyitem-toc-table" style="width: 100%;">
+
+                            <thead style="position: sticky; top: -3px;">
+                                <tr class="Head-tr">
+                                    <th style="width: 52px !important">Select</th>
+                                    <th>Item Code</th>
+                                    <th>Item Desc</th>
+                                    <th>Category</th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="tbody-copyitems-toc">
+                            </tbody>
+                        </table>
+                    </div>
+
+
                 </div>
                 <div class="modal-footer">
                     <div style="">
@@ -2583,6 +2586,41 @@
     </div>
 
 
+    <div class="modal fade" id="editSysNameModal" style="background-color: #00000070;" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="H6">Edit System Name</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="pt-2 pb-4">
+                            <h6>Type a new name for the System:</h6>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <label>Copied System</label>
+                                <input id="txtEditOldSysName" class="form-control color-dropdown mb-3" disabled />
+                            </div>
+                            <div class="col-6">
+                                <label>New name</label>
+                                <input id="txtEditNewSysName" class="form-control color-dropdown" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div style="">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Back</button>
+                        <button type="button" class="btn btn-primary btnEditSysName">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <%--ADDITIONAL ITEMS IN TOC--%>
     <%--ADD/UPDATE System & Items--%>
     <div class="modal fade" id="addiItemsInTOC" tabindex="-1" style="background: #a9a9a996;" aria-hidden="true">
@@ -2655,6 +2693,53 @@
     </div>
 
 
+    <%--Get Details based on Proj or Opt No Modal--%>
+    <div class="modal fade" id="modalHistoryProjNo" tabindex="-1" style="background: #a9a9a996;" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="col-6">
+                        <h5 class="modal-title" id="lbldetAccToProjNoModal">Details</h5>
+                    </div>
+                    <%-- <div class="d-flex justify-content-end" style="max-width: 48%; width: 48%;">
+                        <button type="button" class="btn btn-primary btnAddAddiItemsTOC hide-control-bos"><i class='bx bxs-save'></i>Save Changes </button>
+                    </div>--%>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="zoom: 85%;">
+
+                    <div class="mt-3">
+                        <h5>Details</h5>
+                    </div>
+                    <div class="table mt-2" style="overflow-y: auto; max-height: 800px;">
+                        <table class="table table-projhistory" style="width: 100%;">
+
+                            <thead style="position: sticky; top: -3px;">
+                                <tr class="Head-tr">
+                                    <th>Estimation #</th>
+                                    <th>Project</th>
+                                    <th>Opt #</th>
+                                    <th>Status</th>
+                                    <th>System</th>
+                                    <th>Remarks</th>
+                                    <th>DateReceived</th>
+                                    <th>ELCEngr1</th>
+                                    <th>MechEngr1</th>
+                                    <th>Out date</th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="tbody-projhistory">
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 
 
     <script type="text/javascript">
@@ -2674,11 +2759,11 @@
 
     <!-- Page JS/CSS file -->
     <script src="Scripts/common.js?v=2.2"></script>
-    <script src="Scripts/ems-item-list.js?v=9.9"></script>
+    <script src="Scripts/ems-item-list.js?v=9"></script>
     <script src="Scripts/Structure.js?v=8.2"></script>
-    <script src="Scripts/TOC.js?v=9.9"></script>
+    <script src="Scripts/TOC.js?v=6.6"></script>
     <script src="Scripts/SummaryReports.js?v=8.2"></script>
-    <script src="Scripts/FirePumpOnTOC.js?v=5.5"></script>
+    <script src="Scripts/FirePumpOnTOC.js?v=7.7"></script>
 
     <link href="css/RecruitmentCss.css?v=1.1" rel="stylesheet" />
 
@@ -2706,6 +2791,7 @@
     <script src="../FacilityManagement/Datatable/js/buttons.html5.min.js"></script>
     <script src="../FacilityManagement/Datatable/js/buttons.print.min.js"></script>
 
+
     <%--MULTI SELECT FOR FILTER--%>
     <link href="../Calendar/dist/select2.css" rel="stylesheet" />
     <script src="../Calendar/dist/select2.js"></script>
@@ -2719,12 +2805,11 @@
     <link href="../TODONew/Asset/css/netliva_switch.css" rel="stylesheet" />
     <script src="../TODONew/Asset/js/netliva_switch.js"></script>
 
-    <%--<script src="../Template/assets/vendor/libs/richtexteditor/jquery.richtext.js"></script>--%>
-    <link rel="stylesheet" href="Assets/richtexteditor/rte_theme_default.css" />
-    <script type="text/javascript" src="Assets/richtexteditor/rte.js"></script>
-    <script type="text/javascript" src='Assets/richtexteditor/plugins/all_plugins.js'></script>
-
+    <script src="../Template/assets/vendor/libs/richtexteditor/jquery.richtext.js"></script>
     <script src="../Dashboard/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+
+    <script src="../Template/assets/vendor/libs/richtexteditor/jquery.richtext.js"></script>
+
 </asp:Content>
 
 
