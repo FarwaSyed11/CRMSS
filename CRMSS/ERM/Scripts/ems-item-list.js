@@ -896,10 +896,15 @@ function bindValueForLabels(data) {
     $('#ddlEstimationTeamOrg').html(data[0].EstimationOrg)
     $('#txtSalesman').html(data[0].Salesman)
     $('#txtMarketing').html(data[0].Marketing)
+    $('select[name=ESType]').val(data[0].ESTType)
+    $('select[name=Supply]').val(data[0].Scope)
+    $('select[name=Stage]').val(data[0].Stage)
+    $('select[name=Quotation]').val(data[0].QuotationType)
 
-    $("input[name=Stage][value='"+ data[0].Stage + "']").attr('Checked', true)
-    $("input[name=Supply][value='"+ data[0].Scope + "']").attr('Checked', true)
-    $("input[name=Quotation][value='" + data[0].QuotationType + "']").attr('Checked', true)
+    
+    //$("input[name=Stage][value='"+ data[0].Stage + "']").prop('checked', true)
+    //$("input[name=Supply][value='" + data[0].Scope + "']").prop('checked', true)
+    //$("input[name=Quotation][value='" + data[0].QuotationType + "']").prop('checked', true)
 }
 function bindValueForLabelsinSummary(data) {
 
@@ -923,9 +928,14 @@ function bindValueForLabelsinSummary(data) {
     $('#SummarytxtSalesman').html(data[0].Salesman)
     $('#SummarytxtMarketing').html(data[0].Marketing)
 
-    $("input[name=SummaryStage][value='" + data[0].Stage + "']").attr('Checked', true)
-    $("input[name=SummarySupply][value='" + data[0].Scope + "']").attr('Checked', true)
-    $("input[name=SummaryQuotation][value='" + data[0].QuotationType + "']").attr('Checked', true)
+    $('select[name=ESType]').val(data[0].ESTType)
+    $('select[name=Supply]').val(data[0].Scope)
+    $('select[name=Stage]').val(data[0].Stage)
+    $('select[name=Quotation]').val(data[0].QuotationType)
+
+    //$("input[name=SummaryStage][value='" + data[0].Stage + "']").prop('checked', true)
+    //$("input[name=SummarySupply][value='" + data[0].Scope + "']").prop('checked', true)
+    //$("input[name=SummaryQuotation][value='" + data[0].QuotationType + "']").prop('checked', true)
 
 
 }
@@ -1087,7 +1097,7 @@ function loadForecastRequests(pCompany) {
                 }
                 htm += `</td></tr>`
 
-            });
+                });
             $('.tbody-forecast-req').html(htm);
             initiateFCastDT();
         },
@@ -1581,54 +1591,86 @@ function RequestedProductDetails(selReqId) {
             $.each(result.d, function (key, item) {
 
                 var drpName = 'ddl-' + item.LineID;
-                var ddlEstimator = 'ddlEstimator-' + item.LineID;
+                var ddlPriority = 'ddlPriority-' + item.LineID;
+                var txtHours = 'txtHours-' + item.LineID;
 
                 htm += `<tr style="text-align: center;">
                             <td class="hidden">`+ item.LineID + `</td>
                             <td>`+ item.ERMProduct + `</td>
-                                      <td>`+ item.Remarks + `</td>`;
+                            <td>`+ item.Remarks + `</td>`;
 
-
-                if (item.EstimationTeam == EmpNo.toUpperCase() && item.Estimator == '') {
-                    htm += ` <td> <select class="form-select" id=` + drpName + ` onchange=EstTeamChange(` + item.LineID + `,"` + item.EstimationTeam + `")></select > </td> `
-                }
+                if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status == 'Pending For Estimation Head Approval') {
+                    htm += ` <td> <select class="form-select" id=` + drpName + ` onchange=EstTeamChange(` + item.LineID + `,"` + item.EstimationTeam +`")></select > </td> `
+                    }
                 else {
-                    htm += ` <td> <select class="form-select" id=` + drpName + ` disabled ></select > </td>`
+                    htm += `<td> <select class="form-select" id=` + drpName + ` disabled ></select > </td>`;
                 }
 
                 htm += `<td class="hidden">` + item.EstimationTeam + `</td>`
+                         
+
                 if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status == 'Pending For Estimation Head Approval') {
-                    htm += ` <td> <select class="form-select" id=` + ddlEstimator + `></select> </td>`
+                    htm += `<td> <input type="date" name="ESTDueDate" class="form-control isEditMode"/> </td>`;
                 }
                 else {
-                    htm += ` <td> <select class="form-select" id=` + ddlEstimator + ` disabled></select> </td>`
+                    htm += `<td><input type="date" name="ESTDueDate" class="form-control isEditMode" value="` + item.DueDate +`" disabled/> </td>`;
+                    // htm += `<td>` + item.DueDate + `</td>`;
                 }
-
-                htm += `  <td class="hidden">` + item.Estimator + `</td>`
-                if (item.EstimationTeam == EmpNo.toUpperCase() && item.Estimator == '') {
-                    htm += `<td> <input type="date" name="ESTDueDate" class="form-control"/> </td>`
+                                     
+                if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status=='Pending For Estimation Head Approval'){
+                    htm += `<td><select class="form-select isEditMode" id=` + ddlPriority + `>
+                                    <option value="-1">--SELECT---</option>
+                                    <option value="HEIGH">HIGH</option>
+                                    <option value="MEDIUM">MEDIUM</option>
+                                    <option value="LOW">LOW</option>
+                                </select> 
+                            </td>`;
                 }
                 else {
-                    htm += `<td>` + item.DueDate + `</td>`
+                    htm += `<td><select class="form-select isEditMode" id=` + ddlPriority + ` disabled>
+                                 <option value="-1">--SELECT---</option>
+                                 <option value="HEIGH">HIGH</option>
+                                 <option value="MEDIUM">MEDIUM</option>
+                                 <option value="LOW" >LOW</option>
+                                </select> 
+                            </td>`;
+                }
+                htm += `<td class="hidden">` + item.Priority + `</td>`;
+                if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status != "Under Estimation"){
+                    htm += `<td>  <input type="number"   class="form-control isEditMode" id=` + txtHours + `  value="`+item.Hours+`"  /> </td>`;
+                }
+                else {
+                    htm += `<td>  <input type="number"   class="form-control isEditMode" id=` + txtHours + ` value="`+item.Hours+`"  disabled/> </td>`;
                 }
 
-                htm += `<td><span class="` + item.StatusClass + `" style="font-size: 13px !important;">` + item.Status + `</span></td>`
 
-                //if (myroleList.includes("14213")) {
-                //    htm += `
-                //                      <td>
-                //                       <img src="images/icon-Update.png" title="Save" class="fa-icon-hover Update-Product-Details" style="cursor: pointer; width: 24px;" />&nbsp;
+                htm += `<td><span class="`+ item.StatusClass + `" style="font-size: 13px !important;">` + item.Status + `</span></td>`;
+               
+                if (myroleList.includes("14213") && item.Status != "Under Estimation" && item.EstimationTeam == EmpNo.toUpperCase()) {
+                    htm += `<td>
+                        <img src="images/icon-Update.png" title="Save" class="fa-icon-hover Update-Product-Details"  style="cursor: pointer; width: 24px;display:none" />&nbsp;
+                        <img src="images/icon-history.png" title="View Estimator" class="fa-icon-hover Add-Estimator" style="cursor: pointer; width: 24px;" />&nbsp;
+                        <img src="images/edit-icon.png" title="Edit" class="fa-icon-hover Edit-Details" style="cursor: pointer; width: 24px;" />&nbsp;
+                    </td>`;
+                }
+                else if (myroleList.includes("14213") && item.Status == "Under Estimation") {
+                    htm +=`
+                    <td>
+                        <img src="images/icon-history.png" title="View Estimator" class="fa-icon-hover Add-Estimator" style="cursor: pointer; width: 24px;" />&nbsp;
+                    </td>`;
+                }
+                else if (myroleList.includes("14214")){
+                    htm +=`
+                    <td>
+                        <img src="images/icon-history.png" title="View Estimator" class="fa-icon-hover Add-Estimator" style="cursor: pointer; width: 24px;" />&nbsp;
+                    </td>`;
+                }
+                else{
+                    htm +=`<td></td>`
+                }
 
-                //                          </td>`;
-                //}
-                //else {
-                //    htm += `
-                //                          <td></td>`;
-                //}
+                htm +=`</tr> `;
 
-                htm += `</tr> `;
-
-                //   GetEstTeamLeaderForProduct(drpName, item.ERMProduct);
             });
 
             $('.tbody-Product-list').html(htm);
@@ -1647,6 +1689,9 @@ function RequestedProductDetails(selReqId) {
                 let Estimator = item.children[6].textContent.trim();
                 GetEstTeamLeaderForProduct(ddlname, item.children[1].textContent.trim());
                 GetEstimatorForProduct(ddlEstimator, item.children[1].textContent.trim(), EstimationHead);
+                let ddlPriority = "ddlPriority-" + LineID;
+                let prty = item.children[7].textContent.trim();
+                $("#" + ddlPriority + "").val(prty);
                 $("#" + ddlname + "").val(EstimationHead);
                 if (Estimator != "") {
                     $("#" + ddlEstimator + "").val(Estimator);
@@ -1659,7 +1704,7 @@ function RequestedProductDetails(selReqId) {
         //    $('.ajax-loader').hide();
         //},
         error: function (errormessage) {
-           // alert(errormessage.responseText);
+            // alert(errormessage.responseText);
         }
     });
 
@@ -1679,6 +1724,186 @@ function initiateDataTableRequestedproductList() {
         ],
         "ordering": false,
         "bPaginate": false,
+    });
+}
+
+$('.tbody-Product-list').on('click', '.Edit-Details', function () {
+    $(".Update-Product-Details").css("display", "");
+    $(".isEditMode").removeAttr("disabled");
+    
+});
+
+$('.tbody-Product-list').on('click','.Update-Product-Details', function () {
+
+    ProductID =this.parentNode.parentNode.children[0].textContent;
+    EstTeam = $('#' + this.parentNode.parentNode.children[3].children[0].id).val();
+    Priority = $('#' + this.parentNode.parentNode.children[6].children[0].id).val();
+    NoofHoursRequired = $('#' + this.parentNode.parentNode.children[8].children[0].id).val();
+
+    AddEstimator();
+    
+});
+$('.tbody-Estimator-List').on('click', '.ibtn-remove-estimator', function () {
+
+    let allocationID = this.parentNode.parentNode.parentNode.childNodes[1].textContent;
+    RemoveAnEstimator(allocationID);
+});
+$('.tbody-Product-list').on('click', '.Add-Estimator', function () {
+
+    ProductID = this.parentNode.parentNode.children[0].textContent;
+    GetEstimatorList();
+    LoadALlocatedEstimator();
+    if(myroleList.includes("14213"))
+    {
+        $('.hdest').removeClass("hidden");
+    } else{
+        $('.hdest').addClass("hidden");
+    }
+    $('#ModalEstimator').modal('show');
+});
+
+function GetEstimatorList() {
+
+    $.ajax({
+        url: "EMSItemList.aspx/GetEstimatorList",
+        data: JSON.stringify({ "UserId": currUserId, "ReqLineID": ProductID }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            var htm = '<option value="-1">--- Select Employee --- </option> ';
+            empList = result.d;
+
+            $.each(result.d, function (key, item) {
+                htm += '<option value="' + item.ddlValue + '"> ' + item.ddlText + '</option>';
+            });
+
+            $('#ddlEstimatorList').html(htm);
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
+function LoadALlocatedEstimator() {
+
+    $.ajax({
+        url: "EMSItemList.aspx/GetAllocatedEstimatorList",
+        data: JSON.stringify({
+            "ReqID": selReqId,
+            "ReqLineID": ProductID,
+            "UserID": currUserId,
+        }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+
+            var htm = '';
+            $.each(result.d, function (key, item) {
+
+                htm += `<tr>
+				  <td class="hidden" style="text-align:center;">`+ item.AllocationID + `</td>
+                  <td style="text-align:center;">`+ item.EmpNo + `</td>
+                  <td style="text-align:center;">`+ item.EmpName + `</td>
+                  <td style="text-align:center;">`+ item.CreatedDate + `</td>
+                  <td style="text-align:center;">`+ item.EstimationStatus + `</td>
+                  <td style="text-align:center;">`+ item.EstimatorStatus + `</td>`
+                  if(myroleList.includes("14213")){
+                      htm+=`<td style="text-align:center;">
+                              <span style="margin-left: 4%;"><i class="bx bx-trash fa-icon-hover ibtn-remove-estimator"  style="color:#d33a3a; cursor:pointer;font-size: x-large;" ></i> </span>
+                            </td>`
+                  }
+                  else{
+                      htm+=`<td></td>`
+                  }
+                  
+                htm += `</tr>`;
+
+            });
+            $('.tbody-Estimator-List').html(htm);
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+
+function AddEstimator() {
+    $.ajax({
+        url: "EMSItemList.aspx/SetEstimator",
+        data: JSON.stringify({ "UserID": currUserId, "ProductID": ProductID, "EstHead": EstTeam, "RequestId": RequestId, "DueDate": $("input[type=date][name=ESTDueDate]").val(), "Priority": Priority, "Hours": NoofHoursRequired}),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+
+        success: function (result) {
+                
+            toastr.success('Updated Successfully..', '');
+            RequestedProductDetails();
+            $('.ajax-loader').removeClass('hidden');
+            setTimeout(function () {
+                GetTableDetails('Please wait..');
+
+                $(".ajax-loader").addClass('hidden');
+            }, 500);
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+
+}
+
+function RemoveAnEstimator(AllocationID) {
+    $.ajax({
+        url: "ERMMaster.aspx/RemoveAnEstimator",
+        data: JSON.stringify({ "AllocationID": AllocationID, "UserID":  currUserId }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+
+            if (result.d) {
+                toastr.success(" Successfully Removed");
+                LoadALlocatedEstimator();
+                GetEstimatorList();
+            }
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
+
+function AddNewEstimator() {
+    $.ajax({
+        url: "ERMMaster.aspx/AddAnEstimator",
+        data: JSON.stringify({ "ReqID": selReqId, "ReqLineID": ProductID, "EstimatorID": $('#ddlEstimatorList').val(), "UserID": currUserId }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+
+            if (result.d) {
+                toastr.success(" Successfully Added");
+                LoadALlocatedEstimator();
+                GetEstimatorList();
+            }
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
     });
 }
 
@@ -1761,18 +1986,33 @@ function checkSystem() {
 }
 
 function printDetails(divID) {
+    
+    var res = listAllReqs.filter(s => s.ReqId == selReqId);
+    bindValueForLabels(res);
+    $('select[name=ESType] option:selected:eq(0)').attr('selected','selected');
+    $('select[name=Stage] option:selected:eq(0)').attr('selected','selected');
+    $('select[name=Supply] option:selected:eq(0)').attr('selected','selected');
+    $('select[name=Quotation] option:selected:eq(0)').attr('selected','selected');
+    $('.btn-history').addClass('hidden');
+    RequestedProductDetails(selReqId);
+
     $(".project-table").css('height', 'max-content');
     // var divElements = document.getElementById(divID).innerText;
+    
     var divElements = document.getElementById(divID).innerHTML;
     var oldPage = document.body.innerHTML;
     document.body.innerHTML =
         "<html><head><title>Print</title></head><body>" +
         divElements + "</body>";
+    
     window.print();
+    
     document.body.innerHTML = oldPage;
 
     location.reload();
+    
     $('#addReqModal').modal('show');
+    
 
 }
 
@@ -1825,7 +2065,7 @@ function uploadEstiAttach() {
     let aaa = 33;
 
     var qrystringLocal = 'https://crmss.naffco.com/CRMSS/ERM/Services/FileUploadEMSReq.ashx?fufor=estimation&reqid=' + selReqId + '&userid=' + currUserId + '&comment=' + comment + '&prodtype=' + prodtype + '&prodstr=' + prodstr;    
-   // var qrystringLocal = '../ERM/Services/FileUploadEMSReq.ashx?fufor=estimation&reqid=' + selReqId + '&userid=' + currUserId + '&comment=' + comment + '&prodtype=' + prodtype + '&prodstr=' + prodstr;    
+    // var qrystringLocal = '../ERM/Services/FileUploadEMSReq.ashx?fufor=estimation&reqid=' + selReqId + '&userid=' + currUserId + '&comment=' + comment + '&prodtype=' + prodtype + '&prodstr=' + prodstr;    
 
     let sURL = 'TestFoCalendar.aspx/Upload';
 

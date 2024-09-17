@@ -25,6 +25,8 @@ public partial class ERM_Services_QuotationCrystalReport : System.Web.UI.Page
             Download(qtnHeaderID);
         else if (oper == 2)
             DownloadBOQ(qtnHeaderID);
+        else if (oper == 3)
+            DownloadBOQWithoutPrice(qtnHeaderID);
     }
 
     public void LoadGeneralQTN(Int64 qtnHeaderID)
@@ -176,6 +178,69 @@ public partial class ERM_Services_QuotationCrystalReport : System.Web.UI.Page
 
 
         rptDoc.Load(Server.MapPath("~/ERM/Report/BOQQuotation.rpt"));
+
+        rptDoc.SetDataSource(ds.Tables[0]);
+
+        rptDoc.Subreports["LineItemDetails"].SetDataSource(ds.Tables[0]);
+
+
+
+        rptDoc.PrintOptions.PaperOrientation = PaperOrientation.Portrait;
+
+        rptDoc.ExportToHttpResponse(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat, Response, true, "BOQ - " + ds.Tables[0].Rows[0]["QuotationNo"].ToString());
+
+        //string serverPath = HttpContext.Current.Request.QueryString["attachurl"];
+
+        //var uri = new Uri(ds.Tables[0].Rows[0]["TechnicalNoteURL"].ToString()); // Here I get the error
+        //var fName = Path.GetFullPath(uri.LocalPath);
+        ////var fName = Path.GetFullPath(@"\\zylab\Econnect\KPI\"+"25590 - asdasdas.pdf");
+        //var fileInfo = new FileInfo(fName);
+
+        //var response = HttpContext.Current.Response;
+
+        //response.Clear();
+        //response.ClearContent();
+        //response.ClearHeaders();
+
+
+        //response.Buffer = true;
+        //response.AppendHeader("Content-Disposition", "attachment; filename=" + fileInfo.Name);
+        //// response.AddHeader("Content-Description", "attachment;filename=" + fileInfo.FullName);
+        ////response.WriteFile(@"\\zylab\Econnect\KPI\"+"25590 - asdasdas.pdf");
+        //response.WriteFile(uri.LocalPath);
+
+        //response.End();
+
+    }
+
+    public void DownloadBOQWithoutPrice(Int64 qtnHeaderID)
+    {
+        CrystalReportViewer1.ReportSource = null;
+        CrystalReportViewer1.RefreshReport();
+        ReportDocument rptDoc = new ReportDocument();
+
+        //rptDoc.Close();
+        GC.Collect();
+        //rptDoc.Dispose();
+        //GC.Collect();
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+
+        pa.Add("@Oper");
+        pv.Add("0");
+
+        pa.Add("@QuotationID");
+        pv.Add(Convert.ToInt64(qtnHeaderID));
+
+        DBH.CreateDatasetERM_Data(ds, "SP_BOQQuotation", true, pa, pv);
+
+
+        rptDoc.Load(Server.MapPath("~/ERM/Report/BOQQuotationWithoutUnitPrice.rpt"));
 
         rptDoc.SetDataSource(ds.Tables[0]);
 

@@ -368,17 +368,23 @@
                                             <input type="text" id="txtTotalAmountview" class="form-control" value="0.000" disabled>
                                         </div>
                                     </div>
-                                    <div class="col-3">
+                                    <div class="col-2">
                                         <label class="col-form-label label-custom" for="basic-default-name">Margin %</label>
                                         <div class="">
                                             <input type="text" id="txtMargineForALLItem" class="form-control qtnfiled" value="0.0" onchange="UpdateMargineAndDiscountOverAll()" />
                                         </div>
                                     </div>
 
-                                    <div class="col-3">
+                                    <div class="col-2">
                                         <label class="col-form-label label-custom" for="basic-default-name">Discount %</label>
                                         <div class="">
                                             <input type="text" id="txtDiscountForAllItem" class="form-control qtnfiled qtnDiscountField" value="0.0" onchange="UpdateMargineAndDiscountOverAll()" />
+                                        </div>
+                                    </div>
+                                        <div class="col-2">
+                                        <label class="col-form-label label-custom" for="basic-default-name">Supply Amount</label>
+                                        <div class="">
+                                            <input type="text" id="txtSupply" class="form-control" value="0.000" disabled>
                                         </div>
                                     </div>
 
@@ -455,8 +461,11 @@
                                     <div class="col-1">
                                         <input type="button" id="btnExportExcel" value="Export Excel" class="btn btn-primary d-block" style="font-size: small" />
                                     </div>
-                                     <div class="col-3">
+                                     <div class="col-2">
                                         <input type="button" id="btnDownloadBOQ" value="Download BOQ" class="btn btn-primary d-block" style="font-size: small" />
+                                    </div>
+                                     <div class="col-2">
+                                        <input type="button" id="btnBOQWithoutPrice" value="BOQ Wthout Price" class="btn btn-primary d-block" style="font-size: small" />
                                     </div>
                                 </div>
 
@@ -557,7 +566,7 @@
     <script src="../FacilityManagement/Datatable/js/buttons.print.min.js"></script>
 
     <!-- Page JS/CSS file -->
-    <script src="Scripts/Quotation.js?v=2"></script>
+    <script src="Scripts/Quotation.js?v=3"></script>
 
     <script src="script/multiple-select.js"></script>
     <link href="../SiteSurvey/Assets/Css/multiple-select.css" rel="stylesheet" />

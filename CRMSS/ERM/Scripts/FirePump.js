@@ -311,26 +311,11 @@ function EstimationDetails() {
             $('#SummarytxtSalesman').html(result.d[0].Salesman);
             $('#SummarytxtMarketing').html(result.d[0].Marketing);
 
-            if (result.d[0].Stage == 'TENDER') {
-                $('#Radio1').prop('checked', true);
-            }
-            else if (result.d[0].Stage == 'J.O.H') {
-                $('#Radio2').prop('checked', true);
-            }
+            $('select[name=Supply]').val(result.d[0].Scope);
+            $('select[name=Stage]').val(result.d[0].Stage);
+            $('select[name=Quotation]').val(result.d[0].QuotationType);
 
-            if (result.d[0].Scope == 'SUPPLY') {
-                $('#Radio3').prop('checked', true);
-            }
-            else if (result.d[0].Scope == 'SUPPLY AND INSTALLATION') {
-                $('#Radio4').prop('checked', true);
-            }
 
-            if (result.d[0].QuotationType == 'SMART QTNG') {
-                $('#Radio5').prop('checked', true);
-            }
-            else if (result.d[0].QuotationType == 'AS PER DRAWING AND SPECIFICATION') {
-                $('#Radio6').prop('checked', true);
-            }
 
             if (result.d[0].PumpSpecification == 'True') {
                 $('#chSpecification').prop('checked', true);
@@ -619,7 +604,14 @@ function UserBase() {
     }
     else if (myroleList.includes("15218")) {
         htm += `<option style="font-style: normal;" value="ASSIGNED">PENDING</option>
-                <option style = "font-style: normal;" value = "COMPLETE">COMPLETE</option>`;
+                <option style = "font-style: normal;" value = "COMPLETE">COMPLETE</option>
+                <option style = "font-style: normal;" value = "RELEASED">RELEASED</option>`
+            ;
+
+    }
+    else if (myroleList.includes("16220")) {
+        htm += `<option style="font-style: normal;" value="COMPLETE">PENDING</option>
+                <option style = "font-style: normal;" value = "RELEASED">RELEASED</option>`;
     }
     $('#ddlRequestStatus').html(htm);
 
@@ -676,6 +668,8 @@ function ApprovalBtn() {
         $('#btnAddPumpInfo').css('display', 'none');
         $('.div-assign').css('display', '');
         $('.div-Complete').css('display', 'none');
+        $('.div-Release').css('display', 'none');
+        $('.div-TechnicalNote').css('display', 'none');
         $('.btnAddAddiItemsTOC').css('display', 'none');
         $('.ibtn-delete-addiitemtoc').css('display', 'none');
 
@@ -684,13 +678,30 @@ function ApprovalBtn() {
     else if (myroleList.includes("15218") && Status == 'ASSIGNED') {
         $('.div-assign').css('display', 'none');
         $('.div-Complete').css('display', '');
+        $('.div-Release').css('display', 'none');
+        $('.div-TechnicalNote').css('display', 'none');
         $('.btnAddAddiItemsTOC').css('display', '');
         $('.ibtn-delete-addiitemtoc').css('display', '');
         $('#btnAddPumpInfo').css('display', '');
     }
+    else if ((myroleList.includes("16220")) && Status == 'COMPLETE') {
+
+        $('#btnAddPumpInfo').css('display', 'none');
+        $('.div-assign').css('display', 'none');
+        $('.div-Complete').css('display', 'none');
+        $('.div-Release').css('display', '');
+        $('.div-TechnicalNote').css('display', '');
+        $('.btnAddAddiItemsTOC').css('display', 'none');
+        $('.ibtn-delete-addiitemtoc').css('display', 'none');
+
+
+    }
+
     else {
         $('.div-assign').css('display', 'none');
         $('.div-Complete').css('display', 'none');
+        $('.div-Release').css('display', 'none');
+        $('.div-TechnicalNote').css('display', '');
         $('#btnAddPumpInfo').css('display', 'none');
         $('.btnAddAddiItemsTOC').css('display', 'none');
         $('.ibtn-delete-addiitemtoc').css('display', 'none');
@@ -702,8 +713,38 @@ $('#btnComplete').on('click', function () {
     $("#ReqTechRemarksModal").modal('show');
     $(".ritext-tech-remarks-div").html('<input class="form-control " type="text" placeholder="" value="" id="taTechRemarks">');
     initiateRichText();
+    $(".btnAddTechRemarks").removeClass("hidden");
     //Complete();
 });
+
+
+$('#btnTechnicalNote').on('click', function () {
+    $("#ReqTechRemarksModal").modal('show');
+    
+    $.ajax({
+        url: "FirePump.aspx/GetTechnicalNote",
+        data: JSON.stringify({ "UserId": currUserId, "ReqID": ReqID }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            $(".ritext-tech-remarks-div").html('<input class="form-control " type="text" placeholder="" value="' + result.d +'" id="taTechRemarks">');
+            //$(".ritext-tech-remarks-div").find('#taTechRemarks').html(result.d);
+            initiateRichText();
+
+            $(".btnAddTechRemarks").addClass("hidden");
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+
+ 
+    
+    //Complete();
+});
+
 
 function Complete() {
     $.ajax({
@@ -860,7 +901,7 @@ function ERMFileUpload() {
 
 $(".btnAddTechRemarks").on('click', function () {
 
-    if ($("#taTechRemarks").val().trim() == "" || $("#taTechRemarks").val().trim().length < 20) {
+    if ($("#taTechRemarks").val().trim() == "" || $("#taTechRemarks").val().trim().length < 10) {
         toastr.error("Please input the Technical remarks", '');
     }
     else {
@@ -898,6 +939,40 @@ $(".btnAddTechRemarks").on('click', function () {
 
     }
 });
+
+
+
+$("#btnRelease").on('click', function () {
+
+   
+        $.ajax({
+            url: "FirePump.aspx/ReleasePumpEstimation",
+            data: JSON.stringify({
+                "UserId": currUserId, "ReqID": ReqID
+            }),
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+
+                if (result.d) {
+                    toastr.success('Updated Successfully..', '');
+                    $('.ajax-loader').removeClass('hidden');
+                    setTimeout(function () {
+                        AllRequests('Please Wait..');
+                        $(".ajax-loader").addClass('hidden');
+                    }, 500);
+                    $('#modalFPDetails').modal('hide');
+                }
+
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+
+});
+
 
 
 

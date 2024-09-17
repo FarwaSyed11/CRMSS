@@ -256,7 +256,8 @@ public partial class ERM_Quotation : System.Web.UI.Page
                     UnitSellingPrice = ds.Tables[2].Rows[i]["UnitSellingPrice"].ToString(),
 
                     Isoptional = ds.Tables[2].Rows[i]["IsOptional"].ToString(),
-                    AlternateFromItem = ds.Tables[2].Rows[i]["AlternateFromItem"].ToString()
+                    AlternateFromItem = ds.Tables[2].Rows[i]["AlternateFromItem"].ToString(),
+                    UOM = ds.Tables[2].Rows[i]["UOM"].ToString(),
                 });
             }
 
@@ -356,6 +357,9 @@ public partial class ERM_Quotation : System.Web.UI.Page
             ind.NetAmount = dt.Rows[i]["NetAmount"].ToString();
             ind.Status = dt.Rows[i]["Status"].ToString();
             ind.AssignedTo = dt.Rows[i]["AssignedTo"].ToString();
+
+            ind.SupplyAmount = dt.Rows[i]["SupplyAmount"].ToString();
+
             ind.EMSRequestProducts = ListEMSRequestProducts;
             lisQuotationHeader.Add(ind);
         }
@@ -411,7 +415,7 @@ public partial class ERM_Quotation : System.Web.UI.Page
                 ind.OverAllMargin = dt.Rows[i]["OverAllMargin"].ToString();
                 ind.OverAllDiscount = dt.Rows[i]["OverAllDiscount"].ToString();
                 ind.NetAmount = dt.Rows[i]["NetAmount"].ToString();
-
+                ind.SupplyAmount = dt.Rows[i]["SupplyAmount"].ToString();
                 ListQuotationValues.Add(ind);
             }
             return ListQuotationValues;
@@ -573,6 +577,7 @@ public partial class ERM_Quotation : System.Web.UI.Page
             ind.OverAllMargin = dt.Rows[i]["OverAllMargin"].ToString();
             ind.OverAllDiscount = dt.Rows[i]["OverAllDiscount"].ToString();
             ind.NetAmount = dt.Rows[i]["NetAmount"].ToString();
+            ind.SupplyAmount = dt.Rows[i]["SupplyAmount"].ToString();
           
             ListQuotationValues.Add(ind);
         }
@@ -689,7 +694,7 @@ public partial class ERM_Quotation : System.Web.UI.Page
         pv.Add(QuotationID);
 
 
-        DBH.CreateDatasetERM_Data(ds, "Sp_Quotation", true, pa, pv);
+        DBH.CreateDatasetERM_Data(ds, "sp_QuoattionReport", true, pa, pv);
 
        
         dt = ds.Tables[0];
@@ -817,7 +822,7 @@ public partial class ERM_Quotation : System.Web.UI.Page
         public string NetAmount { get; set; }
         public string Status { get; set; }
         public string AssignedTo { get; set; }
-        
+        public string SupplyAmount { get; set; }
 
 
         public string RequestID { get; set; }
@@ -870,6 +875,7 @@ public partial class ERM_Quotation : System.Web.UI.Page
         public string OverAllMargin { get; set; }
         public string OverAllDiscount { get; set; }
         public string NetAmount { get; set; }
+        public string SupplyAmount { get; set; }
 
     }
 
@@ -899,6 +905,7 @@ public partial class ERM_Quotation : System.Web.UI.Page
       
         public string Isoptional { get; set; }
         public string AlternateFromItem { get; set; }
+        public string UOM { get; set; }
     }
     public class AllInOneSystemItems
     {

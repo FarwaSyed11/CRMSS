@@ -248,6 +248,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
                     EstimationStatus = dt.Rows[i]["EstimationStatus"].ToString(),
                     Plot = dt.Rows[i]["PlotNumber"].ToString(),
                     EstimatorEmpNo = dt.Rows[i]["EstimatorEmpno"].ToString(),
+                    ESTType = dt.Rows[i]["EMSREquestType"].ToString()
                 });
             }
 
@@ -372,6 +373,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         public string EstimationStatus { get; set; }
         public string EstimatorEmpNo { get; set; }
         public string Plot { get; set; }
+        public string ESTType { get; set; }
     }
 
 
@@ -937,8 +939,8 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static void AddAdditionalItemInTOC(string UserId, string Product, string Price, string IsOptional, string Desc, string AdditionalComm,string ReqId)
-    {      
+    public static void AddAdditionalItemInTOC(string UserId, string Product, string Price, string IsOptional, string Desc, string AdditionalComm, string ReqId, string UOM)
+    {
 
         DBHandler DBH = new DBHandler();
         DataSet ds = new DataSet();
@@ -972,9 +974,11 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         pa.Add("@Comments");
         pv.Add(AdditionalComm);
 
+        pa.Add("@UOM");
+        pv.Add(UOM);
 
         DBH.CreateDatasetERM_Data(ds, "sp_EMS_AdditionalItems", true, pa, pv);
-        
+
     }
 
     [WebMethod]
@@ -987,14 +991,17 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         DataTable dt = new DataTable();
         ArrayList pa = new ArrayList();
         ArrayList pv = new ArrayList();
-        
+
         List<EMSProduct> oListPro = new List<EMSProduct>();
 
         pa.Add("@oper");
         pv.Add(0);
-               
+
         pa.Add("@EMSRequestID");
         pv.Add(ReqId);
+
+        pa.Add("@UserId");
+        pv.Add(UserId);
 
         DBH.CreateDatasetERM_Data(ds, "sp_EMS_AdditionalItems", true, pa, pv);
 
@@ -1004,7 +1011,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 oListPro.Add(new EMSProduct()
-                {             
+                {
                     ID = dt.Rows[i]["ID"].ToString(),
                     ReqId = dt.Rows[i]["EMSRequestID"].ToString(),
                     EMSProd = dt.Rows[i]["EMSProduct"].ToString(),
@@ -1012,7 +1019,8 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
                     Price = dt.Rows[i]["Price"].ToString(),
                     Optional = dt.Rows[i]["Isoptional"].ToString(),
                     Comment = dt.Rows[i]["Comments"].ToString(),
-                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString()
+                    CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
+                    UOM = dt.Rows[i]["UOM"].ToString(),
                 });
             }
         }
@@ -1030,7 +1038,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         DataTable dt = new DataTable();
         ArrayList pa = new ArrayList();
         ArrayList pv = new ArrayList();
-        
+
         pa.Add("@oper");
         pv.Add(4);
 
@@ -1043,7 +1051,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static List<DDL> GetCategoryBySys(string SysName)
+    public static List<DDL> GetCategoryBySys(string SysName, string ReqId)
     {
 
         DBHandler DBH = new DBHandler();
@@ -1062,6 +1070,10 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
         pa.Add("@SystemName");
         pv.Add(SysName);
+
+
+        pa.Add("@ReqID");
+        pv.Add(ReqId);
 
         DBH.CreateDatasetERM_Data(ds, "sp_FillControls", true, pa, pv);
 
@@ -1127,6 +1139,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
                     Status = dt.Rows[i]["Status"].ToString(),
                     System = dt.Rows[i]["System"].ToString(),
                     CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
+                    ItemType = dt.Rows[i]["ItemType"].ToString(),
                     CreatedDate = dt.Rows[i]["CreatedDate"].ToString()
                 });
             }
@@ -1367,7 +1380,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static ResponseMsg AddItemsWithotCode(string ItemDesc, string System, string Category, string UserId, string ReqId)
+    public static ResponseMsg AddItemsWithotCode(string ItemDesc, string System, string Category, string UserId, string ReqId, string UOM)
     {
 
         DBHandler DBH = new DBHandler();
@@ -1376,44 +1389,47 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         ArrayList pa = new ArrayList();
         ArrayList pv = new ArrayList();
 
-      //  foreach (var item in data.listItemsTOC)
-       // {
-            //pa.Clear();
-            //pv.Clear();
+        //  foreach (var item in data.listItemsTOC)
+        // {
+        //pa.Clear();
+        //pv.Clear();
 
-            pa.Add("@Oper");
-            pv.Add(20);
+        pa.Add("@Oper");
+        pv.Add(20);
 
-            //pa.Add("@OracleItemId");
-            //pv.Add(0);
+        //pa.Add("@OracleItemId");
+        //pv.Add(0);
 
-            //pa.Add("@ItemCode");
-            //pv.Add(item.ItemCode);
+        //pa.Add("@ItemCode");
+        //pv.Add(item.ItemCode);
 
-            pa.Add("@ItemDesc");
-            pv.Add(ItemDesc);
+        pa.Add("@ItemDesc");
+        pv.Add(ItemDesc);
 
-            //pa.Add("@ReqId");
-            //pv.Add(ReqId);
+        //pa.Add("@ReqId");
+        //pv.Add(ReqId);
 
-            pa.Add("@SysName");
-            pv.Add(System);
+        pa.Add("@SysName");
+        pv.Add(System);
 
-            pa.Add("@SysCategory");
-            pv.Add(Category);
+        pa.Add("@SysCategory");
+        pv.Add(Category);
 
-            pa.Add("@CreatedBy");
-            pv.Add(UserId);
+        pa.Add("@CreatedBy");
+        pv.Add(UserId);
 
-            DBH.CreateDatasetERM_Data(ds, "SP_TOC", true, pa, pv);
+        pa.Add("@UOM");
+        pv.Add(UOM);
 
-            return new ResponseMsg
-            {
-                ErrorType = ds.Tables[0].Rows[0]["msgType"].ToString(),
-                MsgText = ds.Tables[0].Rows[0]["msg"].ToString()
-            };
+        DBH.CreateDatasetERM_Data(ds, "SP_TOC", true, pa, pv);
+
+        return new ResponseMsg
+        {
+            ErrorType = ds.Tables[0].Rows[0]["msgType"].ToString(),
+            MsgText = ds.Tables[0].Rows[0]["msg"].ToString()
+        };
         //}
-      //  return new ResponseMsg();
+        //  return new ResponseMsg();
     }
 
 
@@ -1464,7 +1480,8 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
                     Status = dt.Rows[i]["Status"].ToString(),
                     System = dt.Rows[i]["System"].ToString(),
                     CreatedBy = dt.Rows[i]["CreatedBy"].ToString(),
-                    CreatedDate = dt.Rows[i]["CreatedDate"].ToString()
+                    CreatedDate = dt.Rows[i]["CreatedDate"].ToString(),
+                    UOM = dt.Rows[i]["UOM"].ToString(),
                 });
             }
         }
@@ -1720,7 +1737,9 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
                     Engineering = ds.Tables[1].Rows[i]["Engineering"].ToString(),
                     MaterialCost = ds.Tables[1].Rows[i]["MaterialCost"].ToString(),
                     InstallCost = ds.Tables[1].Rows[i]["InstallCost"].ToString(),
-                    EMSProductOrderNo = ds.Tables[1].Rows[i]["EMSProductOrderNo"].ToString()
+                    EMSProductOrderNo = ds.Tables[1].Rows[i]["EMSProductOrderNo"].ToString(),
+                    UOM = ds.Tables[1].Rows[i]["UOM"].ToString(),
+                    ItemType = ds.Tables[1].Rows[i]["ItemType"].ToString(),
                 });
             }
 
@@ -1882,6 +1901,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
                 obj.EstiLineId = dt.Rows[i]["EstimationLineID"].ToString();
                 obj.StructureId = dt.Rows[i]["StructureID"].ToString();
                 obj.StructureDesc = dt.Rows[i]["StructureDesc"].ToString();
+                obj.UOM = dt.Rows[i]["UOM"].ToString();
                 obj.FloorsNameString = colName;
                 obj.Isoptional = "False";
                 obj.TotalQty = String.IsNullOrWhiteSpace(dt.Rows[i][colName.Split(',')[0]].ToString()) ? "0" : (dt.Rows[i][colName.Split(',')[0]].ToString());
@@ -1962,7 +1982,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static void SubmitRequestFinal(string EmpNo, string ReqId, string TechNotes)
+    public static void SubmitRequestFinal(string EmpNo, string ReqId, string TechNotes, string UserId)
     {
 
         DBHandler DBH = new DBHandler();
@@ -1984,6 +2004,9 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
         pa.Add("@TechNotes");
         pv.Add(TechNotes);
+
+        pa.Add("@UserId");
+        pv.Add(UserId);
 
         DBH.CreateDatasetERM_Data(ds, "SP_TOC", true, pa, pv);
 
@@ -2275,7 +2298,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static void AddUpdateQtyTOCByFloor(string EstiLineId, string StructId, string FlrName, string ReqId, string Quantity)
+    public static void AddUpdateQtyTOCByFloor(string EstiLineId, string StructId, string FlrName, string ReqId, string Quantity, string UserId)
     {
 
         DBHandler DBH = new DBHandler();
@@ -2301,6 +2324,9 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
         pa.Add("@Quantity");
         pv.Add(Quantity);
+
+        pa.Add("@userID");
+        pv.Add(UserId);
 
         DBH.CreateDatasetERM_Data(ds, "SP_TOC", true, pa, pv);
 
@@ -2377,10 +2403,13 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         List<Summary> oListAdditionalItem = new List<Summary>();
         pa.Add("@oper");
         pv.Add(4);
+
         pa.Add("@RequestId");
         pv.Add(RequstId);
+
         pa.Add("@userId");
         pv.Add(UserId);
+
         DBH.CreateDatasetERM_Data(ds, "sp_Reports", true, pa, pv);
         if (ds.Tables.Count > 0)
         {
@@ -2555,7 +2584,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
 
         pa.Add("@ReqId");
         pv.Add(ReqId);
-        
+
         DBH.CreateDatasetERM_Data(ds, "sp_EstiAttach", true, pa, pv);
 
         List<Attachment> listProjDet = new List<Attachment>();
@@ -2574,11 +2603,11 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
                 ind.URL = dt.Rows[i]["URL"].ToString();
                 ind.ProdType = dt.Rows[i]["ProdType"].ToString();
                 ind.ProdStr = dt.Rows[i]["ProdStr"].ToString();
-                
+
                 listProjDet.Add(ind);
             }
         }
-               
+
         return listProjDet;
     }
 
@@ -2670,7 +2699,9 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
                 Estimator = dt.Rows[i]["Estimator_EmpNo"].ToString(),
                 Status = dt.Rows[i]["EstStatus"].ToString(),
                 StatusClass = dt.Rows[i]["StatusClass"].ToString(),
-                DueDate = dt.Rows[i]["DueOn"].ToString()
+                DueDate = dt.Rows[i]["DueOn"].ToString(),
+                Priority = dt.Rows[i]["WorkPriority"].ToString(),
+                Hours = dt.Rows[i]["RequiredHours"].ToString(),
 
             });
         }
@@ -3334,6 +3365,315 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         return oList;
     }
 
+
+
+    //Calculation work
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<CalculationItem> GetCalculations(string ReqId, string UserId, string EstiId, string ItemId)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        List<CalculationItem> oListSysItems = new List<CalculationItem>();
+
+
+        pa.Add("@oper");
+        pv.Add(23);
+
+        pa.Add("@ReqID");
+        pv.Add(ReqId);
+
+        pa.Add("@UserId");
+        pv.Add(UserId);
+
+        pa.Add("@EstimationItemId");
+        pv.Add(EstiId);
+        
+        pa.Add("@ItemId");
+        pv.Add(ItemId);
+
+        DBH.CreateDatasetERM_Data(ds, "SP_TOC", true, pa, pv);
+
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+
+            string colName = "";
+            //foreach (DataColumn column in ds.Tables[3].Columns)
+            //{  colName.Add(column.ColumnName + ","); }
+
+            for (int i = 5; i < dt.Columns.Count - 1; i++)
+            {
+                colName += dt.Columns[i].ColumnName.ToString() + ";";
+            }
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                CalculationItem obj = new CalculationItem();
+                obj.FloorName = dt.Rows[i]["FloorName"].ToString();
+                obj.FloorId = dt.Rows[i]["FloorID"].ToString();
+                obj.OutputItem = dt.Rows[i]["OUTPUTITEM"].ToString();
+                obj.OutputItemQty = dt.Rows[i]["OutputValue"].ToString();
+                obj.StrColumnsName = colName;
+                for (int j = 0; j < colName.Split(';').Count() - 1; j++)
+                {
+                    obj.StrFloorName += String.IsNullOrWhiteSpace(dt.Rows[i][colName.Split(';')[j]].ToString()) ? ("0" + ",") : (dt.Rows[i][colName.Split(';')[j]].ToString() + ",");
+                }
+                oListSysItems.Add(obj);
+            }
+
+        }
+
+        return oListSysItems;
+
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static void addUpdateQtyFromCalc(string FloorId, string EstiId, string UserId, string FlrName, string Qty)
+    {
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(4);
+
+        pa.Add("@FloorId");
+        pv.Add(FloorId);
+
+        pa.Add("@EstimationItemId");
+        pv.Add(EstiId);
+
+        pa.Add("@CreatedBy");
+        pv.Add(UserId);
+
+        pa.Add("@FloorName");
+        pv.Add(FlrName);
+
+        pa.Add("@Quantity");
+        pv.Add(Qty);
+
+        DBH.CreateDatasetERM_Data(ds, "SP_TOC", true, pa, pv);
+
+    }
+
+    // update order
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static void resetOrderNo(string NewPosition, string OldPosition, string estid)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(22);
+
+        //pa.Add("@ReqID");
+        //pv.Add(ReqId);
+
+        pa.Add("@newSlno");
+        pv.Add(NewPosition);
+
+        pa.Add("@Currslno");
+        pv.Add(OldPosition);
+
+        pa.Add("@EstimationItemId");
+        pv.Add(estid);
+
+        //pa.Add("@itemId");
+        //pv.Add(ItemId);
+
+        DBH.CreateDatasetERM_Data(ds, "SP_TOC", true, pa, pv);
+
+        //string a = userId;
+    }
+
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static void UpdateItemOrderNo(ItemOrderList data)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        foreach (var item in data.listItemOrders)
+        {
+            pa.Clear();
+            pv.Clear();
+
+            pa.Add("@oper");
+            pv.Add(24);
+
+            pa.Add("@EstimationItemId");
+            pv.Add(item.EstiLineId);
+
+            pa.Add("@newSlno");
+            pv.Add(item.OrderNo);
+
+            DBH.CreateDatasetERM_Data(ds, "SP_TOC", true, pa, pv);
+        }
+
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<DropDownValues> GetEstimatorList(string UserId, string ReqLineID)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(3);
+
+        pa.Add("@UserID");
+        pv.Add(UserId);
+
+        pa.Add("@RequestLineID");
+        pv.Add(ReqLineID);
+
+        DBH.CreateDatasetERM_Data(ds, "sp_EstimatorAllocation", true, pa, pv);
+
+        List<DropDownValues> oEmpList = new List<DropDownValues>();
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                oEmpList.Add(new DropDownValues()
+                {
+                    ddlText = dt.Rows[i]["Estimator"].ToString(),
+                    ddlValue = dt.Rows[i]["UserID"].ToString(),
+                });
+            }
+        }
+
+        return oEmpList;
+        //string a = userId;
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<EstimatorList> GetAllocatedEstimatorList(string ReqID, string ReqLineID, string UserID)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        List<EstimatorList> oList = new List<EstimatorList>();
+
+        pa.Add("@oper");
+        pv.Add(0);
+
+        pa.Add("@RequestLineID");
+        pv.Add(ReqLineID);
+
+        pa.Add("@UserID");
+        pv.Add(UserID);
+
+        pa.Add("@RequestID");
+        pv.Add(ReqID);
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_EstimatorAllocation", true, pa, pv);
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                oList.Add(new EstimatorList()
+                {
+                    AllocationID = dt.Rows[i]["AllocationID"].ToString(),
+                    EmpNo = dt.Rows[i]["EmpNo"].ToString(),
+                    EmpName = dt.Rows[i]["EmpName"].ToString(),
+                    CreatedDate = dt.Rows[i]["CreatedDate"].ToString(),
+                    EstimationStatus = dt.Rows[i]["EstimationStatus"].ToString(),
+                    EstimatorStatus = dt.Rows[i]["EstimatorStatus"].ToString()
+                });
+            }
+        }
+
+        return oList;
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static void SetEstimator(string UserID, string ProductID, string EstHead, string RequestId, string DueDate, string Priority, string Hours)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@Oper");
+        pv.Add("1");
+
+        pa.Add("@UserID");
+        pv.Add(UserID);
+
+        pa.Add("@LineID");
+        pv.Add(ProductID);
+
+
+        pa.Add("@EH_EmpNo");
+        pv.Add(EstHead);
+
+        pa.Add("@ReqID");
+        pv.Add(RequestId);
+
+        pa.Add("@DueDate");
+        pv.Add(DueDate);
+
+        pa.Add("@Priority");
+        pv.Add(Priority);
+
+        pa.Add("@Hours");
+        pv.Add(Hours);
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_EstimationRequestActions", true, pa, pv);
+
+
+    }
+
+    public class EstimatorList
+    {
+        public string AllocationID { get; set; }
+        public string EmpNo { get; set; }
+        public string EmpName { get; set; }
+        public string CreatedDate { get; set; }
+        public string EstimationStatus { get; set; }
+        public string EstimatorStatus { get; set; }
+    }
+
     public class ItemDetails
     {
         public string ReqID { get; set; }
@@ -3386,6 +3726,9 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         public string Status { get; set; }
         public string StatusClass { get; set; }
         public string DueDate { get; set; }
+
+        public string Priority { get; set; }
+        public string Hours { get; set; }
 
 
     }
@@ -3507,6 +3850,8 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         public string InstallUnitPrice { get; set; }
         public string IsOptional { get; set; }
         public string AlternateFromItemCode { get; set; }
+        public string UOM { get; set; }
+        public string ItemType { get; set; }
     }
     public class ItemTOCList
     {
@@ -3594,6 +3939,8 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         public string InstallCost { get; set; }
         public string TotalQty { get; set; }
         public string EMSProductOrderNo { get; set; }
+        public string UOM { get; set; }
+        public string ItemType { get; set; }
     }
     public class AllInOneSystemItems
     {
@@ -3631,8 +3978,9 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         public string ProdStr { get; set; }
     }
 
-    public class EMSProduct {
-     
+    public class EMSProduct
+    {
+
         public string ID { get; set; }
         public string ReqId { get; set; }
         public string EMSProd { get; set; }
@@ -3642,6 +3990,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         public string Comment { get; set; }
         public string CreatedBy { get; set; }
         public string CreatedDate { get; set; }
+        public string UOM { get; set; }
     }
 
 
@@ -3661,4 +4010,23 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
         public string OutDate { get; set; }
     }
 
+    public class CalculationItem
+    {
+        public string OutputItem { get; set; }
+        public string OutputItemQty { get; set; }
+        public string FloorId { get; set; }
+        public string FloorName { get; set; }
+        public string StrFloorName { get; set; }
+        public string StrColumnsName { get; set; }
+    }
+
+    public class ItemOrder
+    {
+        public string OrderNo { get; set; }
+        public string EstiLineId { get; set; }
+    }
+    public class ItemOrderList
+    {
+        public List<ItemOrder> listItemOrders { get; set; }
+    }
 }

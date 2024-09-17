@@ -342,6 +342,7 @@ function GetQuotationDetails() {
             $('#txtMargineForALLItem').val(result.d[0].OverAllMargin);
             $('#txtDiscountForAllItem').val(result.d[0].OverAllDiscount);
             $('#txtNetAmount').val(result.d[0].NetAmount);
+            $('#txtSupply').val(result.d[0].SupplyAmount);
 
             QtnStatus=result.d[0].Status;
             AssignedTo=result.d[0].AssignedTo;
@@ -548,7 +549,7 @@ function loadQuotItemsDets(tabname) {
                                 htm += `<tr class="hidden_row` + key + ` showrow hidden">
                                         <td colspan="6">
                                         <table style="width:100%;">
-                                        <tr class="hidden_row` + key + ` sub-tabl-bg" style="text-align:center;"> <td>S.No</td> <td style="width:100px">Item Code</td> <td style="width: 750px;">Item Desc</td> <td>QTY</td> <td>Unit Price</td> <td>Margine %</td> <td>Discount %</td>  <td>Unit Selling Price</td>   <td>Total</td> </tr>`;
+                                        <tr class="hidden_row` + key + ` sub-tabl-bg" style="text-align:center;"> <td>S.No</td> <td style="width:100px">Item Code</td> <td style="width: 750px;">Item Desc</td> <td>QTY</td> <td>UOM</td> <td>Unit Price</td> <td>Margin %</td> <td>Discount %</td>  <td>Unit Selling Price</td>   <td>Total</td> </tr>`;
                           //  }          
 
                                         var ress = listSystemsItems.filter(s => s.Category == itm).filter(s => s.System == item.SysName);
@@ -559,6 +560,7 @@ function loadQuotItemsDets(tabname) {
                                 <td>` + catitem.ItemCode + `</td>
                                 <td>`+ catitem.ItemDesc + `</td> 
                                 <td>`+ parseInt(catitem.Quantity).toLocaleString("en-US") + `</td> 
+                                <td>`+ catitem.UOM + `</td> 
                                 <td><input class="form-control qtnfiled" type="number" value="`+ parseFloat(catitem.UnitPrice).toString() + `" id="txtUnitPrice-`+catitem.LineID+`"  onchange="UpdateTotalAmount('`+catitem.LineID+`','`+catitem.Quantity+`')" style="text-align:right" /></td> 
                                 <td><input class="form-control qtnfiled" type="text" value="`+ parseFloat(catitem.Margine).toLocaleString("en-US") + `" id="txtMargine-`+catitem.LineID+`"  onchange="UpdateTotalAmount('`+catitem.LineID+`','`+catitem.Quantity+`')"  style="text-align:right"/></td> 
                                 <td><input class="form-control qtnfiled qtnDiscountField" type="text" value="`+ parseFloat(catitem.Discount).toLocaleString("en-US") + `" id="txtDiscount-`+catitem.LineID+`"  onchange="UpdateTotalAmount('`+catitem.LineID+`','`+catitem.Quantity+`')"  style="text-align:right"/></td> 
@@ -629,6 +631,7 @@ function UpdateTotalAmount(QuotationLineID,Quantity)
                 $('#txtMargineForALLItem').val(result.d[0].OverAllMargin);
                 $('#txtDiscountForAllItem').val(result.d[0].OverAllDiscount);
                 $('#txtNetAmount').val(result.d[0].NetAmount);
+                $('#txtSupply').val(result.d[0].SupplyAmount);
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
@@ -661,6 +664,7 @@ function UpdateMargineAndDiscountOverAll()
             $('#txtMargineForALLItem').val(result.d[0].OverAllMargin);
             $('#txtDiscountForAllItem').val(result.d[0].OverAllDiscount);
             $('#txtNetAmount').val(result.d[0].NetAmount);
+            $('#txtSupply').val(result.d[0].SupplyAmount);
             $(".showrow").removeClass('hidden');
 
         },
@@ -994,3 +998,83 @@ $('#btnDownloadBOQ').on('click', function () {
   
 
 });
+
+$('#btnBOQWithoutPrice').on('click', function () {
+
+    $('.ajax-loader').fadeIn(100);
+
+    setTimeout(function () {
+        document.getElementById('myIframe').src="../ERM/Services/QuotationCrystalReport.aspx?oper=3&id="+selQuotationID;
+       
+        //$(".ajax-loader").fadeOut(500);
+    }, 500);
+    
+    $(".ajax-loader").fadeOut(21000);
+   
+
+  
+
+});
+
+
+$('#btnAddNewItem').on('click', function () {
+  
+    getAllSystem('');
+    getCategoryBySystem($('#ddlSystem option:selected').val(),'');
+   
+    $('#addUpdateSystemnItems').modal('show');
+});
+
+
+
+function getAllSystem() {
+
+    $.ajax({
+        url: "EMSItemList.aspx/GetAllSystems",
+        type: "POST",
+        data: JSON.stringify({ "UserId": currUserId}),
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '';
+
+            $.each(result.d, function (key, item) {               
+                htm += '<option value="' + item.Value + '" >' + item.Text + ' </option>'
+            });
+            $('#ddlCategory').html(htm);
+            getCategoryBySystem();
+        },
+        error: function (errormessage) {
+            ////alert(errormessage.responseText);
+        }
+    });
+
+}
+
+
+
+function getCategoryBySystem() {
+
+    $.ajax({
+        url: "EMSItemList.aspx/GetCategoryBySys",
+        type: "POST",
+        //data: JSON.stringify({ "SysName": $('#ddlSystem option:selected').val() }),
+        data: JSON.stringify({ "SysName": $("#ddlCategory").val(),"UserId":currUserId }),
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '';
+
+            $.each(result.d, function (key, item) {
+                htm += '<option value="' + item.Value + '" >' + item.Text + ' </option>'
+            });
+
+        },
+        error: function (errormessage) {
+            ////alert(errormessage.responseText);
+        }
+    });
+    
+}

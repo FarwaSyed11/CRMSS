@@ -6,7 +6,7 @@ var itemlistTOC = [], itemlistFromoracleTOC = [];
 var selItemIdTOC = 0, selCatNameTOC='';
 var objDTEMSProd = [];
 var listSystems = [], listSystemsItems = [];
-
+var selOutputItemFromGrid = 0;
 $(document).ready(function () {
 
     
@@ -253,7 +253,8 @@ $(".btnAddAddiItemsTOC").on('click', function () {
                 "IsOptional": ($("#cbAddiIsOptional").is(':checked') ? 1 : 0),
                 "Desc": $("#taAddiDesc").val(),
                 "AdditionalComm": $("#taAddiComments").val(),
-                "ReqId": selReqId
+                "ReqId": selReqId,
+                "UOM": $("#txtUOM").val()
             }),
             contentType: "application/json;charset=utf-8",
             dataType: "json",
@@ -326,6 +327,7 @@ function getAllEMSProductsByReqId() {
                 htm += `<tr>               
                     <td> `+ item.EMSProd + ` </td>                 
                     <td> `+ item.Price + `</td>
+                    <td> `+ item.UOM + `</td>
                     <td> `+ (item.Optional == "False" ? '-' : '<i class="bx bx-check" style="color: #38b316;"></i>') +`</td>
                     <td> `+ item.Desc + `</td>
                     <td> `+ item.Comment + `</td>
@@ -409,10 +411,18 @@ function validateEMSProdControls() {
     } else {
         $("#taAddiComments").css('box-shadow', '').css('border-color', 'lightgrey');
     }
+
+    if ($("#txtUOM").val().trim() == "") {
+        isValid = false;
+        $("#txtUOM").css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
+    } else {
+        $("#txtUOM").css('box-shadow', '').css('border-color', 'lightgrey');
+    }
     return isValid;
 }
 
 $('.btn-add-item-toc-grid').on('click', function () {
+    $("#ddlSystem").prop('disabled', false)
     getAllSystem('');
     getCategoryBySystem($('#ddlSystem option:selected').val(),'');
     $('#btnItemFilterTOC').trigger('click');
@@ -760,7 +770,7 @@ function getTechNotesTemplate() {
                 initiateRichText();
             } else {
                 $(".ritext-tech-remarks-div").html('<input class="form-control " type="text" placeholder="" value="" id="taTechRemarks">');
-               // $(".ritext-tech-remarks-div .#taTechRemarks").val('<b> No Template Available </b>')
+                // $(".ritext-tech-remarks-div .#taTechRemarks").val('<b> No Template Available </b>')
                 initiateRichText();
             }
             
@@ -796,7 +806,8 @@ $(".btnAddTechRemarks").on('click', function () {
                 data: JSON.stringify({
                     "EmpNo": EmpNo,
                     "ReqId": selReqId,
-                    "TechNotes": $("#taTechRemarks").val()
+                    "TechNotes": $("#taTechRemarks").val(),
+                    "UserId": currUserId
                 }),
                 contentType: "application/json;charset=utf-8",
                 dataType: "json",
@@ -805,6 +816,8 @@ $(".btnAddTechRemarks").on('click', function () {
                     toastr.success("Request Submitted Successfully.")
                     getAllRequests();
                     $("#addReqModal").modal('hide');
+                    $("#ReqTechRemarksModal").modal('hide');
+                    
                 },
                 error: function (errormessage) {
                     ////alert(errormessage.responseText);
@@ -877,6 +890,37 @@ $(".btn-submit-req-final").on('click', function () {
 })
 
 
+function openModalForItemsBySelSystem(sysName) {
+
+    $("#addUpdateSystemnItems").modal('show');
+    $("#ddlSystem").prop('disabled', true)
+
+    getAllSystem('');
+    $("#ddlSystem").val(sysName); //.html('<option value="' + sysName + '">' + sysName + '</option>');
+    getCategoryBySystem(sysName, '');
+    //loading all category
+    //var htm = '';
+    //var AllCategoryForSys = listSystemsItems.filter(x => x.System == sysName).map(ss => ss.Category).filter((value, index, self) => self.indexOf(value) === index);
+    //$.each(AllCategoryForSys, function (key, category) {
+    //	htm += `<option value="` + category + `"> ` + category + ` </option>`;
+    //})
+    //$("#ddlCategory").html(htm);
+
+}
+
+
+
+var objActive;
+function hideShowSys(sysrow, from) {
+    let selSys = '.' + sysrow;
+    if (from =="TOC by Item") {
+        $('.system-div-parent').find(selSys).hasClass('hidden') ? $('.system-div-parent').find(selSys).removeClass('hidden') : $('.system-div-parent').find(selSys).addClass('hidden')
+        objActive = '.system-div-parent,.' + sysrow;
+    } else {
+        $('.system-div-parent-for-byfloor').find(selSys).hasClass('hidden') ? $('.system-div-parent-for-byfloor').find(selSys).removeClass('hidden') : $('.system-div-parent-for-byfloor').find(selSys).addClass('hidden')
+        objActive = '.system-div-parent-for-byfloor,.' + sysrow;
+    }		
+}
 
 function getSystemsNItems() {
 
@@ -890,9 +934,10 @@ function getSystemsNItems() {
         success: function (result) {
             var htm = '';
             var htm1 = '';
+            var uniqNo = 0;
 
-             	listSystems = result.d.listSystems;
-            	listSystemsItems = result.d.listItems;
+            listSystems = result.d.listSystems;
+            listSystemsItems = result.d.listItems;
             var listAlternateItems = result.d.listAlternateItems;
 
             var firstSysName = listSystems.length > 0 ? listSystems[0].SysName : '';                      
@@ -900,19 +945,26 @@ function getSystemsNItems() {
 
             var selReqObj = listAllReqs.filter(s => s.ReqId == selReqId);
 
+            let isSysOptHtm = '';
             $.each(listSystems, function (key, item) {
+                let CurrSysName = item;
+                isSysOptHtm = listSystemsItems.filter(s => (s.System).toUpperCase() == item.SysName.toUpperCase()).length == listSystemsItems.filter(s => (s.System).toUpperCase() == item.SysName.toUpperCase() && s.Isoptional == 'True').length ? '(Optional)' : '';
+                
                 if (key == 0) { // for first record only
                     htm += `<div class="col-md-12 mt-3">`;
                     htm += `<div style="z-index:10;position: sticky;top: -9px;background: #fcfafa; text-align: center; border: 1px solid #b70000; color: black; border-radius: 20px 20px 3px 3px; font-weight: 600; padding: 15px 0px 15px 0px;">
                     <span class="float-left mx-3"><svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 1024 1024" onclick='openCopySystemModal("` + item.SysName + `")'>
 	                    <path fill="#b22e35" d="M768 832a128 128 0 0 1-128 128H192A128 128 0 0 1 64 832V384a128 128 0 0 1 128-128v64a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64z" />
 	                    <path fill="#b22e35" d="M384 128a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64zm0-64h448a128 128 0 0 1 128 128v448a128 128 0 0 1-128 128H384a128 128 0 0 1-128-128V192A128 128 0 0 1 384 64" />
-                    </svg></span>` + item.SysName
+                    </svg></span> <span class="cursor-pointer" onclick='hideShowSys("sys-`+ key + `","TOC by Item")'>` + item.SysName + ` ` + isSysOptHtm + `</span>`
                     if (selReqObj[0].EstimationStatus.toUpperCase() != "RELEASED" && (selReqObj[0].Engineering != '' && selReqObj[0].TestnCommision != '')) {
                         htm += `<span><i class="bx bx-edit-alt cursor-pointer" style="color: #55cee9;" onclick='openModalForEditSysName("` + item.SysName +`")'></i></span><span style="float: right;margin-right: 35px;cursor:pointer;" title="Engineering and Test and Commission Added">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 2048 2048" onclick='openEngrNTestCommisionModal("` + item.SysName + `")'>
                                         <path fill="#4db700" d="M2048 384v1024h-128V839l-640 321v120H768v-120L128 839v697h1152v128H0V384h640V256q0-27 10-50t27-40t41-28t50-10h512q27 0 50 10t40 27t28 41t10 50v128zm-1280 0h512V256H768zm384 640H896v128h256zm768-327V512H128v185l640 319V896h512v120zm-128 839h256v128h-256v256h-128v-256h-256v-128h256v-256h128z" />
                                     </svg>
+                                </span>
+								<span style="float: right;margin-right: 15px;cursor:pointer;" title="Add Items into the System">
+								    <i class="bx bx-list-plus ibtn-additem-from-system" style="font-size: 40px;margin-top: -4px;" onclick='openModalForItemsBySelSystem("`+ item.SysName +`")'></i>                                   
                                 </span>`
                     }
                     else {
@@ -933,12 +985,15 @@ function getSystemsNItems() {
                     <span class="float-left mx-3"><svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 1024 1024" onclick='openCopySystemModal("` + item.SysName + `")'>
 	                    <path fill="#b22e35" d="M768 832a128 128 0 0 1-128 128H192A128 128 0 0 1 64 832V384a128 128 0 0 1 128-128v64a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64z" />
 	                    <path fill="#b22e35" d="M384 128a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64zm0-64h448a128 128 0 0 1 128 128v448a128 128 0 0 1-128 128H384a128 128 0 0 1-128-128V192A128 128 0 0 1 384 64" />
-                    </svg></span>` + item.SysName
+                    </svg></span> <span class="cursor-pointer" onclick='hideShowSys("sys-`+ key + `","TOC by Item")'>` + item.SysName + ` ` + isSysOptHtm +`</span>`
                     if (selReqObj[0].EstimationStatus.toUpperCase() != "RELEASED" && (selReqObj[0].Engineering != '' && selReqObj[0].TestnCommision != '')) {
                         htm += `<span><i class="bx bx-edit-alt cursor-pointer" style="color: #55cee9;" onclick='openModalForEditSysName("` + item.SysName +`")'></i></span><span style="float: right;margin-right: 35px;cursor:pointer;" title="Engineering and Test and Commission Added">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 2048 2048" onclick='openEngrNTestCommisionModal("` + item.SysName + `")'>
                                         <path fill="#4db700" d="M2048 384v1024h-128V839l-640 321v120H768v-120L128 839v697h1152v128H0V384h640V256q0-27 10-50t27-40t41-28t50-10h512q27 0 50 10t40 27t28 41t10 50v128zm-1280 0h512V256H768zm384 640H896v128h256zm768-327V512H128v185l640 319V896h512v120zm-128 839h256v128h-256v256h-128v-256h-256v-128h256v-256h128z" />
                                     </svg>
+                                </span>
+								<span style="float: right;margin-right: 15px;cursor:pointer;" title="Add Items into the System">
+								    <i class="bx bx-list-plus ibtn-additem-from-system" style="font-size: 40px;margin-top: -4px;" onclick='openModalForItemsBySelSystem("`+ item.SysName +`")'></i>                                   
                                 </span>`
                     }
                     else {
@@ -956,16 +1011,19 @@ function getSystemsNItems() {
 
 
                 for (var i = 0; i < AllCategoryForSys.length; i++) {
+                    uniqNo++;
                     var res = listSystemsItems.filter(x => x.Category == AllCategoryForSys[i]).filter(x=>x.System==item.SysName);
 
-                    htm += `<div class="category my-2" style="font-size: 12px">` + (i + 1) + `. ` + res[0].Category + `</div>`
-                    htm += ` <div class="table mt-2" style="overflow-y: auto;">
-                                                            <table class="table project-table" style="width: 100%;">
+                    htm += `<div class="category my-2 sys-` + key + ` hidden" style="font-size: 12px">` + (i + 1) + `. ` + res[0].Category + `</div>`
+                    htm += ` <div class="table mt-2   sys-` + key + ` hidden" style="overflow-y: auto;">
+                                                            <table class="table project-table dragTableSort" style="width: 100%;">
                                                                 <thead style="position: sticky; top: -3px;">
-                                                                    <tr class="Head-tr">                                                                        
+                                                                    <tr class="Head-tr">  
+                                                                        <th>Item Order</th>
                                                                         <th style="width:240px">Item Code</th>
                                                                         <th style="width: 889px;">Item Desc</th>
-                                                                        <th>Quantity</th>`
+                                                                        <th>Quantity</th>
+                                                                        <th>UOM</th>`
                     //if (res[0].Category == "PIPES") {
                     //    htm += `<th>Pipe Unit Price</th>
                     //            <th>Fittings %</th>
@@ -976,21 +1034,23 @@ function getSystemsNItems() {
                     htm +=`<th style="text-align: end;">Action</th>
                                                                     </tr>
                                                                 </thead>
-                                                                <tbody class=""> `;
+                                                                <tbody class="tbody-`+ uniqNo +`" ui-sortable-handle">`;
                     let isOpt = '';
                     $.each(res, function (k, CatItem) {
                         isOpt = CatItem.Isoptional == 'True' ? '<span>(Optional)</span>' : '';
                         let optcls = CatItem.Isoptional == 'True' ? 'badge badge-optional' : 'badge badge-dark';
-                        htm += `<tr>`
-
-                        htm += `<td> <span class="` + optcls + ` fs-6">` + CatItem.ItemCode + ` <svg class="" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
+                        
+                        htm += `<tr id="tr-` + (k + 1) + `" class="" draggable="true" data-itemid='` + CatItem.ItemId + `' data-estiid=` + CatItem.EstiLineId +` data-orderno=`+(k+1)+`>`
+                        htm += `<td id="itemOrder" class="dragIcon" style="width: 100px;text-align: center;cursor: grabbing;vertical-align: middle;"><b>` + (k + 1) + `</b></td>
+                                <td><span class="` + optcls + ` fs-6">` + CatItem.ItemCode + ` <svg class="" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
                                          <g fill="none" stroke="#a92828" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
                                              <path d="m17.524 17.524l-2.722 2.723a2.567 2.567 0 0 1-3.634 0L4.13 13.209A3.852 3.852 0 0 1 3 10.487V5.568A2.568 2.568 0 0 1 5.568 3h4.919c1.021 0 2 .407 2.722 1.13l7.038 7.038a2.567 2.567 0 0 1 0 3.634z" />
                                              <path d="M9.126 11.694a2.568 2.568 0 1 0 0-5.137a2.568 2.568 0 0 0 0 5.137m3.326 4.392l3.634-3.634" />
                                          </g>
                                      </svg></span> `+ isOpt + `<div>` + getAlternateItemsDet(1, CatItem.AlternateFromItem, listAlternateItems) + `</div></td>                
                                   <td> `+ CatItem.ItemDesc + `. <div style="margin-top: 22px;">` + getAlternateItemsDet(2, CatItem.AlternateFromItem, listAlternateItems) + `</div></td>                                                                      
-                                  <td> `+ numberWithCommas(parseInt(CatItem.Quantity)) + `<div style="margin-top: 22px;"> ` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.Quantity : "") + `</div></td>`
+                                  <td> `+ numberWithCommas(parseInt(CatItem.Quantity)) + `<div style="margin-top: 22px;"> ` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.Quantity : "") + `</div></td>
+                                  <td> `+ CatItem.UOM + `</td>`
                         //if (res[0].Category == "PIPES") {
                         //    htm += `<td> ` + numberWithCommas(fixedtwo(CatItem.PipeUnitPrice)) + `<div style="margin-top: 22px;"> ` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.PipeUnitPrice : "") + `</div></td>
                         //            <td> `+ numberWithCommas(fixedtwo(CatItem.FittingsPerc)) + `<div style="margin-top: 22px;">` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.FittingsPerc : "") + `</div></td > 
@@ -1004,8 +1064,9 @@ function getSystemsNItems() {
                                               <path fill="#a92828" d="M12 7V3H2v18h14v-2h-4v-2h2v-2h-2v-2h2v-2h-2V9h8v6h2V7zM6 19H4v-2h2zm0-4H4v-2h2zm0-4H4V9h2zm0-4H4V5h2zm4 12H8v-2h2zm0-4H8v-2h2zm0-4H8V9h2zm0-4H8V5h2zm14 12v2h-2v2h-2v-2h-2v-2h2v-2h2v2zm-6-8h-2v2h2zm0 4h-2v2h2z" />
                                           </svg> </a>
                                         <span><i class="bx bxs-trash ibtn-delete-itemtoc hide-control-bos" style="font-size: 1.6rem;color: #d64e4e;cursor:pointer;" title="Delete Item" data-estiid="`+ CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `"></i></span>
-                                        <span><i class="fa fa-eye ibtn-viewmore-itemtoc hide-control-bos" style="font-size: 1.4rem;color: #d64e4e;cursor:pointer;" title="View More Item" data-estiid="`+ CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `" data-category="` + CatItem.Category + `"></i></span>
-                          </td>`
+                                        <span><i class="fa fa-eye ibtn-viewmore-itemtoc hide-control-bos" style="font-size: 1.4rem;color: #d64e4e;cursor:pointer;" title="View More Item" data-estiid="`+ CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `" data-category="` + CatItem.Category + `"></i></span>`
+                         htm += (CatItem.ItemType == 'Output') ? `<span><i class="bx bxs-calculator ibtn-outcalc-itemtoc hide-control-bos" style="font-size: 1.5rem;color: #d64e4e;cursor:pointer;" title="View Calculation" onclick='openModalCalculation("` + CatItem.EstiLineId + `","` + CatItem.ItemCode + `","` + CatItem.Category + `",` + CatItem.ItemId + `)'></i></span>` : '';
+                            htm += `</td>`
                         }
 
                         htm += `</tr>`
@@ -1017,1163 +1078,1399 @@ function getSystemsNItems() {
                 }
 
                 if (key == 0) { htm += `</div>` }
-                if (firstSysName != item.SysName && key != 0) { htm +=`</div>` }
+                    if (firstSysName != item.SysName && key != 0) { htm +=`</div>` }
                             
 
 
+                    });
+
+                    $('.system-div-parent').html(htm);
+
+                    if ((selReqObj[0].EstimationStatus.toUpperCase() != "RELEASED" && myroleList.includes("14213")) || (selReqObj[0].EstimationStatus.toUpperCase() != "PENDING FOR APPROVAL" && myroleList.includes("14214"))) {
+                        $(function () {
+                            $(".dragTableSort").tableDnD({
+                                autoCleanRelations: true,
+                                //onDragClass: "ui-sortable-handle",
+                                onDrop: function (table, row) {
+                                    listOrder = [];
+                                    var NewPosition = "";
+                                    var OldPosition = "";
+                                    var rows = table.tBodies[0].rows;
+                                    var totRows = table.rows.length;
+                                    var currRow = row;
+                                    var debugStr = "Row dropped was " + extractNum(row.id) + ". New order: ";
+                                    for (var i = 0; i < rows.length; i++) {
+                                        debugStr += rows[i].id + " ";
+
+                                        if (rows[i].id == row.id) {
+                                            NewPosition = (i + 1);
+                                            OldPosition = extractNum(row.id);
+                                        }
+                                        listOrder.push(extractNum(rows[i].id));
+                                    }
+                                    var id = $(row).data('itemid');
+                                    var estid = row.childNodes[9].firstElementChild.dataset.estiid;
+                                    //resetOrderNo(NewPosition, OldPosition, estid);
+
+                                    var arrItem = []; var subitem = {};
+                                    let seltbody = '.' + $(row).parent()[0].classList[0] + ' tr';
+                                    $(seltbody).each(function (k, item) {										
+                                        subitem = {};
+                                        subitem["EstiLineId"] = $(this).data('estiid');
+                                        subitem["OrderNo"] = (k + 1);
+
+                                        arrItem.push(subitem); 										
+                                    })
+                                    finalOrderList = {
+                                        "listItemOrders": arrItem
+                                    }
+                                    UpdateItemOrderNo(finalOrderList);
+                                    //alert(debugStr + NewPosition + " " + "New Row order: " + listOrder);
+                                },
+                                dragHandle: ".dragIcon"
+                            });
+                        });
+                    }
+                },
+                error: function (errormessage) {
+                    ////alert(errormessage.responseText);
+                }
             });
 
-            $('.system-div-parent').html(htm);
-        },
-        error: function (errormessage) {
-            ////alert(errormessage.responseText);
         }
-    });
 
-}
 
-function getAlternateItemsDet(col, itmcode,listAlternateItems) {
-    var htm = '';
 
-    if (listAlternateItems.length > 0) {
-        var res = listAlternateItems.filter(s => s.ItemCode == itmcode)
-        if (res.length > 0) {
-            if (col == 1) {
-                htm = `<span class="badge badge-alternate fs-6 mt-1">` + res[0].ItemCode + ` <svg class="" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
-                                         <g fill="none" stroke="#a92828" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
-                                             <path d="m17.524 17.524l-2.722 2.723a2.567 2.567 0 0 1-3.634 0L4.13 13.209A3.852 3.852 0 0 1 3 10.487V5.568A2.568 2.568 0 0 1 5.568 3h4.919c1.021 0 2 .407 2.722 1.13l7.038 7.038a2.567 2.567 0 0 1 0 3.634z" />
-                                             <path d="M9.126 11.694a2.568 2.568 0 1 0 0-5.137a2.568 2.568 0 0 0 0 5.137m3.326 4.392l3.634-3.634" />
-                                         </g>
-                                     </svg> </span> <span> (Alternate)</span>`
-            }
-            else if (col == 2) {
-                htm = `<span>` + res[0].ItemDesc + `</span>`
-            }
-        }         
+    function getAlternateItemsDet(col, itmcode,listAlternateItems) {
+        var htm = '';
+
+        if (listAlternateItems.length > 0) {
+            var res = listAlternateItems.filter(s => s.ItemCode == itmcode)
+            if (res.length > 0) {
+                if (col == 1) {
+                    htm = `<span class="badge badge-alternate fs-6 mt-1">` + res[0].ItemCode + ` <svg class="" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
+                                             <g fill="none" stroke="#a92828" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                                                 <path d="m17.524 17.524l-2.722 2.723a2.567 2.567 0 0 1-3.634 0L4.13 13.209A3.852 3.852 0 0 1 3 10.487V5.568A2.568 2.568 0 0 1 5.568 3h4.919c1.021 0 2 .407 2.722 1.13l7.038 7.038a2.567 2.567 0 0 1 0 3.634z" />
+                                                 <path d="M9.126 11.694a2.568 2.568 0 1 0 0-5.137a2.568 2.568 0 0 0 0 5.137m3.326 4.392l3.634-3.634" />
+                                             </g>
+                                         </svg> </span> <span> (Alternate)</span>`
+                }
+                else if (col == 2) {
+                    htm = `<span>` + res[0].ItemDesc + `</span>`
+                }
+            }         
        
-    }
-
-    return htm;
-}
-
-
-function openModalForEditSysName(oldSysName) {
-    
-    $("#txtEditOldSysName").val(oldSysName)
-
-    $("#editSysNameModal").modal('show')
-}
-$(".btnEditSysName").on('click', function () {
-
-    $.ajax({
-        url: "EMSItemList.aspx/EditSystemName",
-        data: JSON.stringify({
-            'ReqId': selReqId,
-            'OldSysName': $("#txtEditOldSysName").val().trim(),
-            'NewSysName': $("#txtEditNewSysName").val().trim()
-        }),
-        type: "POST",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {
-            toastr.success('System name updated successfully', '')
-            if ($("#TOCTabsOfAddingDivParent li").find('.active').text().trim() == "TOC by Item") {
-                getSystemsNItems();
-            } else {
-                getAllSystemsNItems();
-            }
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
         }
-    });
-})
 
-$("#TOCTabsOfAddingDivParent li").on('click', function () {
-
-    var selTab = $(this).text().trim();
-    if (selTab == "TOC by Item") {
-        $('.system-div-parent-for-byfloor').html('')
-        $(".ddl-struct-filter-div").addClass('hidden');
-        getSystemsNItems();
-        hideNShowControlsAccToStatus()
+        return htm;
     }
-    else if (selTab == "TOC by Floor") {
-        $(".ddl-struct-filter-div").removeClass('hidden');
-        loadStructureDDLTOCFilter();
 
+
+    function openModalForEditSysName(oldSysName) {
+    
+        $("#txtEditOldSysName").val(oldSysName)
+
+        $("#editSysNameModal").modal('show')
+    }
+    $(".btnEditSysName").on('click', function () {
+
+        if ($("#txtEditNewSysName").val().trim() == "") {
+            toastr.error('Please input the System name.')
+        }
+        else {
+            $.ajax({
+                url: "EMSItemList.aspx/EditSystemName",
+                data: JSON.stringify({
+                    'ReqId': selReqId,
+                    'OldSysName': $("#txtEditOldSysName").val().trim(),
+                    'NewSysName': $("#txtEditNewSysName").val().trim()
+                }),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    toastr.success('System name updated successfully', '')
+                    if ($("#TOCTabsOfAddingDivParent li").find('.active').text().trim() == "TOC by Item") {
+                        getSystemsNItems();
+                    } else {
+                        getAllSystemsNItems();
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }	
+    })
+
+
+    function openModalCalculation(estilibeid, itemcode, category,itemid) {
+        selOutputItemFromGrid = itemcode;
+        getCalculations(estilibeid,itemid);
+        $("#itemCalculationModal").modal('show');
+    }
+
+    function getCalculations(estilineid,itemid) {
+        $.ajax({
+            url: "EMSItemList.aspx/GetCalculations",
+            type: "POST",
+            data: JSON.stringify({
+                //"SysName": $('#ddlSystem option:selected').val(),
+                //"Category": $('#ddlCategory option:selected').val(),
+                "UserId": currUserId,
+                "ReqId": selReqId,
+                "EstiId":estilineid,
+                "ItemId":itemid
+            }),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            async: true,
+            success: function (result) {
+                itemlistTOC = result.d;
+                var htm = ``; var total = 0;
+
+                if (result.d.length > 0) {
+
+                    var colHeaders = '<thead><tr>';
+                    $.each((removeCommaFromLast(result.d[0].StrColumnsName)).split(';'), function (key, item) {
+                        colHeaders += key == 0 ? `<td rowspan="2" style="text-align: center;vertical-align: middle;">` + item + `</td>` : `<td colspan="2" style="text-align: center;">` + item + ` </td>`
+                        })
+                    colHeaders +=`<td colspan="2" style="text-align: center;">(Output Item) - `+ result.d[0].OutputItem +`</td>`
+                    colHeaders += `</tr>`;
+                    colHeaders += `<tr>`
+                    $.each((removeCommaFromLast(result.d[0].StrColumnsName)).split(';'), function (key, item) {
+                        if (key > 0) {
+                            colHeaders += `
+                                <td colspan="1">Qty</td>
+                                <td colspan="1">Value</td>`;
+                        }
+                    })
+                    colHeaders += `<td class="text-center" colspan="1">Total</td> <td class="text-center" colspan="1">Actual</td>`;
+                    colHeaders += `</tr></thead>`;
+
+                    htm += `<tbody>`
+                    $.each(result.d, function (key, item) {
+                        total = 0;
+                        htm += `<tr>`
+                        $.each(removeCommaFromLast(item.StrFloorName).split(','), function (key11, item11) {
+
+                            if (key11 == 0) {
+                                htm += `<td>` + item11 + `</td>`
+                            }
+                            else {							
+                                let qty = item11.split('-')[0] == undefined ? '0' : item11.split('-')[0];
+                                let val = item11.split('-')[1] == undefined ? '0' : item11.split('-')[1];
+                                htm += `<td>` + parseFloat(qty).toFixed(2) + `</td> <td>` + parseFloat(val).toFixed(2) + `</td>`
+                                total +=  parseFloat(val);//parseFloat(qty) +
+                            }
+                        })
+
+                        htm += `<td class="text-center">` + parseFloat(total).toFixed(2) + `</td> 
+                                <td class="text-center"> 
+                                <span style="display: inline-flex;"> <input class="form-control" type="number" value=`+ item.OutputItemQty +` placeholder="Enter Actual" style="background-color: white; border-color: lightgrey;" /></span>
+                                <span class="ml-3"><i class="bx bxs-save bx-sm cursor-pointer txtQtyCalc" data-flrid=`+ item.FloorId + ` data-flrname="` + item.FloorName + `" data-estiid=` + estilineid+` ></i></span></td>`
+                    })
+                    htm += `</tbody>`
+
+                    $('.table-item-calculation').html(colHeaders + htm);
+                }
+
+			
+            },
+            error: function (errormessage) {
+                ////alert(errormessage.responseText);
+            }
+        });
+    }
+
+
+    $('.table-item-calculation').on('click', '.txtQtyCalc', function () {
+        var qty = $(this).parent().parent().children().eq(0).children().val();
+        let flrid = $(this).data('flrid')
+        let flrname = $(this).data('flrname')
+        let estiid = $(this).data('estiid')
+
+        saveQtyFromCalc(flrid, flrname, estiid,qty)
+    })
+
+    function saveQtyFromCalc(flrid,flrname,estiid,qty) {
+	
+        $.ajax({
+            url: "EMSItemList.aspx/addUpdateQtyFromCalc",
+            type: "POST",
+            data: JSON.stringify({
+                "FloorId": flrid,
+                "EstiId": estiid,
+                "UserId": currUserId,
+                "FlrName": flrname,
+                "Qty": qty
+            }),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            async: true,
+            success: function (result) {
+                toastr.success('Added Successfully','')
+                if ($("#TOCTabsOfAddingDivParent li").find('.active').text().trim() == "TOC by Item") {
+                    getSystemsNItems();
+                } else {
+                    getAllSystemsNItems();
+                }
+            },
+            error: function (errormessage) {
+                ////alert(errormessage.responseText);
+            }
+        });
+
+    }
+
+
+    $("#TOCTabsOfAddingDivParent li").on('click', function () {
+
+        var selTab = $(this).text().trim();
+        if (selTab == "TOC by Item") {
+            $('.system-div-parent-for-byfloor').html('')
+            $(".ddl-struct-filter-div").addClass('hidden');
+            getSystemsNItems();
+            hideNShowControlsAccToStatus()
+        }
+        else if (selTab == "TOC by Floor") {
+            $(".ddl-struct-filter-div").removeClass('hidden');
+            loadStructureDDLTOCFilter();
+
+            $('.ajax-loader').removeClass('hidden');
+            setTimeout(function () {
+                getAllSystemsNItems(); 
+                hideNShowControlsAccToStatus()
+                $('.ajax-loader').addClass('hidden');
+            }, 500);
+             
+            //$('#ddlStructNameTOCFilter').trigger('change');
+        }
+    })
+
+    function loadStructureDDLTOCFilter() {
+        var htm = '';
+        $.each(listStructureBasic, function (key, item) {
+            htm += '<option value="' + item.StructureID + '"> ' + item.StructureName + ' </option>'
+        });
+        $('#ddlStructNameTOCFilter').html(htm);
+    }
+
+    $('#ddlStructNameTOCFilter').on('change', function () {    
         $('.ajax-loader').removeClass('hidden');
         setTimeout(function () {
-            getAllSystemsNItems(); 
-            hideNShowControlsAccToStatus()
+            getAllSystemsNItems();
             $('.ajax-loader').addClass('hidden');
         }, 500);
-             
-        //$('#ddlStructNameTOCFilter').trigger('change');
+    })
+
+    function generateFloorsAginstItemsTOC(EstiLineId, flrColNames, colVal) {
+
+        let strctid = $('#ddlStructNameTOCFilter option:selected').val();
+        var res = listReqStructFloors.filter(s => s.StructureID == strctid && s.IsTypical != "True");
+
+        //var htm = `<div class="table" style="overflow-x: scroll;"><table class="table project-table d-flex">`;    
+        //$.each(res, function (key, item) {
+        //    htm += `<tbody class="text-nowrap" style=";float: left; margin-right:0px">`;
+        //    if (rowno == 0) { htm += `<tr> <td class="fw-bold">` + item.Name + `</td> </tr>` };
+        //    htm += `<tr> <td><input class="form-control" type="text" id="txtTOCbyFlr-` + key + `" placeholder="enter structure name..."></td> </tr>`;       
+        //    htm += `</tbody>`;
+        //}); 
+        //htm += `</table> </div>`;
+        //return htm;
+        var flrNameString = removeCommaFromLast(flrColNames);
+        var wdth = 100/parseFloat(res.length)
+        var htm = '<div class="d-flex" style="overflow-x:auto; max-width: calc(100vw - 690px);">';
+        $.each(flrNameString.split(','), function (key, item) {
+
+            if (key >1) {
+                htm += `<div class="mr-1">
+                        <span style="width:80px"><label>`+ item + `</label></span>
+                        <span style="width:80px;display: flex;"><input class="form-control" name="txtqtyTOCbyFlr" id="txtTOCByFlr-`+ key + `" type="text" value="` + parseInt(colVal.split(',')[key]) + `" data-estid=` + EstiLineId + ` data-strid=` + $("#ddlStructNameTOCFilter option:selected").val() + ` data-flrname="` + item + `" placeholder="enter QTY" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></span>
+                    </div>`;
+            }
+            //htm += `<span style="width:100px"><input class="form-control" type="text" id="txtTOCbyFlr-` + key + `" placeholder="enter structure name..."></span>`;
+            //htm += `<span style="width:100px"><input class="form-control" type="text" id="txtTOCbyFlr-` + key + `" placeholder="enter structure name..."></span>`;
+        }); 
+        htm += '</div>'
+        return htm;
+
+
+        //$('#ddlStructNameTOCFilter').html(htm);
     }
-})
 
-function loadStructureDDLTOCFilter() {
-    var htm = '';
-    $.each(listStructureBasic, function (key, item) {
-        htm += '<option value="' + item.StructureID + '"> ' + item.StructureName + ' </option>'
-    });
-    $('#ddlStructNameTOCFilter').html(htm);
-}
+    $('.system-div-parent-for-byfloor').on('focusout','input[type=text][name=txtqtyTOCbyFlr]', function () {
+        let qtyVal = $(this).val();
+        let estiLineId = $(this).data('estid');
+        let stId = $(this).data('strid');
+        let flrName = $(this).data('flrname');
 
-$('#ddlStructNameTOCFilter').on('change', function () {    
-    $('.ajax-loader').removeClass('hidden');
-    setTimeout(function () {
-        getAllSystemsNItems();
-        $('.ajax-loader').addClass('hidden');
-    }, 500);
-})
+        qtyVal == "" || qtyVal == undefined ? "" : TOCByFloorItemUpdate(estiLineId, stId, flrName, qtyVal);
 
-function generateFloorsAginstItemsTOC(EstiLineId, flrColNames, colVal) {
+    })
 
-    let strctid = $('#ddlStructNameTOCFilter option:selected').val();
-    var res = listReqStructFloors.filter(s => s.StructureID == strctid && s.IsTypical != "True");
-
-    //var htm = `<div class="table" style="overflow-x: scroll;"><table class="table project-table d-flex">`;    
-    //$.each(res, function (key, item) {
-    //    htm += `<tbody class="text-nowrap" style=";float: left; margin-right:0px">`;
-    //    if (rowno == 0) { htm += `<tr> <td class="fw-bold">` + item.Name + `</td> </tr>` };
-    //    htm += `<tr> <td><input class="form-control" type="text" id="txtTOCbyFlr-` + key + `" placeholder="enter structure name..."></td> </tr>`;       
-    //    htm += `</tbody>`;
-    //}); 
-    //htm += `</table> </div>`;
-    //return htm;
-    var flrNameString = removeCommaFromLast(flrColNames);
-    var wdth = 100/parseFloat(res.length)
-    var htm = '<div class="d-flex" style="overflow-x:auto; max-width: calc(100vw - 690px);">';
-    $.each(flrNameString.split(','), function (key, item) {
-
-        if (key != 0) {
-            htm += `<div class="mr-1">
-                    <span style="width:80px"><label>`+ item + `</label></span>
-                    <span style="width:80px;display: flex;"><input class="form-control" name="txtqtyTOCbyFlr" id="txtTOCByFlr-`+ key + `" type="text" value="` + parseInt(colVal.split(',')[key]) + `" data-estid=` + EstiLineId + ` data-strid=` + $("#ddlStructNameTOCFilter option:selected").val() + ` data-flrname="` + item + `" placeholder="enter QTY" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></span>
-                </div>`;
+    $(".system-div-parent-for-byfloor").on('keydown','input[name=txtqtyTOCbyFlr]',function (e) {
+        if (e.which == 37) {//left
+            //alert("left pressed");
+            //return false;
+            var focusOnId = "#" + $(this)[0].id.split('-')[0] + "-" + (parseInt($(this)[0].id.split('-')[1]) - 1);
+            $(focusOnId).focus();
         }
-        //htm += `<span style="width:100px"><input class="form-control" type="text" id="txtTOCbyFlr-` + key + `" placeholder="enter structure name..."></span>`;
-        //htm += `<span style="width:100px"><input class="form-control" type="text" id="txtTOCbyFlr-` + key + `" placeholder="enter structure name..."></span>`;
-    }); 
-    htm += '</div>'
-    return htm;
-
-
-    //$('#ddlStructNameTOCFilter').html(htm);
-}
-
-$('.system-div-parent-for-byfloor').on('focusout','input[type=text][name=txtqtyTOCbyFlr]', function () {
-    let qtyVal = $(this).val();
-    let estiLineId = $(this).data('estid');
-    let stId = $(this).data('strid');
-    let flrName = $(this).data('flrname');
-
-    qtyVal == "" || qtyVal == undefined ? "" : TOCByFloorItemUpdate(estiLineId, stId, flrName, qtyVal);
-
-})
-
-$(".system-div-parent-for-byfloor").on('keydown','input[name=txtqtyTOCbyFlr]',function (e) {
-    if (e.which == 37) {//left
-        //alert("left pressed");
-        //return false;
-        var focusOnId = "#" + $(this)[0].id.split('-')[0] + "-" + (parseInt($(this)[0].id.split('-')[1]) - 1);
-        $(focusOnId).focus();
-    }
-    else if (e.which == 39) {//right
-        //alert("Right pressed");
-        //return false;
-        var focusOnId = "#" + $(this)[0].id.split('-')[0] + "-" + (parseInt($(this)[0].id.split('-')[1]) + 1);
-        $(focusOnId).focus();
-    }
-    else if (e.which == 38) {//Up
-        //alert("Up pressed");
-        //return false;
-    }
-    else if (e.which == 40) {//Down
-        //alert("Down pressed");
-        //return false;
-    }
+        else if (e.which == 39) {//right
+            //alert("Right pressed");
+            //return false;
+            var focusOnId = "#" + $(this)[0].id.split('-')[0] + "-" + (parseInt($(this)[0].id.split('-')[1]) + 1);
+            $(focusOnId).focus();
+        }
+        else if (e.which == 38) {//Up
+            //alert("Up pressed");
+            //return false;
+        }
+        else if (e.which == 40) {//Down
+            //alert("Down pressed");
+            //return false;
+        }
     
-});
-function TOCByFloorItemUpdate(estilineid, stid,flrname,qtyVal) {
-    $.ajax({
-        url: "EMSItemList.aspx/AddUpdateQtyTOCByFloor",
-        type: "POST",
-        data: JSON.stringify({ "EstiLineId": estilineid, "StructId": stid, "FlrName": flrname, "ReqId": selReqId, "Quantity": qtyVal }),
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {
-            toastr.success('Quantity saved successfully', '');    
-            //$('.ajax-loader').removeClass('hidden');
-            //setTimeout(function () {
-            //    getAllSystemsNItems();
-            //    $('.ajax-loader').addClass('hidden');
-            //}, 500);
-        },
-        error: function (errormessage) {
-            ////alert(errormessage.responseText);
-        }
     });
-}
+    function TOCByFloorItemUpdate(estilineid, stid,flrname,qtyVal) {
+        $.ajax({
+            url: "EMSItemList.aspx/AddUpdateQtyTOCByFloor",
+            type: "POST",
+            data: JSON.stringify({ "EstiLineId": estilineid, "StructId": stid, "FlrName": flrname, "ReqId": selReqId, "Quantity": qtyVal, "UserId":currUserId }),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                toastr.success('Quantity saved successfully', '');    
+                //$('.ajax-loader').removeClass('hidden');
+                //setTimeout(function () {
+                //    getAllSystemsNItems();
+                //    $('.ajax-loader').addClass('hidden');
+                //}, 500);
+            },
+            error: function (errormessage) {
+                ////alert(errormessage.responseText);
+            }
+        });
+    }
 
-function getAllSystemsNItems() {
+    function getAllSystemsNItems() {
 
-    $.ajax({
-        url: "EMSItemList.aspx/GetAllSystemsNItems",
-        type: "POST",
-        data: JSON.stringify({ "ReqId": selReqId, "UserID": currUserId, "StructId": $("#ddlStructNameTOCFilter option:selected").val() }),
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {
-            var htm = '';
-            var htm1 = '';
+        $.ajax({
+            url: "EMSItemList.aspx/GetAllSystemsNItems",
+            type: "POST",
+            data: JSON.stringify({ "ReqId": selReqId, "UserID": currUserId, "StructId": $("#ddlStructNameTOCFilter option:selected").val() }),
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                var htm = '';
+                var htm1 = '';
                         
-            var listSystemsItems = result.d.listItems;
-            var listSystems = listSystemsItems.filter(x => x.System).map(ss => ss.System).filter((value, index, self) => self.indexOf(value) === index);
-            var listAlternateItems = result.d.listAlternateItems;
+                var listSystemsItems = result.d.listItems;
+                var listSystems = listSystemsItems.filter(x => x.System).map(ss => ss.System).filter((value, index, self) => self.indexOf(value) === index);
+                var listAlternateItems = result.d.listAlternateItems;
 
-            var firstSysName = listSystems.length > 0 ? listSystems[0] : '';
-            var AllCategoryForSys = [];
+                var firstSysName = listSystems.length > 0 ? listSystems[0] : '';
+                var AllCategoryForSys = [];
 
-            var selReqObj = listAllReqs.filter(s => s.ReqId == selReqId);
+                var selReqObj = listAllReqs.filter(s => s.ReqId == selReqId);
 
-            $.each(listSystems, function (key, item) {
-                if (key == 0) { // for first record only                    
-                    htm += `<div class="col-md-12 mt-3">`;
-                    htm += `<div style="z-index:10;position: sticky;top: -9px;background: #fcfafa; text-align: center; border: 1px solid #b70000; color: black; border-radius: 20px 20px 3px 3px; font-weight: 600; padding: 15px 0px 15px 0px;">
-                    <span class="float-left mx-3"><svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 1024 1024" onclick='openCopySystemModal("` + item + `")'>
-	                    <path fill="#b22e35" d="M768 832a128 128 0 0 1-128 128H192A128 128 0 0 1 64 832V384a128 128 0 0 1 128-128v64a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64z" />
-	                    <path fill="#b22e35" d="M384 128a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64zm0-64h448a128 128 0 0 1 128 128v448a128 128 0 0 1-128 128H384a128 128 0 0 1-128-128V192A128 128 0 0 1 384 64" />
-                    </svg></span>` + item
-                    if (selReqObj[0].EstimationStatus.toUpperCase() != "RELEASED" && (selReqObj[0].Engineering != '' && selReqObj[0].TestnCommision != '')) {
-                        htm += `<span><i class="bx bx-edit-alt cursor-pointer" style="color: #55cee9;" onclick='openModalForEditSysName("` + item +`")'></i></span><span style="float: right;margin-right: 35px;cursor:pointer;" title="Engineering and Test and Commission Added">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 2048 2048" onclick='openEngrNTestCommisionModal("` + item + `")'>
-                                        <path fill="#4db700" d="M2048 384v1024h-128V839l-640 321v120H768v-120L128 839v697h1152v128H0V384h640V256q0-27 10-50t27-40t41-28t50-10h512q27 0 50 10t40 27t28 41t10 50v128zm-1280 0h512V256H768zm384 640H896v128h256zm768-327V512H128v185l640 319V896h512v120zm-128 839h256v128h-256v256h-128v-256h-256v-128h256v-256h128z" />
-                                    </svg>
-                                </span>`
+                $.each(listSystems, function (key, item) {
+                    if (key == 0) { // for first record only                    
+                        htm += `<div class="col-md-12 mt-3">`;
+                        htm += `<div style="z-index:10;position: sticky;top: -9px;background: #fcfafa; text-align: center; border: 1px solid #b70000; color: black; border-radius: 20px 20px 3px 3px; font-weight: 600; padding: 15px 0px 15px 0px;">
+                        <span class="float-left mx-3"><svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 1024 1024" onclick='openCopySystemModal("` + item + `")'>
+                            <path fill="#b22e35" d="M768 832a128 128 0 0 1-128 128H192A128 128 0 0 1 64 832V384a128 128 0 0 1 128-128v64a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64z" />
+                            <path fill="#b22e35" d="M384 128a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64zm0-64h448a128 128 0 0 1 128 128v448a128 128 0 0 1-128 128H384a128 128 0 0 1-128-128V192A128 128 0 0 1 384 64" />
+                        </svg></span> <span class="cursor-pointer" onclick='hideShowSys("sys-`+ key + `","TOC by Floor")'>` + item +`</span>`
+                        if (selReqObj[0].EstimationStatus.toUpperCase() != "RELEASED" && (selReqObj[0].Engineering != '' && selReqObj[0].TestnCommision != '')) {
+                            htm += `<span><i class="bx bx-edit-alt cursor-pointer" style="color: #55cee9;" onclick='openModalForEditSysName("` + item +`")'></i></span><span style="float: right;margin-right: 35px;cursor:pointer;" title="Engineering and Test and Commission Added">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 2048 2048" onclick='openEngrNTestCommisionModal("` + item + `")'>
+                                            <path fill="#4db700" d="M2048 384v1024h-128V839l-640 321v120H768v-120L128 839v697h1152v128H0V384h640V256q0-27 10-50t27-40t41-28t50-10h512q27 0 50 10t40 27t28 41t10 50v128zm-1280 0h512V256H768zm384 640H896v128h256zm768-327V512H128v185l640 319V896h512v120zm-128 839h256v128h-256v256h-128v-256h-256v-128h256v-256h128z" />
+                                        </svg>
+                                    </span>
+                                    <span style="float: right;margin-right: 15px;cursor:pointer;" title="Add Items into the System">
+                                        <i class="bx bx-list-plus ibtn-additem-from-system" style="font-size: 40px;margin-top: -4px;" onclick='openModalForItemsBySelSystem("`+ item +`")'></i>                                   
+                                    </span>`
+                        }
+                        else {
+                            htm += `<span style="float: right;margin-right: 35px;cursor:pointer;" title="Add Engineering and Test and Commission">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 2048 2048" onclick='openEngrNTestCommisionModal("` + item + `")'>
+                                            <path fill="#ffb400" d="M2048 384v1024h-128V839l-640 321v120H768v-120L128 839v697h1152v128H0V384h640V256q0-27 10-50t27-40t41-28t50-10h512q27 0 50 10t40 27t28 41t10 50v128zm-1280 0h512V256H768zm384 640H896v128h256zm768-327V512H128v185l640 319V896h512v120zm-128 839h256v128h-256v256h-128v-256h-256v-128h256v-256h128z" />
+                                        </svg>
+                                    </span>`
+                        }
+                        htm += `</div>`;
+
+                        AllCategoryForSys = listSystemsItems.filter(x => x.System == item).map(ss => ss.Category).filter((value, index, self) => self.indexOf(value) === index);
                     }
-                    else {
-                        htm += `<span style="float: right;margin-right: 35px;cursor:pointer;" title="Add Engineering and Test and Commission">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 2048 2048" onclick='openEngrNTestCommisionModal("` + item + `")'>
-                                        <path fill="#ffb400" d="M2048 384v1024h-128V839l-640 321v120H768v-120L128 839v697h1152v128H0V384h640V256q0-27 10-50t27-40t41-28t50-10h512q27 0 50 10t40 27t28 41t10 50v128zm-1280 0h512V256H768zm384 640H896v128h256zm768-327V512H128v185l640 319V896h512v120zm-128 839h256v128h-256v256h-128v-256h-256v-128h256v-256h128z" />
-                                    </svg>
-                                </span>`
+
+                    if (firstSysName != item) {                    
+                        htm += `<div class="col-md-12 mt-3">`;
+                        htm += `<div style="z-index:10;position: sticky;top: -9px;background: #fcfafa; text-align: center; border: 1px solid #b70000; color: black; border-radius: 20px 20px 3px 3px; font-weight: 600; padding: 15px 0px 15px 0px;">
+                        <span class="float-left mx-3"><svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 1024 1024" onclick='openCopySystemModal("` + item + `")'>
+                            <path fill="#b22e35" d="M768 832a128 128 0 0 1-128 128H192A128 128 0 0 1 64 832V384a128 128 0 0 1 128-128v64a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64z" />
+                            <path fill="#b22e35" d="M384 128a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64zm0-64h448a128 128 0 0 1 128 128v448a128 128 0 0 1-128 128H384a128 128 0 0 1-128-128V192A128 128 0 0 1 384 64" />
+                        </svg></span> <span class="cursor-pointer" onclick='hideShowSys("sys-`+ key + `","TOC by Floor")'>` + item + `</span>`
+                        if (selReqObj[0].EstimationStatus.toUpperCase() != "RELEASED" && (selReqObj[0].Engineering != '' && selReqObj[0].TestnCommision != '')) {
+                            htm += `<span><i class="bx bx-edit-alt cursor-pointer" style="color: #55cee9;" onclick='openModalForEditSysName("` + item +`")'></i></span><span style="float: right;margin-right: 35px;cursor:pointer;" title="Engineering and Test and Commission Added">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 2048 2048" onclick='openEngrNTestCommisionModal("` + item + `")'>
+                                            <path fill="#4db700" d="M2048 384v1024h-128V839l-640 321v120H768v-120L128 839v697h1152v128H0V384h640V256q0-27 10-50t27-40t41-28t50-10h512q27 0 50 10t40 27t28 41t10 50v128zm-1280 0h512V256H768zm384 640H896v128h256zm768-327V512H128v185l640 319V896h512v120zm-128 839h256v128h-256v256h-128v-256h-256v-128h256v-256h128z" />
+                                        </svg>
+                                    </span>
+                                    <span style="float: right;margin-right: 15px;cursor:pointer;" title="Add Items into the System">
+                                        <i class="bx bx-list-plus ibtn-additem-from-system" style="font-size: 40px;margin-top: -4px;" onclick='openModalForItemsBySelSystem("`+ item +`")'></i>                                   
+                                    </span>`
+                        }
+                        else {
+                            htm += `<span style="float: right;margin-right: 35px;cursor:pointer;" title="Add Engineering and Test and Commission">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 2048 2048" onclick='openEngrNTestCommisionModal("` + item + `")'>
+                                            <path fill="#ffb400" d="M2048 384v1024h-128V839l-640 321v120H768v-120L128 839v697h1152v128H0V384h640V256q0-27 10-50t27-40t41-28t50-10h512q27 0 50 10t40 27t28 41t10 50v128zm-1280 0h512V256H768zm384 640H896v128h256zm768-327V512H128v185l640 319V896h512v120zm-128 839h256v128h-256v256h-128v-256h-256v-128h256v-256h128z" />
+                                        </svg>
+                                    </span>`
+                        }
+                        htm += `</div>`;
+
+                        AllCategoryForSys = listSystemsItems.filter(x => x.System == item).map(ss => ss.Category).filter((value, index, self) => self.indexOf(value) === index);
                     }
-                    htm += `</div>`;
-
-                    AllCategoryForSys = listSystemsItems.filter(x => x.System == item).map(ss => ss.Category).filter((value, index, self) => self.indexOf(value) === index);
-                }
-
-                if (firstSysName != item) {                    
-                    htm += `<div class="col-md-12 mt-3">`;
-                    htm += `<div style="z-index:10;position: sticky;top: -9px;background: #fcfafa; text-align: center; border: 1px solid #b70000; color: black; border-radius: 20px 20px 3px 3px; font-weight: 600; padding: 15px 0px 15px 0px;">
-                    <span class="float-left mx-3"><svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 1024 1024" onclick='openCopySystemModal("` + item + `")'>
-	                    <path fill="#b22e35" d="M768 832a128 128 0 0 1-128 128H192A128 128 0 0 1 64 832V384a128 128 0 0 1 128-128v64a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64z" />
-	                    <path fill="#b22e35" d="M384 128a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64zm0-64h448a128 128 0 0 1 128 128v448a128 128 0 0 1-128 128H384a128 128 0 0 1-128-128V192A128 128 0 0 1 384 64" />
-                    </svg></span>` + item
-                    if (selReqObj[0].EstimationStatus.toUpperCase() != "RELEASED" && (selReqObj[0].Engineering != '' && selReqObj[0].TestnCommision != '')) {
-                        htm += `<span><i class="bx bx-edit-alt cursor-pointer" style="color: #55cee9;" onclick='openModalForEditSysName("` + item +`")'></i></span><span style="float: right;margin-right: 35px;cursor:pointer;" title="Engineering and Test and Commission Added">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 2048 2048" onclick='openEngrNTestCommisionModal("` + item + `")'>
-                                        <path fill="#4db700" d="M2048 384v1024h-128V839l-640 321v120H768v-120L128 839v697h1152v128H0V384h640V256q0-27 10-50t27-40t41-28t50-10h512q27 0 50 10t40 27t28 41t10 50v128zm-1280 0h512V256H768zm384 640H896v128h256zm768-327V512H128v185l640 319V896h512v120zm-128 839h256v128h-256v256h-128v-256h-256v-128h256v-256h128z" />
-                                    </svg>
-                                </span>`
-                    }
-                    else {
-                        htm += `<span style="float: right;margin-right: 35px;cursor:pointer;" title="Add Engineering and Test and Commission">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 2048 2048" onclick='openEngrNTestCommisionModal("` + item + `")'>
-                                        <path fill="#ffb400" d="M2048 384v1024h-128V839l-640 321v120H768v-120L128 839v697h1152v128H0V384h640V256q0-27 10-50t27-40t41-28t50-10h512q27 0 50 10t40 27t28 41t10 50v128zm-1280 0h512V256H768zm384 640H896v128h256zm768-327V512H128v185l640 319V896h512v120zm-128 839h256v128h-256v256h-128v-256h-256v-128h256v-256h128z" />
-                                    </svg>
-                                </span>`
-                    }
-                    htm += `</div>`;
-
-                    AllCategoryForSys = listSystemsItems.filter(x => x.System == item).map(ss => ss.Category).filter((value, index, self) => self.indexOf(value) === index);
-                }
 
 
 
-                for (var i = 0; i < AllCategoryForSys.length; i++) {
+                    for (var i = 0; i < AllCategoryForSys.length; i++) {
                     
-                    var res = listSystemsItems.filter(x => x.Category == AllCategoryForSys[i]).filter(x => x.System == item);
-                    let flrDivWdth = res[0].Category == "PIPES" ? "40%" : "55%";
+                        var res = listSystemsItems.filter(x => x.Category == AllCategoryForSys[i]).filter(x => x.System == item);
+                        let flrDivWdth = res[0].Category == "PIPES" ? "40%" : "55%";
 
-                    htm += `<div class="category my-2" style="font-size: 12px">` + (i + 1) + `. ` + res[0].Category + `</div>`
+                        htm += `<div class="category my-2 sys-` + key + ` hidden" style="font-size: 12px">` + (i + 1) + `. ` + res[0].Category + `</div>`
                         //start
-                    htm += ` <div class="table mt-2">
-                                                            <table class="table project-table" style="width: 100%;">
-                                                                <thead style="position: sticky; top: -3px;">
-                                                                    <tr class="Head-tr">     
-                                                                        <th style="width:10%;">Item Code</th>
-                                                                        <th style="width: 20%;">Item Desc</th>
-                                                                        <th style="width: 5%;">Quantity</th>`
-                    //if (res[0].Category == "PIPES") {
-                    //    htm += `<th style="width: 5%;">Pipe Unit Price</th>
-                    //            <th style="width: 5%;">Fittings %</th>
-                    //            <th style="width: 5%;">Installation Unit Price</th>`
-                    //}
-
-                    //htm += `<th style="width: 5%;">Spare QTY</th>`
-                            htm +=`<th style="width: `+ flrDivWdth+`;"> Floors </th>
-                            <th style="width:5%;">Action</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody class=""> `;
-                    let isOpt = '';
-                    $.each(res, function (k, CatItem) {
-                        isOpt = CatItem.Isoptional == 'True' ? '<span>(Optional)</span>' : '';
-                        let optcls = CatItem.Isoptional == 'True' ? 'badge badge-optional' : 'badge badge-dark';
-                        htm += `<tr class="TOCbyFlrTxt-">`                        
-
-                        htm += `<td> <span class="` + optcls + ` fs-6">` + CatItem.ItemCode + ` <svg class="" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
-                                         <g fill="none" stroke="#a92828" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
-                                             <path d="m17.524 17.524l-2.722 2.723a2.567 2.567 0 0 1-3.634 0L4.13 13.209A3.852 3.852 0 0 1 3 10.487V5.568A2.568 2.568 0 0 1 5.568 3h4.919c1.021 0 2 .407 2.722 1.13l7.038 7.038a2.567 2.567 0 0 1 0 3.634z" />
-                                             <path d="M9.126 11.694a2.568 2.568 0 1 0 0-5.137a2.568 2.568 0 0 0 0 5.137m3.326 4.392l3.634-3.634" />
-                                         </g>
-                                     </svg></span> `+ isOpt + `<div>` + getAlternateItemsDet(1, CatItem.AlternateFromItem, listAlternateItems) + `</div></td>                
-                                  <td> <div style="max-height:75px;overflow-y:auto;overflow-x:auto;min-width:200px;">`+ CatItem.ItemDesc + `.</div> <div style="margin-top: 22px;">` + getAlternateItemsDet(2, CatItem.AlternateFromItem, listAlternateItems) + `</div></td>`                                                                      
-                        //          htm +=`<td> `+ numberWithCommas(SumOfCommaSepVal(CatItem.Quantity)) + `<div style="margin-top: 22px;"> ` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? SumOfCommaSepVal(CatItem.Quantity) : "") + `</div></td>`
+                        htm += ` <div class="table mt-2 sys-` + key + ` hidden">
+                                                                <table class="table project-table" style="width: 100%;">
+                                                                    <thead style="position: sticky; top: -3px;">
+                                                                        <tr class="Head-tr">     
+                                                                            <th style="width:10%;">Item Code</th>
+                                                                            <th style="width: 20%;">Item Desc</th>
+                                                                            <th style="width: 5%;">Quantity</th>
+                                                                            <th style="width: 5%;">UOM</th>
+                                                                            `
                         //if (res[0].Category == "PIPES") {
-                        //    htm += `<td> ` + numberWithCommas(fixedtwo(CatItem.PipeUnitPrice)) + `<div style="margin-top: 22px;"> ` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.PipeUnitPrice : "") + `</div></td>
-                        //            <td> `+ numberWithCommas(fixedtwo(CatItem.FittingsPerc)) + `<div style="margin-top: 22px;">` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.FittingsPerc : "") + `</div></td > 
-                        //            <td> `+ numberWithCommas(fixedtwo(CatItem.InstallUnitPrice)) + `<div style="margin-top: 22px;">` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.InstallUnitPrice : "") + `</div></td>`
+                        //    htm += `<th style="width: 5%;">Pipe Unit Price</th>
+                        //            <th style="width: 5%;">Fittings %</th>
+                        //            <th style="width: 5%;">Installation Unit Price</th>`
                         //}
 
-                        htm += `<td> ` + numberWithCommas(CatItem.TotalQty) + `</td>`
-                        htm += `<td>` + generateFloorsAginstItemsTOC(CatItem.EstiLineId, CatItem.FloorsNameString, CatItem.Quantity) + `</td>`;
+                        //htm += `<th style="width: 5%;">Spare QTY</th>`
+                        htm +=`<th style="width: `+ flrDivWdth+`;"> Floors </th>
+                        <th style="width:5%;">Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody class=""> `;
+                        let isOpt = '';
+                        $.each(res, function (k, CatItem) {
+                            isOpt = CatItem.Isoptional == 'True' ? '<span>(Optional)</span>' : '';
+                            let optcls = CatItem.Isoptional == 'True' ? 'badge badge-optional' : 'badge badge-dark';
+                            htm += `<tr class="TOCbyFlrTxt-">`                        
 
-                        htm += `<td class="d-flex" style="border-bottom: 0px;"> <a class="ibtn-addfloor-into-items hide-control-bos" title="Add Floors" data-estiid="` + CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `"> <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 24 24" onclick="openAddFloorModal(` + CatItem.EstiLineId + `,` + CatItem.ItemCode + `,'` + CatItem.Category + `')">
-                                              <path fill="#a92828" d="M12 9v2h2v2h-2v2h2v2h-2v2h4v-4h4V9zm6 4h-2v-2h2z" opacity="0.3" />
-                                              <path fill="#a92828" d="M12 7V3H2v18h14v-2h-4v-2h2v-2h-2v-2h2v-2h-2V9h8v6h2V7zM6 19H4v-2h2zm0-4H4v-2h2zm0-4H4V9h2zm0-4H4V5h2zm4 12H8v-2h2zm0-4H8v-2h2zm0-4H8V9h2zm0-4H8V5h2zm14 12v2h-2v2h-2v-2h-2v-2h2v-2h2v2zm-6-8h-2v2h2zm0 4h-2v2h2z" />
-                                          </svg> </a>
-                                        <span><i class="bx bxs-trash ibtn-delete-itemtoc hide-control-bos" style="font-size: 1.6rem;color: #d64e4e;cursor:pointer;" title="Delete Item" data-estiid="`+ CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `" data-category="` + CatItem.Category + `"></i></span>              
-                                        <span><i class="fa fa-eye ibtn-viewmore-itemtoc hide-control-bos" style="font-size: 1.5rem;color: #d64e4e;cursor:pointer;" title="View More Item" data-estiid="`+ CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `" data-category="` + CatItem.Category + `"></i></span>
-                                   </td>`
-                        //if (selReqObj[0].EstimationStatus.toUpperCase() != "RELEASED") {
+                            htm += `<td> <span class="` + optcls + ` fs-6">` + CatItem.ItemCode + ` <svg class="" xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
+                                             <g fill="none" stroke="#a92828" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                                                 <path d="m17.524 17.524l-2.722 2.723a2.567 2.567 0 0 1-3.634 0L4.13 13.209A3.852 3.852 0 0 1 3 10.487V5.568A2.568 2.568 0 0 1 5.568 3h4.919c1.021 0 2 .407 2.722 1.13l7.038 7.038a2.567 2.567 0 0 1 0 3.634z" />
+                                                 <path d="M9.126 11.694a2.568 2.568 0 1 0 0-5.137a2.568 2.568 0 0 0 0 5.137m3.326 4.392l3.634-3.634" />
+                                             </g>
+                                         </svg></span> `+ isOpt + `<div>` + getAlternateItemsDet(1, CatItem.AlternateFromItem, listAlternateItems) + `</div></td>                
+                                      <td> <div style="max-height:75px;overflow-y:auto;overflow-x:auto;min-width:200px;">`+ CatItem.ItemDesc + `.</div> <div style="margin-top: 22px;">` + getAlternateItemsDet(2, CatItem.AlternateFromItem, listAlternateItems) + `</div></td>`                                                                      
+                            //          htm +=`<td> `+ numberWithCommas(SumOfCommaSepVal(CatItem.Quantity)) + `<div style="margin-top: 22px;"> ` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? SumOfCommaSepVal(CatItem.Quantity) : "") + `</div></td>`
+                            //if (res[0].Category == "PIPES") {
+                            //    htm += `<td> ` + numberWithCommas(fixedtwo(CatItem.PipeUnitPrice)) + `<div style="margin-top: 22px;"> ` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.PipeUnitPrice : "") + `</div></td>
+                            //            <td> `+ numberWithCommas(fixedtwo(CatItem.FittingsPerc)) + `<div style="margin-top: 22px;">` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.FittingsPerc : "") + `</div></td > 
+                            //            <td> `+ numberWithCommas(fixedtwo(CatItem.InstallUnitPrice)) + `<div style="margin-top: 22px;">` + ((CatItem.AlternateFromItem != "" && CatItem.AlternateFromItem != "-1") ? CatItem.InstallUnitPrice : "") + `</div></td>`
+                            //}
+
+                            htm += `<td> ` + numberWithCommas(CatItem.TotalQty) + `</td>`
+                            htm += `<td> ` + CatItem.UOM + `</td>`
+                            htm += `<td>` + generateFloorsAginstItemsTOC(CatItem.EstiLineId, CatItem.FloorsNameString, CatItem.Quantity) + `</td>`;
+
+                            htm += `<td class="d-flex" style="border-bottom: 0px;"> <a class="ibtn-addfloor-into-items hide-control-bos" title="Add Floors" data-estiid="` + CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `"> <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 24 24" onclick="openAddFloorModal(` + CatItem.EstiLineId + `,` + CatItem.ItemCode + `,'` + CatItem.Category + `')">
+                                                  <path fill="#a92828" d="M12 9v2h2v2h-2v2h2v2h-2v2h4v-4h4V9zm6 4h-2v-2h2z" opacity="0.3" />
+                                                  <path fill="#a92828" d="M12 7V3H2v18h14v-2h-4v-2h2v-2h-2v-2h2v-2h-2V9h8v6h2V7zM6 19H4v-2h2zm0-4H4v-2h2zm0-4H4V9h2zm0-4H4V5h2zm4 12H8v-2h2zm0-4H8v-2h2zm0-4H8V9h2zm0-4H8V5h2zm14 12v2h-2v2h-2v-2h-2v-2h2v-2h2v2zm-6-8h-2v2h2zm0 4h-2v2h2z" />
+                                              </svg> </a>
+                                            <span><i class="bx bxs-trash ibtn-delete-itemtoc hide-control-bos" style="font-size: 1.6rem;color: #d64e4e;cursor:pointer;" title="Delete Item" data-estiid="`+ CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `" data-category="` + CatItem.Category + `"></i></span>              
+                                            <span><i class="fa fa-eye ibtn-viewmore-itemtoc hide-control-bos" style="font-size: 1.5rem;color: #d64e4e;cursor:pointer;" title="View More Item" data-estiid="`+ CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `" data-category="` + CatItem.Category + `"></i></span>
+                                       </td>`
+                            //if (selReqObj[0].EstimationStatus.toUpperCase() != "RELEASED") {
                             //htm += `<td> <a class="ibtn-addfloor-into-items" title="Add Floors" data-estiid="` + CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `"> <svg xmlns="http://www.w3.org/2000/svg" width="2rem" height="2rem" viewBox="0 0 24 24" onclick="openAddFloorModal(` + CatItem.EstiLineId + `,` + CatItem.ItemCode + `,'` + CatItem.Category + `')">
                             //                  <path fill="#a92828" d="M12 9v2h2v2h-2v2h2v2h-2v2h4v-4h4V9zm6 4h-2v-2h2z" opacity="0.3" />
                             //                  <path fill="#a92828" d="M12 7V3H2v18h14v-2h-4v-2h2v-2h-2v-2h2v-2h-2V9h8v6h2V7zM6 19H4v-2h2zm0-4H4v-2h2zm0-4H4V9h2zm0-4H4V5h2zm4 12H8v-2h2zm0-4H8v-2h2zm0-4H8V9h2zm0-4H8V5h2zm14 12v2h-2v2h-2v-2h-2v-2h2v-2h2v2zm-6-8h-2v2h2zm0 4h-2v2h2z" />
                             //              </svg> </a>
                             //            <span><i class="bx bxs-trash ibtn-delete-itemtoc" style="font-size: 1.6rem;color: #d64e4e;cursor:pointer;" title="Delete Item" data-estiid="`+ CatItem.EstiLineId + `" data-itemcode="` + CatItem.ItemCode + `"></i></span>              
                             //       </td>`
-                     //   }
+                            //   }
 
-                        htm += `</tr>`
-                    })
+                            htm += `</tr>`
+                        })
 
-                    htm += `</tbody></table>`
-                    htm += `</div>`; //end
-                }
+                        htm += `</tbody></table>`
+                        htm += `</div>`; //end
+                    }
 
-                if (key == 0) { htm += `</div>` }
-                if (key != 0) { htm += `</div>` }
+                    if (key == 0) { htm += `</div>` }
+                        if (key != 0) { htm += `</div>` }
 
 
 
-            });
+                        });
 
-            $('.system-div-parent-for-byfloor').html(htm);
-        },
-        error: function (errormessage) {
-            ////alert(errormessage.responseText);
-        }
-    });
-}
-
-function getTotalQty(paraQty) {
-    var finalVal = 0
-    $.each(removeCommaFromLast(paraQty).split(','), function (key, item) {
-        finalVal += parseInt(item)
-    })
-    return finalVal;
-}
-function SumOfCommaSepVal(paraVal) {
-    var finalVal = 0;
-    $.each(removeCommaFromLast(paraVal).split(','), function (k,item) {
-        finalVal += parseInt(item)
-    });
-    return parseInt(finalVal);
-}
-
-$(".btn-close-mainreq-modal").on('click', function () {
-    $('.system-div-parent-for-byfloor').html('')
-})
-
-$(".system-div-parent,.system-div-parent-for-byfloor").on('click', '.ibtn-delete-itemtoc,.ibtn-viewmore-itemtoc', function (key, item) {
-    let itemcode = $(this).data('itemcode');
-    let selCategory = $(this).data('category');
-    var selAction = $(this)[0].title;
-
-    $('.btnAddViewMoreFieldsData').data('estiid', $(this).data('estiid'))
-
-    if (selAction == "Delete Item") {
-        $('.cItemTOC').html('you want to delete the item <b> ' + itemcode + ' </b> ?')
-        $(".btn-del-itemtoc-yes").data('estiid', $(this).data('estiid'))
-        $("#delItemTOCModal").modal('show');
-    }
-    else if (selAction == "View More Item") {
-        $("#viewMoreItemsInTOCbyFloor").modal('show');
-        if (selCategory.toUpperCase() == "PIPES") { $(".div-for-pipes-fields").removeClass('hidden') }
-        else { $(".div-for-pipes-fields").addClass('hidden') }
-
-        GetViewMoreTocData($(this).data('estiid'))
-
-    }
-    
-})
-
-function GetViewMoreTocData(estid) {
-    $.ajax({
-        url: "EMSItemList.aspx/GetViewMoreTocData",
-        data: JSON.stringify({
-            'EstiId': estid
-        }),
-        type: "POST",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {
-            //ListEngnComm = result.d;
-            $("#txtInstallUPrice").val(result.d[0].InstallationUnitPrice);
-            $("#txtPipeUPrice").val(result.d[0].PipeUnitPrice);
-            $("#txtSpareQty").val(result.d[0].SpareQuantity);
-            $("#txtFitPerc").val(result.d[0].FittingPerc);
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
-
-}
-$(".btnAddViewMoreFieldsData").on('click', function () {
-
-    addViewMoreFieldsData($(this).data('estiid'))
-})
-
-function addViewMoreFieldsData(estiid) {
-    $.ajax({
-        url: "EMSItemList.aspx/AddViewMoreItemsData",
-        data: JSON.stringify({
-            'ReqId': selReqId,
-            'EstiLineId': estiid,
-            'InstallUnitPrice': ($("#txtInstallUPrice").val().trim() == undefined || $("#txtInstallUPrice").val().trim() == "") ? 0 : $("#txtInstallUPrice").val().trim(),
-            'SpareQuantity': ($("#txtSpareQty").val().trim() == undefined || $("#txtSpareQty").val().trim() == "") ? 0 : $("#txtSpareQty").val().trim(),
-            'PipeUnitPrice': ($("#txtPipeUPrice").val().trim() == undefined || $("#txtPipeUPrice").val().trim() == "") ? 0 : $("#txtPipeUPrice").val().trim(),
-            'FittingPerc': ($("#txtFitPerc").val().trim() == undefined || $("#txtFitPerc").val().trim() == "") ? 0 : $("#txtFitPerc").val().trim()
-        }),
-        type: "POST",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {
-            toastr.success("Updated successfully", '');
-            $("#engrNTestCommisoinModal").modal('hide');
-            getSystemsNItems();
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
-
-}
-
-$(".btn-del-itemtoc-yes").on('click', function (key, item) {
-    let estilineid = $(this).data('estiid');
-
-    $.ajax({
-        url: "EMSItemList.aspx/DeleteItemFromTOC",
-        type: "POST",
-        data: JSON.stringify({ "EstiLineId": estilineid }),
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {
-            toastr.success('Item deleted successfully','');
-            $('#delItemTOCModal').modal('hide');
-            if ($("#TOCTabsOfAddingDivParent li").find('.active').text().trim() == "TOC by Item") {
-                getSystemsNItems();
-            } else {
-                getAllSystemsNItems();
+                        $('.system-div-parent-for-byfloor').html(htm);
+                    },
+                    error: function (errormessage) {
+                        ////alert(errormessage.responseText);
+                    }
+                });
             }
-        },
-        error: function (errormessage) {
-            ////alert(errormessage.responseText);
+
+
+        function getTotalQty(paraQty) {
+            var finalVal = 0
+            $.each(removeCommaFromLast(paraQty).split(','), function (key, item) {
+                finalVal += parseInt(item)
+            })
+            return finalVal;
         }
-    });
-})
-
-function getAllSystem(forwhom) {
-
-    $.ajax({
-        url: "EMSItemList.aspx/GetAllSystems",
-        type: "POST",
-        data: JSON.stringify({ "UserId": currUserId, "ReqId": selReqId }),
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {
-            var htm = '';
-
-            $.each(result.d, function (key, item) {               
-                htm += '<option value="' + item.Value + '" >' + item.Text + ' </option>'
+        function SumOfCommaSepVal(paraVal) {
+            var finalVal = 0;
+            $.each(removeCommaFromLast(paraVal).split(','), function (k,item) {
+                finalVal += parseInt(item)
             });
-
-            if (forwhom == 'for oracle') { $('#ddlSystemForOracle').html(htm); }
-            if (forwhom == 'item without code') { $('#ddlSystemForWithoutItmCode').html(htm); }
-            else { $('#ddlSystem').html(htm); } 
-                        
-            //compId = $('#selectTypeOpt option:selected').val();
-        },
-        error: function (errormessage) {
-            ////alert(errormessage.responseText);
+            return parseInt(finalVal);
         }
-    });
 
-}
+        $(".btn-close-mainreq-modal").on('click', function () {
+            $('.system-div-parent-for-byfloor').html('')
+        })
 
-function getCategoryBySystem(paraSysName, forwhom) {
+        $(".system-div-parent,.system-div-parent-for-byfloor").on('click', '.ibtn-delete-itemtoc,.ibtn-viewmore-itemtoc', function (key, item) {
+            let itemcode = $(this).data('itemcode');
+            let selCategory = $(this).data('category');
+            var selAction = $(this)[0].title;
 
-    $.ajax({
-        url: "EMSItemList.aspx/GetCategoryBySys",
-        type: "POST",
-        //data: JSON.stringify({ "SysName": $('#ddlSystem option:selected').val() }),
-        data: JSON.stringify({ "SysName": paraSysName }),
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {
-            var htm = '';
+            $('.btnAddViewMoreFieldsData').data('estiid', $(this).data('estiid'))
 
-            $.each(result.d, function (key, item) {
-                htm += '<option value="' + item.Value + '" >' + item.Text + ' </option>'
-            });
+            if (selAction == "Delete Item") {
+                $('.cItemTOC').html('you want to delete the item <b> ' + itemcode + ' </b> ?')
+                $(".btn-del-itemtoc-yes").data('estiid', $(this).data('estiid'))
+                $("#delItemTOCModal").modal('show');
+            }
+            else if (selAction == "View More Item") {
+                $("#viewMoreItemsInTOCbyFloor").modal('show');
+                if (selCategory.toUpperCase() == "PIPES") { $(".div-for-pipes-fields").removeClass('hidden') }
+                else { $(".div-for-pipes-fields").addClass('hidden') }
 
-            if (forwhom == 'for oracle') { $('#ddlCategoryForOracle').html(htm);  }
-            if (forwhom == 'item without code') { $('#ddlCategoryForWithoutItmCode').html(htm);  }
-            else { $('#ddlCategory').html(htm); } 
-            
-            //compId = $('#selectTypeOpt option:selected').val();
-        },
-        error: function (errormessage) {
-            ////alert(errormessage.responseText);
-        }
-    });
+                GetViewMoreTocData($(this).data('estiid'))
+
+            }
     
-}
+        })
 
-$(".tbody-items-toc").on('click','input[type=checkbox][name=cbIsOptional]', function () {
-    if ($(this).is(":checked")) {        
-        $(this).parent().parent().parent().children().eq(0).children().children().prop('checked', true)
-    } else {
-        $(this).parent().parent().parent().children().eq(0).children().children().prop('checked', false)
-    }
-});
-
-
-function getItemsForSysCategory() {
-
-    $.ajax({
-        url: "EMSItemList.aspx/GetItemsForSysCategory",
-        type: "POST",
-        data: JSON.stringify({
-            "SysName": $('#ddlSystem option:selected').val(),
-            "Category": $('#ddlCategory option:selected').val(),
-            "ItemCode": $('#txtItemCode').val().trim() == '' ? '-1' : $('#txtItemCode').val().trim(),
-            "ReqId": selReqId
-        }),
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: true,
-        success: function (result) {
-            itemlistTOC = result.d;
-            var htm = '';
-            $.each(itemlistTOC, function (key, item) {
-                let attr = "";//item[0].IsTypical == "True" ? "checked" : "";
-                let optDDL = '<option value="-1"> No Item Selected </option>';
-                let filteredRes = itemlistTOC.filter(s => s.ItemCode != item.ItemCode);
-                for (var i = 0; i < filteredRes.length; i++) {
-                    optDDL += '<option value="' + filteredRes[i].ItemCode + '"> ' + filteredRes[i].ItemCode + ' | ' + filteredRes[i].ItemDesc +'</option>'
+        function GetViewMoreTocData(estid) {
+            $.ajax({
+                url: "EMSItemList.aspx/GetViewMoreTocData",
+                data: JSON.stringify({
+                    'EstiId': estid
+                }),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    //ListEngnComm = result.d;
+                    $("#txtInstallUPrice").val(result.d[0].InstallationUnitPrice);
+                    $("#txtPipeUPrice").val(result.d[0].PipeUnitPrice);
+                    $("#txtSpareQty").val(result.d[0].SpareQuantity);
+                    $("#txtFitPerc").val(result.d[0].FittingPerc);
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
                 }
+            });
 
+        }
+        $(".btnAddViewMoreFieldsData").on('click', function () {
 
-                htm += `<tr>
-                    <td> 
-                        <div style="display: flex;justify-content: center;">
-                            <input class="form-check-input position-relative" type="checkbox" name="cbIsTypical" value="`+ item.ItemId + `" id="cbTypical-` + item.ItemId + `" data-itemid=` + item.ItemId +` ` + attr + ` /> 
-                        </div>
-                    </td>  
-                    <td>
-                        <div style="display: flex;justify-content: center;">
-                            <input class="form-check-input position-relative" type="checkbox" name="cbIsOptional" value="`+ item.ItemId + `" id="cbOptional-` + item.ItemId + `" data-itemid=` + item.ItemId + ` ` + attr + ` /> 
-                        </div>
-                    </td> 
-                    <td> `+ item.ItemCode + ` </td>                 
-                    <td> `+ item.ItemDesc + `</td>
-                    <td> `+ item.System + `</td>
-                    <td> `+ item.Category + `</td>`
+            addViewMoreFieldsData($(this).data('estiid'))
+        })
 
-                if ($("#ddlCategory option:selected").val() == "PIPES") {
-                    htm += `<td> <input class="form-control" name="txtpipeunitprice" type="number" id="floorItemQty-` + key + `" placeholder="enter unit price" min="0"> </td>
-                            <td> <input class="form-control" name="txtfittingsperc" type="number" id="floorItemQty-`+ key + `" placeholder="enter fitting %" min="0"> </td>
-                            <td> <input class="form-control" name="txtinstallunitprice" type="number" id="floorItemQty-`+ key + `" placeholder="enter installation unit price" min="0"> </td>`
-                } else {
-                    htm += `<td> <input class="form-control" name="txtinstallunitprice" type="number" id="floorItemQty-` + key + `" value="0" placeholder="enter installation unit price" min="0"> </td>`
+        function addViewMoreFieldsData(estiid) {
+            $.ajax({
+                url: "EMSItemList.aspx/AddViewMoreItemsData",
+                data: JSON.stringify({
+                    'ReqId': selReqId,
+                    'EstiLineId': estiid,
+                    'InstallUnitPrice': ($("#txtInstallUPrice").val().trim() == undefined || $("#txtInstallUPrice").val().trim() == "") ? 0 : $("#txtInstallUPrice").val().trim(),
+                    'SpareQuantity': ($("#txtSpareQty").val().trim() == undefined || $("#txtSpareQty").val().trim() == "") ? 0 : $("#txtSpareQty").val().trim(),
+                    'PipeUnitPrice': ($("#txtPipeUPrice").val().trim() == undefined || $("#txtPipeUPrice").val().trim() == "") ? 0 : $("#txtPipeUPrice").val().trim(),
+                    'FittingPerc': ($("#txtFitPerc").val().trim() == undefined || $("#txtFitPerc").val().trim() == "") ? 0 : $("#txtFitPerc").val().trim()
+                }),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    toastr.success("Updated successfully", '');
+                    $("#engrNTestCommisoinModal").modal('hide');
+                    getSystemsNItems();
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
                 }
-                htm += `<td> <input class="form-control" name="txt_item_into_cat_qty" type="number" id="ItemQty-` + key + `" placeholder="enter quantity" min="0"> </td>`
-                htm += `<td> <select id="ddlAlternateItem-` + key + `" class="form-select color-dropdown">` + optDDL + ` </select> </td>`
-                //htm +=`<td> <a href="#" class="btn" style="background-color: #f8f9fa; border-color: #ddd; color: #444;" id="t" style="margin-top: 30px;">Select Item</a> </td>`
-
-                htm += `</tr>`;
             });
-            $('.tbody-items-toc').html(htm);
 
-        },
-        error: function (errormessage) {
-            ////alert(errormessage.responseText);
         }
-    });
-}
 
-function getItemsForSysCategoryFromOracle() {
+        $(".btn-del-itemtoc-yes").on('click', function (key, item) {
+            let estilineid = $(this).data('estiid');
 
-    $.ajax({
-        url: "EMSItemList.aspx/GetItemsForSysCategoryFromOracle",
-        type: "POST",
-        data: JSON.stringify({            
-            "ItemCode": $('#txtItemCodeForOracle').val().trim() == '' ? '-1' : $('#txtItemCodeForOracle').val().trim()
-        }),
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {
-            itemlistFromoracleTOC = result.d;
-            var htm = result.d.length == 0 ? '<tr style="text-align:center;"><td colspan="3">No Data(s) Available</td></tr>' : '';
-
-            $.each(itemlistFromoracleTOC, function (key, item) {
-                let attr = "";//item[0].IsTypical == "True" ? "checked" : "";
-                htm += `<tr>
-                    <td> 
-                        <div style="display: flex;justify-content: center;">
-                            <input class="form-check-input position-relative" type="checkbox" name="cbIsTypical" value="`+ item.OracleItemId + `" id="cbTypical-` + item.OracleItemId + `" data-oracleitemid=` + item.OracleItemId + ` ` + attr + ` /> 
-                        </div>
-                    </td>                 
-                    <td> `+ item.ItemCode + ` </td>                 
-                    <td> `+ item.Desc + `</td>`
-                htm += `</tr>`;
+            $.ajax({
+                url: "EMSItemList.aspx/DeleteItemFromTOC",
+                type: "POST",
+                data: JSON.stringify({ "EstiLineId": estilineid }),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    toastr.success('Item deleted successfully','');
+                    $('#delItemTOCModal').modal('hide');
+                    if ($("#TOCTabsOfAddingDivParent li").find('.active').text().trim() == "TOC by Item") {
+                        getSystemsNItems();
+                    } else {
+                        getAllSystemsNItems();
+                    }
+                },
+                error: function (errormessage) {
+                    ////alert(errormessage.responseText);
+                }
             });
-            $('.tbody-items-toc-fromoracle').html(htm);
+        })
 
-        },
-        error: function (errormessage) {
-            ////alert(errormessage.responseText);
-        }
-    });
-}
+        function getAllSystem(forwhom) {
 
-$('.btnAddItemsFromOracleTOC').on('click', function () {
+            $.ajax({
+                url: "EMSItemList.aspx/GetAllSystems",
+                type: "POST",
+                data: JSON.stringify({ "UserId": currUserId, "ReqId": selReqId }),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    var htm = '';
 
-    if (!validateItemFromOracle()) {
-        toastr.error("Please select any item(s) from the list", '');
-    } else {
-        var selItemsArr = [];
+                    $.each(result.d, function (key, item) {               
+                        htm += '<option value="' + item.Value + '" >' + item.Text + ' </option>'
+                    });
 
-        $(".tbody-items-toc-fromoracle input[name=cbIsTypical]:checked").each(function () {
+                    if (forwhom == 'for oracle') { $('#ddlSystemForOracle').html(htm); }
+                    if (forwhom == 'item without code') { $('#ddlSystemForWithoutItmCode').html(htm); }
+                    else { $('#ddlSystem').html(htm); } 
                         
-            let subitem = {};
-            var res = itemlistFromoracleTOC.filter(x => x.OracleItemId == $(this).data('oracleitemid'));
+                    //compId = $('#selectTypeOpt option:selected').val();
+                },
+                error: function (errormessage) {
+                    ////alert(errormessage.responseText);
+                }
+            });
 
-            subitem["OracleItemId"] = res[0].OracleItemId;
-            subitem["ReqId"] = selReqId;
-            subitem["ItemCode"] = res[0].ItemCode;
-            subitem["ItemDesc"] = res[0].Desc;
-            subitem["System"] = $("#ddlSystemForOracle option:selected").val();
-            subitem["Category"] = $("#ddlCategoryForOracle option:selected").val();
-            subitem["CreatedBy"] = currUserId;    
-            selItemsArr.push(subitem);
+        }
 
+        function getCategoryBySystem(paraSysName, forwhom) {
+
+            $.ajax({
+                url: "EMSItemList.aspx/GetCategoryBySys",
+                type: "POST",
+                //data: JSON.stringify({ "SysName": $('#ddlSystem option:selected').val() }),
+                data: JSON.stringify({ "SysName": paraSysName, "ReqId": selReqId }),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    var htm = '';
+
+                    $.each(result.d, function (key, item) {
+                        htm += '<option value="' + item.Value + '" >' + item.Text + ' </option>'
+                    });
+
+                    if (forwhom == 'for oracle') { $('#ddlCategoryForOracle').html(htm);  }
+                    if (forwhom == 'item without code') { $('#ddlCategoryForWithoutItmCode').html(htm);  }
+                    else { $('#ddlCategory').html(htm); } 
+            
+                    //compId = $('#selectTypeOpt option:selected').val();
+                },
+                error: function (errormessage) {
+                    ////alert(errormessage.responseText);
+                }
+            });
+    
+        }
+
+        $(".tbody-items-toc").on('click','input[type=checkbox][name=cbIsOptional]', function () {
+            if ($(this).is(":checked")) {        
+                $(this).parent().parent().parent().children().eq(0).children().children().prop('checked', true)
+            } else {
+                $(this).parent().parent().parent().children().eq(0).children().children().prop('checked', false)
+            }
         });
 
-        var finalSelItemPara = { 'listItemsTOC': selItemsArr };
 
-        selItemsArr.length == 0 ? toastr.error("Please select any item(s)", '') : addItemsFromOracleTOC(finalSelItemPara);
-    }
+        function getItemsForSysCategory() {
 
-    // DrawTableForSelectedItems();
+            $.ajax({
+                url: "EMSItemList.aspx/GetItemsForSysCategory",
+                type: "POST",
+                data: JSON.stringify({
+                    "SysName": $('#ddlSystem option:selected').val(),
+                    "Category": $('#ddlCategory option:selected').val(),
+                    "ItemCode": $('#txtItemCode').val().trim() == '' ? '-1' : $('#txtItemCode').val().trim(),
+                    "ReqId": selReqId
+                }),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                async: true,
+                success: function (result) {
+                    itemlistTOC = result.d;
+                    var htm = '';
+                    $.each(itemlistTOC, function (key, item) {
+                        let attr = "";//item[0].IsTypical == "True" ? "checked" : "";
+                        let optDDL = '<option value="-1"> No Item Selected </option>';
+                        let filteredRes = itemlistTOC.filter(s => s.ItemCode != item.ItemCode);
+                        for (var i = 0; i < filteredRes.length; i++) {
+                            optDDL += '<option value="' + filteredRes[i].ItemCode + '"> ' + filteredRes[i].ItemCode + ' | ' + filteredRes[i].ItemDesc +'</option>'
+                        }
 
-    // $('#addItemsListModal').modal('hide');
-});
-function addItemsFromOracleTOC(paraItems) {
 
-    $.ajax({
-        url: "EMSItemList.aspx/AddItemsFromOracleTOC",
-        data: JSON.stringify({
-            'data': paraItems
-        }),
-        type: "POST",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {
-            if (result.d.ErrorType == 'error') {
-                toastr.error(result.d.MsgText, '');
-            } else {
-                toastr.success(result.d.MsgText, '');
-                $('#addUpdateItemsOracle').modal('hide');
-                $('.btn-add-item-toc-grid').trigger('click');
-            }
-            
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
+                        htm += `<tr>
+                            <td> 
+                                <div style="display: flex;justify-content: center;">
+                                    <input class="form-check-input position-relative" type="checkbox" name="cbIsTypical" value="`+ item.ItemId + `" id="cbTypical-` + item.ItemId + `" data-itemid=` + item.ItemId +` ` + attr + ` /> 
+                                </div>
+                            </td>  
+                            <td>
+                                <div style="display: flex;justify-content: center;">
+                                    <input class="form-check-input position-relative" type="checkbox" name="cbIsOptional" value="`+ item.ItemId + `" id="cbOptional-` + item.ItemId + `" data-itemid=` + item.ItemId + ` ` + attr + ` /> 
+                                </div>
+                            </td> 
+                            <td> `+ item.ItemCode + ` </td>                 
+                            <td> `+ item.ItemDesc + `</td>
+                            <td> `+ item.System + `</td>
+                            <td> `+ item.Category + `</td>`
+
+                        if ($("#ddlCategory option:selected").val() == "PIPES") {
+                            htm += `<td> <input class="form-control" name="txtpipeunitprice" type="number" id="floorItemQty-` + key + `" placeholder="enter unit price" min="0"> </td>
+                                    <td> <input class="form-control" name="txtfittingsperc" type="number" id="floorItemQty-`+ key + `" placeholder="enter fitting %" min="0"> </td>
+                                    <td> <input class="form-control" name="txtinstallunitprice" type="number" id="floorItemQty-`+ key + `" placeholder="enter installation unit price" min="0"> </td>`
+                        } else {
+                            htm += `<td> <input class="form-control" name="txtinstallunitprice" type="number" id="floorItemQty-` + key + `" value="0" placeholder="enter installation unit price" min="0"> </td>`
+                        }
+                        htm += `<td> <input class="form-control" name="txt_item_into_cat_qty" type="number" id="ItemQty-` + key + `" placeholder="enter quantity" min="0"> </td>`
+                        htm += `<td> <select id="ddlAlternateItem-` + key + `" class="form-select color-dropdown">` + optDDL + ` </select> </td>`
+                        //htm +=`<td> <a href="#" class="btn" style="background-color: #f8f9fa; border-color: #ddd; color: #444;" id="t" style="margin-top: 30px;">Select Item</a> </td>`
+
+                        htm += `</tr>`;
+                    });
+                    $('.tbody-items-toc').html(htm);
+
+                },
+                error: function (errormessage) {
+                    ////alert(errormessage.responseText);
+                }
+            });
         }
-    });
-}
 
-function validateItemFromOracle() {
-    var isValid = true;
+        function getItemsForSysCategoryFromOracle() {
 
-    if ($('.tbody-items-toc-fromoracle input[name=cbIsTypical]:checked').length ==0) {
-        isValid = false
-    } 
-    //$('.tbody-items-toc-fromoracle input[name=cbIsTypical]:checked').each(function (key, item) {
-    //        let txtPipeUnit = $(item).parent().parent().parent().children().eq(5).children();
-    //        let txtFittingPerc = $(item).parent().parent().parent().children().eq(6).children();
-    //        let txtInstallUnitProce = $(item).parent().parent().parent().children().eq(7).children();
+            $.ajax({
+                url: "EMSItemList.aspx/GetItemsForSysCategoryFromOracle",
+                type: "POST",
+                data: JSON.stringify({            
+                    "ItemCode": $('#txtItemCodeForOracle').val().trim() == '' ? '-1' : $('#txtItemCodeForOracle').val().trim()
+                }),
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    itemlistFromoracleTOC = result.d;
+                    var htm = result.d.length == 0 ? '<tr style="text-align:center;"><td colspan="3">No Data(s) Available</td></tr>' : '';
 
-    //        if (txtPipeUnit.val().trim() == "") {
-    //            isValid = false;
-    //            txtPipeUnit.css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
-    //        } else {
-    //            txtPipeUnit.css('box-shadow', '').css('border-color', 'lightgrey');
-    //        }
+                    $.each(itemlistFromoracleTOC, function (key, item) {
+                        let attr = "";//item[0].IsTypical == "True" ? "checked" : "";
+                        htm += `<tr>
+                            <td> 
+                                <div style="display: flex;justify-content: center;">
+                                    <input class="form-check-input position-relative" type="checkbox" name="cbIsTypical" value="`+ item.OracleItemId + `" id="cbTypical-` + item.OracleItemId + `" data-oracleitemid=` + item.OracleItemId + ` ` + attr + ` /> 
+                                </div>
+                            </td>                 
+                            <td> `+ item.ItemCode + ` </td>                 
+                            <td> `+ item.Desc + `</td>`
+                        htm += `</tr>`;
+                    });
+                    $('.tbody-items-toc-fromoracle').html(htm);
 
-    //        if (txtFittingPerc.val().trim() == "") {
-    //            isValid = false;
-    //            txtFittingPerc.css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
-    //        } else {
-    //            txtFittingPerc.css('box-shadow', '').css('border-color', 'lightgrey');
-    //        }
+                },
+                error: function (errormessage) {
+                    ////alert(errormessage.responseText);
+                }
+            });
+        }
 
-    //        if (txtInstallUnitProce.val().trim() == "") {
-    //            isValid = false;
-    //            txtInstallUnitProce.css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
-    //        } else {
-    //            txtInstallUnitProce.css('box-shadow', '').css('border-color', 'lightgrey');
-    //        }
-    //    });
+        $('.btnAddItemsFromOracleTOC').on('click', function () {
+
+            if (!validateItemFromOracle()) {
+                toastr.error("Please select any item(s) from the list", '');
+            } else {
+                var selItemsArr = [];
+
+                $(".tbody-items-toc-fromoracle input[name=cbIsTypical]:checked").each(function () {
+                        
+                    let subitem = {};
+                    var res = itemlistFromoracleTOC.filter(x => x.OracleItemId == $(this).data('oracleitemid'));
+
+                    subitem["OracleItemId"] = res[0].OracleItemId;
+                    subitem["ReqId"] = selReqId;
+                    subitem["ItemCode"] = res[0].ItemCode;
+                    subitem["ItemDesc"] = res[0].Desc;
+                    subitem["System"] = $("#ddlSystemForOracle option:selected").val();
+                    subitem["Category"] = $("#ddlCategoryForOracle option:selected").val();
+                    subitem["CreatedBy"] = currUserId;    
+                    selItemsArr.push(subitem);
+
+                });
+
+                var finalSelItemPara = { 'listItemsTOC': selItemsArr };
+
+                selItemsArr.length == 0 ? toastr.error("Please select any item(s)", '') : addItemsFromOracleTOC(finalSelItemPara);
+            }
+
+            // DrawTableForSelectedItems();
+
+            // $('#addItemsListModal').modal('hide');
+        });
+        function addItemsFromOracleTOC(paraItems) {
+
+            $.ajax({
+                url: "EMSItemList.aspx/AddItemsFromOracleTOC",
+                data: JSON.stringify({
+                    'data': paraItems
+                }),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    if (result.d.ErrorType == 'error') {
+                        toastr.error(result.d.MsgText, '');
+                    } else {
+                        toastr.success(result.d.MsgText, '');
+                        $('#addUpdateItemsOracle').modal('hide');
+                        $('.btn-add-item-toc-grid').trigger('click');
+                    }
+            
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }
+
+        function validateItemFromOracle() {
+            var isValid = true;
+
+            if ($('.tbody-items-toc-fromoracle input[name=cbIsTypical]:checked').length ==0) {
+                isValid = false
+            } 
+            //$('.tbody-items-toc-fromoracle input[name=cbIsTypical]:checked').each(function (key, item) {
+            //        let txtPipeUnit = $(item).parent().parent().parent().children().eq(5).children();
+            //        let txtFittingPerc = $(item).parent().parent().parent().children().eq(6).children();
+            //        let txtInstallUnitProce = $(item).parent().parent().parent().children().eq(7).children();
+
+            //        if (txtPipeUnit.val().trim() == "") {
+            //            isValid = false;
+            //            txtPipeUnit.css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
+            //        } else {
+            //            txtPipeUnit.css('box-shadow', '').css('border-color', 'lightgrey');
+            //        }
+
+            //        if (txtFittingPerc.val().trim() == "") {
+            //            isValid = false;
+            //            txtFittingPerc.css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
+            //        } else {
+            //            txtFittingPerc.css('box-shadow', '').css('border-color', 'lightgrey');
+            //        }
+
+            //        if (txtInstallUnitProce.val().trim() == "") {
+            //            isValid = false;
+            //            txtInstallUnitProce.css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
+            //        } else {
+            //            txtInstallUnitProce.css('box-shadow', '').css('border-color', 'lightgrey');
+            //        }
+            //    });
     
 
-    return isValid;
-}
+            return isValid;
+        }
 
 
-function validateItemIntoCategoryQty() {
-    var isValid = true;
+        function validateItemIntoCategoryQty() {
+            var isValid = true;
 
-    //$('.tbody-items-toc input[name=cbIsTypical]:checked').each(function (key, item) {
-    //    let cObj = $(item).parent().parent().parent().children().eq(5).children();
+            //$('.tbody-items-toc input[name=cbIsTypical]:checked').each(function (key, item) {
+            //    let cObj = $(item).parent().parent().parent().children().eq(5).children();
 
-    //    if (cObj.val().trim() == "") {
-    //        isValid = false;
-    //        cObj.css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
-    //    } else {
-    //        cObj.css('box-shadow', '').css('border-color', 'lightgrey');
-    //    }
-    //});
-    if ($("#ddlCategory option:selected").val() =="PIPES") {
-        $('.tbody-items-toc input[name=cbIsTypical]:checked').each(function (key, item) {
-            let txtPipeUnit = $(item).parent().parent().parent().children().eq(6).children();
-            let txtFittingPerc = $(item).parent().parent().parent().children().eq(7).children();
-            let txtInstallUnitProce = $(item).parent().parent().parent().children().eq(8).children();
+            //    if (cObj.val().trim() == "") {
+            //        isValid = false;
+            //        cObj.css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
+            //    } else {
+            //        cObj.css('box-shadow', '').css('border-color', 'lightgrey');
+            //    }
+            //});
+            if ($("#ddlCategory option:selected").val() =="PIPES") {
+                $('.tbody-items-toc input[name=cbIsTypical]:checked').each(function (key, item) {
+                    let txtPipeUnit = $(item).parent().parent().parent().children().eq(6).children();
+                    let txtFittingPerc = $(item).parent().parent().parent().children().eq(7).children();
+                    let txtInstallUnitProce = $(item).parent().parent().parent().children().eq(8).children();
 
-            if (txtPipeUnit.val().trim() == "") {
-                isValid = false;
-                txtPipeUnit.css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
-            } else {
-                txtPipeUnit.css('box-shadow', '').css('border-color', 'lightgrey');
+                    if (txtPipeUnit.val().trim() == "") {
+                        isValid = false;
+                        txtPipeUnit.css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
+                    } else {
+                        txtPipeUnit.css('box-shadow', '').css('border-color', 'lightgrey');
+                    }
+
+                    if (txtFittingPerc.val().trim() == "") {
+                        isValid = false;
+                        txtFittingPerc.css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
+                    } else {
+                        txtFittingPerc.css('box-shadow', '').css('border-color', 'lightgrey');
+                    }
+
+                    if (txtInstallUnitProce.val().trim() == "") {
+                        isValid = false;
+                        txtInstallUnitProce.css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
+                    } else {
+                        txtInstallUnitProce.css('box-shadow', '').css('border-color', 'lightgrey');
+                    }
+                });
             }
-
-            if (txtFittingPerc.val().trim() == "") {
-                isValid = false;
-                txtFittingPerc.css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
-            } else {
-                txtFittingPerc.css('box-shadow', '').css('border-color', 'lightgrey');
-            }
-
-            if (txtInstallUnitProce.val().trim() == "") {
-                isValid = false;
-                txtInstallUnitProce.css('box-shadow', '0px 0.5px 8.5px #e36033d9').css('border-color', 'rgb(236 41 4 / 18 %)');
-            } else {
-                txtInstallUnitProce.css('box-shadow', '').css('border-color', 'lightgrey');
-            }
-        });
-    }
    
-    return isValid;
-}
+            return isValid;
+        }
 
 
-$('.btnAddItemsTOC').on('click', function () {
+        $('.btnAddItemsTOC').on('click', function () {
     
-    if (!validateItemIntoCategoryQty()) {
-        toastr.error("Please input the quantity for the selected item(s)", '');
-    } else {
-        var selItemsArr = [];
+            if (!validateItemIntoCategoryQty()) {
+                toastr.error("Please input the quantity for the selected item(s)", '');
+            } else {
+                var selItemsArr = [];
 
-        $(".tbody-items-toc input[name=cbIsTypical]:checked").each(function () {
+                $(".tbody-items-toc input[name=cbIsTypical]:checked").each(function () {
             
-            let qty = $("#ddlCategory option:selected").val() == "PIPES" ? $(this).parent().parent().parent().children().eq(9).children().val().trim() : $(this).parent().parent().parent().children().eq(7).children().val().trim();
-            let subitem = {};
-            var res = itemlistTOC.filter(x => x.ItemId == $(this).data('itemid'));
+                    let qty = $("#ddlCategory option:selected").val() == "PIPES" ? $(this).parent().parent().parent().children().eq(9).children().val().trim() : $(this).parent().parent().parent().children().eq(7).children().val().trim();
+                    let subitem = {};
+                    var res = itemlistTOC.filter(x => x.ItemId == $(this).data('itemid'));
 
-            subitem["ReqId"] = selReqId;
-            subitem["ItemId"] = res[0].ItemId;
-            subitem["ItemCode"] = res[0].ItemCode;
-            subitem["ItemDesc"] = res[0].ItemDesc;
-            subitem["System"] = res[0].System;
-            subitem["Category"] = res[0].Category;
-            subitem["CreatedBy"] = currUserId;
-            subitem["Quantity"] = qty == "" ? 0 : qty;
-            subitem["IsOptional"] = $(this).parent().parent().parent().children().eq(1).children().children().is(':checked') ? 1 : 0;
+                    subitem["ReqId"] = selReqId;
+                    subitem["ItemId"] = res[0].ItemId;
+                    subitem["ItemCode"] = res[0].ItemCode;
+                    subitem["ItemDesc"] = res[0].ItemDesc;
+                    subitem["System"] = res[0].System;
+                    subitem["Category"] = res[0].Category;
+                    subitem["CreatedBy"] = currUserId;
+                    subitem["Quantity"] = qty == "" ? 0 : qty;
+                    subitem["IsOptional"] = $(this).parent().parent().parent().children().eq(1).children().children().is(':checked') ? 1 : 0;
             
-            if ($("#ddlCategory option:selected").val() == "PIPES") {
-                subitem["AlternateFromItemCode"] = $(this).parent().parent().parent().children().eq(10).children().val();
-                subitem["PipeUnitPrice"] =    $(this).parent().parent().parent().children().eq(6).children().val() == undefined ? 0 : $(this).parent().parent().parent().children().eq(6).children().val().trim();
-                subitem["FittingsPerc"] =     $(this).parent().parent().parent().children().eq(7).children().val() == undefined ? 0 : $(this).parent().parent().parent().children().eq(7).children().val().trim();
-                subitem["InstallUnitPrice"] = $(this).parent().parent().parent().children().eq(8).children().val() == undefined ? 0 : $(this).parent().parent().parent().children().eq(8).children().val().trim();
-            }
-            else {
-                subitem["PipeUnitPrice"] = 0;
-                subitem["FittingsPerc"] = 0;
-                subitem["InstallUnitPrice"] = $(this).parent().parent().parent().children().eq(6).children().val();
-                subitem["AlternateFromItemCode"] = $(this).parent().parent().parent().children().eq(8).children().val();
-            }
+                    if ($("#ddlCategory option:selected").val() == "PIPES") {
+                        subitem["AlternateFromItemCode"] = $(this).parent().parent().parent().children().eq(10).children().val();
+                        subitem["PipeUnitPrice"] =    $(this).parent().parent().parent().children().eq(6).children().val() == undefined ? 0 : $(this).parent().parent().parent().children().eq(6).children().val().trim();
+                        subitem["FittingsPerc"] =     $(this).parent().parent().parent().children().eq(7).children().val() == undefined ? 0 : $(this).parent().parent().parent().children().eq(7).children().val().trim();
+                        subitem["InstallUnitPrice"] = $(this).parent().parent().parent().children().eq(8).children().val() == undefined ? 0 : $(this).parent().parent().parent().children().eq(8).children().val().trim();
+                    }
+                    else {
+                        subitem["PipeUnitPrice"] = 0;
+                        subitem["FittingsPerc"] = 0;
+                        subitem["InstallUnitPrice"] = $(this).parent().parent().parent().children().eq(6).children().val();
+                        subitem["AlternateFromItemCode"] = $(this).parent().parent().parent().children().eq(8).children().val();
+                    }
 
-            selItemsArr.push(subitem);
+                    selItemsArr.push(subitem);
 
+                });
+
+                var finalSelItemPara = { 'listItemsTOC': selItemsArr };
+
+                selItemsArr.length == 0 ? toastr.error("Please select any item(s)", '') : addItemsTOC(finalSelItemPara);
+            }
+    
+            // DrawTableForSelectedItems();
+
+            // $('#addItemsListModal').modal('hide');
         });
 
-        var finalSelItemPara = { 'listItemsTOC': selItemsArr };
+        function addItemsTOC(paraItems) {
 
-        selItemsArr.length == 0 ? toastr.error("Please select any item(s)", '') : addItemsTOC(finalSelItemPara);
-    }
-    
-   // DrawTableForSelectedItems();
-
-   // $('#addItemsListModal').modal('hide');
-});
-
-function addItemsTOC(paraItems) {
-
-    $.ajax({
-        url: "EMSItemList.aspx/AddItemsTOC",
-        data: JSON.stringify({
-            'data': paraItems
-        }),
-        type: "POST",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {
-            toastr.success("Item added successfully", '');
-            $('#addUpdateSystemnItems').modal('hide');
-            getSystemsNItems();
+            $.ajax({
+                url: "EMSItemList.aspx/AddItemsTOC",
+                data: JSON.stringify({
+                    'data': paraItems
+                }),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    toastr.success("Item added successfully", '');
+                    $('#addUpdateSystemnItems').modal('hide');
+                    getSystemsNItems();
                       
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
         }
-    });
-}
 
 
 
-function openEngrNTestCommisionModal(sysName) {
-    $(".btnAddEngrTestnCommision").data("sysname", sysName)
-    $("#txtEngineering,#txtTestnCommision").val(0);
+        function openEngrNTestCommisionModal(sysName) {
+            $(".btnAddEngrTestnCommision").data("sysname", sysName)
+            $("#txtEngineering,#txtTestnCommision").val(0);
 
-    //if (sysName.toUpperCase() == "Additional Accessories for Fire Pump".toUpperCase()) { $(".field-for-firepump").removeClass('hidden') }
-    //else { $(".field-for-firepump").addClass('hidden') }
+            //if (sysName.toUpperCase() == "Additional Accessories for Fire Pump".toUpperCase()) { $(".field-for-firepump").removeClass('hidden') }
+            //else { $(".field-for-firepump").addClass('hidden') }
 
-    $("#txtEngineering,#txtTestnCommision").val(0);
-    $("#engrNTestCommisoinModal").modal('show');
-    GetEngnTest(sysName);
-}
-$(".btnAddEngrTestnCommision").on('click', function () {
-
-    AddEngrnCommision($(this).data('sysname'))
-})
-
-function AddEngrnCommision(pSysName) {
-    $.ajax({
-        url: "EMSItemList.aspx/AddEngrNTestCommision",
-        data: JSON.stringify({
-            'ReqId': selReqId,
-            'SystemName': pSysName,
-            'Engineering': $("#txtEngineering").val().trim(),
-            'TestnCommision': $("#txtTestnCommision").val().trim(),
-            'InstallCost': ($("#txtInstallCost").val().trim() == undefined || $("#txtInstallCost").val().trim() == "") ? 0 : $("#txtInstallCost").val().trim() ,
-            'MaterialCost': ($("#txtMaterialCost").val().trim() == undefined || $("#txtMaterialCost").val().trim() == "") ? 0 : $("#txtMaterialCost").val().trim(),
-            'ManHours': ($("#txtManHours").val().trim() == undefined || $("#txtManHours").val().trim() == "") ? 0 : $("#txtManHours").val().trim()
-        }),
-        type: "POST",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {
-            toastr.success("Updated successfully", '');
-            $("#engrNTestCommisoinModal").modal('hide');
-            getSystemsNItems();
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
+            $("#txtEngineering,#txtTestnCommision").val(0);
+            $("#engrNTestCommisoinModal").modal('show');
+            GetEngnTest(sysName);
         }
-    });
+        $(".btnAddEngrTestnCommision").on('click', function () {
 
-}
-function GetEngnTest(pSysName) {
-    $.ajax({
-        url: "EMSItemList.aspx/GetEngnTest",
-        data: JSON.stringify({
-            'ReqId': selReqId,
-            'SystemName': pSysName
-        }),
-        type: "POST",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {
-            ListEngnComm = result.d;
-            $("#txtEngineering").val(result.d[0].Engineering);
-            $("#txtTestnCommision").val(result.d[0].TestnComm);
-            $("#txtInstallCost").val(result.d[0].InstallCost);
-            $("#txtMaterialCost").val(result.d[0].MaterialCost);
-            $("#txtManHours").val(result.d[0].ManHours);
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
+            AddEngrnCommision($(this).data('sysname'))
+        })
+
+        function AddEngrnCommision(pSysName) {
+            $.ajax({
+                url: "EMSItemList.aspx/AddEngrNTestCommision",
+                data: JSON.stringify({
+                    'ReqId': selReqId,
+                    'SystemName': pSysName,
+                    'Engineering': $("#txtEngineering").val().trim(),
+                    'TestnCommision': $("#txtTestnCommision").val().trim(),
+                    'InstallCost': ($("#txtInstallCost").val().trim() == undefined || $("#txtInstallCost").val().trim() == "") ? 0 : $("#txtInstallCost").val().trim() ,
+                    'MaterialCost': ($("#txtMaterialCost").val().trim() == undefined || $("#txtMaterialCost").val().trim() == "") ? 0 : $("#txtMaterialCost").val().trim(),
+                    'ManHours': ($("#txtManHours").val().trim() == undefined || $("#txtManHours").val().trim() == "") ? 0 : $("#txtManHours").val().trim()
+                }),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    toastr.success("Updated successfully", '');
+                    $("#engrNTestCommisoinModal").modal('hide');
+                    getSystemsNItems();
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+
         }
-    });
+        function GetEngnTest(pSysName) {
+            $.ajax({
+                url: "EMSItemList.aspx/GetEngnTest",
+                data: JSON.stringify({
+                    'ReqId': selReqId,
+                    'SystemName': pSysName
+                }),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    ListEngnComm = result.d;
+                    $("#txtEngineering").val(result.d[0].Engineering);
+                    $("#txtTestnCommision").val(result.d[0].TestnComm);
+                    $("#txtInstallCost").val(result.d[0].InstallCost);
+                    $("#txtMaterialCost").val(result.d[0].MaterialCost);
+                    $("#txtManHours").val(result.d[0].ManHours);
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
 
-}
+        }
 
-$('#ddlSystemForWithoutItmCode').on('change', function () {
-    getCategoryBySystem($('#ddlSystemForWithoutItmCode option:selected').val(), 'item without code');
-})
-$(".btn-item-withoutcode-grid").on('click', function () {
+        $('#ddlSystemForWithoutItmCode').on('change', function () {
+            getCategoryBySystem($('#ddlSystemForWithoutItmCode option:selected').val(), 'item without code');
+        })
+        $(".btn-item-withoutcode-grid").on('click', function () {
 
-    getAllSystem('item without code');
-    $('#ddlSystemForWithoutItmCode').val($('#ddlSystem option:selected').val())
-    getCategoryBySystem($('#ddlSystemForWithoutItmCode option:selected').val(), 'item without code');
-    $('#ddlCategoryForWithoutItmCode').val($('#ddlCategory option:selected').val())
+            getAllSystem('item without code');
+            $('#ddlSystemForWithoutItmCode').val($('#ddlSystem option:selected').val())
+            getCategoryBySystem($('#ddlSystemForWithoutItmCode option:selected').val(), 'item without code');
+            $('#ddlCategoryForWithoutItmCode').val($('#ddlCategory option:selected').val())
 
-    getAllItemsWithoutCode();
+            getAllItemsWithoutCode();
         
-    $("#addItemWithoutItmCodeModal").modal('show');
+            $("#addItemWithoutItmCodeModal").modal('show');
 
-})
+        })
 
-$(".btnAddItemWithoutItmCode").on('click', function () {
-    //$("#addItemWithoutItmCodeModal").modal('show');
-    //if (!validateWithotControls()) {
-        //toastr.error("Please input the mandatory field(s)")
-   // }
-   // else {
-        $.ajax({
-            url: "EMSItemList.aspx/AddItemsWithotCode",
-            data: JSON.stringify({
-                'ItemDesc': $("#taitemDescWhtItmCode").val(),
-                'UserId': currUserId,
-                'System': $("#ddlSystemForWithoutItmCode option:selected").val(),
-                'Category': $("#ddlCategoryForWithoutItmCode option:selected").val(),
-                'ReqId': selReqId
-            }),
-            type: "POST",
-            contentType: "application/json;charset=utf-8",
-            dataType: "json",
-            async: false,
-            success: function (result) {
-                if (result.d.ErrorType == 'error') {
-                    toastr.error(result.d.MsgText, '');
-                } else {
-                    toastr.success(result.d.MsgText, '');
-                    $('#addItemWithoutItmCodeModal').modal('hide');
-                    //$('.btn-add-item-toc-grid').trigger('click');
+        $(".btnAddItemWithoutItmCode").on('click', function () {
+            //$("#addItemWithoutItmCodeModal").modal('show');
+            //if (!validateWithotControls()) {
+            //toastr.error("Please input the mandatory field(s)")
+            // }
+            // else {
+            $.ajax({
+                url: "EMSItemList.aspx/AddItemsWithotCode",
+                data: JSON.stringify({
+                    'ItemDesc': $("#taitemDescWhtItmCode").val(),
+                    'UserId': currUserId,
+                    'System': $("#ddlSystemForWithoutItmCode option:selected").val(),
+                    'Category': $("#ddlCategoryForWithoutItmCode option:selected").val(),
+                    'ReqId': selReqId,
+                    'UOM': $("#notxtUOM").val(),
+                }),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    if (result.d.ErrorType == 'error') {
+                        toastr.error(result.d.MsgText, '');
+                    } else {
+                        toastr.success(result.d.MsgText, '');
+                        $('#addItemWithoutItmCodeModal').modal('hide');
+                        //$('.btn-add-item-toc-grid').trigger('click');
+                    }
+
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+            //}
+    
+
+        })
+
+
+        function getAllItemsWithoutCode() {
+            $.ajax({
+                url: "EMSItemList.aspx/GetItemsWithoutCode",
+                //data: JSON.stringify({
+                //    'ItemDesc': $("#taitemDescWhtItmCode").val(),
+                //    'UserId': currUserId,
+                //    'System': $("#ddlSystemForWithoutItmCode option:selected").val(),
+                //    'Category': $("#ddlCategoryForWithoutItmCode option:selected").val(),
+                //    'ReqId': selReqId
+                //}),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    var htm = '';
+                    $.each(result.d, function (key, item) {
+                        htm += `<tr>
+                            <td> `+ item.System + `</td>
+                            <td> `+ item.Category + `</td>
+                            <td> `+ item.ItemDesc + `</td>
+                            <td> `+ item.UOM + `</td>
+                            <td> `+ item.CreatedBy + `</td>`
+                        htm += `</tr>`;
+                    });
+                    $('.tbody-items-toc-withoutitmcode').html(htm);
+
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
                 }
 
-            },
-            error: function (errormessage) {
-                alert(errormessage.responseText);
-            }
-        });
-    //}
+            });
+        }
+
+
+        //function getAllSystemsNItemsByRequest() {
+
+        //    $.ajax({
+        //        url: "EMSItemList.aspx/GetAllSystemsNItemsByRequest",
+        //        type: "POST",
+        //        data: JSON.stringify({
+        //            "SysName": $('#ddlSystem option:selected').val(),
+        //            "Category": $('#ddlCategory option:selected').val(),
+        //            "ReqId": selReqId
+        //        }),
+        //        contentType: "application/json;charset=utf-8",
+        //        dataType: "json",
+        //        async: true,
+        //        success: function (result) {
+        //            itemlistTOC = result.d;
+        //            var htm = '';
+        //            $.each(itemlistTOC, function (key, item) {
+        //                let attr = "";//item[0].IsTypical == "True" ? "checked" : "";
+        //                htm += `<tr>
+        //                    <td>
+        //                        <div style="display: flex;justify-content: center;">
+        //                            <input class="form-check-input position-relative" type="checkbox" name="cbIsTypical" value="`+ item.ItemId + `" id="cbTypical-` + item.ItemId + `" data-itemid=` + item.ItemId + ` ` + attr + ` />
+        //                        </div>
+        //                    </td>
+        //                    <td> `+ item.ItemCode + ` </td>
+        //                    <td> `+ item.ItemDesc + `</td>
+        //                    <td> `+ item.System + `</td>
+        //                    <td> `+ item.Category + `</td>`
+
+        //                htm += `</tr>`;
+        //            });
+        //            $('.tbody-items-toc').html(htm);
+
+        //        },
+        //        error: function (errormessage) {
+        //            ////alert(errormessage.responseText);
+        //        }
+        //    });
+        //}
+
+        function openCopySystemModal(Name) {
+            $(".btnCopySystem").data("sysname", Name)
+            $("#modalCopySystem").modal('show');
+            $("#txtCopySystem").val(Name);
+            generateHTMLForCopySysItems(Name);
+        }
+
+        $(".btnCopySystem").on('click', function () {
+
+            var selItemsArr = [];
+
+            $(".tbody-copyitems-toc input[name=cbSelectedItem]:checked").each(function () {
+
+                let subitem = {};
+                var res = listSystemsItems.filter(x => x.ItemId == $(this).data('itemid'));
+
+                subitem["ReqId"] = selReqId;
+                subitem["ItemId"] = res[0].ItemId;
+                //subitem["ItemCode"] = res[0].ItemCode;
+                subitem["ItemId"] = res[0].ItemId;
+                subitem["EstiLineId"] = res[0].EstiLineId;
+                subitem["System"] = res[0].System;
+                subitem["Category"] = res[0].Category;
+                subitem["CreatedBy"] = currUserId;
+                subitem["IsOptional"] = $("#cbOptionalForCopySys").is(':checked') ? 1 : 0;             
+
+                selItemsArr.push(subitem);
+
+            });
+
+            var finalSelItemPara = { 'listItemsTOC': selItemsArr };
+
+            //selItemsArr.length == 0 ? toastr.error("Please select any item(s)", '') : CopySystem(finalSelItemPara, $(this).data('sysname'));
+            CopySystem(finalSelItemPara, $(this).data('sysname'));
+        })
+
+        function CopySystem(itemList, oldSysName) {
+            $.ajax({
+                url: "EMSItemList.aspx/CopySystem",
+                data: JSON.stringify({
+                    'UserId': currUserId,
+                    'ReqId': selReqId,
+                    'SystemName': oldSysName,
+                    'NewSystemName': $("#txtSystemNewName").val(),
+                    "data": itemList
+                }),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    toastr.success("System has been copied successfully!", '');
+                    $("#modalCopySystem").modal('hide');
+                    getSystemsNItems();
+                    getAllSystemsNItems();
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+
+        }
+
+        function generateHTMLForCopySysItems(sysName) {
     
-
-})
-
-
-function getAllItemsWithoutCode() {
-    $.ajax({
-        url: "EMSItemList.aspx/GetItemsWithoutCode",
-        //data: JSON.stringify({
-        //    'ItemDesc': $("#taitemDescWhtItmCode").val(),
-        //    'UserId': currUserId,
-        //    'System': $("#ddlSystemForWithoutItmCode option:selected").val(),
-        //    'Category': $("#ddlCategoryForWithoutItmCode option:selected").val(),
-        //    'ReqId': selReqId
-        //}),
-        type: "POST",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        success: function (result) {
             var htm = '';
-            $.each(result.d, function (key, item) {
+            var filteredItm = listSystemsItems.filter(x => x.System == sysName)
+            $.each(filteredItm, function (key, item) {     
+
                 htm += `<tr>
-                    <td> `+ item.System + `</td>
-                    <td> `+ item.Category + `</td>
-                    <td> `+ item.ItemDesc + `</td>
-                    <td> `+ item.CreatedBy + `</td>`
+                            <td> 
+                                <div style="display: flex;justify-content: center;">
+                                    <input class="form-check-input position-relative" type="checkbox" name="cbSelectedItem" value="`+ item.ItemId + `" id="cbTypical-` + item.ItemId + `" data-itemid=` + item.ItemId + ` checked="checked"/> 
+                                </div>
+                            </td>                    
+                            <td> `+ item.ItemCode + ` </td>                 
+                            <td> `+ item.ItemDesc + `</td>
+                            <td> `+ item.Category + `</td>`     
+
                 htm += `</tr>`;
             });
-            $('.tbody-items-toc-withoutitmcode').html(htm);
+            $('.tbody-copyitems-toc').html(htm);
 
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
         }
 
-    });
-}
-
-
-//function getAllSystemsNItemsByRequest() {
-
-//    $.ajax({
-//        url: "EMSItemList.aspx/GetAllSystemsNItemsByRequest",
-//        type: "POST",
-//        data: JSON.stringify({
-//            "SysName": $('#ddlSystem option:selected').val(),
-//            "Category": $('#ddlCategory option:selected').val(),
-//            "ReqId": selReqId
-//        }),
-//        contentType: "application/json;charset=utf-8",
-//        dataType: "json",
-//        async: true,
-//        success: function (result) {
-//            itemlistTOC = result.d;
-//            var htm = '';
-//            $.each(itemlistTOC, function (key, item) {
-//                let attr = "";//item[0].IsTypical == "True" ? "checked" : "";
-//                htm += `<tr>
-//                    <td>
-//                        <div style="display: flex;justify-content: center;">
-//                            <input class="form-check-input position-relative" type="checkbox" name="cbIsTypical" value="`+ item.ItemId + `" id="cbTypical-` + item.ItemId + `" data-itemid=` + item.ItemId + ` ` + attr + ` />
-//                        </div>
-//                    </td>
-//                    <td> `+ item.ItemCode + ` </td>
-//                    <td> `+ item.ItemDesc + `</td>
-//                    <td> `+ item.System + `</td>
-//                    <td> `+ item.Category + `</td>`
-
-//                htm += `</tr>`;
-//            });
-//            $('.tbody-items-toc').html(htm);
-
-//        },
-//        error: function (errormessage) {
-//            ////alert(errormessage.responseText);
-//        }
-//    });
-//}
-
-function openCopySystemModal(Name) {
-    $(".btnCopySystem").data("sysname", Name)
-    $("#modalCopySystem").modal('show');
-    $("#txtCopySystem").val(Name);
-    generateHTMLForCopySysItems(Name);
-}
-
-$(".btnCopySystem").on('click', function () {
-
-    var selItemsArr = [];
-
-    $(".tbody-copyitems-toc input[name=cbSelectedItem]:checked").each(function () {
-
-        let subitem = {};
-        var res = listSystemsItems.filter(x => x.ItemId == $(this).data('itemid'));
-
-        subitem["ReqId"] = selReqId;
-        subitem["ItemId"] = res[0].ItemId;
-        //subitem["ItemCode"] = res[0].ItemCode;
-        subitem["ItemId"] = res[0].ItemId;
-        subitem["EstiLineId"] = res[0].EstiLineId;
-        subitem["System"] = res[0].System;
-        subitem["Category"] = res[0].Category;
-        subitem["CreatedBy"] = currUserId;
-        subitem["IsOptional"] = $("#cbOptionalForCopySys").is(':checked') ? 1 : 0;             
-
-        selItemsArr.push(subitem);
-
-    });
-
-    var finalSelItemPara = { 'listItemsTOC': selItemsArr };
-
-    //selItemsArr.length == 0 ? toastr.error("Please select any item(s)", '') : CopySystem(finalSelItemPara, $(this).data('sysname'));
-    CopySystem(finalSelItemPara, $(this).data('sysname'));
-})
-
-function CopySystem(itemList, oldSysName) {
-    $.ajax({
-        url: "EMSItemList.aspx/CopySystem",
-        data: JSON.stringify({
-            'UserId': currUserId,
-            'ReqId': selReqId,
-            'SystemName': oldSysName,
-            'NewSystemName': $("#txtSystemNewName").val(),
-            "data": itemList
-        }),
-        type: "POST",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {
-            toastr.success("System has been copied successfully!", '');
-            $("#modalCopySystem").modal('hide');
-            getSystemsNItems();
-            getAllSystemsNItems();
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
+        function resetOrderNo(NewPosition, OldPosition, estid) {
+            $.ajax({
+                url: "EMSItemList.aspx/resetOrderNo",
+                data: JSON.stringify({
+                    //'ReqId': selReqId,
+                    //'ItemId': id,
+                    'NewPosition': NewPosition,
+                    'OldPosition': OldPosition,
+                    'estid': estid
+                }),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    getSystemsNItems();
+                    toastr.success('Order Updated Successfully', '');
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
         }
-    });
-
-}
-
-function generateHTMLForCopySysItems(sysName) {
-    
-    var htm = '';
-    var filteredItm = listSystemsItems.filter(x => x.System == sysName)
-    $.each(filteredItm, function (key, item) {     
-
-        htm += `<tr>
-                    <td> 
-                        <div style="display: flex;justify-content: center;">
-                            <input class="form-check-input position-relative" type="checkbox" name="cbSelectedItem" value="`+ item.ItemId + `" id="cbTypical-` + item.ItemId + `" data-itemid=` + item.ItemId + ` checked="checked"/> 
-                        </div>
-                    </td>                    
-                    <td> `+ item.ItemCode + ` </td>                 
-                    <td> `+ item.ItemDesc + `</td>
-                    <td> `+ item.Category + `</td>`     
-
-        htm += `</tr>`;
-    });
-    $('.tbody-copyitems-toc').html(htm);
-
-}
 
 
 
+        function UpdateItemOrderNo(pFinalList) {
+            $.ajax({
+                url: "EMSItemList.aspx/UpdateItemOrderNo",
+                data: JSON.stringify({
+                    'data': pFinalList
+                }),
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (result) {
+                    //getSystemsNItems();
+                    toastr.success('Order Updated Successfully', '');
+                    if ($("#TOCTabsOfAddingDivParent li").find('.active').text().trim() == "TOC by Item") {
+                        getSystemsNItems();
+                        $(objActive.split(',')[0]).find(objActive.split(',')[1]).removeClass('hidden')
+                    } else {
+                        getAllSystemsNItems();
+                        $(objActive.split(',')[0]).find(objActive.split(',')[1]).removeClass('hidden')
+                    }
+                },
+                error: function (errormessage) {
+                    alert(errormessage.responseText);
+                }
+            });
+        }

@@ -100,8 +100,9 @@ function SummaryReports() {
             sysMaterial = 0;
             sysInstall = 0;
             $.each(listSummaryReports, function (key, item) {
+                isOpt = item.IsOptional == 'True' ? '<span>(Optional)</span>' : '';
                 htm += `<tbody class="summary-tbody"><tr>
-                <td>`+ item.Name + `</td>
+                <td>`+ item.Name + isOpt +`</td>
                 <td>`+ item.Equipment + `</td>`
 
                 htm += `<td>` + numberWithCommas(fixedtwo(parseFloat(item.PipeFittings) + parseFloat(item.MaterialCost))) + `</td>`
@@ -303,13 +304,15 @@ function strItemDeets(item) {
                     <td class="text-center">`+ numberWithCommas(fixedtwo(sysItem.TOTInstallation)) + `</td>
                     <td class="text-center">`+ numberWithCommas(fixedtwo((sysItem.TOTInstallation) + (sysItem.TOTPipeFittings))) + `</td></tr>
                     `
-            MaterialCost = parseFloat(sysItem.MaterialCost) == undefined ? 0 : parseFloat(sysItem.MaterialCost);
-            InstallationCost = parseFloat(sysItem.InstallationCost) == undefined ? 0 : parseFloat(sysItem.InstallationCost);
-            totpf = (parseFloat(sysItem.TOTPipeFittings) == undefined ? 0 : parseFloat(sysItem.TOTPipeFittings)) + parseFloat(totpf);
-            totins = (parseFloat(sysItem.TOTInstallation) == undefined ? 0 : parseFloat(sysItem.TOTInstallation)) + parseFloat(totins);
-            Engineering = parseFloat(sysItem.Engineering);
-            Installation = (parseFloat(sysItem.TOTInstallation) == undefined ? 0 : parseFloat(sysItem.TOTInstallation)) + parseFloat(Installation);
-            TestnComm = parseFloat(sysItem.TestingnCommissioning);
+                    if(sysItem.IsOptional == "False"){
+                        MaterialCost = parseFloat(sysItem.MaterialCost) == undefined ? 0 : parseFloat(sysItem.MaterialCost);
+                        InstallationCost = parseFloat(sysItem.InstallationCost) == undefined ? 0 : parseFloat(sysItem.InstallationCost);
+                        totpf = (parseFloat(sysItem.TOTPipeFittings) == undefined ? 0 : parseFloat(sysItem.TOTPipeFittings)) + parseFloat(totpf);
+                        totins = (parseFloat(sysItem.TOTInstallation) == undefined ? 0 : parseFloat(sysItem.TOTInstallation)) + parseFloat(totins);
+                        Engineering = parseFloat(sysItem.Engineering);
+                        Installation = (parseFloat(sysItem.TOTInstallation) == undefined ? 0 : parseFloat(sysItem.TOTInstallation)) + parseFloat(Installation);
+                        TestnComm = parseFloat(sysItem.TestingnCommissioning);
+                    }
             //if (item == 'Additional Accessories for Fire Pump') {
             //    MaterialCost = parseFloat(sysItem.MaterialCost) == undefined ? 0 : parseFloat(sysItem.MaterialCost);
             //    InstallationCost = parseFloat(sysItem.InstallationCost) == undefined ? 0 : parseFloat(sysItem.InstallationCost);

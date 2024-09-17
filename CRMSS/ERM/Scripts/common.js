@@ -1,6 +1,4 @@
-﻿
-
-function AddDays(dt, nod) {
+﻿function AddDays(dt, nod) {
     let finalDate = new Date(new Date(dt).setDate(new Date(dt).getDate() + (nod == "" ? 0 : parseInt(nod))));
     return finalDate.getFullYear() + '-' + ((finalDate.getMonth() + 1) < 10 ? ("0" + (finalDate.getMonth() + 1)) : (finalDate.getMonth() + 1)) + '-' + finalDate.getDate();
 }
@@ -26,7 +24,6 @@ function nFormatter(num) {
 function removeSpace(str) {
     return str.replace(/ /g, '');
 }
-
 function numberWithCommas(number) {
     var parts = number.toString().split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -35,4 +32,9 @@ function numberWithCommas(number) {
 function fixedtwo(num) {
     var new_num = parseFloat(num).toFixed(2);
     return new_num
+}
+function extractNum(text) {
+    var numb = text.match(/\d/g);
+    numb = numb.join("");
+    return numb;
 }

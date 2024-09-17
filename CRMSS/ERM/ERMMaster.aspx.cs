@@ -606,7 +606,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
     public static string UpdateOptdetails(string RequestId, string UserId,string RefNo,string RevNo,string ContrAbbr,string Year,string OppRef,string ProjRef,string ProjName,string Location,string Client,string Consultant,string MainContr,string MEPContr,string ContactId,string URL
-                                        , string WinningPerc,string Budget,string Stage,string Scope,string Quotation,string Type, string SalesmanID, string EstimationOrgID, string MarketingID, string Salesman, string Marketing, string PlotNo)
+                                        , string WinningPerc, string Budget, string Stage, string Scope, string Quotation, string Type, string SalesmanID, string EstimationOrgID, string MarketingID, string Salesman, string Marketing, string PlotNo, string EMSREquestType)
     {
 
         DBHandler DBH = new DBHandler();
@@ -706,6 +706,9 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
         pa.Add("@PlotNo");
         pv.Add(PlotNo);
+
+        pa.Add("@EMSREquestType");
+        pv.Add(EMSREquestType);
 
 
         DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
@@ -1012,7 +1015,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
                 ind.Salesman = dt.Rows[i]["Salesman"].ToString();
                 ind.Marketing = dt.Rows[i]["Marketing"].ToString();
                 ind.PlotNumber = dt.Rows[i]["PlotNumber"].ToString();
-                                                          
+                ind.ESTType = dt.Rows[i]["EMSREquestType"].ToString();                                          
                 listProjDet.Add(ind);
             }
         }
@@ -1580,7 +1583,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
-    public static void SetEstimator(string UserID, string ProductID, string Estimator, string EstHead, string RequestId, string DueDate, string Priority, string Hours)
+    public static void SetEstimator(string UserID, string ProductID, string EstHead, string RequestId, string DueDate, string Priority, string Hours)
     {
 
         DBHandler DBH = new DBHandler();
@@ -1597,11 +1600,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
         pa.Add("@LineID");
         pv.Add(ProductID);
-        if(Estimator!="")
-        { 
-        pa.Add("@Estimator");
-        pv.Add(Estimator);
-        }
+       
 
         pa.Add("@EH_EmpNo");
         pv.Add(EstHead);
@@ -1859,6 +1858,182 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         return oList;
     }
 
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<EstimatorList> GetAllocatedEstimatorList(string ReqID, string ReqLineID, string UserID)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        List<EstimatorList> oList = new List<EstimatorList>();
+
+        pa.Add("@oper");
+        pv.Add(0);
+
+        pa.Add("@RequestLineID");
+        pv.Add(ReqLineID);
+
+        pa.Add("@UserID");
+        pv.Add(UserID);
+
+        pa.Add("@RequestID");
+        pv.Add(ReqID);
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_EstimatorAllocation", true, pa, pv);
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                oList.Add(new EstimatorList()
+                {
+                    AllocationID = dt.Rows[i]["AllocationID"].ToString(),
+                    EmpNo = dt.Rows[i]["EmpNo"].ToString(),
+                    EmpName = dt.Rows[i]["EmpName"].ToString(),
+                    CreatedDate = dt.Rows[i]["CreatedDate"].ToString(),
+                    EstimationStatus = dt.Rows[i]["EstimationStatus"].ToString(),
+                    EstimatorStatus = dt.Rows[i]["EstimatorStatus"].ToString()
+                });
+            }
+        }
+
+        return oList;
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static Boolean AddAnEstimator(string ReqID, string ReqLineID, string EstimatorID, string UserID)
+    {
+        try
+        {
+
+            DBHandler DBH = new DBHandler();
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+            ArrayList pa = new ArrayList();
+            ArrayList pv = new ArrayList();
+
+            List<EstimatorList> oList = new List<EstimatorList>();
+
+            pa.Add("@oper");
+            pv.Add(2);
+
+            pa.Add("@RequestID");
+            pv.Add(ReqID);
+
+            pa.Add("@RequestLineID");
+            pv.Add(ReqLineID);
+
+            pa.Add("@EstimatorID");
+            pv.Add(EstimatorID);
+
+            pa.Add("@UserID");
+            pv.Add(UserID);
+
+
+            DBH.CreateDatasetERM_Data(ds, "sp_EstimatorAllocation", true, pa, pv);
+            return true;
+        }
+        catch (Exception s)
+        {
+            return false;
+        }
+       
+    }
+
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static Boolean RemoveAnEstimator(string AllocationID, string UserID)
+    {
+        try
+        {
+
+            DBHandler DBH = new DBHandler();
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+            ArrayList pa = new ArrayList();
+            ArrayList pv = new ArrayList();
+
+            List<EstimatorList> oList = new List<EstimatorList>();
+
+            pa.Add("@oper");
+            pv.Add(1);
+
+            pa.Add("@AllocationID");
+            pv.Add(AllocationID);
+
+            pa.Add("@UserID");
+            pv.Add(UserID);
+
+            DBH.CreateDatasetERM_Data(ds, "sp_EstimatorAllocation", true, pa, pv);
+            return true;
+        }
+        catch (Exception s)
+        {
+            return false;
+        }
+
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<DropDownValues> GetEstimatorList(string UserId, string ReqLineID)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(3);
+
+        pa.Add("@UserID");
+        pv.Add(UserId);
+
+        pa.Add("@RequestLineID");
+        pv.Add(ReqLineID);
+
+        DBH.CreateDatasetERM_Data(ds, "sp_EstimatorAllocation", true, pa, pv);
+
+        List<DropDownValues> oEmpList = new List<DropDownValues>();
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                oEmpList.Add(new DropDownValues()
+                {
+                    ddlText = dt.Rows[i]["Estimator"].ToString(),
+                    ddlValue = dt.Rows[i]["UserID"].ToString(),
+                });
+            }
+        }
+
+        return oEmpList;
+        //string a = userId;
+    }
+
+    public class EstimatorList
+    {
+        public string AllocationID { get; set; }
+        public string EmpNo { get; set; }
+        public string EmpName { get; set; }
+        public string CreatedDate { get; set; }
+        public string EstimationStatus { get; set; }
+        public string EstimatorStatus { get; set; }
+    }
+
     public class History
     {
         public string ID { get; set; }
@@ -2038,7 +2213,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         public string Salesman { get; set; }
         public string Marketing { get; set; }
         public string PlotNumber { get; set; }
-
+        public string ESTType { get; set; }
 
     }
     

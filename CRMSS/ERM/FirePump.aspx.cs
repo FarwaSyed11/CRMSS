@@ -123,6 +123,7 @@ public partial class ERM_FirePump : System.Web.UI.Page
                     Stage = dt.Rows[i]["Stage"].ToString(),
                     Scope = dt.Rows[i]["Scope"].ToString(),
                     QuotationType = dt.Rows[i]["QuotationType"].ToString(),
+              
                     WinPerc = dt.Rows[i]["WinPerc"].ToString(),
                     Budget = dt.Rows[i]["Budget"].ToString(),
                     ContactName = dt.Rows[i]["ContactName"].ToString(),
@@ -429,6 +430,66 @@ public partial class ERM_FirePump : System.Web.UI.Page
         return ds.Tables[0].Rows[0][0].ToString();
 
     }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static Boolean ReleasePumpEstimation(string UserId, string ReqID)
+    {
+
+        try
+        {
+            DBHandler DBH = new DBHandler();
+            DataSet ds = new DataSet();
+            DataTable dt = new DataTable();
+            ArrayList pa = new ArrayList();
+            ArrayList pv = new ArrayList();
+
+            pa.Add("@oper");
+            pv.Add(21);
+
+            pa.Add("@userId");
+            pv.Add(UserId);
+
+            pa.Add("@ReqID");
+            pv.Add(ReqID);
+
+            DBH.CreateDatasetERM_Data(ds, "sp_PumbRequests", true, pa, pv);
+
+
+            return true;
+        }
+        catch (Exception s){ return false; }
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static string GetTechnicalNote(string UserId, string ReqID)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add(22);
+
+        pa.Add("@userId");
+        pv.Add(UserId);
+
+        pa.Add("@ReqID");
+        pv.Add(ReqID);
+
+        DBH.CreateDatasetERM_Data(ds, "sp_PumbRequests", true, pa, pv);
+
+        return ds.Tables[0].Rows[0][0].ToString();
+
+    }
+
+
+
+
 
     [WebMethod]
     [ScriptMethod(ResponseFormat = ResponseFormat.Json)]

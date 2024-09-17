@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="ERMMaster.aspx.cs" Inherits="ERM_ERMMaster" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="ERMMaster.aspx.cs" Inherits="ERM_ERMMaster" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -509,7 +509,7 @@
 
     <div class="modal fade" id="ModalCustomerDetails" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document" style="max-width: 95%;">
-            <div class="modal-content" <%-- style="background: antiquewhite;"--%>>
+            <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="lblprojDetailModal">Customer Details</h5>
                     <button type="button" class="btn-close btn-close-proj-modal" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -567,7 +567,7 @@
 
     <div class="modal fade" id="ModalOpportuniryDetails" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document" style="max-width: 95%;">
-            <div class="modal-content" <%-- style="background: antiquewhite;"--%>>
+            <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="lbloPPModal">Opportunity Details</h5>
                     <button type="button" class="btn-close btn-close-proj-modal" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -624,7 +624,7 @@
 
     <div class="modal fade" id="EstimationDetailModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-xxl" role="document" style="max-width: 85%;">
-            <div class="modal-content" <%-- style="background: antiquewhite;"--%>>
+            <div class="modal-content">
                 <div class="modal-header">
                     <div class="row w-100">
                         <div class="col-6">
@@ -807,28 +807,39 @@
                             </div>
                         </div>
 
-                        <div class="row mt-4">
+                        <div class="row mt-3">
                             <div class="col-md-3 px-3">
-                                <b>Stage :
-                                </b>
-                                <input type="radio" id="rdStgTender" name="Stage" value="TENDER" style="margin-left: 5%" />TENDER 
-                             <input type="radio" id="rdStgJOH" name="Stage" value="J.O.H" style="margin-left: 5%" />JOH
+                                <label class="label-custom">Estimation Type:</label>
+                                <select name="ESType" class="form-select" disabled="disabled">
+                                    <option value="BOQ">BOQ</option>
+                                    <option value="ESTIMATION">ESTIMATION</option>
+                                </select>
                             </div>
                             <div class="col-md-3">
-                                <b>Scope :
-                                </b>
-                                <input type="radio" id="rdSp" name="Supply" value="SUPPLY" style="margin-left: 5%" />SUPPLY
-                             <input type="radio" id="rdSpInstall" name="Supply" value="SUPPLY AND INSTALLATION" style="margin-left: 5%" />SUPPLY & INSTALLATION
+                                <label class="label-custom">Stage</label>
+                                <select name="Stage" class="form-select">
+                                    <option value="TENDER">TENDER</option>
+                                    <option value="J.O.H">J.O.H</option>
+                                </select>
                             </div>
-                            <div class="col-md-6">
-                                <b>Quotation :
-                                </b>
-                                <input type="radio" id="rdQtSmart" name="Quotation" value="SMART QTNG" style="margin-left: 5%" />SMART QTNG
-                     
-                             <input type="radio" id="rdQtAndSp" name="Quotation" value="AS PER DRAWING AND SPECIFICATION" style="margin-left: 5%" />AS PER DRAWING & SPECIFICATION
-                                 <input type="radio" id="rdqtMR" name="Quotation" value="AS PER MINIMUM REQUIREMENT" style="margin-left: 5%" />AS PER MINIMUM REQUIREMENT
-                         
-                           <%-- <a href="#" id="btnSubmitOptDet" class="btn btn-primary" style="float:right;">Submit</a>--%>
+
+                            <div class="col-md-3">
+                                <label class="label-custom">Scope</label>
+                                <select name="Supply" class="form-select">
+                                    <option value="SUPPLY">SUPPLY</option>
+                                    <option value="SUPPLY AND INSTALLATION">SUPPLY & INSTALLATION</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="label-custom">Quotation</label>
+                                <select name="Quotation" class="form-select">
+                                    <option value="SMART QTNG">SMART QTNG</option>
+                                    <option value="AS PER DRAWING AND SPECIFICATION">AS PER DRAWING AND SPECIFICATION</option>
+                                    <option value="AS PER MINIMUM REQUIREMENT">AS PER MINIMUM REQUIREMENT</option>
+                                    <option value="AS PER BOQ">AS PER BOQ</option>
+                                    <option value="DESIGN AND BUILT">DESIGN AND BUILT</option>
+                                    <option value="BUDGETED">BUDGETED</option>
+                                </select>
                             </div>
                         </div>
                         <%-- Estimation Co-ordinator --%>
@@ -950,8 +961,6 @@
                                                     <th>Remarks</th>
                                                     <th>Estimation Team</th>
                                                     <td class="hidden">EH</td>
-                                                    <th>Estimator</th>
-                                                    <td class="hidden">ES</td>
                                                     <th>Due Date</th>
                                                     <th>Priority</th>
                                                     <td class="hidden">Priority</td>
@@ -1070,11 +1079,10 @@
                </div>--%>
         </div>
     </div>
-    </div>
 
     <div class="modal fade" id="ModalProductAdd" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content" <%-- style="background: antiquewhite;"--%>>
+            <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="Modalproduct">PRODUCT LIST</h5>
                     <button type="button" class="btn-close btn-close-proj-modal" data-bs-dismiss="modal" aria-label="Close" style="margin-right: -15%;"></button>
@@ -1339,7 +1347,7 @@
 
     <div class="modal fade" id="ModalConsultant" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document" style="max-width: 95%;">
-            <div class="modal-content" <%-- style="background: antiquewhite;"--%>>
+            <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Consultant Details</h5>
                     <button type="button" class="btn-close btn-close-proj-modal" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -1402,8 +1410,6 @@
             </div>
         </div>
     </div>
-
-
 
     <div class="modal fade" id="ModalContact" tabindex="-2" aria-hidden="true" style="background-color: #13131466" data-bs-backdrop="static">
         <div class="modal-dialog modal-xl" role="document">
@@ -1591,7 +1597,6 @@
         </div>
     </div>
 
-
     <div class="modal fade" id="modalNewComments" style="background: rgb(177 171 171 / 36%); zoom: 80%;" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document" style="width: 22%;">
             <div class="modal-content">
@@ -1666,7 +1671,7 @@
 
     <div class="modal fade" id="modalWorkLoad" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content" <%-- style="background: antiquewhite;"--%>>
+            <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Team Work Load</h5>
                     <button type="button" class="btn-close btn-close-proj-modal" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -1694,47 +1699,99 @@
         </div>
     </div>
 
-   <%--View Request History Details--%>
-   <div class="modal fade" id="modalHistoryProjNo" tabindex="-1" style="background: #a9a9a996;" aria-hidden="true">
-       <div class="modal-dialog modal-xl" role="document">
-           <div class="modal-content">
-               <div class="modal-header">
-                   <div class="col-6">
-                       <h5 class="modal-title" id="lbldetAccToProjNoModal">Request History</h5>
-                   </div>
-                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-               </div>
-               <div class="modal-body" style="zoom: 85%;">
+    <%--View Request History Details--%>
+    <div class="modal fade" id="modalHistoryProjNo" tabindex="-1" style="background: #a9a9a996;" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="col-6">
+                        <h5 class="modal-title" id="lbldetAccToProjNoModal">Request History</h5>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="zoom: 85%;">
 
-                   <div class="mt-3">
-                       <h5>Details</h5>
-                   </div>
-                   <div class="table mt-2" style="overflow-y: auto; max-height: 800px;">
-                       <table class="table table-projhistory" style="width: 100%;">
-                           <thead style="position: sticky; top: -3px;">
-                               <tr class="Head-tr">
-                                   <th>Estimation #</th>
-                                   <th>Project</th>
-                                   <th>Opt #</th>
-                                   <th>Status</th>
-                                   <th>System</th>
-                                   <th>Remarks</th>
-                                   <th>Date Received</th>
-                                   <th>ELCEngr1</th>
-                                   <th>MechEngr1</th>
-                                   <th>Out date</th>
-                               </tr>
-                           </thead>
-                           <tbody class="tbody-projhistory">
-                           </tbody>
-                       </table>
-                   </div>
+                    <div class="mt-3">
+                        <h5>Details</h5>
+                    </div>
+                    <div class="table mt-2" style="overflow-y: auto; max-height: 800px;">
+                        <table class="table table-projhistory" style="width: 100%;">
+                            <thead style="position: sticky; top: -3px;">
+                                <tr class="Head-tr">
+                                    <th>Estimation #</th>
+                                    <th>Project</th>
+                                    <th>Opt #</th>
+                                    <th>Status</th>
+                                    <th>System</th>
+                                    <th>Remarks</th>
+                                    <th>Date Received</th>
+                                    <th>ELCEngr1</th>
+                                    <th>MechEngr1</th>
+                                    <th>Out date</th>
+                                </tr>
+                            </thead>
+                            <tbody class="tbody-projhistory">
+                            </tbody>
+                        </table>
+                    </div>
 
-               </div>
+                </div>
 
-           </div>
-       </div>
-   </div>
+            </div>
+        </div>
+    </div>
+
+    <%--Add Estimator--%>
+    <div class="modal fade" id="ModalEstimator" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document" style="max-width: 95%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Estimator Details</h5>
+                    <button type="button" class="btn-close btn-close-proj-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="font-size: 0.85rem;">
+                    <div class="row">
+                        <div class="col-7" style="padding-top: 2%;">
+                            <select id="ddlEstimatorList" class="form-select color-dropdown">
+                            </select>
+
+                        </div>
+                        <div class="col-3" style="padding-top: 2%;">
+                            <button type="button" class="btn btn-primary" style="float: right; width: 150px;" onclick="AddNewEstimator()">Save</button>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <div class="row">
+
+                        <table class="table table-bordered table-striped Estimator-List" style="width: 100%;">
+
+                            <thead>
+
+                                <tr style="text-align: center">
+                                    <th class="hidden">AllocationID</th>
+                                    <th>Emp No</th>
+                                    <th>Emp Name</th>
+                                    <th>Created Date</th>
+                                    <th>Estimation Status</th>
+                                    <th>Estimator Status</th>
+                                    <th>Action</th>
+
+                                </tr>
+                            </thead>
+                            <tbody class="tbody-Estimator-List">
+                            </tbody>
+                        </table>
+
+
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <script type="text/javascript">

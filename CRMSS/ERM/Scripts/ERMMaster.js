@@ -181,10 +181,10 @@ $('.btnAssign').on('click', function () {
             GetTableDetails();
             FillAllDetails();
           
-                EstCustomerCheck();
-                RequestedProductDetails();
-                RequestAccess();
-                $('#EstimationDetailModal').modal('show');
+            EstCustomerCheck();
+            RequestedProductDetails();
+            RequestAccess();
+            $('#EstimationDetailModal').modal('show');
            
 
         },
@@ -282,6 +282,12 @@ $('.tbody-ERMRequest').on('click','.ibtn-Request-Details', function () {
         RequestAccess();
         $('#EstimationDetailModal').modal('show');
         if (myroleList.includes('14213')) { $(".btn-history").removeClass('hidden') } else { $(".btn-history").addClass('hidden') }
+        //if(myroleList.includes("2084")){
+        //    $('select[name=ESType]').removeAttr("disabled","disabled")
+        //}
+        //else{
+        //    $('select[name=ESType]').attr("disabled","disabled")
+        //}
     }
 
   
@@ -447,42 +453,6 @@ function GetEstTeamLeaderForProduct(DropdownName,Product) {
 
 }
 
-function GetEstimatorForProduct(DropdownName, Product,ManagerEmpNo) {
-
-    $.ajax({
-        url: "ERMMaster.aspx/GetEstimators",
-        data: JSON.stringify({ "ManagerEmpno": ManagerEmpNo, "Product": Product }),
-        type: "POST",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {
-            var htm = '';
-
-            if (result.d.length > 0) {
-                htm +=`<option value="-1" option: selected> -- Select -- </option>`
-            }
-            $.each(result.d, function (key, item) {
-
-                htm += `<option value="` + item.ddlValue + `" > ` + item.ddlValue + `-` + item.ddlText + `</option>`;
-
-            });
-
-            $('#' + DropdownName + '').html(htm);
-            /*  City = $('#ddlEngCity option:selected').val().trim();*/
-
-        },
-        //complete: function () {
-        //    $('.ajax-loader').hide();
-        //},
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
-
-
-
-}
 
 function initiateDataTable() {
     objDatatable = [];
@@ -969,14 +939,14 @@ function ProductClear() {
 
 $('.tbody-Opportunity-details').on('click', 'tr', function () {
     if (type == 'ESTIMATION') {
-    OptId = this.children[0].textContent;
-    OptNo = this.children[1].textContent;
-    MarketingID = this.children[9].textContent;
+        OptId = this.children[0].textContent;
+        OptNo = this.children[1].textContent;
+        MarketingID = this.children[9].textContent;
         Marketing = this.children[10].textContent;
         $("#txtMarketing").val(Marketing);
-    ClearDet();
-    GetRefNo();
-    $('#btnSubmitOptDet').css('display', 'block');
+        ClearDet();
+        GetRefNo();
+        $('#btnSubmitOptDet').css('display', 'block');
         $('.Estim-taable-data').css('display', 'none');
         $('#ddlEstimationHead').css("display", "none");
         $('.btnAssign').css("display", "none");
@@ -991,7 +961,7 @@ $('.tbody-Opportunity-details').on('click', 'tr', function () {
         $(".btnCompleted").css("display", "none");
         $('.Estimation-TeamLeader').css("display", "none");
         $('.Assign-Attachment').css("display", "none");
-       // $(".btn-close-proj-modal").css("margin-right", "%");
+        // $(".btn-close-proj-modal").css("margin-right", "%");
         $("#btnNewAddProduct").css("display", "none");
         
         // $(".btn-close-proj-modal").css("margin-left", "0%");
@@ -999,7 +969,14 @@ $('.tbody-Opportunity-details').on('click', 'tr', function () {
         RequestId = 0;
         $('#ModalOpportuniryDetails').modal('hide');
         $('#ModalCustomerDetails').modal('hide');
-    $('#EstimationDetailModal').modal('show');
+        $('#EstimationDetailModal').modal('show');
+
+        if(myroleList.includes("2084")){
+            $('select[name=EMSType]').removeAttr("disabled","disabled")
+        }
+        else{
+            $('select[name=EMSType]').attr("disabled","disabled")
+        }
     }
 
 });
@@ -1084,57 +1061,57 @@ function EstimationAndEngineeringOpp() {
 function ClearDet() {
 
     if (type == 'ESTIMATION') {
-    $('#txtEstRef').val('');
-    $('#txtRevision').val('');
-    $('#txtContrAbbr').val('');
+        $('#txtEstRef').val('');
+        $('#txtRevision').val('');
+        $('#txtContrAbbr').val('');
 
-    $('#txtOppRef').val('');
-    $('#txtProjRef').val('');
+        $('#txtOppRef').val('');
+        $('#txtProjRef').val('');
 
-    $('#txtPrjName').val('');
-    $('#txtPrjLocation').val('');
+        $('#txtPrjName').val('');
+        $('#txtPrjLocation').val('');
         $('#txtPlotNumber').val('');
-    $('#txtPrjClient').val('');
-    $('#txtPrjConsultant').val('');
-    $('#txtPrjMainContr').val('');
-    $('#txtPrjMEPContr').val('');
-    $('#txtEstYear').val('');
-    $('#txtPrjContactPerson').val(''); 
-    $('#txtPrjURL').val('');
-    $('#txtPrjWinningPerc').val('0');
-    $('#txtPrjBudget').val('0');
-    $('#txtEngQt').val('');
-    $('#txtEngStage').val('');
+        $('#txtPrjClient').val('');
+        $('#txtPrjConsultant').val('');
+        $('#txtPrjMainContr').val('');
+        $('#txtPrjMEPContr').val('');
+        $('#txtEstYear').val('');
+        $('#txtPrjContactPerson').val(''); 
+        $('#txtPrjURL').val('');
+        $('#txtPrjWinningPerc').val('0');
+        $('#txtPrjBudget').val('0');
+        $('#txtEngQt').val('');
+        $('#txtEngStage').val('');
 
-    ContactId = '';
+        ContactId = '';
 
-    $('#txtPrjName').removeAttr('disabled');
-    $('#txtPrjLocation').removeAttr('disabled');
-       $('#txtPlotNumber').removeAttr('disabled');
-    $('#txtPrjClient').removeAttr('disabled');
-    $('#txtPrjConsultant').removeAttr('disabled');
-    $('#txtPrjMainContr').removeAttr('disabled');
-    $('#txtPrjMEPContr').removeAttr('disabled');
-    $('#txtContrAbbr').removeAttr('disabled');
-    $('#txtPrjContactPerson').removeAttr('disabled');
-    $('#txtPrjWinningPerc').removeAttr('disabled');
-    $('#txtPrjBudget').removeAttr('disabled');
+        $('#txtPrjName').removeAttr('disabled');
+        $('#txtPrjLocation').removeAttr('disabled');
+        $('#txtPlotNumber').removeAttr('disabled');
+        $('#txtPrjClient').removeAttr('disabled');
+        $('#txtPrjConsultant').removeAttr('disabled');
+        $('#txtPrjMainContr').removeAttr('disabled');
+        $('#txtPrjMEPContr').removeAttr('disabled');
+        $('#txtContrAbbr').removeAttr('disabled');
+        $('#txtPrjContactPerson').removeAttr('disabled');
+        $('#txtPrjWinningPerc').removeAttr('disabled');
+        $('#txtPrjBudget').removeAttr('disabled');
         $('#txtPrjURL').removeAttr('disabled');
 
+        $('select[name=ESType]').removeAttr('disabled');
+        $('select[name=Stage]').removeAttr('disabled');
+        $('select[name=Supply]').removeAttr('disabled');
+        $('select[name=Quotation]').removeAttr('disabled');
 
-        $('#EstimationDetailModal').find('input[name=Stage]').removeAttr('disabled');
-        $('#EstimationDetailModal').find('input[name=Supply]').removeAttr('disabled');
-        $('#EstimationDetailModal').find('input[name=Quotation]').removeAttr('disabled');
+        $('#rdStgTender').prop('checked', false);
+        $('#rdStgJOH').prop('checked', false);
 
-    $('#rdStgTender').prop('checked', false);
-    $('#rdStgJOH').prop('checked', false);
+        $('#rdSp').prop('checked',false);
+        $('#rdSpInstall').prop('checked', false);
 
-    $('#rdSp').prop('checked',false);
-    $('#rdSpInstall').prop('checked', false);
-
-    $('#rdQtSmart').prop('checked', false);
-    $('#rdQtAndSp').prop('checked', false);
-    $('#rdqtMR').prop('checked', false);
+        $('#rdQtSmart').prop('checked', false);
+        $('#rdQtAndSp').prop('checked', false);
+        $('#rdqtMR').prop('checked', false);
 
         $('#btnSubmitOptDet').css('display', 'block');
 
@@ -1639,7 +1616,7 @@ function GetRefNo() {
             let ref = array[0];
             let rev = array[1];
             if (type == 'ESTIMATION') {
-            $('#txtEstRef').val(ref);
+                $('#txtEstRef').val(ref);
                 $('#txtRevision').val(rev);
             }
 
@@ -1667,7 +1644,7 @@ $('#btnSubmitOptDet').on('click', function () {
     $('#ModalCustomerDetails').modal('hide');
 });
 
-txtPrjConsultant
+//txtPrjConsultant
 
 $('#txtPrjConsultant').on('click', function () {
 
@@ -1684,13 +1661,18 @@ function UpdateOptDetails() {
             "RequestId":RequestId,
             "UserId": currUserId, "RefNo": $('#txtEstRef').val(), "RevNo": $('#txtRevision').val(), "ContrAbbr": $('#txtContrAbbr').val(), "Year": $('#txtEstYear').val(), "OppRef": $('#txtOppRef').val(), "ProjRef": $('#txtProjRef').val(),  "Type": type,
             "ProjName": $('#txtPrjName').val(), "Location": $('#txtPrjLocation').val(), "Client": $('#txtPrjClient').val(), "Consultant": $('#txtPrjConsultant').val(), "MainContr": $('#txtPrjMainContr').val(), "MEPContr": $('#txtPrjMEPContr').val(), "URL": $('#txtPrjURL').val(),
-            "WinningPerc": $('#txtPrjWinningPerc').val(), "Budget": $('#txtPrjBudget').val(), "Stage": $('#EstimationDetailModal').find('input[name=Stage]:checked').val().trim(), "Scope": $('#EstimationDetailModal').find('input[name=Supply]:checked').val(), "Quotation": $('#EstimationDetailModal').find('input[name=Quotation]:checked').val(), "ContactId": ContactId
+            "WinningPerc": $('#txtPrjWinningPerc').val(), "Budget": $('#txtPrjBudget').val(), 
+            "Stage": $('select[name=Stage] option:selected').val(), 
+            "Scope": $('select[name=Supply] option:selected').val(), 
+            "Quotation": $('select[name=Quotation] option:selected').val(), 
+            "ContactId": ContactId
              ,"SalesmanID":OwnerIdOpt
             , "EstimationOrgID": $('#ddlEstimationTeamOrg').val()
             , "MarketingID": MarketingID
             , "Salesman": $("#txtSalesman").val()
             , "Marketing": $("#txtMarketing").val()
-            , "PlotNo": $("#txtPlotNumber").val()
+            , "PlotNo": $("#txtPlotNumber").val(),
+            "EMSREquestType" :$('select[name=ESType] option:selected').val()
         }),
         type: "POST",
         contentType: "application/json;charset=utf-8",
@@ -1700,7 +1682,7 @@ function UpdateOptDetails() {
 
             if (result.d == 0) {
 
-               // $('#btnSubmitOptDet').trigger('click');
+                // $('#btnSubmitOptDet').trigger('click');
 
             }
             else if (result.d == "-1") {
@@ -1725,9 +1707,9 @@ function UpdateOptDetails() {
                 $(".btnSubmitRequest").css("display", "block");
                 $(".btnApprove").css("display", "none");
                 $(".btnReject").css("display", "none");
-              //  $(".btn-close-proj-modal").css("margin-right", "-92%");
+                //  $(".btn-close-proj-modal").css("margin-right", "-92%");
                 $("#btnNewAddProduct").css("display", "block");
-               // $(".btn-close-proj-modal").css("margin-left", "0%");
+                // $(".btn-close-proj-modal").css("margin-left", "0%");
                 $('.Estim-taable-data').css('display', 'block');
             }
         },
@@ -1843,7 +1825,7 @@ $('.tbody-Contact').on('click', 'tr', function () {
 
 $('#btnNewContact').on('click', function () {
 
-   // LoadCountryContact();
+    // LoadCountryContact();
     $('#ModalNewContactMaster').modal('show');
 
 });
@@ -2014,43 +1996,46 @@ function FillAllDetails() {
                 /* document.getElementById("year").innerHTML = new Date().getFullYear();*/
                 /*$('#txtEstYear').val(new Date().getFullYear());*/
 
+                $('select[name=ESType]').val(result.d[0].ESTType);
+                $('select[name=Supply]').val(result.d[0].Scope);
+                $('select[name=Stage]').val(result.d[0].Stage);
+                $('select[name=Quotation]').val(result.d[0].QuotationType);
 
+                //if ((result.d[0].Stage).toUpperCase() == 'TENDER') {
 
-                if ((result.d[0].Stage).toUpperCase() == 'TENDER') {
+                //    $('#rdStgTender').prop('checked', true);
+                //    $('#rdStgJOH').prop('checked', false);
+                //}
 
-                    $('#rdStgTender').prop('checked', true);
-                    $('#rdStgJOH').prop('checked', false);
-                }
+                //else if (result.d[0].Stage.toUpperCase() == 'J.O.H') {
 
-                else if (result.d[0].Stage.toUpperCase() == 'J.O.H') {
+                //    $('#rdStgJOH').prop('checked', true);
+                //    $('#rdStgTender').prop('checked', false);
+                //}
 
-                    $('#rdStgJOH').prop('checked', true);
-                    $('#rdStgTender').prop('checked', false);
-                }
+                //if ((result.d[0].Scope).toUpperCase() == 'SUPPLY') {
 
-                if ((result.d[0].Scope).toUpperCase() == 'SUPPLY') {
+                //    $('#rdSp').prop('checked', true);
+                //}
 
-                    $('#rdSp').prop('checked', true);
-                }
+                //else if (result.d[0].Scope == 'SUPPLY AND INSTALLATION') {
 
-                else if (result.d[0].Scope == 'SUPPLY AND INSTALLATION') {
+                //    $('#rdSpInstall').prop('checked', true);
+                //}
 
-                    $('#rdSpInstall').prop('checked', true);
-                }
+                //if ((result.d[0].QuotationType).toUpperCase() == 'SMART QTNG') {
 
-                if ((result.d[0].QuotationType).toUpperCase() == 'SMART QTNG') {
+                //    $('#rdQtSmart').prop('checked', true);
+                //}
 
-                    $('#rdQtSmart').prop('checked', true);
-                }
+                //else if (result.d[0].QuotationType == 'AS PER DRAWING AND SPECIFICATION') {
 
-                else if (result.d[0].QuotationType == 'AS PER DRAWING AND SPECIFICATION') {
+                //    $('#rdQtAndSp').prop('checked', true);
+                //}
+                //else if (result.d[0].QuotationType == 'AS PER MINIMUM REQUIREMENT') {
 
-                    $('#rdQtAndSp').prop('checked', true);
-                }
-                else if (result.d[0].QuotationType == 'AS PER MINIMUM REQUIREMENT') {
-
-                    $('#rdqtMR').prop('checked', true);
-                }
+                //    $('#rdqtMR').prop('checked', true);
+                //}
 
                 $('#btnSubmitOptDet').css('display', 'none');
                 $('.Estim-taable-data').css('display', 'block');
@@ -2083,11 +2068,12 @@ function FillAllDetails() {
                     $('#txtOppRef').removeAttr("disabled");
 
                     
-                    $('#EstimationDetailModal').find('input[name=Stage]').attr('disabled', 'disabled');
-                    $('#EstimationDetailModal').find('input[name=Supply]').attr('disabled', 'disabled');
-                    $('#EstimationDetailModal').find('input[name=Quotation]').attr('disabled', 'disabled');
+                    $('select[name=ESType]').attr('disabled', 'disabled');
+                    $('select[name=Stage]').attr('disabled', 'disabled');
+                    $('select[name=Supply]').attr('disabled', 'disabled');
+                    $('select[name=Quotation]').attr('disabled', 'disabled');
                 }
-               else  if ((myroleList.includes("3087") && ReqOrderNumber == 1 )) {
+                else  if ((myroleList.includes("3087") && ReqOrderNumber == 1 )) {
 
                     $('#txtPrjName').attr("disabled", 'disabled');
                     $('#txtPrjLocation').attr("disabled", 'disabled');
@@ -2112,49 +2098,44 @@ function FillAllDetails() {
                     
                     $('#txtOppRef').attr("disabled", 'disabled');
 
+                    $('select[name=ESType]').removeAttr('disabled');
+                    $('select[name=Stage]').removeAttr('disabled');
+                    $('select[name=Supply]').removeAttr('disabled');
+                    $('select[name=Quotation]').removeAttr('disabled');
 
-                    $('#EstimationDetailModal').find('input[name=Stage]').removeAttr('disabled');
-                    $('#EstimationDetailModal').find('input[name=Supply]').removeAttr('disabled');
-                    $('#EstimationDetailModal').find('input[name=Quotation]').removeAttr('disabled');
+                }
+                else if(ReqOrderNumber==0)
+                {
+                    $('select[name=ESType]').removeAttr('disabled');
+                    $('select[name=Stage]').removeAttr('disabled');
+                    $('select[name=Supply]').removeAttr('disabled');
+                    $('select[name=Quotation]').removeAttr('disabled');
+                }
 
-               }
-               else if(ReqOrderNumber==0)
-               {
-                   $('#EstimationDetailModal').find('input[name=Stage]').removeAttr('disabled');
-                   $('#EstimationDetailModal').find('input[name=Supply]').removeAttr('disabled');
-                   $('#EstimationDetailModal').find('input[name=Quotation]').removeAttr('disabled');
-               }
+                else {
 
-               else {
+                    $('#txtPrjName').attr("disabled", 'disabled');
+                    $('#txtPrjLocation').attr("disabled", 'disabled');
+                    $('#txtPlotNumber').attr("disabled", 'disabled');
+                    $('#txtPrjClient').attr("disabled", 'disabled');
+                    $('#txtPrjConsultant').attr("disabled", 'disabled');
+                    $('#txtPrjMainContr').attr("disabled", 'disabled');
+                    $('#txtPrjMEPContr').attr("disabled", 'disabled');
+                    $('#txtContrAbbr').attr("disabled", 'disabled');
+                    $('#txtPrjContactPerson').attr("disabled", 'disabled');
+                    $('#txtPrjWinningPerc').attr("disabled", 'disabled');
+                    $('#txtPrjBudget').attr("disabled", 'disabled');
+                    $('#txtPrjURL').attr("disabled", 'disabled');
+                    $('#txtOppRef').attr("disabled", 'disabled');
+                    $('#ddlEstimationTeamOrg').attr("disabled", 'disabled');
+                    $('#txtOppRef').attr("disabled", 'disabled');
 
-                   $('#txtPrjName').attr("disabled", 'disabled');
-                   $('#txtPrjLocation').attr("disabled", 'disabled');
-                   $('#txtPlotNumber').attr("disabled", 'disabled');
-                   $('#txtPrjClient').attr("disabled", 'disabled');
-                   $('#txtPrjConsultant').attr("disabled", 'disabled');
-                   $('#txtPrjMainContr').attr("disabled", 'disabled');
-                   $('#txtPrjMEPContr').attr("disabled", 'disabled');
-                   $('#txtContrAbbr').attr("disabled", 'disabled');
-                   $('#txtPrjContactPerson').attr("disabled", 'disabled');
-                   $('#txtPrjWinningPerc').attr("disabled", 'disabled');
-                   $('#txtPrjBudget').attr("disabled", 'disabled');
-                   $('#txtPrjURL').attr("disabled", 'disabled');
-                   $('#txtOppRef').attr("disabled", 'disabled');
+                    $('select[name=ESType]').attr('disabled', 'disabled');
+                    $('select[name=Stage]').attr('disabled', 'disabled');
+                    $('select[name=Supply]').attr('disabled', 'disabled');
+                    $('select[name=Quotation]').attr('disabled', 'disabled');
 
-                   $('#ddlEstimationTeamOrg').attr("disabled", 'disabled');
-
-
-                   $('#txtOppRef').attr("disabled", 'disabled');
-
-
-                   $('#EstimationDetailModal').find('input[name=Stage]').attr('disabled', 'disabled');
-                   $('#EstimationDetailModal').find('input[name=Supply]').attr('disabled', 'disabled');
-                   $('#EstimationDetailModal').find('input[name=Quotation]').attr('disabled', 'disabled');
-
-
-
-
-               }
+                }
             }
 
 
@@ -2359,7 +2340,6 @@ function RequestedProductDetails() {
             $.each(result.d, function (key, item) {
 
                 var drpName = 'ddl-' + item.LineID;
-                var ddlEstimator = 'ddlEstimator-' + item.LineID;
                 var ddlPriority = 'ddlPriority-' + item.LineID;
                 var txtHours = 'txtHours-' + item.LineID;
 
@@ -2369,72 +2349,77 @@ function RequestedProductDetails() {
                             <td>`+ item.Remarks + `</td>`;
                                   
 
-                            if (item.EstimationTeam == EmpNo.toUpperCase() && item.Estimator=='') {
-                                htm += ` <td> <select class="form-select" id=` + drpName + ` onchange=EstTeamChange(` + item.LineID + `,"` + item.EstimationTeam +`")></select > </td> `
-                                }
-                            else {
-                                htm += ` <td> <select class="form-select" id=` + drpName + ` disabled ></select > </td>`;
-                                }
+                if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status == 'Pending For Estimation Head Approval') {
+                    htm += ` <td> <select class="form-select" id=` + drpName + ` onchange=EstTeamChange(` + item.LineID + `,"` + item.EstimationTeam +`")></select > </td> `
+                    }
+                else {
+                    htm += ` <td> <select class="form-select" id=` + drpName + ` disabled ></select > </td>`;
+                }
 
-                            htm += `<td class="hidden">` + item.EstimationTeam + `</td>`
-                            if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status=='Pending For Estimation Head Approval'){
-                                htm += ` <td> <select class="form-select" id=` + ddlEstimator + `></select> </td>`;
-                                }
-                            else {
-                                htm += ` <td> <select class="form-select" id=` + ddlEstimator + ` disabled></select> </td>`;
-                                }
+                htm += `<td class="hidden">` + item.EstimationTeam + `</td>`
+                         
+
+                if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status == 'Pending For Estimation Head Approval') {
+                    htm += `<td> <input type="date" name="ESTDueDate" class="form-control isEditMode"/> </td>`;
+                }
+                else {
+                    htm += `<td> <input type="date" name="ESTDueDate" class="form-control isEditMode" value="` + item.DueDate +`" disabled/> </td>`;
+                    // htm += `<td>` + item.DueDate + `</td>`;
+                }
                                      
-                            htm += `  <td class="hidden">` + item.Estimator + `</td>`;
-
-                            if (item.EstimationTeam == EmpNo.toUpperCase() && item.Estimator=='') {
-                                htm += `<td> <input type="date" name="ESTDueDate" class="form-control"/> </td>`;
-                                }
-                            else {
-                                htm += `<td>` + item.DueDate + `</td>`;
-                                }
-                                     
-                            if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status=='Pending For Estimation Head Approval'){
-                                htm += ` <td> <select class="form-select" id=` + ddlPriority + `>
-                                    <option value="-1">--SELECT---</option>
-                                     <option value="HEIGH">HEIGH</option>
-                                          <option value="MEDIUM">MEDIUM</option>
-                                              <option value="LOW">LOW</option>
-                                    </select> </td>`;
-                            }
-                            else {
-                                htm += `<td> <select class="form-select" id=` + ddlPriority + ` disabled>
-                                     <option value="-1">--SELECT---</option>
-                                     <option value="HEIGH">HEIGH</option>
-                                          <option value="MEDIUM">MEDIUM</option>
-                                              <option value="LOW" >LOW</option>
-                                    </select> </td>`;
-                            }
-                            htm += `  <td class="hidden">` + item.Priority + `</td>`;
-                            if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status=='Pending For Estimation Head Approval'){
-                                htm += ` <td>  <input type="number"   class="form-control" id=` + txtHours + `  value="`+item.Hours+`"  /> </td>`;
-                            }
-                            else {
-                                htm += ` <td>  <input type="number"   class="form-control" id=` + txtHours + ` value="`+item.Hours+`"  disabled/> </td>`;
-                            }
+                if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status=='Pending For Estimation Head Approval'){
+                    htm += ` <td> <select class="form-select isEditMode" id=` + ddlPriority + `>
+                        <option value="-1">--SELECT---</option>
+                         <option value="HEIGH">HEIGH</option>
+                              <option value="MEDIUM">MEDIUM</option>
+                                  <option value="LOW">LOW</option>
+                        </select> </td>`;
+                }
+                else {
+                    htm += `<td> <select class="form-select isEditMode" id=` + ddlPriority + ` disabled>
+                         <option value="-1">--SELECT---</option>
+                         <option value="HEIGH">HEIGH</option>
+                              <option value="MEDIUM">MEDIUM</option>
+                                  <option value="LOW" >LOW</option>
+                        </select> </td>`;
+                }
+                htm += `  <td class="hidden">` + item.Priority + `</td>`;
+                if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status=='Pending For Estimation Head Approval'){
+                    htm += ` <td>  <input type="number"   class="form-control isEditMode" id=` + txtHours + `  value="`+item.Hours+`"  /> </td>`;
+                }
+                else {
+                    htm += ` <td>  <input type="number"   class="form-control isEditMode" id=` + txtHours + ` value="`+item.Hours+`"  disabled/> </td>`;
+                }
 
 
-                            htm += `<td><span class="`+ item.StatusClass + `" style="font-size: 13px !important;">` + item.Status + `</span></td>`;
+                htm += `<td><span class="`+ item.StatusClass + `" style="font-size: 13px !important;">` + item.Status + `</span></td>`;
                                       
-                            if (myroleList.includes("14213") && item.Status=='Pending For Estimation Head Approval') {
-                                htm +=`
-                            <td>
-                            <img src="images/icon-Update.png" title="Save" class="fa-icon-hover Update-Product-Details" style="cursor: pointer; width: 24px;" />&nbsp;
-                                        
-                                </td>`;
-                            }
-                            else{
-                                htm +=`
-                                <td></td>`;
-                            }
+                if (myroleList.includes("14213") && item.Status == 'Pending For Estimation Head Approval' && item.EstimationTeam == EmpNo.toUpperCase()) {
+                    htm +=`
+                <td>
+                <img src="images/icon-Update.png" title="Save" class="fa-icon-hover Update-Product-Details" style="cursor: pointer; width: 24px;" />&nbsp;
+                    <img src="images/icon-history.png" title="Estimator" class="fa-icon-hover Add-Estimator" style="cursor: pointer; width: 24px;" />&nbsp;
+                                    
+                    </td>`;
+                }
+                else if (myroleList.includes("14213") && item.EstimationTeam == EmpNo.toUpperCase()) {
+                    htm += `
+                <td>
+                 <img src="images/icon-Update.png" title="Save" class="fa-icon-hover Update-Product-Details"  style="cursor: pointer; width: 24px;display:none" />&nbsp;
 
-                            htm +=`</tr> `;
+                    <img src="images/icon-history.png" title="Estimator" class="fa-icon-hover Add-Estimator" style="cursor: pointer; width: 24px;" />&nbsp;
+                    <img src="images/edit-icon.png" title="Estimator" class="fa-icon-hover Edit-Details" style="cursor: pointer; width: 24px;" />&nbsp;
+                                     
+                    </td>`;
+                }
+                else{
+                    htm +=`
+                    <td></td>`;
+                }
 
-             //   GetEstTeamLeaderForProduct(drpName, item.ERMProduct);
+                htm +=`</tr> `;
+
+                //   GetEstTeamLeaderForProduct(drpName, item.ERMProduct);
             });
 
             $('.tbody-Product-list').html(htm);
@@ -2447,17 +2432,14 @@ function RequestedProductDetails() {
             $('.tbody-Product-list tr').each(function (key, item) {
                 let LineID = item.children[0].textContent.trim();
                 let ddlname = "ddl-" + LineID;
-                let ddlEstimator = "ddlEstimator-" + LineID;
+
                 let ddlPriority = "ddlPriority-" + LineID;
                 let EstimationHead = item.children[4].textContent.trim();
-                let Estimator = item.children[6].textContent.trim();
-                let prty = item.children[9].textContent.trim();
+                let prty = item.children[7].textContent.trim();
                 GetEstTeamLeaderForProduct(ddlname, item.children[1].textContent.trim());
-                GetEstimatorForProduct(ddlEstimator, item.children[1].textContent.trim(), EstimationHead);
+               
                 $("#" + ddlname + "").val(EstimationHead);
-                if (Estimator != "") {
-                    $("#" + ddlEstimator + "").val(Estimator);
-                }
+               
 
                 $("#" + ddlPriority + "").val(prty);
 
@@ -2468,7 +2450,7 @@ function RequestedProductDetails() {
         //    $('.ajax-loader').hide();
         //},
         error: function (errormessage) {
-           // alert(errormessage.responseText);
+            // alert(errormessage.responseText);
         }
     });
 
@@ -2489,47 +2471,44 @@ $('.tbody-Product-list').on('click','.Update-Product-Details', function () {
 
     ProductID =this.parentNode.parentNode.children[0].textContent;
     EstTeam = $('#' + this.parentNode.parentNode.children[3].children[0].id).val();
-    Estimator = $('#' + this.parentNode.parentNode.children[5].children[0].id).val();
-    Priority = $('#' + this.parentNode.parentNode.children[8].children[0].id).val();
-    NoofHoursRequired = $('#' + this.parentNode.parentNode.children[10].children[0].id).val();
-    if (Estimator == '-1' && EstTeam == EmpNo.toUpperCase()) {
-        toastr.error('Please Select Estimator..', '');
-    }
-    else {
-        if (EstTeam != EmpNo.toUpperCase()) {
-            Estimator = '';
-        }
-        AddEstimator();
-    }
+    Priority = $('#' + this.parentNode.parentNode.children[6].children[0].id).val();
+    NoofHoursRequired = $('#' + this.parentNode.parentNode.children[8].children[0].id).val();
+
+    AddEstimator();
+    
 });
 
+
+
+
+
 function AddEstimator() {
-        $.ajax({
-            url: "ERMMaster.aspx/SetEstimator",
-            data: JSON.stringify({ "UserID": currUserId, "ProductID": ProductID, "EstHead": EstTeam, "Estimator": Estimator, "RequestId": RequestId, "DueDate": $("input[type=date][name=ESTDueDate]").val(), "Priority": Priority, "Hours": NoofHoursRequired}),
-            type: "POST",
-            contentType: "application/json;charset=utf-8",
-            dataType: "json",
-            async: false,
+    $.ajax({
+        url: "ERMMaster.aspx/SetEstimator",
+        data: JSON.stringify({ "UserID": currUserId, "ProductID": ProductID, "EstHead": EstTeam, "RequestId": RequestId, "DueDate": $("input[type=date][name=ESTDueDate]").val(), "Priority": Priority, "Hours": NoofHoursRequired}),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
 
-            success: function (result) {
+        success: function (result) {
                 
-                toastr.success('Updated Successfully..', '');
-                RequestedProductDetails();
-                $('.ajax-loader').removeClass('hidden');
-                setTimeout(function () {
-                    GetTableDetails('Please wait..');
+            toastr.success('Updated Successfully..', '');
+            RequestedProductDetails();
+            $('.ajax-loader').removeClass('hidden');
+            setTimeout(function () {
+                GetTableDetails('Please wait..');
 
-                    $(".ajax-loader").addClass('hidden');
-                }, 500);
-            },
-            //complete: function () {
-            //    $('.ajax-loader').hide();
-            //},
-            error: function (errormessage) {
-                alert(errormessage.responseText);
-            }
-        });
+                $(".ajax-loader").addClass('hidden');
+            }, 500);
+        },
+        //complete: function () {
+        //    $('.ajax-loader').hide();
+        //},
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
 
 
 }
@@ -2549,7 +2528,6 @@ function SaveEstimationProduct(ReqNumber, Product, Remarks, status, OwnerIdOpt) 
             $.each(result.d, function (key, item) {
 
                 var drpName = 'ddl-' + item.LineID;
-                var ddlEstimator = 'ddlEstimator-' + item.LineID;
                 var ddlPriority = 'ddlPriority-' + item.LineID;
                 var txtHours = 'txtHours-' + item.LineID;
 
@@ -2560,90 +2538,95 @@ function SaveEstimationProduct(ReqNumber, Product, Remarks, status, OwnerIdOpt) 
                                       <td>`+ item.Remarks + `</td>`;
 
 
-                if (item.EstimationTeam == EmpNo.toUpperCase() && item.Estimator == '') {
+                if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status == 'Pending For Estimation Head Approval') {
                     htm += ` <td> <select class="form-select" id=` + drpName + ` onchange=EstTeamChange(` + item.LineID + `,"` + item.EstimationTeam + `")></select > </td> `
-                }
+                    }
                 else {
                     htm += ` <td> <select class="form-select" id=` + drpName + ` disabled ></select > </td>`
-                }
+                    }
 
                 htm += `<td class="hidden">` + item.EstimationTeam + `</td>`
-                if (item.EstimationTeam == EmpNo.toUpperCase()) {
-                    htm += ` <td> <select class="form-select" id=` + ddlEstimator + `></select> </td>`
-                }
-                else {
-                    htm += ` <td> <select class="form-select" id=` + ddlEstimator + ` disabled></select> </td>`
-                }
-
-                htm += `  <td class="hidden">` + item.Estimator + `</td>
-
-                            <td></td>`;
+              
+                htm += `  <td></td>`;
 
                 if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status=='Pending For Estimation Head Approval'){
-                                htm += ` <td> <select class="form-select" id=` + ddlPriority + `>
-                                    <option value="-1">--SELECT---</option>
-                                     <option value="HEIGH">HEIGH</option>
-                                          <option value="MEDIUM">MEDIUM</option>
-                                              <option value="LOW">LOW</option>
-                                    </select> </td>`;
-                            }
-                            else {
-                                htm += `<td> <select class="form-select" id=` + ddlPriority + ` disabled>
-                                      <option value="-1" selected>--SELECT---</option>
-                                     <option value="HEIGH">HEIGH</option>
-                                          <option value="MEDIUM">MEDIUM</option>
-                                              <option value="LOW" >LOW</option>
-                                    </select> </td>`;
-                            }
+                    htm += ` <td> <select class="form-select" id=` + ddlPriority + `>
+                        <option value="-1">--SELECT---</option>
+                         <option value="HEIGH">HEIGH</option>
+                              <option value="MEDIUM">MEDIUM</option>
+                                  <option value="LOW">LOW</option>
+                        </select> </td>`;
+                }
+                else {
+                    htm += `<td> <select class="form-select" id=` + ddlPriority + ` disabled>
+                          <option value="-1" selected>--SELECT---</option>
+                         <option value="HEIGH">HEIGH</option>
+                              <option value="MEDIUM">MEDIUM</option>
+                                  <option value="LOW" >LOW</option>
+                        </select> </td>`;
+                }
                 
-                            htm += `  <td class="hidden">` + item.Priority + `</td>`;
-                            if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status=='Pending For Estimation Head Approval'){
-                                htm += ` <td>  <input type="number"   class="form-control" id=` + txtHours + `  value="`+item.Hours+`"  /> </td>`;
-                            }
-                            else {
-                                htm += ` <td>  <input type="number"   class="form-control" id=` + txtHours + ` value="`+item.Hours+`"  disabled/> </td>`;
-                            }
+                htm += `  <td class="hidden">` + item.Priority + `</td>`;
+                if (item.EstimationTeam == EmpNo.toUpperCase() && item.Status=='Pending For Estimation Head Approval'){
+                    htm += ` <td>  <input type="number"   class="form-control" id=` + txtHours + `  value="`+item.Hours+`"  /> </td>`;
+                }
+                else {
+                    htm += ` <td>  <input type="number"   class="form-control" id=` + txtHours + ` value="`+item.Hours+`"  disabled/> </td>`;
+                }
              
-                            htm += `<td><span class="`+ item.StatusClass + `" style="font-size: 13px !important;">` + item.Status + `</span></td>
-                                      <td>
-                                       
-                                      </td>
+                htm += `<td><span class="`+ item.StatusClass + `" style="font-size: 13px !important;">` + item.Status + `</span></td>`
 
-                                  </tr> `;
+                if (myroleList.includes("14213") && item.Status == 'Pending For Estimation Head Approval' && item.EstimationTeam == EmpNo.toUpperCase()) {
+                    htm +=`<td>
+                                <img src="images/icon-Update.png" title="Save" class="fa-icon-hover Update-Product-Details" style="cursor: pointer; width: 24px;" />&nbsp;
+                    <img src="images/icon-history.png" title="Add Estimator" class="fa-icon-hover Add-Estimator" style="cursor: pointer; width: 24px;" />&nbsp;
+                                    
+                    </td>`;
+                }
+            else if (myroleList.includes("14213") && item.EstimationTeam == EmpNo.toUpperCase()) {
+                htm += `<td>
+                    <img src="images/icon-Update.png" title="Save" class="fa-icon-hover Update-Product-Details"  style="cursor: pointer; width: 24px;display:none" />&nbsp;
+                <img src="images/icon-history.png" title="View Estimator" class="fa-icon-hover Add-Estimator" style="cursor: pointer; width: 24px;" />&nbsp;
+                <img src="images/edit-icon.png" title="Edit" class="fa-icon-hover Edit-Details" style="cursor: pointer; width: 24px;" />&nbsp;
+                                     
+                </td>`;
+            }
+            else{
+                                htm +=`<td></td>`;
+            }
+                                 htm +=  `</tr> `;
 
-                //   GetEstTeamLeaderForProduct(drpName, item.ERMProduct);
-            });
+            //   GetEstTeamLeaderForProduct(drpName, item.ERMProduct);
+        });
 
-            $('.tbody-Product-list').html(htm);
+    $('.tbody-Product-list').html(htm);
          
 
-            initiateDataTableRequestedproductList();
+    initiateDataTableRequestedproductList();
 
 
 
-            $('.tbody-Product-list tr').each(function (key, item) {
-                let LineID = item.children[0].textContent.trim();
-                let ddlname = "ddl-" + LineID;
-                let ddlEstimator = "ddlEstimator-" + LineID;
-                let EstimationHead = item.children[4].textContent.trim();
-                let Estimator = item.children[6].textContent.trim();
-                GetEstTeamLeaderForProduct(ddlname, item.children[1].textContent.trim());
-                GetEstimatorForProduct(ddlEstimator, item.children[1].textContent.trim(), EstimationHead);
-                $("#" + ddlname + "").val(EstimationHead);
-                if (Estimator != "") {
-                    $("#" + ddlEstimator + "").val(Estimator);
-                }
+    $('.tbody-Product-list tr').each(function (key, item) {
+        let LineID = item.children[0].textContent.trim();
+        let ddlname = "ddl-" + LineID;
 
-            });
+        let EstimationHead = item.children[4].textContent.trim();
 
-        },
-        //complete: function () {
-        //    $('.ajax-loader').hide();
-        //},
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
+        GetEstTeamLeaderForProduct(ddlname, item.children[1].textContent.trim());
+               
+        $("#" + ddlname + "").val(EstimationHead);
+              
+
     });
+
+},
+//complete: function () {
+//    $('.ajax-loader').hide();
+//},
+error: function (errormessage) {
+    alert(errormessage.responseText);
+}
+});
 
 
 
@@ -2755,9 +2738,11 @@ function EstimationReqControlsValidation(status,type) {
         $('#txtPrjBudget').attr('disabled', 'disabled');
         $('#txtPrjURL').attr('disabled', 'disabled');
         $("#rdStgTender").attr('disabled', 'disabled');
-        $('#EstimationDetailModal').find('input[name=Stage]').attr('disabled', 'disabled');
-        $('#EstimationDetailModal').find('input[name=Supply]').attr('disabled', 'disabled');
-        $('#EstimationDetailModal').find('input[name=Quotation]').attr('disabled', 'disabled');
+        $('select[name=ESType]').attr('disabled', 'disabled');
+        $('select[name=Stage]').attr('disabled', 'disabled');
+        $('select[name=Supply]').attr('disabled', 'disabled');
+        $('select[name=Quotation]').attr('disabled', 'disabled');
+        
 
     }
     else {
@@ -2775,9 +2760,10 @@ function EstimationReqControlsValidation(status,type) {
         $('#txtPrjWinningPerc').removeAttr('disabled');
         $('#txtPrjBudget').removeAttr('disabled');
         $('#txtPrjURL').removeAttr('disabled');
-        $('#EstimationDetailModal').find('input[name=Stage]').removeAttr('disabled');
-        $('#EstimationDetailModal').find('input[name=Supply]').removeAttr('disabled');
-        $('#EstimationDetailModal').find('input[name=Quotation]').removeAttr('disabled');
+        $('select[name=ESType]').removeAttr('disabled');
+        $('select[name=Stage]').removeAttr('disabled');
+        $('select[name=Supply]').removeAttr('disabled');
+        $('select[name=Quotation]').removeAttr('disabled');
 
     }
 }
@@ -3198,3 +3184,137 @@ $(".btn-history").on('click', function () {
         }
     });
 })
+
+
+$('.tbody-Product-list').on('click', '.Add-Estimator', function () {
+
+    ProductID = this.parentNode.parentNode.children[0].textContent;
+    GetEstimatorList();
+    LoadALlocatedEstimator();
+    $('#ModalEstimator').modal('show');
+});
+
+
+function LoadALlocatedEstimator() {
+
+    $.ajax({
+        url: "ERMMaster.aspx/GetAllocatedEstimatorList",
+        data: JSON.stringify({
+            "ReqID": RequestId,
+            "ReqLineID": ProductID,
+            "UserID": currUserId,
+        }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+
+            var htm = '';
+            $.each(result.d, function (key, item) {
+
+                htm += `<tr>
+				  <td class="hidden" style="text-align:center;">`+ item.AllocationID + `</td>
+                  <td style="text-align:center;">`+ item.EmpNo + `</td>
+                  <td style="text-align:center;">`+ item.EmpName + `</td>
+                  <td style="text-align:center;">`+ item.CreatedDate + `</td>
+                  <td style="text-align:center;">`+ item.EstimationStatus + `</td>
+                  <td style="text-align:center;">`+ item.EstimatorStatus + `</td>
+                  <td style="text-align:center;">
+                  <span style="margin-left: 4%;"><i class="bx bx-trash fa-icon-hover ibtn-remove-estimator"  style="color:#d33a3a; cursor:pointer;font-size: x-large;" ></i> </span>
+                  </td>
+                  `
+                htm += `</tr>`;
+
+            });
+            $('.tbody-Estimator-List').html(htm);
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+$('.tbody-Estimator-List').on('click', '.ibtn-remove-estimator', function () {
+
+    let allocationID = this.parentNode.parentNode.parentNode.childNodes[1].textContent;
+    RemoveAnEstimator(allocationID);
+});
+
+$('.tbody-Product-list').on('click', '.Edit-Details', function () {
+    $(".Update-Product-Details").css("display", "");
+    $(".isEditMode").removeAttr("disabled");
+    
+});
+
+
+function GetEstimatorList() {
+
+    $.ajax({
+        url: "ERMMaster.aspx/GetEstimatorList",
+        data: JSON.stringify({ "UserId": currUserId, "ReqLineID": ProductID }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+            var htm = '<option value="-1">--- Select Employee --- </option> ';
+            empList = result.d;
+
+            $.each(result.d, function (key, item) {
+                htm += '<option value="' + item.ddlValue + '"> ' + item.ddlText + '</option>';
+            });
+
+            $('#ddlEstimatorList').html(htm);
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
+function RemoveAnEstimator(AllocationID) {
+    $.ajax({
+        url: "ERMMaster.aspx/RemoveAnEstimator",
+        data: JSON.stringify({ "AllocationID": AllocationID, "UserID":  currUserId }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+
+            if (result.d) {
+                toastr.success(" Successfully Removed");
+                LoadALlocatedEstimator();
+                GetEstimatorList();
+            }
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
+
+function AddNewEstimator() {
+    $.ajax({
+        url: "ERMMaster.aspx/AddAnEstimator",
+        data: JSON.stringify({ "ReqID": RequestId, "ReqLineID": ProductID, "EstimatorID": $('#ddlEstimatorList').val(), "UserID": currUserId }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        success: function (result) {
+
+            if (result.d) {
+                toastr.success(" Successfully Added");
+                LoadALlocatedEstimator();
+                GetEstimatorList();
+            }
+
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}

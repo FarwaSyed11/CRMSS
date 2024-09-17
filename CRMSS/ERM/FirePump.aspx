@@ -190,24 +190,33 @@
                             </div>
                         </div>
 
-                        <div class="row m1-2 fs-6 mb-4 border" style="">
-                            <div class="col-md-3 px-3 pb-2 border-right">
-                                <b>Stage :
-                                </b>
-                                <input type="radio" id="Radio1" name="SummaryStage" value="TENDER" style="margin-left: 5%" disabled="" class="fs-6" checked="Checked">TENDER 
-                                <input type="radio" id="Radio2" name="SummaryStage" value="J.O.H" style="margin-left: 5%" disabled="">JOH
+                        <div class="row mt-3">
+                        
+                            <div class="col-md-3">
+                                <label class="label-custom">Stage</label>
+                                <select name="Stage" class="form-select" disabled="disabled">
+                                    <option value="TENDER">TENDER</option>
+                                    <option value="J.O.H">J.O.H</option>
+                                </select>
                             </div>
-                            <div class="col-md-4 border-right">
-                                <b>Scope :
-                                </b>
-                                <input type="radio" id="Radio3" name="SummarySupply" value="SUPPLY" style="margin-left: 5%" disabled="">SUPPLY
-                                <input type="radio" id="Radio4" name="SummarySupply" value="SUPPLY AND INSTALLATION" style="margin-left: 5%" disabled="" checked="Checked">SUPPLY &amp; INSTALLATION
+
+                            <div class="col-md-3">
+                                <label class="label-custom">Scope</label>
+                                <select name="Supply" class="form-select" disabled="disabled">
+                                    <option value="SUPPLY">SUPPLY</option>
+                                    <option value="SUPPLY AND INSTALLATION">SUPPLY & INSTALLATION</option>
+                                </select>
                             </div>
-                            <div class="col-md-5">
-                                <b>Quotation :
-                                </b>
-                                <input type="radio" id="Radio5" name="SummaryQuotation" value="SMART QTNG" style="margin-left: 5%" disabled="">SMART QTNG
-                                <input type="radio" id="Radio6" name="SummaryQuotation" value="AS PER DRAWING AND SPECIFICATION" style="margin-left: 5%" disabled="" checked="Checked">AS PER DRAWING &amp; SPECIFICATION
+                            <div class="col-md-3">
+                                <label class="label-custom">Quotation</label>
+                                <select name="Quotation" class="form-select" disabled="disabled">
+                                    <option value="SMART QTNG">SMART QTNG</option>
+                                    <option value="AS PER DRAWING AND SPECIFICATION">AS PER DRAWING AND SPECIFICATION</option>
+                                    <option value="AS PER MINIMUM REQUIREMENT">AS PER MINIMUM REQUIREMENT</option>
+                                    <option value="AS PER BOQ">AS PER BOQ</option>
+                                    <option value="DESIGN AND BUILT">DESIGN AND BUILT</option>
+                                    <option value="BUDGETED">BUDGETED</option>
+                                </select>
                             </div>
                         </div>
                         <div class="row m1-2 fs-6 mb-4 border" style="">
@@ -261,12 +270,17 @@
 
                         </div>
 
-                        <div class="row div-Complete" style="padding-top: 1px;">
-
-                            <div style="width: 8%;">
+                        <div class="row" style="padding-top: 1px;">
+                            <div style="width: 8%;" class="div-Complete">
                                 <button id="btnComplete" type="button" class="btn btn-primary">Complete</button>
                             </div>
+                            <div class="div-Release" style="width: 8%;">
+                                <button id="btnRelease" type="button" class="btn btn-primary">Release</button>
+                            </div>
 
+                            <div class="div-TechnicalNote" style="width: 8%;">
+                                <button id="btnTechnicalNote" type="button" class="btn btn-primary">Technical Note</button>
+                            </div>
                         </div>
                         <button type="button" class="btn btn-primary btn-add-additionalitems float-right me-2">
                             <i class="bx bx-plus"></i>Additional Item</button>

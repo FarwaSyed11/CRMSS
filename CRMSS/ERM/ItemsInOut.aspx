@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="EMSItemList.aspx.cs" Inherits="Sales_EMSItemList" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="ItemsInOut.aspx.cs" Inherits="ERM_ItemsInOut" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
@@ -11,13 +11,6 @@
     <link rel="stylesheet" href="../Template/assets/vendor/libs/richtexteditor/richtext.css" />
 
     <style type="text/css">
-        .dragIcon:hover {
-            background-image: url(images/down.png);
-            background-size: 30px;
-            background-repeat: no-repeat;
-            background-position: 4px;
-        }
-
         ::-webkit-scrollbar {
             width: 4px;
         }
@@ -29,7 +22,8 @@
         ::-webkit-scrollbar-thumb {
             background: #888;
         }
-            /* Handle on hover */ ::-webkit-scrollbar-thumb:hover {
+            /* Handle on hover */
+            ::-webkit-scrollbar-thumb:hover {
                 background: #555;
             }
 
@@ -261,6 +255,7 @@
             padding-bottom: 10px;
             margin: 10px 0px 60px 0px;
             counter-reset: step;
+            width: 135%;
         }
 
             .progressbar li {
@@ -272,7 +267,6 @@
                 text-align: center;
                 text-transform: uppercase;
                 color: #7d7d7d;
-                width: 32% !important;
             }
 
                 .progressbar li:before {
@@ -361,20 +355,20 @@
             right: 36px;
             color: #505050;
         }
-
-        .select2-container--default .select2-selection--multiple .select2-selection__choice__display {
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__display {    
             color: white !important;
         }
-
-        .modal {
+        .modal{           
             overflow-y: auto !important;
         }
-
-        @media (min-width: 1200px) {
-            .modal-xxl {
-                max-width: 1830px;
-            }
-        }
+		@media (min-width: 1200px) {
+		.modal-xxl {
+		    max-width: 1870px;
+		}
+	   }
+		.active-output-row {			
+			background-color: #eacec6 !important;
+		}
     </style>
 
 </asp:Content>
@@ -391,9 +385,6 @@
             <div class="card-body" style="margin-top: -1%;">
                 <div class="row mb-3">
                     <div class="col-md-2">
-                        <%-- <div class="">
-                <label for="html5-number-input" class="col-form-label label-custom">Estimation Status</label>
-            </div>--%>
                         <div class="input-group me-3">
                             <%--<label class="input-group-text"><i class="bx bx-search-alt-2" style="font-size: 26px; color: #bc3f3f;"></i></label>--%>
                             <label class="input-group-text">Status</label>
@@ -422,7 +413,13 @@
                             </div>
                         </div>
                     </div>
+
+					<div class="col-md-8">
+						<button type="button" class="btn btn-primary float-right btn-inout-itemcalc-grid"> <i class="bx bx-notepad"></i> Add IO Items Calc</button>
+					</div>
                 </div>
+
+
                 <div>
                     <table class="mt-1 table esti-req-table" style="width: 100%;">
 
@@ -527,14 +524,14 @@
                                             <%--<li><button class="nav-link" id="nav-TOC-tab" data-bs-toggle="tab" data-bs-target="#nav-TOC" type="button" role="tab" aria-controls="nav-TOC" aria-selected="false">Create TOC</button></li>
                                             <li><button class="nav-link" id="nav-Summary-tab" data-bs-toggle="tab" data-bs-target="#nav-Summary" type="button" role="tab" aria-controls="nav-Summary" aria-selected="false">Summary</button></li>--%>
                                         </ul>
-
+										<div><a class="btn btn-primary btn-det-by-projno-grid">More Details</a></div>
                                     </div>
 
                                     <div class="col-12">
                                         <%--style="height: 600px; overflow-y: auto;"--%>
                                         <div class="tab-content" id="nav-tabContent">
                                             <div class="tab-pane fade show active" id="nav-Details" role="tabpanel" aria-labelledby="nav-home-tab">
-                                                <button class="btn btn-primary float-right" onclick="javascript:printDetails('Estimation-details-rectangle-divS')">Print</button>
+                                                <button class="btn btn-primary float-right" onclick="javascript:printDiv('Estimation-details-rectangle-divS')">Print</button>
                                                 <div id="Estimation-details-rectangle-divS" style="">
                                                     <div class="row mt-4 mb-4" style="">
                                                         <h5 class="fw-bold prpmdl-hed border-bottom" id="" style="">Details</h5>
@@ -840,68 +837,46 @@
                                                     </div>
 
                                                     <div class="row mt-3">
-                                                        <div class="col-md-3 px-3">
-                                                            <label class="label-custom">Estimation Type:</label>
-                                                            <select name="ESType" class="form-select" disabled>
-                                                                <option value="BOQ">BOQ</option>
-                                                                <option value="ESTIMATION">ESTIMATION</option>
-                                                            </select>
+                                                        <div class="col-md-4 px-3">
+                                                            <b>Stage :
+                                                            </b>
+                                                            <input type="radio" id="rdStgTender" name="Stage" value="TENDER" style="margin-left: 5%" disabled>TENDER 
+                                                            <input type="radio" id="rdStgJOH" name="Stage" value="J.O.H" style="margin-left: 5%" disabled>JOH
                                                         </div>
-                                                        <div class="col-md-3">
-                                                            <label class="label-custom">Stage</label>
-                                                            <select name="Stage" class="form-select" disabled>
-                                                                <option value="TENDER">TENDER</option>
-                                                                <option value="J.O.H">J.O.H</option>
-                                                            </select>
+                                                        <div class="col-md-4">
+                                                            <b>Scope :
+                                                            </b>
+                                                            <input type="radio" id="rdSp" name="Supply" value="SUPPLY" style="margin-left: 5%" disabled>SUPPLY
+                                                            <input type="radio" id="rdSpInstall" name="Supply" value="SUPPLY AND INSTALLATION" style="margin-left: 5%" disabled>SUPPLY & INSTALLATION
                                                         </div>
-
-                                                        <div class="col-md-3">
-                                                            <label class="label-custom">Scope</label>
-                                                            <select name="Supply" class="form-select" disabled>
-                                                                <option value="SUPPLY">SUPPLY</option>
-                                                                <option value="SUPPLY AND INSTALLATION">SUPPLY & INSTALLATION</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <label class="label-custom">Quotation</label>
-                                                            <select name="Quotation" class="form-select" disabled>
-                                                                <option value="SMART QTNG">SMART QTNG</option>
-                                                                <option value="AS PER DRAWING AND SPECIFICATION">AS PER DRAWING AND SPECIFICATION</option>
-                                                                <option value="AS PER MINIMUM REQUIREMENT">AS PER MINIMUM REQUIREMENT</option>
-                                                                <option value="AS PER BOQ">AS PER BOQ</option>
-                                                                <option value="DESIGN AND BUILT">DESIGN AND BUILT</option>
-                                                                <option value="BUDGETED">BUDGETED</option>
-                                                            </select>
+                                                        <div class="col-md-4">
+                                                            <b>Quotation :
+                                                            </b>
+                                                            <input type="radio" id="rdQtSmart" name="Quotation" value="SMART QTNG" style="margin-left: 5%" disabled>SMART QTNG
+                                                            <input type="radio" id="rdQtAndSp" name="Quotation" value="AS PER DRAWING AND SPECIFICATION" style="margin-left: 5%" disabled>AS PER DRAWING & SPECIFICATION
+ 
+                                                            <%-- <a href="#" id="btnSubmitOptDet" class="btn btn-primary" style="float:right;">Submit</a>--%>
                                                         </div>
                                                     </div>
 
-                                                    <div class="row my-4">
-                                                        <div class="col-12">
-                                                            <button type="button" class="btn btn-primary btn-history ml-2 float-right">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" class="me-2" width="1.5rem" height="1.5rem" viewBox="0 0 24 24">
-                                                                    <path fill="none" stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.266 16.06a8.92 8.92 0 0 0 3.915 3.978a8.7 8.7 0 0 0 5.471.832a8.8 8.8 0 0 0 4.887-2.64a9.07 9.07 0 0 0 2.388-5.079a9.14 9.14 0 0 0-1.044-5.53a8.9 8.9 0 0 0-4.069-3.815a8.7 8.7 0 0 0-5.5-.608c-1.85.401-3.366 1.313-4.62 2.755c-.151.16-.735.806-1.22 1.781M7.5 8l-3.609.72L3 5m9 4v4l3 2" />
-                                                                </svg>View Request History</button>
-                                                        </div>
-
-                                                    </div>
-
-                                                    <div style="" class="Estimation-data">
-                                                        <nav class="navs" id="nav-tab-bottom">
-                                                            <ul class="nav nav-tabs nav-pills" id="Estimation-Det" role="tablist">
+                                                    <div style="margin-top: 1.5%;" class="Estimation-data">
+                                                        <nav id="nav-tab">
+                                                            <ul class="nav nav-pills" id="Estimation-Det" role="tablist">
                                                                 <li class="nav-item">
-                                                                    <button type="button" id="navs-top-Products" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-Products" aria-controls="navs-Products" aria-selected="true" aria-disabled="false">Product</button>
+                                                                    <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-Products" aria-controls="navs-top-Products" aria-selected="true">Product</button>
                                                                 </li>
                                                                 <li class="nav-item">
-                                                                    <button type="button" id="navs-top-Attachment" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-Attachment" aria-controls="navs-Attachment" aria-selected="false" aria-disabled="true">Attachment</button>
+                                                                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-Attachment" aria-controls="navs-top-Attachment" aria-selected="false">Attachment</button>
                                                                 </li>
                                                                 <li class="nav-item">
-                                                                    <button type="button" id="navs-top-Comments" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-Comments" aria-controls="navs-Comments" aria-selected="false" aria-disabled="true">Comments</button>
+                                                                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-Comments" aria-controls="navs-top-Comments" aria-selected="false">Comments</button>
                                                                 </li>
                                                             </ul>
                                                             <div class="tab-content">
-                                                                <div class="tab-pane fade show active p-3" id="navs-Products" role="tabpanel" aria-labelledby="navs-top-Products">
 
-                                                                    <div style="">
+                                                                <div class="tab-pane fade show active" id="navs-top-Products" role="tabpanel">
+
+                                                                    <div style="padding-top: 2%">
 
                                                                         <table class="table Product-list-table" style="width: 100%;">
                                                                             <thead>
@@ -911,76 +886,121 @@
                                                                                     <th>Remarks</th>
                                                                                     <th>Estimation Team</th>
                                                                                     <td class="hidden">EH</td>
+                                                                                    <th>Estimator</th>
+                                                                                    <td class="hidden">ES</td>
                                                                                     <th>Due Date</th>
-                                                                                    <th>Priority</th>
-                                                                                    <td class="hidden">Priority</td>
-                                                                                    <th>Hours</th>
                                                                                     <th>Status</th>
-                                                                                    <th>Action</th>
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody class="tbody-Product-list" style="text-align: center;">
                                                                             </tbody>
                                                                         </table>
+
+
+                                                                        <%--<table class="table Product-list-table" style="width: 100%;">
+                        <thead>
+                            <tr style="text-align: center;">
+                                <td class="hidden">ReqID</td>
+                                <th>Product</th>
+                                <th>Remarks</th>
+                                <th>Estimation Team</th>
+                                <td class="hidden">EH</td>
+                                <th>Estimator</th>
+                                <td class="hidden">ES</td>
+                                <th>Due Date</th>
+                                <th>Priority</th>
+                                <th>Hours</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="tbody-Product-list" style="text-align: center;">
+                        </tbody>
+                    </table>--%>
                                                                     </div>
                                                                 </div>
-                                                                <div class="tab-pane fade p-3" id="navs-Attachment" role="tabpanel" aria-labelledby="navs-top-Attachment">
 
-                                                                    <div>
-                                                                        <a href="#" id="btnNewAttacment" class="btn btn-primary pull-right"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Attachment</a>
-                                                                    </div>
-                                                                    <div style="padding-top: 3%;">
-                                                                        <table class="table Attachment-list-table" style="width: 100%;">
-                                                                            <%--<caption class="ms-4">List of Projects</caption>--%>
-                                                                            <thead>
-                                                                                <tr style="text-align: center;">
-                                                                                    <th style="display: none;">Id</th>
-                                                                                    <th>Product</th>
-                                                                                    <th>Product Type</th>
-                                                                                    <th>Filename</th>
-                                                                                    <th>Comments</th>
-                                                                                    <th style="display: none;">Comments</th>
-                                                                                    <th>Action</th>
+                         <div class="tab-pane fade" id="navs-top-Attachment" role="tabpanel">
 
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody class="tbody-Attachment-list" style="text-align: center;">
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div>
+                                    <div>
+                                        <a href="#" id="btnNewAttacment" class="btn btn-primary pull-right"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Attachment</a>
+                                    </div>
+                                    <div style="padding-top: 3%;">
+                                        <table class="table Attachment-list-table" style="width: 100%;">
+                                            <%--<caption class="ms-4">List of Projects</caption>--%>
+                                            <thead>
+                                                <tr style="text-align: center;">
+                                                    <th style="display: none;">Id</th>
+                                                    <th>Product</th>
+                                                    <th>Product Type</th>
+                                                    <th>Filename</th>
+                                                    <th>Comments</th>
+                                                    <th style="display: none;">Comments</th>
+                                                    <th>Action</th>
 
-                                                                </div>
-                                                                <div class="tab-pane fade p-3" id="navs-Comments" role="tabpanel" aria-labelledby="navs-top-Comments">
+                                                </tr>
+                                            </thead>
+                                            <tbody class="tbody-Attachment-list" style="text-align: center;">
+                                            </tbody>
+                                        </table>
+                                    </div>
 
-                                                                    <div>
-                                                                        <a href="#" id="btnAddNewComments" class="btn btn-primary pull-right"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Comments</a>
-                                                                    </div>
+                          </div>
+                  <div class="tab-pane fade" id="navs-top-Comments" role="tabpanel">
 
-                                                                    <div style="padding-top: 3%;">
+                                  <div>
+                                        <a href="#" id="btnAddNewComments" class="btn btn-primary pull-right"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Comments</a>
+                                    </div>
+
+                                    <div style="padding-top: 3%;">
 
 
-                                                                        <table class="table Comments-list-table" style="width: 100%;">
-                                                                            <%--<caption class="ms-4">List of Projects</caption>--%>
-                                                                            <thead>
-                                                                                <tr style="text-align: center;">
+                                        <table class="table Comments-list-table" style="width: 100%;">
+                                            <%--<caption class="ms-4">List of Projects</caption>--%>
+                                            <thead>
+                                                <tr style="text-align: center;">
 
-                                                                                    <th>SlNo.</th>
-                                                                                    <th>Products</th>
-                                                                                    <th>Commment</th>
-                                                                                    <th>UpdatedBy</th>
-                                                                                    <th>Updated Date</th>
+                                                    <th>SlNo.</th>
+                                                    <th>Products</th>
+                                                    <th>Commment</th>
+                                                    <th>UpdatedBy</th>
+                                                    <th>Updated Date</th>
 
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody class="tbody-Comments-list" style="text-align: center;">
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="tbody-Comments-list" style="text-align: center;">
+                                            </tbody>
+                                        </table>
+                                    </div>
 
-                                                                </div>
-                                                            </div>
-                                                        </nav>
-                                                    </div>
+                          </div>
+                      </div>
+                  </nav>
+              </div>
+
+                                                    <%--<div style="padding-top: 2%">
+
+                                                        <table class="table Product-list-table" style="width: 100%;">
+                                                            <%--<caption class="ms-4">List of Projects</caption>--%
+                                                            <thead>
+                                                                <tr style="text-align: center;">
+                                                                    <td class="hidden">ReqID</td>
+                                                                    <th>Product</th>
+                                                                    <th>Remarks</th>
+                                                                    <th>Estimation Team</th>
+                                                                    <td class="hidden">EH</td>
+                                                                    <th>Estimator</th>
+                                                                    <td class="hidden">ES</td>
+                                                                    <th>Due Date</th>
+                                                                    <th>Status</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody class="tbody-Product-list" style="text-align: center;">
+                                                            </tbody>
+                                                        </table>
+
+                                                    </div>--%>
+                                                    <%--<button type="button" class="btn btn-primary btnAddUpdateReq">Start</button>--%>
                                                 </div>
                                             </div>
                                             <div class="tab-pane fade" id="nav-Structure" role="tabpanel" aria-labelledby="nav-Structure-tab">
@@ -1116,9 +1136,7 @@
                                                         Add Fire Pump
                                                     </button>
                                                     <button type="button" class="btn btn-primary btn-add-additionalitems float-right me-2">
-                                                        <i class="bx bx-plus"></i>
-                                                        Additional Item
-                                                    </button>
+                                                        <i class="bx bx-plus"></i>Additional Item</button>                                                                                                       
                                                 </div>
 
 
@@ -1454,67 +1472,203 @@
 
     <%--ADD/UPDATE System & Items--%>
     <div class="modal fade" id="addUpdateSystemnItems" tabindex="-1" style="background: #a9a9a996;" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-dialog modal-xxl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="col-6">
                         <h5 class="modal-title" id="addUpdateSystemnItemsLabel">Add Item(s)</h5>
                     </div>
-                    <div class="d-flex justify-content-end" style="max-width: 48%; width: 48%;">
+                   <%-- <div class="d-flex justify-content-end" style="max-width: 48%; width: 48%;">
                         <button type="button" class="btn btn-primary btnAddItemsTOC"><i class='bx bxs-save'></i>Save Changes </button>
-                    </div>
+                    </div>--%>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" style="zoom: 85%;">
 
-                    <div class="row mt-1">
-                        <div class="col-md-3">
+				<%--	<div class="row mt-1">
+                        <div class="col-md-2">
                             <label>System</label>
                             <select id="ddlSystem" class="form-select color-dropdown"></select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label>Category</label>
                             <select id="ddlCategory" class="form-select color-dropdown"></select>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <label>Item Code/ Desc</label>
                             <input class="form-control" type="text" placeholder="Enter Item Code" style="background-color: white;" id="txtItemCode">
                         </div>
+                        <div class="col-md-2">
+                            <a href="#" class="btn btn-primary" id="btnItemFilterTOC" style="margin-top: 30px;">Search Output Item</a>
+                        </div>
+
+                    </div>--%>
+
+					<div class="row mt-4">
+						<div class="col-md-4" style="border-right: 1px solid #80808059;">
+							<div class="row"> 
+								<div class="col-md-6"> <h5>Output Items List</h5> </div>  <div class="col-md-6"><a href="#" class="btn btn-primary float-right" id="btnAddOutputItem-Grid" style="">Add Output Item</a> </div>
+						    </div>
+							<div class="table mt-2" style="overflow-y: auto; max-height: 800px;">
+							    <table class="table item-output-table" style="width: 100%;">
+
+							        <thead style="position: sticky; top: -3px;">
+							            <tr class="Head-tr">
+							                <th>Item Code</th>
+							                <th>Item Desc</th>
+							                <th>System</th>
+							                <th>Category</th>
+							                <th>Action</th>
+							            </tr>
+							        </thead>
+
+							        <tbody class="tbody-items-output">
+							        </tbody>
+							    </table>
+							</div>
+				</div>
+
+			     <div class="col-md-8">
+			     
+			     		<div class="row"> 
+			     			<div class="col-md-6"> <h5>Input Items List</h5> </div>  <div class="col-md-6"><a href="#" class="btn btn-primary float-right" id="btnAddInputItem-Grid" style="">Add Input Item</a> </div>
+			     		</div>
+			     
+			     		<div class="table mt-2" style="overflow-y: auto; max-height: 800px;">
+			     							    <table class="table item-input-table" style="width: 100%;">
+			     
+			     							        <thead style="position: sticky; top: -3px;">
+			     							            <tr class="Head-tr">			     							                
+			     							                <th>Item Code</th>
+			     							                <th>Item Desc</th>
+			     							                <th>System</th>
+			     							                <th>Category</th>
+			     							                <th>Calculation</th>
+			     							                <th>Action</th>
+			     							            </tr>
+			     							        </thead>
+			     
+			     							        <tbody class="tbody-items-input">
+			     							        </tbody>
+			     							    </table>
+			     		</div>
+			     
+			     </div>
+
+					</div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+	 <%--ALL LIST OF ITEMS FOR ADDING INPUT ITEM --%>
+    <div class="modal fade" id="addInputItemModal" tabindex="-1" style="background: #a9a9a996;" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="col-6">
+                        <h5 class="modal-title" id="lbladdInputItemModal">Add Input Items</h5>
+                    </div>
+					<div class="d-flex justify-content-end" style="max-width: 48%; width: 48%;">
+                        <button type="button" class="btn btn-primary btnAddInputItems"><i class='bx bxs-save'></i>Save Changes </button>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="zoom: 85%;">
+
+					<div class="row"> <h5>Items Lists</h5>  </div>
+			    
+			  <div class="table mt-2" style="overflow-y: auto; max-height: 800px;">
+                        <table class="table input-allitem-table" style="width: 100%;">
+
+                            <thead style="position: sticky; top: -3px;">
+                                <tr class="Head-tr">
+                                    <th style="width: 52px !important">Select</th>
+                                    <th>Item Code</th>
+                                    <th>Item Desc</th>
+                                    <th>System</th>
+                                    <th>Category</th>
+                                    <th>Calculation</th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="tbody-input-allitem">
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+	<%--ADD/UPDATE System & Items--%>
+    <div class="modal fade" id="addOutputItemModal" tabindex="-1" style="background: #a9a9a996;" aria-hidden="true">
+        <div class="modal-dialog modal-xxl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="col-6">
+                        <h5 class="modal-title" id="lbladdOutputItemModal">Add Output Item(s)</h5>
+                    </div>
+                    <div class="d-flex justify-content-end" style="max-width: 48%; width: 48%;">
+                        <button type="button" class="btn btn-primary btnAddOutputItems"><i class='bx bxs-save'></i>Save Changes </button>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="zoom: 85%;">
+
+					<div class="row mt-1">
+                        <div class="col-md-2">
+                            <label>System</label>
+                            <select id="ddlSystem" class="form-select color-dropdown"></select>
+                        </div>
+                        <div class="col-md-2">
+                            <label>Category</label>
+                            <select id="ddlCategory" class="form-select color-dropdown"></select>
+                        </div>
                         <div class="col-md-1">
+                            <label>Item Code/ Desc</label>
+                            <input class="form-control" type="text" placeholder="Enter Item Code" style="background-color: white;" id="txtItemCode">
+                        </div>
+                        <div class="col-md-2">
                             <a href="#" class="btn btn-primary" id="btnItemFilterTOC" style="margin-top: 30px;">Search</a>
                         </div>
-                        <div class="col-md-3" style="display: flex; justify-content: flex-end">
-                            <a href="#" class="btn btn-primary btn-item-withoutcode-grid me-2" style="margin-top: 30px;"><i class="bx bx-plus"></i>Item Without Code</a>
-                            <a href="#" class="btn btn-primary" id="btnAddItemFromOracle-grid" style="margin-top: 30px;"><i class="fa fa-plus" aria-hidden="true"></i>Add From Oracle</a>
-                        </div>
 
                     </div>
 
+					<div class="row mt-4">
+						<div class="col-md-12" style="border-right: 1px solid #80808059;">
+							<div class="row"> <h5>Items List</h5> </div>
+						   
+							<div class="table mt-2" style="overflow-y: auto; max-height: 800px;">
+							    <table class="table output-allitem-table" style="width: 100%;">
 
-                    <div class="table mt-2" style="overflow-y: auto; max-height: 800px;">
-                        <table class="table item-toc-table" style="width: 100%;">
+							        <thead style="position: sticky; top: -3px;">
+							            <tr class="Head-tr">
+							               <th style="width: 52px !important">Select</th>
+										   <th>Item Code</th>
+										   <th>Item Desc</th>
+										   <th>System</th>
+										   <th>Category</th>
+										   <th>Spare QTY</th>
+							            </tr>
+							        </thead>
 
-                            <thead style="position: sticky; top: -3px;">
-                                <tr class="Head-tr">
-                                    <th style="width: 52px !important">Select</th>
-                                    <th style="width: 52px !important">Optional</th>
-                                    <th>Item Code</th>
-                                    <th>Item Desc</th>
-                                    <th>System</th>
-                                    <th>Category</th>
-                                    <th class="col-for-pipe-category hidden">Pipe Unit Price</th>
-                                    <th class="col-for-pipe-category hidden">Fittings %</th>
-                                    <th class="col-for-pipe-category hidden">Installation Unit Price</th>
-                                    <th class="col-for-all-category hidden">Installation Unit Price</th>
-                                    <th>Spare QTY</th>
-                                    <th>Alternate Item</th>
-                                </tr>
-                            </thead>
+							        <tbody class="tbody-output-allitem">
+							        </tbody>
+							    </table>
+							</div>
+				</div>
+			
 
-                            <tbody class="tbody-items-toc">
-                            </tbody>
-                        </table>
-                    </div>
+					</div>
 
                 </div>
 
@@ -1524,596 +1678,8 @@
 
 
 
-    <%--MODAL ITEMS LIST--%>
-
-    <div class="modal fade" id="addItemsListModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addItemsListModalLabel">Add Request</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" style="zoom: 85%;">
-
-                    <div class="table" style="overflow-y: auto; max-height: 800px;">
-                        <table class="table item-table" style="width: 100%;">
-
-                            <thead style="position: sticky; top: -3px;">
-                                <tr class="Head-tr">
-                                    <th style="width: 52px !important">Select</th>
-                                    <th>Item Code</th>
-                                    <th>Item Desc</th>
-                                </tr>
-                            </thead>
-
-                            <tbody class="tbody-items-list">
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btnSaveItem">Select </button>
-                    <%--<button type="button" class="btn btn-primary btnSubmit hidden">Publish</button>--%>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Add More Floor Types in Structure -->
-
-    <div class="modal fade" id="AddFloorTypeModal" tabindex="-1" style="background: #a9a9a996;" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addFloorTypeLabel">Add Floor Type</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" style="zoom: 85%;">
-
-                    <div class="row">
-                        <div class="col mb-6">
-                            <label for="nameBackdrop" class="form-label">Floor Type Name</label>
-                            <input type="text" id="txtFlrTypeName" class="form-control" placeholder="eg: Floor">
-                        </div>
-                        <div class="col mb-6">
-                            <label for="nameBackdrop" class="form-label">Floor Type Alias</label>
-                            <input type="text" id="txtFlrTypeAlias" class="form-control" disabled>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary btnAddMoreFlrType" onclick="AddMoreFloorType()">Add </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-    <%--TOC WORK--%>
-    <%--Tag Floor With The Items in TOC--%>
-    <div class="modal fade" id="tagFloorIntoItems" tabindex="-1" aria-hidden="true" style="background: #adacaca3;">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="tagFloorIntoItemsLabel">Floor</h5>
-                    <div style="display: flex; justify-content: end; width: 91%;">
-                        <button type="button" class="btn btn-primary btnAddFloorsIntoItem">Save </button>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" style="zoom: 85%;">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <label>Structure Name</label>
-                            <select id="ddlStructNameTOC" class="form-select color-dropdown"></select>
-                        </div>
-                        <div class="col-md-2">
-                            <label>Floor Type</label>
-                            <select id="ddlFloorTypeTOC" class="form-select color-dropdown"></select>
-                        </div>
-                        <div class="col-md-2 adv-filter ">
-                            <label>Floor No.</label>
-                            <select id="ddlFloorFromTOC" class="form-select color-dropdown"></select>
-                        </div>
-                        <div class="col-md-2">
-                            <%--<a href="#" class="btn" id="btnFloorFilterTOC" style="margin-top: 30px;">Search</a>--%>
-                        </div>
-
-                        <div class="col-md-1"></div>
-
-                        <div class="col-md-2">
-                            <label>Quantity</label>
-                            <input class="form-control" type="number" id="txtQuantityTOC" placeholder="enter quantity" min="0">
-                        </div>
-                        <%--  <div class="col-md-2 adv-filter ">
-                            <label>Is Typical</label>
-                            <div style="display: flex; justify-content: center;">
-                                <input class="form-check-input" type="checkbox" value="Base" id="cbIsTypical"></div>
-                        </div>--%>
-                        <%--    <div class="col-md-3 adv-filter ">
-                            <label>Master Floor</label>
-                            <select id="ddlFloorMaster" class="form-select color-dropdown"></select>
-                        </div>--%>
-                    </div>
-                    <div class="table mt-5" style="overflow-y: auto; max-height: 800px;">
-                        <table class="table floor-into-item-table" style="width: 100%;">
-                            <thead style="position: sticky; top: -3px;">
-                                <tr class="Head-tr">
-                                    <th>Item Code</th>
-                                    <th>Floor Name</th>
-                                    <th>Quantity</th>
-                                    <th>Structure</th>
-                                    <th>Action</th>
-
-                                </tr>
-                            </thead>
-                            <tbody class="tbody-floor-into-item">
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <%--   <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btnAddFloorsIntoItem">Save </button>                    
-                </div>--%>
-            </div>
-        </div>
-    </div>
-
-
-    <%--Tag Floor With The Items in TOC--%>
-    <div class="modal fade" id="ReqTechRemarksModal" tabindex="-1" aria-hidden="true" style="background: #adacaca3;">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="ReqTechRemarksModalLabel">Technical Remarks</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" style="zoom: 85%; min-height: 670px;">
-                    <div class="row">
-                        <label for="html5-number-input" class="col-form-label label-custom">Technical Remarks Description <span style="color: red;">*</span></label>
-                        <div class="ritext-tech-remarks-div" style="min-height: 670px;">
-                            <%--<input class="form-control " type="text" placeholder="" value="" id="taTechRemarks">--%>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btnAddTechRemarks">Save Notes </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-    <%--ADD/UPDATE Items from Oracle--%>
-    <div class="modal fade" id="addUpdateItemsOracle" tabindex="-1" style="background: #a9a9a996;" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="lbladdUpdateItemsOracle">Add Item(s) from Oracle</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" style="zoom: 85%;">
-
-                    <div class="row mt-1">
-                        <div class="col-md-9">
-                            <label>Search with <b>Item Code</b> or <b>Item Description</b> </label>
-                            <input class="form-control" type="text" placeholder="Enter Item Code" style="background-color: white;" id="txtItemCodeForOracle">
-                        </div>
-                        <div class="col-md-3">
-                            <a href="#" class="btn" id="btnOracleItemFilterTOC" style="margin-top: 30px;">Search</a>
-                        </div>
-                    </div>
-
-                    <div class="mt-3 row">
-                        <div>
-                            <label>Select System & Category</label>
-                            <span style="color: #d54832">*</span>
-                        </div>
-                        <div class="col-md-3">
-                            <label>System</label>
-                            <select id="ddlSystemForOracle" class="form-select color-dropdown"></select>
-                        </div>
-                        <div class="col-md-3">
-                            <label>Category</label>
-                            <select id="ddlCategoryForOracle" class="form-select color-dropdown"></select>
-                        </div>
-                    </div>
-
-
-                    <div class="table mt-2" style="overflow-y: auto; max-height: 800px;">
-                        <table class="table item-toc-table-fromoracle" style="width: 100%;">
-
-                            <thead style="position: sticky; top: -3px;">
-                                <tr class="Head-tr">
-                                    <th style="width: 52px !important">Select</th>
-                                    <th>Item Code</th>
-                                    <th>Item Desc</th>
-                                    <%--<th>System</th>
-                                    <th>Category</th>
-                                    <th class="col-for-pipe-category hidden">Pipe Unit Price</th>
-                                    <th class="col-for-pipe-category hidden">Fittings %</th>
-                                    <th class="col-for-pipe-category hidden">Installation Unit Price</th>
-                                    <th>Spare QTY</th>--%>
-                                </tr>
-                            </thead>
-
-                            <tbody class="tbody-items-toc-fromoracle">
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btnAddItemsFromOracleTOC">Select </button>
-                    <%--<button type="button" class="btn btn-primary btnSubmit hidden">Publish</button>--%>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <%--ADD/UPDATE Items which doesn't have Itemcode--%>
-    <div class="modal fade" id="addItemWithoutItmCodeModal" tabindex="-1" style="background: #a9a9a996;" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="lbladdItemWithoutItmCodeModal">Add Item(s) </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" style="zoom: 85%;">
-
-                    <div class="mt-3 row">
-                        <div class="col-md-6">
-                            <label>System</label>
-                            <select id="ddlSystemForWithoutItmCode" class="form-select color-dropdown"></select>
-                        </div>
-                        <div class="col-md-6">
-                            <label>Category</label>
-                            <select id="ddlCategoryForWithoutItmCode" class="form-select color-dropdown"></select>
-                        </div>
-
-                        <div class="col-4 mt-3">
-                            <label>Item Description</label>
-                            <textarea id="taitemDescWhtItmCode" class="form-control" style="border-color: lightgrey;"></textarea>
-                        </div>
-
-                        <div class="col-4 mt-3">
-                            <label>UOM</label>
-                            <input id="notxtUOM" class="form-control" style="border-color: lightgrey;" placeholder="eg: PCS" />
-                        </div>
-
-                        <div class="col-4 mt-4 pt-4">
-                            <a href="#" class="btn btn-primary btnAddItemWithoutItmCode">Add</a>
-                        </div>
-
-                    </div>
-
-
-                    <div class="table mt-3" style="overflow-y: auto; max-height: 800px;">
-                        <table class="table item-toc-table-withoutitmcode" style="width: 100%;">
-
-                            <thead style="position: sticky; top: -3px;">
-                                <tr class="Head-tr">
-                                    <th>System</th>
-                                    <th>Category</th>
-                                    <th>Description</th>
-                                    <th>UOM</th>
-                                    <th>Created By</th>
-                                </tr>
-                            </thead>
-
-                            <tbody class="tbody-items-toc-withoutitmcode">
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-                <%--  <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btnAddItemsFromOracleTOC">Select </button>
-                </div>--%>
-            </div>
-        </div>
-    </div>
-
-    <%-- Adding Engineering and TEstCommisioning in TOC --%>
-    <div class="modal fade" id="engrNTestCommisoinModal" tabindex="-1" aria-hidden="true" style="background: #adacaca3;">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="engrNTestCommisoinlabel">Update Engineering and Test Commisioning</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" style="zoom: 90%;">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label>Engineering</label>
-                            <input class="form-control" type="number" id="txtEngineering" min="0">
-                        </div>
-                        <div class="col-md-4">
-                            <label>Test and Commsioning</label>
-                            <input class="form-control" type="number" id="txtTestnCommision" min="0">
-                        </div>
-                        <div class="col-md-4">
-                            <label>Man Hours</label>
-                            <input class="form-control" type="number" id="txtManHours" min="0">
-                        </div>
-                    </div>
-
-                    <div class="row field-for-firepump mt-4">
-                        <div class="col-md-4">
-                            <label>Installation Cost</label>
-                            <input class="form-control" type="number" id="txtInstallCost" min="0">
-                        </div>
-                        <div class="col-md-4">
-                            <label>Material Cost</label>
-                            <input class="form-control" type="number" id="txtMaterialCost" min="0">
-                        </div>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btnAddEngrTestnCommision hide-control-bos">Save </button>
-                    <%--<button type="button" class="btn btn-primary btnSubmit hidden">Publish</button>--%>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <%--TOC End--%>
-
-    <%--Generate Summary--%>
-    <div class="modal fade" id="modalSummary" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true" style="background: #adacaca3; overflow: scroll !important;">
-        <div class="modal-dialog modal-lg" role="document" style="min-width: 85%; height: 90%;">
-            <div class="modal-content" style="zoom: 110%;">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="H1">Summary Reports</h5>
-                    <div class="" style="width: 85%;">
-                        <button class="btn btn-primary print float-right" onclick="printDiv('modalSummary2')">Print</button>
-                    </div>
-                    <button type="button" class="btn-close _goBack" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <section>
-                    <div class="content">
-                        <div class="modal-body-wrapper" style="height: 62vh;">
-                            <div class="modal-body pagebreak" id="modalSummary2">
-                                <div id="Estimation-details-rectangle-div" style="">
-
-                                    <div class="row border">
-                                        <div class="py-1 border-bottom border-right" style="width: 10%;">
-                                            <label for="html5-number-input" class="  label-custom">Request ID:</label>
-                                            <label id="SummarytxtEstRef" value="" class="noborderbg">EMS.0004</label>
-                                        </div>
-
-                                        <div class="py-1 border-bottom border-right" style="width: 27%;">
-                                            <span for="html5-number-input" class="  label-custom">Project Name: </span>
-                                            <span id="SummarytxtPrjName" value="" class="noborderbg" style="">Prop Commercial/ Residential Building G+7+R at Warsan Fourth 624 on Plot # IC3-58-03, Dubai</span>
-                                        </div>
-
-                                        <div class="py-1 border-bottom border-right" style="width: 12%;">
-                                            <label for="html5-number-input" class="  label-custom">Project Ref#:</label>
-                                            <label id="SummarytxtProjRef" value="" class="noborderbg">1006240212</label>
-                                        </div>
-
-                                        <div class="py-1 border-bottom border-right" style="width: 13%;">
-                                            <label for="html5-number-input" class="  label-custom">Opportunity Ref#:</label>
-                                            <label id="SummarytxtOppRef" value="" class="noborderbg">1024060210</label>
-                                        </div>
-
-
-                                        <div class="py-1 border-bottom border-right" style="width: 6%;">
-                                            <label for="html5-number-input" class="  label-custom">Revision: </label>
-                                            <label id="SummarytxtRevision" value="" class="noborderbg">1</label>
-                                        </div>
-
-                                        <div class="py-1 border-bottom border-right" style="width: 6%;">
-                                            <label for="html5-number-input" class="  label-custom">Year:</label>
-                                            <label id="SummarytxtEstYear" value="" class="noborderbg">2024</label>
-                                        </div>
-                                        <div class="py-1 border-bottom border-right" style="width: 13%;">
-                                            <label for="html5-number-input" class="  label-custom">MEP Contractor: </label>
-                                            <label id="SummarytxtPrjMEPContr" value="" class="noborderbg" style="">Grans Contlc</label>
-                                        </div>
-                                        <div class="py-1 border-bottom" style="width: 13%;">
-                                            <label for="html5-number-input" class="  label-custom">Consultant:</label>
-                                            <label id="SummarytxtPrjConsultant" value="" class="noborderbg" style="">Adnan Saffarini</label>
-                                        </div>
-                                        <div class="py-1 border-bottom border-right" style="width: 14%;">
-                                            <label for="html5-number-input" class="  label-custom">Contr ABBR: </label>
-                                            <label id="SummarytxtContrAbbr" value="" class="noborderbg" style=""></label>
-                                        </div>
-
-                                        <div class="py-1 border-bottom border-right" style="width: 15%;">
-                                            <label for="html5-number-input" class="  label-custom">Main Contractor: </label>
-                                            <label id="SummarytxtPrjMainContr" value="" class="noborderbg" style=""></label>
-                                        </div>
-
-
-
-
-                                        <div class="py-1 border-bottom border-right" style="width: 20%;">
-                                            <label for="html5-number-input" class="  label-custom">Client: </label>
-                                            <label id="SummarytxtPrjClient" value="" class="noborderbg" style=""></label>
-                                        </div>
-
-                                        <div class="py-1 border-bottom border-right" style="width: 12%;">
-                                            <label for="html5-number-input" class="  label-custom">Location: </label>
-                                            <label id="SummarytxtPrjLocation" value="" class="noborderbg" style=""></label>
-                                        </div>
-
-                                        <div class="py-1 border-bottom border-right" style="width: 13%;">
-                                            <label for="html5-number-input" class="  label-custom">Contact Person: </label>
-                                            <label id="SummarytxtPrjContactPerson" value="" class="noborderbg" style="" placeholder="-----Click to select Customer-----">19048</label>
-                                        </div>
-
-                                        <div class="py-1 border-bottom border-right div-win" style="width: 7%;">
-                                            <label for="html5-number-input" class="  label-custom">Winning %: </label>
-                                            <label id="SummarytxtPrjWinningPerc" value="" class="noborderbg" style="">0</label>
-                                        </div>
-
-                                        <div class="py-1 border-bottom  border-right div-budge" style="width: 7%;">
-                                            <label for="html5-number-input" class="  label-custom">Budget: </label>
-                                            <label id="SummarytxtPrjBudget" value="" class="noborderbg" style="">0</label>
-                                        </div>
-                                        <div class="py-1 border-bottom" style="width: 12%;">
-                                            <label for="html5-number-input" class="  label-custom">URL: </label>
-                                            <label id="SummarytxtPrjURL" value="" class="noborderbg" style=""></label>
-                                        </div>
-
-                                        <div class="py-1 border-right " style="width: 20%;">
-                                            <label for="html5-number-input" class="  label-custom">Estimation Team Org: </label>
-                                            <label id="SummaryddlEstimationTeamOrg" class="noborderbg">Local Sales</label>
-                                        </div>
-
-                                        <div class="py-1 border-right" style="width: 21%;">
-                                            <label for="html5-number-input" class="  label-custom">Salesman:</label>
-                                            <label id="SummarytxtSalesman" value="" class="noborderbg" style="">Altaf M A Mannan Ahmed</label>
-                                        </div>
-
-                                        <div class="py-1 border-right" style="width: 20%;">
-                                            <label for="html5-number-input" class="  label-custom">Marketing:</label>
-                                            <label id="SummarytxtMarketing" value="" class="noborderbg" style="">Mohammad Attaya</label>
-                                        </div>
-                                    </div>
-
-                                    <div class="row m1-2 fs-6 mb-4 border" style="">
-                                        <%--<div class="col-md-3 px-3">
-                                                            <label class="label-custom">Estimation Type:</label>
-                                                            <select name="ESType" class="form-select" disabled>
-                                                                <option value="BOQ">BOQ</option>
-                                                                <option value="ESTIMATION">ESTIMATION</option>
-                                                            </select>
-                                                        </div>--%>
-                                        <div class="col-md-3 px-3 pb-2 border-right">
-                                            <label class="label-custom">Stage</label>
-                                            <select name="Stage" class="form-select" disabled>
-                                                <option value="TENDER">TENDER</option>
-                                                <option value="J.O.H">J.O.H</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="col-md-3 px-3 pb-2 border-right">
-                                            <label class="label-custom">Scope</label>
-                                            <select name="Supply" class="form-select" disabled>
-                                                <option value="SUPPLY">SUPPLY</option>
-                                                <option value="SUPPLY AND INSTALLATION">SUPPLY & INSTALLATION</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-3 px-3 pb-2 border-right">
-                                            <label class="label-custom">Quotation</label>
-                                            <select name="Quotation" class="form-select" disabled>
-                                                <option value="SMART QTNG">SMART QTNG</option>
-                                                <option value="AS PER DRAWING AND SPECIFICATION">AS PER DRAWING AND SPECIFICATION</option>
-                                                <option value="AS PER MINIMUM REQUIREMENT">AS PER MINIMUM REQUIREMENT</option>
-                                                <option value="AS PER BOQ">AS PER BOQ</option>
-                                                <option value="DESIGN AND BUILT">DESIGN AND BUILT</option>
-                                                <option value="BUDGETED">BUDGETED</option>
-                                            </select>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <nav class="nav-tab border-bottom">
-                                    <ul class="nav nav-pills" id="pills-tab-repots" role="tablist">
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link active show" id="pill-summary-report-tab" data-bs-toggle="pill" data-bs-target="#summary-report-tab" type="button" role="tab" aria-controls="summary-report-tab" aria-selected="true">System Summary</button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="pill-sprinkler-tab" data-bs-toggle="pill" data-bs-target="#sprinkler-tab" type="button" role="tab" aria-controls="sprinkler-tab" aria-selected="false">Product Summary</button>
-                                        </li>
-
-                                    </ul>
-                                </nav>
-                                <div class="tab-content" id="pills-repocontent">
-                                    <div class="tab-pane fade show active" id="summary-report-tab" role="tabpanel" aria-labelledby="pill-summary-report-tab">
-
-                                        <div class="table">
-                                            <table class="table project-table summary-table">
-                                                <thead style="position: sticky; top: 0;">
-                                                    <tr>
-                                                        <th>System</th>
-                                                        <th>Equipments</th>
-                                                        <th>Consumables Pipes & Fittings</th>
-                                                        <th>Installation Labor Charge</th>
-                                                        <th>Engineering</th>
-                                                        <th>Testing & Commssioning</th>
-                                                        <th>Over Head 15%</th>
-                                                        <th>Total</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody class="summary-tbody">
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="sprinkler-tab" role="tabpanel" aria-labelledby="pill-sprinkler-tab">
-
-                                        <div class=" table">
-                                            <table class="table project-table">
-                                                <thead style="position: sticky; top: 0;">
-                                                    <tr>
-                                                        <th style="width: 200px !important;" class="align-middle">Category</th>
-                                                        <th class="align-middle">Item Code</th>
-                                                        <th class="align-middle">Description</th>
-                                                        <th class="align-middle">Qty</th>
-                                                        <th class="text-center">Pipes & Fittings Unit Price</th>
-                                                        <th class="text-center">Total Pipes & Fittings</th>
-                                                        <th class="text-center">Installation Unit Price</th>
-                                                        <th class="text-center">Total Installation</th>
-                                                        <th class="align-middle text-center">Total</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody class="itemsummary-tbody">
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </div>
-    </div>
-
-
-
-    <!-- IMPORT TEMPLATE Modal -->
-
-    <div class="modal fade" id="ImportTemptListModal" tabindex="-1" aria-hidden="true" style="background: #adacaca3;">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="lblFarig">Import Template</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" style="zoom: 90%;">
-                    <div class="row">
-                        <label>Please select any Template</label>
-                        <div>
-                            <select id="ddlImpTempList" class="form-select color-dropdown"></select>
-                        </div>
-
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btnImprtTemp">Import </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <%--DELETE CONFIMATION MODAL FOR ITEM in TOC --%>
-    <div class="modal fade" id="delItemTOCModal" style="background-color: #00000070;" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <%--DELETE CONFIMATION MODAL FOR INPUT ITEM --%>
+    <div class="modal fade" id="delInputItemModal" style="background-color: #00000070;" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
@@ -2127,14 +1693,37 @@
                 <div class="modal-footer">
                     <div style="margin-right: 165px;">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary btn-del-itemtoc-yes" data-bs-dismiss="modal">Delete</button>
+                        <button type="button" class="btn btn-primary btn-del-iteminput-yes" data-bs-dismiss="modal">Delete</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+	
+    <%--DELETE CONFIMATION MODAL FOR OUTPUT ITEM --%>
+    <div class="modal fade" id="delOutputItemModal" style="background-color: #00000070;" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
 
+                <div class="modal-body" style="text-align: center;">
+                    <div><i class="bx bxs-x-circle fa-del-kpi" title="View More" style="cursor: pointer; padding-right: 10px; font-size: 80px; color: #e14b4b;"></i></div>
+                    <div>
+                        <h3>Are you sure?</h3>
+                    </div>
+                    <span class="cItemTOC">Do you want to delete the Item?</span>
+                </div>
+                <div class="modal-footer">
+                    <div style="margin-right: 165px;">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary btn-del-itemoutput-yes" data-bs-dismiss="modal">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  
     <%--Add from exiting structures --%>
     <div class="modal fade" id="modalCopyExisting" style="background-color: #00000070;" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
         <div class="modal-dialog modal-lg modal-dialog-centered" style="max-width: 80%;">
@@ -2266,7 +1855,7 @@
                     <button type="button" class="btn-close btn-close-proj-modal" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-
+                                       
                     <div style="margin-top: -1%;">
                         <div style="background: #c0989836; padding: 17px; border-radius: 12px; border: 1px solid #c0989836; box-shadow: 0px 0px 13px -7px #c0989836;">
 
@@ -2278,30 +1867,29 @@
 
                             <div class="row">
                                 <label>Products</label>
-                                <div>
-                                    <select id="ddlProdsInAttach" style="z-index: 99 !important;" class="form-select color-dropdown" multiple></select>
-                                </div>
+                                 <div><select id="ddlProdsInAttach" style="z-index: 99 !important;" class="form-select color-dropdown" multiple></select></div>
                             </div>
 
-                            <div class="row">
+                         <div class="row">
                                 <label class="mt-3">File Type</label>
                                 <div>
-                                    <select id="ddlEstiAttachTechnotesType" class="form-select color-dropdown">
-                                        <option value="Technical Notes Merge">Technical Notes Merge</option>
-                                        <option value="Others">Others</option>
-                                    </select>
+                                    <select id="ddlEstiAttachTechnotesType" class="form-select color-dropdown">                                               
+                                                <option value="Technical Notes Merge">Technical Notes Merge</option>
+                                                <option value="Others">Others</option>
+                                            </select>
                                     <input class="form-control mt-2 hidden" type="text" placeholder="Enter File Type" style="background-color: white;" id="txtEstiAttachTechnotesType" />
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col mb-3 discriptionDiv">
-                                    <label for="nameBasic" class="label-custom mt-3">Comments </label>
-                                    <textarea id="txtAttachmentComment" rows="3" class="form-control" style="border-bottom: solid; border-color: #b9b9b9; overflow-y: scroll;" placeholder="Enter the Commments"></textarea>
-                                </div>
+                            <div class="row">                             
+                                    <div class="col mb-3 discriptionDiv">
+                                        <label for="nameBasic" class="label-custom mt-3">Comments </label>
+                                        <textarea id="txtAttachmentComment" rows="3" class="form-control" style="border-bottom: solid; border-color: #b9b9b9; overflow-y: scroll;" placeholder="Enter the Commments"></textarea>
+                                    </div>                             
                             </div>
 
                             <div class="row" style="margin-top: 1%;">
+
                             </div>
                             <div class="row" style="margin-top: 2%;">
 
@@ -2327,7 +1915,7 @@
     </div>
 
 
-
+    
 
 
 
@@ -2367,9 +1955,9 @@
                     </div>
 
 
-                    <div>
-                        <a href="#" id="btnAddAttachFPump-Grid" class="btn btn-primary pull-right m-3 fpumpFilesDiv"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Attachment</a>
-                    </div>
+                       <div>
+                            <a href="#" id="btnAddAttachFPump-Grid" class="btn btn-primary pull-right m-3 fpumpFilesDiv"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Attachment</a>
+                        </div>
                     <div style="padding-top: 3%;" class="fpumpFilesDiv">
                         <table class="table Attachment-list-table" style="width: 100%;">
                             <thead>
@@ -2403,7 +1991,7 @@
                     <button type="button" class="btn-close btn-close-proj-modal" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-
+                                       
                     <div style="margin-top: -1%;">
                         <div style="background: #1d1b1b36; padding: 17px; border-radius: 12px; border: 1px solid #1d1b1b36; box-shadow: 0px 0px 13px -7px #1d1b1b36;">
 
@@ -2424,6 +2012,7 @@
                             </div>
 
                             <div class="row" style="margin-top: 1%;">
+
                             </div>
                             <div class="row" style="margin-top: 2%;">
 
@@ -2448,7 +2037,7 @@
         </div>
     </div>
 
-    <%--DELETE CONFIMATION MODAL FOR FIRE PUMP DELETE IN TOC --%>
+     <%--DELETE CONFIMATION MODAL FOR FIRE PUMP DELETE IN TOC --%>
     <div class="modal fade" id="deleteFPReqModal" style="background-color: #00000070;" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -2500,21 +2089,21 @@
                 </div>
                 <div class="modal-body">
                     <div class="row" style="padding-top: 1px;">
-
+                        
                         <div class="row">
-                            <div class="col-12">
+                         <div class="col-12">
                                 <label for="html5-number-input" class="  label-custom">Product </label>
                                 <div class="">
                                     <select id="ddlEMSProdForVDComm" style="z-index: 99 !important;" class="form-select color-dropdown" multiple>
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mt-4">
-                            <label for="html5-number-input" class="  label-custom">Comment </label>
-                            <textarea class="form-control" id="txtComments" rows="5" placeholder="Enter Your Comments"></textarea>
-                        </div>
-
+                    </div>
+                    <div class="row mt-4">
+                        <label for="html5-number-input" class="  label-custom">Comment </label>
+                        <textarea class="form-control" id="txtComments" rows="5" placeholder="Enter Your Comments"></textarea>
+                    </div>
+                      
                     </div>
 
                     <div class="row" style="padding-top: 3%;">
@@ -2568,7 +2157,7 @@
 
 
     <%--Copy System --%>
-    <div class="modal fade" id="modalCopySystem" style="background-color: #00000070;" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+     <div class="modal fade" id="modalCopySystem" style="background-color: #00000070;" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
         <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -2584,29 +2173,25 @@
                             <label>Copied System</label>
                             <input id="txtCopySystem" class="form-control color-dropdown mb-3" disabled />
                         </div>
-
+                        
                         <div class="row">
                             <div class="col-8">
                                 <label>New name</label>
                                 <input id="txtSystemNewName" class="form-control color-dropdown" />
                             </div>
                             <div class="col-4">
-                                <div style="display: flex; justify-content: center; padding-top: 35px;">
+                                <div style="display: flex;justify-content: center; padding-top: 35px;">
                                     <label>
-                                        <input class="form-check-input position-relative" type="checkbox" name="cbOptionalForCopySys" id="cbOptionalForCopySys" />
-                                        Is Optional
-                                   
+                                        <input class="form-check-input position-relative" type="checkbox" name="cbOptionalForCopySys" id="cbOptionalForCopySys" />  Is Optional
                                     </label>
                                 </div>
                             </div>
                         </div>
-
+                        
                     </div>
 
-                    <div class="mt-4">
-                        <h5>System's Items List</h5>
-                    </div>
-                    <div class="table mt-3" style="overflow-y: auto; max-height: 600px;">
+                    <div class="mt-4"><h5>System's Items List</h5></div>
+                     <div class="table mt-3" style="overflow-y: auto; max-height: 600px;">
                         <table class="table copyitem-toc-table" style="width: 100%;">
 
                             <thead style="position: sticky; top: -3px;">
@@ -2614,7 +2199,7 @@
                                     <th style="width: 52px !important">Select</th>
                                     <th>Item Code</th>
                                     <th>Item Desc</th>
-                                    <th>Category</th>
+                                    <th>Category</th>                                   
                                 </tr>
                             </thead>
 
@@ -2636,7 +2221,7 @@
     </div>
 
 
-    <div class="modal fade" id="editSysNameModal" style="background-color: #00000070;" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+         <div class="modal fade" id="editSysNameModal" style="background-color: #00000070;" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
         <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -2650,15 +2235,15 @@
 
                         <div class="row">
                             <div class="col-6">
-                                <label>Copied System</label>
-                                <input id="txtEditOldSysName" class="form-control color-dropdown mb-3" disabled />
+                                 <label>Copied System</label>
+                                 <input id="txtEditOldSysName" class="form-control color-dropdown mb-3" disabled />
                             </div>
                             <div class="col-6">
                                 <label>New name</label>
                                 <input id="txtEditNewSysName" class="form-control color-dropdown" />
-                            </div>
-                        </div>
-
+                            </div>                             
+                        </div>     
+                        
                     </div>
 
                 </div>
@@ -2692,19 +2277,15 @@
                             <label>EMS Product</label>
                             <select id="ddlEMSProductAddi" class="form-select color-dropdown"></select>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <label>Price</label>
                             <input class="form-control" type="number" placeholder="Enter Price" style="background-color: white;" id="txtPrice">
                         </div>
-                        <div class="col-md-2">
-                            <label>UOM</label>
-                            <input class="form-control" type="text" placeholder="eg: PCS" style="background-color: white;" id="txtUOM">
-                        </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4">                                
                             <label class="m-4">
                                 <input class="form-check-input position-relative" type="checkbox" name="cbAddiIsOptionalName" value="1" id="cbAddiIsOptional" />
-                                Is Optional</label>
-                        </div>
+                                Is Optional</label>                            
+                        </div>    
                     </div>
 
                     <div class="mt-1">
@@ -2712,14 +2293,12 @@
                         <textarea id="taAddiDesc" class="form-control"></textarea>
                     </div>
 
-                    <div class="mt-1">
-                        <label>Additional Comments</label>
-                        <textarea id="taAddiComments" class="form-control"></textarea>
+                     <div class="mt-1">
+                         <label>Additional Comments</label>
+                         <textarea id="taAddiComments" class="form-control"></textarea>
                     </div>
 
-                    <div class="mt-3">
-                        <h5>Added EMS Product List</h5>
-                    </div>
+                    <div class="mt-3"><h5>Added EMS Product List</h5></div>
                     <div class="table mt-2" style="overflow-y: auto; max-height: 800px;">
                         <table class="table item-emsprod-table" style="width: 100%;">
 
@@ -2727,7 +2306,6 @@
                                 <tr class="Head-tr">
                                     <th>EMS Product</th>
                                     <th>Price</th>
-                                    <th>UOM</th>
                                     <th>Optional</th>
                                     <th>Desc</th>
                                     <th>Additional Comment</th>
@@ -2748,26 +2326,25 @@
     </div>
 
 
-    <%--Get Details based on Proj or Opt No Modal--%>
-    <div class="modal fade" id="modalHistoryProjNo" tabindex="-1" style="background: #a9a9a996;" aria-hidden="true">
+
+	<%--Get Details based on Proj or Opt No Modal--%>
+    <div class="modal fade" id="detAccToProjNoModal" tabindex="-1" style="background: #a9a9a996;" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="col-6">
                         <h5 class="modal-title" id="lbldetAccToProjNoModal">Details</h5>
                     </div>
-                    <%-- <div class="d-flex justify-content-end" style="max-width: 48%; width: 48%;">
+                   <%-- <div class="d-flex justify-content-end" style="max-width: 48%; width: 48%;">
                         <button type="button" class="btn btn-primary btnAddAddiItemsTOC hide-control-bos"><i class='bx bxs-save'></i>Save Changes </button>
                     </div>--%>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" style="zoom: 85%;">
 
-                    <div class="mt-3">
-                        <h5>Details</h5>
-                    </div>
+                    <div class="mt-3"><h5>Details</h5></div>
                     <div class="table mt-2" style="overflow-y: auto; max-height: 800px;">
-                        <table class="table table-projhistory" style="width: 100%;">
+                        <table class="table detbasedob-prjno-table" style="width: 100%;">
 
                             <thead style="position: sticky; top: -3px;">
                                 <tr class="Head-tr">
@@ -2784,7 +2361,7 @@
                                 </tr>
                             </thead>
 
-                            <tbody class="tbody-projhistory">
+                            <tbody class="tbody-detbasedob-prjno">
                             </tbody>
                         </table>
                     </div>
@@ -2796,79 +2373,6 @@
     </div>
 
 
-    <%--GET CALCULATION MODAL--%>
-    <div class="modal fade" id="itemCalculationModal" tabindex="-1" style="background: #a9a9a996;" aria-hidden="true">
-        <div class="modal-dialog modal-xxl" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div class="col-6">
-                        <h5 class="modal-title" id="lblItemCalculationModal">Item Calculation Details</h5>
-                    </div>
-                    <%-- <div class="d-flex justify-content-end" style="max-width: 48%; width: 48%;">
-                        <button type="button" class="btn btn-primary btnAddAddiItemsTOC hide-control-bos"><i class='bx bxs-save'></i>Save Changes </button>
-                    </div>--%>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" style="zoom: 85%;">
-
-                    <%-- <div class="mt-3">
-                        <h5>Details</h5>
-                    </div>--%>
-                    <div class="table mt-2" style="overflow-y: auto; max-height: 800px;">
-                        <table class="table table-item-calculation" style="width: 100%;">
-                            <tbody class="tbody-item-cal"></tbody>
-                        </table>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <%--Add Estimator--%>
-    <div class="modal fade" id="ModalEstimator" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document" style="max-width: 95%;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Estimator Details</h5>
-                    <button type="button" class="btn-close btn-close-proj-modal" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" style="font-size: 0.85rem;">
-                    <div class="row hidden hdest">
-                        <div class="col-7" style="padding-top: 2%;">
-                            <select id="ddlEstimatorList" class="form-select color-dropdown">
-                            </select>
-
-                        </div>
-                        <div class="col-3" style="padding-top: 2%;">
-                            <button type="button" class="btn btn-primary " style="float: right; width: 150px;" onclick="AddNewEstimator()">Save</button>
-                        </div>
-                    </div>
-                    <br />
-                    <br />
-                    <div class="row">
-                        <table class="table table-bordered table-striped Estimator-List" style="width: 100%;">
-                            <thead>
-                                <tr style="text-align: center">
-                                    <th class="hidden">AllocationID</th>
-                                    <th>Emp No</th>
-                                    <th>Emp Name</th>
-                                    <th>Created Date</th>
-                                    <th>Estimation Status</th>
-                                    <th>Estimator Status</th>
-                                    <th>Action</th>
-
-                                </tr>
-                            </thead>
-                            <tbody class="tbody-Estimator-List">
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script type="text/javascript">
         var currUserId = '';
@@ -2886,12 +2390,8 @@
     </script>
 
     <!-- Page JS/CSS file -->
-    <script src="Scripts/common.js?v=6"></script>
-    <script src="Scripts/ems-item-list.js?v=6"></script>
-    <script src="Scripts/Structure.js?v=6"></script>
-    <script src="Scripts/TOC.js?v=22.33"></script>
-    <script src="Scripts/SummaryReports.js?v=6"></script>
-    <script src="Scripts/FirePumpOnTOC.js?v=6"></script>
+    <script src="Scripts/common.js?v=2.2"></script>
+    <script src="Scripts/items-in-out.js?v=6.6"></script>  
 
     <link href="css/RecruitmentCss.css?v=1.1" rel="stylesheet" />
 
@@ -2919,13 +2419,13 @@
     <script src="../FacilityManagement/Datatable/js/buttons.html5.min.js"></script>
     <script src="../FacilityManagement/Datatable/js/buttons.print.min.js"></script>
 
-
+     
     <%--MULTI SELECT FOR FILTER--%>
     <link href="../Calendar/dist/select2.css" rel="stylesheet" />
     <script src="../Calendar/dist/select2.js"></script>
     <%--<script src="script/multiple-select.js"></script>
         <link href="../SiteSurvey/Assets/Css/multiple-select.css" rel="stylesheet" />--%>
-
+      
     <%--MULTI SELCT WITH SEARCH--%>
     <link href="Css/select2.css" rel="stylesheet" />
     <script src="Assets/Js/select2.js"></script>
@@ -2938,8 +2438,8 @@
 
     <script src="../Template/assets/vendor/libs/richtexteditor/jquery.richtext.js"></script>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.0/themes/base/jquery-ui.min.css" integrity="sha512-F8mgNaoH6SSws+tuDTveIu+hx6JkVcuLqTQ/S/KJaHJjGc8eUxIrBawMnasq2FDlfo7FYsD8buQXVwD+0upbcA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/TableDnD/1.0.5/jquery.tablednd.min.js" integrity="sha512-uzT009qnQ625C6M8eTX9pvhFJDn/YTYChW+YTOs9bZrcLN70Nhj82/by6yS9HG5TvjVnZ8yx/GTD+qUKyQ9wwQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </asp:Content>
+
+
 
 
