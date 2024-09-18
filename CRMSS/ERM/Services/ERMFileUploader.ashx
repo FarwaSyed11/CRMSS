@@ -15,6 +15,7 @@ public class ERMFileUploader : IHttpHandler {
     string ReqID = HttpContext.Current.Request.QueryString["ReqID"];
     string User = HttpContext.Current.Request.QueryString["UserId"];
     string Comments = HttpContext.Current.Request.QueryString["Comments"];
+    string ProdType = HttpContext.Current.Request.QueryString["prodtype"];
 
     public void ProcessRequest(HttpContext context)
     {
@@ -43,6 +44,7 @@ public class ERMFileUploader : IHttpHandler {
 
             if (!string.IsNullOrEmpty(fileName))
             {
+
                 //fileExtension = Path.GetExtension(fileName);
                 //file.SaveAs(System.IO.Path.Combine(HttpContext.Current.Server.MapPath("~/Images/KPI/KpiResponse"), fileName));
                 ContentType = file.ContentType;
@@ -80,6 +82,9 @@ public class ERMFileUploader : IHttpHandler {
 
         pa.Add("@AttachmentType");
         pv.Add(ContentType);
+            
+        pa.Add("@Product");
+        pv.Add(ProdType);
 
 
         DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);

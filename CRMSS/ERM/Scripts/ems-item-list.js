@@ -2010,7 +2010,7 @@ function printDetails(divID) {
     document.body.innerHTML = oldPage;
 
     location.reload();
-    
+    window.stop();
     $('#addReqModal').modal('show');
     
 

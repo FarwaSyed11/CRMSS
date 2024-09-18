@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="EMSItemList.aspx.cs" Inherits="Sales_EMSItemList" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="EMSItemList.aspx.cs" Inherits="Sales_EMSItemList" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
@@ -360,10 +360,6 @@
             top: 18px;
             right: 36px;
             color: #505050;
-        }
-
-        .select2-container--default .select2-selection--multiple .select2-selection__choice__display {
-            color: white !important;
         }
 
         .modal {
@@ -936,7 +932,7 @@
                                                                                 <tr style="text-align: center;">
                                                                                     <th style="display: none;">Id</th>
                                                                                     <th>Product</th>
-                                                                                    <th>Product Type</th>
+                                                                                    <th>File Type</th>
                                                                                     <th>Filename</th>
                                                                                     <th>Comments</th>
                                                                                     <th style="display: none;">Comments</th>
@@ -2262,29 +2258,23 @@
         <div class="modal-dialog modal-lg" role="document" style="max-width: 25%;">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="ModalAddAttacment">ATTACHMENT</h5>
+                    <h5 class="modal-title" id="ModalAddAttacment">New Attachment</h5>
                     <button type="button" class="btn-close btn-close-proj-modal" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
                     <div style="margin-top: -1%;">
-                        <div style="background: #c0989836; padding: 17px; border-radius: 12px; border: 1px solid #c0989836; box-shadow: 0px 0px 13px -7px #c0989836;">
+                        <div class="card p-3">
 
                             <div class="row">
-                                <div>
-                                    <h5 class="prpmdl-hed" style="">Attachment</h5>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <label>Products</label>
+                                <label class="label-custom">Products</label>
                                 <div>
                                     <select id="ddlProdsInAttach" style="z-index: 99 !important;" class="form-select color-dropdown" multiple></select>
                                 </div>
                             </div>
 
                             <div class="row">
-                                <label class="mt-3">File Type</label>
+                                <label class="mt-3 label-custom">File Type</label>
                                 <div>
                                     <select id="ddlEstiAttachTechnotesType" class="form-select color-dropdown">
                                         <option value="Technical Notes Merge">Technical Notes Merge</option>
@@ -2295,9 +2285,9 @@
                             </div>
 
                             <div class="row">
-                                <div class="col mb-3 discriptionDiv">
+                                <div class="mb-3 discriptionDiv">
                                     <label for="nameBasic" class="label-custom mt-3">Comments </label>
-                                    <textarea id="txtAttachmentComment" rows="3" class="form-control" style="border-bottom: solid; border-color: #b9b9b9; overflow-y: scroll;" placeholder="Enter the Commments"></textarea>
+                                    <textarea id="txtAttachmentComment" rows="3" class="form-control" style="overflow-y: scroll;" placeholder="Enter the Commments"></textarea>
                                 </div>
                             </div>
 
@@ -2312,7 +2302,7 @@
 
                                         <div style="margin-left: 9px;">
 
-                                            <a href="#" id="btnUpload1" class=" btn btn-primary">Add Attachment </a>
+                                            <a href="#" id="btnUpload1" class=" btn btn-primary">Upload </a>
                                         </div>
                                     </div>
                                 </div>

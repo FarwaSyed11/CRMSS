@@ -374,6 +374,11 @@ function summaryHTMLfooter(Engineering, TestnComm, allTOT, Installation, totpf) 
 
 function printDiv(divID) {
     $(".project-table").css('height', 'max-content');
+
+    $('#Estimation-details-rectangle-div select[name=Stage] option:selected:eq(0)').attr('selected', 'selected');
+    $('#Estimation-details-rectangle-div select[name=Supply] option:selected:eq(0)').attr('selected', 'selected');
+    $('#Estimation-details-rectangle-div select[name=Quotation] option:selected:eq(0)').attr('selected', 'selected');
+
     var divElements = document.getElementById(divID).innerHTML;
     var oldPage = document.body.innerHTML;
     document.body.innerHTML =

@@ -558,7 +558,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
                 ind.FileName = dt.Rows[i]["FileName"].ToString();
                 ind.AttachComment = dt.Rows[i]["AttachComment"].ToString();
                 ind.URL = dt.Rows[i]["URL"].ToString();
-
+                ind.ProdType = dt.Rows[i]["ProdType"].ToString();
 
                 listProjDet.Add(ind);
             }
@@ -568,6 +568,45 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
 
         return listProjDet;
 
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<DropDownValues> GetAllEMSProdsDDLByReqId(string UserId, string ReqId)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        List<DropDownValues> oListSystem = new List<DropDownValues>();
+
+        pa.Add("@oper");
+        pv.Add(4);
+
+        pa.Add("@UserID");
+        pv.Add(UserId);
+
+        pa.Add("@ReqId");
+        pv.Add(ReqId);
+
+        DBH.CreateDatasetERM_Data(ds, "sp_RequestItems", true, pa, pv);
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                oListSystem.Add(new DropDownValues()
+                {
+                    ddlText = dt.Rows[i]["Product"].ToString(),
+                    ddlValue = dt.Rows[i]["Product"].ToString()
+                });
+            }
+        }
+        return oListSystem;
     }
 
 
@@ -2140,6 +2179,7 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         public string FileName { get; set; }
         public string AttachComment { get; set; }
         public string URL { get; set; }
+        public string ProdType { get; set; }
 
     }
 
@@ -2216,6 +2256,12 @@ public partial class ERM_ERMMaster : System.Web.UI.Page
         public string ESTType { get; set; }
 
     }
-    
+    public class DDL
+    {
+        public string Text { get; set; }
+        public string Value { get; set; }
+        public string Name { get; set; }
+    }
+
 
 }

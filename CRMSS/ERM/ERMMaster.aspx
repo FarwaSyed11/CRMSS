@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="ERMMaster.aspx.cs" Inherits="ERM_ERMMaster" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="ERMMaster.aspx.cs" Inherits="ERM_ERMMaster" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -992,7 +992,8 @@
                                             <thead>
                                                 <tr style="text-align: center;">
                                                     <th style="display: none;">Id</th>
-                                                    <th>Filename</th>
+                                                    <th>Product Name</th>
+                                                    <th>File Name</th>
                                                     <th>Comments</th>
                                                     <th style="display: none;">Comments</th>
                                                     <th>Action</th>
@@ -1250,7 +1251,60 @@
         </div>
     </div>
 
-    <div class="modal fade" id="ModalReqAttachment" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+    <%--FILE UPLOAD FOR ESTIMATOR--%>
+    <div class="modal fade" id="ModalReqAttachment" data-bs-backdrop="static" tabindex="-1" aria-hidden="true" style="background: #bcbcbca1;">
+        <div class="modal-dialog modal-lg" role="document" style="max-width: 25%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalAddAttacment">New Attachment</h5>
+                    <button type="button" class="btn-close btn-close-proj-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div style="margin-top: -1%;">
+                        <div class="card p-3">
+
+                            <div class="row">
+                                <label class="label-custom">Products</label>
+                                <div>
+                                    <select id="ddlProdsInAttach" style="z-index: 99 !important;" class="form-select color-dropdown" multiple></select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="mb-3 discriptionDiv">
+                                    <label for="nameBasic" class="label-custom mt-3">Comments </label>
+                                    <textarea id="txtAttachmentComment" rows="3" class="form-control" style="overflow-y: scroll;" placeholder="Enter the Commments"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 1%;">
+                            </div>
+                            <div class="row" style="margin-top: 2%;">
+
+                                <div class="col-12 pull-left upload-Attatchment" style="display: block">
+                                    <div class="input-group mb-3" style="position: relative; top: 10px;">
+                                        <input class="form-control" type="file" id="colFileUpload" accept=".*" multiple>
+                                        <label class="input-group-text File-Upload-Multi" for="colFileUpload"><i class="fa fa-upload " title="Download File" style="color: #d33a3a; cursor: pointer; font-size: x-large;"></i></label>
+
+                                        <div style="margin-left: 9px;">
+
+                                            <a href="#" id="btnUpload1" class=" btn btn-primary">Upload </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <%--<div class="modal fade" id="ModalReqAttachment" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document" style="max-width: 25%;">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1294,7 +1348,7 @@
                                            <select id="dlAttachmentType" value="" style="width: 100%; background: #ffffff; border: 0px; color: #697a8d; border: none;border-bottom: solid;border-color: #ffc1a3;height:28px;" >
                                             </select>
                                      </div>
-                                 </div>--%>
+                                 </div>--%
                             </div>
                             <div class="row" style="margin-top: 2%;">
 
@@ -1317,7 +1371,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>--%>
 
     <div class="modal fade" id="mpActionComments" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: #19191973;">
         <div class="modal-dialog modal-dialog-centered">
@@ -1841,9 +1895,7 @@
     <script src="script/multiple-select.js"></script>
     <link href="../SiteSurvey/Assets/Css/multiple-select.css" rel="stylesheet" />
 
-    <script src="Assets/Js/multiple-select.js"></script>
-    <link href="../sitesurvey/Assets/Css/multiple-select.css" rel="stylesheet" />
-
-
+    <link href="Css/select2.css" rel="stylesheet" />
+    <script src="Assets/Js/select2.js"></script>
 </asp:Content>
 

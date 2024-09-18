@@ -1349,14 +1349,21 @@ function ClearCustomerDet() {
 $('#btnNewAttacment').on('click', function () {
 
     ClearAttachment();
+    loadEMSProdsForAttach();
     $('#ModalReqAttachment').modal('show');
 
 });
 
+function ClearAttachment() {
+    $('#txtAttachmentComment').val('');
+    $('#colFileUpload').val('');
+}
+
+
 
 $('#btnUpload1').on('click', function () {
-    if ($('#colFileUpload').val().trim() != "" && $('#txtAttachmentComment').val().trim() != "") {
-        ERMFileUpload();
+    if ($('#colFileUpload')[0].files.length != 0 && $('#txtAttachmentComment').val().trim() != "" && $("#ddlProdsInAttach option:selected").length != 0) {
+        ERMFileUpload()
     } else {
         toastr.error('Required All Fields. ', '');
     }
@@ -1368,59 +1375,52 @@ function getERMFileName() {
     $('#lblERMFile').val($('#colFileUpload')[0].files[0].name);
 }
 
-function ERMMultiFileUpload() {
-
-    
-
-
-    var formData = new FormData();
-    var formData = new FormData();
-    var fileUpload = $('#colFileUpload').get(0);
-    var files = fileUpload.files;
-    for (var i = 0; i < files.length; i++) {
-        console.log(files[i].name);
-        formData.append(files[i].name, files[i]);
-    }
+//function ERMMultiFileUpload() {
+//    var formData = new FormData();
+//    var formData = new FormData();
+//    var fileUpload = $('#colFileUpload').get(0);
+//    var files = fileUpload.files;
+//    for (var i = 0; i < files.length; i++) {
+//        console.log(files[i].name);
+//        formData.append(files[i].name, files[i]);
+//    }
 
 
-    //var qrystringLocal = 'https://crmss.naffco.com/CRMSS/Services/SSHRFileUploadHandler.ashx?fufor=leaveattach&ApplicationId=' + ApplicationId;    // For Development
-    var qrystringLocal = '../ERM/Services/ERMFileUploader.ashx?ReqID=' + RequestId + '&UserId=' + currUserId + '&Comments=' + $('#txtAttachmentComment').val();    // For Development
+//    //var qrystringLocal = 'https://crmss.naffco.com/CRMSS/Services/SSHRFileUploadHandler.ashx?fufor=leaveattach&ApplicationId=' + ApplicationId;    // For Development
+//    var qrystringLocal = '../ERM/Services/ERMFileUploader.ashx?ReqID=' + RequestId + '&UserId=' + currUserId + '&Comments=' + $('#txtAttachmentComment').val();    // For Development
 
-    let sURL = 'TestFoCalendar.aspx/Upload';
+//    let sURL = 'TestFoCalendar.aspx/Upload';
 
-    //var formData = new FormData();
-    //formData.append('file', $('#f_UploadImage')[0].files[0]);
-    $.ajax({
-        type: 'post',
-        url: qrystringLocal,
-        data: formData,
-        async: false,
-        success: function (status) {
-            if (status != 'error') {
+//    //var formData = new FormData();
+//    //formData.append('file', $('#f_UploadImage')[0].files[0]);
+//    $.ajax({
+//        type: 'post',
+//        url: qrystringLocal,
+//        data: formData,
+//        async: false,
+//        success: function (status) {
+//            if (status != 'error') {
 
-                toastr.success("Updated Successfully");
-                GetAttachmentDet();
-                ClearAttachment();
+//                toastr.success("Updated Successfully");
+//                GetAttachmentDet();
+//                ClearAttachment();
 
-            }
-        },
-        processData: false,
-        contentType: false,
-        error: function (errormessage) {
-            console.log(errormessage.responseText);
-            alert("Whoops something went wrong!");
+//            }
+//        },
+//        processData: false,
+//        contentType: false,
+//        error: function (errormessage) {
+//            console.log(errormessage.responseText);
+//            alert("Whoops something went wrong!");
 
-        }
-    });
+//        }
+//    });
 
-}
+//}
 
 
 function ERMFileUpload() {
 
-   
-
-
     var formData = new FormData();
     var formData = new FormData();
     var fileUpload = $('#colFileUpload').get(0);
@@ -1430,9 +1430,9 @@ function ERMFileUpload() {
         formData.append(files[i].name, files[i]);
     }
 
-
+    let prodtype = getEMSProdsInAttch();
     //var qrystringLocal = 'https://crmss.naffco.com/CRMSS/Services/SSHRFileUploadHandler.ashx?fufor=leaveattach&ApplicationId=' + ApplicationId;    // For Development
-    var qrystringLocal = '../erm/ServiceS/ERMFileUploadER.ashx?ReqID=' + RequestId + '&UserId=' + currUserId + '&Comments='+ $('#txtAttachmentComment').val();    // For Development
+    var qrystringLocal = '../erm/Services/ERMFileUploadER.ashx?ReqID=' + RequestId + '&UserId=' + currUserId + '&Comments=' + $('#txtAttachmentComment').val() + '&prodtype=' + prodtype;    // For Development
 
     let sURL = 'TestFoCalendar.aspx/Upload';
 
@@ -1463,6 +1463,43 @@ function ERMFileUpload() {
 
 }
 
+function getEMSProdsInAttch() {
+    var CCEmail = '';
+    for (var i = 0; i < $('#ddlProdsInAttach').val().length; i++) {
+        CCEmail += $('#ddlProdsInAttach').val()[i] + ',';
+    }
+    return CCEmail.substring(0, CCEmail.lastIndexOf(","));
+}
+
+function loadEMSProdsForAttach() {
+
+    $.ajax({
+        url: "ERMMaster.aspx/GetAllEMSProdsDDLByReqId",
+        type: "POST",
+        data: JSON.stringify({ "UserId": currUserId, "ReqId": RequestId }),
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '';
+
+            $.each(result.d, function (key, item) {
+                htm += '<option value="' + item.ddlValue + '" >' + item.ddlText + ' </option>'
+            });
+
+            $('#ddlProdsInAttach').html(htm);
+            $('#ddlProdsInAttach').select2({
+                //dropdownParent: $("#ModalBriefForm"),
+                multi: true,
+                width: '100%',
+                height: '173px'
+            });
+        },
+        error: function (errormessage) {
+            ////alert(errormessage.responseText);
+        }
+    });
+}
 
 
 function GetAttachmentDet() {
@@ -1490,6 +1527,7 @@ function GetAttachmentDet() {
                
 
                   <td style="text-align:center;display:none;">`+ item.ID + `</td>
+                  <td style="text-align:center;">`+ item.Product + `</td>
                   <td style="text-align:center;">`+ item.FileName + `</td>
                   <td style="text-align:center;">`+ item.AttachComment + `</td>
                    <td style="text-align:center;display:none">`+ item.URL + `</td>
@@ -2827,10 +2865,6 @@ function TeamLeader() {
 
 
    
-}
-function ClearAttachment() {
-    $('#txtAttachmentComment').val('');
-    $('#colFileUpload').val('');
 }
 
 
