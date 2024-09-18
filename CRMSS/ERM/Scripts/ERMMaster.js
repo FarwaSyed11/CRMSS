@@ -1527,7 +1527,7 @@ function GetAttachmentDet() {
                
 
                   <td style="text-align:center;display:none;">`+ item.ID + `</td>
-                  <td style="text-align:center;">`+ item.Product + `</td>
+                  <td style="text-align:center;">`+ item.ProdType + `</td>
                   <td style="text-align:center;">`+ item.FileName + `</td>
                   <td style="text-align:center;">`+ item.AttachComment + `</td>
                    <td style="text-align:center;display:none">`+ item.URL + `</td>

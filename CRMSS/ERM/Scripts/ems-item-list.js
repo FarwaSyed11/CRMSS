@@ -585,7 +585,7 @@ function getAllRequests() {
                   <td style="text-align:center;">`+ item.Stage + `</td>
                   <td style="text-align:center;">`+ item.Scope + `</td>
                   <td style="text-align:center;">`+ item.QuotationType + `</td>
-                  <td style="text-align:center;">`+ item.CreatedBy + `</td>
+                  <td style="text-align:center;">`+ item.CreatorName + `</td>
                   <td style="text-align:center;">`+ item.CreatedDate + `</td>`
                 htm += `<td class="riskActions" style="text-align:right;">`
                 htm += `<span style="margin-left: 4%;"><i class="bx bxs-info-circle fa-icon-hover ibtn-estireq-details" title="Details Estimation Request" data-optno="` + item.OptNo + `" data-reqid="` + item.ReqId + `" style="color:#3aa7d3; cursor:pointer;font-size: x-large;"></i></span>`
@@ -2010,7 +2010,7 @@ function printDetails(divID) {
     document.body.innerHTML = oldPage;
 
     location.reload();
-    window.stop();
+    
     $('#addReqModal').modal('show');
     
 

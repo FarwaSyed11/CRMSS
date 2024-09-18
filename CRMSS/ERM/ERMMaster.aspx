@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Masters/EconnectNew.master" AutoEventWireup="true" CodeFile="ERMMaster.aspx.cs" Inherits="ERM_ERMMaster" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EconnectNew.master" AutoEventWireup="true" CodeFile="ERMMaster.aspx.cs" Inherits="ERM_ERMMaster" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -1885,7 +1885,7 @@
     <script src="../FacilityManagement/Datatable/js/buttons.print.min.js"></script>
 
     <!-- Page JS/CSS file -->
-    <script src="Scripts/ERMMaster.js?v=1.1"></script>
+    <script src="Scripts/ERMMaster.js?v=2"></script>
     <%-- <link href="css/quotation.css" rel="stylesheet" />--%>
     <link href="Css/EMSStyle.css" rel="stylesheet" />
 
@@ -1895,7 +1895,7 @@
     <script src="script/multiple-select.js"></script>
     <link href="../SiteSurvey/Assets/Css/multiple-select.css" rel="stylesheet" />
 
-    <link href="Css/select2.css" rel="stylesheet" />
-    <script src="Assets/Js/select2.js"></script>
+    <link href="Css/select2.css?v=2" rel="stylesheet" />
+    <script src="Assets/Js/select2.js?v=2"></script>
 </asp:Content>
 

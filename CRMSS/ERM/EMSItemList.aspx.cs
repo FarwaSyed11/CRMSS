@@ -1885,7 +1885,7 @@ public partial class Sales_EMSItemList : System.Web.UI.Page
             //foreach (DataColumn column in ds.Tables[3].Columns)
             //{  colName.Add(column.ColumnName + ","); }
 
-            for (int i = 8; i < dt.Columns.Count; i++)
+            for (int i = 10; i < dt.Columns.Count; i++)
             {
                 colName += dt.Columns[i].ColumnName.ToString() + ",";
             }

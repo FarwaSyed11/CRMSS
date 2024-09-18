@@ -1384,7 +1384,7 @@ function getSystemsNItems() {
         var htm = '<div class="d-flex" style="overflow-x:auto; max-width: calc(100vw - 690px);">';
         $.each(flrNameString.split(','), function (key, item) {
 
-            if (key >1) {
+            if (key >2) {
                 htm += `<div class="mr-1">
                         <span style="width:80px"><label>`+ item + `</label></span>
                         <span style="width:80px;display: flex;"><input class="form-control" name="txtqtyTOCbyFlr" id="txtTOCByFlr-`+ key + `" type="text" value="` + parseInt(colVal.split(',')[key]) + `" data-estid=` + EstiLineId + ` data-strid=` + $("#ddlStructNameTOCFilter option:selected").val() + ` data-flrname="` + item + `" placeholder="enter QTY" onkeypress='return event.charCode >= 48 && event.charCode <= 57' /></span>

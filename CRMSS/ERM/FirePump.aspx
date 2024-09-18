@@ -278,7 +278,7 @@
                                 <button id="btnRelease" type="button" class="btn btn-primary">Release</button>
                             </div>
 
-                            <div class="div-TechnicalNote" style="width: 8%;">
+                            <div class="div-TechnicalNote" style="width: 25%;">
                                 <button id="btnTechnicalNote" type="button" class="btn btn-primary">Technical Note</button>
                             </div>
                         </div>
@@ -295,6 +295,9 @@
                                 </li>
                                 <li class="nav-item">
                                     <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-Attachment" aria-controls="navs-top-Attachment" aria-selected="false">Attachment</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-top-Comments" aria-controls="navs-top-Comments" aria-selected="false">Comments</button>
                                 </li>
                             </ul>
                             <div class="tab-content">
@@ -338,6 +341,34 @@
                                                 </tr>
                                             </thead>
                                             <tbody class="tbody-Attachment-list" style="text-align: center;">
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="tab-pane fade" id="navs-top-Comments" role="tabpanel">
+                                    <div>
+                                        <a href="#" id="btnAddNewComments" class="btn btn-primary pull-right"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Comments</a>
+                                    </div>
+
+                                    <div style="padding-top: 3%;">
+
+
+                                        <table class="table Comments-list-table" style="width: 100%;">
+                                            <%--<caption class="ms-4">List of Projects</caption>--%>
+                                            <thead>
+                                                <tr style="text-align: center;">
+
+                                                    <th>SlNo.</th>
+                                                    <th>Commment</th>
+                                                    <th>UpdatedBy</th>
+                                                    <th>Updated Date</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody class="tbody-Comments-list" style="text-align: center;">
                                             </tbody>
                                         </table>
                                     </div>
@@ -619,6 +650,76 @@
     </div>
 
 
+      <div class="modal fade" id="modalNewComments" style="background: rgb(177 171 171 / 36%); zoom: 80%;" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document" style="width: 22%;">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">Add Comments</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <div class="row" style="padding-top: 1px;">
+                      <div>
+
+                          <div>
+                              <textarea class="form-control" id="txtComments" rows="5" placeholder="Enter Your Comments"></textarea>
+
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="row" style="padding-top: 3%;">
+                      <div class="col-5">
+                          <div class="row">
+                              <div style="width: 13%">
+                                  <div class="checkbox-wrapper-26" style="float: left;">
+                                      <input type="checkbox" id="cbRaisedMail" onclick="MailInfo()" />
+                                      <label for="cbRaisedMail"><span class="tick_mark"></span></label>
+                                  </div>
+                              </div>
+                              <div style="width: 70%">
+                                  <label style="font-size: 17px;">Raised Mail</label>
+                              </div>
+
+                          </div>
+
+                      </div>
+
+                  </div>
+
+                  <div class="row mail-to-drp" style="padding-top: 1%;">
+                      <div>
+                          <div class="col-12">
+                              <label for="html5-number-input" class="  label-custom">Mail To </label>
+                              <div class="">
+                                  <select id="ddlEmailTo" style="z-index: 99 !important;" class="form-select color-dropdown" multiple>
+                                  </select>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row mail-cc-drp" style="padding-top: 3%;">
+                      <div>
+                          <div class="col-12">
+                              <label for="html5-number-input" class="  label-custom">CC Mail </label>
+                              <div class="">
+                                  <select id="ddlCCEmail" style="z-index: 99 !important;" class="form-select color-dropdown" multiple>
+                                  </select>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="row" style="padding-top: 4%;">
+                      <div class="centerforall">
+                          <button id="btnSubmitComments" type="button" class="btn-danger" style="background-color: #EC1A25; font-size: 17px; width: 70%;">Add</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
     <script type="text/javascript">
         var currUserId = '';
         var EmpNo = '';
@@ -672,11 +773,11 @@
     <!-- Select/Multiselect Dropdown JS/CSS file -->
     <%--  <link href="../Calendar/dist/select2.css" rel="stylesheet" />
     <script src="../Calendar/dist/select2.js"></script>--%>
-    <%--<script src="script/multiple-select.js"></script>
+    <script src="script/multiple-select.js"></script>
     <link href="../SiteSurvey/Assets/Css/multiple-select.css" rel="stylesheet" />
 
     <script src="Assets/Js/multiple-select.js"></script>
-    <link href="../sitesurvey/Assets/Css/multiple-select.css" rel="stylesheet" />--%>
+    <link href="../sitesurvey/Assets/Css/multiple-select.css" rel="stylesheet" />
 
     <script src="../Template/assets/vendor/libs/richtexteditor/jquery.richtext.js"></script>
 

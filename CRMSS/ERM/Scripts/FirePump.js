@@ -278,6 +278,7 @@ $('.tbody-Firepump-list-table').on('click', '.View-Request-Details', function ()
     ApprovalBtn();
     AllItemdetails();
     GetAttachmentDet();
+    GetGeneralComments();
     $('#modalFPDetails').modal('show');
 });
 function EstimationDetails() {
@@ -1157,5 +1158,214 @@ function loadAllAddedPumps() {
     });
 }
 
+
+$('#btnAddNewComments').on('click', function () {
+
+    $('#txtComments').val('');
+    MailInfo();
+    LoadCCEmail();
+    LoadEmailTo();
+    $('#modalNewComments').modal('show');
+
+});
+
+
+function MailInfo() {
+
+    if ($('#cbRaisedMail').is(':checked') == true) {
+        $('.mail-to-drp').css('display', '');
+        $('.mail-cc-drp').css('display', '');
+    }
+    else {
+        $('.mail-to-drp').css('display', 'none');
+        $('.mail-cc-drp').css('display', 'none');
+    }
+}
+
+function LoadCCEmail() {
+
+    $.ajax({
+        url: "FirePump.aspx/setEmailInformation",
+        data: JSON.stringify({ "UserID": currUserId }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '';
+
+            $.each(result.d, function (key, item) {
+
+
+                htm += key == 0 ? `<option value="` + item.ddlValue + `" selected> ` + item.ddlValue + ` | ` + item.ddlText + `</option>` : '<option value="' + item.ddlValue + '">' + item.ddlValue + ` | ` + item.ddlText + '</option>';
+
+            });
+
+            $('#ddlCCEmail').html(htm);
+            $('#ddlCCEmail').select2({
+                //dropdownParent: $("#ModalBriefForm"),
+                multi: true,
+                width: '100%',
+                height: '173px'
+            }); 
+
+
+        },
+
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+
+
+function LoadEmailTo() {
+
+    $.ajax({
+        url: "FirePump.aspx/setEmailInformation",
+        data: JSON.stringify({ "UserID": currUserId }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+            var htm = '';
+
+            $.each(result.d, function (key, item) {
+
+
+                htm += key == 0 ? `<option value="` + item.ddlValue + `" selected> ` + item.ddlValue + ` | ` + item.ddlText + `</option>` : '<option value="' + item.ddlValue + '">' + item.ddlValue + ` | ` + item.ddlText + '</option>';
+
+
+            });
+
+            $('#ddlEmailTo').html(htm);
+            $('#ddlEmailTo').select2({
+                //dropdownParent: $("#ModalBriefForm"),
+                multi: true,
+                width: '100%',
+                height: '173px'
+            }); 
+
+
+        },
+
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+
+
+function getEmailToFromDDL() {
+    var Emailto = '';
+    for (var i = 0; i < $('#ddlEmailTo').val().length; i++) {
+        Emailto += $('#ddlEmailTo').val()[i] + ',';
+    }
+    return Emailto.substring(0, Emailto.lastIndexOf(","));
+}
+
+
+function getCCEmailFromDDL() {
+    var CCEmail = '';
+    for (var i = 0; i < $('#ddlCCEmail').val().length; i++) {
+        CCEmail += $('#ddlCCEmail').val()[i] + ',';
+    }
+    return CCEmail.substring(0, CCEmail.lastIndexOf(","));
+}
+
+
+
+function AddComments() {
+    $.ajax({
+        url: "FirePump.aspx/AddGeneralComments",
+        data: JSON.stringify({ "UserID": currUserId, "RefId": EstID, "Comment": $('#txtComments').val(), "IsNotified": $('#cbRaisedMail').is(':checked'), "MailTo": getEmailToFromDDL(), "CCMail": getCCEmailFromDDL(), }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+
+            toastr.success(" Successfully Updated");
+            GetGeneralComments();
+            $('#modalNewComments').modal('hide');
+        },
+        //complete: function () {
+        //    $('.ajax-loader').hide();
+        //},
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+
+}
+
+$('#btnSubmitComments').on('click', function () {
+
+    AddComments();
+});
+
+function GetGeneralComments() {
+
+    $.ajax({
+        url: "FirePump.aspx/GetComments",
+        data: JSON.stringify({ "RefId": EstID, }),
+        type: "POST",
+        contentType: "application/json;charset=utf-8",
+        dataType: "json",
+        async: false,
+        success: function (result) {
+
+            //clearmodal();
+
+            var htm = '';
+
+            $.each(result.d, function (key, item) {
+                htm += `<tr>        
+               
+
+                
+                  <td style="text-align:center;">`+ item.SlNo + `</td>
+                  <td style="text-align:center;">`+ item.Comments + `</td>
+                  <td style="text-align:center;">`+ item.UpdatedBy + `</td>
+                  <td style="text-align:center;">`+ datedayformat(item.UpdatedDate) + `</td>`;
+
+
+                htm += `</tr>`;
+                /*    <i class="fa-solid fa-eye"></i>*/
+
+            });
+            $('.tbody-Comments-list').html(htm);
+
+
+        },
+        //complete: function () {
+        //    $('.ajax-loader').hide();
+        //},
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+
+}
+
+function initiateDataTableGeneralComments() {
+    objDatatableGeneralComments = [];
+    objDatatableGeneralComments = $('.Comments-list-table').DataTable({
+        dom: 'lBfrtip',
+        buttons: {
+            buttons: []
+        },
+        "columnDefs": [
+
+            { "orderable": false, "targets": [] },
+            { "orderable": true, "targets": [] }
+        ],
+        /* order: [[7, 'DESC']]*/
+    });
+}
 
 //END-------------------On Fire Pump Side------------------// 

@@ -653,7 +653,158 @@ public partial class ERM_FirePump : System.Web.UI.Page
         DBH.CreateDatasetERM_Data(ds, "sp_EMS_AdditionalItemsFP", true, pa, pv);
 
     }
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<DropDownValues> setEmailInformation(string UserID)
+    {
 
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@oper");
+        pv.Add("23");
+
+        pa.Add("@userId");
+        pv.Add(UserID);
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_PumbRequests", true, pa, pv);
+
+        List<DropDownValues> drpval = new List<DropDownValues>();
+
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                drpval.Add(new DropDownValues()
+                {
+                    ddlValue = dt.Rows[i]["EmpNo"].ToString(),
+                    ddlText = dt.Rows[i]["EmpName"].ToString()
+                });
+            }
+        }
+
+        return drpval;
+        //string a = userId;
+    }
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static void AddGeneralComments(string UserID, string RefId, string Comment, string IsNotified, string MailTo, string CCMail)
+    {
+
+        DBHandler DBH = new DBHandler();
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        pa.Add("@Oper");
+        pv.Add("33");
+
+        pa.Add("@UserID");
+        pv.Add(UserID);
+
+        pa.Add("@RefId");
+        pv.Add(RefId);
+
+        pa.Add("@Comments");
+        pv.Add(Comment);
+
+        pa.Add("@IsNotified");
+        pv.Add(IsNotified);
+
+        pa.Add("@EMSProdStr");
+        pv.Add("FIRE PUMP");
+
+
+        if (IsNotified == "True")
+        {
+            pa.Add("@MailTo");
+            pv.Add(MailTo);
+
+            pa.Add("@CCMAil");
+            pv.Add(CCMail);
+        }
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_EMSMaster", true, pa, pv);
+
+
+    }
+
+    [WebMethod]
+    [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+    public static List<CommentDet> GetComments(string RefId)
+    {
+
+        //string UpdatedBy
+        DBHandler DBH = new DBHandler();
+
+        DataSet ds = new DataSet();
+        DataTable dt = new DataTable();
+        ArrayList pa = new ArrayList();
+        ArrayList pv = new ArrayList();
+
+        //Int32 UserId = Convert.ToInt32(Session["UserId"].ToString());
+
+
+
+        pa.Add("@Oper");
+        pv.Add(24);
+
+        pa.Add("@RefId");
+        pv.Add(Convert.ToInt64(RefId));
+
+
+        DBH.CreateDatasetERM_Data(ds, "sp_PumbRequests", true, pa, pv);
+
+        List<CommentDet> appList = new List<CommentDet>();
+
+
+        if (ds.Tables.Count > 0)
+        {
+            dt = ds.Tables[0];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                appList.Add(new CommentDet()
+                {
+                    SlNo = dt.Rows[i]["SlNo"].ToString(),
+                    Comments = dt.Rows[i]["Comments"].ToString(),
+                    UpdatedBy = dt.Rows[i]["UpdatedBy"].ToString(),
+                    UpdatedDate = dt.Rows[i]["UpdatedDate"].ToString(),
+                    Products = dt.Rows[i]["Products"].ToString(),
+                });
+            }
+        }
+
+
+        return appList;
+
+    }
+
+    public class CommentDet
+    {
+        public string SlNo { get; set; }
+        public string Comments { get; set; }
+        public string UpdatedBy { get; set; }
+        public string UpdatedDate { get; set; }
+        public string Products { get; set; }
+
+    }
+    public class DropDownValues
+    {
+        public string ddlValue { get; set; }
+        public string ddlText { get; set; }
+
+
+    }
     public class EMSProduct
     {
 

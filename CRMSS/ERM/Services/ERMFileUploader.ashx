@@ -82,7 +82,7 @@ public class ERMFileUploader : IHttpHandler {
 
         pa.Add("@AttachmentType");
         pv.Add(ContentType);
-            
+
         pa.Add("@Product");
         pv.Add(ProdType);
 
